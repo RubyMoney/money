@@ -1,5 +1,5 @@
-#--
 # Copyright (c) 2005 Tobias Luetke
+# Copyright (c) 2008 Phusion
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -19,11 +19,7 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#++
 
-
-require File.dirname(__FILE__) + '/support/cattr_accessor'
-require File.dirname(__FILE__) + '/bank/no_exchange_bank'
-require File.dirname(__FILE__) + '/bank/variable_exchange_bank'
-require File.dirname(__FILE__) + '/money/money'
-require File.dirname(__FILE__) + '/money/core_extensions'
+$LOAD_PATH << File.expand_path(File.dirname(__FILE__))
+require 'money/money'
+require 'money/core_extensions'

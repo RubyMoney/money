@@ -1,4 +1,4 @@
-require 'bank/variable_exchange_bank'
+require 'money/variable_exchange_bank'
 
 # === Usage with ActiveRecord
 # 

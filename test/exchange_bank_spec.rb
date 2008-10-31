@@ -1,9 +1,9 @@
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__) + "/../lib")
-require 'bank/variable_exchange_bank'
+require 'money/variable_exchange_bank'
 
-describe VariableExchangeBank do
+describe Money::VariableExchangeBank do
 	before :each do
-		@bank = VariableExchangeBank.new
+		@bank = Money::VariableExchangeBank.new
 	end
 	
 	it "returns the previously specified conversion rate" do
