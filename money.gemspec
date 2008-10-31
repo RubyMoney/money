@@ -6,6 +6,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/FooBarWidget/money/tree/master"
   s.description = "Money and currency exchange support library."
   s.has_rdoc = false
+  s.rubyforge_project = "money"
   s.authors = ["Tobias Luetke", "Hongli Lai"]
   
   s.files = [

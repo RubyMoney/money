@@ -9,7 +9,19 @@ This library aids one in handling money and different currencies. Features:
 - Provides APIs for exchanging money from one currency to another.
 - Has the ability to parse a money string into a Money object.
 
+Resources:
+
+- Website: http://money.rubyforge.org
+- RDoc API: http://money.rubyforge.org
+- Git repository: http://github.com/FooBarWidget/money/tree/master
+
 == Download
+
+Install stable releases with the following command:
+
+  gem install money
+
+The development version (hosted on Github) can be installed with:
 
   gem sources -a http://gems.github.com
   gem install FooBarWidget-money
@@ -18,6 +30,8 @@ This library aids one in handling money and different currencies. Features:
 
 === Synopsis
 
+  require 'money'
+  
   # 10.00 USD
   money = Money.new(1000, "USD")
   money.cents     # => 1000
@@ -79,5 +93,5 @@ By default Money defaults to USD as its currency. This can be overwritten using
 
   Money.default_currency = "CAD"
 
-If you use Rails, the environment.rb is a very good place to put this. 
+If you use Rails, then environment.rb is a very good place to put this. 
 
