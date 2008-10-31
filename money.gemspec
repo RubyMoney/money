@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors = ["Tobias Luetke", "Hongli Lai"]
   
   s.files = [
-      "README", "MIT-LICENSE", "money.gemspec", "Rakefile",
+      "README.rdoc", "MIT-LICENSE", "money.gemspec", "Rakefile",
       "lib/money.rb",
       "lib/money/core_extensions.rb",
       "lib/money/errors.rb",
