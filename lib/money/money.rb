@@ -32,9 +32,8 @@ class Money
     # ships with a variable exchange bank implementation which supports
     # custom excahnge rates:
     #
-    #  Money.bank = VariableExchangeBank.new
-    #  Money.bank.add_rate("USD", "CAD", 1.24515)
-    #  Money.bank.add_rate("CAD", "USD", 0.803115)
+    #  Money.default_bank.add_rate("USD", "CAD", 1.24515)
+    #  Money.default_bank.add_rate("CAD", "USD", 0.803115)
     #  Money.us_dollar(100).exchange_to("CAD") => Money.ca_dollar(124)
     #  Money.ca_dollar(100).exchange_to("USD") => Money.us_dollar(80)
     attr_accessor :default_bank
