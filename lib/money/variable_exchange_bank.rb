@@ -13,8 +13,6 @@ require 'money/errors'
 #  bank.exchange(100_00, "USD", "CAD")  # => 80
 class Money
   class VariableExchangeBank
-    @@singleton = VariableExchangeBank.new
-    
     def self.instance
       @@singleton
     end
@@ -47,5 +45,7 @@ class Money
       end
       (cents * rate).floor
     end
+    
+    @@singleton = VariableExchangeBank.new
   end
 end

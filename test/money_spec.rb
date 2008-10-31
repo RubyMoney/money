@@ -70,6 +70,11 @@ describe Money do
 	specify "Money.ca_dollar creates a new Money object of the given value in EUR" do
 		Money.euro(50).should == Money.new(50, "EUR")
 	end
+	
+	specify "Money.add_rate works" do
+		Money.add_rate("EUR", "USD", 10)
+		Money.new(10_00, "EUR").exchange_to("USD").should == Money.new(100_00, "USD")
+	end
 end
 
 describe "Actions involving two Money objects" do

@@ -22,6 +22,10 @@ This library aids one in handling money and different currencies. Features:
   money = Money.new(1000, "USD")
   money.cents     # => 1000
   money.currency  # => "USD"
+  
+  Money.new(1000, "USD") == Money.new(1000, "USD")   # => true
+  Money.new(1000, "USD") == Money.new(100, "USD")    # => false
+  Money.new(1000, "USD") == Money.new(1000, "EUR")   # => false
 
 === Currency Exchange
 
@@ -29,11 +33,19 @@ Exchanging money is performed through an exchange bank object. The default
 exchange bank object requires one to manually specify the exchange rate. Here's
 an example of how it works:
 
-  Money.default_bank.add_rate("USD", "CAD", 1.24515)
-  Money.default_bank.add_rate("CAD", "USD", 0.803115)
+  Money.add_rate("USD", "CAD", 1.24515)
+  Money.add_rate("CAD", "USD", 0.803115)
   
   Money.us_dollar(100).exchange_to("CAD")  # => Money.new(124, "CAD")
   Money.ca_dollar(100).exchange_to("USD")  # => Money.new(80, "USD")
+
+Comparison and arithmetic operations work as expected:
+
+  Money.new(1000, "USD") <=> Money.new(900, "USD")   # => 1; 9.00 USD is smaller
+  Money.new(1000, "EUR") + Money.new(10, "EUR") == Money.new(1010, "EUR")
+  
+  Money.add_rate("USD", "EUR", 0.5)
+  Money.new(1000, "EUR") + Money.new(1000, "USD") == Money.new(1500, "EUR")
 
 There is nothing stopping you from creating bank objects which scrapes
 www.xe.com for the current rates or just returns <tt>rand(2)</tt>:

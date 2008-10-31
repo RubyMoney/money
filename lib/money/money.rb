@@ -1,43 +1,39 @@
 require 'money/variable_exchange_bank'
 
-# === Usage with ActiveRecord
-# 
-# Use the compose_of helper to let active record deal with embedding the money
-# object in your models. The following example requires a cents and a currency field.
-# 
-#   class ProductUnit < ActiveRecord::Base
-#     belongs_to :product
-#     composed_of :price, :class_name => "Money", :mapping => [ %w(cents cents), %w(currency currency) ]
-# 
-#     private        
-#       validate :cents_not_zero
-#     
-#       def cents_not_zero
-#         errors.add("cents", "cannot be zero or less") unless cents > 0
-#       end
-#     
-#       validates_presence_of :sku, :currency
-#       validates_uniqueness_of :sku        
-#   end
-#   
+# Represents an amount of money in a certain currency.
 class Money
   include Comparable
   
   attr_reader :cents, :currency, :bank
   
   class << self
-    # Bank lets you exchange the object which is responsible for currency
-    # exchange. 
-    # The default implementation just throws an exception. However money
-    # ships with a variable exchange bank implementation which supports
-    # custom excahnge rates:
+    # Each Money object is associated to a bank object, which is responsible
+    # for currency exchange. This property allows one to specify the default
+    # bank object.
     #
-    #  Money.default_bank.add_rate("USD", "CAD", 1.24515)
-    #  Money.default_bank.add_rate("CAD", "USD", 0.803115)
-    #  Money.us_dollar(100).exchange_to("CAD") => Money.ca_dollar(124)
-    #  Money.ca_dollar(100).exchange_to("USD") => Money.us_dollar(80)
+    #   bank1 = MyBank.new
+    #   bank2 = MyOtherBank.new
+    #   
+    #   Money.default_bank = bank1
+    #   money1 = Money.new(10)
+    #   money1.bank  # => bank1
+    #   
+    #   Money.default_bank = bank2
+    #   money2 = Money.new(10)
+    #   money2.bank  # => bank2
+    #   money1.bank  # => bank1
+    #
+    # The default value for this property is an instance if VariableExchangeBank.
+    # It allows one to specify custom exchange rates:
+    #
+    #   Money.default_bank.add_rate("USD", "CAD", 1.24515)
+    #   Money.default_bank.add_rate("CAD", "USD", 0.803115)
+    #   Money.us_dollar(100).exchange_to("CAD")  # => Money.ca_dollar(124)
+    #   Money.ca_dollar(100).exchange_to("USD")  # => Money.us_dollar(80)
     attr_accessor :default_bank
     
+    # The default currency, which is used when <tt>Money.new</tt> is called
+    # without an explicit currency argument. The default value is "USD".
     attr_accessor :default_currency
   end
   
@@ -63,6 +59,10 @@ class Money
   # Creates a new Money object of the given value, using the Euro currency.
   def self.euro(cents)
     Money.new(cents, "EUR")
+  end
+  
+  def self.add_rate(from_currency, to_currency, rate)
+    Money.default_bank.add_rate(from_currency, to_currency, rate)
   end
   
   
