@@ -34,12 +34,12 @@ describe VariableExchangeBank do
 	it "rounds the exchanged result down" do
 		@bank.add_rate("USD", "EUR", 0.788332676)
 		@bank.add_rate("EUR", "YEN", 122.631477)
-		@bank.exhange(10_00, "USD", "EUR").should == 788
-		@bank.exhange(500_00, "EUR", "YEN").should == 6131573
+		@bank.exchange(10_00, "USD", "EUR").should == 788
+		@bank.exchange(500_00, "EUR", "YEN").should == 6131573
 	end
 	
 	it "raises Money::UnknownRate upon conversion if the conversion rate is unknown" do
-		block = lambda { @bank.convert(10, "USD", "EUR") }
+		block = lambda { @bank.exchange(10, "USD", "EUR") }
 		block.should raise_error(Money::UnknownRate)
 	end
 end

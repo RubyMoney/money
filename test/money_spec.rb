@@ -3,11 +3,17 @@ require 'money/money'
 
 describe Money do
 	it "is associated to the singleton instance of VariableExchangeBank by default" do
-		Money.new.bank.object_id.should == VariableExchangeBank.instance.object_id
+		Money.new(0).bank.object_id.should == VariableExchangeBank.instance.object_id
 	end
 	
 	specify "#cents returns the amount of cents passed to the constructor" do
-		Money.new(200_00, "USD").cents.should == 200
+		Money.new(200_00, "USD").cents.should == 200_00
+	end
+	
+	it "rounds the given cents to an integer" do
+		Money.new(1.00, "USD").cents.should == 1
+		Money.new(1.01, "USD").cents.should == 1
+		Money.new(1.50, "USD").cents.should == 2
 	end
 	
 	specify "#currency returns the currency passed to the constructor" do
@@ -54,8 +60,8 @@ describe "Actions involving two Money objects" do
 	describe "if the other Money object has the same currency" do
 		specify "#<=> compares the two objects' amounts" do
 			(Money.new(1_00, "USD") <=> Money.new(1_00, "USD")).should == 0
-			(Money.new(1_00, "USD") <=> Money.new(99, "USD")).should < 0
-			(Money.new(1_00, "USD") <=> Money.new(2_00, "USD")).should > 0
+			(Money.new(1_00, "USD") <=> Money.new(99, "USD")).should > 0
+			(Money.new(1_00, "USD") <=> Money.new(2_00, "USD")).should < 0
 		end
 		
 		specify "#+ adds the other object's amount to the current object's amount while retaining the currency" do
@@ -71,15 +77,15 @@ describe "Actions involving two Money objects" do
 		specify "#<=> compares the two objects' amount after converting the other object's amount to its own currency" do
 			target = Money.new(200_00, "EUR")
 			target.should_receive(:exchange_to).with("USD").and_return(Money.new(300_00, "USD"))
-			(Money.new(100_00, "USD") <=> target).should > 0
-		
+			(Money.new(100_00, "USD") <=> target).should < 0
+			
 			target = Money.new(200_00, "EUR")
 			target.should_receive(:exchange_to).with("USD").and_return(Money.new(100_00, "USD"))
 			(Money.new(100_00, "USD") <=> target).should == 0
-		
+			
 			target = Money.new(200_00, "EUR")
 			target.should_receive(:exchange_to).with("USD").and_return(Money.new(99_00, "USD"))
-			(Money.new(100_00, "USD") <=> target).should < 0
+			(Money.new(100_00, "USD") <=> target).should > 0
 		end
 		
 		specify "#+ adds the other object's amount, converted to this object's currency, to this object's amount while retaining its currency" do
