@@ -54,6 +54,22 @@ describe Money do
 	specify "#* divides the money's amount by the divisor while retaining the currency" do
 		(Money.new(10_00, "USD") / 10).should == Money.new(1_00, "USD")
 	end
+	
+	specify "Money.empty creates a new Money object of 0 cents" do
+		Money.empty.should == Money.new(0)
+	end
+	
+	specify "Money.ca_dollar creates a new Money object of the given value in CAD" do
+		Money.ca_dollar(50).should == Money.new(50, "CAD")
+	end
+	
+	specify "Money.ca_dollar creates a new Money object of the given value in USD" do
+		Money.us_dollar(50).should == Money.new(50, "USD")
+	end
+	
+	specify "Money.ca_dollar creates a new Money object of the given value in EUR" do
+		Money.euro(50).should == Money.new(50, "EUR")
+	end
 end
 
 describe "Actions involving two Money objects" do

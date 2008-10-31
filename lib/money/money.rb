@@ -46,6 +46,27 @@ class Money
   self.default_currency = "USD"
   
   
+  # Create a new money object with value 0.
+  def self.empty(currency = default_currency)
+    Money.new(0, currency)
+  end
+
+  # Creates a new Money object of the given value, using the Canadian dollar currency.
+  def self.ca_dollar(cents)
+    Money.new(cents, "CAD")
+  end
+
+  # Creates a new Money object of the given value, using the American dollar currency.
+  def self.us_dollar(cents)
+    Money.new(cents, "USD")
+  end
+  
+  # Creates a new Money object of the given value, using the Euro currency.
+  def self.euro(cents)
+    Money.new(cents, "EUR")
+  end
+  
+  
   # Creates a new money object. 
   #  Money.new(100) 
   # 
@@ -147,55 +168,35 @@ class Money
     end
     formatted
   end
-
+  
   # Money.ca_dollar(100).to_s => "1.00"
   def to_s
     sprintf("%.2f", cents / 100.00)
   end
-
+  
   # Recieve the amount of this money object in another currency.
   def exchange_to(other_currency)
     Money.new(@bank.exchange(self.cents, currency, other_currency), other_currency)
   end  
-
-  # Create a new money object with value 0
-  def self.empty(currency = default_currency)
-    Money.new(0, currency)
-  end
-
-  # Create a new money object using the Canadian dollar currency
-  def self.ca_dollar(num)
-    Money.new(num, "CAD")
-  end
-
-  # Create a new money object using the American dollar currency
-  def self.us_dollar(num)
-    Money.new(num, "USD")
-  end
-
-  # Create a new money object using the Euro currency
-  def self.euro(num)
-    Money.new(num, "EUR")
-  end
-
+  
   # Recieve a money object with the same amount as the current Money object
   # in american dollar 
   def as_us_dollar
     exchange_to("USD")
   end
-
+  
   # Recieve a money object with the same amount as the current Money object
   # in canadian dollar 
   def as_ca_dollar
     exchange_to("CAD")
   end
-
+  
   # Recieve a money object with the same amount as the current Money object
   # in euro
-  def as_ca_euro
+  def as_euro
     exchange_to("EUR")
-  end  
-
+  end
+  
   # Conversation to self
   def to_money
     self
