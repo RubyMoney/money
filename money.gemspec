@@ -3,9 +3,9 @@ Gem::Specification.new do |s|
   s.version = "2.0.0"
   s.summary = "Money and currency exchange support library"
   s.email = "hongli@phusion.nl"
-  s.homepage = "http://github.com/FooBarWidget/money/tree/master"
+  s.homepage = "http://money.rubyforge.org/"
   s.description = "Money and currency exchange support library."
-  s.has_rdoc = false
+  s.has_rdoc = true
   s.rubyforge_project = "money"
   s.authors = ["Tobias Luetke", "Hongli Lai"]
   
