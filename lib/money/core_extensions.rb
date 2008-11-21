@@ -24,10 +24,10 @@ class String
     currency = matches[0] ? matches[0][0] : Money.default_currency
     
     # Get the cents amount
-    matches = scan /(\-?[\d ]+([\.,](\d+))?)/
+    sans_spaces = gsub(/\s+/, '')
+    matches = sans_spaces.scan /(\-?\d+(?:[\.,]\d+)?)/
     cents = if matches[0]
               value = matches[0][0].gsub(/,/, '.')
-              value.gsub!(/ +/, '')
               value.to_f * 100
             else
               0

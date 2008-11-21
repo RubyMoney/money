@@ -19,6 +19,7 @@ describe "Money core extensions" do
 		"100 000".to_money.should == Money.new(100_000_00)
 		
 		"100 USD".to_money.should == Money.new(100_00, "USD")
+		"-100 USD".to_money.should == Money.new(-100_00, "USD")
 		"100 EUR".to_money.should == Money.new(100_00, "EUR")
 		"100.37 EUR".to_money.should == Money.new(100_37, "EUR")
 		"100,37 EUR".to_money.should == Money.new(100_37, "EUR")
@@ -26,7 +27,9 @@ describe "Money core extensions" do
 		"USD 100".to_money.should == Money.new(100_00, "USD")
 		"EUR 100".to_money.should == Money.new(100_00, "EUR")
 		"EUR 100.37".to_money.should == Money.new(100_37, "EUR")
+		"CAD -100.37".to_money.should == Money.new(-100_37, "CAD")
 		"EUR 100,37".to_money.should == Money.new(100_37, "EUR")
+		"EUR -100,37".to_money.should == Money.new(-100_37, "EUR")
 		
 		"$100 USD".to_money.should == Money.new(100_00, "USD")
 	end
