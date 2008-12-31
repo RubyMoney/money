@@ -78,9 +78,16 @@ describe Money do
 	end
 	
 	describe "#format" do
-		specify "when no options are given, it works as documented" do
-			Money.ca_dollar(0).format.should == "free"
+		it "returns the monetary value as a string" do
 			Money.ca_dollar(100).format.should == "$1.00"
+		end
+		
+		it "returns 'free' when the amount is 0 and :display_free is given" do
+			Money.us_dollar(0).format(:display_free => true).should == 'free'
+		end
+		
+		it "returns '$0.00' when the amount is 0 and :display_free is not given" do
+			Money.us_dollar(0).format.should == '$0.00'
 		end
 		
 		specify "#format(:with_currency => true) works as documented" do

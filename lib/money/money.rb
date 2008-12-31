@@ -127,12 +127,16 @@ class Money
   end
 
 
-  # Format the price according to several rules
-  # Currently supported are :with_currency, :no_cents, :symbol and :html
+  # Format the price according to several rules. The following options are
+  # supported: :display_free, :with_currency, :no_cents, :symbol and :html
+  #
+  # display_free:
+  #
+  #  Money.us_dollar(0).format(:display_free) => "free"
+  #  Money.us_dollar(0).format => "$0.00"
   #
   # with_currency: 
   #
-  #  Money.ca_dollar(0).format => "free"
   #  Money.ca_dollar(100).format => "$1.00"
   #  Money.ca_dollar(100).format(:with_currency => true) => "$1.00 CAD"
   #  Money.us_dollar(85).format(:with_currency => true) => "$0.85 USD"
@@ -153,7 +157,7 @@ class Money
   #
   #  Money.ca_dollar(570).format(:html => true, :with_currency => true) =>  "$5.70 <span class=\"currency\">CAD</span>"
   def format(rules = {})
-    return "free" if cents == 0
+    return "free" if cents == 0 && rules[:display_free]
 
     symbol = rules[:symbol] ? rules[:symbol].empty? ? "$" : rules[:symbol] : "$"
     
@@ -170,7 +174,7 @@ class Money
       formatted << '</span>' if rules[:html]
     end
     formatted
-  end
+  end  
   
   # Money.ca_dollar(100).to_s => "1.00"
   def to_s
