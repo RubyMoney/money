@@ -128,42 +128,46 @@ class Money
 
 
   # Format the price according to several rules
-  # Currently supported are :with_currency, :no_cents and :html
+  # Currently supported are :with_currency, :no_cents, :symbol and :html
   #
   # with_currency: 
   #
   #  Money.ca_dollar(0).format => "free"
   #  Money.ca_dollar(100).format => "$1.00"
-  #  Money.ca_dollar(100).format(:with_currency) => "$1.00 CAD"
-  #  Money.us_dollar(85).format(:with_currency) => "$0.85 USD"
+  #  Money.ca_dollar(100).format(:with_currency => true) => "$1.00 CAD"
+  #  Money.us_dollar(85).format(:with_currency => true) => "$0.85 USD"
   #
   # no_cents:  
   #
-  #  Money.ca_dollar(100).format(:no_cents) => "$1"
-  #  Money.ca_dollar(599).format(:no_cents) => "$5"
+  #  Money.ca_dollar(100).format(:no_cents => true) => "$1"
+  #  Money.ca_dollar(599).format(:no_cents => true) => "$5"
   #  
-  #  Money.ca_dollar(570).format(:no_cents, :with_currency) => "$5 CAD"
-  #  Money.ca_dollar(39000).format(:no_cents) => "$390"
+  #  Money.ca_dollar(570).format(:no_cents => true, :with_currency => true) => "$5 CAD"
+  #  Money.ca_dollar(39000).format(:no_cents => true) => "$390"
+  #
+  # symbol:
+  #
+  #  Money.new(100, :currency => "GBP").format(:symbol => "£") => "£1.00"
   #
   # html:
   #
-  #  Money.ca_dollar(570).format(:html, :with_currency) =>  "$5.70 <span class=\"currency\">CAD</span>"
-  def format(*rules)
+  #  Money.ca_dollar(570).format(:html => true, :with_currency => true) =>  "$5.70 <span class=\"currency\">CAD</span>"
+  def format(rules = {})
     return "free" if cents == 0
 
-    rules = rules.flatten
-
-    if rules.include?(:no_cents)
-      formatted = sprintf("$%d", cents.to_f / 100  )          
+    symbol = rules[:symbol] ? rules[:symbol].empty? ? "$" : rules[:symbol] : "$"
+    
+    if rules[:no_cents]
+      formatted = sprintf("#{symbol}%d", cents.to_f / 100  )          
     else
-      formatted = sprintf("$%.2f", cents.to_f / 100  )      
+      formatted = sprintf("#{symbol}%.2f", cents.to_f / 100  )      
     end
 
-    if rules.include?(:with_currency)
+    if rules[:with_currency]
       formatted << " "
-      formatted << '<span class="currency">' if rules.include?(:html)
+      formatted << '<span class="currency">' if rules[:html]
       formatted << currency
-      formatted << '</span>' if rules.include?(:html)
+      formatted << '</span>' if rules[:html]
     end
     formatted
   end
