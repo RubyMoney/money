@@ -122,6 +122,11 @@ describe Money do
 			string = Money.ca_dollar(570).format(:html => true, :with_currency => true)
 			string.should == "$5.70 <span class=\"currency\">CAD</span>"
 		end
+		
+		it "should insert commas into the result if the amount is sufficiently large" do
+			Money.us_dollar(1_000_000_000_12).format.should == "$1,000,000,000.12"
+			Money.us_dollar(1_000_000_000_12).format(:no_cents => true).should == "$1,000,000,000"
+		end
 	end
 end
 

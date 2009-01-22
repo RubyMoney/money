@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.description = "Money and currency exchange support library."
   s.has_rdoc = true
   s.rubyforge_project = "money"
-  s.authors = ["Tobias Luetke", "Hongli Lai"]
+  s.authors = ["Tobias Luetke", "Hongli Lai", "Jeremy McNevin"]
   
   s.files = [
       "README.rdoc", "MIT-LICENSE", "money.gemspec", "Rakefile",

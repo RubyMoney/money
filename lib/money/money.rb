@@ -173,6 +173,9 @@ class Money
     else
       formatted = sprintf("#{symbol}%.2f", cents.to_f / 100)
     end
+    
+    # Commify ("10000" => "10,000")
+    formatted.gsub!(/(\d)(?=\d{3}+(?:\.|$))(\d{3}\..*)?/,'\1,\2')
 
     if rules[:with_currency]
       formatted << " "
