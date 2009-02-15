@@ -102,7 +102,7 @@ describe Money do
 			Money.ca_dollar(39000).format(:no_cents => true).should == "$390"
 		end
 		
-		specify "#format(:currency => ...) works as documented" do
+		specify "#format(:symbol => ...) works as documented" do
 			Money.new(100, :currency => "GBP").format(:symbol => "£").should == "£1.00"
 		end
 		

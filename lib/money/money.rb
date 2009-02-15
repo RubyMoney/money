@@ -132,7 +132,7 @@ class Money
   #
   # display_free:
   #
-  #  Money.us_dollar(0).format(:display_free) => "free"
+  #  Money.us_dollar(0).format(:display_free => true) => "free"
   #  Money.us_dollar(0).format => "$0.00"
   #
   # with_currency: 
