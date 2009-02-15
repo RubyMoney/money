@@ -133,6 +133,7 @@ class Money
   # display_free:
   #
   #  Money.us_dollar(0).format(:display_free => true) => "free"
+  #  Money.us_dollar(0).format(:display_free => "gratis") => "gratis"
   #  Money.us_dollar(0).format => "$0.00"
   #
   # with_currency: 
@@ -157,7 +158,13 @@ class Money
   #
   #  Money.ca_dollar(570).format(:html => true, :with_currency => true) =>  "$5.70 <span class=\"currency\">CAD</span>"
   def format(rules = {})
-    return "free" if cents == 0 && rules[:display_free]
+    if cents == 0
+      if rules[:display_free].respond_to?(:to_str)
+        return rules[:display_free]
+      elsif rules[:display_free]
+        return "free"
+      end
+    end
 
     symbol = rules[:symbol] ? rules[:symbol].empty? ? "$" : rules[:symbol] : "$"
     

@@ -82,12 +82,24 @@ describe Money do
 			Money.ca_dollar(100).format.should == "$1.00"
 		end
 		
-		it "returns 'free' when the amount is 0 and :display_free is given" do
-			Money.us_dollar(0).format(:display_free => true).should == 'free'
-		end
+		describe "if the monetary value is 0" do
+			before :each do
+				@money = Money.us_dollar(0)
+			end
+			
+			it "returns 'free' when :display_free is true" do
+				@money.format(:display_free => true).should == 'free'
+			end
 		
-		it "returns '$0.00' when the amount is 0 and :display_free is not given" do
-			Money.us_dollar(0).format.should == '$0.00'
+			it "returns '$0.00' when :display_free is false or not given" do
+				@money.format.should == '$0.00'
+				@money.format(:display_free => false).should == '$0.00'
+				@money.format(:display_free => nil).should == '$0.00'
+			end
+			
+			it "returns the value specified by :display_free if it's a string-like object" do
+				@money.format(:display_free => 'gratis').should == 'gratis'
+			end
 		end
 		
 		specify "#format(:with_currency => true) works as documented" do
