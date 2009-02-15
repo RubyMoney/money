@@ -121,4 +121,32 @@ describe "Actions involving two Money objects" do
 			(Money.new(10_00, "USD") - other).should == Money.new(1_00, "USD")
 		end
 	end
+	
+	describe "#format" do
+		specify "when no options are given, it works as documented" do
+			Money.ca_dollar(0).format.should == "free"
+			Money.ca_dollar(100).format.should == "$1.00"
+		end
+		
+		specify "#format(:with_currency => true) works as documented" do
+			Money.ca_dollar(100).format(:with_currency => true).should == "$1.00 CAD"
+			Money.us_dollar(85).format(:with_currency => true).should == "$0.85 USD"
+		end
+		
+		specify "#format(:no_cents => true) works as documented" do
+			Money.ca_dollar(100).format(:no_cents => true).should == "$1"
+			Money.ca_dollar(599).format(:no_cents => true).should == "$5"
+			Money.ca_dollar(570).format(:no_cents => true, :with_currency => true).should == "$5 CAD"
+			Money.ca_dollar(39000).format(:no_cents => true).should == "$390"
+		end
+		
+		specify "#format(:currency => ...) works as documented" do
+			Money.new(100, :currency => "GBP").format(:symbol => "£").should == "£1.00"
+		end
+		
+		specify "#format(:html => true) works as documented" do
+			string = Money.ca_dollar(570).format(:html => true, :with_currency => true)
+			string.should == "$5.70 <span class=\"currency\">CAD</span>"
+		end
+	end
 end
