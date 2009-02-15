@@ -169,9 +169,9 @@ class Money
     symbol = rules[:symbol] ? rules[:symbol].empty? ? "$" : rules[:symbol] : "$"
     
     if rules[:no_cents]
-      formatted = sprintf("#{symbol}%d", cents.to_f / 100  )          
+      formatted = sprintf("#{symbol}%d", cents.to_f / 100)
     else
-      formatted = sprintf("#{symbol}%.2f", cents.to_f / 100  )      
+      formatted = sprintf("#{symbol}%.2f", cents.to_f / 100)
     end
 
     if rules[:with_currency]
