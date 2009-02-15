@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "money"
-  s.version = "2.0.0"
+  s.version = "2.1.0"
   s.summary = "Money and currency exchange support library"
   s.email = "hongli@phusion.nl"
   s.homepage = "http://money.rubyforge.org/"
