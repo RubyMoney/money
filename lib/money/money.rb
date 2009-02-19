@@ -159,7 +159,7 @@ class Money
   #  Money.ca_dollar(570).format(:html => true, :with_currency => true) =>  "$5.70 <span class=\"currency\">CAD</span>"
   def format(*rules)
     # support for old format parameters
-    rules=normalize_formatting_rules(rules)
+    rules = normalize_formatting_rules(rules)
     
     if cents == 0
       if rules[:display_free].respond_to?(:to_str)
@@ -225,11 +225,14 @@ class Money
   private
   
   def normalize_formatting_rules(rules)
-    if rules.size==1
-      rules=rules.pop
-      rules={rules=>true} if rules.is_a?(Symbol)
+    if rules.size == 1
+      rules = rules.pop
+      rules = { rules => true } if rules.is_a?(Symbol)
     else
-      rules=rules.inject({}){|h,s| h[s]=true;h}
+      rules = rules.inject({}) do |h,s|
+        h[s] = true
+        h
+      end
     end
     rules
   end
