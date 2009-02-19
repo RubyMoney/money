@@ -105,6 +105,12 @@ describe Money do
     specify "#format(:with_currency => true) works as documented" do
       Money.ca_dollar(100).format(:with_currency => true).should == "$1.00 CAD"
       Money.us_dollar(85).format(:with_currency => true).should == "$0.85 USD"
+      Money.us_dollar(85).format(:with_currency).should == "$0.85 USD"
+    end
+    
+    specify "#format(:with_currency) works as documented" do
+      Money.ca_dollar(100).format(:with_currency).should == "$1.00 CAD"
+      Money.us_dollar(85).format(:with_currency).should == "$0.85 USD"
     end
     
     specify "#format(:no_cents => true) works as documented" do
@@ -112,6 +118,13 @@ describe Money do
       Money.ca_dollar(599).format(:no_cents => true).should == "$5"
       Money.ca_dollar(570).format(:no_cents => true, :with_currency => true).should == "$5 CAD"
       Money.ca_dollar(39000).format(:no_cents => true).should == "$390"
+    end
+
+    specify "#format(:no_cents) works as documented" do
+      Money.ca_dollar(100).format(:no_cents).should == "$1"
+      Money.ca_dollar(599).format(:no_cents).should == "$5"
+      Money.ca_dollar(570).format(:no_cents, :with_currency).should == "$5 CAD"
+      Money.ca_dollar(39000).format(:no_cents).should == "$390"
     end
     
     specify "#format(:symbol => ...) works as documented" do
