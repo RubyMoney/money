@@ -17,12 +17,14 @@ describe "Money core extensions" do
     "100.37".to_money.should == Money.new(100_37)
     "100,37".to_money.should == Money.new(100_37)
     "100 000".to_money.should == Money.new(100_000_00)
+    "100,000.00".to_money.should == Money.new(100_000_00)
     
     "100 USD".to_money.should == Money.new(100_00, "USD")
     "-100 USD".to_money.should == Money.new(-100_00, "USD")
     "100 EUR".to_money.should == Money.new(100_00, "EUR")
     "100.37 EUR".to_money.should == Money.new(100_37, "EUR")
     "100,37 EUR".to_money.should == Money.new(100_37, "EUR")
+    "100,000.00 USD".to_money.should == Money.new(100_000_00, "USD")
     
     "USD 100".to_money.should == Money.new(100_00, "USD")
     "EUR 100".to_money.should == Money.new(100_00, "EUR")
@@ -30,7 +32,9 @@ describe "Money core extensions" do
     "CAD -100.37".to_money.should == Money.new(-100_37, "CAD")
     "EUR 100,37".to_money.should == Money.new(100_37, "EUR")
     "EUR -100,37".to_money.should == Money.new(-100_37, "EUR")
+    "USD 100,000.00".to_money.should == Money.new(100_000_00, "USD")
     
     "$100 USD".to_money.should == Money.new(100_00, "USD")
+    "$1,194.59 USD".to_money.should == Money.new(1_194_59, "USD")
   end
 end
