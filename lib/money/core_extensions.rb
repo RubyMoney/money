@@ -23,15 +23,21 @@ class String
     matches = scan /([A-Z]{2,3})/ 
     currency = matches[0] ? matches[0][0] : Money.default_currency
     
-    # Get the cents amount
-    sans_spaces = gsub(/\s+/, '')
-    matches = sans_spaces.scan /(\-?\d+(?:[\.,]\d+)?)/
-    cents = if matches[0]
-              value = matches[0][0].gsub(/,/, '.')
-              value.to_f * 100
-            else
-              0
-            end
+    result = self.gsub(/\s+/, '').scan /\-?\d+[\.,]?/
+    cents = if result.length >= 1
+      while(result[-2] && result[-2].scan(/,|\./).empty?) do
+        result.pop
+      end
+      
+      no_cents_parsed = result.last.length == 3
+      
+      result = result.map {|delimited| delimited.gsub(/,|\.|\'/, '') }
+      conv_to_i = lambda {|arr| arr.join.to_i }
+      
+      result.length == 1 || no_cents_parsed ? conv_to_i.call(result) * 100 : conv_to_i.call(result)
+    else
+      0
+    end
     
     Money.new(cents, currency)
   end
