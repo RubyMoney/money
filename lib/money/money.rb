@@ -95,7 +95,7 @@ class Money
       Money.new(cents + other_money.cents, other_money.currency)
     else
       Money.new(cents + other_money.exchange_to(currency).cents,currency)
-    end   
+    end
   end
 
   def -(other_money)
@@ -103,7 +103,7 @@ class Money
       Money.new(cents - other_money.cents, other_money.currency)
     else
       Money.new(cents - other_money.exchange_to(currency).cents, currency)
-    end   
+    end
   end
 
   # get the cents value of the object
@@ -113,17 +113,17 @@ class Money
 
   # multiply money by fixnum
   def *(fixnum)
-    Money.new(cents * fixnum, currency)    
+    Money.new(cents * fixnum, currency)
   end
 
   # divide money by fixnum
   def /(fixnum)
-    Money.new(cents / fixnum, currency)    
+    Money.new(cents / fixnum, currency)
   end
   
   # Test if the money amount is zero
   def zero?
-    cents == 0 
+    cents == 0
   end
 
 
@@ -220,7 +220,7 @@ class Money
   # Conversation to self
   def to_money
     self
-  end  
+  end
   
   private
   
