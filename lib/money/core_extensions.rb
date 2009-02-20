@@ -20,25 +20,59 @@ class String
   #   '$100 USD'.to_money   # => #<Money @cents=10000, @currency="USD">
   def to_money
     # Get the currency.
-    matches = scan /([A-Z]{2,3})/ 
+    matches = scan /([A-Z]{2,3})/
     currency = matches[0] ? matches[0][0] : Money.default_currency
-    
-    result = self.gsub(/\s+/, '').scan /\-?\d+[\.,]?/
-    cents = if result.length >= 1
-      while(result[-2] && result[-2].scan(/,|\./).empty?) do
-        result.pop
-      end
-      
-      no_cents_parsed = result.last.length == 3
-      
-      result = result.map {|delimited| delimited.gsub(/,|\.|\'/, '') }
-      conv_to_i = lambda {|arr| arr.join.to_i }
-      
-      result.length == 1 || no_cents_parsed ? conv_to_i.call(result) * 100 : conv_to_i.call(result)
-    else
-      0
-    end
-    
+    cents = calculate_cents(self)
     Money.new(cents, currency)
   end
+  
+  private
+  
+  def calculate_cents(number)
+    num = number.gsub(/[^\d|\.|,|\'|\s|\-]/, '').strip
+    negative = num.split(//).first == "-"
+    num = num.gsub(/^-/, '') if negative
+    
+    used_separators = num.scan /[^\d]/
+    
+    case used_separators.uniq.length
+    when 0
+      major, minor = num, 0
+    when 1
+      separator = used_separators.first
+      # can't determine initially, try to infer
+      if num.scan(/^((\d{1,3})(#{separator}\d{3})*)$/).any? || num.scan(separator).length > 1 # standard currency format || multiple matches; treat as separator
+        major, minor = num.gsub(separator, ''), 0
+      else
+        # ex: 1,000 - 1.0000 - 10001.000
+        possible_major, possible_minor = num.split(separator)
+        
+        if possible_minor.length != 3 # delimiter
+          major, minor = possible_major, possible_minor
+        else
+          if possible_major.length > 3 # delimiter (1000,000)
+            major, minor = possible_major, possible_minor
+          else
+            # handle as , is sep, . is delimiter
+            if used_separator == '.'
+              major, minor = possible_major, possible_minor
+            else
+              major, minor = "#{possible_major}#{possible_minor}", 0
+            end
+          end
+        end
+      end
+    when 2
+      separator, delimiter = used_separators.uniq
+      major, minor = num.gsub(separator, '').split(delimiter)
+      min = 0 unless min
+    else
+      raise ArgumentError, "Invalid currency amount"
+    end
+    
+    cents = "#{major}.#{minor}".to_f * 100
+    
+    negative ? cents * -1 : cents
+  end
+  
 end

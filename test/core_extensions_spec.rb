@@ -20,6 +20,8 @@ describe "Money core extensions" do
     "100,000.00".to_money.should == Money.new(100_000_00)
     "1,000".to_money.should == Money.new(1_000_00)
     "-1,000".to_money.should == Money.new(-1_000_00)
+    "1,000.0000".to_money.should == Money.new(1_000_00)
+    "1,000.5000".to_money.should == Money.new(1_000_50)
     
     "100 USD".to_money.should == Money.new(100_00, "USD")
     "-100 USD".to_money.should == Money.new(-100_00, "USD")
@@ -30,6 +32,9 @@ describe "Money core extensions" do
     "100.000,00 EUR".to_money.should == Money.new(100_000_00, "EUR")
     "1,000 USD".to_money.should == Money.new(1_000_00, "USD")
     "-1,000 USD".to_money.should == Money.new(-1_000_00, "USD")
+    "1,000.5500 USD".to_money.should == Money.new(1_000_55, "USD")
+    "-1,000.6500 USD".to_money.should == Money.new(-1_000_65, "USD")
+    
     
     "USD 100".to_money.should == Money.new(100_00, "USD")
     "EUR 100".to_money.should == Money.new(100_00, "EUR")
@@ -41,9 +46,14 @@ describe "Money core extensions" do
     "EUR 100.000,00".to_money.should == Money.new(100_000_00, "EUR")
     "USD 1,000".to_money.should == Money.new(1_000_00, "USD")
     "USD -1,000".to_money.should == Money.new(-1_000_00, "USD")
+    "USD 1,000.9000".to_money.should == Money.new(1_000_90, "USD")
+    "USD -1,000.090".to_money.should == Money.new(-1_000_09, "USD")
     
     "$100 USD".to_money.should == Money.new(100_00, "USD")
     "$1,194.59 USD".to_money.should == Money.new(1_194_59, "USD")
     "$-1,955 USD".to_money.should == Money.new(-1_955_00, "USD")
+    "$1,194.5900 USD".to_money.should == Money.new(1_194_59, "USD")
+    "$-1,955.000 USD".to_money.should == Money.new(-1_955_00, "USD")
+
   end
 end
