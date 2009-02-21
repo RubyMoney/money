@@ -169,7 +169,15 @@ class Money
       end
     end
 
-    symbol = rules[:symbol] ? rules[:symbol].empty? ? "$" : rules[:symbol] : "$"
+    if rules.has_key?(:symbol)
+      if rules[:symbol]
+        symbol = rules[:symbol]
+      else
+        symbol = ""
+      end
+    else
+      symbol = "$"
+    end
     
     if rules[:no_cents]
       formatted = sprintf("#{symbol}%d", cents.to_f / 100)
