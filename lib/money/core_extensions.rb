@@ -29,32 +29,79 @@ class String
   private
   
   def calculate_cents(number)
+    # remove anything that's not a number, potential delimiter, or minus sign
     num = number.gsub(/[^\d|\.|,|\'|\s|\-]/, '').strip
+    
+    # set a boolean flag for if the number is negative or not
     negative = num.split(//).first == "-"
+    
+    # if negative, remove the minus sign from the number
     num = num.gsub(/^-/, '') if negative
     
+    # gather all separators within the result number
     used_separators = num.scan /[^\d]/
     
+    # determine the number of unique separators within the number
+    #
+    # e.g.
+    # $1,234,567.89 would return 2 (, and .)
+    # $125,00 would return 1
+    # $199 would return 0
+    # $1 234,567.89 would raise an error (separators are space, comma, and period)
     case used_separators.uniq.length
-    when 0
-      major, minor = num, 0
+    # no separator or delimiter; major (dollars) is the number, and minor (cents) is 0
+    when 0 then major, minor = num, 0
+    
+    # two separators, so we know the last item in this array is the 
+    # major/minor delimiter and the rest are separators
+    when 2
+      separator, delimiter = used_separators.uniq
+      # remove all separators, split on the delimiter
+      major, minor = num.gsub(separator, '').split(delimiter)
+      min = 0 unless min
     when 1
+      # we can't determine if the comma or period is supposed to be a separator or a delimiter
+      # e.g.
+      # 1,00 - comma is a delimiter
+      # 1.000 - period is a delimiter
+      # 1,000 - comma is a separator
+      # 1,000,000 - comma is a separator
+      # 10000,00 - comma is a delimiter
+      # 1000,000 - comma is a delimiter
+      
+      # assign first separator for reusability
       separator = used_separators.first
-      # can't determine initially, try to infer
-      if num.scan(/^((\d{1,3})(#{separator}\d{3})*)$/).any? || num.scan(separator).length > 1 # standard currency format || multiple matches; treat as separator
+      
+      # separator is used as a separator when there are multiple instances, always
+      if num.scan(separator).length > 1 # multiple matches; treat as separator
         major, minor = num.gsub(separator, ''), 0
       else
         # ex: 1,000 - 1.0000 - 10001.000
+        # split number into possible major (dollars) and minor (cents) values
         possible_major, possible_minor = num.split(separator)
         
+        # if the minor (cents) length isn't 3, assign major/minor from the possibles
+        # e.g.
+        #   1,00 => 1.00
+        #   1.0000 => 1.00
+        #   1.2 => 1.20
         if possible_minor.length != 3 # delimiter
           major, minor = possible_major, possible_minor
         else
-          if possible_major.length > 3 # delimiter (1000,000)
+          # minor length is three
+          # let's try to figure out intent of the delimiter
+          
+          # the major length is greater than three, which means 
+          # the comma or period is used as a delimiter
+          # e.g.
+          #   1000,000
+          #   100000,000
+          if possible_major.length > 3
             major, minor = possible_major, possible_minor
           else
+            # number is in format ###{sep}### or ##{sep}### or #{sep}###
             # handle as , is sep, . is delimiter
-            if used_separator == '.'
+            if separator == '.'
               major, minor = possible_major, possible_minor
             else
               major, minor = "#{possible_major}#{possible_minor}", 0
@@ -62,16 +109,15 @@ class String
           end
         end
       end
-    when 2
-      separator, delimiter = used_separators.uniq
-      major, minor = num.gsub(separator, '').split(delimiter)
-      min = 0 unless min
     else
       raise ArgumentError, "Invalid currency amount"
     end
     
+    # build the string based on major/minor since separator/delimiters have been removed
+    # transform to a float, multiply by 100 to convert to cents
     cents = "#{major}.#{minor}".to_f * 100
     
+    # if negative, multiply by -1; otherwise, return positive cents
     negative ? cents * -1 : cents
   end
   
