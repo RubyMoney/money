@@ -23,6 +23,8 @@ describe "Money core extensions" do
     "1,000.0000".to_money.should == Money.new(1_000_00)
     "1,000.5000".to_money.should == Money.new(1_000_50)
     "1.550".to_money.should == Money.new(1_55)
+    "25.".to_money.should == Money.new(25_00)
+    ".75".to_money.should == Money.new(75)
     
     "100 USD".to_money.should == Money.new(100_00, "USD")
     "-100 USD".to_money.should == Money.new(-100_00, "USD")

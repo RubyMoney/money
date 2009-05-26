@@ -79,6 +79,8 @@ class String
         # ex: 1,000 - 1.0000 - 10001.000
         # split number into possible major (dollars) and minor (cents) values
         possible_major, possible_minor = num.split(separator)
+        possible_major ||= "0"
+        possible_minor ||= "00"
         
         # if the minor (cents) length isn't 3, assign major/minor from the possibles
         # e.g.
