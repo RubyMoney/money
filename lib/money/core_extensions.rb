@@ -17,7 +17,8 @@ class String
   #   '100.37'.to_money    # => #<Money @cents=10037>
   #   '100 USD'.to_money   # => #<Money @cents=10000, @currency="USD">
   #   'USD 100'.to_money   # => #<Money @cents=10000, @currency="USD">
-  #   '$100 USD'.to_money   # => #<Money @cents=10000, @currency="USD">
+  #   '$100 USD'.to_money  # => #<Money @cents=10000, @currency="USD">
+  #   'hello 2000 world'.to_money   # => #<Money @cents=200000 @currency="USD")>
   def to_money
     # Get the currency.
     matches = scan /([A-Z]{2,3})/

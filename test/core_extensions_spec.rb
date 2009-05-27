@@ -60,4 +60,8 @@ describe "Money core extensions" do
     "$-1,955.000 USD".to_money.should == Money.new(-1_955_00, "USD")
     "$1.99000 USD".to_money.should == Money.new(1_99, "USD")
   end
+  
+  specify "String#to_money ignores unrecognized data" do
+    "hello 2000 world".to_money.should == Money.new(2000_00)
+  end
 end
