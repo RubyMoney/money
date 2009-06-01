@@ -13,6 +13,7 @@ describe "Money core extensions" do
   end
   
   specify "String#to_money works" do
+    "20.15".to_money.should == Money.new(20_15)
     "100".to_money.should == Money.new(100_00)
     "100.37".to_money.should == Money.new(100_37)
     "100,37".to_money.should == Money.new(100_37)
@@ -20,8 +21,13 @@ describe "Money core extensions" do
     "100,000.00".to_money.should == Money.new(100_000_00)
     "1,000".to_money.should == Money.new(1_000_00)
     "-1,000".to_money.should == Money.new(-1_000_00)
+    "1,000.5".to_money.should == Money.new(1_000_50)
+    "1,000.51".to_money.should == Money.new(1_000_51)
+    "1,000.505".to_money.should == Money.new(1_000_51)
+    "1,000.504".to_money.should == Money.new(1_000_50)
     "1,000.0000".to_money.should == Money.new(1_000_00)
     "1,000.5000".to_money.should == Money.new(1_000_50)
+    "1,000.5099".to_money.should == Money.new(1_000_51)
     "1.550".to_money.should == Money.new(1_55)
     "25.".to_money.should == Money.new(25_00)
     ".75".to_money.should == Money.new(75)

@@ -117,8 +117,19 @@ class String
     end
     
     # build the string based on major/minor since separator/delimiters have been removed
-    # transform to a float, multiply by 100 to convert to cents
-    cents = "#{major}.#{minor}".to_f * 100
+    # avoiding floating point arithmetic here to ensure accuracy
+    cents = (major.to_i * 100)
+    # add the minor number as well. this may have any number of digits,
+    # so we treat minor as a string and truncate or right-fill it with zeroes
+    # until it becomes a two-digit number string, which we add to cents.
+    minor = minor.to_s
+    truncated_minor = minor[0..1]
+    truncated_minor << "0" * (2 - truncated_minor.size) if truncated_minor.size < 2
+    cents += truncated_minor.to_i
+    # respect rounding rules
+    if minor.size >= 3 && minor[2..2].to_i >= 5
+      cents += 1
+    end
     
     # if negative, multiply by -1; otherwise, return positive cents
     negative ? cents * -1 : cents
