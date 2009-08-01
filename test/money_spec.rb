@@ -131,6 +131,41 @@ describe Money do
       Money.new(100, :currency => "GBP").format(:symbol => "£").should == "£1.00"
     end
     
+    specify "#format(:symbol => true) returns symbol based on currency code" do
+      one = Proc.new {|currency| Money.new(100, :currency => currency).format(:symbol => true) }
+
+      # Pounds
+      one["GBP"].should == "£1.00"
+      
+      # Dollars
+      one["USD"].should == "$1.00"
+      one["CAD"].should == "$1.00"
+      one["AUD"].should == "$1.00"
+      one["NZD"].should == "$1.00"
+      one["ZWD"].should == "Z$1.00"
+      
+      # Yen
+      one["JPY"].should == "¥1.00"      
+      one["CNY"].should == "¥1.00"      
+      
+      # Euro
+      one["EUR"].should == "€1.00"
+      
+      # Rupees
+      one["INR"].should == "₨1.00"
+      one["NPR"].should == "₨1.00"
+      one["SCR"].should == "₨1.00"
+      one["LKR"].should == "₨1.00"
+      
+      # Other
+      one["SEK"].should == "kr1.00"
+      one["GHC"].should == "¢1.00"
+    end
+    
+    specify "#format(:symbol => true) returns $ when currency code is not recognized" do
+      one["XYZ"].should == "$1.00"
+    end
+    
     specify "#format with :symbol == "", nil or false returns the amount without a symbol" do
       money = Money.new(100, :currency => "GBP")
       money.format(:symbol => "").should == "1.00"
