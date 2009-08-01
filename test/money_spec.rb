@@ -1,6 +1,7 @@
 # encoding: utf-8
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__) + "/../lib")
 require 'money/money'
+require 'money/symbols'
 
 describe Money do
   it "is associated to the singleton instance of VariableExchangeBank by default" do
@@ -163,7 +164,7 @@ describe Money do
     end
     
     specify "#format(:symbol => true) returns $ when currency code is not recognized" do
-      one["XYZ"].should == "$1.00"
+      Money.new(100, :currency => "XYZ").format(:symbol => true).should == "$1.00"
     end
     
     specify "#format with :symbol == "", nil or false returns the amount without a symbol" do

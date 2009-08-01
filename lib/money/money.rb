@@ -3,7 +3,7 @@ require 'money/variable_exchange_bank'
 # Represents an amount of money in a certain currency.
 class Money
   include Comparable
-  
+
   attr_reader :cents, :currency, :bank
   
   class << self
@@ -170,7 +170,9 @@ class Money
     end
 
     if rules.has_key?(:symbol)
-      if rules[:symbol]
+      if rules[:symbol] === true
+        symbol = SYMBOLS[currency[:currency]] || "$"
+      elsif rules[:symbol]
         symbol = rules[:symbol]
       else
         symbol = ""
