@@ -1,3 +1,4 @@
+# Add more from http://www.xe.com/symbols.php
 Money::SYMBOLS = {
   "GBP" => "£",
   "JPY" => "¥",
