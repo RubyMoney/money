@@ -1,4 +1,4 @@
-$LOAD_PATH << File.expand_path(File.dirname(__FILE__) + "/../lib")
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
 require 'money/variable_exchange_bank'
 
 describe Money::VariableExchangeBank do

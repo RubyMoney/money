@@ -1,5 +1,5 @@
 # encoding: utf-8
-$LOAD_PATH << File.expand_path(File.dirname(__FILE__) + "/../lib")
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
 require 'money/money'
 require 'money/symbols'
 
