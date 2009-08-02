@@ -128,11 +128,11 @@ describe Money do
       Money.ca_dollar(39000).format(:no_cents).should == "$390"
     end
     
-    specify "#format(:symbol => ...) works as documented" do
+    specify "#format(:symbol => a symbol string) uses the given value as the money symbol" do
       Money.new(100, :currency => "GBP").format(:symbol => "£").should == "£1.00"
     end
     
-    specify "#format(:symbol => true) returns symbol based on currency code" do
+    specify "#format(:symbol => true) returns symbol based on the given currency code" do
       one = Proc.new {|currency| Money.new(100, :currency => currency).format(:symbol => true) }
 
       # Pounds
@@ -165,6 +165,12 @@ describe Money do
     
     specify "#format(:symbol => true) returns $ when currency code is not recognized" do
       Money.new(100, :currency => "XYZ").format(:symbol => true).should == "$1.00"
+    end
+    
+    specify "#format(:symbol => some non-Boolean value that evaluates to true) returs symbol based on the given currency code" do
+      Money.new(100, :currency => "GBP").format(:symbol => true).should == "£1.00"
+      Money.new(100, :currency => "EUR").format(:symbol => true).should == "€1.00"
+      Money.new(100, :currency => "SEK").format(:symbol => true).should == "kr1.00"
     end
     
     specify "#format with :symbol == "", nil or false returns the amount without a symbol" do

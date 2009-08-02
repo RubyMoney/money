@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Add more from http://www.xe.com/symbols.php
 Money::SYMBOLS = {
   "GBP" => "£",

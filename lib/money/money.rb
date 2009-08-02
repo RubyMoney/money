@@ -127,22 +127,30 @@ class Money
   end
 
 
-  # Format the price according to several rules. The following options are
-  # supported: :display_free, :with_currency, :no_cents, :symbol and :html
+  # Creates a formatted price string according to several rules. The following
+  # options are supported: :display_free, :with_currency, :no_cents, :symbol
+  # and :html.
   #
-  # display_free:
+  # === +:display_free+
   #
-  #  Money.us_dollar(0).format(:display_free => true) => "free"
-  #  Money.us_dollar(0).format(:display_free => "gratis") => "gratis"
+  # Whether a zero amount of money should be formatted of "free" or as the
+  # supplied string.
+  #
+  #  Money.us_dollar(0).format(:display_free => true)      => "free"
+  #  Money.us_dollar(0).format(:display_free => "gratis")  => "gratis"
   #  Money.us_dollar(0).format => "$0.00"
   #
-  # with_currency: 
+  # === +:with_currency+
+  #
+  # Whether the currency name should be appended to the result string.
   #
   #  Money.ca_dollar(100).format => "$1.00"
   #  Money.ca_dollar(100).format(:with_currency => true) => "$1.00 CAD"
-  #  Money.us_dollar(85).format(:with_currency => true) => "$0.85 USD"
+  #  Money.us_dollar(85).format(:with_currency => true)  => "$0.85 USD"
   #
-  # no_cents:  
+  # === +:no_cents+
+  #
+  # Whether cents should be omitted.
   #
   #  Money.ca_dollar(100).format(:no_cents => true) => "$1"
   #  Money.ca_dollar(599).format(:no_cents => true) => "$5"
@@ -150,13 +158,43 @@ class Money
   #  Money.ca_dollar(570).format(:no_cents => true, :with_currency => true) => "$5 CAD"
   #  Money.ca_dollar(39000).format(:no_cents => true) => "$390"
   #
-  # symbol:
+  # === +:symbol+
   #
-  #  Money.new(100, :currency => "GBP").format(:symbol => "£") => "£1.00"
+  # Whether a money symbol should be prepended to the result string. The default is true.
+  # This method attempts to pick a symbol that's suitable for the given currency.
   #
-  # html:
+  #  Money.new(100, :currency => "USD")  => "$1.00"
+  #  Money.new(100, :currency => "GBP")  => "£1.00"
+  #  Money.new(100, :currency => "EUR")  => "€1.00"
+  #  
+  #  # Same thing.
+  #  Money.new(100, :currency => "USD").format(:symbol => true)  => "$1.00"
+  #  Money.new(100, :currency => "GBP").format(:symbol => true)  => "£1.00"
+  #  Money.new(100, :currency => "EUR").format(:symbol => true)  => "€1.00"
   #
-  #  Money.ca_dollar(570).format(:html => true, :with_currency => true) =>  "$5.70 <span class=\"currency\">CAD</span>"
+  # You can specify a false expression or an empty string to disable prepending
+  # a money symbol:
+  #
+  #  Money.new(100, :currency => "USD").format(:symbol => false)  => "1.00"
+  #  Money.new(100, :currency => "GBP").format(:symbol => nil)    => "1.00"
+  #  Money.new(100, :currency => "EUR").format(:symbol => "")     => "1.00"
+  #
+  #  
+  # If the symbol for the given currency isn't known, then it will default
+  # to "$" as symbol:
+  #
+  #  Money.new(100, :currency => "AWG").format(:symbol => true)  => "$1.00"
+  #
+  # You can specify a string as value to enforce using a particular symbol:
+  #
+  #  Money.new(100, :currency => "AWG").format(:symbol => "ƒ")   => "ƒ1.00"
+  #
+  # === +:html+
+  #
+  # Whether the currency should be HTML-formatted. Only useful in combination with +:with_currency+.
+  #
+  #  Money.ca_dollar(570).format(:html => true, :with_currency => true)
+  #    =>  "$5.70 <span class=\"currency\">CAD</span>"
   def format(*rules)
     # support for old format parameters
     rules = normalize_formatting_rules(rules)
@@ -199,7 +237,9 @@ class Money
     formatted
   end  
   
-  # Money.ca_dollar(100).to_s => "1.00"
+  # Returns the amount of money as a string.
+  #
+  #  Money.ca_dollar(100).to_s => "1.00"
   def to_s
     sprintf("%.2f", cents / 100.00)
   end
