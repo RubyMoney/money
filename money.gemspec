@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "money"
-  s.version = "2.1.3"
+  s.version = "2.1.4"
   s.summary = "Money and currency exchange support library"
   s.email = "hongli@phusion.nl"
   s.homepage = "http://money.rubyforge.org/"
@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
       "lib/money/core_extensions.rb",
       "lib/money/errors.rb",
       "lib/money/money.rb",
+      "lib/money/symbols.rb",
       "lib/money/variable_exchange_bank.rb",
       "test/core_extensions_spec.rb",
       "test/exchange_bank_spec.rb",
