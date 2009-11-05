@@ -73,6 +73,14 @@ describe Money do
     Money.euro(50).should == Money.new(50, "EUR")
   end
   
+  specify "Money.new accepts { :currency => 'foo' } as the value for the 'currency' argument" do
+    money = Money.new(20, :currency => "EUR")
+    money.currency.should == "EUR"
+    
+    money = Money.new(20, :currency => nil)
+    money.currency.should == Money.default_currency
+  end
+  
   specify "Money.add_rate works" do
     Money.add_rate("EUR", "USD", 10)
     Money.new(10_00, "EUR").exchange_to("USD").should == Money.new(100_00, "USD")
@@ -129,11 +137,13 @@ describe Money do
     end
     
     specify "#format(:symbol => a symbol string) uses the given value as the money symbol" do
-      Money.new(100, :currency => "GBP").format(:symbol => "£").should == "£1.00"
+      Money.new(100, "GBP").format(:symbol => "£").should == "£1.00"
     end
     
     specify "#format(:symbol => true) returns symbol based on the given currency code" do
-      one = Proc.new {|currency| Money.new(100, :currency => currency).format(:symbol => true) }
+      one = Proc.new do |currency|
+        Money.new(100, currency).format(:symbol => true)
+      end
 
       # Pounds
       one["GBP"].should == "£1.00"
@@ -164,17 +174,17 @@ describe Money do
     end
     
     specify "#format(:symbol => true) returns $ when currency code is not recognized" do
-      Money.new(100, :currency => "XYZ").format(:symbol => true).should == "$1.00"
+      Money.new(100, "XYZ").format(:symbol => true).should == "$1.00"
     end
     
     specify "#format(:symbol => some non-Boolean value that evaluates to true) returs symbol based on the given currency code" do
-      Money.new(100, :currency => "GBP").format(:symbol => true).should == "£1.00"
-      Money.new(100, :currency => "EUR").format(:symbol => true).should == "€1.00"
-      Money.new(100, :currency => "SEK").format(:symbol => true).should == "kr1.00"
+      Money.new(100, "GBP").format(:symbol => true).should == "£1.00"
+      Money.new(100, "EUR").format(:symbol => true).should == "€1.00"
+      Money.new(100, "SEK").format(:symbol => true).should == "kr1.00"
     end
     
     specify "#format with :symbol == "", nil or false returns the amount without a symbol" do
-      money = Money.new(100, :currency => "GBP")
+      money = Money.new(100, "GBP")
       money.format(:symbol => "").should == "1.00"
       money.format(:symbol => nil).should == "1.00"
       money.format(:symbol => false).should == "1.00"
