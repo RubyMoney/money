@@ -226,7 +226,7 @@ class Money
         symbol = ""
       end
     else
-      symbol = "$"
+      symbol = SYMBOLS[currency] || "$"
     end
     
     if rules[:no_cents]
