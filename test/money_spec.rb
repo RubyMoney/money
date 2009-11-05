@@ -168,6 +168,9 @@ describe Money do
       one["SCR"].should == "₨1.00"
       one["LKR"].should == "₨1.00"
       
+      # Brazilian Real
+      one["BRL"].should == "R$1.00"
+      
       # Other
       one["SEK"].should == "kr1.00"
       one["GHC"].should == "¢1.00"
