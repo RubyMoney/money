@@ -49,6 +49,80 @@ describe Money do
     Money.new(1_00, "USD").should_not == Money.new(99_00, "EUR")
   end
   
+  specify "#== can be used to compare with a String money value" do
+    Money.new(1_00, "USD").should == "1.00"
+    Money.new(1_00, "USD").should_not == "2.00"
+    Money.new(1_00, "GBP").should_not == "1.00"
+  end
+  
+  specify "#== can be used to compare with a Numeric money value" do
+    Money.new(1_00, "USD").should == 1
+    Money.new(1_57, "USD").should == 1.57
+    Money.new(1_00, "USD").should_not == 2
+    Money.new(1_00, "GBP").should_not == 1
+  end
+  
+  specify "#== can be used to compare with an object that responds to #to_money" do
+    klass = Class.new do
+      def initialize(money)
+        @money = money
+      end
+      
+      def to_money
+        @money
+      end
+    end
+    
+    Money.new(1_00, "USD").should == klass.new(Money.new(1_00, "USD"))
+    Money.new(2_50, "USD").should == klass.new(Money.new(2_50, "USD"))
+    Money.new(2_50, "USD").should_not == klass.new(Money.new(3_00, "USD"))
+    Money.new(1_00, "GBP").should_not == klass.new(Money.new(1_00, "USD"))
+  end
+  
+  specify "#== returns false if used to compare with an object that doesn't respond to #to_money" do
+    Money.new(1_00, "USD").should_not == Object.new
+    Money.new(1_00, "USD").should_not == Class
+    Money.new(1_00, "USD").should_not == Kernel
+    Money.new(1_00, "USD").should_not == /foo/
+    Money.new(1_00, "USD").should_not == nil
+  end
+  
+  specify "#<=> can be used to compare with a String money value" do
+    (Money.new(1_00) <=> "1.00").should == 0
+    (Money.new(1_00) <=> ".99").should > 0
+    (Money.new(1_00) <=> "2.00").should < 0
+  end
+  
+  specify "#<=> can be used to compare with a Numeric money value" do
+    (Money.new(1_00) <=> 1).should == 0
+    (Money.new(1_00) <=> 0.99).should > 0
+    (Money.new(1_00) <=> 2.00).should < 0
+  end
+  
+  specify "#<=> can be used to compare with an object that responds to #to_money" do
+    klass = Class.new do
+      def initialize(money)
+        @money = money
+      end
+      
+      def to_money
+        @money
+      end
+    end
+    
+    (Money.new(1_00) <=> klass.new(Money.new(1_00))).should == 0
+    (Money.new(1_00) <=> klass.new(Money.new(99))).should > 0
+    (Money.new(1_00) <=> klass.new(Money.new(2_00))).should < 0
+  end
+  
+  specify "#<=> raises ArgumentError when used to compare with an object that doesn't respond to #to_money" do
+    expected_message = /comparison .+ failed/
+    lambda{ Money.new(1_00) <=> Object.new }.should raise_error(ArgumentError, expected_message)
+    lambda{ Money.new(1_00) <=> Class }.should raise_error(ArgumentError, expected_message)
+    lambda{ Money.new(1_00) <=> Kernel }.should raise_error(ArgumentError, expected_message)
+    lambda{ Money.new(1_00) <=> /foo/ }.should raise_error(ArgumentError, expected_message)
+  end
+  
   specify "#* multiplies the money's amount by the multiplier while retaining the currency" do
     (Money.new(1_00, "USD") * 10).should == Money.new(10_00, "USD")
   end

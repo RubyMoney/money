@@ -87,16 +87,36 @@ class Money
     @bank = bank
   end
 
-  # Do two money objects equal? Only works if both objects are of the same currency
+  # Checks whether two money objects have the same currency and the same amount.
+  # Checks against money objects with a different currency and checks against
+  # objects that do not respond to #to_money will always return false.
   def ==(other_money)
-    cents == other_money.cents && bank.same_currency?(currency, other_money.currency)
-  end
-
-  def <=>(other_money)
-    if bank.same_currency?(currency, other_money.currency)
-      cents <=> other_money.cents
+    if other_money.respond_to?(:to_money)
+      other_money = other_money.to_money
+      cents == other_money.cents && bank.same_currency?(currency, other_money.currency)
     else
-      cents <=> other_money.exchange_to(currency).cents
+      false
+    end
+  end
+  
+  # Compares this money object against another object. +other_money+ must respond
+  # to #to_money.
+  #
+  # If +other_money+ is of a different currency, then +other_money+ will first be
+  # converted into this money object's currency by calling +other_money.exchange+.
+  #
+  # Comparisons against objects that do not respond to #to_money will cause an
+  # ArgumentError to be raised.
+  def <=>(other_money)
+    if other_money.respond_to?(:to_money)
+      other_money = other_money.to_money
+      if bank.same_currency?(currency, other_money.currency)
+        cents <=> other_money.cents
+      else
+        cents <=> other_money.exchange_to(currency).cents
+      end
+    else
+      raise ArgumentError, "comparison of #{self.class} with #{other_money.inspect} failed"
     end
   end
 
