@@ -127,7 +127,7 @@ describe Money do
     (Money.new(1_00, "USD") * 10).should == Money.new(10_00, "USD")
   end
   
-  specify "#* divides the money's amount by the divisor while retaining the currency" do
+  specify "#/ divides the money's amount by the divisor while retaining the currency" do
     (Money.new(10_00, "USD") / 10).should == Money.new(1_00, "USD")
   end
   
@@ -305,6 +305,10 @@ describe "Actions involving two Money objects" do
     specify "#- substracts the other object's amount from the current object's amount while retaining the currency" do
       (Money.new(10_00, "USD") - Money.new(90, "USD")).should == Money.new(9_10, "USD")
     end
+
+    specify "#/ divides the current object's amount by the other object's amount resulting in a float" do
+      (Money.new(10_00, "USD") / Money.new(100_00, "USD")).should == 0.1
+    end
   end
   
   describe "if the other Money object has a different currency" do
@@ -332,6 +336,12 @@ describe "Actions involving two Money objects" do
       other = Money.new(90, "EUR")
       other.should_receive(:exchange_to).with("USD").and_return(Money.new(9_00, "USD"))
       (Money.new(10_00, "USD") - other).should == Money.new(1_00, "USD")
+    end
+
+    specify "#/ divides the this object's amount by the other objects's amount, converted to this object's currency, resulting in a float" do
+      other = Money.new(1000, "EUR")
+      other.should_receive(:exchange_to).with("USD").and_return(Money.new(100_00, "USD"))
+      (Money.new(10_00, "USD") / other).should == 0.1
     end
   end
 end

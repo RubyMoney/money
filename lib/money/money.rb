@@ -146,9 +146,17 @@ class Money
     Money.new(cents * fixnum, currency)
   end
 
-  # divide money by fixnum
-  def /(fixnum)
-    Money.new(cents / fixnum, currency)
+  # divide money by money or fixnum
+  def /(val)
+    if val.is_a?(Money)
+      if currency == val.currency
+        cents / val.cents.to_f
+      else
+        cents / val.exchange_to(currency).cents.to_f
+      end
+    else
+      Money.new(cents / val, currency)
+    end
   end
   
   # Test if the money amount is zero
