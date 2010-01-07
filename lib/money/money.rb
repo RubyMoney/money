@@ -281,6 +281,16 @@ class Money
   def to_s
     sprintf("%.2f", cents / 100.00)
   end
+
+  # Return the amount of money as a float. Floating points cannot guarantee
+  # precision. Therefore, this function should only be used when you no longer
+  # need to represent currency or working with another system that requires
+  # decimals.
+  #
+  # Money.us_dollar(100).to_f => 1.0
+  def to_f
+    cents / 100.0
+  end
   
   # Recieve the amount of this money object in another currency.
   def exchange_to(other_currency)
