@@ -160,6 +160,10 @@ describe Money do
     Money.new(10_00, "EUR").exchange_to("USD").should == Money.new(100_00, "USD")
   end
 
+  specify "Money.to_s works" do
+    Money.new(10_00).to_s.should == "10.00"
+  end
+
   specify "Money.to_f works" do
     Money.new(10_00).to_f.should == 10.0
   end
