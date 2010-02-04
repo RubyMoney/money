@@ -15,5 +15,17 @@ Money::SYMBOLS = {
   "GHC" => "¢",
   "BRL" => "R$ ",
   
-  # Everything else defaults to $
+  # Everything else defaults to '$'
+}
+
+Money::SEPARATORS = {
+  "BRL" => ",",
+
+  # Everything else defaults to '.'
+}
+
+Money::DELIMITERS = {
+  "BRL" => ".",
+
+  # Everything else defaults to ","
 }

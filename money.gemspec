@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
       "lib/money/core_extensions.rb",
       "lib/money/errors.rb",
       "lib/money/money.rb",
-      "lib/money/symbols.rb",
+      "lib/money/defaults.rb",
       "lib/money/variable_exchange_bank.rb",
       "test/core_extensions_spec.rb",
       "test/exchange_bank_spec.rb",

@@ -231,23 +231,33 @@ class Money
   #
   # Whether the currency should be separated by the specified character or '.'
   #
-  # If a string is specified, it's value is used.
+  # If a string is specified, it's value is used:
   #
   #  Money.new(100, "USD").format(:separator => ",") => "$1,00"
+  #
+  # If the separator for a given currency isn't known, then it will default to
+  # "." as separator:
+  #
+  #  Money.new(100, "FOO").format => "$1.00"
   #
   # === +:delimiter+
   #
   # Whether the currency should be delimited by the specified character or ','
   #
-  # If false is specified, no delimiter is used.
+  # If false is specified, no delimiter is used:
   # 
   #  Money.new(100000, "USD").format(:delimiter => false) => "1000.00"
   #  Money.new(100000, "USD").format(:delimiter => nil)   => "1000.00"
   #  Money.new(100000, "USD").format(:delimiter => "")    => "1000.00"
   #
-  # If a string is specified, it's value is used.
+  # If a string is specified, it's value is used:
   #
   #  Money.new(100000, "USD").format(:delimiter => ".") => "$1.000.00"
+  #
+  # If the delimiter for a given currency isn't known, then it will default to
+  # "," as delimiter:
+  #
+  #  Money.new(100000, "FOO").format => "$1,000.00"
   #
   # === +:html+
   #
@@ -285,35 +295,27 @@ class Money
       formatted = sprintf("#{symbol}%.2f", cents.to_f / 100)
     end
 
-    # Determine separator
-    if rules.has_key?(:separator)
-      if rules[:separator]
-        separator = rules[:separator]
-      else
-        separator = "."
-      end
-    else
-      separator = "."
-    end
-
-    # Apply separator
-    formatted.gsub!(/\./, separator)
-    
+    delimiter = DELIMITERS[currency] || ","
     # Determine delimiter
     if rules.has_key?(:delimiter)
       if rules[:delimiter] === false or rules[:delimiter].nil?
         delimiter = ""
       elsif rules[:delimiter]
         delimiter = rules[:delimiter]
-      else
-        delimiter = ","
       end
-    else
-      delimiter = ","
     end
 
     # Apply delimiter
     formatted.gsub!(/(\d)(?=\d{3}+(?:\.|$))(\d{3}\..*)?/, "\\1#{delimiter}\\2")
+
+    separator = SEPARATORS[currency] || "."
+    # Determine separator
+    if rules.has_key?(:separator) and rules[:separator]
+      separator = rules[:separator]
+    end
+
+    # Apply separator
+    formatted.sub!(/\.(\d{2})$/, "#{separator}\\1")
 
     if rules[:with_currency]
       formatted << " "

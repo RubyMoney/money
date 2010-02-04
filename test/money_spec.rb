@@ -1,7 +1,7 @@
 # encoding: utf-8
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
 require 'money/money'
-require 'money/symbols'
+require 'money/defaults'
 
 describe Money do
   it "is associated to the singleton instance of VariableExchangeBank by default" do
@@ -172,6 +172,42 @@ describe Money do
     it "returns the monetary value as a string" do
       Money.ca_dollar(100).format.should == "$1.00"
     end
+
+    specify "respects the delimiter and separator defaults" do
+      one_thousand = Proc.new do |currency|
+        Money.new(1000_00, currency).format
+      end
+
+      # Pounds
+      one_thousand["GBP"].should == "£1,000.00"
+      
+      # Dollars
+      one_thousand["USD"].should == "$1,000.00"
+      one_thousand["CAD"].should == "$1,000.00"
+      one_thousand["AUD"].should == "$1,000.00"
+      one_thousand["NZD"].should == "$1,000.00"
+      one_thousand["ZWD"].should == "Z$1,000.00"
+      
+      # Yen
+      one_thousand["JPY"].should == "¥1,000.00"      
+      one_thousand["CNY"].should == "¥1,000.00"      
+      
+      # Euro
+      one_thousand["EUR"].should == "€1,000.00"
+      
+      # Rupees
+      one_thousand["INR"].should == "₨1,000.00"
+      one_thousand["NPR"].should == "₨1,000.00"
+      one_thousand["SCR"].should == "₨1,000.00"
+      one_thousand["LKR"].should == "₨1,000.00"
+      
+      # Brazilian Real
+      one_thousand["BRL"].should == "R$ 1.000,00"
+      
+      # Other
+      one_thousand["SEK"].should == "kr1,000.00"
+      one_thousand["GHC"].should == "¢1,000.00"
+    end
     
     describe "if the monetary value is 0" do
       before :each do
@@ -251,7 +287,7 @@ describe Money do
       one["LKR"].should == "₨1.00"
       
       # Brazilian Real
-      one["BRL"].should == "R$ 1.00"
+      one["BRL"].should == "R$ 1,00"
       
       # Other
       one["SEK"].should == "kr1.00"
@@ -287,17 +323,25 @@ describe Money do
     end
 
     specify "#format(:separator => a separator string) works as documented" do
-      Money.new(100, "BRL").format(:separator => ",").should == "R$ 1,00"
+      Money.us_dollar(100).format(:separator => ",").should == "$1,00"
+    end
+
+    specify "#format will default separator to '.' if currency isn't recognized" do
+      Money.new(100, "FOO").format.should == "$1.00"
     end
 
     specify "#format(:delimiter => a delimiter string) works as documented" do
-      Money.new(100000, "BRL").format(:delimiter => ".").should == "R$ 1.000.00"
-      Money.us_dollar(200000).format(:delimiter => "").should    == "$2000.00"
+      Money.us_dollar(100000).format(:delimiter => ".").should == "$1.000.00"
+      Money.us_dollar(200000).format(:delimiter => "").should  == "$2000.00"
     end
 
-    specify "#format(:delimiter => false) works as documented" do
+    specify "#format(:delimiter => false or nil) works as documented" do
       Money.us_dollar(100000).format(:delimiter => false).should == "$1000.00"
       Money.us_dollar(200000).format(:delimiter => nil).should   == "$2000.00"
+    end
+
+    specify "#format will default delimiter to ',' if currency isn't recognized" do
+      Money.new(100000, "FOO").format.should == "$1,000.00"
     end
     
     specify "#format(:html => true) works as documented" do
