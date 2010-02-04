@@ -285,6 +285,20 @@ describe Money do
       money = Money.new(100, "XYZ")
       money.format.should == "$1.00"
     end
+
+    specify "#format(:separator => a separator string) works as documented" do
+      Money.new(100, "BRL").format(:separator => ",").should == "R$1,00"
+    end
+
+    specify "#format(:delimiter => a delimiter string) works as documented" do
+      Money.new(100000, "BRL").format(:delimiter => ".").should == "R$1.000.00"
+      Money.us_dollar(200000).format(:delimiter => "").should    == "$2000.00"
+    end
+
+    specify "#format(:delimiter => false) works as documented" do
+      Money.us_dollar(100000).format(:delimiter => false).should == "$1000.00"
+      Money.us_dollar(200000).format(:delimiter => nil).should   == "$2000.00"
+    end
     
     specify "#format(:html => true) works as documented" do
       string = Money.ca_dollar(570).format(:html => true, :with_currency => true)
