@@ -13,7 +13,7 @@ Money::SYMBOLS = {
   "LKR" => "₨",
   "SEK" => "kr",
   "GHC" => "¢",
-  "BRL" => "R$"
+  "BRL" => "R$ ",
   
   # Everything else defaults to $
 }

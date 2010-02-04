@@ -251,7 +251,7 @@ describe Money do
       one["LKR"].should == "₨1.00"
       
       # Brazilian Real
-      one["BRL"].should == "R$1.00"
+      one["BRL"].should == "R$ 1.00"
       
       # Other
       one["SEK"].should == "kr1.00"
@@ -287,11 +287,11 @@ describe Money do
     end
 
     specify "#format(:separator => a separator string) works as documented" do
-      Money.new(100, "BRL").format(:separator => ",").should == "R$1,00"
+      Money.new(100, "BRL").format(:separator => ",").should == "R$ 1,00"
     end
 
     specify "#format(:delimiter => a delimiter string) works as documented" do
-      Money.new(100000, "BRL").format(:delimiter => ".").should == "R$1.000.00"
+      Money.new(100000, "BRL").format(:delimiter => ".").should == "R$ 1.000.00"
       Money.us_dollar(200000).format(:delimiter => "").should    == "$2000.00"
     end
 
