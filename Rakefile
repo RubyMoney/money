@@ -15,6 +15,7 @@ begin
     gem.add_development_dependency "hanna", ">= 0.1.12"
   end
   Jeweler::GemcutterTasks.new
+  Jeweler::RubyforgeTasks.new
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"
 end
