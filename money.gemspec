@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{money}
-  s.version = "2.1.5"
+  s.version = "2.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tobias Luetke", "Hongli Lai", "Jeremy McNevin", "Shane Emmons"]
-  s.date = %q{2010-02-05}
+  s.date = %q{2010-02-17}
   s.description = %q{Money and currency exchange support library.}
   s.email = %q{hongli@phusion.nl}
   s.extra_rdoc_files = [
