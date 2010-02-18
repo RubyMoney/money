@@ -15,7 +15,9 @@ begin
     gem.add_development_dependency "hanna", ">= 0.1.12"
   end
   Jeweler::GemcutterTasks.new
-  Jeweler::RubyforgeTasks.new
+  Jeweler::RubyforgeTasks.new do |gem|
+    gem.remote_doc_path = ""
+  end
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"
 end
