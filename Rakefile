@@ -1,5 +1,8 @@
 require 'rubygems'
 require 'rake'
+require 'rake/clean'
+
+CLOBBER << 'pkg'
 
 begin
   require 'jeweler'
