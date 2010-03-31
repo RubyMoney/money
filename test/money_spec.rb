@@ -38,6 +38,13 @@ describe Money do
     Money.new(-1, "EUR").should be_nonzero
   end
 
+  specify "#nonzero? has the same return-value semantics as Numeric#nonzero?" do
+    Money.new(0, "USD").nonzero?.should be_nil
+
+    money = Money.new(1, "USD")
+    money.nonzero?.should be_equal(money)
+  end
+
   specify "#exchange_to exchanges the amount via its exchange bank" do
     money = Money.new(100_00, "USD")
     money.bank.should_receive(:exchange).with(100_00, Money::Currency.new("USD"), Money::Currency.new("EUR")).and_return(200_00)
