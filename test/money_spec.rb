@@ -29,7 +29,15 @@ describe Money do
     Money.new(10, "YEN").should_not be_zero
     Money.new(-1, "EUR").should_not be_zero
   end
-  
+
+  specify "#nonzero? returns whether the amount is not 0" do
+    Money.new(0, "USD").should_not be_nonzero
+    Money.new(0, "EUR").should_not be_nonzero
+    Money.new(1, "USD").should be_nonzero
+    Money.new(10, "YEN").should be_nonzero
+    Money.new(-1, "EUR").should be_nonzero
+  end
+
   specify "#exchange_to exchanges the amount via its exchange bank" do
     money = Money.new(100_00, "USD")
     money.bank.should_receive(:exchange).with(100_00, Money::Currency.new("USD"), Money::Currency.new("EUR")).and_return(200_00)

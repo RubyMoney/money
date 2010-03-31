@@ -167,6 +167,10 @@ class Money
     cents == 0
   end
 
+  # Test if the money amount is non-zero
+  def nonzero?
+    cents != 0
+  end
 
   # Attempts to pick a symbol that's suitable for the given currency
   # looking up the Currency::TABLE hashtable.
