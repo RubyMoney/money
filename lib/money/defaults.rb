@@ -1,31 +1,57 @@
 # encoding: utf-8
 
-# Add more from http://www.xe.com/symbols.php
-Money::SYMBOLS = {
-  "GBP" => "£",
-  "JPY" => "¥",
-  "EUR" => "€",
-  "ZWD" => "Z$",
-  "CNY" => "¥",
-  "INR" => "₨",
-  "NPR" => "₨",
-  "SCR" => "₨",
-  "LKR" => "₨",
-  "SEK" => "kr",
-  "GHC" => "¢",
-  "BRL" => "R$ ",
-  
-  # Everything else defaults to '$'
-}
+class Money
 
-Money::SEPARATORS = {
-  "BRL" => ",",
+  class DeprecatedHash < Hash
 
-  # Everything else defaults to '.'
-}
+    def initialize(hash, message)
+      @message = message
+      replace(hash)
+    end
 
-Money::DELIMITERS = {
-  "BRL" => ".",
+    def [](key)
+      deprecate
+      super
+    end
 
-  # Everything else defaults to ","
-}
+    def []=(value)
+      deprecate
+      super
+    end
+
+    private
+
+      def deprecate
+        warn "DEPRECATION MESSAGE: #{@message}"
+      end
+
+  end
+
+  # @deprecated See Money::Currency#symbol
+  SYMBOLS = DeprecatedHash.new({
+    "GBP" => "£",
+    "JPY" => "¥",
+    "EUR" => "€",
+    "ZWD" => "Z$",
+    "CNY" => "¥",
+    "INR" => "₨",
+    "NPR" => "₨",
+    "SCR" => "₨",
+    "LKR" => "₨",
+    "SEK" => "kr",
+    "GHC" => "¢",
+    "BRL" => "R$ ",
+    # Everything else defaults to '$'
+  }, "Money::SYMBOLS has no longer effect. See Money::Currency#symbol.")
+
+  SEPARATORS = {
+    "BRL" => ",",
+    # Everything else defaults to '.'
+  }
+
+  DELIMITERS = {
+    "BRL" => ".",
+    # Everything else defaults to ","
+  }
+
+end
