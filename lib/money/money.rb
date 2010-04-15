@@ -303,43 +303,43 @@ class Money
 
     if rules.has_key?(:symbol)
       if rules[:symbol] === true
-        symbol = SYMBOLS[currency] || "$"
+        symbol_value = symbol
       elsif rules[:symbol]
-        symbol = rules[:symbol]
+        symbol_value = rules[:symbol]
       else
-        symbol = ""
+        symbol_value = ""
       end
     else
-      symbol = SYMBOLS[currency] || "$"
+      symbol_value = symbol
     end
 
     if rules[:no_cents]
-      formatted = sprintf("#{symbol}%d", cents.to_f / 100)
+      formatted = sprintf("#{symbol_value}%d", cents.to_f / 100)
     else
-      formatted = sprintf("#{symbol}%.2f", cents.to_f / 100)
+      formatted = sprintf("#{symbol_value}%.2f", cents.to_f / 100)
     end
 
-    delimiter = DELIMITERS[currency] || ","
+    delimiter_value = delimiter
     # Determine delimiter
     if rules.has_key?(:delimiter)
       if rules[:delimiter] === false or rules[:delimiter].nil?
-        delimiter = ""
+        delimiter_value = ""
       elsif rules[:delimiter]
-        delimiter = rules[:delimiter]
+        delimiter_value = rules[:delimiter]
       end
     end
 
     # Apply delimiter
-    formatted.gsub!(/(\d)(?=\d{3}+(?:\.|$))(\d{3}\..*)?/, "\\1#{delimiter}\\2")
+    formatted.gsub!(/(\d)(?=\d{3}+(?:\.|$))(\d{3}\..*)?/, "\\1#{delimiter_value}\\2")
 
-    separator = SEPARATORS[currency] || "."
+    separator_value = separator
     # Determine separator
     if rules.has_key?(:separator) and rules[:separator]
-      separator = rules[:separator]
+      separator_value = rules[:separator]
     end
 
     # Apply separator
-    formatted.sub!(/\.(\d{2})$/, "#{separator}\\1")
+    formatted.sub!(/\.(\d{2})$/, "#{separator_value}\\1")
 
     if rules[:with_currency]
       formatted << " "
@@ -348,7 +348,7 @@ class Money
       formatted << '</span>' if rules[:html]
     end
     formatted
-  end  
+  end
   
   # Returns the amount of money as a string.
   #
