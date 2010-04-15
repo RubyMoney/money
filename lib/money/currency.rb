@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Money
 
   # Represents a specific currency unit.
