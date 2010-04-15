@@ -30,7 +30,7 @@ class String
 
   # Parses the current string and converts it to a Currency object.
   def to_currency
-    ::Currency.new(self)
+    Currency.new(self)
   end
 
   private

@@ -76,6 +76,12 @@ describe Currency do
     end
   end
 
+  specify "#self.wrap should return nil if object is nil" do
+    Currency.wrap(nil).should == nil
+    Currency.wrap(Currency.new(:usd)).should == Currency.new(:usd)
+    Currency.wrap(:usd).should == Currency.new(:usd)
+  end
+
 
   def with_custom_definitions(&block)
     begin

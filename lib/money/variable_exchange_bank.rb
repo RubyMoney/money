@@ -52,7 +52,7 @@ class Money
     #   bank.same_currency?("usd", "USD")   # => true
     #   bank.same_currency?("usd", "EUR")   # => false
     def same_currency?(currency1, currency2)
-      currency1.upcase == currency2.upcase
+      Currency.wrap(currency1) == Currency.wrap(currency2)
     end
     
     # Exchange the given amount of cents in +from_currency+ to +to_currency+.

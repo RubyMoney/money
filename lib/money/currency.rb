@@ -13,6 +13,8 @@ class Currency
     # fractional monetary unit, subunit
     #   A monetary unit that is valued at a fraction (usually one hundredth) of the basic monetary unit
     #   http://www.answers.com/topic/fractional-monetary-unit-subunit
+    #
+    # See http://en.wikipedia.org/wiki/List_of_circulating_currencies
     :aed => { :priority => 100, :iso_code => "AED", :name => "United Arab Emirates Dirham",               :symbol => "د.إ",           :subunit => "Fils",          :subunit_to_unit => "100"   },
     :afn => { :priority => 100, :iso_code => "AFN", :name => "Afghan Afghani",                            :symbol => "؋",             :subunit => "Pul",           :subunit_to_unit => "100"   },
     :all => { :priority => 100, :iso_code => "ALL", :name => "Albanian Lek",                              :symbol => "L",             :subunit => "Qintar",        :subunit_to_unit => "100"   },
@@ -94,7 +96,7 @@ class Currency
     :kzt => { :priority => 100, :iso_code => "KZT", :name => "Kazakhstani Tenge",                         :symbol => "〒",             :subunit => "Tiyn",          :subunit_to_unit => "100"   },
     :lak => { :priority => 100, :iso_code => "LAK", :name => "Lao Kip",                                   :symbol => "₭",             :subunit => "Att",           :subunit_to_unit => "100"   },
     :lbp => { :priority => 100, :iso_code => "LBP", :name => "Lebanese Lira",                             :symbol => "ل.ل",           :subunit => "Piastre",       :subunit_to_unit => "100"   },
-    :lkr => { :priority => 100, :iso_code => "LKR", :name => "Sri Lankan Rupee",                          :symbol => "ரூ",            :subunit => "Cent",          :subunit_to_unit => "100"   },
+    :lkr => { :priority => 100, :iso_code => "LKR", :name => "Sri Lankan Rupee",                          :symbol => "₨",             :subunit => "Cent",          :subunit_to_unit => "100"   },
     :lrd => { :priority => 100, :iso_code => "LRD", :name => "Liberian Dollar",                           :symbol => "$",             :subunit => "Cent",          :subunit_to_unit => "100"   },
     :lsl => { :priority => 100, :iso_code => "LSL", :name => "Lesotho Loti",                              :symbol => "L",             :subunit => "Sente",         :subunit_to_unit => "100"   },
     :ltl => { :priority => 100, :iso_code => "LTL", :name => "Lithuanian Litas",                          :symbol => "Lt",            :subunit => "Centas",        :subunit_to_unit => "100"   },
@@ -176,6 +178,9 @@ class Currency
     :zar => { :priority => 100, :iso_code => "ZAR", :name => "South African Rand",                        :symbol => "R",             :subunit => "Cent",          :subunit_to_unit => "100"   },
     :zmk => { :priority => 100, :iso_code => "ZMK", :name => "Zambian Kwacha",                            :symbol => "ZK",            :subunit => "Ngwee",         :subunit_to_unit => "100"   },
     :zwd => { :priority => 100, :iso_code => "ZWD", :name => "Zimbabwean Dollar",                         :symbol => "$",             :subunit => "Cent",          :subunit_to_unit => "100"   },
+
+    # aliases for BC with documentation before Currency
+    :yen => { :priority => 100, :iso_code => "JPY", :name => "Japanese Yen",                              :symbol => "¥",             :subunit => "Sen",           :subunit_to_unit => "100"   },
   }
 
   attr_reader :id, *ATTRIBUTES
@@ -225,12 +230,36 @@ class Currency
   end
 
 
+  def method_missing(method, *args, &block)
+    warn "DEPRECATION MESSAGE: "
+    iso_code.send(method, *args, &block)
+  end
+
   class << self
 
     def find(id)
       id = id.to_s.downcase.to_sym
       if data = self::TABLE[id]
         new(id)
+      end
+    end
+
+    # Wraps the object in a Currency unless it's a Currency.
+    # 
+    #   Currency.wrap(nil)
+    #   # => nil
+    #   Currency.wrap(Currency.new(:usd))
+    #   # => <#Currency id: usd ...>
+    #   Currency.wrap("usd")
+    #   # => <#Currency id: usd ...>
+    #
+    def wrap(object)
+      if object.nil?
+        nil
+      elsif object.is_a?(Currency)
+        object
+      else
+        Currency.new(object)
       end
     end
 

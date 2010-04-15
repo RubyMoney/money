@@ -39,7 +39,7 @@ class Money
   end
   
   self.default_bank = VariableExchangeBank.instance
-  self.default_currency = "USD"
+  self.default_currency = Currency.new("USD")
   
   
   # Create a new money object with value 0.
@@ -81,9 +81,9 @@ class Money
       #   Money.new(50, :currency => "USD")
       #
       # We retain compatibility here.
-      @currency = currency[:currency] || Money.default_currency
+      @currency = Currency.wrap(currency[:currency] || Money.default_currency)
     else
-      @currency = currency
+      @currency = Currency.wrap(currency)
     end
     @bank = bank
   end
@@ -167,27 +167,27 @@ class Money
 
 
   # Attempts to pick a symbol that's suitable for the given currency
-  # looking up the Money::SYMBOLS hashtable.
-  # If the symbol for the given currency isn't known, 
+  # looking up the Currency::TABLE hashtable.
+  # If the symbol for the given currency isn't known,
   # then it will default to "$".
   def symbol
-    SYMBOLS[currency] || "$"
+    currency.symbol || "$"
   end
 
   # Attempts to pick a delimiter that's suitable for the given currency
   # looking up the Money::DELIMITERS hashtable.
-  # If the symbol for the given currency isn't known, 
+  # If the symbol for the given currency isn't known,
   # then it will default to ",".
   def delimiter
-    DELIMITERS[currency] || ","
+    DELIMITERS[currency.to_s] || ","
   end
 
   # Attempts to pick a separator for <tt>cents</tt> that's suitable for the given currency
   # looking up the Money::DELIMITERS hashtable.
-  # If the separator for the given currency isn't known, 
+  # If the separator for the given currency isn't known,
   # then it will default to ".".
   def separator
-    SEPARATORS[currency] || "."
+    SEPARATORS[currency.to_s] || "."
   end
 
   # Creates a formatted price string according to several rules. The following
@@ -345,7 +345,7 @@ class Money
     if rules[:with_currency]
       formatted << " "
       formatted << '<span class="currency">' if rules[:html]
-      formatted << currency
+      formatted << currency.to_s
       formatted << '</span>' if rules[:html]
     end
     formatted
@@ -367,12 +367,19 @@ class Money
   def to_f
     cents / 100.0
   end
-  
-  # Recieve the amount of this money object in another currency.
+
+  # Recieve the amount of this money object in another Currency.
+  # <tt>other_currency</tt> can be either a <tt>String</tt>
+  # or a <tt>Currency</tt> instance.
+  #
+  #   Money.new(2000, "USD").exchange_to("EUR")
+  #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
+  #
   def exchange_to(other_currency)
+    other_currency = Currency.wrap(other_currency)
     Money.new(@bank.exchange(self.cents, currency, other_currency), other_currency)
-  end  
-  
+  end
+
   # Recieve a money object with the same amount as the current Money object
   # in american dollar 
   def as_us_dollar
