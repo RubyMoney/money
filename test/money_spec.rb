@@ -19,7 +19,7 @@ describe Money do
   end
   
   specify "#currency returns the currency passed to the constructor" do
-    Money.new(200_00, "USD").currency.should == Currency.new("USD")
+    Money.new(200_00, "USD").currency.should == Money::Currency.new("USD")
   end
   
   specify "#zero? returns whether the amount is 0" do
@@ -32,13 +32,13 @@ describe Money do
   
   specify "#exchange_to exchanges the amount via its exchange bank" do
     money = Money.new(100_00, "USD")
-    money.bank.should_receive(:exchange).with(100_00, Currency.new("USD"), Currency.new("EUR")).and_return(200_00)
+    money.bank.should_receive(:exchange).with(100_00, Money::Currency.new("USD"), Money::Currency.new("EUR")).and_return(200_00)
     money.exchange_to("EUR")
   end
   
   specify "#exchange_to exchanges the amount properly" do
     money = Money.new(100_00, "USD")
-    money.bank.should_receive(:exchange).with(100_00, Currency.new("USD"), Currency.new("EUR")).and_return(200_00)
+    money.bank.should_receive(:exchange).with(100_00, Money::Currency.new("USD"), Money::Currency.new("EUR")).and_return(200_00)
     money.exchange_to("EUR").should == Money.new(200_00, "EUR")
   end
   
@@ -149,7 +149,7 @@ describe Money do
   
   specify "Money.new accepts { :currency => 'foo' } as the value for the 'currency' argument" do
     money = Money.new(20, :currency => "EUR")
-    money.currency.should == Currency.new("EUR")
+    money.currency.should == Money::Currency.new("EUR")
     
     money = Money.new(20, :currency => nil)
     money.currency.should == Money.default_currency
@@ -231,11 +231,11 @@ describe Money do
 
 
     specify "#symbol works as documented" do
-      currency = Currency.new("EUR")
+      currency = Money::Currency.new("EUR")
       currency.should_receive(:symbol).and_return("€")
       Money.empty(currency).symbol.should == "€"
 
-      currency = Currency.new("EUR")
+      currency = Money::Currency.new("EUR")
       currency.should_receive(:symbol).and_return(nil)
       Money.empty(currency).symbol.should == "$"
     end
@@ -338,7 +338,7 @@ describe Money do
     end
     
     specify "#format(:symbol => true) returns $ when currency code is not recognized" do
-      currency = Currency.new("EUR")
+      currency = Money::Currency.new("EUR")
       currency.should_receive(:symbol).and_return(nil)
       Money.new(100, currency).format(:symbol => true).should == "$1.00"
     end
@@ -441,33 +441,33 @@ describe "Actions involving two Money objects" do
   describe "if the other Money object has a different currency" do
     specify "#<=> compares the two objects' amount after converting the other object's amount to its own currency" do
       target = Money.new(200_00, "EUR")
-      target.should_receive(:exchange_to).with(Currency.new("USD")).and_return(Money.new(300_00, "USD"))
+      target.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(300_00, "USD"))
       (Money.new(100_00, "USD") <=> target).should < 0
       
       target = Money.new(200_00, "EUR")
-      target.should_receive(:exchange_to).with(Currency.new("USD")).and_return(Money.new(100_00, "USD"))
+      target.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(100_00, "USD"))
       (Money.new(100_00, "USD") <=> target).should == 0
       
       target = Money.new(200_00, "EUR")
-      target.should_receive(:exchange_to).with(Currency.new("USD")).and_return(Money.new(99_00, "USD"))
+      target.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(99_00, "USD"))
       (Money.new(100_00, "USD") <=> target).should > 0
     end
     
     specify "#+ adds the other object's amount, converted to this object's currency, to this object's amount while retaining its currency" do
       other = Money.new(90, "EUR")
-      other.should_receive(:exchange_to).with(Currency.new("USD")).and_return(Money.new(9_00, "USD"))
+      other.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(9_00, "USD"))
       (Money.new(10_00, "USD") + other).should == Money.new(19_00, "USD")
     end
     
     specify "#- substracts the other object's amount, converted to this object's currency, from this object's amount while retaining its currency" do
       other = Money.new(90, "EUR")
-      other.should_receive(:exchange_to).with(Currency.new("USD")).and_return(Money.new(9_00, "USD"))
+      other.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(9_00, "USD"))
       (Money.new(10_00, "USD") - other).should == Money.new(1_00, "USD")
     end
 
     specify "#/ divides the this object's amount by the other objects's amount, converted to this object's currency, resulting in a float" do
       other = Money.new(1000, "EUR")
-      other.should_receive(:exchange_to).with(Currency.new("USD")).and_return(Money.new(100_00, "USD"))
+      other.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(100_00, "USD"))
       (Money.new(10_00, "USD") / other).should == 0.1
     end
   end

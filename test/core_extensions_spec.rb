@@ -1,4 +1,5 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
+
 require 'money/core_extensions'
 
 describe "Money core extensions" do
@@ -72,13 +73,13 @@ describe "Money core extensions" do
   end
 
   specify "String#to_currency convert string to Currency" do
-    "USD".to_currency.should == Currency.new(:usd)
-    "EUR".to_currency.should == Currency.new(:eur)
+    "USD".to_currency.should == Money::Currency.new(:usd)
+    "EUR".to_currency.should == Money::Currency.new(:eur)
   end
 
   specify "String#to_currency should raise Currency::UnknownCurrency with unkwnown Currency" do
-    lambda { "XXX".to_currency }.should raise_error(Currency::UnknownCurrency)
-    lambda { " ".to_currency }.should raise_error(Currency::UnknownCurrency)
+    lambda { "XXX".to_currency }.should raise_error(Money::Currency::UnknownCurrency)
+    lambda { " ".to_currency }.should raise_error(Money::Currency::UnknownCurrency)
   end
 
 end
