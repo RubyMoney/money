@@ -1,3 +1,4 @@
+require 'money/currency'
 require 'money/variable_exchange_bank'
 
 # Represents an amount of money in a certain currency.
@@ -5,7 +6,7 @@ class Money
   include Comparable
 
   attr_reader :cents, :currency, :bank
-  
+
   class << self
     # Each Money object is associated to a bank object, which is responsible
     # for currency exchange. This property allows one to specify the default

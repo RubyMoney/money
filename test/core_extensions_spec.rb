@@ -6,12 +6,12 @@ describe "Money core extensions" do
     money = 1234.to_money
     money.cents.should == 1234_00
     money.currency.should == Money.default_currency
-    
+
     money = 100.37.to_money
     money.cents.should == 100_37
     money.currency.should == Money.default_currency
   end
-  
+
   specify "String#to_money works" do
     "20.15".to_money.should == Money.new(20_15)
     "100".to_money.should == Money.new(100_00)
@@ -31,7 +31,7 @@ describe "Money core extensions" do
     "1.550".to_money.should == Money.new(1_55)
     "25.".to_money.should == Money.new(25_00)
     ".75".to_money.should == Money.new(75)
-    
+
     "100 USD".to_money.should == Money.new(100_00, "USD")
     "-100 USD".to_money.should == Money.new(-100_00, "USD")
     "100 EUR".to_money.should == Money.new(100_00, "EUR")
@@ -44,7 +44,7 @@ describe "Money core extensions" do
     "1,000.5500 USD".to_money.should == Money.new(1_000_55, "USD")
     "-1,000.6500 USD".to_money.should == Money.new(-1_000_65, "USD")
     "1.550 USD".to_money.should == Money.new(1_55, "USD")
-    
+
     "USD 100".to_money.should == Money.new(100_00, "USD")
     "EUR 100".to_money.should == Money.new(100_00, "EUR")
     "EUR 100.37".to_money.should == Money.new(100_37, "EUR")
@@ -58,7 +58,7 @@ describe "Money core extensions" do
     "USD 1,000.9000".to_money.should == Money.new(1_000_90, "USD")
     "USD -1,000.090".to_money.should == Money.new(-1_000_09, "USD")
     "USD 1.5500".to_money.should == Money.new(1_55, "USD")
-    
+
     "$100 USD".to_money.should == Money.new(100_00, "USD")
     "$1,194.59 USD".to_money.should == Money.new(1_194_59, "USD")
     "$-1,955 USD".to_money.should == Money.new(-1_955_00, "USD")
@@ -66,8 +66,19 @@ describe "Money core extensions" do
     "$-1,955.000 USD".to_money.should == Money.new(-1_955_00, "USD")
     "$1.99000 USD".to_money.should == Money.new(1_99, "USD")
   end
-  
+
   specify "String#to_money ignores unrecognized data" do
     "hello 2000 world".to_money.should == Money.new(2000_00)
   end
+
+  specify "String#to_currency convert string to Currency" do
+    "USD".to_currency.should == Currency.new(:usd)
+    "EUR".to_currency.should == Currency.new(:eur)
+  end
+
+  specify "String#to_currency should raise Currency::UnknownCurrency with unkwnown Currency" do
+    lambda { "XXX".to_currency }.should raise_error(Currency::UnknownCurrency)
+    lambda { " ".to_currency }.should raise_error(Currency::UnknownCurrency)
+  end
+
 end

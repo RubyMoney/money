@@ -10,6 +10,7 @@ class Numeric
 end
 
 class String
+
   # Parses the current string and converts it to a Money object.
   # Excess characters will be discarded.
   #
@@ -26,7 +27,12 @@ class String
     cents = calculate_cents(self)
     Money.new(cents, currency)
   end
-  
+
+  # Parses the current string and converts it to a Currency object.
+  def to_currency
+    ::Currency.new(self)
+  end
+
   private
   
   def calculate_cents(number)
