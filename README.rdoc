@@ -4,10 +4,14 @@ This library aids one in handling money and different currencies. Features:
 
 - Provides a Money class which encapsulates all information about an certain
   amount of money, such as its value and its currency.
+- Provies a Currency class which encapsulates all information about
+  a monerary unit.
 - Represents monetary values as integers, in cents. This avoids floating point
   rounding errors.
+- Represents currency as Currency instances providing an high level of flexibility.
 - Provides APIs for exchanging money from one currency to another.
-- Has the ability to parse a money string into a Money object.
+- Has the ability to parse a money and currency strings
+  into the corresponding Money/Currency object.
 
 Resources:
 
@@ -36,7 +40,7 @@ The development version (hosted on Github) can be installed with:
   # 10.00 USD
   money = Money.new(1000, "USD")
   money.cents     # => 1000
-  money.currency  # => "USD"
+  money.currency  # => Currency.new("USD")
   
   Money.new(1000, "USD") == Money.new(1000, "USD")   # => true
   Money.new(1000, "USD") == Money.new(100, "USD")    # => false
@@ -67,6 +71,34 @@ www.xe.com for the current rates or just returns <tt>rand(2)</tt>:
 
   Money.default_bank = ExchangeBankWhichScrapesXeDotCom.new
 
+=== Currency
+
+Currencies are consistently represented as instances of Money::Currency.
+The most part of Money APIs allows you to supply either a String or a Currency.
+
+  Money.new(1000, "USD") == Money.new(900, Currency.new("USD"))
+  Money.new(1000, "EUR").currency == Currency.new("EUR")
+
+A Money::Currency instance holds all the information about the currency, 
+including the currency symbol, name and much more.
+
+  currency = Money.new(1000, "USD")
+  currency.iso_code
+  # => "USD"
+  currency.name
+  # => "United States Dollar"
+
+Currencies also have a priority attribute, useful if you want to organize the values into different groups.
+
+
+=== Default Currency
+
+By default Money defaults to USD as its currency. This can be overwritten using
+
+  Money.default_currency = Money::Currency.new("CAD")
+
+If you use Rails, then environment.rb is a very good place to put this. 
+
 === Ruby on Rails
 
 Use the +compose_of+ helper to let Active Record deal with embedding the money
@@ -87,11 +119,3 @@ field.
       validates_presence_of :sku, :currency
       validates_uniqueness_of :sku        
   end
-  
-=== Default Currency
-
-By default Money defaults to USD as its currency. This can be overwritten using
-
-  Money.default_currency = "CAD"
-
-If you use Rails, then environment.rb is a very good place to put this. 

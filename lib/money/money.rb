@@ -34,7 +34,8 @@ class Money
     attr_accessor :default_bank
     
     # The default currency, which is used when <tt>Money.new</tt> is called
-    # without an explicit currency argument. The default value is "USD".
+    # without an explicit currency argument. The default value is Currency.new("USD").
+    # The value must be a valid <tt>Money::Currency</tt> instance.
     attr_accessor :default_currency
   end
   

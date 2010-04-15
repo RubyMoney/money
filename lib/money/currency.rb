@@ -1,4 +1,6 @@
 class Money
+
+  # Represents a specific currency unit.
   class Currency
     include Comparable
 
@@ -238,6 +240,15 @@ class Money
 
     class << self
 
+      # Lookup a Currency with given <tt>id</tt>
+      # an returns a <tt>Currency</tt> instance on success,
+      # <tt>nil</tt> otherwise.
+      #
+      #   Currency.find(:eur)
+      #   # => <#Currency id: eur ...>
+      #   Currency.find(:foo)
+      #   # => nil
+      #
       def find(id)
         id = id.to_s.downcase.to_sym
         if data = self::TABLE[id]
