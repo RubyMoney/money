@@ -165,6 +165,30 @@ class Money
   end
 
 
+  # Attempts to pick a symbol that's suitable for the given currency
+  # looking up the Money::SYMBOLS hashtable.
+  # If the symbol for the given currency isn't known, 
+  # then it will default to "$".
+  def symbol
+    SYMBOLS[currency] || "$"
+  end
+
+  # Attempts to pick a delimiter that's suitable for the given currency
+  # looking up the Money::DELIMITERS hashtable.
+  # If the symbol for the given currency isn't known, 
+  # then it will default to ",".
+  def delimiter
+    DELIMITERS[currency] || ","
+  end
+
+  # Attempts to pick a separator for <tt>cents</tt> that's suitable for the given currency
+  # looking up the Money::DELIMITERS hashtable.
+  # If the separator for the given currency isn't known, 
+  # then it will default to ".".
+  def separator
+    SEPARATORS[currency] || "."
+  end
+
   # Creates a formatted price string according to several rules. The following
   # options are supported: :display_free, :with_currency, :no_cents, :symbol,
   # :separator, :delimiter and :html.

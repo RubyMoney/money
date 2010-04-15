@@ -228,7 +228,56 @@ describe Money do
         @money.format(:display_free => 'gratis').should == 'gratis'
       end
     end
+
+
+    specify "#symbol works as documented" do
+      begin
+        old = Money::SYMBOLS.dup
+        Money::SYMBOLS.clear
+        Money::SYMBOLS["EUR"] = "€"
+
+        Money.empty("EUR").symbol.should == "€"
+        Money.empty("USD").symbol.should == "$"
+        Money.empty("GBP").symbol.should == "$"
+      ensure
+        silence_warnings do
+          Money::SYMBOLS = old
+        end
+      end
+    end
+
+    specify "#delimiter works as documented" do
+      begin
+        old = Money::DELIMITERS.dup
+        Money::DELIMITERS.clear
+        Money::DELIMITERS["EUR"] = "."
+
+        Money.empty("EUR").delimiter.should == "."
+        Money.empty("USD").delimiter.should == ","
+        Money.empty("GBP").delimiter.should == ","
+      ensure
+        silence_warnings do
+          Money::DELIMITERS = old
+        end
+      end
+    end
     
+    specify "#separator works as documented" do
+      begin
+        old = Money::SEPARATORS.dup
+        Money::SEPARATORS.clear
+        Money::SEPARATORS["EUR"] = "_"
+
+        Money.empty("EUR").separator.should == "_"
+        Money.empty("USD").separator.should == "."
+        Money.empty("GBP").separator.should == "."
+      ensure
+        silence_warnings do
+          Money::SEPARATORS = old
+        end
+      end
+    end
+
     specify "#format(:with_currency => true) works as documented" do
       Money.ca_dollar(100).format(:with_currency => true).should == "$1.00 CAD"
       Money.us_dollar(85).format(:with_currency => true).should == "$0.85 USD"
@@ -354,6 +403,22 @@ describe Money do
       Money.us_dollar(1_000_000_000_12).format(:no_cents => true).should == "$1,000,000,000"
     end
   end
+
+
+  # Sets $VERBOSE to nil for the duration of the block and back to its original value afterwards.
+  #
+  #   silence_warnings do
+  #     value = noisy_call # no warning voiced
+  #   end
+  #
+  #   noisy_call # warning voiced
+  def silence_warnings
+    old_verbose, $VERBOSE = $VERBOSE, nil
+    yield
+  ensure
+    $VERBOSE = old_verbose
+  end
+
 end
 
 describe "Actions involving two Money objects" do
