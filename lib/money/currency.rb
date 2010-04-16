@@ -8,7 +8,13 @@ class Money
 
     class UnknownCurrency < StandardError; end
 
-
+    # List of attributes applicable to a currency object.
+    #  * priority: a numerical value you can use to sort/group the currency list
+    #  * iso_code: the international 3-letter code as defined by the ISO 4217 standard
+    #  * name: the currency name
+    #  * symbol: the currency symbol (UTF-8 encoded)
+    #  * subunit: the name of the fractional monetary unit
+    #  * subunit_to_unit: the proportion between the unit and the subunit
     ATTRIBUTES = [ :priority, :iso_code, :name, :symbol, :subunit, :subunit_to_unit ]
 
     TABLE = {
