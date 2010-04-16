@@ -2,13 +2,13 @@
 
 This library aids one in handling money and different currencies. Features:
 
-- Provides a Money class which encapsulates all information about an certain
+- Provides a <tt>Money</tt> class which encapsulates all information about an certain
   amount of money, such as its value and its currency.
-- Provies a Currency class which encapsulates all information about
+- Provies a <tt>Money::Currency</tt> class which encapsulates all information about
   a monerary unit.
 - Represents monetary values as integers, in cents. This avoids floating point
   rounding errors.
-- Represents currency as Currency instances providing an high level of flexibility.
+- Represents currency as <tt>Money::Currency</tt> instances providing an high level of flexibility.
 - Provides APIs for exchanging money from one currency to another.
 - Has the ability to parse a money and currency strings
   into the corresponding Money/Currency object.
@@ -48,13 +48,13 @@ The development version (hosted on Github) can be installed with:
 
 === Currency
 
-Currencies are consistently represented as instances of Money::Currency.
-The most part of Money APIs allows you to supply either a String or a Currency.
+Currencies are consistently represented as instances of <tt>Money::Currency</tt>.
+The most part of <tt>Money</tt> APIs allows you to supply either a <tt>String</tt> or a <tt>Money::Currency</tt>.
 
   Money.new(1000, "USD") == Money.new(900, Currency.new("USD"))
   Money.new(1000, "EUR").currency == Currency.new("EUR")
 
-A Money::Currency instance holds all the information about the currency, 
+A <tt>Money::Currency</tt> instance holds all the information about the currency, 
 including the currency symbol, name and much more.
 
   currency = Money.new(1000, "USD")
@@ -63,8 +63,8 @@ including the currency symbol, name and much more.
   currency.name
   # => "United States Dollar"
 
-To define a new Money::Currency simply add a new item to the Money::Currency::TABLE hash,
-where the key is the identifier for the Currency object and the value is a hash
+To define a new <tt>Money::Currency</tt> simply add a new item to the <tt>Money::Currency::TABLE</tt> hash,
+where the key is the identifier for the currency object and the value is a hash
 containing all the currency attributes.
 
   Money::Currency::TABLE[:usd] = {
@@ -85,13 +85,13 @@ The pre-defined set of attributes includes:
   * subunit: the name of the fractional monetary unit
   * subunit_to_unit: the proportion between the unit and the subunit
 
-All attributes are optional. Some attributes, such as :symbol, are used by the Money class
-to print out a representation of the object. Other attributes, such as :name or :priority,
+All attributes are optional. Some attributes, such as <tt>:symbol</tt>, are used by the Money class
+to print out a representation of the object. Other attributes, such as <tt>:name</tt> or <tt>:priority</tt>,
 exist to provide a basic API you can take advantage of to build your application.
 
 ==== priority
 
-The priority attribute is an arbitrary numerical value you can assign to the Currency
+The priority attribute is an arbitrary numerical value you can assign to the <tt>Money::Currency</tt>
 and use in sorting/grouping operation.
 
 For instance, let's assume your Rails application needs to a currency selector
@@ -126,11 +126,11 @@ and all_currencies as follows:
 
 === Default Currency
 
-By default Money defaults to USD as its currency. This can be overwritten using
+By default <tt>Money</tt> defaults to USD as its currency. This can be overwritten using
 
   Money.default_currency = Money::Currency.new("CAD")
 
-If you use Rails, then environment.rb is a very good place to put this. 
+If you use Rails, then <tt>environment.rb</tt> is a very good place to put this. 
 
 === Currency Exchange
 
