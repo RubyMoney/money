@@ -1,0 +1,9 @@
+== Money 2.3.0
+ * Currency is now represented by a Currency Object instead of a string.
+
+== Money 2.2.0
+ * Can now divide two Money objects by one another [#/]
+ * Can now convert a Money object to a float [#to_f]
+ * Users can now specify Seperators and Delimiters [#format]
+ * Support for Brazilian Real [Money.new(1_00, :BRL)]
+ * Migrated to Jeweler

@@ -43,7 +43,7 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.main = 'README.rdoc'
   rdoc.title = "money #{version}"
-  rdoc.rdoc_files.include('README.rdoc', 'LICENSE')
+  rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'CHANGELOG.rdoc')
   rdoc.rdoc_files.include('lib/**/*.rb')
   rdoc.options << '-U'
 end
