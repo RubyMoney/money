@@ -63,7 +63,66 @@ including the currency symbol, name and much more.
   currency.name
   # => "United States Dollar"
 
-Currencies also have a priority attribute, useful if you want to organize the values into different groups.
+To define a new Money::Currency simply add a new item to the Money::Currency::TABLE hash,
+where the key is the identifier for the Currency object and the value is a hash
+containing all the currency attributes.
+
+  Money::Currency::TABLE[:usd] = {
+    :priority => 1,
+    :iso_code => "USD",
+    :name     => "United States Dollar",
+    :symbol   => "$",
+    :subunit  => "Cent"
+    :subunit_to_unit => "100"
+  }
+
+The pre-defined set of attributes includes:
+
+  * priority: a numerical value you can use to sort/group the currency list
+  * iso_code: the international 3-letter code as defined by the ISO 4217 standard
+  * name: the currency name
+  * symbol: the currency symbol (UTF-8 encoded)
+  * subunit: the name of the fractional monetary unit
+  * subunit_to_unit: the proportion between the unit and the subunit
+
+All attributes are optional. Some attributes, such as :symbol, are used by the Money class
+to print out a representation of the object. Other attributes, such as :name or :priority,
+exist to provide a basic API you can take advantage of to build your application.
+
+==== priority
+
+The priority attribute is an arbitrary numerical value you can assign to the Currency
+and use in sorting/grouping operation.
+
+For instance, let's assume your Rails application needs to a currency selector
+like the one available at http://finance.yahoo.com/currency-converter/
+You can create a couple of custom methods to return the list of major_currencies
+and all_currencies as follows:
+
+  # Returns an array of currency id where
+  # priority < 10
+  def major_currencies(hash)
+    hash.inject([]) do |array, (id, attributes)|
+      priority = attributes[:priority]
+      if priority && priority < 10
+        array[priority] ||= []
+        array[priority] << id
+      end
+      array
+    end.compact.flatten
+  end
+  
+  # Returns an array of all currency id
+  def all_currencies(hash)
+    hash.keys
+  end
+  
+  major_currencies(Money::Currency::TABLE)
+  # => [ :usd, :eur, :bgp, :cad ]
+  
+  major_currencies(Money::Currency::TABLE)
+  # => [ :aed, :afn, all, ... ]
+
 
 === Default Currency
 
