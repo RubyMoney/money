@@ -46,6 +46,33 @@ The development version (hosted on Github) can be installed with:
   Money.new(1000, "USD") == Money.new(100, "USD")    # => false
   Money.new(1000, "USD") == Money.new(1000, "EUR")   # => false
 
+=== Currency
+
+Currencies are consistently represented as instances of Money::Currency.
+The most part of Money APIs allows you to supply either a String or a Currency.
+
+  Money.new(1000, "USD") == Money.new(900, Currency.new("USD"))
+  Money.new(1000, "EUR").currency == Currency.new("EUR")
+
+A Money::Currency instance holds all the information about the currency, 
+including the currency symbol, name and much more.
+
+  currency = Money.new(1000, "USD")
+  currency.iso_code
+  # => "USD"
+  currency.name
+  # => "United States Dollar"
+
+Currencies also have a priority attribute, useful if you want to organize the values into different groups.
+
+=== Default Currency
+
+By default Money defaults to USD as its currency. This can be overwritten using
+
+  Money.default_currency = Money::Currency.new("CAD")
+
+If you use Rails, then environment.rb is a very good place to put this. 
+
 === Currency Exchange
 
 Exchanging money is performed through an exchange bank object. The default
@@ -70,34 +97,6 @@ There is nothing stopping you from creating bank objects which scrapes
 www.xe.com for the current rates or just returns <tt>rand(2)</tt>:
 
   Money.default_bank = ExchangeBankWhichScrapesXeDotCom.new
-
-=== Currency
-
-Currencies are consistently represented as instances of Money::Currency.
-The most part of Money APIs allows you to supply either a String or a Currency.
-
-  Money.new(1000, "USD") == Money.new(900, Currency.new("USD"))
-  Money.new(1000, "EUR").currency == Currency.new("EUR")
-
-A Money::Currency instance holds all the information about the currency, 
-including the currency symbol, name and much more.
-
-  currency = Money.new(1000, "USD")
-  currency.iso_code
-  # => "USD"
-  currency.name
-  # => "United States Dollar"
-
-Currencies also have a priority attribute, useful if you want to organize the values into different groups.
-
-
-=== Default Currency
-
-By default Money defaults to USD as its currency. This can be overwritten using
-
-  Money.default_currency = Money::Currency.new("CAD")
-
-If you use Rails, then environment.rb is a very good place to put this. 
 
 === Ruby on Rails
 
