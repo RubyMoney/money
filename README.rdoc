@@ -157,6 +157,13 @@ www.xe.com for the current rates or just returns <tt>rand(2)</tt>:
 
   Money.default_bank = ExchangeBankWhichScrapesXeDotCom.new
 
+=== Currency Exchange Implementations
+
+The following is a list of Money.gem compatible currency exchange rate
+implementations.
+
+* eu_central_bank.gem: http://github.com/liangzan/eu_central_bank
+
 === Ruby on Rails
 
 Use the +compose_of+ helper to let Active Record deal with embedding the money
