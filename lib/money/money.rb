@@ -377,7 +377,7 @@ class Money
     cents / 100.0
   end
 
-  # Recieve the amount of this money object in another Currency.
+  # Receive the amount of this money object in another Currency.
   # <tt>other_currency</tt> can be either a <tt>String</tt>
   # or a <tt>Currency</tt> instance.
   #
@@ -389,19 +389,19 @@ class Money
     Money.new(@bank.exchange(self.cents, currency, other_currency), other_currency)
   end
 
-  # Recieve a money object with the same amount as the current Money object
+  # Receive a money object with the same amount as the current Money object
   # in american dollar
   def as_us_dollar
     exchange_to("USD")
   end
 
-  # Recieve a money object with the same amount as the current Money object
+  # Receive a money object with the same amount as the current Money object
   # in canadian dollar
   def as_ca_dollar
     exchange_to("CAD")
   end
 
-  # Recieve a money object with the same amount as the current Money object
+  # Receive a money object with the same amount as the current Money object
   # in euro
   def as_euro
     exchange_to("EUR")
