@@ -265,7 +265,7 @@ class Money
       end
 
       # Wraps the object in a Currency unless it's a Currency.
-      # 
+      #
       #   Currency.wrap(nil)
       #   # => nil
       #   Currency.wrap(Currency.new(:usd))

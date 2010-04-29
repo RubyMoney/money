@@ -15,11 +15,11 @@ class Money
     #
     #   bank1 = MyBank.new
     #   bank2 = MyOtherBank.new
-    #   
+    #
     #   Money.default_bank = bank1
     #   money1 = Money.new(10)
     #   money1.bank  # => bank1
-    #   
+    #
     #   Money.default_bank = bank2
     #   money2 = Money.new(10)
     #   money2.bank  # => bank2
@@ -33,17 +33,17 @@ class Money
     #   Money.us_dollar(100).exchange_to("CAD")  # => Money.ca_dollar(124)
     #   Money.ca_dollar(100).exchange_to("USD")  # => Money.us_dollar(80)
     attr_accessor :default_bank
-    
+
     # The default currency, which is used when <tt>Money.new</tt> is called
     # without an explicit currency argument. The default value is Currency.new("USD").
     # The value must be a valid <tt>Money::Currency</tt> instance.
     attr_accessor :default_currency
   end
-  
+
   self.default_bank = VariableExchangeBank.instance
   self.default_currency = Currency.new("USD")
-  
-  
+
+
   # Create a new money object with value 0.
   def self.empty(currency = default_currency)
     Money.new(0, currency)
@@ -58,22 +58,22 @@ class Money
   def self.us_dollar(cents)
     Money.new(cents, "USD")
   end
-  
+
   # Creates a new Money object of the given value, using the Euro currency.
   def self.euro(cents)
     Money.new(cents, "EUR")
   end
-  
+
   def self.add_rate(from_currency, to_currency, rate)
     Money.default_bank.add_rate(from_currency, to_currency, rate)
   end
-  
-  
-  # Creates a new money object. 
-  #  Money.new(100) 
-  # 
-  # Alternativly you can use the convinience methods like 
-  # Money.ca_dollar and Money.us_dollar 
+
+
+  # Creates a new money object.
+  #  Money.new(100)
+  #
+  # Alternativly you can use the convinience methods like
+  # Money.ca_dollar and Money.us_dollar
   def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
     @cents = cents.round
     if currency.is_a?(Hash)
@@ -101,7 +101,7 @@ class Money
       false
     end
   end
-  
+
   # Compares this money object against another object. +other_money+ must respond
   # to #to_money.
   #
@@ -161,7 +161,7 @@ class Money
       Money.new(cents / val, currency)
     end
   end
-  
+
   # Test if the money amount is zero
   def zero?
     cents == 0
@@ -206,58 +206,58 @@ class Money
   # Whether a zero amount of money should be formatted of "free" or as the
   # supplied string.
   #
-  #  Money.us_dollar(0).format(:display_free => true)      => "free"
-  #  Money.us_dollar(0).format(:display_free => "gratis")  => "gratis"
-  #  Money.us_dollar(0).format => "$0.00"
+  #   Money.us_dollar(0).format(:display_free => true)      => "free"
+  #   Money.us_dollar(0).format(:display_free => "gratis")  => "gratis"
+  #   Money.us_dollar(0).format => "$0.00"
   #
   # === +:with_currency+
   #
   # Whether the currency name should be appended to the result string.
   #
-  #  Money.ca_dollar(100).format => "$1.00"
-  #  Money.ca_dollar(100).format(:with_currency => true) => "$1.00 CAD"
-  #  Money.us_dollar(85).format(:with_currency => true)  => "$0.85 USD"
+  #   Money.ca_dollar(100).format => "$1.00"
+  #   Money.ca_dollar(100).format(:with_currency => true) => "$1.00 CAD"
+  #   Money.us_dollar(85).format(:with_currency => true)  => "$0.85 USD"
   #
   # === +:no_cents+
   #
   # Whether cents should be omitted.
   #
-  #  Money.ca_dollar(100).format(:no_cents => true) => "$1"
-  #  Money.ca_dollar(599).format(:no_cents => true) => "$5"
-  #  
-  #  Money.ca_dollar(570).format(:no_cents => true, :with_currency => true) => "$5 CAD"
-  #  Money.ca_dollar(39000).format(:no_cents => true) => "$390"
+  #   Money.ca_dollar(100).format(:no_cents => true) => "$1"
+  #   Money.ca_dollar(599).format(:no_cents => true) => "$5"
+  #
+  #   Money.ca_dollar(570).format(:no_cents => true, :with_currency => true) => "$5 CAD"
+  #   Money.ca_dollar(39000).format(:no_cents => true) => "$390"
   #
   # === +:symbol+
   #
   # Whether a money symbol should be prepended to the result string. The default is true.
   # This method attempts to pick a symbol that's suitable for the given currency.
   #
-  #  Money.new(100, "USD")  => "$1.00"
-  #  Money.new(100, "GBP")  => "£1.00"
-  #  Money.new(100, "EUR")  => "€1.00"
-  #  
-  #  # Same thing.
-  #  Money.new(100, "USD").format(:symbol => true)  => "$1.00"
-  #  Money.new(100, "GBP").format(:symbol => true)  => "£1.00"
-  #  Money.new(100, "EUR").format(:symbol => true)  => "€1.00"
+  #   Money.new(100, "USD")  => "$1.00"
+  #   Money.new(100, "GBP")  => "£1.00"
+  #   Money.new(100, "EUR")  => "€1.00"
+  #
+  #   # Same thing.
+  #   Money.new(100, "USD").format(:symbol => true)  => "$1.00"
+  #   Money.new(100, "GBP").format(:symbol => true)  => "£1.00"
+  #   Money.new(100, "EUR").format(:symbol => true)  => "€1.00"
   #
   # You can specify a false expression or an empty string to disable prepending
   # a money symbol:
   #
-  #  Money.new(100, "USD").format(:symbol => false)  => "1.00"
-  #  Money.new(100, "GBP").format(:symbol => nil)    => "1.00"
-  #  Money.new(100, "EUR").format(:symbol => "")     => "1.00"
+  #   Money.new(100, "USD").format(:symbol => false)  => "1.00"
+  #   Money.new(100, "GBP").format(:symbol => nil)    => "1.00"
+  #   Money.new(100, "EUR").format(:symbol => "")     => "1.00"
   #
-  #  
+  #
   # If the symbol for the given currency isn't known, then it will default
   # to "$" as symbol:
   #
-  #  Money.new(100, "AWG").format(:symbol => true)  => "$1.00"
+  #   Money.new(100, "AWG").format(:symbol => true)  => "$1.00"
   #
   # You can specify a string as value to enforce using a particular symbol:
   #
-  #  Money.new(100, "AWG").format(:symbol => "ƒ")   => "ƒ1.00"
+  #   Money.new(100, "AWG").format(:symbol => "ƒ")   => "ƒ1.00"
   #
   # === +:separator+
   #
@@ -265,42 +265,42 @@ class Money
   #
   # If a string is specified, it's value is used:
   #
-  #  Money.new(100, "USD").format(:separator => ",") => "$1,00"
+  #   Money.new(100, "USD").format(:separator => ",") => "$1,00"
   #
   # If the separator for a given currency isn't known, then it will default to
   # "." as separator:
   #
-  #  Money.new(100, "FOO").format => "$1.00"
+  #   Money.new(100, "FOO").format => "$1.00"
   #
   # === +:delimiter+
   #
   # Whether the currency should be delimited by the specified character or ','
   #
   # If false is specified, no delimiter is used:
-  # 
-  #  Money.new(100000, "USD").format(:delimiter => false) => "1000.00"
-  #  Money.new(100000, "USD").format(:delimiter => nil)   => "1000.00"
-  #  Money.new(100000, "USD").format(:delimiter => "")    => "1000.00"
+  #
+  #   Money.new(100000, "USD").format(:delimiter => false) => "1000.00"
+  #   Money.new(100000, "USD").format(:delimiter => nil)   => "1000.00"
+  #   Money.new(100000, "USD").format(:delimiter => "")    => "1000.00"
   #
   # If a string is specified, it's value is used:
   #
-  #  Money.new(100000, "USD").format(:delimiter => ".") => "$1.000.00"
+  #   Money.new(100000, "USD").format(:delimiter => ".") => "$1.000.00"
   #
   # If the delimiter for a given currency isn't known, then it will default to
   # "," as delimiter:
   #
-  #  Money.new(100000, "FOO").format => "$1,000.00"
+  #   Money.new(100000, "FOO").format => "$1,000.00"
   #
   # === +:html+
   #
   # Whether the currency should be HTML-formatted. Only useful in combination with +:with_currency+.
   #
-  #  Money.ca_dollar(570).format(:html => true, :with_currency => true)
-  #    =>  "$5.70 <span class=\"currency\">CAD</span>"
+  #   Money.ca_dollar(570).format(:html => true, :with_currency => true)
+  #   # =>  "$5.70 <span class=\"currency\">CAD</span>"
   def format(*rules)
     # support for old format parameters
     rules = normalize_formatting_rules(rules)
-    
+
     if cents == 0
       if rules[:display_free].respond_to?(:to_str)
         return rules[:display_free]
@@ -357,10 +357,11 @@ class Money
     end
     formatted
   end
-  
+
   # Returns the amount of money as a string.
   #
-  #  Money.ca_dollar(100).to_s => "1.00"
+  #   Money.ca_dollar(100).to_s => "1.00"
+  #
   def to_s
     sprintf("%.2f", cents / 100.00)
   end
@@ -370,7 +371,8 @@ class Money
   # need to represent currency or working with another system that requires
   # decimals.
   #
-  # Money.us_dollar(100).to_f => 1.0
+  #   Money.us_dollar(100).to_f => 1.0
+  #
   def to_f
     cents / 100.0
   end
@@ -388,30 +390,30 @@ class Money
   end
 
   # Recieve a money object with the same amount as the current Money object
-  # in american dollar 
+  # in american dollar
   def as_us_dollar
     exchange_to("USD")
   end
-  
+
   # Recieve a money object with the same amount as the current Money object
-  # in canadian dollar 
+  # in canadian dollar
   def as_ca_dollar
     exchange_to("CAD")
   end
-  
+
   # Recieve a money object with the same amount as the current Money object
   # in euro
   def as_euro
     exchange_to("EUR")
   end
-  
+
   # Conversation to self
   def to_money
     self
   end
-  
+
   private
-  
+
   def normalize_formatting_rules(rules)
     if rules.size == 1
       rules = rules.pop

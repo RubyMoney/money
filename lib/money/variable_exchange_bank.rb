@@ -9,14 +9,15 @@ require 'money/errors'
 # One must manually specify them with +add_rate+, after which one can perform
 # exchanges with +exchange+. For example:
 #
-#  bank = Money::VariableExchangeBank.new
-#  bank.add_rate("USD", "CAD", 1.24515)
-#  bank.add_rate("CAD", "USD", 0.803115)
-#  
-#  # Exchange 100 CAD to USD:
-#  bank.exchange(100_00, "CAD", "USD")  # => 124
-#  # Exchange 100 USD to CAD:
-#  bank.exchange(100_00, "USD", "CAD")  # => 80
+#   bank = Money::VariableExchangeBank.new
+#   bank.add_rate("USD", "CAD", 1.24515)
+#   bank.add_rate("CAD", "USD", 0.803115)
+#
+#   # Exchange 100 CAD to USD:
+#   bank.exchange(100_00, "CAD", "USD")  # => 124
+#   # Exchange 100 USD to CAD:
+#   bank.exchange(100_00, "USD", "CAD")  # => 80
+#
 class Money
   class VariableExchangeBank
     # Returns the singleton instance of VariableExchangeBank.
@@ -25,27 +26,27 @@ class Money
     def self.instance
       @@singleton
     end
-    
+
     def initialize
       @rates = {}
       @mutex = Mutex.new
     end
-    
+
     # Registers a conversion rate. +from+ and +to+ are both currency names.
     def add_rate(from, to, rate)
       @mutex.synchronize do
         @rates["#{from}_TO_#{to}".upcase] = rate
       end
     end
-    
+
     # Gets the rate for exchanging the currency named +from+ to the currency
     # named +to+. Returns nil if the rate is unknown.
     def get_rate(from, to)
       @mutex.synchronize do
-        @rates["#{from}_TO_#{to}".upcase] 
+        @rates["#{from}_TO_#{to}".upcase]
       end
     end
-    
+
     # Given two currency names, checks whether they're both the same currency.
     #
     #   bank = VariableExchangeBank.new
@@ -54,7 +55,7 @@ class Money
     def same_currency?(currency1, currency2)
       Currency.wrap(currency1) == Currency.wrap(currency2)
     end
-    
+
     # Exchange the given amount of cents in +from_currency+ to +to_currency+.
     # Returns the amount of cents in +to_currency+ as an integer, rounded down.
     #
@@ -66,7 +67,7 @@ class Money
       end
       (cents * rate).floor
     end
-    
+
     @@singleton = VariableExchangeBank.new
   end
 end

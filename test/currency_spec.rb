@@ -55,7 +55,7 @@ describe Money::Currency do
     with_custom_definitions do
       Money::Currency::TABLE[:usd] = { :priority =>   1, :iso_code => "USD", :name => "United States Dollar",                      :symbol => "$",             :subunit => "Cent",          :subunit_to_unit => "100"   }
       Money::Currency::TABLE[:eur] = { :priority =>   2, :iso_code => "EUR", :name => "Euro",                                      :symbol => "€",             :subunit => "Cent",          :subunit_to_unit => "100"   }
-  
+
       expected = Money::Currency.new(:eur)
       Money::Currency.find(:eur).should  == expected
       Money::Currency.find(:EUR).should  == expected
@@ -63,12 +63,12 @@ describe Money::Currency do
       Money::Currency.find("EUR").should == expected
     end
   end
-  
+
   specify "#self.find should return nil unless currency matching given id" do
     with_custom_definitions do
       Money::Currency::TABLE[:usd] = { :position =>   1, :iso_code => "USD", :name => "United States Dollar",                      :symbol => "$",             :subunit => "Cent",          :subunit_to_unit => "100"   }
       Money::Currency::TABLE[:eur] = { :position =>   2, :iso_code => "EUR", :name => "Euro",                                      :symbol => "€",             :subunit => "Cent",          :subunit_to_unit => "100"   }
-  
+
       expected = Money::Currency.new(:eur)
       Money::Currency.find(:eur).should  == expected
       Money::Currency.find(:EUR).should  == expected
