@@ -72,7 +72,7 @@ class Money
   # Creates a new money object.
   #  Money.new(100)
   #
-  # Alternativly you can use the convinience methods like
+  # Alternatively you can use the convinience methods like
   # Money.ca_dollar and Money.us_dollar
   def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
     @cents = cents.round
