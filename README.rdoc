@@ -186,7 +186,7 @@ field.
   end
 
 Also, because the <tt>currency</tt> attribute is not a simple <tt>String</tt>
-but a <tt>Money::Currency</tt> object, you need a small tweak to make it working.
+but a <tt>Money::Currency</tt> object, you need a small tweak to make it work.
 
 Extend/hack the <tt>Money</tt> class with two additional methods:
 
