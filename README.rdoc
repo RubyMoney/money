@@ -188,7 +188,7 @@ field.
 Also, because the <tt>currency</tt> attribute is not a simple <tt>String</tt>
 but a <tt>Money::Currency</tt> object, you need a small tweak to make it working.
 
-Extend/hack the Money class with two additional methods:
+Extend/hack the <tt>Money</tt> class with two additional methods:
 
   # You can put this file in the config/initializers/ folder
   class Money
@@ -203,4 +203,9 @@ Extend/hack the Money class with two additional methods:
     end
   end
 
-For further details read the full discussion at http://github.com/FooBarWidget/money/issues/4
+The hack is not required for Money 2.2.x and previous versions.
+In this case, simply use the following <tt>composed_of</tt> definition:
+
+  composed_of :price, :class_name => "Money", :mapping => [%w(cents cents), %w(currency currency)]
+
+For further details read the full discussion at http://github.com/FooBarWidget/money/issues/4#comment_224880
