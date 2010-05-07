@@ -172,15 +172,35 @@ field.
 
   class ProductUnit < ActiveRecord::Base
     belongs_to :product
-    composed_of :price, :class_name => "Money", :mapping => [%w(cents cents), %w(currency currency)]
+    composed_of :price, :class_name => "Money", :mapping => [%w(cents cents), %w(currency currency_as_string)]
     
-    private        
+    private
       validate :cents_not_zero
-      
+        
       def cents_not_zero
         errors.add("cents", "cannot be zero or less") unless cents > 0
       end
       
       validates_presence_of :sku, :currency
-      validates_uniqueness_of :sku        
+      validates_uniqueness_of :sku
   end
+
+Also, because the <tt>currency</tt> attribute is not a simple <tt>String</tt>
+but a <tt>Money::Currency</tt> object, you need a small tweak to make it working.
+
+Extend/hack the Money class with two additional methods:
+
+  # You can put this file in the config/initializers/ folder
+  class Money
+    def currency_as_string
+      currency.to_s
+    end
+  
+    def currency_as_string=(value)
+      # WARNING: this method might cause data inconsistency.
+      # See http://github.com/FooBarWidget/money/issues/4#issue/4/comment/224930
+      # currency = Currency.wrap(value)
+    end
+  end
+
+For further details read the full discussion at http://github.com/FooBarWidget/money/issues/4
