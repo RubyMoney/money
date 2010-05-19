@@ -11,6 +11,11 @@ describe "Money core extensions" do
     money = 100.37.to_money
     money.cents.should == 100_37
     money.currency.should == Money.default_currency
+
+    require 'bigdecimal'
+    money = BigDecimal.new('1234').to_money
+    money.cents.should == 1234_00
+    money.currency.should == Money.default_currency
   end
 
   specify "String#to_money works" do

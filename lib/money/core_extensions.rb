@@ -4,8 +4,10 @@ class Numeric
   #
   #   100.to_money => #<Money @cents=10000>
   #   100.37.to_money => #<Money @cents=10037>
+  #   require 'bigdecimal'
+  #   BigDecimal.new('100').to_money => #<Money @cents=10000>
   def to_money
-    Money.new(self * 100)
+    Money.new((self * 100).to_int)
   end
 end
 
