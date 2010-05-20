@@ -102,6 +102,11 @@ class Money
     end
   end
 
+  # synonymous with #==
+  def eql?(other_money)
+    self == other_money
+  end
+
   # Compares this money object against another object. +other_money+ must respond
   # to #to_money.
   #

@@ -102,6 +102,51 @@ describe Money do
     Money.new(1_00, "USD").should_not == nil
   end
 
+  specify "#eql? returns true if and only if their amount and currency are equal" do
+    Money.new(1_00, "USD").eql?(Money.new(1_00, "USD")).should be true
+    Money.new(1_00, "USD").eql?(Money.new(1_00, "EUR")).should be false
+    Money.new(1_00, "USD").eql?(Money.new(2_00, "USD")).should be false
+    Money.new(1_00, "USD").eql?(Money.new(99_00, "EUR")).should be false
+  end
+
+  specify "#eql? can be used to compare with a String money value" do
+    Money.new(1_00, "USD").eql?("1.00").should be true
+    Money.new(1_00, "USD").eql?("2.00").should be false
+    Money.new(1_00, "GBP").eql?("1.00").should be false
+  end
+
+  specify "#eql? can be used to compare with a Numeric money value" do
+    Money.new(1_00, "USD").eql?(1).should be true
+    Money.new(1_57, "USD").eql?(1.57).should be true
+    Money.new(1_00, "USD").eql?(2).should be false
+    Money.new(1_00, "GBP").eql?(1).should be false
+  end
+
+  specify "#eql? can be used to compare with an object that responds to #to_money" do
+    klass = Class.new do
+      def initialize(money)
+        @money = money
+      end
+
+      def to_money
+        @money
+      end
+    end
+
+    Money.new(1_00, "USD").eql?(klass.new(Money.new(1_00, "USD"))).should be true
+    Money.new(2_50, "USD").eql?(klass.new(Money.new(2_50, "USD"))).should be true
+    Money.new(2_50, "USD").eql?(klass.new(Money.new(3_00, "USD"))).should be false
+    Money.new(1_00, "GBP").eql?(klass.new(Money.new(1_00, "USD"))).should be false
+  end
+
+  specify "#eql? returns false if used to compare with an object that doesn't respond to #to_money" do
+    Money.new(1_00, "USD").eql?(Object.new).should be false
+    Money.new(1_00, "USD").eql?(Class).should be false
+    Money.new(1_00, "USD").eql?(Kernel).should be false
+    Money.new(1_00, "USD").eql?(/foo/).should be false
+    Money.new(1_00, "USD").eql?(nil).should be false
+  end
+
   specify "#<=> can be used to compare with a String money value" do
     (Money.new(1_00) <=> "1.00").should == 0
     (Money.new(1_00) <=> ".99").should > 0
