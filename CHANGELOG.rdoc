@@ -1,3 +1,8 @@
+== Money 3.0.1
+ * Added #eql? method
+ * Updated Numeric#to_money to work with all children of Numeric
+ 	 (BigDecimal, Integer, Fixnum, etc)
+
 == Money 3.0.0
  * Version Bump due to compatibility changes with ActiveRecord. See
    http://github.com/FooBarWidget/money/issues#issue/4/comment/224880 for more
