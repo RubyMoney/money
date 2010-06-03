@@ -1,3 +1,6 @@
+== Money 3.0.2
+ * Added #div, #divmod, #modulo, #% and #remainder methods
+
 == Money 3.0.1
  * Added #eql? method
  * Updated Numeric#to_money to work with all children of Numeric
