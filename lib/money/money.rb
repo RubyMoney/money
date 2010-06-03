@@ -167,6 +167,47 @@ class Money
     end
   end
 
+  # synonym for #/
+  def div(val)
+    self / val
+  end
+
+  # divide money by money or fixnum and return array containing quotient and
+  # modulus
+  def divmod(val)
+    if val.is_a?(Money)
+      a = self.cents
+      b = self.currency == val.currency ? val.cents : val.exchange_to(self.currency).cents
+      q, m = a.divmod(b)
+      return [q, Money.new(m, self.currency)]
+    else
+      return [self.div(val), Money.new(self.cents.modulo(val), self.currency)]
+    end
+  end
+
+  # equivalent to `self.divmod(val)[1]`
+  def modulo(val)
+    self.divmod(val)[1]
+  end
+
+  # synonym for #modulo
+  def %(val)
+    self.modulo(val)
+  end
+
+  # if different signs `self.modulo(val) - val` otherwise `self.modulo(val)`
+  def remainder(val)
+    a, b = self, val
+    b = b.exchange_to(a.currency) if b.is_a?(Money) and a.currency != b.currency
+
+    a_sign, b_sign = :pos, :pos
+    a_sign = :neg if a.cents < 0
+    b_sign = :neg if (b.is_a?(Money) and b.cents < 0) or (b < 0)
+
+    return a.modulo(b) if a_sign == b_sign
+    a.modulo(b) - (b.is_a?(Money) ? b : Money.new(b, a.currency))
+  end
+
   # Test if the money amount is zero
   def zero?
     cents == 0
