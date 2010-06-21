@@ -1,3 +1,7 @@
+== Money 3.0.3
+ * Added #currency_as_string and #currency_as_string= for easier integration
+ with ActiveRecord/Rails
+
 == Money 3.0.2
  * Added #div, #divmod, #modulo, #% and #remainder methods
 
