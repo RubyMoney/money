@@ -185,26 +185,8 @@ field.
       validates_uniqueness_of :sku
   end
 
-Also, because the <tt>currency</tt> attribute is not a simple <tt>String</tt>
-but a <tt>Money::Currency</tt> object, you need a small tweak to make it work.
-
-Extend/hack the <tt>Money</tt> class with two additional methods:
-
-  # You can put this file in the config/initializers/ folder
-  class Money
-    def currency_as_string
-      currency.to_s
-    end
-  
-    def currency_as_string=(value)
-      # WARNING: this method might cause data inconsistency.
-      # See http://github.com/FooBarWidget/money/issues/4#issue/4/comment/224930
-      # currency = Currency.wrap(value)
-    end
-  end
-
-The hack is not required for Money 2.2.x and previous versions.
-In this case, simply use the following <tt>composed_of</tt> definition:
+For Money 2.2.x and previous versions, simply use the following
+<tt>composed_of</tt> definition:
 
   composed_of :price, :class_name => "Money", :mapping => [%w(cents cents), %w(currency currency)]
 
