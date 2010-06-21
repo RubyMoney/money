@@ -90,6 +90,16 @@ class Money
     @bank = bank
   end
 
+  # Return string representation of currency object
+  def currency_as_string
+    self.currency.to_s
+  end
+
+  # Set currency object using a string
+  def currency_as_string=(val)
+    @currency = Currency.wrap(val)
+  end
+
   # Checks whether two money objects have the same currency and the same amount.
   # Checks against money objects with a different currency and checks against
   # objects that do not respond to #to_money will always return false.

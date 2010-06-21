@@ -22,6 +22,23 @@ describe Money do
     Money.new(200_00, "USD").currency.should == Money::Currency.new("USD")
   end
 
+  specify "#currency_string returns the iso_code of the currency object" do
+    Money.new(200_00, "USD").currency_as_string.should == Money::Currency.new("USD").to_s
+    Money.new(200_00, "USD").currency_as_string.should == "USD"
+    Money.new(200_00, "EUR").currency_as_string.should == "EUR"
+    Money.new(200_00, "YEN").currency_as_string.should == "YEN"
+  end
+
+  specify "#currency_string= set the currency object using the provided string" do
+    obj = Money.new(200_00, "USD")
+    obj.currency_as_string = "EUR"
+    obj.currency.should == Money::Currency.new("EUR")
+    obj.currency_as_string = "YEN"
+    obj.currency.should == Money::Currency.new("YEN")
+    obj.currency_as_string = "USD"
+    obj.currency.should == Money::Currency.new("USD")
+  end
+
   specify "#zero? returns whether the amount is 0" do
     Money.new(0, "USD").should be_zero
     Money.new(0, "EUR").should be_zero
