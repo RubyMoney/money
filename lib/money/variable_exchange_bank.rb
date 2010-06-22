@@ -65,7 +65,7 @@ class Money
       if !rate
         raise Money::UnknownRate, "No conversion rate known for '#{from_currency}' -> '#{to_currency}'"
       end
-      (cents * rate).floor
+      (cents * rate).to_s.to_i
     end
 
     @@singleton = VariableExchangeBank.new

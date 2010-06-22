@@ -42,4 +42,20 @@ describe Money::VariableExchangeBank do
     block = lambda { @bank.exchange(10, "USD", "EUR") }
     block.should raise_error(Money::UnknownRate)
   end
+  
+  describe '.exchange' do
+    context 'sterling to euros using a rate of 1.39' do
+      it 'returns the correct amount' do
+        @bank.add_rate('GBP', 'EUR', 1.38)
+        @bank.exchange(10000, 'GBP', 'EUR').should == 13800
+      end
+    end
+    
+    context 'dollars to euros using a rate of 0.86' do
+      it 'returns the correct amount' do
+        @bank.add_rate('USD', 'EUR', 0.86)
+        @bank.exchange(10000, 'USD', 'EUR').should == 8600
+      end
+    end
+  end
 end
