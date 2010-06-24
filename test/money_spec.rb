@@ -471,6 +471,10 @@ describe Money do
     Money.new(10_00).to_f.should == 10.0
   end
 
+  specify "Money.to_f works with :subunit_to_unit other than 100" do
+    Money.new(10_00, "BHD").to_f.should == 1.0
+  end
+
   describe "#format" do
     it "returns the monetary value as a string" do
       Money.ca_dollar(100).format.should == "$1.00"

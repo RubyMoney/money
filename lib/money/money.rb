@@ -430,7 +430,7 @@ class Money
   #   Money.us_dollar(100).to_f => 1.0
   #
   def to_f
-    cents / 100.0
+    cents.to_f / currency.subunit_to_unit
   end
 
   # Receive the amount of this money object in another Currency.
