@@ -73,7 +73,9 @@ containing all the currency attributes.
     :name     => "United States Dollar",
     :symbol   => "$",
     :subunit  => "Cent"
-    :subunit_to_unit => "100"
+    :subunit_to_unit => "100",
+    :separator => ".",
+    :delimiter =? ","
   }
 
 The pre-defined set of attributes includes:
@@ -84,6 +86,8 @@ The pre-defined set of attributes includes:
   * symbol: the currency symbol (UTF-8 encoded)
   * subunit: the name of the fractional monetary unit
   * subunit_to_unit: the proportion between the unit and the subunit
+  * separator: character between the whole and fraction amounts
+  * delimiter: character between each thousands place
 
 All attributes are optional. Some attributes, such as <tt>:symbol</tt>, are used by the Money class
 to print out a representation of the object. Other attributes, such as <tt>:name</tt> or <tt>:priority</tt>,
