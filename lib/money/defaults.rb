@@ -44,10 +44,10 @@ class Money
     # Everything else defaults to '$'
   }, "Money::SYMBOLS has no longer effect. See Money::Currency#symbol.")
 
-  SEPARATORS = {
+  SEPARATORS = DeprecatedHash.new({
     "BRL" => ",",
     # Everything else defaults to '.'
-  }
+  }, "Money::SEPARATORS is deprecated. See Money::Currency#separator.")
 
   DELIMITERS = {
     "BRL" => ".",
