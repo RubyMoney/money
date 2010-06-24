@@ -568,19 +568,9 @@ describe Money do
     end
 
     specify "#separator works as documented" do
-      begin
-        old = Money::SEPARATORS.dup
-        Money::SEPARATORS.clear
-        Money::SEPARATORS["EUR"] = "_"
-
-        Money.empty("EUR").separator.should == "_"
-        Money.empty("USD").separator.should == "."
-        Money.empty("GBP").separator.should == "."
-      ensure
-        silence_warnings do
-          Money::SEPARATORS = old
-        end
-      end
+      Money.empty("USD").separator.should == "."
+      Money.empty("EUR").separator.should == "."
+      Money.empty("BRL").separator.should == ","
     end
 
     specify "#format(:with_currency => true) works as documented" do

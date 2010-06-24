@@ -245,12 +245,10 @@ class Money
     DELIMITERS[currency.to_s] || ","
   end
 
-  # Attempts to pick a separator for <tt>cents</tt> that's suitable for the given currency
-  # looking up the Money::DELIMITERS hashtable.
-  # If the separator for the given currency isn't known,
-  # then it will default to ".".
+  # Uses :separator from the Currency Hash. If it is not specified defaults to
+  # ".".
   def separator
-    SEPARATORS[currency.to_s] || "."
+    currency.separator || "."
   end
 
   # Creates a formatted price string according to several rules. The following
