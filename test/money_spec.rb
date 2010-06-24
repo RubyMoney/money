@@ -552,19 +552,9 @@ describe Money do
     end
 
     specify "#delimiter works as documented" do
-      begin
-        old = Money::DELIMITERS.dup
-        Money::DELIMITERS.clear
-        Money::DELIMITERS["EUR"] = "."
-
-        Money.empty("EUR").delimiter.should == "."
-        Money.empty("USD").delimiter.should == ","
-        Money.empty("GBP").delimiter.should == ","
-      ensure
-        silence_warnings do
-          Money::DELIMITERS = old
-        end
-      end
+      Money.empty("USD").delimiter.should == ","
+      Money.empty("EUR").delimiter.should == ","
+      Money.empty("BRL").delimiter.should == "."
     end
 
     specify "#separator works as documented" do

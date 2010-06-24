@@ -237,12 +237,10 @@ class Money
     currency.symbol || "$"
   end
 
-  # Attempts to pick a delimiter that's suitable for the given currency
-  # looking up the Money::DELIMITERS hashtable.
-  # If the symbol for the given currency isn't known,
-  # then it will default to ",".
+  # Uses :delimiter from the Currency hash. If it is not specified defaults to
+  # ",".
   def delimiter
-    DELIMITERS[currency.to_s] || ","
+    currency.delimiter || ","
   end
 
   # Uses :separator from the Currency Hash. If it is not specified defaults to
