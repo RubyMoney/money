@@ -49,9 +49,9 @@ class Money
     # Everything else defaults to '.'
   }, "Money::SEPARATORS is deprecated. See Money::Currency#separator.")
 
-  DELIMITERS = {
+  DELIMITERS = DeprecatedHash.new({
     "BRL" => ".",
     # Everything else defaults to ","
-  }
+  }, "Money::DELIMITERS is deprecated. See Money::Currency#delimiter.")
 
 end
