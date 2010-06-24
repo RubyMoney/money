@@ -480,6 +480,10 @@ describe Money do
       Money.ca_dollar(100).format.should == "$1.00"
     end
 
+    it "uses the correct :subunit_to_unit" do
+      Money.new(10_00, "BHD").format.should == "ب.د1.00"
+    end
+
     specify "respects the delimiter and separator defaults" do
       one_thousand = Proc.new do |currency|
         Money.new(1000_00, currency).format
@@ -497,7 +501,7 @@ describe Money do
 
       # Yen
       one_thousand["JPY"].should == "¥1,000.00"
-      one_thousand["CNY"].should == "¥1,000.00"
+      one_thousand["CNY"].should == "¥10,000.00"
 
       # Euro
       one_thousand["EUR"].should == "€1,000.00"
@@ -597,11 +601,19 @@ describe Money do
       Money.ca_dollar(39000).format(:no_cents => true).should == "$390"
     end
 
+    specify "#format(:no_cents => true) uses correct :subunit_to_unit" do
+      Money.new(10_00, "BHD").format(:no_cents => true).should == "ب.د1"
+    end
+
     specify "#format(:no_cents) works as documented" do
       Money.ca_dollar(100).format(:no_cents).should == "$1"
       Money.ca_dollar(599).format(:no_cents).should == "$5"
       Money.ca_dollar(570).format(:no_cents, :with_currency).should == "$5 CAD"
       Money.ca_dollar(39000).format(:no_cents).should == "$390"
+    end
+
+    specify "#format(:no_cents) uses correct :subunit_to_unit" do
+      Money.new(10_00, "BHD").format(:no_cents).should == "ب.د1"
     end
 
     specify "#format(:symbol => a symbol string) uses the given value as the money symbol" do
@@ -625,7 +637,7 @@ describe Money do
 
       # Yen
       one["JPY"].should == "¥1.00"
-      one["CNY"].should == "¥1.00"
+      one["CNY"].should == "¥10.00"
 
       # Euro
       one["EUR"].should == "€1.00"

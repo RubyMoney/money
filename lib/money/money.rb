@@ -378,9 +378,9 @@ class Money
     end
 
     if rules[:no_cents]
-      formatted = sprintf("#{symbol_value}%d", cents.to_f / 100)
+      formatted = sprintf("#{symbol_value}%d", cents.to_f / currency.subunit_to_unit)
     else
-      formatted = sprintf("#{symbol_value}%.2f", cents.to_f / 100)
+      formatted = sprintf("#{symbol_value}%.2f", cents.to_f / currency.subunit_to_unit)
     end
 
     delimiter_value = delimiter
