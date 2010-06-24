@@ -415,6 +415,7 @@ class Money
   #   Money.ca_dollar(100).to_s => "1.00"
   #
   def to_s
+    return sprintf("%d", cents) if currency.subunit_to_unit == 1
     sprintf("%.2f", cents.to_f / currency.subunit_to_unit)
   end
 

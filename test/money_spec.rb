@@ -467,6 +467,10 @@ describe Money do
     Money.new(10_00, "BHD").to_s.should == "1.00"
   end
 
+  specify "Money.to_s shouldn't have decimal when :subunit_to_unit is 1" do
+    Money.new(10_00, "CLP").to_s.should == "1000"
+  end
+
   specify "Money.to_f works" do
     Money.new(10_00).to_f.should == 10.0
   end
