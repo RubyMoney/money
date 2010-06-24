@@ -463,6 +463,10 @@ describe Money do
     Money.new(10_00).to_s.should == "10.00"
   end
 
+  specify "Money.to_s works with :subunit_to_unit other than 100" do
+    Money.new(10_00, "BHD").to_s.should == "1.00"
+  end
+
   specify "Money.to_f works" do
     Money.new(10_00).to_f.should == 10.0
   end

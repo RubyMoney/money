@@ -419,7 +419,7 @@ class Money
   #   Money.ca_dollar(100).to_s => "1.00"
   #
   def to_s
-    sprintf("%.2f", cents / 100.00)
+    sprintf("%.2f", cents.to_f / currency.subunit_to_unit)
   end
 
   # Return the amount of money as a float. Floating points cannot guarantee
