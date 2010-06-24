@@ -373,7 +373,7 @@ class Money
       symbol_value = symbol
     end
 
-    if rules[:no_cents]
+    if rules[:no_cents] or currency.subunit_to_unit == 1
       formatted = sprintf("#{symbol_value}%d", cents.to_f / currency.subunit_to_unit)
     else
       formatted = sprintf("#{symbol_value}%.2f", cents.to_f / currency.subunit_to_unit)

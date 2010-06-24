@@ -484,6 +484,10 @@ describe Money do
       Money.new(10_00, "BHD").format.should == "ب.د1.00"
     end
 
+    it "doesn't display a decimal when :subunit_to_unit is 1" do
+      Money.new(10_00, "CLP").format.should == "$1.000"
+    end
+
     specify "respects the delimiter and separator defaults" do
       one_thousand = Proc.new do |currency|
         Money.new(1000_00, currency).format
