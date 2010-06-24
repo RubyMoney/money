@@ -10,8 +10,8 @@ describe Money::Currency do
 
   specify "#initialize should lookup data from TABLE" do
     with_custom_definitions do
-      Money::Currency::TABLE[:usd] = { :priority =>   1, :iso_code => "USD", :name => "United States Dollar",                      :symbol => "$",             :subunit => "Cent",          :subunit_to_unit => "100"   }
-      Money::Currency::TABLE[:eur] = { :priority =>   2, :iso_code => "EUR", :name => "Euro",                                      :symbol => "€",             :subunit => "Cent",          :subunit_to_unit => "100"   }
+      Money::Currency::TABLE[:usd] = { :priority =>   1, :iso_code => "USD", :name => "United States Dollar",                      :symbol => "$",             :subunit => "Cent",          :subunit_to_unit => 100   }
+      Money::Currency::TABLE[:eur] = { :priority =>   2, :iso_code => "EUR", :name => "Euro",                                      :symbol => "€",             :subunit => "Cent",          :subunit_to_unit => 100   }
 
       currency = Money::Currency.new("USD")
       currency.id.should        == :usd
@@ -53,8 +53,8 @@ describe Money::Currency do
 
   specify "#self.find should return currency matching given id" do
     with_custom_definitions do
-      Money::Currency::TABLE[:usd] = { :priority =>   1, :iso_code => "USD", :name => "United States Dollar",                      :symbol => "$",             :subunit => "Cent",          :subunit_to_unit => "100"   }
-      Money::Currency::TABLE[:eur] = { :priority =>   2, :iso_code => "EUR", :name => "Euro",                                      :symbol => "€",             :subunit => "Cent",          :subunit_to_unit => "100"   }
+      Money::Currency::TABLE[:usd] = { :priority =>   1, :iso_code => "USD", :name => "United States Dollar",                      :symbol => "$",             :subunit => "Cent",          :subunit_to_unit => 100   }
+      Money::Currency::TABLE[:eur] = { :priority =>   2, :iso_code => "EUR", :name => "Euro",                                      :symbol => "€",             :subunit => "Cent",          :subunit_to_unit => 100   }
 
       expected = Money::Currency.new(:eur)
       Money::Currency.find(:eur).should  == expected
@@ -66,8 +66,8 @@ describe Money::Currency do
 
   specify "#self.find should return nil unless currency matching given id" do
     with_custom_definitions do
-      Money::Currency::TABLE[:usd] = { :position =>   1, :iso_code => "USD", :name => "United States Dollar",                      :symbol => "$",             :subunit => "Cent",          :subunit_to_unit => "100"   }
-      Money::Currency::TABLE[:eur] = { :position =>   2, :iso_code => "EUR", :name => "Euro",                                      :symbol => "€",             :subunit => "Cent",          :subunit_to_unit => "100"   }
+      Money::Currency::TABLE[:usd] = { :position =>   1, :iso_code => "USD", :name => "United States Dollar",                      :symbol => "$",             :subunit => "Cent",          :subunit_to_unit => 100   }
+      Money::Currency::TABLE[:eur] = { :position =>   2, :iso_code => "EUR", :name => "Euro",                                      :symbol => "€",             :subunit => "Cent",          :subunit_to_unit => 100   }
 
       expected = Money::Currency.new(:eur)
       Money::Currency.find(:eur).should  == expected
