@@ -1,3 +1,10 @@
+== Money 3.0.4
+ * Updated #exchange to avoid floating point rounding errors
+ * Use :subunit_to_unit in #to_s, #to_f and #format
+ * Added :separator and :delimiter to Currency
+ * Deprecated Money#SEPARATORS and Money#DELIMITERS
+ * Updated the attributes of the Chilean Peso
+
 == Money 3.0.3
  * Added #currency_as_string and #currency_as_string= for easier integration
  with ActiveRecord/Rails
