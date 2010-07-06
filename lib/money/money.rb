@@ -218,6 +218,11 @@ class Money
     a.modulo(b) - (b.is_a?(Money) ? b : Money.new(b, a.currency))
   end
 
+  # Return absolute value of self as a new Money object
+  def abs
+    Money.new(self.cents.abs, self.currency)
+  end
+
   # Test if the money amount is zero
   def zero?
     cents == 0

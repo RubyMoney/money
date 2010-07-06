@@ -430,6 +430,12 @@ describe Money do
     end
   end
 
+  specify "#abs correctly returns the absolute value as a new Money object" do
+    n = Money.new(-1, :USD)
+    n.abs.should == Money.new( 1, :USD)
+    n.should     == Money.new(-1, :USD)
+  end
+
   specify "Money.empty creates a new Money object of 0 cents" do
     Money.empty.should == Money.new(0)
   end
