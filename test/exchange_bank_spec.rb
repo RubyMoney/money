@@ -72,4 +72,30 @@ describe Money::VariableExchangeBank do
       end
     end
   end
+
+  context 'using custom rounding methods' do
+    describe 'passing a rounding method to #new' do
+      before :each do
+        mth   = Proc.new{|ex| ex.ceil }
+        @bank = Money::VariableExchangeBank.new(&mth)
+      end
+
+      it 'should use @rounding_method' do
+        @bank.add_rate('USD', 'EUR', 0.86)
+        @bank.exchange(10, 'USD', 'EUR').should == 9
+      end
+    end
+
+    describe 'passing a rounding method to #exchange' do
+      it 'should use &block' do
+        @bank.add_rate('USD', 'EUR', 0.86)
+        @bank.exchange(10, 'USD', 'EUR').should == 8
+
+        mth = Proc.new{|ex| ex.ceil }
+        @bank.exchange(10, 'USD', 'EUR', &mth).should == 9
+
+        @bank.exchange(10, 'USD', 'EUR'){|ex| ex.ceil }.should == 9
+      end
+    end
+  end
 end
