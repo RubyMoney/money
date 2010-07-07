@@ -68,7 +68,7 @@ class Money
       _from_currency_ = Currency.wrap(from_currency)
       _to_currency_   = Currency.wrap(to_currency)
 
-      _cents_ = cents / (_from_currency_.subunit_to_unit / _to_currency_.subunit_to_unit)
+      _cents_ = cents / (_from_currency_.subunit_to_unit.to_f / _to_currency_.subunit_to_unit.to_f)
       
       (_cents_ * rate).to_s.to_i
     end
