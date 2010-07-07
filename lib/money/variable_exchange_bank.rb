@@ -27,9 +27,10 @@ class Money
       @@singleton
     end
 
-    def initialize
+    def initialize(&block)
       @rates = {}
       @mutex = Mutex.new
+      @rounding_method = block
     end
 
     # Registers a conversion rate. +from+ and +to+ are both currency names.
@@ -60,7 +61,7 @@ class Money
     # Returns the amount of cents in +to_currency+ as an integer, rounded down.
     #
     # If the conversion rate is unknown, then Money::UnknownRate will be raised.
-    def exchange(cents, from_currency, to_currency)
+    def exchange(cents, from_currency, to_currency, &block)
       rate = get_rate(from_currency, to_currency)
       if !rate
         raise Money::UnknownRate, "No conversion rate known for '#{from_currency}' -> '#{to_currency}'"
@@ -69,8 +70,11 @@ class Money
       _to_currency_   = Currency.wrap(to_currency)
 
       _cents_ = cents / (_from_currency_.subunit_to_unit.to_f / _to_currency_.subunit_to_unit.to_f)
-      
-      (_cents_ * rate).to_s.to_i
+
+      ex = _cents_ * rate
+      return block.call(ex) if block_given?
+      return @rounding_method.call(ex) unless @rounding_method.nil?
+      ex.to_s.to_i
     end
 
     @@singleton = VariableExchangeBank.new
