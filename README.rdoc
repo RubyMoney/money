@@ -73,9 +73,9 @@ containing all the currency attributes.
     :name     => "United States Dollar",
     :symbol   => "$",
     :subunit  => "Cent"
-    :subunit_to_unit => "100",
+    :subunit_to_unit => 100,
     :separator => ".",
-    :delimiter =? ","
+    :delimiter => ","
   }
 
 The pre-defined set of attributes includes:
