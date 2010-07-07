@@ -57,5 +57,12 @@ describe Money::VariableExchangeBank do
         @bank.exchange(10000, 'USD', 'EUR').should == 8600
       end
     end
+
+    context 'TND to USD using a rate of 0.67138' do
+      it 'returns the correct amount' do
+        @bank.add_rate('TND', 'USD', 0.67138)
+        @bank.exchange(1000, 'TND', 'USD').should == 67
+      end
+    end
   end
 end
