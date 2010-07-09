@@ -22,10 +22,23 @@ class String
   #   'USD 100'.to_money   # => #<Money @cents=10000, @currency="USD">
   #   '$100 USD'.to_money  # => #<Money @cents=10000, @currency="USD">
   #   'hello 2000 world'.to_money   # => #<Money @cents=200000 @currency="USD")>
-  def to_money
+  def to_money(currency = nil)
     # Get the currency.
     matches = scan /([A-Z]{2,3})/
-    currency = matches[0] ? matches[0][0] : Money.default_currency
+    _currency_ = matches[0] ? matches[0][0] : nil
+    
+    # check that currency passed and embedded currency are the same, or only
+    # one or the other is present.
+    if currency.nil? and _currency_.nil?
+      currency = Money.default_currency
+    elsif currency.nil?
+      currency = _currency_
+    elsif _currency_.nil?
+      currency = currency
+    elsif currency != _currency_
+      raise "mismatching currencies"
+    end
+    
     cents = calculate_cents(self)
     Money.new(cents, currency)
   end

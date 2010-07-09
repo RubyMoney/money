@@ -78,6 +78,13 @@ describe "Money core extensions" do
     "$1.99000 USD".to_money.should == Money.new(1_99, "USD")
   end
 
+  specify "String#to_money should accept optional currency" do
+    "10.10".to_money('USD').should == Money.new(1010, 'USD')
+    "10.10".to_money('EUR').should == Money.new(1010, 'EUR')
+    "10.10 USD".to_money('USD').should == Money.new(1010, 'USD')
+    lambda{"10.10 USD".to_money('EUR')}.should raise_error
+  end
+
   specify "String#to_money ignores unrecognized data" do
     "hello 2000 world".to_money.should == Money.new(2000_00)
   end
