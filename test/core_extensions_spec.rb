@@ -17,6 +17,11 @@ describe "Money core extensions" do
     money.cents.should == 1234_00
     money.currency.should == Money.default_currency
   end
+  
+  specify "Numeric#to_money accepts optional currency" do
+    1234.to_money('USD').should == Money.new(123400, 'USD')
+    1234.to_money('EUR').should == Money.new(123400, 'EUR')
+  end
 
   specify "String#to_money works" do
     "20.15".to_money.should == Money.new(20_15)
