@@ -237,9 +237,9 @@ class Money
   # Attempts to pick a symbol that's suitable for the given currency
   # looking up the Currency::TABLE hashtable.
   # If the symbol for the given currency isn't known,
-  # then it will default to "$".
+  # then it will default to "¤".
   def symbol
-    currency.symbol || "$"
+    currency.symbol || "¤"
   end
 
   # Uses :delimiter from the Currency hash. If it is not specified defaults to
@@ -308,9 +308,9 @@ class Money
   #
   #
   # If the symbol for the given currency isn't known, then it will default
-  # to "$" as symbol:
+  # to "¤" as symbol:
   #
-  #   Money.new(100, "AWG").format(:symbol => true)  => "$1.00"
+  #   Money.new(100, "AWG").format(:symbol => true)  => "¤1.00"
   #
   # You can specify a string as value to enforce using a particular symbol:
   #

@@ -41,7 +41,7 @@ class Money
     "SEK" => "kr",
     "GHC" => "¢",
     "BRL" => "R$ ",
-    # Everything else defaults to '$'
+    # Everything else defaults to '¤'
   }, "Money::SYMBOLS has no longer effect. See Money::Currency#symbol.")
 
   SEPARATORS = DeprecatedHash.new({
