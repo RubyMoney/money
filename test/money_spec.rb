@@ -562,7 +562,7 @@ describe Money do
 
       currency = Money::Currency.new("EUR")
       currency.should_receive(:symbol).and_return(nil)
-      Money.empty(currency).symbol.should == "$"
+      Money.empty(currency).symbol.should == "¤"
     end
 
     specify "#delimiter works as documented" do
@@ -653,7 +653,7 @@ describe Money do
     specify "#format(:symbol => true) returns $ when currency code is not recognized" do
       currency = Money::Currency.new("EUR")
       currency.should_receive(:symbol).and_return(nil)
-      Money.new(100, currency).format(:symbol => true).should == "$1.00"
+      Money.new(100, currency).format(:symbol => true).should == "¤1.00"
     end
 
     specify "#format(:symbol => some non-Boolean value that evaluates to true) returs symbol based on the given currency code" do
