@@ -23,6 +23,12 @@ describe "Money core extensions" do
     1234.to_money('EUR').should == Money.new(123400, 'EUR')
   end
 
+  specify "Numeric#to_money should respect :subunit_to_unit" do
+    10.to_money('USD').should == Money.new(10_00, 'USD')
+    10.to_money('TND').should == Money.new(10_000, 'TND')
+    10.to_money('CLP').should == Money.new(10, 'CLP')
+  end
+
   specify "String#to_money works" do
     "20.15".to_money.should == Money.new(20_15)
     "100".to_money.should == Money.new(100_00)
