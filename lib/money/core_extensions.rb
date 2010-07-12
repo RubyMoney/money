@@ -7,7 +7,8 @@ class Numeric
   #   require 'bigdecimal'
   #   BigDecimal.new('100').to_money => #<Money @cents=10000>
   def to_money(currency = Money.default_currency)
-    Money.new((self * 100).to_int, currency)
+    currency = Money::Currency.new(currency) unless currency.is_a?(Money::Currency)
+    Money.new((self * currency.subunit_to_unit).to_int, currency)
   end
 end
 
