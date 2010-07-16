@@ -106,7 +106,7 @@ class Money
   def ==(other_money)
     if other_money.respond_to?(:to_money)
       other_money = other_money.to_money
-      cents == other_money.cents && bank.same_currency?(currency, other_money.currency)
+      cents == other_money.cents && self.currency == other_money.currency
     else
       false
     end
@@ -128,7 +128,7 @@ class Money
   def <=>(other_money)
     if other_money.respond_to?(:to_money)
       other_money = other_money.to_money
-      if bank.same_currency?(currency, other_money.currency)
+      if self.currency == other_money.currency
         cents <=> other_money.cents
       else
         cents <=> other_money.exchange_to(currency).cents
