@@ -19,6 +19,15 @@ Resources:
 - RDoc API: http://money.rubyforge.org
 - Git repository: http://github.com/FooBarWidget/money
 
+== Attention
+
+Starting in v3.1.0 we will be making two changes to the exchange process. First
+a new `Bank::Base` class will be available. This will allow users to more
+easily create custom `Bank` classes. Secondly the default `#exchange` method
+will be depreciated and a new `#exchange_with` method will be used. Currently
+`#exchange` passes the `cents` attribute. `#exchange_with` will pass the
+actual `Money` object instead.
+
 == Download
 
 Install stable releases with the following command:
