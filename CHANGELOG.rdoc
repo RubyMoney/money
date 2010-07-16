@@ -1,3 +1,16 @@
+== Money 3.0.5
+ * Added Money#abs
+ * Updated Currency#subunit_to_unit documentation (it's an integer not a
+ string)
+ * Fixed issue when exchanging currencies with different :subunit_to_unit
+ values
+ * Added ability to pass a block to VariableExchangeBank#new or #exchange,
+ specifying a custom truncation method
+ * Added optional currency argument to Numeric#to_money
+ * Added optional currency argument to String#to_money
+ * Numeric#to_money now respects :subunit_to_unit
+ * Use '¤' as the default currency symbol
+
 == Money 3.0.4
  * Updated #exchange to avoid floating point rounding errors
  * Use :subunit_to_unit in #to_s, #to_f and #format
