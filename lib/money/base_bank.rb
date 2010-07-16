@@ -1,9 +1,18 @@
 require 'thread'
 
+# Class for aiding in the creating of other classes to exchange money between
+# different currencies.
+#
+# When creating a subclass you will need to define methods to populate the
+# +@rates+ hash using +#set_rate+ and +#get_rate+, or override the
+# +#exchange_with+ method.
+#
+# See Money::VariableExchangeBank for an example.
 class Money
   class BaseBank
     class UnknownRate < StandardError; end
 
+    # Returns the singleton instance of BaseBank.
     def self.instance
       @@singleton
     end
@@ -16,11 +25,21 @@ class Money
       @rounding_method = block
     end
 
+    # @depreciated +#exchange+ will be removed in v3.2.0, use +#exchange_with+
+    #
+    # Exchange the given amount of cents in +from_currency+ to +to_currency+.
+    # Returns the amount of cents in +to_currency+ as an integer, rounded down.
+    #
+    # If the conversion rate is unknown, +UnknownRate+ will be raised.
     def exchange(cents, from_currency, to_currency, &block)
       warn '[DEPRECIATION] `exchange` will be removed in v3.2.0, use #exchange_with instead'
       exchange_with(Money.new(cents, from_currency), to_currency, &block).cents
     end
 
+    # Exchange the given +Money+ object to a new +Money+ object in
+    # +to_currency+. Returns a new +Money+ object.
+    #
+    # If the conversion rate is unknown, +UknownRate+ will be raised.
     def exchange_with(from, to_currency, &block)
       return from if same_currency?(from.currency, to_currency)
 
@@ -45,18 +64,22 @@ class Money
 
     private
 
+    # Return the rate hashkey for the given currencies.
     def rate_key_for(from, to)
       "#{Currency.wrap(from).iso_code}_TO_#{Currency.wrap(to).iso_code}".upcase
     end
 
+    # Set the rate for the given currencies.
     def set_rate(from, to, rate)
       @mutex.synchronize{ @rates[rate_key_for(from, to)] = rate }
     end
 
+    # Retrieve the rate for the given currencies.
     def get_rate(from, to)
       @mutex.synchronize{ @rates[rate_key_for(from, to)] }
     end
 
+    # Return +true+ if the currencies are the same, +false+ otherwise.
     def same_currency?(currency1, currency2)
       Currency.wrap(currency1) == Currency.wrap(currency2)
     end
