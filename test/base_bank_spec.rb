@@ -1,11 +1,11 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
 require 'money/currency'
-require 'money/bank'
+require 'money/base_bank'
 
-describe Money::Bank do
+describe Money::BaseBank do
   describe '#new without block' do
     before :each do
-      @bank = Money::Bank.new
+      @bank = Money::BaseBank.new
     end
 
     describe '#rate_key_for' do
@@ -129,7 +129,7 @@ describe Money::Bank do
       end
 
       it 'should raise an UnknownRate exception when an unknown rate is requested' do
-        lambda{@bank.exchange(100, 'USD', 'JPY')}.should raise_exception(Money::Bank::UnknownRate)
+        lambda{@bank.exchange(100, 'USD', 'JPY')}.should raise_exception(Money::BaseBank::UnknownRate)
       end
 
       it 'should accept a custom truncation method' do
@@ -164,7 +164,7 @@ describe Money::Bank do
       end
 
       it 'should raise an UnknownRate exception when an unknown rate is requested' do
-        lambda{@bank.exchange_with(Money.new(100, 'USD'), 'JPY')}.should raise_exception(Money::Bank::UnknownRate)
+        lambda{@bank.exchange_with(Money.new(100, 'USD'), 'JPY')}.should raise_exception(Money::BaseBank::UnknownRate)
       end
 
       it 'should accept a custom truncation method' do
@@ -177,7 +177,7 @@ describe Money::Bank do
   describe '#new with &block' do
     before :each do
       proc = Proc.new{|n| n.ceil}
-      @bank = Money::Bank.new(&proc)
+      @bank = Money::BaseBank.new(&proc)
       @bank.send(:set_rate, 'USD', 'EUR', 1.33)
     end
 

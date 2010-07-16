@@ -1,4 +1,4 @@
-require 'money/bank'
+require 'money/base_bank'
 
 # Class for aiding in exchanging money between different currencies.
 # By default, the Money class uses an object of this class (accessible through
@@ -18,7 +18,7 @@ require 'money/bank'
 #   bank.exchange(100_00, "USD", "CAD")  # => 80
 #
 class Money
-  class VariableExchangeBank < Bank
+  class VariableExchangeBank < BaseBank
     @@singleton = VariableExchangeBank.new
 
     # Registers a conversion rate. +from+ and +to+ are both currency names or

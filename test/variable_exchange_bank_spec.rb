@@ -35,9 +35,9 @@ describe Money::VariableExchangeBank do
     @bank.exchange(500_00, "EUR", "YEN").should == 6131573
   end
 
-  it "raises Money::Bank::UnknownRate upon conversion if the conversion rate is unknown" do
+  it "raises Money::BaseBank::UnknownRate upon conversion if the conversion rate is unknown" do
     block = lambda { @bank.exchange(10, "USD", "EUR") }
-    block.should raise_error(Money::Bank::UnknownRate)
+    block.should raise_error(Money::BaseBank::UnknownRate)
   end
   
   describe '#exchange' do

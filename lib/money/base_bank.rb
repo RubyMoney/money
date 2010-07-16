@@ -1,14 +1,14 @@
 require 'thread'
 
 class Money
-  class Bank
+  class BaseBank
     class UnknownRate < StandardError; end
 
     def self.instance
       @@singleton
     end
 
-    @@singleton = Bank.new
+    @@singleton = BaseBank.new
 
     def initialize(&block)
       @rates = {}
@@ -23,7 +23,7 @@ class Money
 
       rate = get_rate(from_currency, to_currency)
       unless rate
-        raise Money::Bank::UnknownRate, "No conversion rate known for '#{from_currency}' -> '#{to_currency}'"
+        raise Money::BaseBank::UnknownRate, "No conversion rate known for '#{from_currency}' -> '#{to_currency}'"
       end
       _from_currency_ = Currency.wrap(from_currency)
       _to_currency_   = Currency.wrap(to_currency)
@@ -41,7 +41,7 @@ class Money
 
       rate = get_rate(from.currency, to_currency)
       unless rate
-        raise Money::Bank::UnknownRate, "No conversion rate known for '#{from.currency.iso_code}' -> '#{to_currency}'"
+        raise Money::BaseBank::UnknownRate, "No conversion rate known for '#{from.currency.iso_code}' -> '#{to_currency}'"
       end
       _to_currency_  = Currency.wrap(to_currency)
 
