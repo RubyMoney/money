@@ -444,7 +444,7 @@ class Money
   #
   def exchange_to(other_currency)
     other_currency = Currency.wrap(other_currency)
-    Money.new(@bank.exchange(self.cents, currency, other_currency), other_currency)
+    @bank.exchange_with(self, other_currency)
   end
 
   # Receive a money object with the same amount as the current Money object
