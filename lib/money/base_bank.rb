@@ -18,22 +18,7 @@ class Money
 
     def exchange(cents, from_currency, to_currency, &block)
       warn '[DEPRECIATION] `exchange` will be removed in v3.2.0, use #exchange_with instead'
-
-      return cents if same_currency?(from_currency, to_currency)
-
-      rate = get_rate(from_currency, to_currency)
-      unless rate
-        raise Money::BaseBank::UnknownRate, "No conversion rate known for '#{from_currency}' -> '#{to_currency}'"
-      end
-      _from_currency_ = Currency.wrap(from_currency)
-      _to_currency_   = Currency.wrap(to_currency)
-
-      _cents_ = cents / (_from_currency_.subunit_to_unit.to_f / _to_currency_.subunit_to_unit.to_f)
-
-      ex = _cents_ * rate
-      return block.call(ex) if block_given?
-      return @rounding_method.call(ex) unless @rounding_method.nil?
-      ex.to_s.to_i
+      exchange_with(Money.new(cents, from_currency), to_currency, &block).cents
     end
 
     def exchange_with(from, to_currency, &block)
