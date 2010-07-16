@@ -1,5 +1,4 @@
-require 'thread'
-require 'money/errors'
+require 'money/bank'
 
 # Class for aiding in exchanging money between different currencies.
 # By default, the Money class uses an object of this class (accessible through
@@ -19,64 +18,13 @@ require 'money/errors'
 #   bank.exchange(100_00, "USD", "CAD")  # => 80
 #
 class Money
-  class VariableExchangeBank
-    # Returns the singleton instance of VariableExchangeBank.
-    #
-    # By default, <tt>Money.default_bank</tt> returns the same object.
-    def self.instance
-      @@singleton
-    end
-
-    def initialize(&block)
-      @rates = {}
-      @mutex = Mutex.new
-      @rounding_method = block
-    end
-
-    # Registers a conversion rate. +from+ and +to+ are both currency names.
-    def add_rate(from, to, rate)
-      @mutex.synchronize do
-        @rates["#{from}_TO_#{to}".upcase] = rate
-      end
-    end
-
-    # Gets the rate for exchanging the currency named +from+ to the currency
-    # named +to+. Returns nil if the rate is unknown.
-    def get_rate(from, to)
-      @mutex.synchronize do
-        @rates["#{from}_TO_#{to}".upcase]
-      end
-    end
-
-    # Given two currency names, checks whether they're both the same currency.
-    #
-    #   bank = VariableExchangeBank.new
-    #   bank.same_currency?("usd", "USD")   # => true
-    #   bank.same_currency?("usd", "EUR")   # => false
-    def same_currency?(currency1, currency2)
-      Currency.wrap(currency1) == Currency.wrap(currency2)
-    end
-
-    # Exchange the given amount of cents in +from_currency+ to +to_currency+.
-    # Returns the amount of cents in +to_currency+ as an integer, rounded down.
-    #
-    # If the conversion rate is unknown, then Money::UnknownRate will be raised.
-    def exchange(cents, from_currency, to_currency, &block)
-      rate = get_rate(from_currency, to_currency)
-      if !rate
-        raise Money::UnknownRate, "No conversion rate known for '#{from_currency}' -> '#{to_currency}'"
-      end
-      _from_currency_ = Currency.wrap(from_currency)
-      _to_currency_   = Currency.wrap(to_currency)
-
-      _cents_ = cents / (_from_currency_.subunit_to_unit.to_f / _to_currency_.subunit_to_unit.to_f)
-
-      ex = _cents_ * rate
-      return block.call(ex) if block_given?
-      return @rounding_method.call(ex) unless @rounding_method.nil?
-      ex.to_s.to_i
-    end
-
+  class VariableExchangeBank < Bank
     @@singleton = VariableExchangeBank.new
+
+    # Registers a conversion rate. +from+ and +to+ are both currency names or
+    # +Currency+ objects.
+    def add_rate(from, to, rate)
+      set_rate(from, to, rate)
+    end
   end
 end
