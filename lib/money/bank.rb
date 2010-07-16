@@ -17,6 +17,8 @@ class Money
     end
 
     def exchange(cents, from_currency, to_currency, &block)
+      warn '[DEPRECIATION] `exchange` will be removed in v3.2.0, use #exchange_with instead'
+
       return cents if same_currency?(from_currency, to_currency)
 
       rate = get_rate(from_currency, to_currency)
