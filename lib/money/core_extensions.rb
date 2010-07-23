@@ -8,7 +8,14 @@ class Numeric
   #   BigDecimal.new('100').to_money => #<Money @cents=10000>
   def to_money(currency = Money.default_currency)
     currency = Money::Currency.new(currency) unless currency.is_a?(Money::Currency)
-    Money.new((self * currency.subunit_to_unit).to_int, currency)
+    amt = self * currency.subunit_to_unit
+    amt = case amt.class.to_s
+          when 'BigDecimal'
+            amt.to_s('F')
+          else
+            amt.to_s
+          end
+    Money.new(amt.to_i, currency)
   end
 end
 
