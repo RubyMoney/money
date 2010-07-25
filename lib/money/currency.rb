@@ -217,6 +217,21 @@ class Money
       self.id == other_currency.id
     end
 
+    # synonymous with #==
+    def eql?(other_currency)
+      self == other_currency
+    end
+
+    # Returns a Fixnum hash value based on the <tt>id</tt> attribute
+    # in order to use functions like & (intersection), group_by, etc.
+    #
+    #   [Currency.new(:usd), Currency.new(:eur)] & [Currency.new(:usd)]
+    #   # => [Currency.new(:usd)]
+    #
+    def hash
+      id.hash
+    end
+
     # Returns a string representation
     # corresponding to the upcase <tt>id</tt> attribute.
     #

@@ -117,6 +117,17 @@ class Money
     self == other_money
   end
 
+  # Returns a Fixnum hash value based on the <tt>cents</tt> and
+  # <tt>currency</tt> attributes in order to use functions like
+  # & (intersection), group_by, etc.
+  #
+  #   [Money.new(1_00, :eur), Money.new(2_00, :usd)] & [Money.new(1_00, :eur)]
+  #   # => [Money.new(1_00, :eur)]
+  #
+  def hash
+    [cents.hash, currency.hash].hash
+  end
+
   # Compares this money object against another object. +other_money+ must respond
   # to #to_money.
   #

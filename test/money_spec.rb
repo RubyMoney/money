@@ -163,6 +163,19 @@ describe Money do
     Money.new(1_00, "USD").eql?(/foo/).should be false
     Money.new(1_00, "USD").eql?(nil).should be false
   end
+  
+  specify "#hash should return the same value for equal objects" do
+    Money.new(1_00, :eur).hash.should == Money.new(1_00, :eur).hash
+    Money.new(2_00, :usd).hash.should == Money.new(2_00, :usd).hash
+    Money.new(1_00, :eur).hash.should_not == Money.new(2_00, :eur).hash
+    Money.new(1_00, :eur).hash.should_not == Money.new(1_00, :usd).hash
+    Money.new(1_00, :eur).hash.should_not == Money.new(2_00, :usd).hash
+  end
+  
+  specify "#hash can be used to return the intersection of Money object arrays" do
+    intersection = [Money.new(1_00, :eur), Money.new(1_00, :usd)] & [Money.new(1_00, :eur)]
+    intersection.should == [Money.new(1_00, :eur)]
+  end
 
   specify "#<=> can be used to compare with a String money value" do
     (Money.new(1_00) <=> "1.00").should == 0

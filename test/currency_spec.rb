@@ -36,6 +36,21 @@ describe Money::Currency do
     Money::Currency.new(:eur).should     == Money::Currency.new(:eur)
     Money::Currency.new(:eur).should_not == Money::Currency.new(:usd)
   end
+  
+  specify "#eql? should return true if #== returns true" do
+    Money::Currency.new(:eur).eql?(Money::Currency.new(:eur)).should be true
+    Money::Currency.new(:eur).eql?(Money::Currency.new(:usd)).should be false
+  end
+  
+  specify "#hash should return the same value for equal objects" do
+    Money::Currency.new(:eur).hash.should == Money::Currency.new(:eur).hash
+    Money::Currency.new(:eur).hash.should_not == Money::Currency.new(:usd).hash
+  end
+  
+  specify "#hash can be used to return the intersection of Currency object arrays" do
+    intersection = [Money::Currency.new(:eur), Money::Currency.new(:usd)] & [Money::Currency.new(:eur)]
+    intersection.should == [Money::Currency.new(:eur)]
+  end
 
   specify "#<=> should compare objects by priority" do
     Money::Currency.new(:cad).should > Money::Currency.new(:usd)
