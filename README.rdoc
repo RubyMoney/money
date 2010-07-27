@@ -183,23 +183,10 @@ Use the +compose_of+ helper to let Active Record deal with embedding the money
 object in your models. The following example requires a +cents+ and a +currency+
 field.
 
-  class ProductUnit < ActiveRecord::Base
-    belongs_to :product
-    composed_of :price,
-      :class_name => "Money",
-      :mapping => [%w(cents cents), %w(currency currency_as_string)],
-      :constructor => Proc.new { |cents, currency| Money.new(cents || 0, currency || Money.default_currency) }
-    
-    private
-      validate :cents_not_zero
-        
-      def cents_not_zero
-        errors.add("cents", "cannot be zero or less") unless cents > 0
-      end
-      
-      validates_presence_of :sku, :currency
-      validates_uniqueness_of :sku
-  end
+  composed_of :price,
+    :class_name => "Money",
+    :mapping => [%w(cents cents), %w(currency currency_as_string)],
+    :constructor => Proc.new { |cents, currency| Money.new(cents || 0, currency || Money.default_currency) }
 
 For Money 2.2.x and previous versions, simply use the following
 <tt>composed_of</tt> definition:
