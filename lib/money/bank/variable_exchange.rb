@@ -22,13 +22,12 @@ class Money
     #
     class VariableExchange < Base
 
-      @@singleton = VariableExchange.new
-
       # Registers a conversion rate. +from+ and +to+ are both currency names or
       # +Currency+ objects.
       def add_rate(from, to, rate)
         set_rate(from, to, rate)
       end
+
     end
 
   end

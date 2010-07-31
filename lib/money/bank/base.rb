@@ -26,10 +26,8 @@ class Money
 
       # Returns the singleton instance of the Base bank.
       def self.instance
-        @@singleton
+        @@singleton ||= self.new
       end
-
-      @@singleton = self.new
 
       def initialize(&block)
         @rates = {}
