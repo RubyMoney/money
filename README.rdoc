@@ -4,8 +4,8 @@ This library aids one in handling money and different currencies. Features:
 
 - Provides a <tt>Money</tt> class which encapsulates all information about an certain
   amount of money, such as its value and its currency.
-- Provies a <tt>Money::Currency</tt> class which encapsulates all information about
-  a monerary unit.
+- Provides a <tt>Money::Currency</tt> class which encapsulates all information about
+  a monetary unit.
 - Represents monetary values as integers, in cents. This avoids floating point
   rounding errors.
 - Represents currency as <tt>Money::Currency</tt> instances providing an high level of flexibility.
@@ -107,7 +107,7 @@ exist to provide a basic API you can take advantage of to build your application
 The priority attribute is an arbitrary numerical value you can assign to the <tt>Money::Currency</tt>
 and use in sorting/grouping operation.
 
-For instance, let's assume your Rails application needs to a currency selector
+For instance, let's assume your Rails application needs to render a currency selector
 like the one available at http://finance.yahoo.com/currency-converter/
 You can create a couple of custom methods to return the list of major_currencies
 and all_currencies as follows:
