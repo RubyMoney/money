@@ -10,20 +10,14 @@ class Money
     end
 
     def [](key)
-      deprecate
+      Money.deprecate(@message)
       super
     end
 
     def []=(value)
-      deprecate
+      Money.deprecate(@message)
       super
     end
-
-    private
-
-      def deprecate
-        warn "DEPRECATION MESSAGE: #{@message}"
-      end
 
   end
 
@@ -42,16 +36,16 @@ class Money
     "GHC" => "¢",
     "BRL" => "R$ ",
     # Everything else defaults to '¤'
-  }, "Money::SYMBOLS has no longer effect. See Money::Currency#symbol.")
+  }, "Money::SYMBOLS has no longer effect and will be removed in v3.2.0. See Money::Currency#symbol.")
 
   SEPARATORS = DeprecatedHash.new({
     "BRL" => ",",
     # Everything else defaults to '.'
-  }, "Money::SEPARATORS is deprecated. See Money::Currency#separator.")
+  }, "Money::SEPARATORS is deprecated and will be removed in v3.2.0. See Money::Currency#separator.")
 
   DELIMITERS = DeprecatedHash.new({
     "BRL" => ".",
     # Everything else defaults to ","
-  }, "Money::DELIMITERS is deprecated. See Money::Currency#delimiter.")
+  }, "Money::DELIMITERS is deprecated and will be removed in Money v3.2.0. See Money::Currency#delimiter.")
 
 end

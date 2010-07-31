@@ -24,3 +24,4 @@ $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 require 'money/money'
 require 'money/defaults'
 require 'money/core_extensions'
+require 'money/deprecations'

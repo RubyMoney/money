@@ -1,3 +1,8 @@
+== master
+
+ * Set Money::SYMBOLS, Money::SEPARATORS and Money::DELIMITERS
+   deprecation target to Money 3.2.0. (closes #16)
+
 == Money 3.0.5
  * Added Money#abs
  * Updated Currency#subunit_to_unit documentation (it's an integer not a string)
