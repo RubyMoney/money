@@ -3,7 +3,16 @@ require 'thread'
 class Money
   module Bank
 
-    class UnknownRate < StandardError; end
+    # The lowest Money::Bank error class.
+    # All Money::Bank errors should inherit from it.
+    class Error < StandardError
+    end
+
+    # Raised when the bank doesn't know about the conversion rate
+    # for specified currencies.
+    class UnknownRate < Error
+    end
+
 
     # Class for aiding in the creating of other classes to exchange money between
     # different currencies.
