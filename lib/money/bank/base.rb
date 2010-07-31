@@ -1,21 +1,21 @@
 require 'thread'
 
-# Class for aiding in the creating of other classes to exchange money between
-# different currencies.
-#
-# When creating a subclass you will need to define methods to populate the
-# +@rates+ hash using +#set_rate+ and +#get_rate+, or override the
-# +#exchange_with+ method.
-#
-# See Money::Bank::VariableExchange for an example.
 class Money
   module Bank
 
     class UnknownRate < StandardError; end
 
+    # Class for aiding in the creating of other classes to exchange money between
+    # different currencies.
+    #
+    # When creating a subclass you will need to define methods to populate the
+    # +@rates+ hash using +#set_rate+ and +#get_rate+, or override the
+    # +#exchange_with+ method.
+    #
+    # See Money::Bank::VariableExchange for an example.
     class Base
 
-      # Returns the singleton instance of BaseBank.
+      # Returns the singleton instance of the Base bank.
       def self.instance
         @@singleton
       end
