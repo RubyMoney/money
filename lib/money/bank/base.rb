@@ -35,21 +35,21 @@ class Money
         @rounding_method = block
       end
 
-      # @depreciated +#exchange+ will be removed in v3.2.0, use +#exchange_with+
+      # @deprecated +#exchange+ will be removed in v3.2.0, use +#exchange_with+
       #
-      # Exchange the given amount of cents in +from_currency+ to +to_currency+.
+      # Exchanges the given amount of cents in +from_currency+ to +to_currency+.
       # Returns the amount of cents in +to_currency+ as an integer, rounded down.
       #
-      # If the conversion rate is unknown, +UnknownRate+ will be raised.
+      # Raises <tt>Money::Bank::UnknownRate</tt> if the conversion rate is unknown.
       def exchange(cents, from_currency, to_currency, &block)
-        warn '[DEPRECIATION] `exchange` will be removed in v3.2.0, use #exchange_with instead'
+        Money.deprecate "`Money::Bank::Base#exchange' will be removed in v3.2.0, use #exchange_with instead"
         exchange_with(Money.new(cents, from_currency), to_currency, &block).cents
       end
 
-      # Exchange the given +Money+ object to a new +Money+ object in
+      # Exchanges the given +Money+ object to a new +Money+ object in
       # +to_currency+. Returns a new +Money+ object.
       #
-      # If the conversion rate is unknown, +UknownRate+ will be raised.
+      # Raises <tt>Money::Bank::UnknownRate</tt> if the conversion rate is unknown.
       def exchange_with(from, to_currency, &block)
         return from if same_currency?(from.currency, to_currency)
 
@@ -89,6 +89,14 @@ class Money
         @mutex.synchronize { @rates[rate_key_for(from, to)] }
       end
 
+      # Given two currency strings or object,
+      # checks whether they're both the same currency.
+      #
+      #   same_currency?("usd", "USD")                # => true
+      #   same_currency?("usd", "EUR")                # => false
+      #   same_currency?("usd", Currency.new("USD")   # => true
+      #   same_currency?("usd", "USD")   # => true
+      #
       # Return +true+ if the currencies are the same, +false+ otherwise.
       def same_currency?(currency1, currency2)
         Currency.wrap(currency1) == Currency.wrap(currency2)
