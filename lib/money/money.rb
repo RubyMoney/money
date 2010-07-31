@@ -1,6 +1,6 @@
 # encoding: utf-8
 require 'money/currency'
-require 'money/variable_exchange_bank'
+require 'money/bank/variable_exchange'
 
 # Represents an amount of money in a certain currency.
 class Money
