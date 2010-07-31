@@ -1,11 +1,11 @@
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../../lib"))
 require 'money/currency'
-require 'money/base_bank'
+require 'money/bank/base'
 
-describe Money::BaseBank do
+describe Money::Bank::Base do
   describe '#new without block' do
     before :each do
-      @bank = Money::BaseBank.new
+      @bank = Money::Bank::Base.new
     end
 
     describe '#rate_key_for' do
@@ -129,11 +129,11 @@ describe Money::BaseBank do
       end
 
       it 'should raise an UnknownRate exception when an unknown rate is requested' do
-        lambda{@bank.exchange(100, 'USD', 'JPY')}.should raise_exception(Money::BaseBank::UnknownRate)
+        lambda{@bank.exchange(100, 'USD', 'JPY')}.should raise_exception(Money::Bank::UnknownRate)
       end
 
       it 'should accept a custom truncation method' do
-        proc = Proc.new{|n| n.ceil}
+        proc = Proc.new { |n| n.ceil }
         @bank.exchange(10, 'USD', 'EUR', &proc).should == 14
       end
     end
@@ -164,11 +164,11 @@ describe Money::BaseBank do
       end
 
       it 'should raise an UnknownRate exception when an unknown rate is requested' do
-        lambda{@bank.exchange_with(Money.new(100, 'USD'), 'JPY')}.should raise_exception(Money::BaseBank::UnknownRate)
+        lambda{@bank.exchange_with(Money.new(100, 'USD'), 'JPY')}.should raise_exception(Money::Bank::UnknownRate)
       end
 
       it 'should accept a custom truncation method' do
-        proc = Proc.new{|n| n.ceil}
+        proc = Proc.new { |n| n.ceil }
         @bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc).should == Money.new(14, 'EUR')
       end
     end
@@ -176,8 +176,8 @@ describe Money::BaseBank do
 
   describe '#new with &block' do
     before :each do
-      proc = Proc.new{|n| n.ceil}
-      @bank = Money::BaseBank.new(&proc)
+      proc = Proc.new { |n| n.ceil }
+      @bank = Money::Bank::Base.new(&proc)
       @bank.send(:set_rate, 'USD', 'EUR', 1.33)
     end
 
@@ -187,7 +187,7 @@ describe Money::BaseBank do
       end
 
       it 'should use a custom truncation method over a stored one' do
-        proc = Proc.new{|n| n.ceil+1}
+        proc = Proc.new { |n| n.ceil + 1 }
         @bank.exchange(10, 'USD', 'EUR', &proc).should == 15
       end
     end
@@ -198,9 +198,10 @@ describe Money::BaseBank do
       end
 
       it 'should use a custom truncation method over a stored one' do
-        proc = Proc.new{|n| n.ceil+1}
+        proc = Proc.new{ |n| n.ceil + 1 }
         @bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc).should == Money.new(15, 'EUR')
       end
     end
   end
+
 end

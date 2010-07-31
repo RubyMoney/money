@@ -25,7 +25,7 @@ class Money
     #   money2.bank  # => bank2
     #   money1.bank  # => bank1
     #
-    # The default value for this property is an instance if VariableExchangeBank.
+    # The default value for this property is an instance if Bank::VariableExchange.
     # It allows one to specify custom exchange rates:
     #
     #   Money.default_bank.add_rate("USD", "CAD", 1.24515)
@@ -40,7 +40,7 @@ class Money
     attr_accessor :default_currency
   end
 
-  self.default_bank = VariableExchangeBank.instance
+  self.default_bank = Bank::VariableExchange.instance
   self.default_currency = Currency.new("USD")
 
 

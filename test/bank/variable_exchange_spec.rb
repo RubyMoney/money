@@ -1,9 +1,9 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
-require 'money/variable_exchange_bank'
+require 'money/bank/variable_exchange'
 
-describe Money::VariableExchangeBank do
+describe Money::Bank::VariableExchange do
   before :each do
-    @bank = Money::VariableExchangeBank.new
+    @bank = Money::Bank::VariableExchange.new
   end
 
   describe "#add_rate" do
@@ -37,7 +37,7 @@ describe Money::VariableExchangeBank do
 
   it "raises Money::BaseBank::UnknownRate upon conversion if the conversion rate is unknown" do
     block = lambda { @bank.exchange(10, "USD", "EUR") }
-    block.should raise_error(Money::BaseBank::UnknownRate)
+    block.should raise_error(Money::Bank::UnknownRate)
   end
   
   describe '#exchange' do
@@ -73,8 +73,8 @@ describe Money::VariableExchangeBank do
   context 'using custom rounding methods' do
     describe 'passing a rounding method to #new' do
       before :each do
-        mth   = Proc.new{|ex| ex.ceil }
-        @bank = Money::VariableExchangeBank.new(&mth)
+        proc = Proc.new { |n| n.ceil }
+        @bank = Money::Bank::VariableExchange.new(&proc)
       end
 
       it 'should use @rounding_method' do
@@ -88,10 +88,10 @@ describe Money::VariableExchangeBank do
         @bank.add_rate('USD', 'EUR', 0.86)
         @bank.exchange(10, 'USD', 'EUR').should == 8
 
-        mth = Proc.new{|ex| ex.ceil }
-        @bank.exchange(10, 'USD', 'EUR', &mth).should == 9
+        proc = Proc.new { |n| n.ceil }
+        @bank.exchange(10, 'USD', 'EUR', &proc).should == 9
 
-        @bank.exchange(10, 'USD', 'EUR'){|ex| ex.ceil }.should == 9
+        @bank.exchange(10, 'USD', 'EUR'){ |n| n.ceil }.should == 9
       end
     end
   end
