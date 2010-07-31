@@ -14,14 +14,26 @@ class Money
     end
 
 
-    # Class for aiding in the creating of other classes to exchange money between
-    # different currencies.
     #
-    # When creating a subclass you will need to define methods to populate the
-    # +@rates+ hash using +#set_rate+ and +#get_rate+, or override the
-    # +#exchange_with+ method.
+    # Money::Bank::Base is the basic interface for creating a money exchange object,
+    # also called Bank.
     #
-    # See Money::Bank::VariableExchange for an example.
+    # A Bank is responsible for storing exchange rates,
+    # take a Money object as input and returns the corresponding Money object
+    # converted into an other currency.
+    #
+    # This class exists for aiding in the creating of other classes to exchange money between
+    # different currencies. When creating a subclass you will need to implement
+    # the following  methods to exchange money between currencies:
+    #
+    # * #exchange_with(Money) # => Money
+    #
+    # See Money::Bank::VariableExchange for a real example.
+    #
+    # Also, you can extend Money::Bank::VariableExchange
+    # instead of Money::Bank::Base if your bank implementation
+    # needs to store rates internally.
+    #
     class Base
 
       # Returns the singleton instance of the Base bank.
@@ -29,65 +41,29 @@ class Money
         @@singleton ||= self.new
       end
 
-      def initialize(&block)
-        @rates = {}
-        @mutex = Mutex.new
-        @rounding_method = block
-      end
 
       # @deprecated +#exchange+ will be removed in v3.2.0, use +#exchange_with+
       #
       # Exchanges the given amount of cents in +from_currency+ to +to_currency+.
-      # Returns the amount of cents in +to_currency+ as an integer, rounded down.
       #
-      # Raises <tt>Money::Bank::UnknownRate</tt> if the conversion rate is unknown.
+      # Returns the amount of cents in +to_currency+ as an integer, rounded down.
       def exchange(cents, from_currency, to_currency, &block)
         Money.deprecate "`Money::Bank::Base#exchange' will be removed in v3.2.0, use #exchange_with instead"
         exchange_with(Money.new(cents, from_currency), to_currency, &block).cents
       end
 
       # Exchanges the given +Money+ object to a new +Money+ object in
-      # +to_currency+. Returns a new +Money+ object.
+      # +to_currency+.
       #
-      # Raises <tt>Money::Bank::UnknownRate</tt> if the conversion rate is unknown.
+      # You should implement this in a subclass,
+      # otherwise it will throw a NotImplementedError as a reminder.
+      #
+      # Returns a new +Money+ object.
+      # Raises <tt>NotImplementedError</tt>.
       def exchange_with(from, to_currency, &block)
-        return from if same_currency?(from.currency, to_currency)
-
-        rate = get_rate(from.currency, to_currency)
-        unless rate
-          raise UnknownRate, "No conversion rate known for '#{from.currency.iso_code}' -> '#{to_currency}'"
-        end
-        _to_currency_  = Currency.wrap(to_currency)
-
-        cents = from.cents / (from.currency.subunit_to_unit.to_f / _to_currency_.subunit_to_unit.to_f)
-
-        ex = cents * rate
-        ex = if block_given?
-               block.call(ex)
-             elsif @rounding_method
-               @rounding_method.call(ex)
-             else
-               ex.to_s.to_i
-             end
-        Money.new(ex, _to_currency_)
+        raise NotImplementedError, "#exchange_with must be implemented"
       end
 
-      private
-
-      # Return the rate hashkey for the given currencies.
-      def rate_key_for(from, to)
-        "#{Currency.wrap(from).iso_code}_TO_#{Currency.wrap(to).iso_code}".upcase
-      end
-
-      # Set the rate for the given currencies.
-      def set_rate(from, to, rate)
-        @mutex.synchronize { @rates[rate_key_for(from, to)] = rate }
-      end
-
-      # Retrieve the rate for the given currencies.
-      def get_rate(from, to)
-        @mutex.synchronize { @rates[rate_key_for(from, to)] }
-      end
 
       # Given two currency strings or object,
       # checks whether they're both the same currency.
@@ -101,6 +77,7 @@ class Money
       def same_currency?(currency1, currency2)
         Currency.wrap(currency1) == Currency.wrap(currency2)
       end
+
     end
 
   end

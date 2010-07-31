@@ -495,4 +495,5 @@ class Money
     end
     rules
   end
+
 end
