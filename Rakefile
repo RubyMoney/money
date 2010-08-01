@@ -12,7 +12,7 @@ begin
     gem.description = "Money and currency exchange support library."
     gem.email = "hongli@phusion.nl"
     gem.homepage = "http://money.rubyforge.org/"
-    gem.authors = ["Tobias Luetke", "Hongli Lai", "Jeremy McNevin", "Shane Emmons"]
+    gem.authors = ["Tobias Luetke", "Hongli Lai", "Jeremy McNevin", "Shane Emmons", "Simone Carletti"]
     gem.rubyforge_project = "money"
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_development_dependency "hanna", ">= 0.1.12"
