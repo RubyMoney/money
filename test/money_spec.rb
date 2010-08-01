@@ -4,8 +4,8 @@ require 'money/money'
 require 'money/defaults'
 
 describe Money do
-  it "is associated to the singleton instance of VariableExchangeBank by default" do
-    Money.new(0).bank.object_id.should == Money::VariableExchangeBank.instance.object_id
+  it "is associated to the singleton instance of Bank::VariableExchange by default" do
+    Money.new(0).bank.should be_equal Money::Bank::VariableExchange.instance
   end
 
   specify "#cents returns the amount of cents passed to the constructor" do
