@@ -1,7 +1,6 @@
 # encoding: utf-8
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
-require 'money/money'
-require 'money/defaults'
+
+require "spec_helper"
 
 describe Money do
   it "is associated to the singleton instance of Bank::VariableExchange by default" do

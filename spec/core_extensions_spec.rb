@@ -1,6 +1,4 @@
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
-
-require 'money/core_extensions'
+require "spec_helper"
 
 describe "Money core extensions" do
   specify "Numberic#to_money works" do

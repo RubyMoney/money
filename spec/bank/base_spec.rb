@@ -1,6 +1,4 @@
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../../lib"))
-require 'money/currency'
-require 'money/bank/base'
+require "spec_helper"
 
 describe Money::Bank::Base do
 

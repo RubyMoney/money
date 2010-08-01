@@ -1,5 +1,4 @@
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
-require 'money/bank/variable_exchange'
+require "spec_helper"
 
 describe Money::Bank::VariableExchange do
 

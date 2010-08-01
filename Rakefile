@@ -27,9 +27,10 @@ end
 
 require 'spec/rake/spectask'
 Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'test'
-  spec.spec_files = FileList['test/**/*_spec.rb']
+  spec.libs << 'lib' << 'spec'
+  spec.spec_files = Dir['spec/**/*_spec.rb']
   spec.spec_opts << '--format specdoc'
+  spec.spec_opts << '--color'
 end
 
 task :spec => :check_dependencies
