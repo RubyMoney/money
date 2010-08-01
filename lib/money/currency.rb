@@ -257,7 +257,7 @@ class Money
 
 
     def method_missing(method, *args, &block)
-      warn "DEPRECATION MESSAGE: `currency' is now a Currency instance. Call `currency.to_s.#{method}' instead."
+      Money.deprecate "`currency' is now a Currency instance. Call `currency.to_s.#{method}' instead."
       iso_code.send(method, *args, &block)
     end
 
