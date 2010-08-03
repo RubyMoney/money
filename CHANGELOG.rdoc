@@ -1,7 +1,16 @@
-== master
-
+== Money 3.1.0.pre1
+ * Implemented Money::Bank::Base (closes #14)
+ * Added Bank::Base#exchange_with
+ * Deprecated Bank::Base#exchange (removal in 3.2.0)
+ * Implented Money::Bank::VariableExchange
+ * Deprecated Money::VariableExchangeBank (removal in 3.2.0)
  * Set Money::SYMBOLS, Money::SEPARATORS and Money::DELIMITERS
    deprecation target to Money 3.2.0. (closes #16)
+ * Fixed rounding error in Numeric#to_money (closes #15)
+ * Implemented #has for Money and Money::Currency
+ * Refactored test suite to conform to RSpec conventions
+ * Moved project from github.com/FooBarWidget to github.com/RubyMoney
+ * Added Simone Carletti to list of authors
 
 == Money 3.0.5
  * Added Money#abs
