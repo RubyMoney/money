@@ -35,7 +35,7 @@
 
 == Money 3.0.0
  * Version Bump due to compatibility changes with ActiveRecord. See
-   http://github.com/FooBarWidget/money/issues#issue/4/comment/224880 for more information.
+   http://github.com/RubyMoney/money/issues#issue/4/comment/224880 for more information.
 
 == Money 2.3.0
  * Currency is now represented by a Currency Object instead of a string.

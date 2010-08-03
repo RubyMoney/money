@@ -17,7 +17,7 @@ Resources:
 
 - Website: http://money.rubyforge.org
 - RDoc API: http://money.rubyforge.org
-- Git repository: http://github.com/FooBarWidget/money
+- Git repository: http://github.com/RubyMoney/money
 
 == Attention
 
@@ -36,7 +36,7 @@ Install stable releases with the following command:
 
 The development version (hosted on Github) can be installed with:
 
-  git clone git://github.com/FooBarWidget/money.git
+  git clone git://github.com/RubyMoney/money.git
   cd money
   rake install
 
@@ -196,4 +196,4 @@ For Money 2.2.x and previous versions, simply use the following
     :mapping => [%w(cents cents), %w(currency currency)],
     :constructor => Proc.new { |cents, currency| Money.new(cents || 0, currency || Money.default_currency) }
 
-For further details read the full discussion at http://github.com/FooBarWidget/money/issues/4#comment_224880
+For further details read the full discussion at http://github.com/RubyMoney/money/issues/4#comment_224880
