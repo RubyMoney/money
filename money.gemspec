@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{money}
-  s.version = "3.0.5"
+  s.version = "3.1.0.pre1"
 
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Tobias Luetke", "Hongli Lai", "Jeremy McNevin", "Shane Emmons"]
-  s.date = %q{2010-07-16}
+  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
+  s.authors = ["Tobias Luetke", "Hongli Lai", "Jeremy McNevin", "Shane Emmons", "Simone Carletti"]
+  s.date = %q{2010-08-03}
   s.description = %q{Money and currency exchange support library.}
   s.email = %q{hongli@phusion.nl}
   s.extra_rdoc_files = [
@@ -26,17 +26,21 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "lib/money.rb",
+     "lib/money/bank/base.rb",
+     "lib/money/bank/variable_exchange.rb",
      "lib/money/core_extensions.rb",
      "lib/money/currency.rb",
      "lib/money/defaults.rb",
-     "lib/money/errors.rb",
+     "lib/money/deprecations.rb",
      "lib/money/money.rb",
-     "lib/money/variable_exchange_bank.rb",
      "money.gemspec",
-     "test/core_extensions_spec.rb",
-     "test/currency_spec.rb",
-     "test/exchange_bank_spec.rb",
-     "test/money_spec.rb"
+     "spec/bank/base_spec.rb",
+     "spec/bank/variable_exchange_spec.rb",
+     "spec/core_extensions_spec.rb",
+     "spec/currency_spec.rb",
+     "spec/deprecations_spec.rb",
+     "spec/money_spec.rb",
+     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://money.rubyforge.org/}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -45,10 +49,13 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Money and currency exchange support library}
   s.test_files = [
-    "test/core_extensions_spec.rb",
-     "test/currency_spec.rb",
-     "test/exchange_bank_spec.rb",
-     "test/money_spec.rb"
+    "spec/bank/base_spec.rb",
+     "spec/bank/variable_exchange_spec.rb",
+     "spec/core_extensions_spec.rb",
+     "spec/currency_spec.rb",
+     "spec/deprecations_spec.rb",
+     "spec/money_spec.rb",
+     "spec/spec_helper.rb"
   ]
 
   if s.respond_to? :specification_version then
