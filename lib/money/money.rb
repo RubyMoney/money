@@ -149,6 +149,10 @@ class Money
     end
   end
 
+  # Returns a new Money object containing the sum of the two operands'
+  # monetary values. If +other_money+ has a different currency then its
+  # monetary value is automatically exchanged to this object's currency
+  # using +exchange_to+.
   def +(other_money)
     if currency == other_money.currency
       Money.new(cents + other_money.cents, other_money.currency)
@@ -157,6 +161,10 @@ class Money
     end
   end
 
+  # Returns a new Money object containing the difference between the two
+  # operands' monetary values. If +other_money+ has a different currency
+  # then its monetary value is automatically exchanged to this object's
+  # currency using +exchange_to+.
   def -(other_money)
     if currency == other_money.currency
       Money.new(cents - other_money.cents, other_money.currency)
@@ -165,17 +173,25 @@ class Money
     end
   end
 
-  # get the cents value of the object
+  # Gets the cents value of this money object.
+  #
+  #   Money.new(15_00, "USD").cents   # => 15_00
   def cents
     @cents
   end
 
-  # multiply money by fixnum
+  # Multiplies the monetary value with the given number and returns a
+  # new Money object with this monetary value and the same currency.
+  #
+  # Multiplying with another Money object is currently not supported.
   def *(fixnum)
     Money.new(cents * fixnum, currency)
   end
 
-  # divide money by money or fixnum
+  # Divides the monetary value with the given number and returns a
+  # new Money object with this monetary value and the same currency.
+  #
+  # Dividing with another Money object is currently not supported.
   def /(val)
     if val.is_a?(Money)
       if currency == val.currency
@@ -188,7 +204,7 @@ class Money
     end
   end
 
-  # synonym for #/
+  # Synonym for #/.
   def div(val)
     self / val
   end
