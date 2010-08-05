@@ -66,7 +66,7 @@ The most part of <tt>Money</tt> APIs allows you to supply either a <tt>String</t
 A <tt>Money::Currency</tt> instance holds all the information about the currency, 
 including the currency symbol, name and much more.
 
-  currency = Money.new(1000, "USD")
+  currency = Money.new(1000, "USD").currency
   currency.iso_code
   # => "USD"
   currency.name
@@ -89,14 +89,14 @@ containing all the currency attributes.
 
 The pre-defined set of attributes includes:
 
-  * priority: a numerical value you can use to sort/group the currency list
-  * iso_code: the international 3-letter code as defined by the ISO 4217 standard
-  * name: the currency name
-  * symbol: the currency symbol (UTF-8 encoded)
-  * subunit: the name of the fractional monetary unit
-  * subunit_to_unit: the proportion between the unit and the subunit
-  * separator: character between the whole and fraction amounts
-  * delimiter: character between each thousands place
+ * priority: a numerical value you can use to sort/group the currency list
+ * iso_code: the international 3-letter code as defined by the ISO 4217 standard
+ * name: the currency name
+ * symbol: the currency symbol (UTF-8 encoded)
+ * subunit: the name of the fractional monetary unit
+ * subunit_to_unit: the proportion between the unit and the subunit
+ * separator: character between the whole and fraction amounts
+ * delimiter: character between each thousands place
 
 All attributes are optional. Some attributes, such as <tt>:symbol</tt>, are used by the Money class
 to print out a representation of the object. Other attributes, such as <tt>:name</tt> or <tt>:priority</tt>,
@@ -133,7 +133,7 @@ and all_currencies as follows:
   major_currencies(Money::Currency::TABLE)
   # => [ :usd, :eur, :bgp, :cad ]
   
-  major_currencies(Money::Currency::TABLE)
+  all_currencies(Money::Currency::TABLE)
   # => [ :aed, :afn, all, ... ]
 
 
@@ -175,7 +175,7 @@ www.xe.com for the current rates or just returns <tt>rand(2)</tt>:
 The following is a list of Money.gem compatible currency exchange rate
 implementations.
 
-* eu_central_bank.gem: http://github.com/liangzan/eu_central_bank
+* eu_central_bank.gem: http://github.com/RubyMoney/eu_central_bank
 
 === Ruby on Rails
 
