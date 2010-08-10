@@ -47,6 +47,12 @@ class Money
       # passed to dictate the rounding method that +exchange_with+ can use.
       def initialize(&block)
         @rounding_method = block
+        setup
+      end
+
+      # Called after initialize. Subclasses can use this method to setup
+      # variables, etc that they normally would in +#initialize+.
+      def setup
       end
 
       # @deprecated +#exchange+ will be removed in v3.2.0, use +#exchange_with+

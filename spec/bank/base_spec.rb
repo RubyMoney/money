@@ -13,6 +13,21 @@ describe Money::Bank::Base do
     end
   end
 
+  describe '#setup' do
+    it 'should call #setup after #initialize' do
+      class MyBank < Money::Bank::Base
+        attr_reader :setup_called
+
+        def setup
+          @setup_called = true
+        end
+      end
+
+      bank = MyBank.new
+      bank.setup_called.should == true
+    end
+  end
+
   describe '#exchange' do
     it 'should raise NotImplementedError' do
       lambda { @bank.exchange(100, 'USD', 'EUR') }.should raise_exception(NotImplementedError)
