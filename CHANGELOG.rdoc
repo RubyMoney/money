@@ -1,3 +1,9 @@
+== Money 3.1.0.pre2
+ * moved @rounding_method from Money::Bank::VariableExchange to
+   Money::Bank::Base (closes #18)
+ * added #setup and call after #initialize in Money::Bank::Base (closes #19)
+ * update/fix documentation (closes #17)
+
 == Money 3.1.0.pre1
  * Implemented Money::Bank::Base (closes #14)
  * Added Bank::Base#exchange_with
