@@ -22,10 +22,9 @@ class Money
     #
     class VariableExchange < Base
 
-      def initialize(&block)
+      def setup
         @rates = {}
         @mutex = Mutex.new
-        super
       end
 
 
