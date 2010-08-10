@@ -25,7 +25,7 @@ class Money
       def initialize(&block)
         @rates = {}
         @mutex = Mutex.new
-        @rounding_method = block
+        super
       end
 
 

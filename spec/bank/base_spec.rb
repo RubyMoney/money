@@ -1,9 +1,16 @@
 require "spec_helper"
 
 describe Money::Bank::Base do
-
   before :each do
     @bank = Money::Bank::Base.new
+  end
+
+  describe '#new with &block' do
+    it 'should store @rounding_method' do
+      proc = Proc.new{|n| n.ceil}
+      bank = Money::Bank::Base.new(&proc)
+      bank.rounding_method.should == proc
+    end
   end
 
   describe '#exchange' do
@@ -53,5 +60,4 @@ describe Money::Bank::Base do
       lambda{@bank.send(:same_currency?, 'AAA', 'BBB')}.should raise_exception(Money::Currency::UnknownCurrency)
     end
   end
-
 end

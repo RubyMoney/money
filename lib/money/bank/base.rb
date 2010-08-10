@@ -41,6 +41,13 @@ class Money
         @@singleton ||= self.new
       end
 
+      attr_reader :rounding_method
+
+      # Initializes a new Money::Bank::Base object. An optional block can be
+      # passed to dictate the rounding method that +exchange_with+ can use.
+      def initialize(&block)
+        @rounding_method = block
+      end
 
       # @deprecated +#exchange+ will be removed in v3.2.0, use +#exchange_with+
       #
