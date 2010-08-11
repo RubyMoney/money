@@ -182,7 +182,7 @@ www.xe.com for the current rates or just returns <tt>rand(2)</tt>:
 
   Money.default_bank = ExchangeBankWhichScrapesXeDotCom.new
 
-=== Currency Exchange Implementations
+=== Currency Exchange (Money::Bank::*) Implementations
 
 The following is a list of Money.gem compatible currency exchange rate
 implementations.
