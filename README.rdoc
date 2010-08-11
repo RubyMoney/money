@@ -188,6 +188,7 @@ The following is a list of Money.gem compatible currency exchange rate
 implementations.
 
 * eu_central_bank.gem: http://github.com/RubyMoney/eu_central_bank
+* google_currency.gem: http://github.com/RubyMoney/google_currency
 
 === Ruby on Rails
 
