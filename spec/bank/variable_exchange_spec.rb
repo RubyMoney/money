@@ -1,4 +1,6 @@
 require "spec_helper"
+require "json"
+require "yaml"
 
 describe Money::Bank::VariableExchange do
 
@@ -162,6 +164,85 @@ describe Money::Bank::VariableExchange do
 
       it 'should raise an UnknownCurrency exception when an unknown currency is requested' do
         lambda{ @bank.get_rate('AAA', 'BBB') }.should raise_exception(Money::Currency::UnknownCurrency)
+      end
+    end
+
+    describe '#export_rates' do
+      before :each do
+        @bank.set_rate('USD', 'EUR', 1.25)
+        @bank.set_rate('USD', 'JPY', 2.55)
+      end
+
+      describe 'with format == :json' do
+        it 'should return rates formatted as json' do
+          rates_as_json = '{"USD_TO_EUR":1.25,"USD_TO_JPY":2.55}'
+          @bank.export_rates(:json).should == rates_as_json
+        end
+      end
+
+      describe 'with format == :ruby' do
+        it 'should return rates formatted as ruby objects' do
+          rates = {"USD_TO_EUR"=>1.25,"USD_TO_JPY"=>2.55}
+          @bank.export_rates(:ruby).should == Marshal.dump(rates)
+        end
+      end
+
+      describe 'with format == :yaml' do
+        it 'should return rates formatted as yaml' do
+          rates_as_yaml = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
+          @bank.export_rates(:yaml).should == rates_as_yaml
+        end
+      end
+
+      describe 'with unknown format' do
+        it 'should raise `UnknownRateFormat`' do
+          lambda{@bank.export_rates(:foo)}.should raise_error Money::Bank::UnknownRateFormat
+        end
+      end
+
+      describe 'with :file provided' do
+        it 'should write rates to file' do
+          f = mock('IO')
+          File.should_receive(:open).with('null', 'w').and_return(f)
+          f.should_receive(:write).with('{"USD_TO_EUR":1.25,"USD_TO_JPY":2.55}')
+
+          @bank.export_rates(:json, 'null')
+        end
+      end
+    end
+
+    describe '#import_rates' do
+      describe 'with format == :json' do
+        it 'should load the rates provided' do
+          s = '{"USD_TO_EUR":1.25,"USD_TO_JPY":2.55}'
+          @bank.import_rates(:json, s)
+          @bank.get_rate('USD', 'EUR').should == 1.25
+          @bank.get_rate('USD', 'JPY').should == 2.55
+        end
+      end
+
+      describe 'with format == :ruby' do
+        it 'should load the rates provided' do
+          s = Marshal.dump({"USD_TO_EUR"=>1.25,"USD_TO_JPY"=>2.55})
+          @bank.import_rates(:ruby, s)
+          @bank.get_rate('USD', 'EUR').should == 1.25
+          @bank.get_rate('USD', 'JPY').should == 2.55
+        end
+      end
+
+      describe 'with format == :yaml' do
+        it 'should load the rates provided' do
+          s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
+          @bank.import_rates(:yaml, s)
+          @bank.get_rate('USD', 'EUR').should == 1.25
+          @bank.get_rate('USD', 'JPY').should == 2.55
+        end
+      end
+
+      describe 'with unknown format' do
+        it 'should raise `UnknownRateFormat`' do
+          lambda{@bank.import_rates(:foo, "")}.should raise_error Money::Bank::UnknownRateFormat
+        end
       end
     end
 

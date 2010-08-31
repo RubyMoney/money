@@ -1,7 +1,12 @@
 require 'money/bank/base'
+require 'json'
+require 'yaml'
 
 class Money
   module Bank
+    # Thrown by VariableExchange#export_rates and VariableExchange#import_rates
+    # when an unknown rate format is requested.
+    class UnknownRateFormat < StandardError; end
 
     # Class for aiding in exchanging money between different currencies.
     # By default, the Money class uses an object of this class (accessible through
@@ -21,6 +26,8 @@ class Money
     #   bank.exchange(100_00, "USD", "CAD")  # => 80
     #
     class VariableExchange < Base
+
+      RATE_FORMATS = [:json, :ruby, :yaml]
 
       def setup
         @rates = {}
@@ -71,12 +78,60 @@ class Money
         @mutex.synchronize { @rates[rate_key_for(from, to)] }
       end
 
+      # Return the known rates as a string in the format specified. If +file+
+      # is given will also write the string out to the file specified.
+      # Available formats are +:json+, +:ruby+ and +:yaml+.
+      #
+      # Raises +Money::Bank::UnknownRateFormat+ if format is unknown.
+      def export_rates(format, file=nil)
+        raise Money::Bank::UnknownRateFormat unless
+          RATE_FORMATS.include? format
+
+        s = ""
+        @mutex.synchronize {
+          s = case format
+              when :json
+                @rates.to_json
+              when :ruby
+                Marshal.dump(@rates)
+              when :yaml
+                @rates.to_yaml
+              end
+
+          unless file.nil?
+            File.open(file, "w").write(s)
+          end
+        }
+        s
+      end
+
+      # Loads rates provided in +s+ given the specified format. Available
+      # formats are +:json+, +:ruby+ and +:yaml+.
+      #
+      # Raises +Money::Bank::UnknownRateFormat+ if format is unknown.
+      def import_rates(format, s)
+        raise Money::Bank::UnknownRateFormat unless
+          RATE_FORMATS.include? format
+
+        @mutex.synchronize {
+          @rates = case format
+                   when :json
+                     JSON.load(s)
+                   when :ruby
+                     Marshal.load(s)
+                   when :yaml
+                     YAML.load(s)
+                   end
+        }
+        self
+      end
+
       private
 
-        # Return the rate hashkey for the given currencies.
-        def rate_key_for(from, to)
-          "#{Currency.wrap(from).iso_code}_TO_#{Currency.wrap(to).iso_code}".upcase
-        end
+      # Return the rate hashkey for the given currencies.
+      def rate_key_for(from, to)
+        "#{Currency.wrap(from).iso_code}_TO_#{Currency.wrap(to).iso_code}".upcase
+      end
 
     end
 
