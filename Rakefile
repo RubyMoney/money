@@ -16,6 +16,7 @@ begin
     gem.rubyforge_project = "money"
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_development_dependency "hanna", ">= 0.1.12"
+    gem.requirements << "json is required if running a version of Ruby that doesn't include it, and you wish to export rates in JSON format."
   end
   Jeweler::GemcutterTasks.new
   Jeweler::RubyforgeTasks.new do |gem|
