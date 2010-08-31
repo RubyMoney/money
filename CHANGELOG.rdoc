@@ -1,3 +1,8 @@
+== Money 3.1.0.pre3
+ * added google_currency.gem to list of Currency Exchange Implementations
+ * updated HKD :subunit_to_unit from 10 to 100 (closes #20)
+ * added #(export/import)_rates to Money::Bank::VariableExchange (closes #21)
+
 == Money 3.1.0.pre2
  * moved @rounding_method from Money::Bank::VariableExchange to
    Money::Bank::Base (closes #18)
