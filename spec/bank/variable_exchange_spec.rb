@@ -171,26 +171,27 @@ describe Money::Bank::VariableExchange do
       before :each do
         @bank.set_rate('USD', 'EUR', 1.25)
         @bank.set_rate('USD', 'JPY', 2.55)
+
+        @rates = {"USD_TO_EUR"=>1.25,"USD_TO_JPY"=>2.55}
       end
 
       describe 'with format == :json' do
         it 'should return rates formatted as json' do
-          rates_as_json = '{"USD_TO_EUR":1.25,"USD_TO_JPY":2.55}'
-          @bank.export_rates(:json).should == rates_as_json
+          json = @bank.export_rates(:json)
+          JSON.load(json).should == @rates
         end
       end
 
       describe 'with format == :ruby' do
         it 'should return rates formatted as ruby objects' do
-          rates = {"USD_TO_EUR"=>1.25,"USD_TO_JPY"=>2.55}
-          @bank.export_rates(:ruby).should == Marshal.dump(rates)
+          @bank.export_rates(:ruby).should == Marshal.dump(@rates)
         end
       end
 
       describe 'with format == :yaml' do
         it 'should return rates formatted as yaml' do
-          rates_as_yaml = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
-          @bank.export_rates(:yaml).should == rates_as_yaml
+          yaml = @bank.export_rates(:yaml)
+          YAML.load(yaml).should == @rates
         end
       end
 
@@ -204,7 +205,7 @@ describe Money::Bank::VariableExchange do
         it 'should write rates to file' do
           f = mock('IO')
           File.should_receive(:open).with('null', 'w').and_return(f)
-          f.should_receive(:write).with('{"USD_TO_EUR":1.25,"USD_TO_JPY":2.55}')
+          f.should_receive(:write).with(@rates.to_json)
 
           @bank.export_rates(:json, 'null')
         end
