@@ -1,11 +1,16 @@
 class Numeric
-  # Converts this numeric to a Money object in the default currency. It
-  # multiplies the numeric value by 100 and treats that as cents.
+  # Converts this numeric to a +Money+ object in the default currency.
   #
-  #   100.to_money => #<Money @cents=10000>
-  #   100.37.to_money => #<Money @cents=10037>
+  # @param [optional, Money::Currency, String, Symbol] currency The currency to
+  #  set the resulting +Money+ object to.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   100.to_money                   #=> #<Money @cents=10000>
+  #   100.37.to_money                #=> #<Money @cents=10037>
   #   require 'bigdecimal'
-  #   BigDecimal.new('100').to_money => #<Money @cents=10000>
+  #   BigDecimal.new('100').to_money #=> #<Money @cents=10000>
   def to_money(currency = Money.default_currency)
     currency = Money::Currency.new(currency) unless currency.is_a?(Money::Currency)
     amt = self * currency.subunit_to_unit
@@ -21,15 +26,21 @@ end
 
 class String
 
-  # Parses the current string and converts it to a Money object.
-  # Excess characters will be discarded.
+  # Parses the current string and converts it to a +Money+ object. Excess
+  # characters will be discarded.
   #
-  #   '100'.to_money       # => #<Money @cents=10000>
-  #   '100.37'.to_money    # => #<Money @cents=10037>
-  #   '100 USD'.to_money   # => #<Money @cents=10000, @currency="USD">
-  #   'USD 100'.to_money   # => #<Money @cents=10000, @currency="USD">
-  #   '$100 USD'.to_money  # => #<Money @cents=10000, @currency="USD">
-  #   'hello 2000 world'.to_money   # => #<Money @cents=200000 @currency="USD")>
+  # @param [optional, Money::Currency, String, Symbol] currency The currency to
+  #  set the resulting +Money+ object to.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   '100'.to_money                #=> #<Money @cents=10000>
+  #   '100.37'.to_money             #=> #<Money @cents=10037>
+  #   '100 USD'.to_money            #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
+  #   'USD 100'.to_money            #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
+  #   '$100 USD'.to_money           #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
+  #   'hello 2000 world'.to_money   #=> #<Money @cents=200000 @currency=#<Money::Currency id: usd>>
   def to_money(currency = nil)
     # Get the currency.
     matches = scan /([A-Z]{2,3})/
@@ -51,7 +62,12 @@ class String
     Money.new(cents, currency)
   end
 
-  # Parses the current string and converts it to a Currency object.
+  # Parses the current string and converts it to a +Currency+ object.
+  #
+  # @return [Money::Currency]
+  #
+  # @example
+  #   "USD".to_currency #=> #<Money::Currency id: usd>
   def to_currency
     Money::Currency.new(self)
   end
