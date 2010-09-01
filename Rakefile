@@ -1,14 +1,13 @@
 require 'rubygems'
-require 'rake'
 require 'rake/clean'
 
-CLOBBER << '*.gem'
+CLOBBER.include('*.gem')
 
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:test) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = Dir['spec/**/*_spec.rb']
-  spec.spec_opts << '--color'
+begin
+  require 'spec/rake/spectask'
+  Spec::Rake::SpecTask.new
+rescue LoadError
+  task(:spec){abort "`gem install rspec` to run specs"}
 end
 
 require 'hanna/rdoctask'
