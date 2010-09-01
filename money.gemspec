@@ -14,6 +14,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec"
   s.add_development_dependency "yard"
 
-  s.files        = Dir.glob("lib/**/*") + %w(CHANGELOG LICENSE README.rdoc)
+  s.files        = Dir.glob("lib/**/*") + %w(CHANGELOG LICENSE README.md)
   s.require_path = "lib"
 end
