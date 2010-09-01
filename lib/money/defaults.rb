@@ -38,11 +38,13 @@ class Money
     # Everything else defaults to '¤'
   }, "Money::SYMBOLS has no longer effect and will be removed in v3.2.0. See Money::Currency#symbol.")
 
+  # @deprecated See Money::Currency#separator
   SEPARATORS = DeprecatedHash.new({
     "BRL" => ",",
     # Everything else defaults to '.'
   }, "Money::SEPARATORS is deprecated and will be removed in v3.2.0. See Money::Currency#separator.")
 
+  # @deprecated See Money::Currency#delimiter
   DELIMITERS = DeprecatedHash.new({
     "BRL" => ".",
     # Everything else defaults to ","
