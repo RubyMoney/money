@@ -12,8 +12,8 @@ Gem::Specification.new do |s|
   s.rubyforge_project         = "money"
 
   s.add_development_dependency "rspec"
-  s.add_development_dependency "hanna"
+  s.add_development_dependency "yard"
 
-  s.files        = Dir.glob("lib/**/*") + %w(CHANGELOG.rdoc LICENSE README.rdoc)
+  s.files        = Dir.glob("lib/**/*") + %w(CHANGELOG LICENSE README.rdoc)
   s.require_path = "lib"
 end
