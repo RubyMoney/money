@@ -18,3 +18,13 @@ begin
 rescue LoadError
   task(:yardoc){abort "`gem install yard` to generate documentation"}
 end
+
+desc "build gem"
+task :build do
+  sh "gem build money.gemspec"
+end
+
+desc "install gem"
+task :install => :build do
+  sh "gem install money-*.gem"
+end
