@@ -1,7 +1,14 @@
 require 'rubygems'
 require 'rake/clean'
 
-CLOBBER.include('doc', '.yardoc', '*.gem')
+CLOBBER.include('doc', '.yardoc')
+
+def gemspec
+  @gemspec ||= begin
+    file = File.expand_path("../money.gemspec", __FILE__)
+    eval(File.read(file), binding, file)
+  end
+end
 
 begin
   require 'spec/rake/spectask'
@@ -19,12 +26,22 @@ rescue LoadError
   task(:yardoc){abort "`gem install yard` to generate documentation"}
 end
 
-desc "build gem"
-task :build do
-  sh "gem build money.gemspec"
+begin
+  require 'rake/gempackagetask'
+  Rake::GemPackageTask.new(gemspec) do |pkg|
+    pkg.gem_spec = gemspec
+  end
+  task :gem => :gemspec
+rescue LoadError
+  task(:gem){abort "`gem install rake` to package gems"}
 end
 
-desc "install gem"
-task :install => :build do
-  sh "gem install money-*.gem"
+desc "Install the gem locally"
+task :install => :gem do
+  sh "gem install pkg/#{gemspec.full_name}.gem"
+end
+
+desc "Validate the gemspec"
+task :gemspec do
+  gemspec.validate
 end

@@ -16,8 +16,8 @@ tmtags
 ## PROJECT::GENERAL
 coverage
 rdoc
-*.gem
-.yardoc
-doc
+pkg
 
 ## PROJECT::SPECIFIC
+.yardoc
+doc
