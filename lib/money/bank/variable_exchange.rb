@@ -198,7 +198,7 @@ class Money
       # @raise +Money::Bank::UnknownRateFormat+ if format is unknown.
       #
       # @example
-      #   s = "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}" 
+      #   s = "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
       #   bank = Money::Bank::VariableExchange.new
       #   bank.import_rates(:json, s)
       #

@@ -459,7 +459,7 @@ class Money
   # Creates a formatted price string according to several rules.
   #
   # @param [Hash] *rules The options used to format the string.
-  # 
+  #
   # @return [String]
   #
   # @option *rules [Boolean, String] :display_free (false) Whether a zero

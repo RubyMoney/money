@@ -20,7 +20,7 @@ describe "Money core extensions" do
     amount = 555.55.to_money
     amount.should == Money.new(55555)
   end
-  
+
   specify "Numeric#to_money accepts optional currency" do
     1234.to_money('USD').should == Money.new(123400, 'USD')
     1234.to_money('EUR').should == Money.new(123400, 'EUR')

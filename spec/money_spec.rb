@@ -16,7 +16,7 @@ describe Money do
     Money.new(1.01, "USD").cents.should == 1
     Money.new(1.50, "USD").cents.should == 2
   end
-  
+
   specify "#currency returns the currency passed to the constructor" do
     Money.new(200_00, "USD").currency.should == Money::Currency.new("USD")
   end
@@ -162,7 +162,7 @@ describe Money do
     Money.new(1_00, "USD").eql?(/foo/).should be false
     Money.new(1_00, "USD").eql?(nil).should be false
   end
-  
+
   specify "#hash should return the same value for equal objects" do
     Money.new(1_00, :eur).hash.should == Money.new(1_00, :eur).hash
     Money.new(2_00, :usd).hash.should == Money.new(2_00, :usd).hash
@@ -170,7 +170,7 @@ describe Money do
     Money.new(1_00, :eur).hash.should_not == Money.new(1_00, :usd).hash
     Money.new(1_00, :eur).hash.should_not == Money.new(2_00, :usd).hash
   end
-  
+
   specify "#hash can be used to return the intersection of Money object arrays" do
     intersection = [Money.new(1_00, :eur), Money.new(1_00, :usd)] & [Money.new(1_00, :eur)]
     intersection.should == [Money.new(1_00, :eur)]

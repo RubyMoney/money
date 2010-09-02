@@ -13,7 +13,7 @@ class Money
   # shipped with Money. The class has been superseded by
   # Money::Bank::VariableExchange.
   #
-  # @deprecated Use Money::Bank::VariableExchange instead. 
+  # @deprecated Use Money::Bank::VariableExchange instead.
   class VariableExchangeBank < Bank::VariableExchange # :nodoc:
     # Calls +Money#deprecate+ the super.
     def initialize(*args)

@@ -46,7 +46,7 @@ class String
     # Get the currency.
     matches = scan /([A-Z]{2,3})/
     _currency_ = matches[0] ? matches[0][0] : nil
-    
+
     # check that currency passed and embedded currency are the same, or only
     # one or the other is present.
     if currency.nil? and _currency_.nil?
@@ -58,7 +58,7 @@ class String
     elsif currency != _currency_
       raise "mismatching currencies"
     end
-    
+
     cents = calculate_cents(self)
     Money.new(cents, currency)
   end
