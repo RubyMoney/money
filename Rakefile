@@ -20,7 +20,7 @@ end
 begin
   require 'yard'
   YARD::Rake::YardocTask.new do |t|
-    t.options << "--files" << "CHANGELOG,LICENSE"
+    t.options << "--files" << "CHANGELOG.md,LICENSE"
   end
 rescue LoadError
   task(:yardoc){abort "`gem install yard` to generate documentation"}
