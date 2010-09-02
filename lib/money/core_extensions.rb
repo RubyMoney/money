@@ -1,3 +1,4 @@
+# Open +Numeric+ to add new method.
 class Numeric
   # Converts this numeric to a +Money+ object in the default currency.
   #
@@ -24,8 +25,8 @@ class Numeric
   end
 end
 
+# Open +String+ to add new methods.
 class String
-
   # Parses the current string and converts it to a +Money+ object. Excess
   # characters will be discarded.
   #
@@ -74,6 +75,11 @@ class String
 
   private
 
+  # Takes a number string and attempts to massage out the number.
+  #
+  # @param [String] number The string containing a potential number.
+  #
+  # @return [Integer]
   def calculate_cents(number)
     # remove anything that's not a number, potential delimiter, or minus sign
     num = number.gsub(/[^\d|\.|,|\'|\s|\-]/, '').strip
@@ -179,5 +185,4 @@ class String
     # if negative, multiply by -1; otherwise, return positive cents
     negative ? cents * -1 : cents
   end
-
 end
