@@ -78,7 +78,7 @@ class Money
       # variables, etc that they normally would in +#initialize+.
       #
       # @abstract Subclass and override +#setup+ to implement a custom
-      # +Money::Bank+ class.
+      #  +Money::Bank+ class.
       #
       # @return [self]
       def setup
@@ -95,7 +95,7 @@ class Money
       # +to_currency+.
       #
       # @abstract Subclass and override +#exchange_with+ to implement a custom
-      # +Money::Bank+ class.
+      #  +Money::Bank+ class.
       #
       # @raise NotImplementedError
       #
