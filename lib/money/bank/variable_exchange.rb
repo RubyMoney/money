@@ -1,6 +1,6 @@
 require 'money/bank/base'
-require 'json'
-require 'yaml'
+autoload :JSON, 'json'
+autoload :YAML, 'yaml'
 
 class Money
   module Bank
@@ -173,11 +173,11 @@ class Money
         @mutex.synchronize {
           s = case format
               when :json
-                @rates.to_json
+                JSON.dump(@rates)
               when :ruby
                 Marshal.dump(@rates)
               when :yaml
-                @rates.to_yaml
+                YAML.dump(@rates)
               end
 
           unless file.nil?
