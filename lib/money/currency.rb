@@ -73,7 +73,7 @@ class Money
       :fkp => { :priority => 100, :iso_code => "FKP", :name => "Falkland Pound",                            :symbol => "£",             :subunit => "Penny",         :subunit_to_unit => 100, :separator => ".", :delimiter => ","   },
       :gbp => { :priority =>   3, :iso_code => "GBP", :name => "British Pound",                             :symbol => "£",             :subunit => "Penny",         :subunit_to_unit => 100, :separator => ".", :delimiter => ","   },
       :gel => { :priority => 100, :iso_code => "GEL", :name => "Georgian Lari",                             :symbol => "ლ",             :subunit => "Tetri",         :subunit_to_unit => 100, :separator => ".", :delimiter => ","   },
-      :ghc => { :priority => 100, :iso_code => "GHC", :name => "Ghanaian Cedi",                             :symbol => "₵",             :subunit => "Pesewa",        :subunit_to_unit => 100, :separator => ".", :delimiter => ","   },
+      :ghs => { :priority => 100, :iso_code => "GHS", :name => "Ghanaian Cedi",                             :symbol => "₵",             :subunit => "Pesewa",        :subunit_to_unit => 100, :separator => ".", :delimiter => ","   },
       :gip => { :priority => 100, :iso_code => "GIP", :name => "Gibraltar Pound",                           :symbol => "£",             :subunit => "Penny",         :subunit_to_unit => 100, :separator => ".", :delimiter => ","   },
       :gmd => { :priority => 100, :iso_code => "GMD", :name => "Gambian Dalasi",                            :symbol => "D",             :subunit => "Butut",         :subunit_to_unit => 100, :separator => ".", :delimiter => ","   },
       :gnf => { :priority => 100, :iso_code => "GNF", :name => "Guinean Franc",                             :symbol => "Fr",            :subunit => "Centime",       :subunit_to_unit => 100, :separator => ".", :delimiter => ","   },
@@ -189,6 +189,9 @@ class Money
 
       # aliases for BC with documentation before Currency
       :yen => { :priority => 100, :iso_code => "JPY", :name => "Japanese Yen",                              :symbol => "¥",             :subunit => "Sen",           :subunit_to_unit => 100, :separator => ".", :delimiter => ","   },
+
+      # kept for backwards compatibility, real entry is :ghs
+      :ghc => { :priority => 100, :iso_code => "GHS", :name => "Ghanaian Cedi",                             :symbol => "₵",             :subunit => "Pesewa",        :subunit_to_unit => 100, :separator => ".", :delimiter => ","   },
     }
 
     # The symbol used to identify the currency, usually the lowercase
