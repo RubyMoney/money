@@ -16,6 +16,7 @@ begin
 rescue LoadError
   task(:spec){abort "`gem install rspec` to run specs"}
 end
+task :default => :spec
 
 begin
   require 'yard'
