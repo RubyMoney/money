@@ -1,3 +1,50 @@
+Money 3.1.0
+===========
+
+Features
+--------
+ - Implemented `Money::Bank::Base`.
+   ([#issue/14](http://github.com/RubyMoney/money/issues/14))
+ - Added `Money::Bank::Base#exchange_with`.
+ - Deprecated `Money::Bank::Base#exchange`. Deprecation target set to Money
+   3.2.0.
+ - Implented `Money::Bank::VariableExchange`
+ - Deprecated `Money::VariableExchangeBank`. Deprecation target set to Money
+   3.2.0.
+ - Deprecate `Money::SYMBOLS`, `Money::SEPARATORS` and `Money::DELIMITERS`.
+   Deprecation target set to Money 3.2.0.
+   ([#issue/16](http://github.com/RubyMoney/money/issues/16))
+ - Implemented `#has` for `Money` and `Money::Currency`.
+ - Refactored test suite to conform to RSpec conventions.
+ - Moved project from [FooBarWidget](http://github.com/FooBarWidget) to
+   [RubyMoney](http://github.com/RubyMoney)
+ - Added Simone Carletti to list of authors.
+ - Moved `@rounding_method` from `Money::Bank::VariableExchange` to
+   `Money::Bank::Base`.
+   ([#issue/18](http://github.com/RubyMoney/money/issues/18))
+ - Added `#setup` to `Money::Bank::Base`. Called from `#initialize`.
+   ([#issue/19](http://github.com/RubyMoney/money/issues/19))
+ - Added [google_currency](http://github.com/RubyMoney/google_currency) to list
+   of Currency Exchange Implementations.
+ - Added `#export_rates` to `Money::Bank::VariableExchange`.
+   ([#issue/21](http://github.com/RubyMoney/money/issues/21))
+ - Added `#import_rates` to `Money::Bank::VariableExchange`.
+   ([#issue/21](http://github.com/RubyMoney/money/issues/21))
+ - Removed dependency on Jeweler.
+ - Replaced usage of hanna with yardoc.
+ - Rewrote/reformatted all documentation.
+
+Bugfixes
+--------
+ - Fixed incorrect URLs in documentation.
+   ([#issue/17](http://github.com/RubyMoney/money/issues/17))
+ - Updated `:subunit_to_unit` for HKD from 10 to 100.
+   ([#issue/20](http://github.com/RubyMoney/money/issues/20))
+ - Updated Ghanaian Cedi to use correct ISO Code, GHS.
+   ([#issue/22](http://github.com/RubyMoney/money/issues/22))
+ - Make `default` rake task call `spec`.
+   ([#issue/23](http://github.com/RubyMoney/money/issues/23))
+
 Money 3.1.0.pre3
 ================
 
