@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.summary     = "Money and currency exchange support library."
   s.description = "This library aids one in handling money and different currencies."
 
-  s.required_rubygems_version = ">= 1.3.7"
+  s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "money"
 
   s.add_development_dependency "rspec"
