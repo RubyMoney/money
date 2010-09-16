@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'money/currency'
 require 'money/bank/variable_exchange'
+autoload :BigDecimal, 'bigdecimal'
 
 # Represents an amount of money in a given currency.
 class Money
@@ -308,9 +309,9 @@ class Money
   def /(val)
     if val.is_a?(Money)
       if currency == val.currency
-        cents / val.cents.to_f
+        (cents / BigDecimal.new(val.cents.to_s)).to_f
       else
-        cents / val.exchange_to(currency).cents.to_f
+        (cents / BigDecimal(val.exchange_to(currency).cents.to_s)).to_f
       end
     else
       Money.new(cents / val, currency)
@@ -569,9 +570,9 @@ class Money
     end
 
     if rules[:no_cents] or currency.subunit_to_unit == 1
-      formatted = sprintf("#{symbol_value}%d", cents.to_f / currency.subunit_to_unit)
+      formatted = sprintf("#{symbol_value}%d", self.to_f)
     else
-      formatted = sprintf("#{symbol_value}%.2f", cents.to_f / currency.subunit_to_unit)
+      formatted = sprintf("#{symbol_value}%.2f", self.to_f)
     end
 
     delimiter_value = delimiter
@@ -613,7 +614,7 @@ class Money
   #   Money.ca_dollar(100).to_s #=> "1.00"
   def to_s
     return sprintf("%d", cents) if currency.subunit_to_unit == 1
-    sprintf("%.2f", cents.to_f / currency.subunit_to_unit)
+    sprintf("%.2f", self.to_f)
   end
 
   # Return the amount of money as a float. Floating points cannot guarantee
@@ -626,7 +627,7 @@ class Money
   # @example
   #   Money.us_dollar(100).to_f => 1.0
   def to_f
-    cents.to_f / currency.subunit_to_unit
+    (BigDecimal.new(cents.to_s) / currency.subunit_to_unit).to_f
   end
 
   # Receive the amount of this money object in another Currency.

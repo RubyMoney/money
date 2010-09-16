@@ -1,3 +1,5 @@
+autoload :BigDecimal, 'bigdecimal'
+
 # Open +Numeric+ to add new method.
 class Numeric
   # Converts this numeric to a +Money+ object in the default currency.
@@ -13,15 +15,9 @@ class Numeric
   #   require 'bigdecimal'
   #   BigDecimal.new('100').to_money #=> #<Money @cents=10000>
   def to_money(currency = Money.default_currency)
-    currency = Money::Currency.new(currency) unless currency.is_a?(Money::Currency)
-    amt = self * currency.subunit_to_unit
-    amt = case amt.class.to_s
-          when 'BigDecimal'
-            amt.to_s('F')
-          else
-            amt.to_s
-          end
-    Money.new(amt.to_i, currency)
+    currency = Money::Currency.wrap(currency)
+    amt = BigDecimal.new(self.to_s) * currency.subunit_to_unit
+    Money.new(amt.fix, currency)
   end
 end
 

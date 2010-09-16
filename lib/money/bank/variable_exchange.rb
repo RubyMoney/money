@@ -1,4 +1,5 @@
 require 'money/bank/base'
+require 'bigdecimal'
 autoload :JSON, 'json'
 autoload :YAML, 'yaml'
 
@@ -81,9 +82,10 @@ class Money
         end
         _to_currency_  = Currency.wrap(to_currency)
 
-        cents = from.cents / (from.currency.subunit_to_unit.to_f / _to_currency_.subunit_to_unit.to_f)
+        cents = from.cents / (BigDecimal.new(from.currency.subunit_to_unit.to_s) / BigDecimal.new(_to_currency_.subunit_to_unit.to_s))
 
-        ex = cents * rate
+        ex = cents * BigDecimal.new(rate.to_s)
+        ex = ex.to_f
         ex = if block_given?
                block.call(ex)
              elsif @rounding_method
