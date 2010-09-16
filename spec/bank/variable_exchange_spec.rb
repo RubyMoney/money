@@ -184,7 +184,7 @@ describe Money::Bank::VariableExchange do
 
       describe 'with format == :ruby' do
         it 'should return rates formatted as ruby objects' do
-          @bank.export_rates(:ruby).should == Marshal.dump(@rates)
+          Marshal.load(@bank.export_rates(:ruby)).should == @rates
         end
       end
 
