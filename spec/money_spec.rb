@@ -448,6 +448,7 @@ describe Money do
     n.should     == Money.new(-1, :USD)
   end
 
+
   specify "Money.empty creates a new Money object of 0 cents" do
     Money.empty.should == Money.new(0)
   end
@@ -722,6 +723,46 @@ describe Money do
     it "should insert commas into the result if the amount is sufficiently large" do
       Money.us_dollar(1_000_000_000_12).format.should == "$1,000,000,000.12"
       Money.us_dollar(1_000_000_000_12).format(:no_cents => true).should == "$1,000,000,000"
+    end
+  end
+
+
+  describe ".new_with_dollar" do
+    it "converts given amount to cents" do
+      Money.new_with_dollar(1).should == Money.new(100)
+      Money.new_with_dollar(1, "USD").should == Money.new(100, "USD")
+      Money.new_with_dollar(1, "USD").should == Money.new(100, "USD")
+    end
+
+    it "respects :subunit_to_unit currency property" do
+      Money.new_with_dollar(1, "USD").should == Money.new(1_00,  "USD")
+      Money.new_with_dollar(1, "TND").should == Money.new(1_000, "TND")
+      Money.new_with_dollar(1, "CLP").should == Money.new(1,     "CLP")
+    end
+
+    it "should not loose precision" do
+      Money.new_with_dollar(1234).cents.should == 1234_00
+      Money.new_with_dollar(100.37).cents.should == 100_37
+      Money.new_with_dollar(BigDecimal.new('1234')).cents.should == 1234_00
+    end
+
+    it "accepts a currency options" do
+      m = Money.new_with_dollar(1)
+      m.currency.should == Money.default_currency
+
+      m = Money.new_with_dollar(1, Money::Currency.wrap("EUR"))
+      m.currency.should == Money::Currency.wrap("EUR")
+
+      m = Money.new_with_dollar(1, "EUR")
+      m.currency.should == Money::Currency.wrap("EUR")
+    end
+
+    it "accepts a bank options" do
+      m = Money.new_with_dollar(1)
+      m.bank.should == Money.default_bank
+
+      m = Money.new_with_dollar(1, "EUR", bank = Object.new)
+      m.bank.should == bank
     end
   end
 
