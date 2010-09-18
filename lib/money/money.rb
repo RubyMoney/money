@@ -201,24 +201,6 @@ class Money
     to_f
   end
 
-  # Sets the value of the money in dollars to +amount+,
-  # instead of in cents.
-  #
-  # @param [Fixnum, Float] amount The money amount, in dollar.
-  #
-  # @example
-  #   money.dollars = 2
-  #   money.cents   # => 200
-  #   money.dollars  # => 2.0
-  #
-  # @see #cents=
-  #
-  def dollars=(amount)
-    # Equivalent to
-    # @cents = Money.new_from_dollar(amount).cents
-    @cents = (amount * currency.subunit_to_unit).round
-  end
-
   # Return string representation of currency object
   #
   # @return [String]

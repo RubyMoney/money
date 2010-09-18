@@ -41,29 +41,6 @@ describe Money do
     end
   end
 
-  describe "#dollars=" do
-    it "sets cents as dollars" do
-      money = Money.new(0, "USD")
-      money.dollars = 1
-      money.cents.should == 100
-    end
-
-    it "should respect :subunit_to_unit currency property" do
-      money = Money.new(0, "USD")
-      money.dollars = 1
-      money.cents.should == 100
-
-      money = Money.new(0, "TND")
-      money.dollars = 1
-      money.cents.should == 1_000
-
-      money = Money.new(0, "CLP")
-      money.dollars = 1
-      money.cents.should == 1
-    end
-  end
-
-
   specify "#currency returns the currency passed to the constructor" do
     Money.new(200_00, "USD").currency.should == Money::Currency.new("USD")
   end
