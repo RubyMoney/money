@@ -1,5 +1,4 @@
 # encoding: utf-8
-require 'money/currency'
 require 'money/bank/variable_exchange'
 autoload :BigDecimal, 'bigdecimal'
 
