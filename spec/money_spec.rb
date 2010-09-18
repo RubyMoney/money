@@ -3,19 +3,66 @@
 require "spec_helper"
 
 describe Money do
-  it "is associated to the singleton instance of Bank::VariableExchange by default" do
-    Money.new(0).bank.should be_equal Money::Bank::VariableExchange.instance
+
+  describe ".new" do
+    it "rounds the given cents to an integer" do
+      Money.new(1.00, "USD").cents.should == 1
+      Money.new(1.01, "USD").cents.should == 1
+      Money.new(1.50, "USD").cents.should == 2
+    end
+
+    it "is associated to the singleton instance of Bank::VariableExchange by default" do
+      Money.new(0).bank.should be_equal(Money::Bank::VariableExchange.instance)
+    end
   end
 
-  specify "#cents returns the amount of cents passed to the constructor" do
-    Money.new(200_00, "USD").cents.should == 200_00
+  describe "#cents" do
+    it "returns the amount of cents passed to the constructor" do
+      Money.new(200_00, "USD").cents.should == 200_00
+    end
   end
 
-  it "rounds the given cents to an integer" do
-    Money.new(1.00, "USD").cents.should == 1
-    Money.new(1.01, "USD").cents.should == 1
-    Money.new(1.50, "USD").cents.should == 2
+  describe "#dollars" do
+    it "gets cents as dollars" do
+      Money.new_with_dollars(1).should == Money.new(100)
+      Money.new_with_dollars(1, "USD").should == Money.new(100, "USD")
+      Money.new_with_dollars(1, "EUR").should == Money.new(100, "EUR")
+    end
+
+    it "should respect :subunit_to_unit currency property" do
+      Money.new(1_00,  "USD").dollars.should == 1
+      Money.new(1_000, "TND").dollars.should == 1
+      Money.new(1,     "CLP").dollars.should == 1
+    end
+
+    it "should not loose precision" do
+      Money.new(100_37).dollars.should == 100.37
+      Money.new_with_dollars(100.37).dollars.should == 100.37
+    end
   end
+
+  describe "#dollars=" do
+    it "sets cents as dollars" do
+      money = Money.new(0, "USD")
+      money.dollars = 1
+      money.cents.should == 100
+    end
+
+    it "should respect :subunit_to_unit currency property" do
+      money = Money.new(0, "USD")
+      money.dollars = 1
+      money.cents.should == 100
+
+      money = Money.new(0, "TND")
+      money.dollars = 1
+      money.cents.should == 1_000
+
+      money = Money.new(0, "CLP")
+      money.dollars = 1
+      money.cents.should == 1
+    end
+  end
+
 
   specify "#currency returns the currency passed to the constructor" do
     Money.new(200_00, "USD").currency.should == Money::Currency.new("USD")
@@ -482,7 +529,7 @@ describe Money do
     Money.new(10_00).to_s.should == "10.00"
   end
 
-  specify "Money.to_s works with :subunit_to_unit other than 100" do
+  specify "Money.to_s should respect :subunit_to_unit currency property" do
     Money.new(10_00, "BHD").to_s.should == "1.00"
   end
 
@@ -494,7 +541,7 @@ describe Money do
     Money.new(10_00).to_f.should == 10.0
   end
 
-  specify "Money.to_f works with :subunit_to_unit other than 100" do
+  specify "Money.to_f should respect :subunit_to_unit currency property" do
     Money.new(10_00, "BHD").to_f.should == 1.0
   end
 
@@ -503,7 +550,7 @@ describe Money do
       Money.ca_dollar(100).format.should == "$1.00"
     end
 
-    it "uses the correct :subunit_to_unit" do
+    it "should respect :subunit_to_unit currency property" do
       Money.new(10_00, "BHD").format.should == "ب.د1.00"
     end
 
@@ -608,7 +655,7 @@ describe Money do
       Money.ca_dollar(39000).format(:no_cents => true).should == "$390"
     end
 
-    specify "#format(:no_cents => true) uses correct :subunit_to_unit" do
+    specify "#format(:no_cents => true) should respect :subunit_to_unit currency property" do
       Money.new(10_00, "BHD").format(:no_cents => true).should == "ب.د1"
     end
 
@@ -619,7 +666,7 @@ describe Money do
       Money.ca_dollar(39000).format(:no_cents).should == "$390"
     end
 
-    specify "#format(:no_cents) uses correct :subunit_to_unit" do
+    specify "#format(:no_cents) should respect :subunit_to_unit currency property" do
       Money.new(10_00, "BHD").format(:no_cents).should == "ب.د1"
     end
 
@@ -727,42 +774,46 @@ describe Money do
   end
 
 
-  describe ".new_with_dollar" do
+  describe ".new_with_dollars" do
     it "converts given amount to cents" do
-      Money.new_with_dollar(1).should == Money.new(100)
-      Money.new_with_dollar(1, "USD").should == Money.new(100, "USD")
-      Money.new_with_dollar(1, "USD").should == Money.new(100, "USD")
+      Money.new_with_dollars(1).should == Money.new(100)
+      Money.new_with_dollars(1, "USD").should == Money.new(100, "USD")
+      Money.new_with_dollars(1, "EUR").should == Money.new(100, "EUR")
     end
 
-    it "respects :subunit_to_unit currency property" do
-      Money.new_with_dollar(1, "USD").should == Money.new(1_00,  "USD")
-      Money.new_with_dollar(1, "TND").should == Money.new(1_000, "TND")
-      Money.new_with_dollar(1, "CLP").should == Money.new(1,     "CLP")
+    it "should respect :subunit_to_unit currency property" do
+      Money.new_with_dollars(1, "USD").should == Money.new(1_00,  "USD")
+      Money.new_with_dollars(1, "TND").should == Money.new(1_000, "TND")
+      Money.new_with_dollars(1, "CLP").should == Money.new(1,     "CLP")
     end
 
     it "should not loose precision" do
-      Money.new_with_dollar(1234).cents.should == 1234_00
-      Money.new_with_dollar(100.37).cents.should == 100_37
-      Money.new_with_dollar(BigDecimal.new('1234')).cents.should == 1234_00
+      Money.new_with_dollars(1234).cents.should == 1234_00
+      Money.new_with_dollars(100.37).cents.should == 100_37
+      Money.new_with_dollars(BigDecimal.new('1234')).cents.should == 1234_00
     end
 
     it "accepts a currency options" do
-      m = Money.new_with_dollar(1)
+      m = Money.new_with_dollars(1)
       m.currency.should == Money.default_currency
 
-      m = Money.new_with_dollar(1, Money::Currency.wrap("EUR"))
+      m = Money.new_with_dollars(1, Money::Currency.wrap("EUR"))
       m.currency.should == Money::Currency.wrap("EUR")
 
-      m = Money.new_with_dollar(1, "EUR")
+      m = Money.new_with_dollars(1, "EUR")
       m.currency.should == Money::Currency.wrap("EUR")
     end
 
     it "accepts a bank options" do
-      m = Money.new_with_dollar(1)
+      m = Money.new_with_dollars(1)
       m.bank.should == Money.default_bank
 
-      m = Money.new_with_dollar(1, "EUR", bank = Object.new)
+      m = Money.new_with_dollars(1, "EUR", bank = Object.new)
       m.bank.should == bank
+    end
+
+    it "is associated to the singleton instance of Bank::VariableExchange by default" do
+      Money.new_with_dollars(0).bank.should be_equal(Money::Bank::VariableExchange.instance)
     end
   end
 

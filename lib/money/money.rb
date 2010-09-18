@@ -6,7 +6,7 @@ autoload :BigDecimal, 'bigdecimal'
 class Money
   include Comparable
 
-  # The value of the money is cents.
+  # The value of the money in cents.
   #
   # @return [Integer]
   attr_reader :cents
@@ -101,31 +101,31 @@ class Money
     Money.new(cents, "EUR")
   end
 
-  # Creates a new Money object of +dollar+ value,
+  # Creates a new Money object of +amount+ value in dollars,
   # with given +currency+.
   #
-  # The amount value is expressed in dollar
-  # where +dollar+ is the main monetary unit,
+  # The amount value is expressed in +dollars+
+  # where the +dollar+ is the main monetary unit,
   # opposite to the subunit-based representation
   # used internally by this library called +cents+.
   #
-  # @param [Fixnum, Float] amount The money amount, in dollar.
+  # @param [Fixnum, Float] amount The money amount, in dollars.
   # @param [optional, Currency, String, Symbol] currency The currency format.
   # @param [optional, Money::Bank::*] bank The exchange bank to use.
   #
   # @return [Money]
   #
   # @example
-  #   Money.new_with_dollar(100)
+  #   Money.new_with_dollars(100)
   #   #=> #<Money @cents=10000 @currency="USD">
-  #   Money.new_with_dollar(100, "USD")
+  #   Money.new_with_dollars(100, "USD")
   #   #=> #<Money @cents=10000 @currency="USD">
-  #   Money.new_with_dollar(100, "EUR")
+  #   Money.new_with_dollars(100, "EUR")
   #   #=> #<Money @cents=10000 @currency="EUR">
   #
   # @see Money.new
   #
-  def self.new_with_dollar(amount, currency = Money.default_currency, bank = Money.default_bank)
+  def self.new_with_dollars(amount, currency = Money.default_currency, bank = Money.default_bank)
     # FIXME: use #to_d
     # FIXME: use Numeric.to_money or Money.from_numeric
     c = Money::Currency.wrap(currency)
@@ -147,7 +147,7 @@ class Money
   end
 
 
-  # Creates a new Money object of +cents+ value,
+  # Creates a new Money object of +cents+ value in cents,
   # with given +currency+.
   #
   # Alternatively you can use the convenience
@@ -167,7 +167,7 @@ class Money
   #   Money.new(100, "EUR")
   #   #=> #<Money @cents=100 @currency="EUR">
   #
-  # @see Money.new_with_dollar
+  # @see Money.new_with_dollars
   #
   def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
     @cents = cents.round
@@ -183,6 +183,40 @@ class Money
       @currency = Currency.wrap(currency)
     end
     @bank = bank
+  end
+
+  # Returns the value of the money in dollars,
+  # instead of in cents.
+  #
+  # @return [Float]
+  #
+  # @example
+  #   Money.new(100).dollars           # => 1.0
+  #   Money.new_from_dollars(1).dollar # => 1.0
+  #
+  # @see #to_f
+  # @see #cents
+  #
+  def dollars
+    to_f
+  end
+
+  # Sets the value of the money in dollars to +amount+,
+  # instead of in cents.
+  #
+  # @param [Fixnum, Float] amount The money amount, in dollar.
+  #
+  # @example
+  #   money.dollars = 2
+  #   money.cents   # => 200
+  #   money.dollars  # => 2.0
+  #
+  # @see #cents=
+  #
+  def dollars=(amount)
+    # Equivalent to
+    # @cents = Money.new_from_dollar(amount).cents
+    @cents = (amount * currency.subunit_to_unit).round
   end
 
   # Return string representation of currency object

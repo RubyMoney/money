@@ -26,7 +26,7 @@ describe "Money core extensions" do
     1234.to_money('EUR').should == Money.new(123400, 'EUR')
   end
 
-  specify "Numeric#to_money should respect :subunit_to_unit" do
+  specify "Numeric#to_money should respect :subunit_to_unit currency property" do
     10.to_money('USD').should == Money.new(10_00, 'USD')
     10.to_money('TND').should == Money.new(10_000, 'TND')
     10.to_money('CLP').should == Money.new(10, 'CLP')
