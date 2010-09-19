@@ -22,6 +22,5 @@
 
 require 'money/currency'
 require 'money/money'
-require 'money/defaults'
 require 'money/core_extensions'
 require 'money/deprecations'

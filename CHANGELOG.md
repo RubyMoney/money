@@ -5,13 +5,16 @@ Features
 --------
  - Added support for creating objects with the main monetary unit instead of cents.
    ([#issue/25](http://github.com/RubyMoney/money/issues/25))
+
+Changes
+-------
  - Deprecated `Money#format` with separate params instead of Hash.
    Deprecation target set to Money 3.5.0.
    ([#issue/31](http://github.com/RubyMoney/money/issues/31))
  - Deprecated `Money#new(0, :currency => "EUR")` in favor of `Money#new(0, "EUR")`.
    Deprecation target set to Money 3.5.0.
    ([#issue/31](http://github.com/RubyMoney/money/issues/31))
-
+ - Removed deprecated `Money::SYMBOLS`, `Money::SEPARATORS` and `Money::DELIMITERS`.
 
 Money 3.1.0
 ===========
