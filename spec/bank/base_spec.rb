@@ -28,12 +28,6 @@ describe Money::Bank::Base do
     end
   end
 
-  describe '#exchange' do
-    it 'should raise NotImplementedError' do
-      lambda { @bank.exchange(100, 'USD', 'EUR') }.should raise_exception(NotImplementedError)
-    end
-  end
-
   describe '#exchange_with' do
     it 'should raise NotImplementedError' do
       lambda { @bank.exchange_with(Money.new(100, 'USD'), 'EUR') }.should raise_exception(NotImplementedError)
