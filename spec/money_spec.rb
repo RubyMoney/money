@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe Money do
 
-  describe ".new" do
+  describe "#new" do
     it "rounds the given cents to an integer" do
       Money.new(1.00, "USD").cents.should == 1
       Money.new(1.01, "USD").cents.should == 1
@@ -13,6 +13,14 @@ describe Money do
 
     it "is associated to the singleton instance of Bank::VariableExchange by default" do
       Money.new(0).bank.should be_equal(Money::Bank::VariableExchange.instance)
+    end
+
+    it "accepts { :currency => 'foo' } as the value for the 'currency' argument" do
+      money = Money.new(20, :currency => "EUR")
+      money.currency.should == Money::Currency.new("EUR")
+
+      money = Money.new(20, :currency => nil)
+      money.currency.should == Money.default_currency
     end
   end
 
@@ -472,36 +480,6 @@ describe Money do
     n.should     == Money.new(-1, :USD)
   end
 
-
-  specify "Money.empty creates a new Money object of 0 cents" do
-    Money.empty.should == Money.new(0)
-  end
-
-  specify "Money.ca_dollar creates a new Money object of the given value in CAD" do
-    Money.ca_dollar(50).should == Money.new(50, "CAD")
-  end
-
-  specify "Money.ca_dollar creates a new Money object of the given value in USD" do
-    Money.us_dollar(50).should == Money.new(50, "USD")
-  end
-
-  specify "Money.ca_dollar creates a new Money object of the given value in EUR" do
-    Money.euro(50).should == Money.new(50, "EUR")
-  end
-
-  specify "Money.new accepts { :currency => 'foo' } as the value for the 'currency' argument" do
-    money = Money.new(20, :currency => "EUR")
-    money.currency.should == Money::Currency.new("EUR")
-
-    money = Money.new(20, :currency => nil)
-    money.currency.should == Money.default_currency
-  end
-
-  specify "Money.add_rate works" do
-    Money.add_rate("EUR", "USD", 10)
-    Money.new(10_00, "EUR").exchange_to("USD").should == Money.new(100_00, "USD")
-  end
-
   specify "Money.to_s works" do
     Money.new(10_00).to_s.should == "10.00"
   end
@@ -751,7 +729,31 @@ describe Money do
   end
 
 
-  describe ".new_with_dollars" do
+  describe "Money.empty" do
+    it "Money.empty creates a new Money object of 0 cents" do
+      Money.empty.should == Money.new(0)
+    end
+  end
+
+  describe "Money.ca_dollar" do
+    it "creates a new Money object of the given value in CAD" do
+      Money.ca_dollar(50).should == Money.new(50, "CAD")
+    end
+  end
+
+  describe "Money.us_dollar" do
+    it "creates a new Money object of the given value in USD" do
+      Money.us_dollar(50).should == Money.new(50, "USD")
+    end
+  end
+
+  describe "Money.euro" do
+    it "creates a new Money object of the given value in EUR" do
+      Money.euro(50).should == Money.new(50, "EUR")
+    end
+  end
+
+  describe "Money.new_with_dollars" do
     it "converts given amount to cents" do
       Money.new_with_dollars(1).should == Money.new(100)
       Money.new_with_dollars(1, "USD").should == Money.new(100, "USD")
@@ -791,6 +793,13 @@ describe Money do
 
     it "is associated to the singleton instance of Bank::VariableExchange by default" do
       Money.new_with_dollars(0).bank.should be_equal(Money::Bank::VariableExchange.instance)
+    end
+  end
+
+  describe "Money.add_rate" do
+    it "saves rate into current bank" do
+      Money.add_rate("EUR", "USD", 10)
+      Money.new(10_00, "EUR").exchange_to("USD").should == Money.new(100_00, "USD")
     end
   end
 
