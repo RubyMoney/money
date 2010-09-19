@@ -15,6 +15,7 @@ describe Money do
       Money.new(0).bank.should be_equal(Money::Bank::VariableExchange.instance)
     end
 
+    # DEPRECATED: v3.5.0
     it "accepts { :currency => 'foo' } as the value for the 'currency' argument" do
       money = Money.new(20, :currency => "EUR")
       money.currency.should == Money::Currency.new("EUR")
@@ -500,6 +501,28 @@ describe Money do
     Money.new(10_00, "BHD").to_f.should == 1.0
   end
 
+  specify "#symbol works as documented" do
+    currency = Money::Currency.new("EUR")
+    currency.should_receive(:symbol).and_return("€")
+    Money.empty(currency).symbol.should == "€"
+
+    currency = Money::Currency.new("EUR")
+    currency.should_receive(:symbol).and_return(nil)
+    Money.empty(currency).symbol.should == "¤"
+  end
+
+  specify "#delimiter works as documented" do
+    Money.empty("USD").delimiter.should == ","
+    Money.empty("EUR").delimiter.should == ","
+    Money.empty("BRL").delimiter.should == "."
+  end
+
+  specify "#separator works as documented" do
+    Money.empty("USD").separator.should == "."
+    Money.empty("EUR").separator.should == "."
+    Money.empty("BRL").separator.should == ","
+  end
+
   describe "#format" do
     it "returns the monetary value as a string" do
       Money.ca_dollar(100).format.should == "$1.00"
@@ -513,7 +536,7 @@ describe Money do
       Money.new(10_00, "CLP").format.should == "$1.000"
     end
 
-    specify "respects the delimiter and separator defaults" do
+    it "respects the delimiter and separator defaults" do
       one_thousand = Proc.new do |currency|
         Money.new(1000_00, currency).format
       end
@@ -569,35 +592,12 @@ describe Money do
       end
     end
 
-
-    specify "#symbol works as documented" do
-      currency = Money::Currency.new("EUR")
-      currency.should_receive(:symbol).and_return("€")
-      Money.empty(currency).symbol.should == "€"
-
-      currency = Money::Currency.new("EUR")
-      currency.should_receive(:symbol).and_return(nil)
-      Money.empty(currency).symbol.should == "¤"
-    end
-
-    specify "#delimiter works as documented" do
-      Money.empty("USD").delimiter.should == ","
-      Money.empty("EUR").delimiter.should == ","
-      Money.empty("BRL").delimiter.should == "."
-    end
-
-    specify "#separator works as documented" do
-      Money.empty("USD").separator.should == "."
-      Money.empty("EUR").separator.should == "."
-      Money.empty("BRL").separator.should == ","
-    end
-
     specify "#format(:with_currency => true) works as documented" do
       Money.ca_dollar(100).format(:with_currency => true).should == "$1.00 CAD"
       Money.us_dollar(85).format(:with_currency => true).should == "$0.85 USD"
-      Money.us_dollar(85).format(:with_currency).should == "$0.85 USD"
     end
 
+    # DEPRECATED: v3.5.0
     specify "#format(:with_currency) works as documented" do
       Money.ca_dollar(100).format(:with_currency).should == "$1.00 CAD"
       Money.us_dollar(85).format(:with_currency).should == "$0.85 USD"
@@ -614,6 +614,7 @@ describe Money do
       Money.new(10_00, "BHD").format(:no_cents => true).should == "ب.د1"
     end
 
+    # DEPRECATED: v3.5.0
     specify "#format(:no_cents) works as documented" do
       Money.ca_dollar(100).format(:no_cents).should == "$1"
       Money.ca_dollar(599).format(:no_cents).should == "$5"
@@ -621,6 +622,7 @@ describe Money do
       Money.ca_dollar(39000).format(:no_cents).should == "$390"
     end
 
+    # DEPRECATED: v3.5.0
     specify "#format(:no_cents) should respect :subunit_to_unit currency property" do
       Money.new(10_00, "BHD").format(:no_cents).should == "ب.د1"
     end

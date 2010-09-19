@@ -178,6 +178,8 @@ class Money
       #   Money.new(50, :currency => "USD")
       #
       # We retain compatibility here.
+      Money.deprecate "Passing :currency as option is deprecated and will be removed in v3.5.0. " +
+                      "Please use `Money.new('#{cents}'#{currency[:currency].nil? ? "" : ", '#{currency[:currency]}'"})'"
       @currency = Currency.wrap(currency[:currency] || Money.default_currency)
     else
       @currency = Currency.wrap(currency)
@@ -752,10 +754,14 @@ class Money
   #
   # @return [Hash]
   def normalize_formatting_rules(rules)
-    if rules.size == 1
+    if rules.size == 0
+      rules = {}
+    elsif rules.size == 1
       rules = rules.pop
       rules = { rules => true } if rules.is_a?(Symbol)
     else
+      Money.deprecate "Passing options as parameters is deprecated and will be removed in v3.5.0. " +
+                      "Please use `#format(#{rules.map { |r| ":#{r} => true" }.join(", ") })'"
       rules = rules.inject({}) do |h,s|
         h[s] = true
         h
