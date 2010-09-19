@@ -17,6 +17,8 @@ Changes
  - Removed deprecated `Money::SYMBOLS`, `Money::SEPARATORS` and `Money::DELIMITERS`.
  - Removed deprecated `Money::VariableExchangeBank`.
  - Removed deprecated `Money::Bank::Base#exchange`.
+ - Downgraded required_rubygems_version to >= 1.3.6.
+   ([#issue/26](http://github.com/RubyMoney/money/issues/26))
 
 Money 3.1.0
 ===========
