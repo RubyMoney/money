@@ -1,3 +1,12 @@
+master
+================
+
+Features
+--------
+ - Add support for creating objects with the main monetary unit instead of cents.
+   ([#issue/25](http://github.com/RubyMoney/money/issues/25))
+
+
 Money 3.1.0
 ===========
 
