@@ -101,6 +101,7 @@ class Money
     Money.new(cents, "EUR")
   end
 
+
   # Creates a new Money object of +amount+ value in dollars,
   # with given +currency+.
   #
@@ -131,6 +132,34 @@ class Money
     c = Money::Currency.wrap(currency)
     Money.new(amount * c.subunit_to_unit, c, bank)
   end
+
+
+  # Converts a String into a Money object treating the String
+  # as dollar and converting them to the corresponding cents value,
+  # according to Currency subunit property,
+  # before instantiating the Money object.
+  #
+  # @param [String, #to_s] value The money amount, in dollars.
+  # @param [optional, Currency, String, Symbol] currency The currency format.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.from_string("100")
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_string("100", "USD")
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_string("100", "EUR")
+  #   #=> #<Money @cents=10000 @currency="EUR">
+  #   Money.from_string("100", "BHD")
+  #   #=> #<Money @cents=100 @currency="BHD">
+  #
+  def self.from_string(value, currency = Money.default_currency)
+    currency = Money::Currency.wrap(currency)
+    amount   = BigDecimal.new(value.to_s) * currency.subunit_to_unit
+    Money.new(amount.fix, currency)
+  end
+
 
   # Adds a new exchange rate to the default bank and return the rate.
   #

@@ -796,6 +796,7 @@ describe Money do
     end
   end
 
+
   describe "Money.new_with_dollars" do
     it "converts given amount to cents" do
       Money.new_with_dollars(1).should == Money.new(100)
@@ -838,6 +839,32 @@ describe Money do
       Money.new_with_dollars(0).bank.should be_equal(Money::Bank::VariableExchange.instance)
     end
   end
+
+  describe "Money.from_string" do
+    it "converts given amount to cents" do
+      Money.from_string("1").should == Money.new(1_00)
+      Money.from_string("1").should == Money.new(1_00, "USD")
+      Money.from_string("1", "EUR").should == Money.new(1_00, "EUR")
+    end
+
+    it "should respect :subunit_to_unit currency property" do
+      Money.from_string("1", "USD").should == Money.new(1_00,  "USD")
+      Money.from_string("1", "TND").should == Money.new(1_000, "TND")
+      Money.from_string("1", "CLP").should == Money.new(1,     "CLP")
+    end
+
+    it "accepts a currency options" do
+      m = Money.from_string("1")
+      m.currency.should == Money.default_currency
+
+      m = Money.from_string("1", Money::Currency.wrap("EUR"))
+      m.currency.should == Money::Currency.wrap("EUR")
+
+      m = Money.from_string("1", "EUR")
+      m.currency.should == Money::Currency.wrap("EUR")
+    end
+  end
+
 
   describe "Money.add_rate" do
     it "saves rate into current bank" do
