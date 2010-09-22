@@ -947,6 +947,10 @@ describe Money do
       Money.from_numeric(BigDecimal.new("1")).should == Money.new(1_00)
     end
 
+    it "should raise ArgumentError with unsupported argument" do
+      lambda { Money.from_numeric("100") }.should raise_error(ArgumentError)
+    end
+
     it "should optimize workload" do
       Money.should_receive(:from_fixnum).with(1, "USD").and_return(Money.new(1_00,  "USD"))
       Money.from_numeric(1, "USD").should == Money.new(1_00,  "USD")

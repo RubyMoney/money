@@ -267,11 +267,15 @@ class Money
   #
   # @return [Money]
   #
+  # @raise +ArgumentError+ Unless +value+ is a supported type.
+  #
   # @example
   #   Money.from_numeric(100)
   #   #=> #<Money @cents=10000 @currency="USD">
   #   Money.from_numeric(100.00)
   #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_numeric("100")
+  #   #=> ArgumentError
   #
   # @see Money.from_fixnum
   # @see Money.from_float
