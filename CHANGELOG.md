@@ -11,6 +11,8 @@ Features
  - Deprecated `Money#new(0, :currency => "EUR")` in favor of `Money#new(0, "EUR")`.
    Deprecation target set to Money 3.5.0.
    ([#issue/31](http://github.com/RubyMoney/money/issues/31))
+ - Can now multiply one Money object by one another using `#*`.
+   ([#issue/29](http://github.com/RubyMoney/money/issues/29))
 
 Changes
 -------

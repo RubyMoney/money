@@ -245,48 +245,89 @@ describe Money do
     lambda{ Money.new(1_00) <=> /foo/ }.should raise_error(ArgumentError, expected_message)
   end
 
-  specify "#* multiplies the money's amount by the multiplier while retaining the currency" do
-    (Money.new(1_00, "USD") * 10).should == Money.new(10_00, "USD")
-  end
+  describe "#*" do
+    it "multiplies current money amount by the multiplier while retaining the currency" do
+      (Money.new(1_00, "USD") * 10).should == Money.new(10_00, "USD")
+    end
 
-  specify "#/ divides the money's amount by the divisor while retaining the currency" do
-    (Money.new(10_00, "USD") / 10).should == Money.new(1_00, "USD")
-  end
+    it "multiplies Money by Fixnum and returns Money" do
+      ts = [
+        {:a => Money.new( 10, :USD), :b =>  4, :c => Money.new( 40, :USD)},
+        {:a => Money.new( 10, :USD), :b => -4, :c => Money.new(-40, :USD)},
+        {:a => Money.new(-10, :USD), :b =>  4, :c => Money.new(-40, :USD)},
+        {:a => Money.new(-10, :USD), :b => -4, :c => Money.new( 40, :USD)},
+      ]
+      ts.each do |t|
+        (t[:a] * t[:b]).should == t[:c]
+      end
+    end
 
-  specify "#/ -> money / fixnum" do
-    ts = [
-      {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3, :USD)},
-      {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-4, :USD)},
-      {:a => Money.new(-13, :USD), :b =>  4, :c => Money.new(-4, :USD)},
-      {:a => Money.new(-13, :USD), :b => -4, :c => Money.new( 3, :USD)},
-    ]
-    ts.each do |t|
-      (t[:a] / t[:b]).should == t[:c]
+    it "multiplies Money by Money (same currency) and returns Float" do
+      ts = [
+        {:a => Money.new( 10, :USD), :b => Money.new( 4, :USD), :c =>  40.0},
+        {:a => Money.new( 10, :USD), :b => Money.new(-4, :USD), :c => -40.0},
+        {:a => Money.new(-10, :USD), :b => Money.new( 4, :USD), :c => -40.0},
+        {:a => Money.new(-10, :USD), :b => Money.new(-4, :USD), :c =>  40.0},
+      ]
+      ts.each do |t|
+        (t[:a] * t[:b]).should == t[:c]
+      end
+    end
+
+    it "multiplies Money by Money (different currency) and returns Float" do
+      ts = [
+        {:a => Money.new( 10, :USD), :b => Money.new( 4, :EUR), :c =>  80.0},
+        {:a => Money.new( 10, :USD), :b => Money.new(-4, :EUR), :c => -80.0},
+        {:a => Money.new(-10, :USD), :b => Money.new( 4, :EUR), :c => -80.0},
+        {:a => Money.new(-10, :USD), :b => Money.new(-4, :EUR), :c =>  80.0},
+      ]
+      ts.each do |t|
+        t[:b].should_receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        (t[:a] * t[:b]).should == t[:c]
+      end
     end
   end
 
-  specify "#/ -> money / money (same currency)" do
-    ts = [
-      {:a => Money.new( 13, :USD), :b => Money.new( 4, :USD), :c =>  3.25},
-      {:a => Money.new( 13, :USD), :b => Money.new(-4, :USD), :c => -3.25},
-      {:a => Money.new(-13, :USD), :b => Money.new( 4, :USD), :c => -3.25},
-      {:a => Money.new(-13, :USD), :b => Money.new(-4, :USD), :c =>  3.25},
-    ]
-    ts.each do |t|
-      (t[:a] / t[:b]).should == t[:c]
+  describe "#/" do
+    it "divides current money amount by the divisor while retaining the currency" do
+      (Money.new(10_00, "USD") / 10).should == Money.new(1_00, "USD")
     end
-  end
 
-  specify "#/ -> money / money (difference currency)" do
-    ts = [
-      {:a => Money.new( 13, :USD), :b => Money.new( 4, :EUR), :c =>  1.625},
-      {:a => Money.new( 13, :USD), :b => Money.new(-4, :EUR), :c => -1.625},
-      {:a => Money.new(-13, :USD), :b => Money.new( 4, :EUR), :c => -1.625},
-      {:a => Money.new(-13, :USD), :b => Money.new(-4, :EUR), :c =>  1.625},
-    ]
-    ts.each do |t|
-      t[:b].should_receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
-      (t[:a] / t[:b]).should == t[:c]
+    it "divides Money by Fixnum and returns Money" do
+      ts = [
+        {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3, :USD)},
+        {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-4, :USD)},
+        {:a => Money.new(-13, :USD), :b =>  4, :c => Money.new(-4, :USD)},
+        {:a => Money.new(-13, :USD), :b => -4, :c => Money.new( 3, :USD)},
+      ]
+      ts.each do |t|
+        (t[:a] / t[:b]).should == t[:c]
+      end
+    end
+
+    it "divides Money by Money (same currency) and returns Float" do
+      ts = [
+        {:a => Money.new( 13, :USD), :b => Money.new( 4, :USD), :c =>  3.25},
+        {:a => Money.new( 13, :USD), :b => Money.new(-4, :USD), :c => -3.25},
+        {:a => Money.new(-13, :USD), :b => Money.new( 4, :USD), :c => -3.25},
+        {:a => Money.new(-13, :USD), :b => Money.new(-4, :USD), :c =>  3.25},
+      ]
+      ts.each do |t|
+        (t[:a] / t[:b]).should == t[:c]
+      end
+    end
+
+    it "divides Money by Money (different currency) and returns Float" do
+      ts = [
+        {:a => Money.new( 13, :USD), :b => Money.new( 4, :EUR), :c =>  1.625},
+        {:a => Money.new( 13, :USD), :b => Money.new(-4, :EUR), :c => -1.625},
+        {:a => Money.new(-13, :USD), :b => Money.new( 4, :EUR), :c => -1.625},
+        {:a => Money.new(-13, :USD), :b => Money.new(-4, :EUR), :c =>  1.625},
+      ]
+      ts.each do |t|
+        t[:b].should_receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        (t[:a] / t[:b]).should == t[:c]
+      end
     end
   end
 
@@ -824,27 +865,31 @@ end
 
 describe "Actions involving two Money objects" do
   describe "if the other Money object has the same currency" do
-    specify "#<=> compares the two objects' amounts" do
+    specify "#<=> compares the two object amounts" do
       (Money.new(1_00, "USD") <=> Money.new(1_00, "USD")).should == 0
       (Money.new(1_00, "USD") <=> Money.new(99, "USD")).should > 0
       (Money.new(1_00, "USD") <=> Money.new(2_00, "USD")).should < 0
     end
 
-    specify "#+ adds the other object's amount to the current object's amount while retaining the currency" do
+    specify "#+ adds other amount to current amount and returns a Money while retaining the currency" do
       (Money.new(10_00, "USD") + Money.new(90, "USD")).should == Money.new(10_90, "USD")
     end
 
-    specify "#- substracts the other object's amount from the current object's amount while retaining the currency" do
+    specify "#- subtracts other amount from current amount and returns a Money while retaining the currency" do
       (Money.new(10_00, "USD") - Money.new(90, "USD")).should == Money.new(9_10, "USD")
     end
 
-    specify "#/ divides the current object's amount by the other object's amount resulting in a float" do
+    specify "#* multiplies current amount by other amount and returns a Float" do
+      (Money.new(10_00, "USD") * Money.new(2, "USD")).should == 20_00.0
+    end
+
+    specify "#/ divides current amount by other amount and returns a Float" do
       (Money.new(10_00, "USD") / Money.new(100_00, "USD")).should == 0.1
     end
   end
 
   describe "if the other Money object has a different currency" do
-    specify "#<=> compares the two objects' amount after converting the other object's amount to its own currency" do
+    specify "#<=> converts other object amount to current currency, then compares the two object amounts" do
       target = Money.new(200_00, "EUR")
       target.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(300_00, "USD"))
       (Money.new(100_00, "USD") <=> target).should < 0
@@ -858,19 +903,25 @@ describe "Actions involving two Money objects" do
       (Money.new(100_00, "USD") <=> target).should > 0
     end
 
-    specify "#+ adds the other object's amount, converted to this object's currency, to this object's amount while retaining its currency" do
+    specify "#+ converts other object amount to current currency, then adds other amount to current amount and returns a Money" do
       other = Money.new(90, "EUR")
       other.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(9_00, "USD"))
       (Money.new(10_00, "USD") + other).should == Money.new(19_00, "USD")
     end
 
-    specify "#- substracts the other object's amount, converted to this object's currency, from this object's amount while retaining its currency" do
+    specify "#- converts other object amount to current currency, then subtracts other amount from current amount and returns a Money" do
       other = Money.new(90, "EUR")
       other.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(9_00, "USD"))
       (Money.new(10_00, "USD") - other).should == Money.new(1_00, "USD")
     end
 
-    specify "#/ divides the this object's amount by the other objects's amount, converted to this object's currency, resulting in a float" do
+    specify "#* converts other object amount to current currency, then multiplies current amount by other amount and returns a Float" do
+      other = Money.new(10, "EUR")
+      other.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(20, "USD"))
+      (Money.new(10_00, "USD") * other).should == 200_00
+    end
+
+    specify "#/ converts other object amount to current currency, then divides current amount by other amount and returns a Float" do
       other = Money.new(1000, "EUR")
       other.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(100_00, "USD"))
       (Money.new(10_00, "USD") / other).should == 0.1

@@ -340,52 +340,69 @@ class Money
 
   # Multiplies the monetary value with the given number and returns a new
   # +Money+ object with this monetary value and the same currency.
+  # Can also multiply by an other +Money+ object to get a ratio.
   #
-  # Multiplying with another Money object is currently not supported.
+  # +Money*Numeric+ returns +Money+. +Money*Money+ returns +Float+.
   #
-  # @param [Fixnum] fixnum Number to multiply by.
+  # @param [Money, Numeric] value Number to multiply by.
   #
-  # @return [Money]
+  # @return [Money] The resulting money if you multiply Money by a number.
+  # @return [Float] The resulting number if you multiply Money by a Money.
   #
   # @example
   #   Money.new(100) * 2 #=> #<Money @cents=200>
-  def *(fixnum)
-    Money.new(cents * fixnum, currency)
+  #   Money.new(100) * Money.new(2) #=> 200.0
+  #
+  def *(value)
+    if value.is_a?(Money)
+      if currency == value.currency
+        (cents * BigDecimal.new(value.cents.to_s)).to_f
+      else
+        (cents * BigDecimal(value.exchange_to(currency).cents.to_s)).to_f
+      end
+    else
+      Money.new(cents * value, currency)
+    end
   end
 
   # Divides the monetary value with the given number and returns a new +Money+
-  # object with this monetary value and the same currency. Can also divide by
-  # another +Money+ object to get a ratio. +Money/Numeric+ returns +Money+.
-  # +Money/Money+ returns +Float+
+  # object with this monetary value and the same currency.
+  # Can also divide by another +Money+ object to get a ratio.
   #
-  # @param [Money, Numeric] val Number to divide by.
+  # +Money/Numeric+ returns +Money+. +Money/Money+ returns +Float+.
   #
-  # @return [Money, Float]
+  # @param [Money, Numeric] value Number to divide by.
+  #
+  # @return [Money] The resulting money if you divide Money by a number.
+  # @return [Float] The resulting number if you divide Money by a Money.
   #
   # @example
   #   Money.new(100) / 10            #=> #<Money @cents=10>
   #   Money.new(100) / Money.new(10) #=> 10.0
-  def /(val)
-    if val.is_a?(Money)
-      if currency == val.currency
-        (cents / BigDecimal.new(val.cents.to_s)).to_f
+  #
+  def /(value)
+    if value.is_a?(Money)
+      if currency == value.currency
+        (cents / BigDecimal.new(value.cents.to_s)).to_f
       else
-        (cents / BigDecimal(val.exchange_to(currency).cents.to_s)).to_f
+        (cents / BigDecimal(value.exchange_to(currency).cents.to_s)).to_f
       end
     else
-      Money.new(cents / val, currency)
+      Money.new(cents / value, currency)
     end
   end
 
   # Synonym for +#/+.
   #
-  # @param [Money, Numeric] val Number to divide by.
+  # @param [Money, Numeric] value Number to divide by.
   #
-  # @return [Money, Float]
+  # @return [Money] The resulting money if you divide Money by a number.
+  # @return [Float] The resulting number if you divide Money by a Money.
   #
   # @see #/
-  def div(val)
-    self / val
+  #
+  def div(value)
+    self / value
   end
 
   # Divide money by money or fixnum and return array containing quotient and
