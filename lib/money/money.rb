@@ -112,8 +112,8 @@ class Money
   # used internally by this library called +cents+.
   #
   # @param [Numeric] amount The money amount, in dollars.
-  # @param [optional, Currency, String, Symbol] currency The currency format.
-  # @param [optional, Money::Bank::*] bank The exchange bank to use.
+  # @param [Currency, String, Symbol] currency The currency format.
+  # @param [Money::Bank::*] bank The exchange bank to use.
   #
   # @return [Money]
   #
@@ -139,7 +139,7 @@ class Money
   # Excess characters will be discarded.
   #
   # @param [String, #to_s] input The input to parse.
-  # @param [optional, Money::Currency, String, Symbol] currency
+  # @param [Currency, String, Symbol] currency The currency format.
   #   The currency to set the resulting +Money+ object to.
   #
   # @return [Money]
@@ -194,7 +194,8 @@ class Money
   # to avoid problems with string-to-numeric conversion.
   #
   # @param [String, #to_s] value The money amount, in dollars.
-  # @param [optional, Currency, String, Symbol] currency The currency format.
+  # @param [Currency, String, Symbol] currency
+  #   The currency to set the resulting +Money+ object to.
   #
   # @return [Money]
   #
@@ -221,7 +222,7 @@ class Money
   # before instantiating the Money object.
   #
   # @param [Fixnum] value The money amount, in dollars.
-  # @param [optional, Currency, String, Symbol] currency The currency format.
+  # @param [Currency, String, Symbol] currency The currency format.
   #
   # @return [Money]
   #
@@ -253,7 +254,7 @@ class Money
   # to avoid problems with floating point precision.
   #
   # @param [Float] value The money amount, in dollars.
-  # @param [optional, Currency, String, Symbol] currency The currency format.
+  # @param [Currency, String, Symbol] currency The currency format.
   #
   # @return [Money]
   #
@@ -280,7 +281,7 @@ class Money
   # before instantiating the Money object.
   #
   # @param [BigDecimal] value The money amount, in dollars.
-  # @param [optional, Currency, String, Symbol] currency The currency format.
+  # @param [Currency, String, Symbol] currency The currency format.
   #
   # @return [Money]
   #
@@ -317,7 +318,7 @@ class Money
   # the value into a slower BigDecimal instance.
   #
   # @param [Numeric] value The money amount, in dollars.
-  # @param [optional, Currency, String, Symbol] currency The currency format.
+  # @param [Currency, String, Symbol] currency The currency format.
   #
   # @return [Money]
   #
@@ -370,8 +371,8 @@ class Money
   # methods like {Money.ca_dollar} and {Money.us_dollar}.
   #
   # @param [Integer] cents The money amount, in cents.
-  # @param [optional, Currency, String, Symbol] currency The currency format.
-  # @param [optional, Money::Bank::*] bank The exchange bank to use.
+  # @param [Currency, String, Symbol] currency The currency format.
+  # @param [Money::Bank::*] bank The exchange bank to use.
   #
   # @return [Money]
   #

@@ -5,7 +5,7 @@ class Numeric
 
   # Converts this numeric into a +Money+ object in the given +currency+.
   #
-  # @param [optional, Money::Currency, String, Symbol] currency
+  # @param [Currency, String, Symbol] currency
   #   The currency to set the resulting +Money+ object to.
   #
   # @return [Money]
@@ -29,7 +29,7 @@ class String
   # Parses the current string and converts it to a +Money+ object.
   # Excess characters will be discarded.
   #
-  # @param [optional, Money::Currency, String, Symbol] currency
+  # @param [Currency, String, Symbol] currency
   #   The currency to set the resulting +Money+ object to.
   #
   # @return [Money]

@@ -152,8 +152,7 @@ class Money
       # Available formats are +:json+, +:ruby+ and +:yaml+.
       #
       # @param [Symbol] format Request format for the resulting string.
-      # @param [optional, String] file Optional file location to write the
-      #  rates to.
+      # @param [String] file Optional file location to write the rates to.
       #
       # @return [String]
       #
