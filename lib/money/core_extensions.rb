@@ -59,12 +59,16 @@ class String
     Money.new(cents, currency)
   end
 
-  # Parses the current string and converts it to a +Currency+ object.
+  # Converts the current string into a +Currency+ object.
   #
   # @return [Money::Currency]
   #
+  # @raise [Money::Currency::UnknownCurrency]
+  #   If this String reference an unknown currency.
+  #
   # @example
   #   "USD".to_currency #=> #<Money::Currency id: usd>
+  #
   def to_currency
     Money::Currency.new(self)
   end
