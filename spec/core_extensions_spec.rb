@@ -1,34 +1,37 @@
 require "spec_helper"
 
 describe "Money core extensions" do
-  specify "Numberic#to_money works" do
-    money = 1234.to_money
-    money.cents.should == 1234_00
-    money.currency.should == Money.default_currency
 
-    money = 100.37.to_money
-    money.cents.should == 100_37
-    money.currency.should == Money.default_currency
+  describe "Numeric#to_money" do
+    it "should work" do
+      money = 1234.to_money
+      money.cents.should == 1234_00
+      money.currency.should == Money.default_currency
 
-    money = BigDecimal.new('1234').to_money
-    money.cents.should == 1234_00
-    money.currency.should == Money.default_currency
-  end
+      money = 100.37.to_money
+      money.cents.should == 100_37
+      money.currency.should == Money.default_currency
 
-  specify "#issue/15" do
-    amount = 555.55.to_money
-    amount.should == Money.new(55555)
-  end
+      money = BigDecimal.new('1234').to_money
+      money.cents.should == 1234_00
+      money.currency.should == Money.default_currency
+    end
 
-  specify "Numeric#to_money accepts optional currency" do
-    1234.to_money('USD').should == Money.new(123400, 'USD')
-    1234.to_money('EUR').should == Money.new(123400, 'EUR')
-  end
+    it "accepts optional currency" do
+      1234.to_money('USD').should == Money.new(123400, 'USD')
+      1234.to_money('EUR').should == Money.new(123400, 'EUR')
+    end
 
-  specify "Numeric#to_money should respect :subunit_to_unit currency property" do
-    10.to_money('USD').should == Money.new(10_00, 'USD')
-    10.to_money('TND').should == Money.new(10_000, 'TND')
-    10.to_money('CLP').should == Money.new(10, 'CLP')
+    it "should respect :subunit_to_unit currency property" do
+      10.to_money('USD').should == Money.new(10_00, 'USD')
+      10.to_money('TND').should == Money.new(10_000, 'TND')
+      10.to_money('CLP').should == Money.new(10, 'CLP')
+    end
+
+    specify "#issue/15" do
+      amount = 555.55.to_money
+      amount.should == Money.new(55555)
+    end
   end
 
   specify "String#to_money works" do

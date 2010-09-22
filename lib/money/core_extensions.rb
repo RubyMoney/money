@@ -2,23 +2,23 @@ autoload :BigDecimal, 'bigdecimal'
 
 # Open +Numeric+ to add new method.
 class Numeric
-  # Converts this numeric to a +Money+ object in the default currency.
+
+  # Converts this numeric into a +Money+ object in the given +currency+.
   #
-  # @param [optional, Money::Currency, String, Symbol] currency The currency to
-  #  set the resulting +Money+ object to.
+  # @param [optional, Money::Currency, String, Symbol] currency
+  #   The currency to set the resulting +Money+ object to.
   #
   # @return [Money]
   #
   # @example
   #   100.to_money                   #=> #<Money @cents=10000>
   #   100.37.to_money                #=> #<Money @cents=10037>
-  #   require 'bigdecimal'
   #   BigDecimal.new('100').to_money #=> #<Money @cents=10000>
+  #
   def to_money(currency = Money.default_currency)
-    currency = Money::Currency.wrap(currency)
-    amt = BigDecimal.new(self.to_s) * currency.subunit_to_unit
-    Money.new(amt.fix, currency)
+    Money.from_numeric(self, currency)
   end
+
 end
 
 # Open +String+ to add new methods.

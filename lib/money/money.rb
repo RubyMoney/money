@@ -111,7 +111,7 @@ class Money
   # opposite to the subunit-based representation
   # used internally by this library called +cents+.
   #
-  # @param [Fixnum, Float] amount The money amount, in dollars.
+  # @param [Numeric] amount The money amount, in dollars.
   # @param [optional, Currency, String, Symbol] currency The currency format.
   # @param [optional, Money::Bank::*] bank The exchange bank to use.
   #
@@ -128,10 +128,10 @@ class Money
   # @see Money.new
   #
   def self.new_with_dollars(amount, currency = Money.default_currency, bank = Money.default_bank)
-    # FIXME: use #to_d
-    # FIXME: use Numeric.to_money or Money.from_numeric
-    c = Money::Currency.wrap(currency)
-    Money.new(amount * c.subunit_to_unit, c, bank)
+    money = from_numeric(amount, currency)
+    # Hack! You can't change a bank
+    money.instance_variable_set("@bank", bank)
+    money
   end
 
 
@@ -158,6 +158,7 @@ class Money
   #   Money.from_string("100", "BHD")
   #   #=> #<Money @cents=100 @currency="BHD">
   #
+  # @see String#to_money
   # @see Money.parse
   #
   def self.from_string(value, currency = Money.default_currency)
@@ -184,6 +185,7 @@ class Money
   #   Money.from_fixnum(100, "BHD")
   #   #=> #<Money @cents=100 @currency="BHD">
   #
+  # @see Fixnum#to_money
   # @see Money.from_numeric
   #
   def self.from_fixnum(value, currency = Money.default_currency)
@@ -215,6 +217,7 @@ class Money
   #   Money.from_float(100.0, "BHD")
   #   #=> #<Money @cents=100 @currency="BHD">
   #
+  # @see Float#to_money
   # @see Money.from_numeric
   #
   def self.from_float(value, currency = Money.default_currency)
@@ -241,6 +244,7 @@ class Money
   #   Money.from_bigdecimal(BigDecimal.new("100", "BHD")
   #   #=> #<Money @cents=100 @currency="BHD">
   #
+  # @see BigDecimal#to_money
   # @see Money.from_numeric
   #
   def self.from_bigdecimal(value, currency = Money.default_currency)
@@ -277,6 +281,7 @@ class Money
   #   Money.from_numeric("100")
   #   #=> ArgumentError
   #
+  # @see Numeric#to_money
   # @see Money.from_fixnum
   # @see Money.from_float
   # @see Money.from_bigdecimal
@@ -355,7 +360,7 @@ class Money
   #
   # @example
   #   Money.new(100).dollars           # => 1.0
-  #   Money.new_from_dollars(1).dollar # => 1.0
+  #   Money.new_with_dollars(1).dollar # => 1.0
   #
   # @see #to_f
   # @see #cents
