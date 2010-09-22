@@ -1031,71 +1031,71 @@ class Money
     # $199 would return 0
     # $1 234,567.89 would raise an error (separators are space, comma, and period)
     case used_separators.uniq.length
-      # no separator or delimiter; major (dollars) is the number, and minor (cents) is 0
-      when 0 then major, minor = num, 0
+    # no separator or delimiter; major (dollars) is the number, and minor (cents) is 0
+    when 0 then major, minor = num, 0
 
-      # two separators, so we know the last item in this array is the
-      # major/minor delimiter and the rest are separators
-      when 2
-        separator, delimiter = used_separators.uniq
-        # remove all separators, split on the delimiter
-        major, minor = num.gsub(separator, '').split(delimiter)
-        min = 0 unless min
-      when 1
-        # we can't determine if the comma or period is supposed to be a separator or a delimiter
+    # two separators, so we know the last item in this array is the
+    # major/minor delimiter and the rest are separators
+    when 2
+      separator, delimiter = used_separators.uniq
+      # remove all separators, split on the delimiter
+      major, minor = num.gsub(separator, '').split(delimiter)
+      min = 0 unless min
+    when 1
+      # we can't determine if the comma or period is supposed to be a separator or a delimiter
+      # e.g.
+      # 1,00 - comma is a delimiter
+      # 1.000 - period is a delimiter
+      # 1,000 - comma is a separator
+      # 1,000,000 - comma is a separator
+      # 10000,00 - comma is a delimiter
+      # 1000,000 - comma is a delimiter
+
+      # assign first separator for reusability
+      separator = used_separators.first
+
+      # separator is used as a separator when there are multiple instances, always
+      if num.scan(separator).length > 1 # multiple matches; treat as separator
+        major, minor = num.gsub(separator, ''), 0
+      else
+        # ex: 1,000 - 1.0000 - 10001.000
+        # split number into possible major (dollars) and minor (cents) values
+        possible_major, possible_minor = num.split(separator)
+        possible_major ||= "0"
+        possible_minor ||= "00"
+
+        # if the minor (cents) length isn't 3, assign major/minor from the possibles
         # e.g.
-        # 1,00 - comma is a delimiter
-        # 1.000 - period is a delimiter
-        # 1,000 - comma is a separator
-        # 1,000,000 - comma is a separator
-        # 10000,00 - comma is a delimiter
-        # 1000,000 - comma is a delimiter
-
-        # assign first separator for reusability
-        separator = used_separators.first
-
-        # separator is used as a separator when there are multiple instances, always
-        if num.scan(separator).length > 1 # multiple matches; treat as separator
-          major, minor = num.gsub(separator, ''), 0
+        #   1,00 => 1.00
+        #   1.0000 => 1.00
+        #   1.2 => 1.20
+        if possible_minor.length != 3 # delimiter
+          major, minor = possible_major, possible_minor
         else
-          # ex: 1,000 - 1.0000 - 10001.000
-          # split number into possible major (dollars) and minor (cents) values
-          possible_major, possible_minor = num.split(separator)
-          possible_major ||= "0"
-          possible_minor ||= "00"
+          # minor length is three
+          # let's try to figure out intent of the delimiter
 
-          # if the minor (cents) length isn't 3, assign major/minor from the possibles
+          # the major length is greater than three, which means
+          # the comma or period is used as a delimiter
           # e.g.
-          #   1,00 => 1.00
-          #   1.0000 => 1.00
-          #   1.2 => 1.20
-          if possible_minor.length != 3 # delimiter
+          #   1000,000
+          #   100000,000
+          if possible_major.length > 3
             major, minor = possible_major, possible_minor
           else
-            # minor length is three
-            # let's try to figure out intent of the delimiter
-
-            # the major length is greater than three, which means
-            # the comma or period is used as a delimiter
-            # e.g.
-            #   1000,000
-            #   100000,000
-            if possible_major.length > 3
+            # number is in format ###{sep}### or ##{sep}### or #{sep}###
+            # handle as , is sep, . is delimiter
+            if separator == '.'
               major, minor = possible_major, possible_minor
             else
-              # number is in format ###{sep}### or ##{sep}### or #{sep}###
-              # handle as , is sep, . is delimiter
-              if separator == '.'
-                major, minor = possible_major, possible_minor
-              else
-                major, minor = "#{possible_major}#{possible_minor}", 0
-              end
+              major, minor = "#{possible_major}#{possible_minor}", 0
             end
           end
         end
-      else
-        # TODO: ParseError
-        raise ArgumentError, "Invalid currency amount"
+      end
+    else
+      # TODO: ParseError
+      raise ArgumentError, "Invalid currency amount"
     end
 
     # build the string based on major/minor since separator/delimiters have been removed
