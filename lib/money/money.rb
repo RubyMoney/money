@@ -662,7 +662,7 @@ class Money
     end
 
     # Apply delimiter
-    formatted.gsub!(/(\d)(?=\d{3}+(?:\.|$))(\d{3}\..*)?/, "\\1#{delimiter_value}\\2")
+    formatted.gsub!(/(\d)(?=(?:\d{3})+(?:\.|$))(\d{3}\..*)?/, "\\1#{delimiter_value}\\2")
 
     separator_value = separator
     # Determine separator
