@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'money/bank/variable_exchange'
+
 autoload :BigDecimal, 'bigdecimal'
 
 # Represents an amount of money in a given currency.
@@ -134,10 +135,13 @@ class Money
   end
 
 
-  # Converts a String into a Money object treating the String
-  # as dollar and converting them to the corresponding cents value,
+  # Converts a String into a Money object treating the +value+
+  # as dollars and converting them to the corresponding cents value,
   # according to Currency subunit property,
   # before instantiating the Money object.
+  #
+  # Behind the scenes, this method relies on Money.from_bigdecimal
+  # to avoid problems with string-to-numeric conversion.
   #
   # @param [String, #to_s] value The money amount, in dollars.
   # @param [optional, Currency, String, Symbol] currency The currency format.
@@ -154,10 +158,134 @@ class Money
   #   Money.from_string("100", "BHD")
   #   #=> #<Money @cents=100 @currency="BHD">
   #
+  # @see Money.parse
+  #
   def self.from_string(value, currency = Money.default_currency)
+    from_bigdecimal(BigDecimal.new(value.to_s), currency)
+  end
+
+  # Converts a Fixnum into a Money object treating the +value+
+  # as dollars and converting them to the corresponding cents value,
+  # according to Currency subunit property,
+  # before instantiating the Money object.
+  #
+  # @param [Fixnum] value The money amount, in dollars.
+  # @param [optional, Currency, String, Symbol] currency The currency format.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.from_fixnum(100)
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_fixnum(100, "USD")
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_fixnum(100, "EUR")
+  #   #=> #<Money @cents=10000 @currency="EUR">
+  #   Money.from_fixnum(100, "BHD")
+  #   #=> #<Money @cents=100 @currency="BHD">
+  #
+  # @see Money.from_numeric
+  #
+  def self.from_fixnum(value, currency = Money.default_currency)
     currency = Money::Currency.wrap(currency)
-    amount   = BigDecimal.new(value.to_s) * currency.subunit_to_unit
+    amount   = value * currency.subunit_to_unit
+    Money.new(amount, currency)
+  end
+
+  # Converts a Float into a Money object treating the +value+
+  # as dollars and converting them to the corresponding cents value,
+  # according to Currency subunit property,
+  # before instantiating the Money object.
+  #
+  # Behind the scenes, this method relies on Money.from_bigdecimal
+  # to avoid problems with floating point precision.
+  #
+  # @param [Float] value The money amount, in dollars.
+  # @param [optional, Currency, String, Symbol] currency The currency format.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.from_float(100.0)
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_float(100.0, "USD")
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_float(100.0, "EUR")
+  #   #=> #<Money @cents=10000 @currency="EUR">
+  #   Money.from_float(100.0, "BHD")
+  #   #=> #<Money @cents=100 @currency="BHD">
+  #
+  # @see Money.from_numeric
+  #
+  def self.from_float(value, currency = Money.default_currency)
+    from_bigdecimal(BigDecimal.new(value.to_s), currency)
+  end
+
+  # Converts a BigDecimal into a Money object treating the +value+
+  # as dollars and converting them to the corresponding cents value,
+  # according to Currency subunit property,
+  # before instantiating the Money object.
+  #
+  # @param [BigDecimal] value The money amount, in dollars.
+  # @param [optional, Currency, String, Symbol] currency The currency format.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.from_bigdecimal(BigDecimal.new("100")
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_bigdecimal(BigDecimal.new("100", "USD")
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_bigdecimal(BigDecimal.new("100", "EUR")
+  #   #=> #<Money @cents=10000 @currency="EUR">
+  #   Money.from_bigdecimal(BigDecimal.new("100", "BHD")
+  #   #=> #<Money @cents=100 @currency="BHD">
+  #
+  # @see Money.from_numeric
+  #
+  def self.from_bigdecimal(value, currency = Money.default_currency)
+    currency = Money::Currency.wrap(currency)
+    amount   = value * currency.subunit_to_unit
     Money.new(amount.fix, currency)
+  end
+
+  # Converts a Numeric value into a Money object treating the +value+
+  # as dollars and converting them to the corresponding cents value,
+  # according to Currency subunit property,
+  # before instantiating the Money object.
+  #
+  # This method relies on various `Money.from_*` methods
+  # and tries to forwards the call to the most appropriate method
+  # in order to reduce computation effort.
+  # For instance, if +value+ is an Integer, this method calls
+  # `Money.from_fixnum` instead of using the default
+  # `Money.from_bigdecimal` which adds the overload to converts
+  # the value into a slower BigDecimal instance.
+  #
+  # @param [Numeric] value The money amount, in dollars.
+  # @param [optional, Currency, String, Symbol] currency The currency format.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.from_numeric(100)
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_numeric(100.00)
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #
+  # @see Money.from_fixnum
+  # @see Money.from_float
+  # @see Money.from_bigdecimal
+  #
+  def self.from_numeric(value, currency = Money.default_currency)
+    case value
+      when Fixnum
+        from_fixnum(value, currency)
+      when Numeric
+        from_bigdecimal(BigDecimal.new(value.to_s), currency)
+      else
+        raise ArgumentError, "`value' should be a Numeric object"
+    end
   end
 
 

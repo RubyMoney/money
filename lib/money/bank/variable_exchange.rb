@@ -1,5 +1,4 @@
 require 'money/bank/base'
-require 'bigdecimal'
 autoload :JSON, 'json'
 autoload :YAML, 'yaml'
 
