@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'money/bank/variable_exchange'
+
 autoload :BigDecimal, 'bigdecimal'
 
 # Represents an amount of money in a given currency.
@@ -101,6 +102,7 @@ class Money
     Money.new(cents, "EUR")
   end
 
+
   # Creates a new Money object of +amount+ value in dollars,
   # with given +currency+.
   #
@@ -109,9 +111,9 @@ class Money
   # opposite to the subunit-based representation
   # used internally by this library called +cents+.
   #
-  # @param [Fixnum, Float] amount The money amount, in dollars.
-  # @param [optional, Currency, String, Symbol] currency The currency format.
-  # @param [optional, Money::Bank::*] bank The exchange bank to use.
+  # @param [Numeric] amount The money amount, in dollars.
+  # @param [Currency, String, Symbol] currency The currency format.
+  # @param [Money::Bank::*] bank The exchange bank to use.
   #
   # @return [Money]
   #
@@ -126,16 +128,231 @@ class Money
   # @see Money.new
   #
   def self.new_with_dollars(amount, currency = Money.default_currency, bank = Money.default_bank)
-    # FIXME: use #to_d
-    # FIXME: use Numeric.to_money or Money.from_numeric
-    c = Money::Currency.wrap(currency)
-    Money.new(amount * c.subunit_to_unit, c, bank)
+    money = from_numeric(amount, currency)
+    # Hack! You can't change a bank
+    money.instance_variable_set("@bank", bank)
+    money
   end
+
+
+  # Parses the current string and converts it to a +Money+ object.
+  # Excess characters will be discarded.
+  #
+  # @param [String, #to_s] input The input to parse.
+  # @param [Currency, String, Symbol] currency The currency format.
+  #   The currency to set the resulting +Money+ object to.
+  #
+  # @return [Money]
+  #
+  # @raise [ArgumentError] If any +currency+ is supplied and
+  #   given value doesn't match the one extracted from
+  #   the +input+ string.
+  #
+  # @example
+  #   '100'.to_money                #=> #<Money @cents=10000>
+  #   '100.37'.to_money             #=> #<Money @cents=10037>
+  #   '100 USD'.to_money            #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
+  #   'USD 100'.to_money            #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
+  #   '$100 USD'.to_money           #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
+  #   'hello 2000 world'.to_money   #=> #<Money @cents=200000 @currency=#<Money::Currency id: usd>>
+  #
+  # @example Mismatching currencies
+  #   'USD 2000'.to_money("EUR")    #=> ArgumentError
+  #
+  # @see Money.from_string
+  #
+  def self.parse(input, currency = nil)
+    i = input.to_s
+
+    # Get the currency.
+    m = i.scan /([A-Z]{2,3})/
+    c = m[0] ? m[0][0] : nil
+
+    # check that currency passed and embedded currency are the same,
+    # and negotiate the final currency
+    if currency.nil? and c.nil?
+      currency = Money.default_currency
+    elsif currency.nil?
+      currency = c
+    elsif c.nil?
+      currency = currency
+    elsif currency != c
+      # TODO: ParseError
+      raise ArgumentError, "Mismatching Currencies"
+    end
+
+    cents = extract_cents(i)
+    Money.new(cents, currency)
+  end
+
+  # Converts a String into a Money object treating the +value+
+  # as dollars and converting them to the corresponding cents value,
+  # according to +currency+ subunit property,
+  # before instantiating the Money object.
+  #
+  # Behind the scenes, this method relies on {Money.from_bigdecimal}
+  # to avoid problems with string-to-numeric conversion.
+  #
+  # @param [String, #to_s] value The money amount, in dollars.
+  # @param [Currency, String, Symbol] currency
+  #   The currency to set the resulting +Money+ object to.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.from_string("100")
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_string("100", "USD")
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_string("100", "EUR")
+  #   #=> #<Money @cents=10000 @currency="EUR">
+  #   Money.from_string("100", "BHD")
+  #   #=> #<Money @cents=100 @currency="BHD">
+  #
+  # @see String#to_money
+  # @see Money.parse
+  #
+  def self.from_string(value, currency = Money.default_currency)
+    from_bigdecimal(BigDecimal.new(value.to_s), currency)
+  end
+
+  # Converts a Fixnum into a Money object treating the +value+
+  # as dollars and converting them to the corresponding cents value,
+  # according to +currency+ subunit property,
+  # before instantiating the Money object.
+  #
+  # @param [Fixnum] value The money amount, in dollars.
+  # @param [Currency, String, Symbol] currency The currency format.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.from_fixnum(100)
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_fixnum(100, "USD")
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_fixnum(100, "EUR")
+  #   #=> #<Money @cents=10000 @currency="EUR">
+  #   Money.from_fixnum(100, "BHD")
+  #   #=> #<Money @cents=100 @currency="BHD">
+  #
+  # @see Fixnum#to_money
+  # @see Money.from_numeric
+  #
+  def self.from_fixnum(value, currency = Money.default_currency)
+    currency = Money::Currency.wrap(currency)
+    amount   = value * currency.subunit_to_unit
+    Money.new(amount, currency)
+  end
+
+  # Converts a Float into a Money object treating the +value+
+  # as dollars and converting them to the corresponding cents value,
+  # according to +currency+ subunit property,
+  # before instantiating the Money object.
+  #
+  # Behind the scenes, this method relies on Money.from_bigdecimal
+  # to avoid problems with floating point precision.
+  #
+  # @param [Float] value The money amount, in dollars.
+  # @param [Currency, String, Symbol] currency The currency format.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.from_float(100.0)
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_float(100.0, "USD")
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_float(100.0, "EUR")
+  #   #=> #<Money @cents=10000 @currency="EUR">
+  #   Money.from_float(100.0, "BHD")
+  #   #=> #<Money @cents=100 @currency="BHD">
+  #
+  # @see Float#to_money
+  # @see Money.from_numeric
+  #
+  def self.from_float(value, currency = Money.default_currency)
+    from_bigdecimal(BigDecimal.new(value.to_s), currency)
+  end
+
+  # Converts a BigDecimal into a Money object treating the +value+
+  # as dollars and converting them to the corresponding cents value,
+  # according to +currency+ subunit property,
+  # before instantiating the Money object.
+  #
+  # @param [BigDecimal] value The money amount, in dollars.
+  # @param [Currency, String, Symbol] currency The currency format.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.from_bigdecimal(BigDecimal.new("100")
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_bigdecimal(BigDecimal.new("100", "USD")
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_bigdecimal(BigDecimal.new("100", "EUR")
+  #   #=> #<Money @cents=10000 @currency="EUR">
+  #   Money.from_bigdecimal(BigDecimal.new("100", "BHD")
+  #   #=> #<Money @cents=100 @currency="BHD">
+  #
+  # @see BigDecimal#to_money
+  # @see Money.from_numeric
+  #
+  def self.from_bigdecimal(value, currency = Money.default_currency)
+    currency = Money::Currency.wrap(currency)
+    amount   = value * currency.subunit_to_unit
+    Money.new(amount.fix, currency)
+  end
+
+  # Converts a Numeric value into a Money object treating the +value+
+  # as dollars and converting them to the corresponding cents value,
+  # according to +currency+ subunit property,
+  # before instantiating the Money object.
+  #
+  # This method relies on various +Money.from_*+ methods
+  # and tries to forwards the call to the most appropriate method
+  # in order to reduce computation effort.
+  # For instance, if +value+ is an Integer, this method calls
+  # {Money.from_fixnum} instead of using the default
+  # {Money.from_bigdecimal} which adds the overload to converts
+  # the value into a slower BigDecimal instance.
+  #
+  # @param [Numeric] value The money amount, in dollars.
+  # @param [Currency, String, Symbol] currency The currency format.
+  #
+  # @return [Money]
+  #
+  # @raise +ArgumentError+ Unless +value+ is a supported type.
+  #
+  # @example
+  #   Money.from_numeric(100)
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_numeric(100.00)
+  #   #=> #<Money @cents=10000 @currency="USD">
+  #   Money.from_numeric("100")
+  #   #=> ArgumentError
+  #
+  # @see Numeric#to_money
+  # @see Money.from_fixnum
+  # @see Money.from_float
+  # @see Money.from_bigdecimal
+  #
+  def self.from_numeric(value, currency = Money.default_currency)
+    case value
+      when Fixnum
+        from_fixnum(value, currency)
+      when Numeric
+        from_bigdecimal(BigDecimal.new(value.to_s), currency)
+      else
+        raise ArgumentError, "`value' should be a Numeric object"
+    end
+  end
+
 
   # Adds a new exchange rate to the default bank and return the rate.
   #
   # @param [Currency, String, Symbol] from_currency Currency to exchange from.
-  # @param [Currency, String, Symbol[ to_currency Currency to exchange to.
+  # @param [Currency, String, Symbol] to_currency Currency to exchange to.
   # @param [Numeric] rate Rate to exchange with.
   #
   # @return [Numeric]
@@ -151,11 +368,11 @@ class Money
   # with given +currency+.
   #
   # Alternatively you can use the convenience
-  # methods like +Money#ca_dollar+ and +Money#us_dollar+
+  # methods like {Money.ca_dollar} and {Money.us_dollar}.
   #
   # @param [Integer] cents The money amount, in cents.
-  # @param [optional, Currency, String, Symbol] currency The currency format.
-  # @param [optional, Money::Bank::*] bank The exchange bank to use.
+  # @param [Currency, String, Symbol] currency The currency format.
+  # @param [Money::Bank::*] bank The exchange bank to use.
   #
   # @return [Money]
   #
@@ -194,7 +411,7 @@ class Money
   #
   # @example
   #   Money.new(100).dollars           # => 1.0
-  #   Money.new_from_dollars(1).dollar # => 1.0
+  #   Money.new_with_dollars(1).dollar # => 1.0
   #
   # @see #to_f
   # @see #cents
@@ -786,4 +1003,118 @@ class Money
     end
     rules
   end
+
+  # Takes a number string and attempts to massage out the number.
+  #
+  # @param [String] input The string containing a potential number.
+  #
+  # @return [Integer]
+  #
+  def self.extract_cents(input)
+    # remove anything that's not a number, potential delimiter, or minus sign
+    num = input.gsub(/[^\d|\.|,|\'|\s|\-]/, '').strip
+
+    # set a boolean flag for if the number is negative or not
+    negative = num.split(//).first == "-"
+
+    # if negative, remove the minus sign from the number
+    num = num.gsub(/^-/, '') if negative
+
+    # gather all separators within the result number
+    used_separators = num.scan /[^\d]/
+
+    # determine the number of unique separators within the number
+    #
+    # e.g.
+    # $1,234,567.89 would return 2 (, and .)
+    # $125,00 would return 1
+    # $199 would return 0
+    # $1 234,567.89 would raise an error (separators are space, comma, and period)
+    case used_separators.uniq.length
+    # no separator or delimiter; major (dollars) is the number, and minor (cents) is 0
+    when 0 then major, minor = num, 0
+
+    # two separators, so we know the last item in this array is the
+    # major/minor delimiter and the rest are separators
+    when 2
+      separator, delimiter = used_separators.uniq
+      # remove all separators, split on the delimiter
+      major, minor = num.gsub(separator, '').split(delimiter)
+      min = 0 unless min
+    when 1
+      # we can't determine if the comma or period is supposed to be a separator or a delimiter
+      # e.g.
+      # 1,00 - comma is a delimiter
+      # 1.000 - period is a delimiter
+      # 1,000 - comma is a separator
+      # 1,000,000 - comma is a separator
+      # 10000,00 - comma is a delimiter
+      # 1000,000 - comma is a delimiter
+
+      # assign first separator for reusability
+      separator = used_separators.first
+
+      # separator is used as a separator when there are multiple instances, always
+      if num.scan(separator).length > 1 # multiple matches; treat as separator
+        major, minor = num.gsub(separator, ''), 0
+      else
+        # ex: 1,000 - 1.0000 - 10001.000
+        # split number into possible major (dollars) and minor (cents) values
+        possible_major, possible_minor = num.split(separator)
+        possible_major ||= "0"
+        possible_minor ||= "00"
+
+        # if the minor (cents) length isn't 3, assign major/minor from the possibles
+        # e.g.
+        #   1,00 => 1.00
+        #   1.0000 => 1.00
+        #   1.2 => 1.20
+        if possible_minor.length != 3 # delimiter
+          major, minor = possible_major, possible_minor
+        else
+          # minor length is three
+          # let's try to figure out intent of the delimiter
+
+          # the major length is greater than three, which means
+          # the comma or period is used as a delimiter
+          # e.g.
+          #   1000,000
+          #   100000,000
+          if possible_major.length > 3
+            major, minor = possible_major, possible_minor
+          else
+            # number is in format ###{sep}### or ##{sep}### or #{sep}###
+            # handle as , is sep, . is delimiter
+            if separator == '.'
+              major, minor = possible_major, possible_minor
+            else
+              major, minor = "#{possible_major}#{possible_minor}", 0
+            end
+          end
+        end
+      end
+    else
+      # TODO: ParseError
+      raise ArgumentError, "Invalid currency amount"
+    end
+
+    # build the string based on major/minor since separator/delimiters have been removed
+    # avoiding floating point arithmetic here to ensure accuracy
+    cents = (major.to_i * 100)
+    # add the minor number as well. this may have any number of digits,
+    # so we treat minor as a string and truncate or right-fill it with zeroes
+    # until it becomes a two-digit number string, which we add to cents.
+    minor = minor.to_s
+    truncated_minor = minor[0..1]
+    truncated_minor << "0" * (2 - truncated_minor.size) if truncated_minor.size < 2
+    cents += truncated_minor.to_i
+    # respect rounding rules
+    if minor.size >= 3 && minor[2..2].to_i >= 5
+      cents += 1
+    end
+
+    # if negative, multiply by -1; otherwise, return positive cents
+    negative ? cents * -1 : cents
+  end
+
 end
