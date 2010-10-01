@@ -178,8 +178,9 @@ class Money
       # TODO: ParseError
       raise ArgumentError, "Mismatching Currencies"
     end
+    currency = Money::Currency.wrap(currency)
 
-    cents = extract_cents(i)
+    cents = extract_cents(i, currency)
     Money.new(cents, currency)
   end
 
@@ -1008,7 +1009,7 @@ class Money
   #
   # @return [Integer]
   #
-  def self.extract_cents(input)
+  def self.extract_cents(input, currency = Money.default_currency)
     # remove anything that's not a number, potential delimiter, or minus sign
     num = input.gsub(/[^\d|\.|,|\'|\s|\-]/, '').strip
 
@@ -1098,7 +1099,7 @@ class Money
 
     # build the string based on major/minor since separator/delimiters have been removed
     # avoiding floating point arithmetic here to ensure accuracy
-    cents = (major.to_i * 100)
+    cents = (major.to_i * currency.subunit_to_unit)
     # add the minor number as well. this may have any number of digits,
     # so we treat minor as a string and truncate or right-fill it with zeroes
     # until it becomes a two-digit number string, which we add to cents.

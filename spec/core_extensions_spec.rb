@@ -117,6 +117,12 @@ describe "Money core extensions" do
       it "should ignore unrecognized data" do
         "hello 2000 world".to_money.should == Money.new(2000_00)
       end
+
+      it "should respect :subunit_to_unit currency property" do
+        "1".to_money("USD").should == Money.new(1_00,  "USD")
+        "1".to_money("TND").should == Money.new(1_000, "TND")
+        "1".to_money("CLP").should == Money.new(1,     "CLP")
+      end
     end
 
     describe "#to_currency" do
