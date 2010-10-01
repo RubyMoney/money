@@ -1,8 +1,6 @@
 # encoding: utf-8
 require 'money/bank/variable_exchange'
 
-autoload :BigDecimal, 'bigdecimal'
-
 # Represents an amount of money in a given currency.
 class Money
   include Comparable

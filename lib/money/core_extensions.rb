@@ -1,5 +1,3 @@
-autoload :BigDecimal, 'bigdecimal'
-
 # Open +Numeric+ to add new method.
 class Numeric
 
