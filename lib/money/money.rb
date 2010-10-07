@@ -498,7 +498,7 @@ class Money
   #
   # @return [-1, 0, 1]
   #
-  # @raise +ArgumentError+
+  # @raise [ArgumentError]
   #
   # @example
   #   Money.new(100) <=> 99             #=>  1
@@ -513,7 +513,7 @@ class Money
         cents <=> other_money.exchange_to(currency).cents
       end
     else
-      raise ArgumentError, "comparison of #{self.class} with #{other_money.inspect} failed"
+      raise ArgumentError, "Comparison of #{self.class} with #{other_money.inspect} failed"
     end
   end
 
@@ -556,26 +556,21 @@ class Money
 
   # Multiplies the monetary value with the given number and returns a new
   # +Money+ object with this monetary value and the same currency.
-  # Can also multiply by an other +Money+ object to get a ratio.
   #
-  # +Money*Numeric+ returns +Money+. +Money*Money+ returns +Float+.
+  # Note that you can't multiply a Money object by an other +Money+ object.
   #
-  # @param [Money, Numeric] value Number to multiply by.
+  # @param [Numeric] value Number to multiply by.
   #
-  # @return [Money] The resulting money if you multiply Money by a number.
-  # @return [Float] The resulting number if you multiply Money by a Money.
+  # @return [Money] The resulting money.
+  #
+  # @raise [ArgumentError] If +value+ is a Money instance.
   #
   # @example
   #   Money.new(100) * 2 #=> #<Money @cents=200>
-  #   Money.new(100) * Money.new(2) #=> 200.0
   #
   def *(value)
     if value.is_a?(Money)
-      if currency == value.currency
-        (cents * BigDecimal.new(value.cents.to_s)).to_f
-      else
-        (cents * BigDecimal(value.exchange_to(currency).cents.to_s)).to_f
-      end
+      raise ArgumentError, "Can't multiply a Money by a Money"
     else
       Money.new(cents * value, currency)
     end

@@ -238,19 +238,19 @@ describe Money do
   end
 
   specify "#<=> raises ArgumentError when used to compare with an object that doesn't respond to #to_money" do
-    expected_message = /comparison .+ failed/
-    lambda{ Money.new(1_00) <=> Object.new }.should raise_error(ArgumentError, expected_message)
-    lambda{ Money.new(1_00) <=> Class }.should raise_error(ArgumentError, expected_message)
-    lambda{ Money.new(1_00) <=> Kernel }.should raise_error(ArgumentError, expected_message)
-    lambda{ Money.new(1_00) <=> /foo/ }.should raise_error(ArgumentError, expected_message)
+    expected_message = /Comparison .+ failed/
+    lambda{ Money.new(1_00) <=> Object.new  }.should raise_error(ArgumentError, expected_message)
+    lambda{ Money.new(1_00) <=> Class       }.should raise_error(ArgumentError, expected_message)
+    lambda{ Money.new(1_00) <=> Kernel      }.should raise_error(ArgumentError, expected_message)
+    lambda{ Money.new(1_00) <=> /foo/       }.should raise_error(ArgumentError, expected_message)
   end
 
   describe "#*" do
-    it "multiplies current money amount by the multiplier while retaining the currency" do
+    it "should multiply current money amount by the multiplier while retaining the currency" do
       (Money.new(1_00, "USD") * 10).should == Money.new(10_00, "USD")
     end
 
-    it "multiplies Money by Fixnum and returns Money" do
+    it "should multiply Money by Fixnum and returns Money" do
       ts = [
         {:a => Money.new( 10, :USD), :b =>  4, :c => Money.new( 40, :USD)},
         {:a => Money.new( 10, :USD), :b => -4, :c => Money.new(-40, :USD)},
@@ -262,29 +262,12 @@ describe Money do
       end
     end
 
-    it "multiplies Money by Money (same currency) and returns Float" do
-      ts = [
-        {:a => Money.new( 10, :USD), :b => Money.new( 4, :USD), :c =>  40.0},
-        {:a => Money.new( 10, :USD), :b => Money.new(-4, :USD), :c => -40.0},
-        {:a => Money.new(-10, :USD), :b => Money.new( 4, :USD), :c => -40.0},
-        {:a => Money.new(-10, :USD), :b => Money.new(-4, :USD), :c =>  40.0},
-      ]
-      ts.each do |t|
-        (t[:a] * t[:b]).should == t[:c]
-      end
+    it "should not multiply Money by Money (same currency)" do
+      lambda { Money.new( 10, :USD) * Money.new( 4, :USD) }.should raise_error(ArgumentError)
     end
 
-    it "multiplies Money by Money (different currency) and returns Float" do
-      ts = [
-        {:a => Money.new( 10, :USD), :b => Money.new( 4, :EUR), :c =>  80.0},
-        {:a => Money.new( 10, :USD), :b => Money.new(-4, :EUR), :c => -80.0},
-        {:a => Money.new(-10, :USD), :b => Money.new( 4, :EUR), :c => -80.0},
-        {:a => Money.new(-10, :USD), :b => Money.new(-4, :EUR), :c =>  80.0},
-      ]
-      ts.each do |t|
-        t[:b].should_receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
-        (t[:a] * t[:b]).should == t[:c]
-      end
+    it "should not multiply Money by Money (different currency)" do
+      lambda { Money.new( 10, :USD) * Money.new( 4, :EUR) }.should raise_error(ArgumentError)
     end
   end
 
@@ -1023,8 +1006,8 @@ describe "Actions involving two Money objects" do
       (Money.new(10_00, "USD") - Money.new(90, "USD")).should == Money.new(9_10, "USD")
     end
 
-    specify "#* multiplies current amount by other amount and returns a Float" do
-      (Money.new(10_00, "USD") * Money.new(2, "USD")).should == 20_00.0
+    specify "#* should raise ArgumentError" do
+      lambda { Money.new(10_00, "USD") * Money.new(2, "USD") }.should raise_error(ArgumentError)
     end
 
     specify "#/ divides current amount by other amount and returns a Float" do
@@ -1059,10 +1042,8 @@ describe "Actions involving two Money objects" do
       (Money.new(10_00, "USD") - other).should == Money.new(1_00, "USD")
     end
 
-    specify "#* converts other object amount to current currency, then multiplies current amount by other amount and returns a Float" do
-      other = Money.new(10, "EUR")
-      other.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(20, "USD"))
-      (Money.new(10_00, "USD") * other).should == 200_00
+    specify "#* should raise ArgumentError" do
+      lambda { Money.new(10_00, "USD") * Money.new(10, "EUR") }.should raise_error(ArgumentError)
     end
 
     specify "#/ converts other object amount to current currency, then divides current amount by other amount and returns a Float" do
