@@ -1,23 +1,28 @@
-master
-================
+Money 3.1.5
+===========
 
 Features
 --------
- - Added support for creating objects with the main monetary unit instead of cents.
+ - Added support for creating objects with the main monetary unit instead of
+   cents.
    ([#issue/25](http://github.com/RubyMoney/money/issues/25))
- - Deprecated `Money#format` with separate params instead of Hash.
-   Deprecation target set to Money 3.5.0.
+ - Deprecated `Money#format` with separate params instead of Hash. Deprecation
+   target set to Money 3.5.0.
    ([#issue/31](http://github.com/RubyMoney/money/issues/31))
- - Deprecated `Money#new(0, :currency => "EUR")` in favor of `Money#new(0, "EUR")`.
-   Deprecation target set to Money 3.5.0.
+ - Deprecated `Money#new(0, :currency => "EUR")` in favor of
+   `Money#new(0, "EUR")`. Deprecation target set to Money 3.5.0.
    ([#issue/31](http://github.com/RubyMoney/money/issues/31))
- - Can now multiply one Money object by one another using `#*`.
+ - Throw ArgumentError when trying to multiply two Money objects together.
    ([#issue/29](http://github.com/RubyMoney/money/issues/29))
+ - Update Money#parse to use :subunit_to_unit
+   ([#issue/30](http://github.com/RubyMoney/money/issues/30))
 
-Changes
--------
+Bugfixes
+--------
  - Downgraded required_rubygems_version to >= 1.3.6.
    ([#issue/26](http://github.com/RubyMoney/money/issues/26))
+ - Use BigDecimal when floating point calculations are needed.
+ - Ruby 1.9.2 compatibility enhancements.
 
 
 Money 3.1.0
