@@ -269,6 +269,12 @@ describe Money do
     it "should not multiply Money by Money (different currency)" do
       lambda { Money.new( 10, :USD) * Money.new( 4, :EUR) }.should raise_error(ArgumentError)
     end
+    
+    it "preserves precision after multiplication" do
+      half = Money.new(101, :USD) * 0.5
+      ending = half + half
+      ending.should == Money.new(101, :USD)
+    end
   end
 
   describe "#/" do
@@ -279,8 +285,8 @@ describe Money do
     it "divides Money by Fixnum and returns Money" do
       ts = [
         {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3, :USD)},
-        {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-4, :USD)},
-        {:a => Money.new(-13, :USD), :b =>  4, :c => Money.new(-4, :USD)},
+        {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-3, :USD)},
+        {:a => Money.new(-13, :USD), :b =>  4, :c => Money.new(-3, :USD)},
         {:a => Money.new(-13, :USD), :b => -4, :c => Money.new( 3, :USD)},
       ]
       ts.each do |t|
@@ -312,13 +318,19 @@ describe Money do
         (t[:a] / t[:b]).should == t[:c]
       end
     end
+    
+    it "preserves precision after division" do
+      half = Money.new(101, :USD) / 2
+      ending = half + half
+      ending.should == Money.new(101, :USD)
+    end
   end
 
   specify "#div -> money / fixnum" do
     ts = [
       {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3, :USD)},
-      {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-4, :USD)},
-      {:a => Money.new(-13, :USD), :b =>  4, :c => Money.new(-4, :USD)},
+      {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-3, :USD)},
+      {:a => Money.new(-13, :USD), :b =>  4, :c => Money.new(-3, :USD)},
       {:a => Money.new(-13, :USD), :b => -4, :c => Money.new( 3, :USD)},
     ]
     ts.each do |t|
@@ -354,8 +366,8 @@ describe Money do
   specify "#divmod -> money `divmod` fixnum" do
     ts = [
       {:a => Money.new( 13, :USD), :b =>  4, :c => [Money.new( 3, :USD), Money.new( 1, :USD)]},
-      {:a => Money.new( 13, :USD), :b => -4, :c => [Money.new(-4, :USD), Money.new(-3, :USD)]},
-      {:a => Money.new(-13, :USD), :b =>  4, :c => [Money.new(-4, :USD), Money.new( 3, :USD)]},
+      {:a => Money.new( 13, :USD), :b => -4, :c => [Money.new(-3, :USD), Money.new(-3, :USD)]},
+      {:a => Money.new(-13, :USD), :b =>  4, :c => [Money.new(-3, :USD), Money.new( 3, :USD)]},
       {:a => Money.new(-13, :USD), :b => -4, :c => [Money.new( 3, :USD), Money.new(-1, :USD)]},
     ]
     ts.each do |t|

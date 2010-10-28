@@ -8,7 +8,9 @@ class Money
   # The value of the money in cents.
   #
   # @return [Integer]
-  attr_reader :cents
+  def cents
+    @amount.round
+  end
 
   # The currency the money is in.
   #
@@ -386,7 +388,7 @@ class Money
   # @see Money.new_with_dollars
   #
   def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
-    @cents = cents.round
+    @amount = BigDecimal.new(cents.to_s)
     if currency.is_a?(Hash)
       # Earlier versions of Money wrongly documented the constructor as being able
       # to accept something like this:
@@ -529,9 +531,9 @@ class Money
   #   Money.new(100) + Money.new(100) #=> #<Money @cents=200>
   def +(other_money)
     if currency == other_money.currency
-      Money.new(cents + other_money.cents, other_money.currency)
+      Money.new(amount + other_money.amount, other_money.currency)
     else
-      Money.new(cents + other_money.exchange_to(currency).cents, currency)
+      Money.new(amount + other_money.exchange_to(currency).amount, currency)
     end
   end
 
@@ -548,9 +550,9 @@ class Money
   #   Money.new(100) - Money.new(99) #=> #<Money @cents=1>
   def -(other_money)
     if currency == other_money.currency
-      Money.new(cents - other_money.cents, other_money.currency)
+      Money.new(amount - other_money.amount, other_money.currency)
     else
-      Money.new(cents - other_money.exchange_to(currency).cents, currency)
+      Money.new(amount - other_money.exchange_to(currency).amount, currency)
     end
   end
 
@@ -572,7 +574,7 @@ class Money
     if value.is_a?(Money)
       raise ArgumentError, "Can't multiply a Money by a Money"
     else
-      Money.new(cents * value, currency)
+      Money.new(amount * value, currency)
     end
   end
 
@@ -594,12 +596,12 @@ class Money
   def /(value)
     if value.is_a?(Money)
       if currency == value.currency
-        (cents / BigDecimal.new(value.cents.to_s)).to_f
+        (amount / BigDecimal.new(value.amount.to_s)).to_f
       else
-        (cents / BigDecimal(value.exchange_to(currency).cents.to_s)).to_f
+        (amount / BigDecimal(value.exchange_to(currency).amount.to_s)).to_f
       end
     else
-      Money.new(cents / value, currency)
+      Money.new(amount / value, currency)
     end
   end
 
@@ -628,12 +630,12 @@ class Money
   #   Money.new(100).divmod(Money.new(9)) #=> [11, #<Money @cents=1>]
   def divmod(val)
     if val.is_a?(Money)
-      a = self.cents
-      b = self.currency == val.currency ? val.cents : val.exchange_to(self.currency).cents
+      a = self.amount
+      b = self.currency == val.currency ? val.amount : val.exchange_to(self.currency).amount
       q, m = a.divmod(b)
       return [q, Money.new(m, self.currency)]
     else
-      return [self.div(val), Money.new(self.cents.modulo(val), self.currency)]
+      return [self.div(val), Money.new(self.amount.modulo(val), self.currency)]
     end
   end
 
@@ -674,8 +676,8 @@ class Money
     b = b.exchange_to(a.currency) if b.is_a?(Money) and a.currency != b.currency
 
     a_sign, b_sign = :pos, :pos
-    a_sign = :neg if a.cents < 0
-    b_sign = :neg if (b.is_a?(Money) and b.cents < 0) or (b < 0)
+    a_sign = :neg if a.amount < 0
+    b_sign = :neg if (b.is_a?(Money) and b.amount < 0) or (b < 0)
 
     return a.modulo(b) if a_sign == b_sign
     a.modulo(b) - (b.is_a?(Money) ? b : Money.new(b, a.currency))
@@ -688,7 +690,7 @@ class Money
   # @example
   #   Money.new(-100).abs #=> #<Money @cents=100>
   def abs
-    Money.new(self.cents.abs, self.currency)
+    Money.new(self.amount.abs, self.currency)
   end
 
   # Test if the money amount is zero.
@@ -699,7 +701,7 @@ class Money
   #   Money.new(100).zero? #=> false
   #   Money.new(0).zero?   #=> true
   def zero?
-    cents == 0
+    amount.zero?
   end
 
   # Test if the money amount is non-zero. Returns this money object if it is
@@ -711,7 +713,7 @@ class Money
   #   Money.new(100).nonzero? #=> #<Money @cents=100>
   #   Money.new(0).nonzero?   #=> nil
   def nonzero?
-    cents != 0 ? self : nil
+    !zero? ? self : nil
   end
 
   # Uses +Currency#symbol+. If +nil+ is returned, defaults to "¤".
@@ -914,7 +916,7 @@ class Money
   # @example
   #   Money.us_dollar(100).to_f => 1.0
   def to_f
-    (BigDecimal.new(cents.to_s) / currency.subunit_to_unit).to_f
+    (amount / currency.subunit_to_unit).to_f
   end
 
   # Receive the amount of this money object in another Currency.
@@ -1111,4 +1113,6 @@ class Money
     negative ? cents * -1 : cents
   end
 
+  protected
+  attr_reader :amount
 end
