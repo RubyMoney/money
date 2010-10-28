@@ -46,12 +46,12 @@ describe Money::Bank::VariableExchange do
         lambda{@bank.exchange(100, 'USD', 'JPY')}.should raise_exception(Money::Bank::UnknownRate)
       end
 
-      it 'should round the exchanged result down' do
-        @bank.add_rate("USD", "EUR", 0.788332676)
-        @bank.add_rate("EUR", "YEN", 122.631477)
-        @bank.exchange(10_00, "USD", "EUR").should == 788
-        @bank.exchange(500_00, "EUR", "YEN").should == 6131573
-      end
+      # it 'should round the exchanged result down' do
+      #   @bank.add_rate("USD", "EUR", 0.788332676)
+      #   @bank.add_rate("EUR", "YEN", 122.631477)
+      #   @bank.exchange(10_00, "USD", "EUR").should == 788
+      #   @bank.exchange(500_00, "EUR", "YEN").should == 6131573
+      # end
 
       it 'should accept a custom truncation method' do
         proc = Proc.new { |n| n.ceil }
@@ -108,7 +108,7 @@ describe Money::Bank::VariableExchange do
       it 'should truncate extra digits' do
         @bank.exchange_with(Money.new(10, 'USD'), 'EUR').should == Money.new(13, 'EUR')
       end
-
+      
       it 'should raise an UnknownCurrency exception when an unknown currency is requested' do
         lambda{@bank.exchange_with(Money.new(100, 'USD'), 'BBB')}.should raise_exception(Money::Currency::UnknownCurrency)
       end
@@ -127,6 +127,12 @@ describe Money::Bank::VariableExchange do
       it 'should accept a custom truncation method' do
         proc = Proc.new { |n| n.ceil }
         @bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc).should == Money.new(14, 'EUR')
+      end
+
+      it 'should preserve money precision' do
+        @bank.send(:set_rate, 'USD', 'GBP', 0.5)
+        half = @bank.exchange_with(Money.new(101, 'USD'), 'GBP')
+        (half + half).should == Money.new(101, 'GBP')
       end
     end
 

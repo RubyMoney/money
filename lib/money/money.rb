@@ -11,6 +11,11 @@ class Money
   def cents
     @amount.round
   end
+  
+  # The value of the money as BigDecimal, to preserve precision
+  #
+  # @return [BigDecimal]
+  attr_reader :amount
 
   # The currency the money is in.
   #
@@ -975,7 +980,7 @@ class Money
   def to_money
     self
   end
-
+  
   private
 
   # Cleans up formatting rules.
@@ -1113,6 +1118,4 @@ class Money
     negative ? cents * -1 : cents
   end
 
-  protected
-  attr_reader :amount
 end
