@@ -21,6 +21,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require 'bigdecimal'
+require 'i18n' rescue LoadError
 require 'money/currency'
 require 'money/money'
 require 'money/defaults'

@@ -535,16 +535,49 @@ describe Money do
     Money.empty(currency).symbol.should == "¤"
   end
 
-  specify "#delimiter works as documented" do
-    Money.empty("USD").delimiter.should == ","
-    Money.empty("EUR").delimiter.should == ","
-    Money.empty("BRL").delimiter.should == "."
-  end
+  {
+    :delimiter => { :default => ",", :other => "." },
+    :separator => { :default => ".", :other => "," }
+  }.each do |method, options|
+    describe "##{method}" do
+      context "without I18n" do
+        it "works as documented" do
+          Money.empty("USD").send(method).should == options[:default]
+          Money.empty("EUR").send(method).should == options[:default]
+          Money.empty("BRL").send(method).should == options[:other]
+        end
+      end
 
-  specify "#separator works as documented" do
-    Money.empty("USD").separator.should == "."
-    Money.empty("EUR").separator.should == "."
-    Money.empty("BRL").separator.should == ","
+      if Object.const_defined?("I18n")
+        context "with I18n" do
+          before :all do
+            reset_i18n
+            store_number_formats(:en, method => options[:default])
+            store_number_formats(:de, method => options[:other])
+          end
+
+          it "looks up #{method} for current locale" do
+            I18n.locale = :en
+            Money.empty("USD").send(method).should == options[:default]
+            I18n.locale = :de
+            Money.empty("USD").send(method).should == options[:other]
+          end
+
+          it "fallbacks to default behaviour for missing translations" do
+            I18n.locale = :de
+            Money.empty("USD").send(method).should == options[:other]
+            I18n.locale = :fr
+            Money.empty("USD").send(method).should == options[:default]
+          end
+
+          after :all do
+            reset_i18n
+          end
+        end
+      else
+        puts "can't test ##{method} with I18n because it isn't loaded"
+      end
+    end
   end
 
   describe "#format" do

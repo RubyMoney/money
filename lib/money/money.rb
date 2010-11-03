@@ -724,24 +724,40 @@ class Money
     currency.symbol || "¤"
   end
 
-  # Uses +Currency#delimiter+. If +nil+ is returned, default to ",".
+  # If I18n is loaded, looks up key +:number.format.delimiter+.
+  # Otherwise and as fallback it uses +Currency#delimiter+.
+  # If +nil+ is returned, default to ",".
   #
   # @return [String]
   #
   # @example
   #   Money.new(100, "USD").delimiter #=> ","
-  def delimiter
-    currency.delimiter || ","
+  if Object.const_defined?("I18n")
+    def delimiter
+      I18n.t(:"number.format.delimiter", :default => currency.delimiter || ",")
+    end
+  else
+    def delimiter
+      currency.delimiter || ","
+    end
   end
 
-  # Uses +Currency#separator+. If +nil+ is returned, default to ".".
+  # If I18n is loaded, looks up key +:number.format.seperator+.
+  # Otherwise and as fallback it uses +Currency#seperator+.
+  # If +nil+ is returned, default to ",".
   #
   # @return [String]
   #
   # @example
   #   Money.new(100, "USD").separator #=> "."
-  def separator
-    currency.separator || "."
+  if Object.const_defined?("I18n")
+    def separator
+      I18n.t(:"number.format.separator", :default => currency.separator || ".")
+    end
+  else
+    def separator
+      currency.separator || "."
+    end
   end
 
   # Creates a formatted price string according to several rules.
