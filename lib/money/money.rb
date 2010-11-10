@@ -872,10 +872,15 @@ class Money
       symbol_value = symbol
     end
 
-    if rules[:no_cents] or currency.subunit_to_unit == 1
-      formatted = sprintf("#{symbol_value}%d", self.to_f)
-    else
-      formatted = sprintf("#{symbol_value}%.2f", self.to_f)
+    formatted = case rules[:no_cents]
+                when true
+                  "#{symbol_value}#{self.to_s.to_i}"
+                else
+                  "#{symbol_value}#{self.to_s}"
+                end
+    if rules.has_key?(:separator) and rules[:separator] and
+      rules[:separator] != separator
+      formatted.sub!(separator, rules[:separator])
     end
 
     delimiter_value = delimiter
@@ -889,16 +894,7 @@ class Money
     end
 
     # Apply delimiter
-    formatted.gsub!(/(\d)(?=(?:\d{3})+(?:\.|$))(\d{3}\..*)?/, "\\1#{delimiter_value}\\2")
-
-    separator_value = separator
-    # Determine separator
-    if rules.has_key?(:separator) and rules[:separator]
-      separator_value = rules[:separator]
-    end
-
-    # Apply separator
-    formatted.sub!(/\.(\d{2})$/, "#{separator_value}\\1")
+    formatted.gsub!(/(\d)(?=(?:\d{3})+(?:\.|,|$))(\d{3}\..*)?/, "\\1#{delimiter_value}\\2")
 
     if rules[:with_currency]
       formatted << " "
