@@ -122,6 +122,7 @@ describe "Money core extensions" do
         "1".to_money("USD").should == Money.new(1_00,  "USD")
         "1".to_money("TND").should == Money.new(1_000, "TND")
         "1".to_money("CLP").should == Money.new(1,     "CLP")
+        "1.5".to_money("KWD").cents.should == 1500
       end
     end
 

@@ -1113,9 +1113,10 @@ class Money
     # add the minor number as well. this may have any number of digits,
     # so we treat minor as a string and truncate or right-fill it with zeroes
     # until it becomes a two-digit number string, which we add to cents.
+    decimal_places = Math.log10(currency.subunit_to_unit)
     minor = minor.to_s
     truncated_minor = minor[0..1]
-    truncated_minor << "0" * (2 - truncated_minor.size) if truncated_minor.size < 2
+    truncated_minor << "0" * (decimal_places - truncated_minor.size) if truncated_minor.size < decimal_places
     cents += truncated_minor.to_i
     # respect rounding rules
     if minor.size >= 3 && minor[2..2].to_i >= 5
