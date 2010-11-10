@@ -916,8 +916,11 @@ class Money
   # @example
   #   Money.ca_dollar(100).to_s #=> "1.00"
   def to_s
-    return sprintf("%d", cents) if currency.subunit_to_unit == 1
-    sprintf("%.2f", self.to_f)
+    decimal_places = Math.log10(currency.subunit_to_unit).ceil
+    unit, subunit  = cents.divmod(currency.subunit_to_unit).map{|o| o.to_s}
+    return unit if decimal_places == 0
+    subunit = (subunit + ("0" * decimal_places))[0, decimal_places]
+    "#{unit}#{separator}#{subunit}"
   end
 
   # Return the amount of money as a float. Floating points cannot guarantee

@@ -510,11 +510,20 @@ describe Money do
   end
 
   specify "Money.to_s should respect :subunit_to_unit currency property" do
-    Money.new(10_00, "BHD").to_s.should == "1.00"
+    Money.new(10_00, "BHD").to_s.should == "1.000"
+    Money.new(10_00, "CNY").to_s.should == "100.0"
   end
 
   specify "Money.to_s shouldn't have decimal when :subunit_to_unit is 1" do
     Money.new(10_00, "CLP").to_s.should == "1000"
+  end
+
+  specify "Money.to_s should work with :subunit_to_unit == 5" do
+    Money.new(10_00, "MGA").to_s.should == "200.0"
+  end
+
+  specify "Money.to_s should respect :separator" do
+    Money.new(10_00, "BRL").to_s.should == "10,00"
   end
 
   specify "Money.to_f works" do
