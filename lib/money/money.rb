@@ -1110,7 +1110,8 @@ class Money
     # build the string based on major/minor since separator/delimiters have been removed
     # avoiding floating point arithmetic here to ensure accuracy
     cents = (major.to_i * currency.subunit_to_unit)
-    decimal_places = Math.log10(currency.subunit_to_unit).floor
+    # Because of an bug in JRuby, we can't just call #floor
+    decimal_places = Math.log10(currency.subunit_to_unit).to_s.to_i
     minor = minor.to_s
     minor = if minor.size < decimal_places
               (minor + ("0" * decimal_places))[0,decimal_places].to_i
