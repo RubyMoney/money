@@ -1,3 +1,10 @@
+Money 3.5.1
+===========
+
+Bugfixes
+--------
+ - Removed erroneous require.
+
 Money 3.5.0
 ===========
 
