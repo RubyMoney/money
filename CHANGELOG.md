@@ -1,3 +1,10 @@
+Money 3.5.2
+===========
+
+Bugfixes
+--------
+ - Fixed an error in #to_s which appended extra 0s incorrectly
+
 Money 3.5.1
 ===========
 
