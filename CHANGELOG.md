@@ -1,3 +1,27 @@
+Money 3.5.0
+===========
+
+Features
+--------
+ - Updated to RSpec2.
+ - Use i18n to lookup separator and delimiter signs.
+ - Removed all deprecated methods up to v3.5.0, including the following:
+   - Using Money#format with params instead of a Hash.
+   - Using a Hash with Money#new.
+   - Using Bank#exchange, use Bank#exchange_with instead.
+
+Bugfixes
+--------
+ - Updated Money#to_s to respect :separator and :subunit_to_unit.
+ - Fixed Money#format for :subunit_to_unit != 100.
+   ([#issue/37](http://github.com/RubyMoney/money/issue/37))
+ - Fixed String#to_money for :subunit_to_unit != 100.
+   ([#issue/36](http://github.com/RubyMoney/money/issue/36))
+ - Removed duplicate currencies.
+   ([#issue/38](http://github.com/RubyMoney/money/issue/38))
+ - Fixed issue related to JRuby returning 2 for Math.log10(1000).floor instead
+   of correctly returning 3.
+
 Money 3.1.5
 ===========
 
