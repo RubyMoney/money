@@ -499,6 +499,7 @@ describe Money do
 
   specify "Money.to_s works" do
     Money.new(10_00).to_s.should == "10.00"
+    Money.new(400_08).to_s.should == "400.08"
   end
 
   specify "Money.to_s should respect :subunit_to_unit currency property" do
@@ -584,6 +585,7 @@ describe Money do
   describe "#format" do
     it "returns the monetary value as a string" do
       Money.ca_dollar(100).format.should == "$1.00"
+      Money.new(40008).format.should == "$400.08"
     end
 
     it "should respect :subunit_to_unit currency property" do

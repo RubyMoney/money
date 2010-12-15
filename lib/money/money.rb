@@ -900,10 +900,16 @@ class Money
   # @example
   #   Money.ca_dollar(100).to_s #=> "1.00"
   def to_s
-    decimal_places = Math.log10(currency.subunit_to_unit).ceil
+    decimal_places = if currency.subunit_to_unit == 1
+                       0
+                     elsif currency.subunit_to_unit % 10 == 0
+                       Math.log10(currency.subunit_to_unit).to_s.to_i
+                     else
+                       Math.log10(currency.subunit_to_unit).to_s.to_i+1
+                     end
     unit, subunit  = cents.divmod(currency.subunit_to_unit).map{|o| o.to_s}
     return unit if decimal_places == 0
-    subunit = (subunit + ("0" * decimal_places))[0, decimal_places]
+    subunit = (("0" * decimal_places) + subunit)[(-1*decimal_places)..-1]
     "#{unit}#{separator}#{subunit}"
   end
 
