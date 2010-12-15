@@ -907,7 +907,8 @@ class Money
                      else
                        Math.log10(currency.subunit_to_unit).to_s.to_i+1
                      end
-    unit, subunit  = cents.divmod(currency.subunit_to_unit).map{|o| o.to_s}
+    unit, subunit  = cents.abs.divmod(currency.subunit_to_unit).map{|o| o.to_s}
+    unit = (unit.to_i * -1).to_s if cents < 0
     return unit if decimal_places == 0
     subunit = (("0" * decimal_places) + subunit)[(-1*decimal_places)..-1]
     "#{unit}#{separator}#{subunit}"

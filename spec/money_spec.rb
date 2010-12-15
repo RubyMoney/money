@@ -500,6 +500,7 @@ describe Money do
   specify "Money.to_s works" do
     Money.new(10_00).to_s.should == "10.00"
     Money.new(400_08).to_s.should == "400.08"
+    Money.new(-237_43).to_s.should == "-237.43"
   end
 
   specify "Money.to_s should respect :subunit_to_unit currency property" do
