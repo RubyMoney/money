@@ -15,14 +15,6 @@ describe Money do
       Money.new(0).bank.should be_equal(Money::Bank::VariableExchange.instance)
     end
 
-    # DEPRECATED: v3.5.0
-    it "accepts { :currency => 'foo' } as the value for the 'currency' argument" do
-      money = Money.new(20, :currency => "EUR")
-      money.currency.should == Money::Currency.new("EUR")
-
-      money = Money.new(20, :currency => nil)
-      money.currency.should == Money.default_currency
-    end
   end
 
   describe "#cents" do
@@ -663,12 +655,6 @@ describe Money do
       Money.us_dollar(85).format(:with_currency => true).should == "$0.85 USD"
     end
 
-    # DEPRECATED: v3.5.0
-    specify "#format(:with_currency) works as documented" do
-      Money.ca_dollar(100).format(:with_currency).should == "$1.00 CAD"
-      Money.us_dollar(85).format(:with_currency).should == "$0.85 USD"
-    end
-
     specify "#format(:no_cents => true) works as documented" do
       Money.ca_dollar(100).format(:no_cents => true).should == "$1"
       Money.ca_dollar(599).format(:no_cents => true).should == "$5"
@@ -678,19 +664,6 @@ describe Money do
 
     specify "#format(:no_cents => true) should respect :subunit_to_unit currency property" do
       Money.new(10_00, "BHD").format(:no_cents => true).should == "ب.د1"
-    end
-
-    # DEPRECATED: v3.5.0
-    specify "#format(:no_cents) works as documented" do
-      Money.ca_dollar(100).format(:no_cents).should == "$1"
-      Money.ca_dollar(599).format(:no_cents).should == "$5"
-      Money.ca_dollar(570).format(:no_cents, :with_currency).should == "$5 CAD"
-      Money.ca_dollar(39000).format(:no_cents).should == "$390"
-    end
-
-    # DEPRECATED: v3.5.0
-    specify "#format(:no_cents) should respect :subunit_to_unit currency property" do
-      Money.new(10_00, "BHD").format(:no_cents).should == "ب.د1"
     end
 
     specify "#format(:symbol => a symbol string) uses the given value as the money symbol" do

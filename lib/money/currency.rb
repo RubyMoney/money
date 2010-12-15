@@ -340,12 +340,6 @@ class Money
       "#<#{self.class.name} id: #{id} #{ATTRIBUTES.map { |a| "#{a}: #{send(a)}" }.join(", ")}>"
     end
 
-    # Catches deprecated uses of currency.
-    def method_missing(method, *args, &block)
-      Money.deprecate "`currency` is now a `Currency` instance. Call `currency.to_s.#{method}' instead."
-      iso_code.send(method, *args, &block)
-    end
-
     # Class Methods
     class << self
 

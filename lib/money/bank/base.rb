@@ -84,13 +84,6 @@ class Money
       def setup
       end
 
-      # @deprecated +#exchange+ will be removed in v3.2.0, use +#exchange_with+
-      # @see Money::Bank::Base#exchange_with
-      def exchange(cents, from_currency, to_currency, &block)
-        Money.deprecate "`Money::Bank::Base#exchange' will be removed in v3.2.0, use #exchange_with instead"
-        exchange_with(Money.new(cents, from_currency), to_currency, &block).cents
-      end
-
       # Exchanges the given +Money+ object to a new +Money+ object in
       # +to_currency+.
       #

@@ -387,19 +387,7 @@ class Money
   #
   def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
     @cents = cents.round
-    if currency.is_a?(Hash)
-      # Earlier versions of Money wrongly documented the constructor as being able
-      # to accept something like this:
-      #
-      #   Money.new(50, :currency => "USD")
-      #
-      # We retain compatibility here.
-      Money.deprecate "Passing :currency as option is deprecated and will be removed in v3.5.0. " +
-                      "Please use `Money.new('#{cents}'#{currency[:currency].nil? ? "" : ", '#{currency[:currency]}'"})'"
-      @currency = Currency.wrap(currency[:currency] || Money.default_currency)
-    else
-      @currency = Currency.wrap(currency)
-    end
+    @currency = Currency.wrap(currency)
     @bank = bank
   end
 
@@ -1002,13 +990,6 @@ class Money
     elsif rules.size == 1
       rules = rules.pop
       rules = { rules => true } if rules.is_a?(Symbol)
-    else
-      Money.deprecate "Passing options as parameters is deprecated and will be removed in v3.5.0. " +
-                      "Please use `#format(#{rules.map { |r| ":#{r} => true" }.join(", ") })'"
-      rules = rules.inject({}) do |h,s|
-        h[s] = true
-        h
-      end
     end
     rules
   end
