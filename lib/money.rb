@@ -24,5 +24,4 @@ require 'bigdecimal'
 require 'i18n' rescue LoadError
 require 'money/currency'
 require 'money/money'
-require 'money/defaults'
 require 'money/core_extensions'
