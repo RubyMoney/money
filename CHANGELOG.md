@@ -1,3 +1,10 @@
+Money 3.5.3
+===========
+
+Bugfixes
+--------
+ - Fixed an error in #to_s when cents is negative
+
 Money 3.5.2
 ===========
 
