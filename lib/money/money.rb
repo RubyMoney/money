@@ -1110,18 +1110,20 @@ class Money
     # build the string based on major/minor since separator/delimiters have been removed
     # avoiding floating point arithmetic here to ensure accuracy
     cents = (major.to_i * currency.subunit_to_unit)
-    # add the minor number as well. this may have any number of digits,
-    # so we treat minor as a string and truncate or right-fill it with zeroes
-    # until it becomes a two-digit number string, which we add to cents.
-    decimal_places = Math.log10(currency.subunit_to_unit)
+    decimal_places = Math.log10(currency.subunit_to_unit).floor
     minor = minor.to_s
-    truncated_minor = minor[0..1]
-    truncated_minor << "0" * (decimal_places - truncated_minor.size) if truncated_minor.size < decimal_places
-    cents += truncated_minor.to_i
-    # respect rounding rules
-    if minor.size >= 3 && minor[2..2].to_i >= 5
-      cents += 1
-    end
+    minor = if minor.size < decimal_places
+              (minor + ("0" * decimal_places))[0,decimal_places].to_i
+            elsif minor.size > decimal_places
+              if minor[decimal_places,1].to_i >= 5
+                minor[0,decimal_places].to_i+1
+              else
+                minor[0,decimal_places].to_i
+              end
+            else
+              minor.to_i
+            end
+    cents += minor
 
     # if negative, multiply by -1; otherwise, return positive cents
     negative ? cents * -1 : cents
