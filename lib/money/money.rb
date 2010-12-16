@@ -900,17 +900,13 @@ class Money
   # @example
   #   Money.ca_dollar(100).to_s #=> "1.00"
   def to_s
-    decimal_places = if currency.subunit_to_unit == 1
-                       0
-                     elsif currency.subunit_to_unit % 10 == 0
-                       Math.log10(currency.subunit_to_unit).to_s.to_i
-                     else
-                       Math.log10(currency.subunit_to_unit).to_s.to_i+1
-                     end
     unit, subunit  = cents.abs.divmod(currency.subunit_to_unit).map{|o| o.to_s}
-    unit = (unit.to_i * -1).to_s if cents < 0
-    return unit if decimal_places == 0
-    subunit = (("0" * decimal_places) + subunit)[(-1*decimal_places)..-1]
+    if currency.decimal_places == 0
+      return "-#{unit}" if cents < 0
+      return unit
+    end
+    subunit = (("0" * currency.decimal_places) + subunit)[(-1*currency.decimal_places)..-1]
+    return "-#{unit}#{separator}#{subunit}" if cents < 0
     "#{unit}#{separator}#{subunit}"
   end
 
@@ -1099,15 +1095,14 @@ class Money
     # avoiding floating point arithmetic here to ensure accuracy
     cents = (major.to_i * currency.subunit_to_unit)
     # Because of an bug in JRuby, we can't just call #floor
-    decimal_places = Math.log10(currency.subunit_to_unit).to_s.to_i
     minor = minor.to_s
-    minor = if minor.size < decimal_places
-              (minor + ("0" * decimal_places))[0,decimal_places].to_i
-            elsif minor.size > decimal_places
-              if minor[decimal_places,1].to_i >= 5
-                minor[0,decimal_places].to_i+1
+    minor = if minor.size < currency.decimal_places
+              (minor + ("0" * currency.decimal_places))[0,currency.decimal_places].to_i
+            elsif minor.size > currency.decimal_places
+              if minor[currency.decimal_places,1].to_i >= 5
+                minor[0,currency.decimal_places].to_i+1
               else
-                minor[0,decimal_places].to_i
+                minor[0,currency.decimal_places].to_i
               end
             else
               minor.to_i
