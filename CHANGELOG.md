@@ -1,3 +1,14 @@
+Money 3.5.4
+===========
+
+Features
+--------
+ - Added Currency#decimal_places.
+
+Bugfixes
+--------
+ - Fixed error with Money#to_s error with negative amounts that are only cents.
+
 Money 3.5.3
 ===========
 
