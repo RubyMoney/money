@@ -497,6 +497,63 @@ describe Money do
     n.should     == Money.new(-1, :USD)
   end
 
+  specify "Money.format brute force :subunit_to_unit = 1" do
+    ("0".."9").each do |amt|
+      amt.to_money("VUV").format(:symbol => false).should == amt
+    end
+    ("-1".."-9").each do |amt|
+      amt.to_money("VUV").format(:symbol => false).should == amt
+    end
+    "1000".to_money("VUV").format(:symbol => false).should == "1,000"
+    "-1000".to_money("VUV").format(:symbol => false).should == "-1,000"
+  end
+
+  specify "Money.format brute force :subunit_to_unit = 5" do
+    ("0.0".."9.4").each do |amt|
+      next if amt[-1].to_i > 4
+      amt.to_money("MGA").format(:symbol => false).should == amt
+    end
+    ("-0.1".."-9.4").each do |amt|
+      next if amt[-1].to_i > 4
+      amt.to_money("MGA").format(:symbol => false).should == amt
+    end
+    "1000.0".to_money("MGA").format(:symbol => false).should == "1,000.0"
+    "-1000.0".to_money("MGA").format(:symbol => false).should == "-1,000.0"
+  end
+
+  specify "Money.format brute force :subunit_to_unit = 10" do
+    ("0.0".."9.9").each do |amt|
+      amt.to_money("VND").format(:symbol => false).should == amt
+    end
+    ("-0.1".."-9.9").each do |amt|
+      amt.to_money("VND").format(:symbol => false).should == amt
+    end
+    "1000.0".to_money("VND").format(:symbol => false).should == "1,000.0"
+    "-1000.0".to_money("VND").format(:symbol => false).should == "-1,000.0"
+  end
+
+  specify "Money.format brute force :subunit_to_unit = 100" do
+    ("0.00".."9.99").each do |amt|
+      amt.to_money("USD").format(:symbol => false).should == amt
+    end
+    ("-0.01".."-9.99").each do |amt|
+      amt.to_money("USD").format(:symbol => false).should == amt
+    end
+    "1000.00".to_money("USD").format(:symbol => false).should == "1,000.00"
+    "-1000.00".to_money("USD").format(:symbol => false).should == "-1,000.00"
+  end
+
+  specify "Money.format brute force :subunit_to_unit = 1000" do
+    ("0.000".."9.999").each do |amt|
+      amt.to_money("IQD").format(:symbol => false).should == amt
+    end
+    ("-0.001".."-9.999").each do |amt|
+      amt.to_money("IQD").format(:symbol => false).should == amt
+    end
+    "1000.000".to_money("IQD").format(:symbol => false).should == "1,000.000"
+    "-1000.000".to_money("IQD").format(:symbol => false).should == "-1,000.000"
+  end
+
   specify "Money.to_s works" do
     Money.new(10_00).to_s.should == "10.00"
     Money.new(400_08).to_s.should == "400.08"
