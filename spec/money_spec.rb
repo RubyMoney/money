@@ -644,6 +644,9 @@ describe Money do
     it "returns the monetary value as a string" do
       Money.ca_dollar(100).format.should == "$1.00"
       Money.new(40008).format.should == "$400.08"
+      1.to_money.format.should == "$1.00"
+      1.01.to_money.format.should == "$1.01"
+      BigDecimal.new("1.01").to_money.format.should == "$1.01"
     end
 
     it "should respect :subunit_to_unit currency property" do
