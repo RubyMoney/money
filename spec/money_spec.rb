@@ -21,6 +21,13 @@ describe Money do
     it "returns the amount of cents passed to the constructor" do
       Money.new(200_00, "USD").cents.should == 200_00
     end
+
+    it "stores cents as an integer regardless of what is passed into the constructor" do
+      [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
+        m.cents.should == 100
+        m.cents.should be_an_instance_of(Fixnum)
+      end
+    end
   end
 
   describe "#dollars" do

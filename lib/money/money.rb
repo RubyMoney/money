@@ -386,7 +386,7 @@ class Money
   # @see Money.new_with_dollars
   #
   def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
-    @cents = cents.round
+    @cents = cents.round.to_i
     @currency = Currency.wrap(currency)
     @bank = bank
   end
