@@ -9,9 +9,6 @@ class Money
     # Thrown when an unknown currency is requested.
     class UnknownCurrency < StandardError; end
 
-    # List of attributes applicable to a currency object.
-    ATTRIBUTES = [ :priority, :iso_code, :name, :symbol, :subunit, :subunit_to_unit, :separator, :delimiter ]
-
     # List of known currencies.
     #
     # == monetary unit
@@ -262,8 +259,8 @@ class Money
     def initialize(id)
       @id  = id.to_s.downcase.to_sym
       data = TABLE[@id] || raise(UnknownCurrency, "Unknown currency `#{id}'")
-      ATTRIBUTES.each do |attribute|
-        instance_variable_set(:"@#{attribute}", data[attribute])
+      data.each_pair do |key, value|
+        instance_variable_set(:"@#{key}", value)
       end
     end
 
@@ -350,7 +347,7 @@ class Money
     # @example
     #   Money::Currency.new(:usd) #=> #<Currency id: usd ...>
     def inspect
-      "#<#{self.class.name} id: #{id} #{ATTRIBUTES.map { |a| "#{a}: #{send(a)}" }.join(", ")}>"
+      "#<#{self.class.name} id: #{id} #{instance_variables.sort.collect { |a| "#{a}: #{instance_variable_get(a)}" }.join(", ")}>"
     end
 
     # Class Methods
@@ -369,9 +366,7 @@ class Money
       #   Money::Currency.find(:foo) #=> nil
       def find(id)
         id = id.to_s.downcase.to_sym
-        if data = self::TABLE[id]
-          new(id)
-        end
+        new(id) if self::TABLE[id]
       end
 
       # Wraps the object in a +Currency+ unless it's already a +Currency+

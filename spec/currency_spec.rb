@@ -60,7 +60,7 @@ describe Money::Currency do
 
   specify "#inspect" do
     Money::Currency.new(:usd).inspect.should ==
-    %Q{#<Money::Currency id: usd priority: 1, iso_code: USD, name: United States Dollar, symbol: $, subunit: Cent, subunit_to_unit: 100, separator: ., delimiter: ,>}
+    %Q{#<Money::Currency @delimiter: ,, @id: usd, @iso_code: USD, @name: United States Dollar, @priority: 1, @separator: ., @subunit: Cent, @subunit_to_unit: 100, @symbol: $>}
   end
 
 
