@@ -848,24 +848,29 @@ class Money
       end
     end
 
-    if rules.has_key?(:symbol)
-      if rules[:symbol] === true
-        symbol_value = symbol
-      elsif rules[:symbol]
-        symbol_value = rules[:symbol]
+    symbol_value =
+      if rules.has_key?(:symbol)
+        if rules[:symbol] === true
+          symbol
+        elsif rules[:symbol]
+          rules[:symbol]
+        else
+          ""
+        end
+      elsif rules[:html]
+       currency.html_entity
       else
-        symbol_value = ""
+       symbol
       end
-    else
-      symbol_value = symbol
-    end
 
     formatted = case rules[:no_cents]
                 when true
-                  "#{symbol_value}#{self.to_s.to_i}"
+                  "#{self.to_s.to_i}"
                 else
-                  "#{symbol_value}#{self.to_s}"
+                  "#{self.to_s}"
                 end
+    formatted = (currency.symbol_first? ? "#{symbol_value}#{formatted}" : "#{formatted} #{symbol_value}") unless symbol_value.nil? or symbol_value.empty?
+
     if rules.has_key?(:separator) and rules[:separator] and
       rules[:separator] != separator
       formatted.sub!(separator, rules[:separator])

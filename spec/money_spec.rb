@@ -530,13 +530,13 @@ describe Money do
 
   specify "Money.format brute force :subunit_to_unit = 10" do
     ("0.0".."9.9").each do |amt|
-      amt.to_money("VND").format(:symbol => false).should == amt
+      amt.to_money("VND").format(:symbol => false).should == amt.to_s.gsub(/\./, ",")
     end
     ("-0.1".."-9.9").each do |amt|
-      amt.to_money("VND").format(:symbol => false).should == amt
+      amt.to_money("VND").format(:symbol => false).should == amt.to_s.gsub(/\./, ",")
     end
-    "1000.0".to_money("VND").format(:symbol => false).should == "1,000.0"
-    "-1000.0".to_money("VND").format(:symbol => false).should == "-1,000.0"
+    "1000.0".to_money("VND").format(:symbol => false).should == "1.000,0"
+    "-1000.0".to_money("VND").format(:symbol => false).should == "-1.000,0"
   end
 
   specify "Money.format brute force :subunit_to_unit = 100" do
@@ -610,7 +610,7 @@ describe Money do
       context "without I18n" do
         it "works as documented" do
           Money.empty("USD").send(method).should == options[:default]
-          Money.empty("EUR").send(method).should == options[:default]
+          Money.empty("EUR").send(method).should == options[:other]
           Money.empty("BRL").send(method).should == options[:other]
         end
       end
@@ -681,13 +681,13 @@ describe Money do
       one_thousand["CNY"].should == "¥10,000.0"
 
       # Euro
-      one_thousand["EUR"].should == "€1,000.00"
+      one_thousand["EUR"].should == "1.000,00 €"
 
       # Rupees
       one_thousand["INR"].should == "₨1,000.00"
       one_thousand["NPR"].should == "₨1,000.00"
-      one_thousand["SCR"].should == "₨1,000.00"
-      one_thousand["LKR"].should == "₨1,000.00"
+      one_thousand["SCR"].should == "1,000.00 ₨"
+      one_thousand["LKR"].should == "1,000.00 ₨"
 
       # Brazilian Real
       one_thousand["BRL"].should == "R$ 1.000,00"
@@ -757,13 +757,13 @@ describe Money do
       one["CNY"].should == "¥10.0"
 
       # Euro
-      one["EUR"].should == "€1.00"
+      one["EUR"].should == "1,00 €"
 
       # Rupees
       one["INR"].should == "₨1.00"
       one["NPR"].should == "₨1.00"
-      one["SCR"].should == "₨1.00"
-      one["LKR"].should == "₨1.00"
+      one["SCR"].should == "1.00 ₨"
+      one["LKR"].should == "1.00 ₨"
 
       # Brazilian Real
       one["BRL"].should == "R$ 1,00"
@@ -776,12 +776,12 @@ describe Money do
     specify "#format(:symbol => true) returns $ when currency code is not recognized" do
       currency = Money::Currency.new("EUR")
       currency.should_receive(:symbol).and_return(nil)
-      Money.new(100, currency).format(:symbol => true).should == "¤1.00"
+      Money.new(100, currency).format(:symbol => true).should == "1,00 ¤"
     end
 
-    specify "#format(:symbol => some non-Boolean value that evaluates to true) returs symbol based on the given currency code" do
+    specify "#format(:symbol => some non-Boolean value that evaluates to true) returns symbol based on the given currency code" do
       Money.new(100, "GBP").format(:symbol => true).should == "£1.00"
-      Money.new(100, "EUR").format(:symbol => true).should == "€1.00"
+      Money.new(100, "EUR").format(:symbol => true).should == "1,00 €"
       Money.new(100, "SEK").format(:symbol => true).should == "kr1.00"
     end
 
@@ -800,7 +800,7 @@ describe Money do
       money.format.should == "£1.00"
 
       money = Money.new(100, "EUR")
-      money.format.should == "€1.00"
+      money.format.should == "1,00 €"
     end
 
     specify "#format(:separator => a separator string) works as documented" do
