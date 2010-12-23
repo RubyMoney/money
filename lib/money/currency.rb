@@ -366,7 +366,7 @@ class Money
     # @example
     #   Money::Currency.new(:usd) #=> #<Currency id: usd ...>
     def inspect
-      "#<#{self.class.name} id: #{id}, #{instance_variables.reject{|i|i == '@id'}.collect{ |a| "#{a[1..-1]}: #{instance_variable_get(a)}"}.join(", ")}>"
+      "#<#{self.class.name} id: #{id}, priority: #{priority}, symbol_first: #{symbol_first}, delimiter: #{delimiter}, html_entity: #{html_entity}, decimal_mark: #{decimal_mark}, name: #{name}, symbol: #{symbol}, subunit_to_unit: #{subunit_to_unit}, iso_code: #{iso_code}, subunit: #{subunit}>"
     end
 
     # Class Methods
