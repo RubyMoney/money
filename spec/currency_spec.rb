@@ -6,15 +6,17 @@ describe Money::Currency do
 
   specify "#initialize should lookup data from TABLE" do
     with_custom_definitions do
-      Money::Currency::TABLE[:usd] = {:priority => 1, :iso_code => "USD", :name => "United States Dollar", :symbol => "$", :subunit => "Cent", :subunit_to_unit => 100, :decimal_mark => ".", :delimiter => ","}
-      Money::Currency::TABLE[:eur] = {:priority => 2, :iso_code => "EUR", :name => "Euro", :symbol => "€", :subunit => "Cent", :subunit_to_unit => 100, :decimal_mark => ".", :delimiter => ","}
+      Money::Currency::TABLE[:usd] = {:priority => 1, :iso_code => "USD", :name => "United States Dollar", :symbol => "$", :subunit => "Cent", :subunit_to_unit => 100, :decimal_mark => ".", :thousands_separator => ","}
+      Money::Currency::TABLE[:eur] = {:priority => 2, :iso_code => "EUR", :name => "Euro", :symbol => "€", :subunit => "Cent", :subunit_to_unit => 100, :decimal_mark => ".", :thousands_separator => ","}
 
       currency = Money::Currency.new("USD")
       currency.id.should        == :usd
       currency.priority.should  == 1
       currency.iso_code.should  == "USD"
       currency.name.should      == "United States Dollar"
+      currency.decimal_mark.should == "."
       currency.separator.should == "."
+      currency.thousands_separator.should == ","
       currency.delimiter.should == ","
     end
   end
@@ -60,7 +62,7 @@ describe Money::Currency do
 
   specify "#inspect" do
     Money::Currency.new(:usd).inspect.should ==
-    %Q{#<Money::Currency id: usd, priority: 1, symbol_first: true, delimiter: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, iso_code: USD, subunit: Cent>}
+    %Q{#<Money::Currency id: usd, priority: 1, symbol_first: true, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, iso_code: USD, subunit: Cent>}
   end
 
 
