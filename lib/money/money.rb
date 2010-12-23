@@ -713,22 +713,23 @@ class Money
   end
 
   # If I18n is loaded, looks up key +:number.format.delimiter+.
-  # Otherwise and as fallback it uses +Currency#delimiter+.
+  # Otherwise and as fallback it uses +Currency#thousands_separator+.
   # If +nil+ is returned, default to ",".
   #
   # @return [String]
   #
   # @example
-  #   Money.new(100, "USD").delimiter #=> ","
+  #   Money.new(100, "USD").thousands_separator #=> ","
   if Object.const_defined?("I18n")
-    def delimiter
-      I18n.t(:"number.format.delimiter", :default => currency.delimiter || ",")
+    def thousands_separator
+      I18n.t(:"number.format.thousands_separator", :default => currency.thousands_separator || ",")
     end
   else
-    def delimiter
-      currency.delimiter || ","
+    def thousands_separator
+      currency.thousands_separator || ","
     end
   end
+  alias :delimiter :thousands_separator
 
   # If I18n is loaded, looks up key +:number.format.seperator+.
   # Otherwise and as fallback it uses +Currency#seperator+.
@@ -737,16 +738,17 @@ class Money
   # @return [String]
   #
   # @example
-  #   Money.new(100, "USD").separator #=> "."
+  #   Money.new(100, "USD").decimal_mark #=> "."
   if Object.const_defined?("I18n")
-    def separator
-      I18n.t(:"number.format.separator", :default => currency.separator || ".")
+    def decimal_mark
+      I18n.t(:"number.format.decimal_mark", :default => currency.decimal_mark || ".")
     end
   else
-    def separator
-      currency.separator || "."
+    def decimal_mark
+      currency.decimal_mark || "."
     end
   end
+  alias :separator :decimal_mark
 
   # Creates a formatted price string according to several rules.
   #
@@ -803,31 +805,31 @@ class Money
   #   # You can specify a string as value to enforce using a particular symbol.
   #   Money.new(100, "AWG").format(:symbol => "ƒ") #=> "ƒ1.00"
   #
-  # @option *rules [Boolean, String, nil] :separator (true) Whether the
+  # @option *rules [Boolean, String, nil] :decimal_mark (true) Whether the
   #  currency should be separated by the specified character or '.'
   #
   # @example
   #   # If a string is specified, it's value is used.
-  #   Money.new(100, "USD").format(:separator => ",") #=> "$1,00"
+  #   Money.new(100, "USD").format(:decimal_mark => ",") #=> "$1,00"
   #
-  #   # If the separator for a given currency isn't known, then it will default
-  #   # to "." as separator.
+  #   # If the decimal_mark for a given currency isn't known, then it will default
+  #   # to "." as decimal_mark.
   #   Money.new(100, "FOO").format #=> "$1.00"
   #
-  # @option *rules [Boolean, String, nil] :delimiter (true) Whether the
-  #  currency should be delimited by the specified character or ','
+  # @option *rules [Boolean, String, nil] :thousands_separator (true) Whether
+  #  the currency should be delimited by the specified character or ','
   #
   # @example
-  #   # If false is specified, no delimiter is used.
-  #   Money.new(100000, "USD").format(:delimiter => false) #=> "1000.00"
-  #   Money.new(100000, "USD").format(:delimiter => nil)   #=> "1000.00"
-  #   Money.new(100000, "USD").format(:delimiter => "")    #=> "1000.00"
+  #   # If false is specified, no thousands_separator is used.
+  #   Money.new(100000, "USD").format(:thousands_separator => false) #=> "1000.00"
+  #   Money.new(100000, "USD").format(:thousands_separator => nil)   #=> "1000.00"
+  #   Money.new(100000, "USD").format(:thousands_separator => "")    #=> "1000.00"
   #
   #   # If a string is specified, it's value is used.
-  #   Money.new(100000, "USD").format(:delimiter => ".") #=> "$1.000.00"
+  #   Money.new(100000, "USD").format(:thousands_separator => ".") #=> "$1.000.00"
   #
-  #   # If the delimiter for a given currency isn't known, then it will default
-  #   # to "," as delimiter.
+  #   # If the thousands_separator for a given currency isn't known, then it will
+  #   # default to "," as thousands_separator.
   #   Money.new(100000, "FOO").format #=> "$1,000.00"
   #
   # @option *rules [Boolean] :html (false) Whether the currency should be
@@ -871,23 +873,23 @@ class Money
                 end
     formatted = (currency.symbol_first? ? "#{symbol_value}#{formatted}" : "#{formatted} #{symbol_value}") unless symbol_value.nil? or symbol_value.empty?
 
-    if rules.has_key?(:separator) and rules[:separator] and
-      rules[:separator] != separator
-      formatted.sub!(separator, rules[:separator])
+    if rules.has_key?(:decimal_mark) and rules[:decimal_mark] and
+      rules[:decimal_mark] != decimal_mark
+      formatted.sub!(decimal_mark, rules[:decimal_mark])
     end
 
-    delimiter_value = delimiter
-    # Determine delimiter
-    if rules.has_key?(:delimiter)
-      if rules[:delimiter] === false or rules[:delimiter].nil?
-        delimiter_value = ""
-      elsif rules[:delimiter]
-        delimiter_value = rules[:delimiter]
+    thousands_separator_value = thousands_separator
+    # Determine thousands_separator
+    if rules.has_key?(:thousands_separator)
+      if rules[:thousands_separator] === false or rules[:thousands_separator].nil?
+        thousands_separator_value = ""
+      elsif rules[:thousands_separator]
+        thousands_separator_value = rules[:thousands_separator]
       end
     end
 
-    # Apply delimiter
-    formatted.gsub!(/(\d)(?=(?:\d{3})+(?:\.|,|$))(\d{3}\..*)?/, "\\1#{delimiter_value}\\2")
+    # Apply thousands_separator
+    formatted.gsub!(/(\d)(?=(?:\d{3})+(?:\.|,|$))(\d{3}\..*)?/, "\\1#{thousands_separator_value}\\2")
 
     if rules[:with_currency]
       formatted << " "
@@ -911,8 +913,8 @@ class Money
       return unit
     end
     subunit = (("0" * currency.decimal_places) + subunit)[(-1*currency.decimal_places)..-1]
-    return "-#{unit}#{separator}#{subunit}" if cents < 0
-    "#{unit}#{separator}#{subunit}"
+    return "-#{unit}#{decimal_mark}#{subunit}" if cents < 0
+    "#{unit}#{decimal_mark}#{subunit}"
   end
 
   # Return the amount of money as a float. Floating points cannot guarantee
@@ -999,6 +1001,12 @@ class Money
       rules = rules.pop
       rules = { rules => true } if rules.is_a?(Symbol)
     end
+    if not rules.include?(:decimal_mark) and rules.include?(:separator)
+      rules[:decimal_mark] = rules[:separator] 
+    end
+    if not rules.include?(:thousands_separator) and rules.include?(:delimiter)
+      rules[:thousands_separator] = rules[:delimiter]
+    end
     rules
   end
 
@@ -1009,7 +1017,7 @@ class Money
   # @return [Integer]
   #
   def self.extract_cents(input, currency = Money.default_currency)
-    # remove anything that's not a number, potential delimiter, or minus sign
+    # remove anything that's not a number, potential thousands_separator, or minus sign
     num = input.gsub(/[^\d|\.|,|\'|\s|\-]/, '').strip
 
     # set a boolean flag for if the number is negative or not
@@ -1018,47 +1026,47 @@ class Money
     # if negative, remove the minus sign from the number
     num = num.gsub(/^-/, '') if negative
 
-    # gather all separators within the result number
-    used_separators = num.scan /[^\d]/
+    # gather all decimal_marks within the result number
+    used_decimal_marks = num.scan /[^\d]/
 
-    # determine the number of unique separators within the number
+    # determine the number of unique decimal_marks within the number
     #
     # e.g.
     # $1,234,567.89 would return 2 (, and .)
     # $125,00 would return 1
     # $199 would return 0
-    # $1 234,567.89 would raise an error (separators are space, comma, and period)
-    case used_separators.uniq.length
-    # no separator or delimiter; major (dollars) is the number, and minor (cents) is 0
+    # $1 234,567.89 would raise an error (decimal_marks are space, comma, and period)
+    case used_decimal_marks.uniq.length
+    # no decimal_mark or thousands_separator; major (dollars) is the number, and minor (cents) is 0
     when 0 then major, minor = num, 0
 
-    # two separators, so we know the last item in this array is the
-    # major/minor delimiter and the rest are separators
+    # two decimal_marks, so we know the last item in this array is the
+    # major/minor thousands_separator and the rest are decimal_marks
     when 2
-      separator, delimiter = used_separators.uniq
-      # remove all separators, split on the delimiter
-      major, minor = num.gsub(separator, '').split(delimiter)
+      decimal_mark, thousands_separator = used_decimal_marks.uniq
+      # remove all decimal_marks, split on the thousands_separator
+      major, minor = num.gsub(decimal_mark, '').split(thousands_separator)
       min = 0 unless min
     when 1
-      # we can't determine if the comma or period is supposed to be a separator or a delimiter
+      # we can't determine if the comma or period is supposed to be a decimal_mark or a thousands_separator
       # e.g.
-      # 1,00 - comma is a delimiter
-      # 1.000 - period is a delimiter
-      # 1,000 - comma is a separator
-      # 1,000,000 - comma is a separator
-      # 10000,00 - comma is a delimiter
-      # 1000,000 - comma is a delimiter
+      # 1,00 - comma is a thousands_separator
+      # 1.000 - period is a thousands_separator
+      # 1,000 - comma is a decimal_mark
+      # 1,000,000 - comma is a decimal_mark
+      # 10000,00 - comma is a thousands_separator
+      # 1000,000 - comma is a thousands_separator
 
-      # assign first separator for reusability
-      separator = used_separators.first
+      # assign first decimal_mark for reusability
+      decimal_mark = used_decimal_marks.first
 
-      # separator is used as a separator when there are multiple instances, always
-      if num.scan(separator).length > 1 # multiple matches; treat as separator
-        major, minor = num.gsub(separator, ''), 0
+      # decimal_mark is used as a decimal_mark when there are multiple instances, always
+      if num.scan(decimal_mark).length > 1 # multiple matches; treat as decimal_mark
+        major, minor = num.gsub(decimal_mark, ''), 0
       else
         # ex: 1,000 - 1.0000 - 10001.000
         # split number into possible major (dollars) and minor (cents) values
-        possible_major, possible_minor = num.split(separator)
+        possible_major, possible_minor = num.split(decimal_mark)
         possible_major ||= "0"
         possible_minor ||= "00"
 
@@ -1067,14 +1075,14 @@ class Money
         #   1,00 => 1.00
         #   1.0000 => 1.00
         #   1.2 => 1.20
-        if possible_minor.length != 3 # delimiter
+        if possible_minor.length != 3 # thousands_separator
           major, minor = possible_major, possible_minor
         else
           # minor length is three
-          # let's try to figure out intent of the delimiter
+          # let's try to figure out intent of the thousands_separator
 
           # the major length is greater than three, which means
-          # the comma or period is used as a delimiter
+          # the comma or period is used as a thousands_separator
           # e.g.
           #   1000,000
           #   100000,000
@@ -1082,8 +1090,8 @@ class Money
             major, minor = possible_major, possible_minor
           else
             # number is in format ###{sep}### or ##{sep}### or #{sep}###
-            # handle as , is sep, . is delimiter
-            if separator == '.'
+            # handle as , is sep, . is thousands_separator
+            if decimal_mark == '.'
               major, minor = possible_major, possible_minor
             else
               major, minor = "#{possible_major}#{possible_minor}", 0
@@ -1096,7 +1104,7 @@ class Money
       raise ArgumentError, "Invalid currency amount"
     end
 
-    # build the string based on major/minor since separator/delimiters have been removed
+    # build the string based on major/minor since decimal_mark/thousands_separator have been removed
     # avoiding floating point arithmetic here to ensure accuracy
     cents = (major.to_i * currency.subunit_to_unit)
     # Because of an bug in JRuby, we can't just call #floor

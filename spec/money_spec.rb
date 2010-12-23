@@ -580,7 +580,7 @@ describe Money do
     Money.new(10_00, "MGA").to_s.should == "200.0"
   end
 
-  specify "Money.to_s should respect :separator" do
+  specify "Money.to_s should respect :decimal_mark" do
     Money.new(10_00, "BRL").to_s.should == "10,00"
   end
 
@@ -603,8 +603,8 @@ describe Money do
   end
 
   {
-    :delimiter => { :default => ",", :other => "." },
-    :separator => { :default => ".", :other => "," }
+    :thousands_separator => { :default => ",", :other => "." },
+    :decimal_mark => { :default => ".", :other => "," }
   }.each do |method, options|
     describe "##{method}" do
       context "without I18n" do
@@ -661,7 +661,7 @@ describe Money do
       Money.new(10_00, "CLP").format.should == "$1.000"
     end
 
-    it "respects the delimiter and separator defaults" do
+    it "respects the thousands_separator and decimal_mark defaults" do
       one_thousand = Proc.new do |currency|
         Money.new(1000_00, currency).format
       end
@@ -803,12 +803,26 @@ describe Money do
       money.format.should == "1,00 €"
     end
 
-    specify "#format(:separator => a separator string) works as documented" do
-      Money.us_dollar(100).format(:separator => ",").should == "$1,00"
+    specify "#format(:decimal_mark => a decimal_mark string) works as documented" do
+      Money.us_dollar(100).format(:decimal_mark => ",").should == "$1,00"
     end
 
-    specify "#format will default separator to '.' if currency isn't recognized" do
+    specify "#format will default decimal_mark to '.' if currency isn't recognized" do
       Money.new(100, "ZWD").format.should == "$1.00"
+    end
+
+    specify "#format(:separator => a separator  string) works as documented" do
+      Money.us_dollar(100).format(:separator  => ",").should == "$1,00"
+    end
+
+    specify "#format(:thousands_separator => a thousands_separator string) works as documented" do
+      Money.us_dollar(100000).format(:thousands_separator => ".").should == "$1.000.00"
+      Money.us_dollar(200000).format(:thousands_separator => "").should  == "$2000.00"
+    end
+
+    specify "#format(:thousands_separator => false or nil) works as documented" do
+      Money.us_dollar(100000).format(:thousands_separator => false).should == "$1000.00"
+      Money.us_dollar(200000).format(:thousands_separator => nil).should   == "$2000.00"
     end
 
     specify "#format(:delimiter => a delimiter string) works as documented" do
@@ -821,7 +835,7 @@ describe Money do
       Money.us_dollar(200000).format(:delimiter => nil).should   == "$2000.00"
     end
 
-    specify "#format will default delimiter to ',' if currency isn't recognized" do
+    specify "#format will default thousands_separator to ',' if currency isn't recognized" do
       Money.new(100000, "ZWD").format.should == "$1,000.00"
     end
 
