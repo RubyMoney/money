@@ -987,6 +987,35 @@ class Money
     self
   end
 
+  # Allocates money between different parties without loosing pennies. 
+  # After the mathmatically split has been performed, left over pennies will
+  # be distributed round-robin amongst the parties. This means that parties
+  # listed first will likely recieve more pennies then ones that are listed later
+  # 
+  # @param [0.50, 0.25, 0.25] to give 50% of the cash to party1, 25% ot party2, and 25% to party3.
+  #
+  # @return [Array<Money, Money, Money>]
+  #
+  # @example
+  #   Money.new(5, "USD").allocate([0.3,0.7)) #=> [Money.new(2), Money.new(3)]  
+  #   Money.new(100, "USD").allocate([0.33,0.33,0.33]) #=> [Money.new(34), Money.new(33), Money.new(33)]
+  def allocate(splits)
+    allocations = splits.inject(0.0) {|sum, i| sum += i }
+    raise ArgumentError, "splits add to more then 100%" if allocations > 1.0
+
+    left_over = cents
+ 
+    amounts = splits.collect do |ratio|
+      fraction = (cents * ratio / allocations).floor
+      left_over -= fraction
+      fraction
+    end
+
+    left_over.times { |i| amounts[i % amounts.length] += 1 }
+
+    return amounts.collect { |cents| Money.new(cents, currency) }
+  end
+
   private
 
   # Cleans up formatting rules.

@@ -1,8 +1,8 @@
 require "money"
 require "rubygems"
 
-RSpec.configure do |config|
-end
+#RSpec.configure do |config|
+#end
 
 def reset_i18n()
   I18n.backend = I18n::Backend::Simple.new

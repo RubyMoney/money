@@ -1061,6 +1061,32 @@ describe Money do
     end
   end
 
+  describe "allocation"do
+    specify "#allocate takes no action when one gets all" do
+      Money.us_dollar(005).allocate([1]).should == [Money.us_dollar(5)]
+    end
+    
+    specify "#allocate keeps currencies intact" do
+      Money.ca_dollar(005).allocate([1]).should == [Money.ca_dollar(5)]
+    end
+    
+    specify "#allocate does not loose pennies" do
+      moneys = Money.us_dollar(5).allocate([0.3,0.7])
+      moneys[0].should == Money.us_dollar(2)
+      moneys[1].should == Money.us_dollar(3)
+    end
+
+    specify "#allocate does not loose pennies" do
+      moneys = Money.us_dollar(100).allocate([0.333,0.333, 0.333])
+      moneys[0].cents.should == 34
+      moneys[1].cents.should == 33
+      moneys[2].cents.should == 33
+    end
+    
+    specify "#allocate requires total to be less then 1" do
+      lambda { Money.us_dollar(0.05).allocate([0.5,0.6]) }.should raise_error(ArgumentError)
+    end
+  end
 
   describe "Money.add_rate" do
     it "saves rate into current bank" do
@@ -1148,4 +1174,5 @@ describe "Actions involving two Money objects" do
       (Money.new(10_00, "USD") / other).should == 0.1
     end
   end
+
 end
