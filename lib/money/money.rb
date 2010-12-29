@@ -998,7 +998,7 @@ class Money
   # After the mathmatically split has been performed, left over pennies will
   # be distributed round-robin amongst the parties. This means that parties
   # listed first will likely recieve more pennies then ones that are listed later
-  # 
+  #
   # @param [0.50, 0.25, 0.25] to give 50% of the cash to party1, 25% ot party2, and 25% to party3.
   #
   # @return [Array<Money, Money, Money>]
@@ -1011,7 +1011,7 @@ class Money
     raise ArgumentError, "splits add to more then 100%" if allocations > 1.0
 
     left_over = cents
- 
+
     amounts = splits.collect do |ratio|
       fraction = (cents * ratio / allocations).floor
       left_over -= fraction
@@ -1021,6 +1021,29 @@ class Money
     left_over.times { |i| amounts[i % amounts.length] += 1 }
 
     return amounts.collect { |cents| Money.new(cents, currency) }
+  end
+
+  # Split money amongst parties evenly without loosing pennies.
+  #
+  # @param [2] number of parties.
+  #
+  # @return [Array<Money, Money, Money>]
+  #
+  # @example
+  #   Money.new(100, "USD").split(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
+  def split(num)
+    raise ArgumentError, "need at least one party" if num < 1
+    low = Money.new(cents / num)
+    high = Money.new(low.cents + 1)
+
+    remainder = cents % num
+    result = []
+
+    num.times do |index|
+      result[index] = index < remainder ? high : low
+    end
+
+    return result
   end
 
   private

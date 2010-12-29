@@ -1061,7 +1061,34 @@ describe Money do
     end
   end
 
-  describe "allocation"do
+  describe "split" do
+    specify "#split needs at least one party" do
+      lambda {Money.us_dollar(1).split(0)}.should raise_error(ArgumentError)
+      lambda {Money.us_dollar(1).split(-1)}.should raise_error(ArgumentError)
+    end
+
+
+    specify "#gives 1 cent to both people if we start with 2" do
+      Money.us_dollar(2).split(2).should == [Money.us_dollar(1), Money.us_dollar(1)]
+    end
+    
+    specify "#split may distribute no money to some parties if there isnt enough to go around" do
+      Money.us_dollar(2).split(3).should == [Money.us_dollar(1), Money.us_dollar(1), Money.us_dollar(0)]
+    end
+
+    specify "#split does not lose pennies" do
+      Money.us_dollar(5).split(2).should == [Money.us_dollar(3), Money.us_dollar(2)]
+    end
+
+    specify "#split a dollar" do
+      moneys = Money.us_dollar(100).split(3)
+      moneys[0].cents.should == 34
+      moneys[1].cents.should == 33
+      moneys[2].cents.should == 33
+    end
+  end
+
+  describe "allocation" do
     specify "#allocate takes no action when one gets all" do
       Money.us_dollar(005).allocate([1]).should == [Money.us_dollar(5)]
     end
