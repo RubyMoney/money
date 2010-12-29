@@ -987,6 +987,13 @@ class Money
     self
   end
 
+  # Common inspect function
+  #
+  # @return [String]
+  def inspect
+    "#<Money cents:#{cents} currency:#{currency}>"
+  end
+
   # Allocates money between different parties without loosing pennies. 
   # After the mathmatically split has been performed, left over pennies will
   # be distributed round-robin amongst the parties. This means that parties
