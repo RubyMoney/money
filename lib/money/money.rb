@@ -1077,13 +1077,23 @@ class Money
   #
   def self.extract_cents(input, currency = Money.default_currency)
     # remove anything that's not a number, potential thousands_separator, or minus sign
-    num = input.gsub(/[^\d|\.|,|\'|\s|\-]/, '').strip
+    num = input.gsub(/[^\d|\.|,|\'|\-]/, '').strip
 
     # set a boolean flag for if the number is negative or not
     negative = num.split(//).first == "-"
 
     # if negative, remove the minus sign from the number
-    num = num.gsub(/^-/, '') if negative
+    # if it's not negative, the hyphen makes the value invalid
+    if negative
+      num = num.gsub(/^-/, '')
+    else
+      raise ArgumentError, "Invalid currency amount (hyphen)" if num.include?('-')
+    end
+
+    #if the number ends with punctuation, just throw it out.  If it means decimal,
+    #it won't hurt anything.  If it means a literal period or comma, this will
+    #save it from being mis-interpreted as a decimal.
+    num.chop! if num.match /[\.|,]$/
 
     # gather all decimal_marks within the result number
     used_decimal_marks = num.scan /[^\d]/

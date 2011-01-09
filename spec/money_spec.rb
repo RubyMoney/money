@@ -1201,5 +1201,55 @@ describe "Actions involving two Money objects" do
       (Money.new(10_00, "USD") / other).should == 0.1
     end
   end
+end
 
+
+describe "Money.parse" do
+
+    it "should be able to parse european-formatted inputs under 10EUR" do
+      five_ninety_five = Money.new(595, 'EUR')
+
+      Money.parse('EUR 5,95').should    == five_ninety_five
+      #TODO: try and handle these
+      #Money.parse('€5,95').should       == five_ninety_five
+      #Money.parse('&#036;5.95').should  == five_ninety_five
+    end
+
+    it "should be able to parse european-formatted inputs with multiple thousands-seperators" do
+      Money.parse('EUR 1.234.567,89').should     == Money.new(123456789, 'EUR')
+      Money.parse('EUR 1.111.234.567,89').should == Money.new(111123456789, 'EUR')
+    end
+
+    it "should be able to parse USD-formatted inputs under $10" do
+      five_ninety_five = Money.new(595, 'USD')
+
+      Money.parse(5.95).should          == five_ninety_five
+      Money.parse('5.95').should        == five_ninety_five
+      Money.parse('$5.95').should       == five_ninety_five
+      Money.parse("\n $5.95 \n").should == five_ninety_five
+      Money.parse('$ 5.95').should      == five_ninety_five
+      Money.parse('$5.95 ea.').should   == five_ninety_five
+      Money.parse('$5.95, each').should == five_ninety_five
+    end
+
+    it "should be able to parse USD-formatted inputs with multiple thousands-seperators" do
+      Money.parse('1,234,567.89').should     == Money.new(123456789, 'USD')
+      Money.parse('1,111,234,567.89').should == Money.new(111123456789, 'USD')
+    end
+
+    it "should not return a price if there is a price range" do
+      lambda {Money.parse('$5.95-10.95')}.should    raise_error ArgumentError
+      lambda {Money.parse('$5.95 - 10.95')}.should  raise_error ArgumentError
+      lambda {Money.parse('$5.95 - $10.95')}.should raise_error ArgumentError
+    end
+
+    it "should not return a price for completely invalid input" do
+      # TODO: shouldn't these throw an error instead of being considered
+      # equal to $0.0?
+      empty_price = Money.new(0, 'USD')
+      
+      Money.parse(nil).should             == empty_price
+      Money.parse('hellothere').should    == empty_price
+      Money.parse('').should              == empty_price
+    end
 end
