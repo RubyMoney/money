@@ -1,3 +1,21 @@
+Money 3.5.5
+===========
+
+Features
+--------
+ - Enhancements to Money::Currency (thanks Matthew McEachen)
+   - Replace delimiter with thousands_separator
+   - Replace separator with decimal_mark
+   - Added symbol_first and html_entity
+ - Added allocation algorithm for fair(ish) splitting of money between parties
+   without loosing pennies (thanks Tobias Luetke)
+
+Bugfixes
+--------
+ - Always store cents as an Integer (thanks Abhay Kumar)
+ - Fixed TypeError in rate exchange (thanks Christian Billen)
+ - Cleanup #parse (thanks Tom Lianza)
+
 Money 3.5.4
 ===========
 
