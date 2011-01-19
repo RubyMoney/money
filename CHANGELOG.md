@@ -1,3 +1,13 @@
+Money 3.x.x
+===========
+
+Features
+--------
+
+Bigfixes
+--------
+ - Fixed issue with #format(:no_cents => true) (thanks Romain & Julien)
+
 Money 3.5.5
 ===========
 
