@@ -889,7 +889,7 @@ class Money
     end
 
     # Apply thousands_separator
-    formatted.gsub!(/(\d)(?=(?:\d{3})+(?:\.|,|$))(\d{3}\..*)?/, "\\1#{thousands_separator_value}\\2")
+    formatted.gsub!(/(\d)(?=(?:\d{3})+(?:[^\d]|$))/, "\\1#{thousands_separator_value}")
 
     if rules[:with_currency]
       formatted << " "
@@ -994,7 +994,7 @@ class Money
     "#<Money cents:#{cents} currency:#{currency}>"
   end
 
-  # Allocates money between different parties without loosing pennies. 
+  # Allocates money between different parties without loosing pennies.
   # After the mathmatically split has been performed, left over pennies will
   # be distributed round-robin amongst the parties. This means that parties
   # listed first will likely recieve more pennies then ones that are listed later
@@ -1004,7 +1004,7 @@ class Money
   # @return [Array<Money, Money, Money>]
   #
   # @example
-  #   Money.new(5, "USD").allocate([0.3,0.7)) #=> [Money.new(2), Money.new(3)]  
+  #   Money.new(5, "USD").allocate([0.3,0.7)) #=> [Money.new(2), Money.new(3)]
   #   Money.new(100, "USD").allocate([0.33,0.33,0.33]) #=> [Money.new(34), Money.new(33), Money.new(33)]
   def allocate(splits)
     allocations = splits.inject(0.0) {|sum, i| sum += i }
@@ -1061,7 +1061,7 @@ class Money
       rules = { rules => true } if rules.is_a?(Symbol)
     end
     if not rules.include?(:decimal_mark) and rules.include?(:separator)
-      rules[:decimal_mark] = rules[:separator] 
+      rules[:decimal_mark] = rules[:separator]
     end
     if not rules.include?(:thousands_separator) and rules.include?(:delimiter)
       rules[:thousands_separator] = rules[:delimiter]

@@ -848,6 +848,11 @@ describe Money do
       Money.us_dollar(1_000_000_000_12).format.should == "$1,000,000,000.12"
       Money.us_dollar(1_000_000_000_12).format(:no_cents => true).should == "$1,000,000,000"
     end
+
+    it "inserts thousands separator into the result if the amount is sufficiently large and the currency symbol is at the end" do
+      Money.euro(1_234_567_12).format.should == "1.234.567,12 €"
+      Money.euro(1_234_567_12).format(:no_cents => true).should == "1.234.567 €"
+    end
   end
 
 
@@ -1071,7 +1076,7 @@ describe Money do
     specify "#gives 1 cent to both people if we start with 2" do
       Money.us_dollar(2).split(2).should == [Money.us_dollar(1), Money.us_dollar(1)]
     end
-    
+
     specify "#split may distribute no money to some parties if there isnt enough to go around" do
       Money.us_dollar(2).split(3).should == [Money.us_dollar(1), Money.us_dollar(1), Money.us_dollar(0)]
     end
@@ -1092,11 +1097,11 @@ describe Money do
     specify "#allocate takes no action when one gets all" do
       Money.us_dollar(005).allocate([1]).should == [Money.us_dollar(5)]
     end
-    
+
     specify "#allocate keeps currencies intact" do
       Money.ca_dollar(005).allocate([1]).should == [Money.ca_dollar(5)]
     end
-    
+
     specify "#allocate does not loose pennies" do
       moneys = Money.us_dollar(5).allocate([0.3,0.7])
       moneys[0].should == Money.us_dollar(2)
@@ -1109,7 +1114,7 @@ describe Money do
       moneys[1].cents.should == 33
       moneys[2].cents.should == 33
     end
-    
+
     specify "#allocate requires total to be less then 1" do
       lambda { Money.us_dollar(0.05).allocate([0.5,0.6]) }.should raise_error(ArgumentError)
     end
@@ -1247,7 +1252,7 @@ describe "Money.parse" do
       # TODO: shouldn't these throw an error instead of being considered
       # equal to $0.0?
       empty_price = Money.new(0, 'USD')
-      
+
       Money.parse(nil).should             == empty_price
       Money.parse('hellothere').should    == empty_price
       Money.parse('').should              == empty_price
