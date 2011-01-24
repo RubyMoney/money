@@ -853,6 +853,14 @@ describe Money do
       Money.euro(1_234_567_12).format.should == "1.234.567,12 €"
       Money.euro(1_234_567_12).format(:no_cents => true).should == "1.234.567 €"
     end
+
+    it "inserts currency symbol before the amount when :symbol_position is set to :before" do
+      Money.euro(1_234_567_12).format(:symbol_position => :before).should == "€1.234.567,12"
+    end
+
+    it "inserts currency symbol after the amount when :symbol_position is set to :after" do
+      Money.us_dollar(1_000_000_000_12).format(:symbol_position => :after).should == "1,000,000,000.12 $"
+    end
   end
 
 

@@ -871,7 +871,19 @@ class Money
                 else
                   "#{self.to_s}"
                 end
-    formatted = (currency.symbol_first? ? "#{symbol_value}#{formatted}" : "#{formatted} #{symbol_value}") unless symbol_value.nil? or symbol_value.empty?
+
+    symbol_position =
+      if rules.has_key?(:symbol_position)
+        rules[:symbol_position]
+      elsif currency.symbol_first?
+        :before
+      else
+        :after
+      end
+
+    if symbol_value && !symbol_value.empty?
+      formatted = (symbol_position == :before ? "#{symbol_value}#{formatted}" : "#{formatted} #{symbol_value}")
+    end
 
     if rules.has_key?(:decimal_mark) and rules[:decimal_mark] and
       rules[:decimal_mark] != decimal_mark
