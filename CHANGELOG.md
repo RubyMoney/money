@@ -3,6 +3,8 @@ Money 3.x.x
 
 Features
 --------
+ - Add a symbol position option for Money#format (thanks Romain, Gil and
+   Julien)
 
 Bigfixes
 --------
