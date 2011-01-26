@@ -375,6 +375,8 @@ class Money
       # Lookup a currency with given +id+ an returns a +Currency+ instance on
       # success, +nil+ otherwise.
       #
+      # Blablalblablablabla
+      #
       # @param [String, Symbol, #to_s] id Used to look into +TABLE+ and
       # retrieve the applicable attributes.
       #
@@ -383,10 +385,17 @@ class Money
       # @example
       #   Money::Currency.find(:eur) #=> #<Money::Currency id: eur ...>
       #   Money::Currency.find(:foo) #=> nil
-      def find(id)
-        id = id.to_s.downcase.to_sym
-        new(id) if self::TABLE[id]
-      end
+      def find(*args)
+        options = args.last.is_a?(::Hash) ? args.pop : {}
+        case args.first
+          when :majors  then TABLE.values.reject {|v| v[:priority] >= options.delete(:priority).to_i}.collect {|d| new d[:iso_code] }
+          when :all     then TABLE.keys.collect {|d| new d }
+          when :name    then TABLE.values.select {|v| v[:name].downcase.index(args.last.to_s.downcase) || v[:iso_code].downcase.index(args.last.to_s.downcase)}.collect {|d| new d[:iso_code] }
+          when :code    then TABLE.values.select {|v| v[:iso_code].downcase.index(args.last.to_s.downcase)}.collect {|d| new d[:iso_code] }
+         else          id = args.first.to_s.downcase.to_sym
+                       new(id) if TABLE.has_key?(id)
+       end
+     end
 
       # Wraps the object in a +Currency+ unless it's already a +Currency+
       # object.
@@ -410,6 +419,25 @@ class Money
           Currency.new(object)
         end
       end
+
+      # Blablalblablablabla
+      def all(options ={})
+        find(:all, options)
+      end
+      # Return a list of currencies ordered by args
+      #
+      # @param [String, Symbol] list of attributes used to order the currencies list
+      # object.
+      #
+      # @return [Array] of Money::Currency objects from Money::Currency.TABLE
+      #
+      # @example
+      #   @ordered_currencies = Money::Currency.all_by(:priority, :iso_code)
+      # Blablalblablablabla
+      def all_by(*args)
+        all.sort_by {|al| args.collect {|ar| al.instance_variable_get("@#{ar.to_s}") } }
+      end
+
     end
   end
 end

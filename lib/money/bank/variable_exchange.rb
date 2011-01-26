@@ -72,7 +72,7 @@ class Money
       #
       #   # Exchange 100 CAD to USD:
       #   bank.exchange_with(c2, "USD") #=> #<Money @cents=803115>
-      def exchange_with(from, to_currency, &block)
+      def exchange_with(from, to_currency, *date, &block)
         return from if same_currency?(from.currency, to_currency)
 
         rate = get_rate(from.currency, to_currency)

@@ -102,7 +102,7 @@ class Money
       # @yieldreturn [Integer]
       #
       # @return [Money]
-      def exchange_with(from, to_currency, &block)
+      def exchange_with(from, to_currency, *date, &block)
         raise NotImplementedError, "#exchange_with must be implemented"
       end
 
