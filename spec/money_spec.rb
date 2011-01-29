@@ -504,6 +504,12 @@ describe Money do
     n.should     == Money.new(-1, :USD)
   end
 
+  specify "#neg correctly returns the oposite value as a new Money object" do
+    n = Money.new(1, :USD)
+    n.neg.should == Money.new(-1, :USD)
+    n.should     == Money.new(1, :USD)
+  end
+
   specify "Money.format brute force :subunit_to_unit = 1" do
     ("0".."9").each do |amt|
       amt.to_money("VUV").format(:symbol => false).should == amt
@@ -590,6 +596,10 @@ describe Money do
 
   specify "Money.to_f should respect :subunit_to_unit currency property" do
     Money.new(10_00, "BHD").to_f.should == 1.0
+  end
+
+  specify "Money.to_hash works" do
+    Money.new(10_00).to_hash.should == {:symbole=>"$", :iso_code=>"USD", :value=>10.0, :formated=>"$10.00", :currency=>"United States Dollar"}
   end
 
   specify "#symbol works as documented" do
@@ -820,9 +830,8 @@ describe Money do
       Money.us_dollar(200000).format(:thousands_separator => "").should  == "$2000.00"
     end
 
-    specify "#format(:thousands_separator => false or nil) works as documented" do
+    specify "#format(:thousands_separator => false) works as documented" do
       Money.us_dollar(100000).format(:thousands_separator => false).should == "$1000.00"
-      Money.us_dollar(200000).format(:thousands_separator => nil).should   == "$2000.00"
     end
 
     specify "#format(:delimiter => a delimiter string) works as documented" do
@@ -830,9 +839,8 @@ describe Money do
       Money.us_dollar(200000).format(:delimiter => "").should  == "$2000.00"
     end
 
-    specify "#format(:delimiter => false or nil) works as documented" do
+    specify "#format(:delimiter => false) works as documented" do
       Money.us_dollar(100000).format(:delimiter => false).should == "$1000.00"
-      Money.us_dollar(200000).format(:delimiter => nil).should   == "$2000.00"
     end
 
     specify "#format will default thousands_separator to ',' if currency isn't recognized" do
@@ -841,8 +849,15 @@ describe Money do
 
     specify "#format(:html => true) works as documented" do
       string = Money.ca_dollar(570).format(:html => true, :with_currency => true)
-      string.should == "$5.70 <span class=\"currency\">CAD</span>"
+      string.should == "<span class='money'>$5.70 <span class='currency'>CAD</span></span>"
     end
+    specify "#format(:html => :colored) works as documented" do
+      string = Money.ca_dollar(570).format(:html => :colored, :with_currency => true)
+      string.should == "<span class='money positive'>$5.70 <span class='currency'>CAD</span></span>"
+      string = Money.ca_dollar(-570).format(:html => :colored, :with_currency => true)
+      string.should == "<span class='money negative'>$-5.70 <span class='currency'>CAD</span></span>"
+    end
+
 
     it "should insert commas into the result if the amount is sufficiently large" do
       Money.us_dollar(1_000_000_000_12).format.should == "$1,000,000,000.12"

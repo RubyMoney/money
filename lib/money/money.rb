@@ -730,21 +730,9 @@ class Money
     currency.symbol || "¤"
   end
 
-  # If I18n is loaded, looks up key +:number.format.delimiter+.
+  # If I18n is loaded, looks up key +:number.format.thousands_separator+.
   # Otherwise and as fallback it uses +Currency#thousands_separator+.
   # If +nil+ is returned, default to ",".
-  #
-  # I assume we want to use the same convention as I18n and Rails wich are for the keys : (presented values are french default)
-  #  number:
-  #    format:
-  #      precision: 3
-  #      separator: ','
-  #      delimiter: ' '
-  #    currency:
-  #      format:
-  #        unit: '€'
-  #        precision: 2
-  #        format: '%n %u'
   #
   # @return [Strquick_totaux_depenses.collecting]
   #
@@ -752,7 +740,7 @@ class Money
   #   Money.new(100, "USD").thousands_separator #=> ","
   if defined? I18n && use_I18n
     def thousands_separator
-      I18n.t(:"number.format.delimiter", :default => currency.thousands_separator || ",")
+      I18n.t(:"number.format.thousands_separator", :default => currency.thousands_separator || ",")
     end
   else
     def thousands_separator
@@ -761,8 +749,8 @@ class Money
   end
   alias :delimiter :thousands_separator
 
-  # If I18n is loaded, looks up key +:number.format.seperator+.
-  # Otherwise and as fallback it uses +Currency#seperator+.
+  # If I18n is loaded, looks up key +:number.format.decimal_mark+.
+  # Otherwise and as fallback it uses +Currency#decimal_mark+.
   # If +nil+ is returned, default to ",".
   #
   # @return [String]
@@ -771,7 +759,7 @@ class Money
   #   Money.new(100, "USD").decimal_mark #=> "."
   if defined? I18n && use_I18n
     def decimal_mark
-      I18n.t(:"number.format.separator", :default => currency.decimal_mark || ".")
+      I18n.t(:"number.format.decimal_mark", :default => currency.decimal_mark || ".")
     end
   else
     def decimal_mark
@@ -787,7 +775,7 @@ class Money
   # @return [Integer]
   #
   # @example
-  #   Money.new(100, "USD").decimal_mark #=> "."
+  #   Money.new(100, "USD").precision #=> 2
   if defined? I18n && use_I18n
     def precision
       I18n.t(:"number.currency.format.precision", :default => currency.decimal_places || 2).to_i
@@ -903,11 +891,6 @@ class Money
       end
     end
 
- #   #could be much more cleaner.....
- #   rules[:symbol] ||= symbol
- #   rules[:symbol] = symbol if rules[:symbol] === true
- #   rules[:symbol] = "" if rules[:symbol] === false
-
     symbol_value =
       if rules.has_key?(:symbol)
         if rules[:symbol] === true
@@ -922,19 +905,15 @@ class Money
       else
        symbol
       end
-# I am not very comfortable with currency.html_entity, because it's more in the presentation layer scope to do it (Actionview if we speak rails..).
-# even more if for now with a very large utf-8 support it is not useful anymore.
 
 
     # here use an option to override precision, default precision should use Currency::TABLE :subunit_to_unit attribute or I18n if avaiable or alternatively options[:no_cents] (To be deprecated.).
     rules[:precision] ||= precision
-    rules[:precision] = 0 if rules[:no_cents] # for backward compatibility, to be deprecated.
 
-    # ruby 1.8.7 doesn't support argument for float.round method
-    #formatted = (self.to_f*(10**rules[:precision]).round.to_f/(10**rules[:precision])).to_s
-    # but ruby 1.9.2 does to be changed in the futur to : formatted = self.to_f.round(rules[:precision]).to_s
 
     formatted = sprintf("%.#{rules[:precision]}f", self.to_f)
+    formatted = sprintf("%d", self.to_f.to_i) if rules[:no_cents]
+
 
     # using attribute currency.symbol_first? as options is cleaner & more efficient.
     rules[:symbol_first] = rules[:symbol_position] || currency.symbol_first?
@@ -949,12 +928,12 @@ class Money
 
     formatted = (rules[:symbol_first] ? "#{symbol_value}#{formatted}" : "#{formatted} #{symbol_value}") unless symbol_value.nil? or symbol_value.empty?
 
-
-    rules[:decimal_mark] ||= decimal_mark
+    rules[:decimal_mark] = decimal_mark if rules[:decimal_mark].nil?
+    rules[:decimal_mark] = "" unless rules[:decimal_mark]
     formatted.sub!(".", rules[:decimal_mark])
 
-    # Determine & Applythousands_separator
-    rules[:thousands_separator] ||= thousands_separator
+    # Determine & Apply thousands_separator
+    rules[:thousands_separator] = thousands_separator if rules[:thousands_separator].nil?
     rules[:thousands_separator] = "" unless rules[:thousands_separator]
     formatted.gsub!(/(\d)(?=(?:\d{3})+(?:[^\d]|$))/, "\\1#{rules[:thousands_separator]}")
 
@@ -966,15 +945,11 @@ class Money
     end
 
 # html formatted string should be enclosed in a span tag, with dedicated classes as selector (for styling and/or javascript)
-    formatted = (self.abs == self ? "<span class='money'>" : "<span class='money'>") + formatted + "</span>" if rules[:html]
-    formatted = (self.abs == self ? "<span class='money positive'>" : "<span class='money negative'>") + formatted + "</span>" if rules[:html] == :colored
-
+    case rules[:html]
+      when true    then formatted = (self.abs == self ? "<span class='money'>" : "<span class='money'>") + formatted + "</span>"
+      when :colored then formatted = (self.abs == self ? "<span class='money positive'>" : "<span class='money negative'>") + formatted + "</span>"
+    end
     formatted
-  end
-
-# Temporary for my convenience only.
-  def sformat
-    self.format(:html => :colored)
   end
 
   # Returns the amount of money as a string.
@@ -1022,9 +997,9 @@ class Money
   # @example
   #   Money.new(2000, "USD").exchange_to("EUR")
   #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
-  def exchange_to(other_currency, *date)
+  def exchange_to(other_currency, options = {})
     other_currency = Currency.wrap(other_currency)
-    @bank.exchange_with(self, other_currency, *date)
+    @bank.exchange_with(self, other_currency, options)
   end
 
   # Receive a money object with the same amount as the current Money object

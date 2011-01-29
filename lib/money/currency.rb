@@ -438,6 +438,12 @@ class Money
         all.sort_by {|al| args.collect {|ar| al.instance_variable_get("@#{ar.to_s}") } }
       end
 
+      # Blablalblablablabla
+      def majors(*args)
+        options = args.last.is_a?(Hash) ? args.pop : {}
+        find(:majors, options.merge!(:priority => args.first))
+      end
+
     end
   end
 end
