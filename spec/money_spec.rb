@@ -569,7 +569,7 @@ describe Money do
 
   specify "Money.to_s should respect :subunit_to_unit currency property" do
     Money.new(10_00, "BHD").to_s.should == "1.000"
-    Money.new(10_00, "CNY").to_s.should == "100.0"
+    Money.new(10_00, "CNY").to_s.should == "10.00"
   end
 
   specify "Money.to_s shouldn't have decimal when :subunit_to_unit is 1" do
@@ -678,7 +678,7 @@ describe Money do
 
       # Yen
       one_thousand["JPY"].should == "¥1,000.00"
-      one_thousand["CNY"].should == "¥10,000.0"
+      one_thousand["CNY"].should == "¥1,000.00"
 
       # Euro
       one_thousand["EUR"].should == "1.000,00 €"
@@ -754,7 +754,7 @@ describe Money do
 
       # Yen
       one["JPY"].should == "¥1.00"
-      one["CNY"].should == "¥10.0"
+      one["CNY"].should == "¥1.00"
 
       # Euro
       one["EUR"].should == "1,00 €"
