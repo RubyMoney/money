@@ -6,6 +6,7 @@ Features
  - Add a symbol position option for Money#format (thanks Romain, Gil and
    Julien)
  - Updated CNY to use "Fen" and subunit_to_unit of 100
+ - Updates to work with gem-testers.org
 
 Bigfixes
 --------
