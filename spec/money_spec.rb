@@ -1090,7 +1090,7 @@ describe Money do
 
   describe "allocation" do
     specify "#allocate takes no action when one gets all" do
-      Money.us_dollar(005).allocate([1]).should == [Money.us_dollar(5)]
+      Money.us_dollar(005).allocate([1.0]).should == [Money.us_dollar(5)]
     end
     
     specify "#allocate keeps currencies intact" do
@@ -1109,6 +1109,7 @@ describe Money do
       moneys[1].cents.should == 33
       moneys[2].cents.should == 33
     end
+
     
     specify "#allocate requires total to be less then 1" do
       lambda { Money.us_dollar(0.05).allocate([0.5,0.6]) }.should raise_error(ArgumentError)
