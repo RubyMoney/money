@@ -1103,7 +1103,7 @@ describe Money do
 
   describe "allocation" do
     specify "#allocate takes no action when one gets all" do
-      Money.us_dollar(005).allocate([1]).should == [Money.us_dollar(5)]
+      Money.us_dollar(005).allocate([1.0]).should == [Money.us_dollar(5)]
     end
 
     specify "#allocate keeps currencies intact" do
