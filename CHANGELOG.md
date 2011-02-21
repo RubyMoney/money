@@ -1,6 +1,13 @@
 Money 3.x.x
 ===========
 
+Bugfixes
+--------
+ - Floating point comparison needs to Epsilon aware (thanks Tobias Luetke)
+
+Money 3.6.0
+===========
+
 Features
 --------
  - Add a symbol position option for Money#format (thanks Romain, Gil and
@@ -8,7 +15,7 @@ Features
  - Updated CNY to use "Fen" and subunit_to_unit of 100
  - Updates to work with gem-testers.org
 
-Bigfixes
+Bugfixes
 --------
  - Fixed issue with #format(:no_cents => true) (thanks Romain & Julien)
 
