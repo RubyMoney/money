@@ -48,6 +48,8 @@ class Money
       # @param [Money] from The +Money+ object to exchange.
       # @param [Currency, String, Symbol] to_currency The currency to exchange
       #  to.
+      # @param [Hash] options to be forwarded to the bank backend, such as a date
+      #  on wich the conversation should be processed for a specific forex rate.
       #
       # @yield [n] Optional block to use when rounding after exchanging one
       #  currency for another.
@@ -72,7 +74,7 @@ class Money
       #
       #   # Exchange 100 CAD to USD:
       #   bank.exchange_with(c2, "USD") #=> #<Money @cents=803115>
-      def exchange_with(from, to_currency, &block)
+      def exchange_with(from, to_currency, options = {}, &block)
         return from if same_currency?(from.currency, to_currency)
 
         rate = get_rate(from.currency, to_currency)

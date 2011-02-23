@@ -93,15 +93,21 @@ describe Money do
     money.nonzero?.should be_equal(money)
   end
 
+  specify "#exchange_to pass options to its exchange bank" do
+    money = Money.new(100_00, "USD")
+    money.bank.should_receive(:exchange_with).with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR"), {:option1 => "value1", :option2 => 12})
+    money.exchange_to("EUR", :option1 => "value1", :option2 => 12)
+  end
+
   specify "#exchange_to exchanges the amount via its exchange bank" do
     money = Money.new(100_00, "USD")
-    money.bank.should_receive(:exchange_with).with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR")).and_return(Money.new(200_00, Money::Currency.new('EUR')))
+    money.bank.should_receive(:exchange_with).with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR"), {}).and_return(Money.new(200_00, Money::Currency.new('EUR')))
     money.exchange_to("EUR")
   end
 
   specify "#exchange_to exchanges the amount properly" do
     money = Money.new(100_00, "USD")
-    money.bank.should_receive(:exchange_with).with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR")).and_return(Money.new(200_00, Money::Currency.new('EUR')))
+    money.bank.should_receive(:exchange_with).with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR"), {}).and_return(Money.new(200_00, Money::Currency.new('EUR')))
     money.exchange_to("EUR").should == Money.new(200_00, "EUR")
   end
 

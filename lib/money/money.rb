@@ -945,15 +945,17 @@ class Money
   # Receive the amount of this money object in another Currency.
   #
   # @param [Currency, String, Symbol] other_currency Currency to exchange to.
+  # @param [Hash] options to be forwarded to the bank backend, such as a date
+  #  on wich the conversation should be processed for a specific forex rate.
   #
   # @return [Money]
   #
   # @example
   #   Money.new(2000, "USD").exchange_to("EUR")
   #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
-  def exchange_to(other_currency)
+  def exchange_to(other_currency, options = {})
     other_currency = Currency.wrap(other_currency)
-    @bank.exchange_with(self, other_currency)
+    @bank.exchange_with(self, other_currency, options)
   end
 
   # Receive a money object with the same amount as the current Money object

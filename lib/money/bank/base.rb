@@ -95,6 +95,8 @@ class Money
       # @param [Money] from The +Money+ object to exchange from.
       # @param [Money::Currency, String, Symbol] to_currency The currency
       #  string or object to exchange to.
+      # @param [Hash] options to be forwarded to the bank backend, such as a date
+      #  on wich the conversation should be processed for a specific forex rate.
       # @yield [n] Optional block to use to round the result after making
       #  the exchange.
       # @yieldparam [Float] n The result after exchanging from one currency to
@@ -102,7 +104,7 @@ class Money
       # @yieldreturn [Integer]
       #
       # @return [Money]
-      def exchange_with(from, to_currency, &block)
+      def exchange_with(from, to_currency, options = {}, &block)
         raise NotImplementedError, "#exchange_with must be implemented"
       end
 
