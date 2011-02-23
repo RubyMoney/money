@@ -61,3 +61,22 @@ class String
   end
 
 end
+
+# Open +Hash+ to add new methods.
+class Hash
+  # Converts this Hash into a +Money+ object.
+  #
+  #  self should have specifics keys :
+  # :cents as an Integer, represents the amount in cents
+  # :iso_code as a String, represents the currency as 3 letters code
+  #
+  # @return [Money]
+  #
+  # @example
+  #   {:cents => 1000, :iso_code => "GBP"}.to_money #=> #<Money @cents=1000, @currency=#<Money::Currency id: gbp>>
+  #
+  def to_money
+    Money.new(self[:cents], self[:iso_code])
+  end
+
+end  

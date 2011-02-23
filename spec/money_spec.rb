@@ -598,6 +598,10 @@ describe Money do
     Money.new(10_00, "BHD").to_f.should == 1.0
   end
 
+  specify "Money.to_hash should works" do
+    Money.new(10_00, "GBP").to_hash.should == {:cents => 1000, :iso_code => "GBP", :currency=> "British Pound", :formated => "£10.00"}
+  end
+
   specify "#symbol works as documented" do
     currency = Money::Currency.new("EUR")
     currency.should_receive(:symbol).and_return("€")

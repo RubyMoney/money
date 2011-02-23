@@ -139,4 +139,21 @@ describe "Money core extensions" do
     end
   end
 
+  describe Hash do
+    describe "#to_money" do
+      it "should work" do
+        money = {:cents => 1000, :iso_code => "GBP", :currency=> "British Pound", :formated => "£10.00"}.to_money
+        money.cents.should == 1000
+        money.currency.to_s.should == "GBP"
+        money.should == Money.new(10_00, "GBP")
+
+        money = {:cents => 1000, :iso_code => "GBP"}.to_money
+        money.cents.should == 1000
+        money.currency.to_s.should == "GBP"
+        money.should == Money.new(10_00, "GBP")
+      end
+    end
+  end
+
+
 end

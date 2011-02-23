@@ -1008,6 +1008,23 @@ class Money
     "#<Money cents:#{cents} currency:#{currency}>"
   end
 
+  # Return the amount of money as a Hash. Attributes returned are :
+  # :cents as an Integer, represents the amount in cents
+  # :iso_code as a String, represents the currency as 3 letters code
+  # :currency as a String, represents the currency with is full name
+  # :formated as a String, represents Money object presented trough the +format+ method
+  #
+  # Useful for any webservice (json, xml, ...), a Money object can be reconstruct from a Hash
+  # or used directly for presentation.
+  #
+  # @return [Hash]
+  #
+  # @example
+  #   Money.new(10_00, "GBP").to_hash #=> {:cents => 1000, :iso_code => "GBP", :currency=> "British Pound", :formated => "£10.00"}
+  def to_hash
+    {:cents => cents, :iso_code => currency_as_string, :currency => currency.name, :formated => format}
+  end
+
   # Allocates money between different parties without loosing pennies.
   # After the mathmatically split has been performed, left over pennies will
   # be distributed round-robin amongst the parties. This means that parties
