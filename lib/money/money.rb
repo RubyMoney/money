@@ -36,6 +36,12 @@ class Money
     #
     # @return [Money::Currency]
     attr_accessor :default_currency
+
+    # Option flag to indicate if Money should use I18n gem to present the Money objects.
+    # The default value is false.
+    #
+    # @return [Boolean]
+    attr_accessor :use_I18n
   end
 
   # Set the default bank for creating new +Money+ objects.
@@ -43,6 +49,9 @@ class Money
 
   # Set the default currency for creating new +Money+ object.
   self.default_currency = Currency.new("USD")
+
+  # Set the default flag to false ; for using I18n in presentation.
+  self.use_I18n = false
 
   # Create a new money object with value 0.
   #
@@ -722,7 +731,7 @@ class Money
     currency.symbol || "¤"
   end
 
-  # If I18n is loaded, looks up key +:number.format.delimiter+.
+  # If I18n is loaded and +use_I18n+ flag set to true, looks up key +:number.format.thousands_separator+.
   # Otherwise and as fallback it uses +Currency#thousands_separator+.
   # If +nil+ is returned, default to ",".
   #
@@ -730,7 +739,7 @@ class Money
   #
   # @example
   #   Money.new(100, "USD").thousands_separator #=> ","
-  if Object.const_defined?("I18n")
+  if defined? I18n && use_I18n
     def thousands_separator
       I18n.t(:"number.format.thousands_separator", :default => currency.thousands_separator || ",")
     end
@@ -741,15 +750,15 @@ class Money
   end
   alias :delimiter :thousands_separator
 
-  # If I18n is loaded, looks up key +:number.format.seperator+.
-  # Otherwise and as fallback it uses +Currency#seperator+.
+  # If I18n is loaded and +use_I18n+ flag set to true, looks up key +:number.format.decimal_mark+.
+  # Otherwise and as fallback it uses +Currency#decimal_mark+.
   # If +nil+ is returned, default to ",".
   #
   # @return [String]
   #
   # @example
   #   Money.new(100, "USD").decimal_mark #=> "."
-  if Object.const_defined?("I18n")
+  if defined? I18n && use_I18n
     def decimal_mark
       I18n.t(:"number.format.decimal_mark", :default => currency.decimal_mark || ".")
     end
@@ -759,6 +768,25 @@ class Money
     end
   end
   alias :separator :decimal_mark
+
+  # If I18n is loaded and +use_I18n+ flag set to true, looks up key +:number.format.precision+.
+  # Otherwise and as fallback it uses +Currency#decimal_places+.
+  # If +nil+ is returned, default to 2.
+  #
+  # @return [Integer]
+  #
+  # @example
+  #   Money.new(100, "USD").precision #=> 2
+  if defined? I18n && use_I18n
+    def precision
+      I18n.t(:"number.format.precision", :default => currency.decimal_places || 2).to_i
+    end
+  else
+    def precision
+      currency.decimal_places || 2
+    end
+  end
+  alias :decimal_places :precision
 
   # Creates a formatted price string according to several rules.
   #

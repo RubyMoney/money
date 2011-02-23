@@ -620,18 +620,19 @@ describe Money do
 
   {
     :thousands_separator => { :default => ",", :other => "." },
-    :decimal_mark => { :default => ".", :other => "," }
+    :decimal_mark => { :default => ".", :other => "," },
+    :precision => { :default => 2, :other => 3 }
   }.each do |method, options|
     describe "##{method}" do
       context "without I18n" do
         it "works as documented" do
-          Money.empty("USD").send(method).should == options[:default]
-          Money.empty("EUR").send(method).should == options[:other]
-          Money.empty("BRL").send(method).should == options[:other]
+          Money.empty("USD").send(method).should == Money::Currency.find("USD").send(method)
+          Money.empty("EUR").send(method).should == Money::Currency.find("EUR").send(method)
+          Money.empty("BRL").send(method).should == Money::Currency.find("BRL").send(method)
         end
       end
 
-      if Object.const_defined?("I18n")
+      if defined? I18n
         context "with I18n" do
           before :all do
             reset_i18n

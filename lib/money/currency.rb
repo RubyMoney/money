@@ -265,6 +265,7 @@ class Money
         Math.log10(subunit_to_unit).to_s.to_i+1
       end
     end
+    alias :precision :decimal_places
 
     # Create a new +Currency+ object.
     #
