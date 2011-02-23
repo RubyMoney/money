@@ -510,6 +510,12 @@ describe Money do
     n.should     == Money.new(-1, :USD)
   end
 
+  specify "#neg returns the opposite value as a new Money object" do
+    n = Money.new(1)
+    n.neg.should == Money.new(-1)
+    n.neg.neg.should == n
+  end
+
   specify "Money.format brute force :subunit_to_unit = 1" do
     ("0".."9").each do |amt|
       amt.to_money("VUV").format(:symbol => false).should == amt

@@ -679,6 +679,16 @@ class Money
     Money.new(self.cents.abs, self.currency)
   end
 
+  # Return opposite value of self as a new Money object.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.new(100).neg #=> #<Money @cents=-100>
+  def neg
+    Money.new(-cents, currency)
+  end
+
   # Test if the money amount is zero.
   #
   # @return [Boolean]
