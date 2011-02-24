@@ -684,11 +684,12 @@ class Money
   # @return [Money]
   #
   # @example
-  #   Money.new(100).neg #=> #<Money @cents=-100>
-  def neg
+  #   Money.new(100).negate #=> #<Money @cents=-100>
+  def negate
     Money.new(-cents, currency)
   end
 
+  alias :neg :negate
   # Test if the money amount is zero.
   #
   # @return [Boolean]
