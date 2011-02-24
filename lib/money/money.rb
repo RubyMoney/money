@@ -174,7 +174,7 @@ class Money
       currency = c
     elsif c.nil?
       currency = currency
-    elsif currency != c
+  elsif currency != c
       # TODO: ParseError
       raise ArgumentError, "Mismatching Currencies"
     end
@@ -1021,9 +1021,10 @@ class Money
 
   # Return the amount of money as a Hash. Attributes returned are :
   # :cents as an Integer, represents the amount in cents
-  # :iso_code as a String, represents the currency as 3 letters code
-  # :currency as a String, represents the currency with is full name
+  # :currency as a Money::Currency, is the currency
   # :formated as a String, represents Money object presented trough the +format+ method
+  #
+  #@param [Boolean] flatten default to false. If true give merge attributes with Currency attributes.
   #
   # Useful for any webservice (json, xml, ...), a Money object can be reconstruct from a Hash
   # or used directly for presentation.
@@ -1031,10 +1032,17 @@ class Money
   # @return [Hash]
   #
   # @example
-  #   Money.new(10_00, "GBP").to_hash #=> {:cents => 1000, :iso_code => "GBP", :currency=> "British Pound", :formated => "£10.00"}
-  def to_hash
-    {:cents => cents, :iso_code => currency_as_string, :currency => currency.name, :formated => format}
+  #   Money.new(10_00, "GBP").to_hash #=> {:cents => 1000, :currency=> #<Money::Currency >, :formated => "£10.00"}
+  #   Money.new(10_00, "GBP").to_hash(true) #=> {:decimal_mark=>".", :subunit_to_unit=>100, :html_entity=>"&#x00A3;",
+  #     :symbol_first=>true, :cents=>1000, :iso_code=>"GBP", :symbol=>"£", :thousands_separator=>",",
+  #     :name=>"British Pound", :id=>:gbp, :subunit=>"Penny", :priority=>3}
+
+  def to_hash(flatten = false)
+    return {:cents => cents}.merge(currency.to_h) if flatten
+    {:cents => cents, :currency => currency, :formated => format}
   end
+
+  alias :to_h :to_hash
 
   # Allocates money between different parties without loosing pennies.
   # After the mathmatically split has been performed, left over pennies will

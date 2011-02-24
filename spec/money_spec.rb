@@ -605,7 +605,8 @@ describe Money do
   end
 
   specify "Money.to_hash should works" do
-    Money.new(10_00, "GBP").to_hash.should == {:cents => 1000, :iso_code => "GBP", :currency=> "British Pound", :formated => "£10.00"}
+    Money.new(10_00, "GBP").to_hash.should == {:cents => 1000, :currency=> Money::Currency.wrap(:gbp), :formated => "£10.00"}
+    Money.new(10_00, "GBP").to_hash(true).should == {:decimal_mark=>".", :subunit_to_unit=>100, :html_entity=>"&#x00A3;", :symbol_first=>true, :cents=>1000, :iso_code=>"GBP", :symbol=>"£", :thousands_separator=>",", :name=>"British Pound", :id=>:gbp, :subunit=>"Penny", :priority=>3}
   end
 
   specify "#symbol works as documented" do

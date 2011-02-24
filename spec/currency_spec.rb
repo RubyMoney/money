@@ -55,6 +55,10 @@ describe Money::Currency do
     Money::Currency.new(:usd).should < Money::Currency.new(:eur)
   end
 
+  specify "#to_hash" do
+    Money::Currency.new(:usd).to_hash.should == {:subunit=>"Cent", :thousands_separator=>",", :symbol=>"$", :subunit_to_unit=>100, :decimal_mark=>".", :symbol_first=>true, :name=>"United States Dollar", :id=>:usd, :html_entity=>"$", :iso_code=>"USD", :priority=>1}
+  end
+
   specify "#to_s" do
     Money::Currency.new(:usd).to_s.should == "USD"
     Money::Currency.new(:eur).to_s.should == "EUR"

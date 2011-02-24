@@ -344,6 +344,33 @@ class Money
       id.hash
     end
 
+    # Return the Currency as a Hash. Attributes returned are :
+    #  id, priority, iso_code, name, symbol, html_entity, subunit,
+    #  subunit_to_unit, decimal_mark, thousands_separator, symbol_first,
+    #
+    # @return [Hash]
+    #
+    # @example
+    #   Money::Currency.wrap("usd").to_hash #=> {:subunit=>"Cent", :thousands_separator=>",",
+    # :symbol=>"$", :subunit_to_unit=>100, :decimal_mark=>".", :symbol_first=>true,
+    # :name=>"United States Dollar", :id=>:usd, :html_entity=>"$", :iso_code=>"USD", :priority=>1}
+    def to_hash
+      {
+        :id                  => id,
+        :priority            => priority,
+        :iso_code            => iso_code,
+        :name                => name,
+        :symbol              => symbol,
+        :html_entity         => html_entity,
+        :subunit             => subunit,
+        :subunit_to_unit     => subunit_to_unit,
+        :decimal_mark        => decimal_mark,
+        :thousands_separator => thousands_separator,
+        :symbol_first        => symbol_first,
+      }
+    end
+    alias :to_h :to_hash
+
     # Returns a string representation corresponding to the upcase +id+
     # attribute.
     #

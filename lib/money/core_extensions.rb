@@ -76,7 +76,7 @@ class Hash
   #   {:cents => 1000, :iso_code => "GBP"}.to_money #=> #<Money @cents=1000, @currency=#<Money::Currency id: gbp>>
   #
   def to_money
-    Money.new(self[:cents], self[:iso_code])
+Money.new(self[:cents], Money::Currency.wrap(self[:currency]))
   end
 
 end  
