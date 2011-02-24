@@ -739,9 +739,13 @@ class Money
   #
   # @example
   #   Money.new(100, "USD").thousands_separator #=> ","
-  if defined? I18n && use_I18n
+  if defined? I18n
     def thousands_separator
-      I18n.t(:"number.format.thousands_separator", :default => currency.thousands_separator || ",")
+      if Money.use_I18n
+        I18n.t(:"number.format.thousands_separator", :default => currency.thousands_separator || ",")
+      else
+        currency.thousands_separator || ","
+      end
     end
   else
     def thousands_separator
@@ -758,9 +762,13 @@ class Money
   #
   # @example
   #   Money.new(100, "USD").decimal_mark #=> "."
-  if defined? I18n && use_I18n
+  if defined? I18n
     def decimal_mark
-      I18n.t(:"number.format.decimal_mark", :default => currency.decimal_mark || ".")
+      if Money.use_I18n
+        I18n.t(:"number.format.decimal_mark", :default => currency.decimal_mark || ".")
+      else
+        currency.decimal_mark || "."
+      end
     end
   else
     def decimal_mark
@@ -779,7 +787,11 @@ class Money
   #   Money.new(100, "USD").precision #=> 2
   if defined? I18n && use_I18n
     def precision
-      I18n.t(:"number.format.precision", :default => currency.decimal_places || 2).to_i
+      if Money.use_I18n
+        I18n.t(:"number.format.precision", :default => currency.decimal_places || 2).to_i
+      else
+        currency.decimal_places || 2
+      end
     end
   else
     def precision

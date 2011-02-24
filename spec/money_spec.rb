@@ -633,8 +633,31 @@ describe Money do
       end
 
       if defined? I18n
+        context "with I18n loaded, but Money.use_I18n is set to false (default)" do
+          before :all do
+            Money.use_I18n = false
+            reset_i18n
+            store_number_formats(:en, method => options[:default])
+            store_number_formats(:de, method => options[:other])
+          end
+
+          it "looks up #{method} for current locale" do
+            Money.use_I18n.should be_false
+            I18n.locale = :fr
+            Money.empty("USD").send(method).should == Money::Currency.find("USD").send(method)
+            I18n.locale = :en
+            Money.empty("EUR").send(method).should == Money::Currency.find("EUR").send(method)
+            I18n.locale = :de
+            Money.empty("BRL").send(method).should == Money::Currency.find("BRL").send(method)
+          end
+
+          after :all do
+            reset_i18n
+          end
+        end
         context "with I18n" do
           before :all do
+            Money.use_I18n = true
             reset_i18n
             store_number_formats(:en, method => options[:default])
             store_number_formats(:de, method => options[:other])
@@ -658,6 +681,7 @@ describe Money do
             reset_i18n
           end
         end
+        
       else
         puts "can't test ##{method} with I18n because it isn't loaded"
       end
