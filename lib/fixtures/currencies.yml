@@ -1,0 +1,1783 @@
+--- 
+aed: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: AED
+  name: "United Arab Emirates Dirham"
+  priority: 100
+  subunit: Fils
+  subunit_to_unit: 100
+  symbol: د.إ
+  symbol_first: true
+  thousands_separator: ","
+afn: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: AFN
+  name: "Afghan Afghani"
+  priority: 100
+  subunit: Pul
+  subunit_to_unit: 100
+  symbol: ؋
+  symbol_first: false
+  thousands_separator: ","
+all: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: ALL
+  name: "Albanian Lek"
+  priority: 100
+  subunit: Qintar
+  subunit_to_unit: 100
+  symbol: L
+  symbol_first: false
+  thousands_separator: ","
+amd: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: AMD
+  name: "Armenian Dram"
+  priority: 100
+  subunit: Luma
+  subunit_to_unit: 100
+  symbol: դր.
+  symbol_first: false
+  thousands_separator: ","
+ang: 
+  decimal_mark: ","
+  html_entity: "&#x0192;"
+  iso_code: ANG
+  name: "Netherlands Antillean Gulden"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: ƒ
+  symbol_first: true
+  thousands_separator: "."
+aoa: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: AOA
+  name: "Angolan Kwanza"
+  priority: 100
+  subunit: Cêntimo
+  subunit_to_unit: 100
+  symbol: Kz
+  symbol_first: false
+  thousands_separator: ","
+ars: 
+  decimal_mark: ","
+  html_entity: "&#x20B1;"
+  iso_code: ARS
+  name: "Argentine Peso"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: "."
+aud: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: AUD
+  name: "Australian Dollar"
+  priority: 4
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+awg: 
+  decimal_mark: "."
+  html_entity: "&#x0192;"
+  iso_code: AWG
+  name: "Aruban Florin"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: ƒ
+  symbol_first: false
+  thousands_separator: ","
+azn: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: AZN
+  name: "Azerbaijani Manat"
+  priority: 100
+  subunit: Qəpik
+  subunit_to_unit: 100
+  symbol: ~
+  symbol_first: true
+  thousands_separator: ","
+bam: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: BAM
+  name: "Bosnia and Herzegovina Convertible Mark"
+  priority: 100
+  subunit: Fening
+  subunit_to_unit: 100
+  symbol: "KM or КМ"
+  symbol_first: true
+  thousands_separator: ","
+bbd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: BBD
+  name: "Barbadian Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: false
+  thousands_separator: ","
+bdt: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: BDT
+  name: "Bangladeshi Taka"
+  priority: 100
+  subunit: Paisa
+  subunit_to_unit: 100
+  symbol: ৳
+  symbol_first: true
+  thousands_separator: ","
+bgn: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: BGN
+  name: "Bulgarian Lev"
+  priority: 100
+  subunit: Stotinka
+  subunit_to_unit: 100
+  symbol: лв
+  symbol_first: true
+  thousands_separator: ","
+bhd: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: BHD
+  name: "Bahraini Dinar"
+  priority: 100
+  subunit: Fils
+  subunit_to_unit: 1000
+  symbol: ب.د
+  symbol_first: true
+  thousands_separator: ","
+bif: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: BIF
+  name: "Burundian Franc"
+  priority: 100
+  subunit: Centime
+  subunit_to_unit: 100
+  symbol: Fr
+  symbol_first: false
+  thousands_separator: ","
+bmd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: BMD
+  name: "Bermudian Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+bnd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: BND
+  name: "Brunei Dollar"
+  priority: 100
+  subunit: Sen
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+bob: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: BOB
+  name: "Bolivian Boliviano"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: Bs.
+  symbol_first: true
+  thousands_separator: ","
+brl: 
+  decimal_mark: ","
+  html_entity: R$
+  iso_code: BRL
+  name: "Brazilian Real"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: "R$ "
+  symbol_first: true
+  thousands_separator: "."
+bsd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: BSD
+  name: "Bahamian Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+btn: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: BTN
+  name: "Bhutanese Ngultrum"
+  priority: 100
+  subunit: Chertrum
+  subunit_to_unit: 100
+  symbol: ~
+  symbol_first: false
+  thousands_separator: ","
+bwp: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: BWP
+  name: "Botswana Pula"
+  priority: 100
+  subunit: Thebe
+  subunit_to_unit: 100
+  symbol: P
+  symbol_first: true
+  thousands_separator: ","
+byr: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: BYR
+  name: "Belarusian Ruble"
+  priority: 100
+  subunit: Kapyeyka
+  subunit_to_unit: 100
+  symbol: Br
+  symbol_first: false
+  thousands_separator: ","
+bzd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: BZD
+  name: "Belize Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+cad: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: CAD
+  name: "Canadian Dollar"
+  priority: 5
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+cdf: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: CDF
+  name: "Congolese Franc"
+  priority: 100
+  subunit: Centime
+  subunit_to_unit: 100
+  symbol: Fr
+  symbol_first: false
+  thousands_separator: ","
+chf: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: CHF
+  name: "Swiss Franc"
+  priority: 100
+  subunit: Rappen
+  subunit_to_unit: 100
+  symbol: Fr
+  symbol_first: true
+  thousands_separator: ","
+clp: 
+  decimal_mark: ","
+  html_entity: "&#x20B1;"
+  iso_code: CLP
+  name: "Chilean Peso"
+  priority: 100
+  subunit: Peso
+  subunit_to_unit: 1
+  symbol: $
+  symbol_first: true
+  thousands_separator: "."
+cny: 
+  decimal_mark: "."
+  html_entity: "&#x5713;"
+  iso_code: CNY
+  name: "Chinese Renminbi Yuan"
+  priority: 100
+  subunit: Fen
+  subunit_to_unit: 100
+  symbol: ¥
+  symbol_first: true
+  thousands_separator: ","
+cop: 
+  decimal_mark: ","
+  html_entity: "&#x20B1;"
+  iso_code: COP
+  name: "Colombian Peso"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: "."
+crc: 
+  decimal_mark: ","
+  html_entity: "&#x20A1;"
+  iso_code: CRC
+  name: "Costa Rican Colón"
+  priority: 100
+  subunit: Céntimo
+  subunit_to_unit: 100
+  symbol: ₡
+  symbol_first: true
+  thousands_separator: "."
+cuc: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: CUC
+  name: "Cuban Convertible Peso"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: false
+  thousands_separator: ","
+cup: 
+  decimal_mark: "."
+  html_entity: "&#x20B1;"
+  iso_code: CUP
+  name: "Cuban Peso"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+cve: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: CVE
+  name: "Cape Verdean Escudo"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: "$ or Esc"
+  symbol_first: false
+  thousands_separator: ","
+czk: 
+  decimal_mark: ","
+  html_entity: ~
+  iso_code: CZK
+  name: "Czech Koruna"
+  priority: 100
+  subunit: Haléř
+  subunit_to_unit: 100
+  symbol: Kč
+  symbol_first: true
+  thousands_separator: "."
+djf: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: DJF
+  name: "Djiboutian Franc"
+  priority: 100
+  subunit: Centime
+  subunit_to_unit: 100
+  symbol: Fr
+  symbol_first: false
+  thousands_separator: ","
+dkk: 
+  decimal_mark: ","
+  html_entity: ~
+  iso_code: DKK
+  name: "Danish Krone"
+  priority: 100
+  subunit: Øre
+  subunit_to_unit: 100
+  symbol: kr
+  symbol_first: true
+  thousands_separator: "."
+dop: 
+  decimal_mark: "."
+  html_entity: "&#x20B1;"
+  iso_code: DOP
+  name: "Dominican Peso"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+dzd: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: DZD
+  name: "Algerian Dinar"
+  priority: 100
+  subunit: Centime
+  subunit_to_unit: 100
+  symbol: د.ج
+  symbol_first: false
+  thousands_separator: ","
+eek: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: EEK
+  name: "Estonian Kroon"
+  priority: 100
+  subunit: Sent
+  subunit_to_unit: 100
+  symbol: KR
+  symbol_first: false
+  thousands_separator: ","
+egp: 
+  decimal_mark: "."
+  html_entity: "&#x00A3;"
+  iso_code: EGP
+  name: "Egyptian Pound"
+  priority: 100
+  subunit: Piastre
+  subunit_to_unit: 100
+  symbol: "£ or ج.م"
+  symbol_first: true
+  thousands_separator: ","
+ern: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: ERN
+  name: "Eritrean Nakfa"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: Nfk
+  symbol_first: false
+  thousands_separator: ","
+etb: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: ETB
+  name: "Ethiopian Birr"
+  priority: 100
+  subunit: Santim
+  subunit_to_unit: 100
+  symbol: ~
+  symbol_first: false
+  thousands_separator: ","
+eur: 
+  decimal_mark: ","
+  html_entity: "&#x20AC;"
+  iso_code: EUR
+  name: Euro
+  priority: 2
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: €
+  symbol_first: false
+  thousands_separator: "."
+fjd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: FJD
+  name: "Fijian Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: false
+  thousands_separator: ","
+fkp: 
+  decimal_mark: "."
+  html_entity: "&#x00A3;"
+  iso_code: FKP
+  name: "Falkland Pound"
+  priority: 100
+  subunit: Penny
+  subunit_to_unit: 100
+  symbol: £
+  symbol_first: false
+  thousands_separator: ","
+gbp: 
+  decimal_mark: "."
+  html_entity: "&#x00A3;"
+  iso_code: GBP
+  name: "British Pound"
+  priority: 3
+  subunit: Penny
+  subunit_to_unit: 100
+  symbol: £
+  symbol_first: true
+  thousands_separator: ","
+gel: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: GEL
+  name: "Georgian Lari"
+  priority: 100
+  subunit: Tetri
+  subunit_to_unit: 100
+  symbol: ლ
+  symbol_first: false
+  thousands_separator: ","
+ghc: 
+  decimal_mark: "."
+  html_entity: "&#x20B5;"
+  iso_code: GHS
+  name: "Ghanaian Cedi"
+  priority: 100
+  subunit: Pesewa
+  subunit_to_unit: 100
+  symbol: ₵
+  symbol_first: true
+  thousands_separator: ","
+ghs: 
+  decimal_mark: "."
+  html_entity: "&#x20B5;"
+  iso_code: GHS
+  name: "Ghanaian Cedi"
+  priority: 100
+  subunit: Pesewa
+  subunit_to_unit: 100
+  symbol: ₵
+  symbol_first: true
+  thousands_separator: ","
+gip: 
+  decimal_mark: "."
+  html_entity: "&#x00A3;"
+  iso_code: GIP
+  name: "Gibraltar Pound"
+  priority: 100
+  subunit: Penny
+  subunit_to_unit: 100
+  symbol: £
+  symbol_first: true
+  thousands_separator: ","
+gmd: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: GMD
+  name: "Gambian Dalasi"
+  priority: 100
+  subunit: Butut
+  subunit_to_unit: 100
+  symbol: D
+  symbol_first: false
+  thousands_separator: ","
+gnf: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: GNF
+  name: "Guinean Franc"
+  priority: 100
+  subunit: Centime
+  subunit_to_unit: 100
+  symbol: Fr
+  symbol_first: false
+  thousands_separator: ","
+gtq: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: GTQ
+  name: "Guatemalan Quetzal"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: Q
+  symbol_first: true
+  thousands_separator: ","
+gyd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: GYD
+  name: "Guyanese Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: false
+  thousands_separator: ","
+hkd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: HKD
+  name: "Hong Kong Dollar"
+  priority: 100
+  subunit: Ho
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+hnl: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: HNL
+  name: "Honduran Lempira"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: L
+  symbol_first: true
+  thousands_separator: ","
+hrk: 
+  decimal_mark: ","
+  html_entity: ~
+  iso_code: HRK
+  name: "Croatian Kuna"
+  priority: 100
+  subunit: Lipa
+  subunit_to_unit: 100
+  symbol: kn
+  symbol_first: true
+  thousands_separator: "."
+htg: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: HTG
+  name: "Haitian Gourde"
+  priority: 100
+  subunit: Centime
+  subunit_to_unit: 100
+  symbol: G
+  symbol_first: false
+  thousands_separator: ","
+huf: 
+  decimal_mark: ","
+  html_entity: ~
+  iso_code: HUF
+  name: "Hungarian Forint"
+  priority: 100
+  subunit: Fillér
+  subunit_to_unit: 100
+  symbol: Ft
+  symbol_first: true
+  thousands_separator: "."
+idr: 
+  decimal_mark: ","
+  html_entity: ~
+  iso_code: IDR
+  name: "Indonesian Rupiah"
+  priority: 100
+  subunit: Sen
+  subunit_to_unit: 100
+  symbol: Rp
+  symbol_first: true
+  thousands_separator: "."
+ils: 
+  decimal_mark: "."
+  html_entity: "&#x20AA;"
+  iso_code: ILS
+  name: "Israeli New Sheqel"
+  priority: 100
+  subunit: Agora
+  subunit_to_unit: 100
+  symbol: ₪
+  symbol_first: true
+  thousands_separator: ","
+inr: 
+  decimal_mark: "."
+  html_entity: "&#x20A8;"
+  iso_code: INR
+  name: "Indian Rupee"
+  priority: 100
+  subunit: Paisa
+  subunit_to_unit: 100
+  symbol: ₨
+  symbol_first: true
+  thousands_separator: ","
+iqd: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: IQD
+  name: "Iraqi Dinar"
+  priority: 100
+  subunit: Fils
+  subunit_to_unit: 1000
+  symbol: ع.د
+  symbol_first: false
+  thousands_separator: ","
+irr: 
+  decimal_mark: "."
+  html_entity: "&#xFDFC;"
+  iso_code: IRR
+  name: "Iranian Rial"
+  priority: 100
+  subunit: Dinar
+  subunit_to_unit: 100
+  symbol: ﷼
+  symbol_first: true
+  thousands_separator: ","
+isk: 
+  decimal_mark: ","
+  html_entity: ~
+  iso_code: ISK
+  name: "Icelandic Króna"
+  priority: 100
+  subunit: Eyrir
+  subunit_to_unit: 100
+  symbol: kr
+  symbol_first: true
+  thousands_separator: "."
+jmd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: JMD
+  name: "Jamaican Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+jod: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: JOD
+  name: "Jordanian Dinar"
+  priority: 100
+  subunit: Piastre
+  subunit_to_unit: 100
+  symbol: د.ا
+  symbol_first: true
+  thousands_separator: ","
+jpy: 
+  decimal_mark: "."
+  html_entity: "&#x00A5;"
+  iso_code: JPY
+  name: "Japanese Yen"
+  priority: 6
+  subunit: Sen
+  subunit_to_unit: 100
+  symbol: ¥
+  symbol_first: true
+  thousands_separator: ","
+kes: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: KES
+  name: "Kenyan Shilling"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: Sh
+  symbol_first: true
+  thousands_separator: ","
+kgs: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: KGS
+  name: "Kyrgyzstani Som"
+  priority: 100
+  subunit: Tyiyn
+  subunit_to_unit: 100
+  symbol: ~
+  symbol_first: false
+  thousands_separator: ","
+khr: 
+  decimal_mark: "."
+  html_entity: "&#x17DB;"
+  iso_code: KHR
+  name: "Cambodian Riel"
+  priority: 100
+  subunit: Sen
+  subunit_to_unit: 100
+  symbol: ៛
+  symbol_first: false
+  thousands_separator: ","
+kmf: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: KMF
+  name: "Comorian Franc"
+  priority: 100
+  subunit: Centime
+  subunit_to_unit: 100
+  symbol: Fr
+  symbol_first: false
+  thousands_separator: ","
+kpw: 
+  decimal_mark: "."
+  html_entity: "&#x20A9;"
+  iso_code: KPW
+  name: "North Korean Won"
+  priority: 100
+  subunit: Chŏn
+  subunit_to_unit: 100
+  symbol: ₩
+  symbol_first: false
+  thousands_separator: ","
+krw: 
+  decimal_mark: "."
+  html_entity: "&#x20A9;"
+  iso_code: KRW
+  name: "South Korean Won"
+  priority: 100
+  subunit: Jeon
+  subunit_to_unit: 100
+  symbol: ₩
+  symbol_first: true
+  thousands_separator: ","
+kwd: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: KWD
+  name: "Kuwaiti Dinar"
+  priority: 100
+  subunit: Fils
+  subunit_to_unit: 1000
+  symbol: د.ك
+  symbol_first: true
+  thousands_separator: ","
+kyd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: KYD
+  name: "Cayman Islands Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+kzt: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: KZT
+  name: "Kazakhstani Tenge"
+  priority: 100
+  subunit: Tiyn
+  subunit_to_unit: 100
+  symbol: 〒
+  symbol_first: false
+  thousands_separator: ","
+lak: 
+  decimal_mark: "."
+  html_entity: "&#x20AD;"
+  iso_code: LAK
+  name: "Lao Kip"
+  priority: 100
+  subunit: Att
+  subunit_to_unit: 100
+  symbol: ₭
+  symbol_first: false
+  thousands_separator: ","
+lbp: 
+  decimal_mark: "."
+  html_entity: "&#x00A3;"
+  iso_code: LBP
+  name: "Lebanese Lira"
+  priority: 100
+  subunit: Piastre
+  subunit_to_unit: 100
+  symbol: ل.ل
+  symbol_first: true
+  thousands_separator: ","
+lkr: 
+  decimal_mark: "."
+  html_entity: "&#x0BF9;"
+  iso_code: LKR
+  name: "Sri Lankan Rupee"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: ₨
+  symbol_first: false
+  thousands_separator: ","
+lrd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: LRD
+  name: "Liberian Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: false
+  thousands_separator: ","
+lsl: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: LSL
+  name: "Lesotho Loti"
+  priority: 100
+  subunit: Sente
+  subunit_to_unit: 100
+  symbol: L
+  symbol_first: false
+  thousands_separator: ","
+ltl: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: LTL
+  name: "Lithuanian Litas"
+  priority: 100
+  subunit: Centas
+  subunit_to_unit: 100
+  symbol: Lt
+  symbol_first: true
+  thousands_separator: ","
+lvl: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: LVL
+  name: "Latvian Lats"
+  priority: 100
+  subunit: Santīms
+  subunit_to_unit: 100
+  symbol: Ls
+  symbol_first: true
+  thousands_separator: ","
+lyd: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: LYD
+  name: "Libyan Dinar"
+  priority: 100
+  subunit: Dirham
+  subunit_to_unit: 1000
+  symbol: ل.د
+  symbol_first: false
+  thousands_separator: ","
+mad: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: MAD
+  name: "Moroccan Dirham"
+  priority: 100
+  subunit: Centime
+  subunit_to_unit: 100
+  symbol: د.م.
+  symbol_first: false
+  thousands_separator: ","
+mdl: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: MDL
+  name: "Moldovan Leu"
+  priority: 100
+  subunit: Ban
+  subunit_to_unit: 100
+  symbol: L
+  symbol_first: false
+  thousands_separator: ","
+mga: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: MGA
+  name: "Malagasy Ariary"
+  priority: 100
+  subunit: Iraimbilanja
+  subunit_to_unit: 5
+  symbol: ~
+  symbol_first: false
+  thousands_separator: ","
+mkd: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: MKD
+  name: "Macedonian Denar"
+  priority: 100
+  subunit: Deni
+  subunit_to_unit: 100
+  symbol: ден
+  symbol_first: false
+  thousands_separator: ","
+mmk: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: MMK
+  name: "Myanmar Kyat"
+  priority: 100
+  subunit: Pya
+  subunit_to_unit: 100
+  symbol: K
+  symbol_first: false
+  thousands_separator: ","
+mnt: 
+  decimal_mark: "."
+  html_entity: "&#x20AE;"
+  iso_code: MNT
+  name: "Mongolian Tögrög"
+  priority: 100
+  subunit: Möngö
+  subunit_to_unit: 100
+  symbol: ₮
+  symbol_first: false
+  thousands_separator: ","
+mop: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: MOP
+  name: "Macanese Pataca"
+  priority: 100
+  subunit: Avo
+  subunit_to_unit: 100
+  symbol: P
+  symbol_first: false
+  thousands_separator: ","
+mro: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: MRO
+  name: "Mauritanian Ouguiya"
+  priority: 100
+  subunit: Khoums
+  subunit_to_unit: 5
+  symbol: UM
+  symbol_first: false
+  thousands_separator: ","
+mur: 
+  decimal_mark: "."
+  html_entity: "&#x20A8;"
+  iso_code: MUR
+  name: "Mauritian Rupee"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: ₨
+  symbol_first: true
+  thousands_separator: ","
+mvr: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: MVR
+  name: "Maldivian Rufiyaa"
+  priority: 100
+  subunit: Laari
+  subunit_to_unit: 100
+  symbol: ރ.
+  symbol_first: false
+  thousands_separator: ","
+mwk: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: MWK
+  name: "Malawian Kwacha"
+  priority: 100
+  subunit: Tambala
+  subunit_to_unit: 100
+  symbol: MK
+  symbol_first: false
+  thousands_separator: ","
+mxn: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: MXN
+  name: "Mexican Peso"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+myr: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: MYR
+  name: "Malaysian Ringgit"
+  priority: 100
+  subunit: Sen
+  subunit_to_unit: 100
+  symbol: RM
+  symbol_first: true
+  thousands_separator: ","
+mzn: 
+  decimal_mark: ","
+  html_entity: ~
+  iso_code: MZN
+  name: "Mozambican Metical"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: MTn
+  symbol_first: true
+  thousands_separator: "."
+nad: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: NAD
+  name: "Namibian Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: false
+  thousands_separator: ","
+ngn: 
+  decimal_mark: "."
+  html_entity: "&#x20A6;"
+  iso_code: NGN
+  name: "Nigerian Naira"
+  priority: 100
+  subunit: Kobo
+  subunit_to_unit: 100
+  symbol: ₦
+  symbol_first: false
+  thousands_separator: ","
+nio: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: NIO
+  name: "Nicaraguan Córdoba"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: C$
+  symbol_first: false
+  thousands_separator: ","
+nok: 
+  decimal_mark: ","
+  html_entity: kr
+  iso_code: NOK
+  name: "Norwegian Krone"
+  priority: 100
+  subunit: Øre
+  subunit_to_unit: 100
+  symbol: kr
+  symbol_first: true
+  thousands_separator: "."
+npr: 
+  decimal_mark: "."
+  html_entity: "&#x20A8;"
+  iso_code: NPR
+  name: "Nepalese Rupee"
+  priority: 100
+  subunit: Paisa
+  subunit_to_unit: 100
+  symbol: ₨
+  symbol_first: true
+  thousands_separator: ","
+nzd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: NZD
+  name: "New Zealand Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+omr: 
+  decimal_mark: "."
+  html_entity: "&#xFDFC;"
+  iso_code: OMR
+  name: "Omani Rial"
+  priority: 100
+  subunit: Baisa
+  subunit_to_unit: 1000
+  symbol: ر.ع.
+  symbol_first: true
+  thousands_separator: ","
+pab: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: PAB
+  name: "Panamanian Balboa"
+  priority: 100
+  subunit: Centésimo
+  subunit_to_unit: 100
+  symbol: B/.
+  symbol_first: false
+  thousands_separator: ","
+pen: 
+  decimal_mark: "."
+  html_entity: S/.
+  iso_code: PEN
+  name: "Peruvian Nuevo Sol"
+  priority: 100
+  subunit: Céntimo
+  subunit_to_unit: 100
+  symbol: S/.
+  symbol_first: true
+  thousands_separator: ","
+pgk: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: PGK
+  name: "Papua New Guinean Kina"
+  priority: 100
+  subunit: Toea
+  subunit_to_unit: 100
+  symbol: K
+  symbol_first: false
+  thousands_separator: ","
+php: 
+  decimal_mark: "."
+  html_entity: "&#x20B1;"
+  iso_code: PHP
+  name: "Philippine Peso"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: ₱
+  symbol_first: false
+  thousands_separator: ","
+pkr: 
+  decimal_mark: "."
+  html_entity: "&#x20A8;"
+  iso_code: PKR
+  name: "Pakistani Rupee"
+  priority: 100
+  subunit: Paisa
+  subunit_to_unit: 100
+  symbol: ₨
+  symbol_first: true
+  thousands_separator: ","
+pln: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: PLN
+  name: "Polish Złoty"
+  priority: 100
+  subunit: Grosz
+  subunit_to_unit: 100
+  symbol: zł
+  symbol_first: true
+  thousands_separator: ","
+pyg: 
+  decimal_mark: "."
+  html_entity: "&#x20B2;"
+  iso_code: PYG
+  name: "Paraguayan Guaraní"
+  priority: 100
+  subunit: Céntimo
+  subunit_to_unit: 100
+  symbol: ₲
+  symbol_first: true
+  thousands_separator: ","
+qar: 
+  decimal_mark: "."
+  html_entity: "&#xFDFC;"
+  iso_code: QAR
+  name: "Qatari Riyal"
+  priority: 100
+  subunit: Dirham
+  subunit_to_unit: 100
+  symbol: ر.ق
+  symbol_first: false
+  thousands_separator: ","
+ron: 
+  decimal_mark: ","
+  html_entity: ~
+  iso_code: RON
+  name: "Romanian Leu"
+  priority: 100
+  subunit: Ban
+  subunit_to_unit: 100
+  symbol: L
+  symbol_first: true
+  thousands_separator: "."
+rsd: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: RSD
+  name: "Serbian Dinar"
+  priority: 100
+  subunit: Para
+  subunit_to_unit: 100
+  symbol: "din. or дин."
+  symbol_first: true
+  thousands_separator: ","
+rub: 
+  decimal_mark: ","
+  html_entity: "&#x0440;&#x0443;&#x0431;"
+  iso_code: RUB
+  name: "Russian Ruble"
+  priority: 100
+  subunit: Kopek
+  subunit_to_unit: 100
+  symbol: р.
+  symbol_first: false
+  thousands_separator: "."
+rwf: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: RWF
+  name: "Rwandan Franc"
+  priority: 100
+  subunit: Centime
+  subunit_to_unit: 100
+  symbol: Fr
+  symbol_first: false
+  thousands_separator: ","
+sar: 
+  decimal_mark: "."
+  html_entity: "&#xFDFC;"
+  iso_code: SAR
+  name: "Saudi Riyal"
+  priority: 100
+  subunit: Hallallah
+  subunit_to_unit: 100
+  symbol: ر.س
+  symbol_first: true
+  thousands_separator: ","
+sbd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: SBD
+  name: "Solomon Islands Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: false
+  thousands_separator: ","
+scr: 
+  decimal_mark: "."
+  html_entity: "&#x20A8;"
+  iso_code: SCR
+  name: "Seychellois Rupee"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: ₨
+  symbol_first: false
+  thousands_separator: ","
+sdg: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: SDG
+  name: "Sudanese Pound"
+  priority: 100
+  subunit: Piastre
+  subunit_to_unit: 100
+  symbol: £
+  symbol_first: true
+  thousands_separator: ","
+sek: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: SEK
+  name: "Swedish Krona"
+  priority: 100
+  subunit: Öre
+  subunit_to_unit: 100
+  symbol: kr
+  symbol_first: true
+  thousands_separator: ","
+sgd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: SGD
+  name: "Singapore Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+shp: 
+  decimal_mark: "."
+  html_entity: "&#x00A3;"
+  iso_code: SHP
+  name: "Saint Helenian Pound"
+  priority: 100
+  subunit: Penny
+  subunit_to_unit: 100
+  symbol: £
+  symbol_first: false
+  thousands_separator: ","
+skk: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: SKK
+  name: "Slovak Koruna"
+  priority: 100
+  subunit: Halier
+  subunit_to_unit: 100
+  symbol: Sk
+  symbol_first: true
+  thousands_separator: ","
+sll: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: SLL
+  name: "Sierra Leonean Leone"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: Le
+  symbol_first: false
+  thousands_separator: ","
+sos: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: SOS
+  name: "Somali Shilling"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: Sh
+  symbol_first: false
+  thousands_separator: ","
+srd: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: SRD
+  name: "Surinamese Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: false
+  thousands_separator: ","
+std: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: STD
+  name: "São Tomé and Príncipe Dobra"
+  priority: 100
+  subunit: Cêntimo
+  subunit_to_unit: 100
+  symbol: Db
+  symbol_first: false
+  thousands_separator: ","
+svc: 
+  decimal_mark: "."
+  html_entity: "&#x20A1;"
+  iso_code: SVC
+  name: "Salvadoran Colón"
+  priority: 100
+  subunit: Centavo
+  subunit_to_unit: 100
+  symbol: ₡
+  symbol_first: true
+  thousands_separator: ","
+syp: 
+  decimal_mark: "."
+  html_entity: "&#x00A3;"
+  iso_code: SYP
+  name: "Syrian Pound"
+  priority: 100
+  subunit: Piastre
+  subunit_to_unit: 100
+  symbol: "£ or ل.س"
+  symbol_first: false
+  thousands_separator: ","
+szl: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: SZL
+  name: "Swazi Lilangeni"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: L
+  symbol_first: true
+  thousands_separator: ","
+thb: 
+  decimal_mark: "."
+  html_entity: "&#x0E3F;"
+  iso_code: THB
+  name: "Thai Baht"
+  priority: 100
+  subunit: Satang
+  subunit_to_unit: 100
+  symbol: ฿
+  symbol_first: true
+  thousands_separator: ","
+tjs: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: TJS
+  name: "Tajikistani Somoni"
+  priority: 100
+  subunit: Diram
+  subunit_to_unit: 100
+  symbol: ЅМ
+  symbol_first: false
+  thousands_separator: ","
+tmm: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: TMM
+  name: "Turkmenistani Manat"
+  priority: 100
+  subunit: Tennesi
+  subunit_to_unit: 100
+  symbol: m
+  symbol_first: false
+  thousands_separator: ","
+tnd: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: TND
+  name: "Tunisian Dinar"
+  priority: 100
+  subunit: Millime
+  subunit_to_unit: 1000
+  symbol: د.ت
+  symbol_first: false
+  thousands_separator: ","
+top: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: TOP
+  name: "Tongan Paʻanga"
+  priority: 100
+  subunit: Seniti
+  subunit_to_unit: 100
+  symbol: T$
+  symbol_first: true
+  thousands_separator: ","
+try: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: TRY
+  name: "Turkish New Lira"
+  priority: 100
+  subunit: "New kuruş"
+  subunit_to_unit: 100
+  symbol: YTL
+  symbol_first: false
+  thousands_separator: ","
+ttd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: TTD
+  name: "Trinidad and Tobago Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: false
+  thousands_separator: ","
+twd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: TWD
+  name: "New Taiwan Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: false
+  thousands_separator: ","
+tzs: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: TZS
+  name: "Tanzanian Shilling"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: Sh
+  symbol_first: true
+  thousands_separator: ","
+uah: 
+  decimal_mark: "."
+  html_entity: "&#x20B4"
+  iso_code: UAH
+  name: "Ukrainian Hryvnia"
+  priority: 100
+  subunit: Kopiyka
+  subunit_to_unit: 100
+  symbol: ₴
+  symbol_first: false
+  thousands_separator: ","
+ugx: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: UGX
+  name: "Ugandan Shilling"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: Sh
+  symbol_first: false
+  thousands_separator: ","
+usd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: USD
+  name: "United States Dollar"
+  priority: 1
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+uyu: 
+  decimal_mark: ","
+  html_entity: "&#x20B1;"
+  iso_code: UYU
+  name: "Uruguayan Peso"
+  priority: 100
+  subunit: Centésimo
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: "."
+uzs: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: UZS
+  name: "Uzbekistani Som"
+  priority: 100
+  subunit: Tiyin
+  subunit_to_unit: 100
+  symbol: ~
+  symbol_first: false
+  thousands_separator: ","
+vef: 
+  decimal_mark: ","
+  html_entity: ~
+  iso_code: VEF
+  name: "Venezuelan Bolívar"
+  priority: 100
+  subunit: Céntimo
+  subunit_to_unit: 100
+  symbol: "Bs F"
+  symbol_first: true
+  thousands_separator: "."
+vnd: 
+  decimal_mark: ","
+  html_entity: "&#x20AB;"
+  iso_code: VND
+  name: "Vietnamese Đồng"
+  priority: 100
+  subunit: Hào
+  subunit_to_unit: 10
+  symbol: ₫
+  symbol_first: true
+  thousands_separator: "."
+vuv: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: VUV
+  name: "Vanuatu Vatu"
+  priority: 100
+  subunit: ~
+  subunit_to_unit: 1
+  symbol: Vt
+  symbol_first: true
+  thousands_separator: ","
+wst: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: WST
+  name: "Samoan Tala"
+  priority: 100
+  subunit: Sene
+  subunit_to_unit: 100
+  symbol: T
+  symbol_first: false
+  thousands_separator: ","
+xaf: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: XAF
+  name: "Central African Cfa Franc"
+  priority: 100
+  subunit: Centime
+  subunit_to_unit: 100
+  symbol: Fr
+  symbol_first: false
+  thousands_separator: ","
+xcd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: XCD
+  name: "East Caribbean Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","
+xof: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: XOF
+  name: "West African Cfa Franc"
+  priority: 100
+  subunit: Centime
+  subunit_to_unit: 100
+  symbol: Fr
+  symbol_first: false
+  thousands_separator: ","
+xpf: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: XPF
+  name: "Cfp Franc"
+  priority: 100
+  subunit: Centime
+  subunit_to_unit: 100
+  symbol: Fr
+  symbol_first: false
+  thousands_separator: ","
+yen: 
+  decimal_mark: "."
+  html_entity: "&#x00A5;"
+  iso_code: JPY
+  name: "Japanese Yen"
+  priority: 100
+  subunit: Sen
+  subunit_to_unit: 100
+  symbol: ¥
+  symbol_first: true
+  thousands_separator: ","
+yer: 
+  decimal_mark: "."
+  html_entity: "&#xFDFC;"
+  iso_code: YER
+  name: "Yemeni Rial"
+  priority: 100
+  subunit: Fils
+  subunit_to_unit: 100
+  symbol: ﷼
+  symbol_first: false
+  thousands_separator: ","
+zar: 
+  decimal_mark: "."
+  html_entity: "&#x0052;"
+  iso_code: ZAR
+  name: "South African Rand"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: R
+  symbol_first: true
+  thousands_separator: ","
+zmk: 
+  decimal_mark: "."
+  html_entity: ~
+  iso_code: ZMK
+  name: "Zambian Kwacha"
+  priority: 100
+  subunit: Ngwee
+  subunit_to_unit: 100
+  symbol: ZK
+  symbol_first: false
+  thousands_separator: ","
+zwd: 
+  decimal_mark: "."
+  html_entity: $
+  iso_code: ZWD
+  name: "Zimbabwean Dollar"
+  priority: 100
+  subunit: Cent
+  subunit_to_unit: 100
+  symbol: $
+  symbol_first: true
+  thousands_separator: ","

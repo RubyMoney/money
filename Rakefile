@@ -3,6 +3,8 @@ require 'rake/clean'
 
 CLOBBER.include('doc', '.yardoc')
 
+Dir["#{File.dirname(__FILE__)}/lib/tasks/*.rake"].sort.each { |ext| load ext }
+
 def gemspec
   @gemspec ||= begin
     file = File.expand_path("../money.gemspec", __FILE__)
@@ -47,3 +49,4 @@ desc "Validate the gemspec"
 task :gemspec do
   gemspec.validate
 end
+
