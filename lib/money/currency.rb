@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require "#{File.dirname(__FILE__)}/currencies"
+
 class Money
 
   # Represents a specific currency unit.
@@ -23,8 +25,6 @@ class Money
     #
     # See http://en.wikipedia.org/wiki/List_of_circulating_currencies and
     # http://search.cpan.org/~tnguyen/Locale-Currency-Format-1.28/Format.pm
-
-    require "#{File.dirname(__FILE__)}/currencies"
 
 
     # The symbol used to identify the currency, usually the lowercase
