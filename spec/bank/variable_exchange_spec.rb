@@ -54,7 +54,7 @@ describe Money::Bank::VariableExchange do
     describe "#add_rate" do
       it "should add rates correctly" do
         @bank.add_rate("USD", "EUR", 0.788332676)
-        @bank.add_rate("EUR", "YEN", 122.631477)
+        @bank.add_rate("EUR", "JPY", 122.631477)
 
         @bank.instance_variable_get(:@rates)['USD_TO_EUR'].should == 0.788332676
         @bank.instance_variable_get(:@rates)['EUR_TO_JPY'].should == 122.631477
@@ -220,3 +220,4 @@ describe Money::Bank::VariableExchange do
   end
 
 end
+

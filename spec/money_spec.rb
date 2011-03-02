@@ -649,7 +649,7 @@ describe Money do
 
   describe "#format" do
     it "returns the monetary value as a string" do
-      Money.ca_dollar(100).format.should == "$1.00"
+      Money.ca_dollar(100).format.should == "C$1.00"
       Money.new(40008).format.should == "$400.08"
     end
 
@@ -671,10 +671,10 @@ describe Money do
 
       # Dollars
       one_thousand["USD"].should == "$1,000.00"
-      one_thousand["CAD"].should == "$1,000.00"
-      one_thousand["AUD"].should == "$1,000.00"
-      one_thousand["NZD"].should == "$1,000.00"
-      one_thousand["ZWD"].should == "$1,000.00"
+      one_thousand["CAD"].should == "C$1,000.00"
+      one_thousand["AUD"].should == "A$1,000.00"
+      one_thousand["NZD"].should == "NZ$1,000.00"
+      one_thousand["ZWD"].should == "Z$1,000.00"
 
       # Yen
       one_thousand["JPY"].should == "¥1,000.00"
@@ -684,7 +684,7 @@ describe Money do
       one_thousand["EUR"].should == "1.000,00 €"
 
       # Rupees
-      one_thousand["INR"].should == "₨1,000.00"
+      one_thousand["INR"].should == "₹1,000.00"
       one_thousand["NPR"].should == "₨1,000.00"
       one_thousand["SCR"].should == "1,000.00 ₨"
       one_thousand["LKR"].should == "1,000.00 ₨"
@@ -718,15 +718,15 @@ describe Money do
     end
 
     specify "#format(:with_currency => true) works as documented" do
-      Money.ca_dollar(100).format(:with_currency => true).should == "$1.00 CAD"
+      Money.ca_dollar(100).format(:with_currency => true).should == "C$1.00 CAD"
       Money.us_dollar(85).format(:with_currency => true).should == "$0.85 USD"
     end
 
     specify "#format(:no_cents => true) works as documented" do
-      Money.ca_dollar(100).format(:no_cents => true).should == "$1"
-      Money.ca_dollar(599).format(:no_cents => true).should == "$5"
-      Money.ca_dollar(570).format(:no_cents => true, :with_currency => true).should == "$5 CAD"
-      Money.ca_dollar(39000).format(:no_cents => true).should == "$390"
+      Money.ca_dollar(100).format(:no_cents => true).should == "C$1"
+      Money.ca_dollar(599).format(:no_cents => true).should == "C$5"
+      Money.ca_dollar(570).format(:no_cents => true, :with_currency => true).should == "C$5 CAD"
+      Money.ca_dollar(39000).format(:no_cents => true).should == "C$390"
     end
 
     specify "#format(:no_cents => true) should respect :subunit_to_unit currency property" do
@@ -747,10 +747,10 @@ describe Money do
 
       # Dollars
       one["USD"].should == "$1.00"
-      one["CAD"].should == "$1.00"
-      one["AUD"].should == "$1.00"
-      one["NZD"].should == "$1.00"
-      one["ZWD"].should == "$1.00"
+      one["CAD"].should == "C$1.00"
+      one["AUD"].should == "A$1.00"
+      one["NZD"].should == "NZ$1.00"
+      one["ZWD"].should == "Z$1.00"
 
       # Yen
       one["JPY"].should == "¥1.00"
@@ -760,7 +760,7 @@ describe Money do
       one["EUR"].should == "1,00 €"
 
       # Rupees
-      one["INR"].should == "₨1.00"
+      one["INR"].should == "₹1.00"
       one["NPR"].should == "₨1.00"
       one["SCR"].should == "1.00 ₨"
       one["LKR"].should == "1.00 ₨"
@@ -808,7 +808,7 @@ describe Money do
     end
 
     specify "#format will default decimal_mark to '.' if currency isn't recognized" do
-      Money.new(100, "ZWD").format.should == "$1.00"
+      Money.new(100, "ZWD").format.should == "Z$1.00"
     end
 
     specify "#format(:separator => a separator  string) works as documented" do
@@ -836,7 +836,7 @@ describe Money do
     end
 
     specify "#format will default thousands_separator to ',' if currency isn't recognized" do
-      Money.new(100000, "ZWD").format.should == "$1,000.00"
+      Money.new(100000, "ZWD").format.should == "Z$1,000.00"
     end
 
     specify "#format(:html => true) works as documented" do
@@ -1266,3 +1266,4 @@ describe "Money.parse" do
       Money.parse('').should              == empty_price
     end
 end
+
