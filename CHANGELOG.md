@@ -1,9 +1,10 @@
-Money 3.x.x
+Money 3.6.1
 ===========
 
 Bugfixes
 --------
  - Floating point comparison needs to Epsilon aware (thanks Tobias Luetke)
+ - reimplement fix for #issue/43, enable Marshal.(load/dump)
 
 Money 3.6.0
 ===========
