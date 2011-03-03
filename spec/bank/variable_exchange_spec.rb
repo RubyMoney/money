@@ -219,4 +219,20 @@ describe Money::Bank::VariableExchange do
     end
   end
 
+  describe "#marshal_dump" do
+    before :each do
+      @bank = Money::Bank::VariableExchange.new
+    end
+
+    it 'should not raise an error' do
+      lambda{Marshal.dump(@bank)}.should_not raise_error
+    end
+
+    it 'should work with Marshal.load' do
+      b = Marshal.load(Marshal.dump(@bank))
+
+      b.rates.should           == @bank.rates
+      b.rounding_method.should == @bank.rounding_method
+    end
+  end
 end

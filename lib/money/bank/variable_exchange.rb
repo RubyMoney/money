@@ -30,6 +30,8 @@ class Money
     #   bank.exchange_with(c2, "USD") #=> #<Money @cents=803115>
     class VariableExchange < Base
 
+      attr_reader :rates
+
       # Available formats for importing/exporting rates.
       RATE_FORMATS = [:json, :ruby, :yaml]
 
@@ -40,6 +42,15 @@ class Money
         @rates = {}
         @mutex = Mutex.new
         self
+      end
+
+      def marshal_dump
+        [@rates, @rounding_method]
+      end
+
+      def marshal_load(arr)
+        @rates, @rounding_method = arr
+        @mutex = Mutex.new
       end
 
       # Exchanges the given +Money+ object to a new +Money+ object in
