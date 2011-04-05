@@ -619,11 +619,10 @@ describe Money do
         context "with I18n" do
           before :all do
             reset_i18n
-            store_number_formats(:en, method => options[:default])
-            store_number_formats(:de, method => options[:other])
+            store_number_currency_formats(:de)
           end
 
-          it "looks up #{method} for current locale" do
+          it "looks up current locale as documented" do
             I18n.locale = :en
             Money.empty("USD").send(method).should == options[:default]
             I18n.locale = :de
