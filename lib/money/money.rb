@@ -712,7 +712,7 @@ class Money
     currency.symbol || "¤"
   end
 
-  # If I18n is loaded, looks up key +:number.currency.format.separator+.
+  # If I18n is loaded, looks up key +:number.currency.format.delimiter+.
   # Otherwise and as fallback it uses +Currency#thousands_separator+.
   # If +nil+ is returned, default to ",".
   #
@@ -722,7 +722,13 @@ class Money
   #   Money.new(100, "USD").thousands_separator #=> ","
   if Object.const_defined?("I18n")
     def thousands_separator
-      I18n.t(:"number.currency.format.separator", :default => currency.thousands_separator || ",")
+      I18n.t(
+        :"number.currency.format.delimiter",
+        :default => I18n.t(
+          :"number.format.delimiter",
+          :default => (currency.thousands_separator || ",")
+        )
+      )
     end
   else
     def thousands_separator
@@ -731,7 +737,7 @@ class Money
   end
   alias :delimiter :thousands_separator
 
-  # If I18n is loaded, looks up key +:number.currency.format.delimiter+.
+  # If I18n is loaded, looks up key +:number.currency.format.separator+.
   # Otherwise and as fallback it uses +Currency#decimal_mark+.
   # If +nil+ is returned, default to ",".
   #
@@ -741,7 +747,13 @@ class Money
   #   Money.new(100, "USD").decimal_mark #=> "."
   if Object.const_defined?("I18n")
     def decimal_mark
-      I18n.t(:"number.currency.format.delimiter", :default => currency.decimal_mark || ".")
+      I18n.t(
+        :"number.currency.format.separator",
+        :default => I18n.t(
+          :"number.format.separator",
+          :default => (currency.decimal_mark || ".")
+        )
+      )
     end
   else
     def decimal_mark

@@ -602,47 +602,49 @@ describe Money do
     Money.empty(currency).symbol.should == "¤"
   end
 
-  {
-    :thousands_separator => { :default => ",", :other => "." },
-    :decimal_mark => { :default => ".", :other => "," }
-  }.each do |method, options|
-    describe "##{method}" do
-      context "without I18n" do
-        it "works as documented" do
-          Money.empty("USD").send(method).should == options[:default]
-          Money.empty("EUR").send(method).should == options[:other]
-          Money.empty("BRL").send(method).should == options[:other]
-        end
+  context "without i18n" do
+    subject{ Money.empty("USD") }
+
+    its(:thousands_separator){should == ","}
+    its(:decimal_mark){should == "."}
+  end
+
+  context "with i18n" do
+    after :each do
+      reset_i18n
+      I18n.locale = :en
+    end
+
+    context "with number.format.*" do
+      before :each do
+        reset_i18n
+        I18n.locale = :de
+        I18n.backend.store_translations(
+          :de, :number => {:format => {:delimiter => ".",
+                                       :separator => ","}}
+        )
       end
 
-      if Object.const_defined?("I18n")
-        context "with I18n" do
-          before :all do
-            reset_i18n
-            store_number_currency_formats(:de)
-          end
+      subject{ Money.empty("USD") }
 
-          it "looks up current locale as documented" do
-            I18n.locale = :en
-            Money.empty("USD").send(method).should == options[:default]
-            I18n.locale = :de
-            Money.empty("USD").send(method).should == options[:other]
-          end
+      its(:thousands_separator){should == "."}
+      its(:decimal_mark){should == ","}
+    end
 
-          it "fallbacks to default behaviour for missing translations" do
-            I18n.locale = :de
-            Money.empty("USD").send(method).should == options[:other]
-            I18n.locale = :fr
-            Money.empty("USD").send(method).should == options[:default]
-          end
-
-          after :all do
-            reset_i18n
-          end
-        end
-      else
-        puts "can't test ##{method} with I18n because it isn't loaded"
+    context "with number.currency.format.*" do
+      before :each do
+        reset_i18n
+        I18n.locale = :de
+        I18n.backend.store_translations(
+          :de, :number => {:currency => {:format => {:delimiter => ".",
+                                                     :separator => ","}}}
+        )
       end
+
+      subject{ Money.empty("USD") }
+
+      its(:thousands_separator){should == "."}
+      its(:decimal_mark){should == ","}
     end
   end
 
