@@ -193,6 +193,8 @@ object in your models. The following example requires 2 columns:
     :price_cents, :integer, :default => 0, :null => false
     :currency, :string
 
+Then in your model file:
+
     composed_of :price,
       :class_name => "Money",
       :mapping => [%w(price_cents cents), %w(currency currency_as_string)],
