@@ -189,6 +189,7 @@ implementations.
 
 Use the `compose_of` helper to let Active Record deal with embedding the money
 object in your models. The following example requires 2 columns:
+
     :price_cents, :integer, :default => 0, :null => false
     :currency, :string
 
