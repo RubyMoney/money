@@ -218,37 +218,6 @@ class Money
     @currency = Currency.wrap(val)
   end
 
-  # Checks whether two money objects have the same currency and the same
-  # amount. Checks against money objects with a different currency and checks
-  # against objects that do not respond to #to_money will always return false.
-  #
-  # @param [Money] other_money Value to compare with.
-  #
-  # @return [Boolean]
-  #
-  # @example
-  #   Money.new(100) == Money.new(101) #=> false
-  #   Money.new(100) == Money.new(100) #=> true
-  def ==(other_money)
-    if other_money.respond_to?(:to_money)
-      other_money = other_money.to_money
-      cents == other_money.cents && self.currency == other_money.currency
-    else
-      false
-    end
-  end
-
-  # Synonymous with +#==+.
-  #
-  # @param [Money] other_money Value to compare with.
-  #
-  # @return [Money]
-  #
-  # @see #==
-  def eql?(other_money)
-    self == other_money
-  end
-
   # Returns a Fixnum hash value based on the +cents+ and +currency+ attributes
   # in order to use functions like & (intersection), group_by, etc.
   #
