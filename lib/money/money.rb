@@ -2,13 +2,13 @@
 require 'money/bank/variable_exchange'
 require 'money/money/arithmetic'
 require 'money/money/parsing'
-require 'money/money/formating'
+require 'money/money/formatting'
 
 # Represents an amount of money in a given currency.
 class Money
   include Comparable
   include Arithmetic
-  include Formating
+  include Formatting
   extend Parsing
 
   # The value of the money in cents.

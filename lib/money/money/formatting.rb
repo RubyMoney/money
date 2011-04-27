@@ -1,5 +1,5 @@
 class Money
-  module Formating
+  module Formatting
     if Object.const_defined?("I18n")
       def thousands_separator
         I18n.t(
