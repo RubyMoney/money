@@ -9,7 +9,7 @@ class Money
   include Comparable
   include Arithmetic
   include Formatting
-  extend Parsing
+  include Parsing
 
   # The value of the money in cents.
   #
