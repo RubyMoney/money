@@ -191,6 +191,11 @@ describe Money do
     specify "#format(:no_cents => true) should respect :subunit_to_unit currency property" do
       Money.new(10_00, "BHD").format(:no_cents => true).should == "ب.د1"
     end
+    
+    specify "#format(:no_cents_if_whole => true) works as documented" do
+      Money.ca_dollar(10000).format(:no_cents_if_whole => true).should == "$100"
+      Money.ca_dollar(10034).format(:no_cents_if_whole => true).should == "$100.34"
+    end
 
     specify "#format(:symbol => a symbol string) uses the given value as the money symbol" do
       Money.new(100, "GBP").format(:symbol => "£").should == "£1.00"

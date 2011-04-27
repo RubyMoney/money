@@ -155,6 +155,8 @@ class Money
                   else
                     "#{self.to_s}"
                   end
+                  
+      formatted = "#{self.to_s.to_i}" if rules.has_key?(:no_cents_if_whole) && cents % 100 == 0
 
       symbol_position =
         if rules.has_key?(:symbol_position)
