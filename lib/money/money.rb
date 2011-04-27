@@ -415,28 +415,4 @@ class Money
 
     return result
   end
-
-  private
-
-  # Cleans up formatting rules.
-  #
-  # @param [Hash]
-  #
-  # @return [Hash]
-  def normalize_formatting_rules(rules)
-    if rules.size == 0
-      rules = {}
-    elsif rules.size == 1
-      rules = rules.pop
-      rules = { rules => true } if rules.is_a?(Symbol)
-    end
-    if not rules.include?(:decimal_mark) and rules.include?(:separator)
-      rules[:decimal_mark] = rules[:separator]
-    end
-    if not rules.include?(:thousands_separator) and rules.include?(:delimiter)
-      rules[:thousands_separator] = rules[:delimiter]
-    end
-    rules
-  end
-
 end
