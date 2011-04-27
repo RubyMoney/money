@@ -62,7 +62,8 @@ class Money
     #   Money.ca_dollar(100).format(:no_cents => true) #=> "$1"
     #   Money.ca_dollar(599).format(:no_cents => true) #=> "$5"
     #
-    # @option *rules [Boolean] :no_cents_if_whole (false) Whether cents should be omitted if the cent value is zero
+    # @option *rules [Boolean] :no_cents_if_whole (false) Whether cents should be 
+    #  omitted if the cent value is zero
     #
     # @example
     #   Money.ca_dollar(10000).format(:no_cents_if_whole => true) #=> "$100"
