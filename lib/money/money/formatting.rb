@@ -62,6 +62,12 @@ class Money
     #   Money.ca_dollar(100).format(:no_cents => true) #=> "$1"
     #   Money.ca_dollar(599).format(:no_cents => true) #=> "$5"
     #
+    # @option *rules [Boolean] :no_cents_if_whole (false) Whether cents should be omitted if the cent value is zero
+    #
+    # @example
+    #   Money.ca_dollar(10000).format(:no_cents_if_whole => true) #=> "$100"
+    #   Money.ca_dollar(10034).format(:no_cents_if_whole => true) #=> "$100.34"
+    #
     # @option *rules [Boolean, String, nil] :symbol (true) Whether a money symbol
     #  should be prepended to the result string. The default is true. This method
     #  attempts to pick a symbol that's suitable for the given currency.
@@ -156,7 +162,9 @@ class Money
                     "#{self.to_s}"
                   end
                   
-      formatted = "#{self.to_s.to_i}" if rules.has_key?(:no_cents_if_whole) && cents % 100 == 0
+      if rules[:no_cents_if_whole] && cents % currency.subunit_to_unit == 0
+        formatted = "#{self.to_s.to_i}"
+      end
 
       symbol_position =
         if rules.has_key?(:symbol_position)
