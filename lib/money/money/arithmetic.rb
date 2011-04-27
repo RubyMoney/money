@@ -1,26 +1,18 @@
 class Money
   module Arithmetic
-    # Compares this money object against another object. +other_money+ must
-    # respond to #to_money. Returns -1 when less than, 0 when equal and 1 when
-    # greater than.
-    #
-    # If +other_money+ is a different currency, then +other_money+ will first be
-    # converted into this money object's currency by calling +#exchange+ on
-    # +other_money+.
-    #
-    # Comparisons against objects that do not respond to #to_money will cause an
-    # +ArgumentError+ to be raised.
-    #
-    # @param [Money, #to_money] other_money Value to compare with.
-    #
-    # @return [-1, 0, 1]
-    #
-    # @raise [ArgumentError]
-    #
-    # @example
-    #   Money.new(100) <=> 99             #=>  1
-    #   Money.new(100) <=> Money.new(100) #=>  0
-    #   Money.new(100) <=> "$101.00"      #=> -1
+    def ==(other_money)
+      if other_money.respond_to?(:to_money)
+        other_money = other_money.to_money
+        cents == other_money.cents && self.currency == other_money.currency
+      else
+        false
+      end
+    end
+
+    def eql?(other_money)
+      self == other_money
+    end
+
     def <=>(other_money)
       if other_money.respond_to?(:to_money)
         other_money = other_money.to_money
