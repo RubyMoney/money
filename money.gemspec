@@ -2,7 +2,14 @@ Gem::Specification.new do |s|
   s.name        = "money"
   s.version     = "3.6.1"
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Tobias Luetke", "Hongli Lai", "Jeremy McNevin", "Shane Emmons", "Simone Carletti", "Jean-Louis Giordano"]
+  s.authors     = ["Tobias Luetke", "Hongli Lai", "Jeremy McNevin",
+                   "Shane Emmons", "Simone Carletti", "Jean-Louis Giordano",
+                   "Joshua Clayton", "Bodaniel Jeanes", "Tobias Schmidt",
+                   "Chris Kampmeier", "Romain Gérard", "Eloy", "Josh Delsman",
+                   "Pelle Braendgaard", "Tom Lianza", "James Cotterill",
+                   "François Beausoleil", "Abhay Kumar", "pconnor",
+                   "Christian Billen",
+                  ]
   s.email       = ["hongli@phusion.nl", "semmons99+RubyMoney@gmail.com"]
   s.homepage    = "http://money.rubyforge.org"
   s.summary     = "Money and currency exchange support library."
