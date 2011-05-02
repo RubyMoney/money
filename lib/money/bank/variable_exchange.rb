@@ -56,9 +56,10 @@ class Money
       # Exchanges the given +Money+ object to a new +Money+ object in
       # +to_currency+.
       #
-      # @param [Money] from The +Money+ object to exchange.
-      # @param [Currency, String, Symbol] to_currency The currency to exchange
-      #  to.
+      # @param  [Money] from
+      #         The +Money+ object to exchange.
+      # @param  [Currency, String, Symbol] to_currency
+      #         The currency to exchange to.
       #
       # @yield [n] Optional block to use when rounding after exchanging one
       #  currency for another.
@@ -83,7 +84,7 @@ class Money
       #
       #   # Exchange 100 CAD to USD:
       #   bank.exchange_with(c2, "USD") #=> #<Money @cents=803115>
-      def exchange_with(from, to_currency, &block)
+      def exchange_with(from, to_currency)
         return from if same_currency?(from.currency, to_currency)
 
         rate = get_rate(from.currency, to_currency)
@@ -97,7 +98,7 @@ class Money
         ex = cents * BigDecimal.new(rate.to_s)
         ex = ex.to_f
         ex = if block_given?
-               block.call(ex)
+               yield ex
              elsif @rounding_method
                @rounding_method.call(ex)
              else
