@@ -56,10 +56,14 @@ class Money
     # @example
     #   Money.new(100) + Money.new(100) #=> #<Money @cents=200>
     def +(other_money)
-      if currency == other_money.currency
-        Money.new(cents + other_money.cents, other_money.currency)
+      if other_money.respond_to?(:to_money) and other_money = other_money.to_money
+        if currency == other_money.currency
+          Money.new(cents + other_money.cents, other_money.currency)
+        else
+          Money.new(cents + other_money.exchange_to(currency).cents, currency)
+        end
       else
-        Money.new(cents + other_money.exchange_to(currency).cents, currency)
+        raise ArgumentError, "Addition of #{self.class} with #{other_money.inspect} failed"
       end
     end
 
@@ -75,10 +79,14 @@ class Money
     # @example
     #   Money.new(100) - Money.new(99) #=> #<Money @cents=1>
     def -(other_money)
-      if currency == other_money.currency
-        Money.new(cents - other_money.cents, other_money.currency)
+      if other_money.respond_to?(:to_money) and other_money = other_money.to_money
+        if currency == other_money.currency
+          Money.new(cents - other_money.cents, other_money.currency)
+        else
+          Money.new(cents - other_money.exchange_to(currency).cents, currency)
+        end
       else
-        Money.new(cents - other_money.exchange_to(currency).cents, currency)
+        raise ArgumentError, "Substraction of #{self.class} with #{other_money.inspect} failed"
       end
     end
 
