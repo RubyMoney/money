@@ -359,6 +359,13 @@ class Money
       id.to_s.upcase
     end
 
+    # Conversation to +self+.
+    #
+    # @return [self]
+    def to_currency
+      self
+    end
+
     # Returns a human readable representation.
     #
     # @return [String]

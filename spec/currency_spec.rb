@@ -60,6 +60,11 @@ describe Money::Currency do
     Money::Currency.new(:eur).to_s.should == "EUR"
   end
 
+  specify "#to_currency" do
+    usd = Money::Currency.new(:usd)
+    usd.to_currency.should == usd
+  end
+
   specify "#inspect" do
     Money::Currency.new(:usd).inspect.should ==
     %Q{#<Money::Currency id: usd, priority: 1, symbol_first: true, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, iso_code: USD, subunit: Cent>}
