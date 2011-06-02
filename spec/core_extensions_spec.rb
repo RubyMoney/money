@@ -139,4 +139,20 @@ describe "Money core extensions" do
     end
   end
 
+  describe Symbol do
+    describe "#to_currency" do
+      it "should convert symbol to Currency" do
+        :usd.to_currency.should == Money::Currency.new(:usd)
+        :ars.to_currency.should == Money::Currency.new(:ars)
+      end
+      it "should work case-insensitive" do
+        :EUR.to_currency.should == Money::Currency.new(:eur)
+      end
+      it "should raise Money::Currency::UnknownCurrency with unknown Currency" do
+        lambda { :XXX.to_currency }.should raise_error(Money::Currency::UnknownCurrency)
+        lambda { :" ".to_currency }.should raise_error(Money::Currency::UnknownCurrency)
+      end
+    end
+  end
+
 end
