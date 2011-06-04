@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "money"
-  s.version     = "3.6.1"
+  s.version     = "3.6.2"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Tobias Luetke", "Hongli Lai", "Jeremy McNevin",
                    "Shane Emmons", "Simone Carletti", "Jean-Louis Giordano",
