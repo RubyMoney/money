@@ -1,3 +1,19 @@
+Money 3.6.2
+===========
+
+Features
+--------
+- i18n enhancements (thanks eloyesp [link](https://github.com/RubyMoney/money/commit/b2cab76c78ae04f40251fa20c4ab18faa968dc53))
+- README updates (thanks pconnor)
+- Break into modules
+- Added `:no_cents_if_whole` format option
+- Update HKD from Ho to Cent
+- Performance improvements (thanks weppos)
+- Added Symbol#to_currency
+- Added Gemfile for development
+- Updated HUF currency to use `symbol_first => false`
+- Updated "Turkish New Lira" to "Turkish Lira"
+
 Money 3.6.1
 ===========
 
