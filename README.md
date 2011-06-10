@@ -81,7 +81,7 @@ To define a new `Money::Currency` simply add a new item to the
 `Money::Currency::TABLE` hash, where the key is the identifier for the currency
 object and the value is a hash containing all the currency attributes.
 
-     Money::Currency::TABLE[:USD] = {
+     Money::Currency::TABLE[:usd] = {
       :priority        => 1,
       :iso_code        => "USD",
       :name            => "United States Dollar",
