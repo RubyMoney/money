@@ -256,6 +256,16 @@ class Money
     "#{unit}#{decimal_mark}#{subunit}"
   end
 
+  # Return the amount of money as a BigDecimal.
+  #
+  # @return [BigDecimal]
+  #
+  # @example
+  #   Money.us_dollar(100).to_d => BigDecimal.new("1.0")
+  def to_d
+    BigDecimal.new(cents.to_s) / BigDecimal.new(currency.subunit_to_unit.to_s)
+  end
+
   # Return the amount of money as a float. Floating points cannot guarantee
   # precision. Therefore, this function should only be used when you no longer
   # need to represent currency or working with another system that requires
@@ -266,7 +276,7 @@ class Money
   # @example
   #   Money.us_dollar(100).to_f => 1.0
   def to_f
-    (BigDecimal.new(cents.to_s) / currency.subunit_to_unit).to_f
+    to_d.to_f
   end
 
   # Receive the amount of this money object in another Currency.

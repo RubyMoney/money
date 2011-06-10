@@ -120,6 +120,27 @@ describe Money do
     Money.new(10_00, "BRL").to_s.should == "10,00"
   end
 
+  specify "Money.to_d works" do
+    decimal = Money.new(10_00).to_d
+    decimal.should be_instance_of(BigDecimal)
+    decimal.should == 10.0
+  end
+
+  specify "Money.to_d should respect :subunit_to_unit currency property" do
+    decimal = Money.new(10_00, "BHD").to_d
+    decimal.should be_instance_of(BigDecimal)
+    decimal.should == 1.0
+  end
+
+  specify "Money.to_d should work with float :subunit_to_unit currency property" do
+    money = Money.new(10_00, "BHD")
+    money.currency.stub(:subunit_to_unit).and_return(1000.0)
+
+    decimal = money.to_d
+    decimal.should be_instance_of(BigDecimal)
+    decimal.should == 1.0
+  end
+
   specify "Money.to_f works" do
     Money.new(10_00).to_f.should == 10.0
   end
