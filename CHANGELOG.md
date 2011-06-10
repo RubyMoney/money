@@ -1,3 +1,10 @@
+Money 3.6.3
+===========
+
+Features
+--------
+- add Money#to_d (thanks Andrew White)
+
 Money 3.6.2
 ===========
 

@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
                    "Chris Kampmeier", "Romain Gérard", "Eloy", "Josh Delsman",
                    "Pelle Braendgaard", "Tom Lianza", "James Cotterill",
                    "François Beausoleil", "Abhay Kumar", "pconnor",
-                   "Christian Billen", "Ilia Lobsanov",
+                   "Christian Billen", "Ilia Lobsanov", "Andrew White",
                   ]
   s.email       = ["hongli@phusion.nl", "semmons99+RubyMoney@gmail.com"]
   s.homepage    = "http://money.rubyforge.org"
