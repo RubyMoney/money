@@ -42,6 +42,11 @@ class Money
     #
     # @return [Money::Currency]
     attr_accessor :default_currency
+
+    # Use this to disable i18n even if it's used by other objects in your app.
+    #
+    # @return [true,false]
+    attr_accessor :use_i18n
   end
 
   # Set the default bank for creating new +Money+ objects.
@@ -49,6 +54,9 @@ class Money
 
   # Set the default currency for creating new +Money+ object.
   self.default_currency = Currency.new("USD")
+
+  # Default to using i18n
+  self.use_i18n = true
 
   # Create a new money object with value 0.
   #
