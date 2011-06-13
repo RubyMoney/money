@@ -1,9 +1,11 @@
-Money 3.6.3
+Money 3.7.0
 ===========
 
 Features
 --------
 - add Money#to_d (thanks Andrew White)
+- Add Money.use_i18n, this allows you to enable/disable i18n from being used,
+  even if it's required in your app.
 
 Money 3.6.2
 ===========
