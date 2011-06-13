@@ -1,14 +1,19 @@
 class Money
   module Formatting
+
     if Object.const_defined?("I18n")
       def thousands_separator
-        I18n.t(
-          :"number.currency.format.delimiter",
-          :default => I18n.t(
-            :"number.format.delimiter",
-            :default => (currency.thousands_separator || ",")
-        )
-        )
+        if self.class.use_i18n
+          I18n.t(
+            :"number.currency.format.delimiter",
+            :default => I18n.t(
+              :"number.format.delimiter",
+              :default => (currency.thousands_separator || ",")
+            )
+          )
+        else
+          currency.thousands_separator || ","
+        end
       end
     else
       def thousands_separator
@@ -17,15 +22,20 @@ class Money
     end
     alias :delimiter :thousands_separator
 
+
     if Object.const_defined?("I18n")
       def decimal_mark
-        I18n.t(
-          :"number.currency.format.separator",
-          :default => I18n.t(
-            :"number.format.separator",
-            :default => (currency.decimal_mark || ".")
-        )
-        )
+        if self.class.use_i18n
+          I18n.t(
+            :"number.currency.format.separator",
+            :default => I18n.t(
+              :"number.format.separator",
+              :default => (currency.decimal_mark || ".")
+            )
+          )
+        else
+          currency.decimal_mark || "."
+        end
       end
     else
       def decimal_mark

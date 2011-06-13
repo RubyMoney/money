@@ -67,6 +67,29 @@ describe Money do
     its(:decimal_mark){should == "."}
   end
 
+  context "with i18n but use_i18n = false" do
+    before :each do
+      reset_i18n
+      I18n.locale = :de
+      I18n.backend.store_translations(
+        :de, :number => {:currency => {:format => {:delimiter => ".",
+                                                   :separator => ","}}}
+      )
+
+      Money.use_i18n = false
+    end
+
+    after :each do
+      reset_i18n
+      I18n.locale = :en
+      Money.use_i18n = true
+    end
+
+    subject{ Money.new(1000_00, :usd) }
+
+    its(:format){should == "$1,000.00"}
+  end
+
   context "with i18n" do
     after :each do
       reset_i18n
