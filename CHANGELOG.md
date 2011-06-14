@@ -1,3 +1,10 @@
+Money 3.7.1
+===========
+
+Bugfixes
+--------
+- Add encoding indicator to top of Gemspec
+
 Money 3.7.0
 ===========
 
