@@ -125,6 +125,11 @@ describe Money do
     decimal.should be_instance_of(BigDecimal)
     decimal.should == 10.0
   end
+  
+  specify "Money.to_json works" do
+    json = %({"amount":10.0,"currency":"USD"})
+    Money.new(10_00, 'USD').to_json.should == json
+  end
 
   specify "Money.to_d should respect :subunit_to_unit currency property" do
     decimal = Money.new(10_00, "BHD").to_d

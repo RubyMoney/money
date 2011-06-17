@@ -343,6 +343,13 @@ class Money
   def to_money
     self
   end
+  
+  # Return the amount of money as a JSON string.
+  #
+  # @return [String]
+  def to_json
+    JSON.dump(:amount => to_f, :currency => currency.to_s)
+  end
 
   # Common inspect function
   #
