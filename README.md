@@ -1,5 +1,7 @@
 # RubyMoney - Money
 
+[![Build Status](http://travis-ci.org/RubyMoney/money.png)](http://travis-ci.org/RubyMoney/money)
+
 ## Introduction
 
 This library aids one in handling money and different currencies.
