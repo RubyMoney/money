@@ -1,0 +1,9 @@
+rvm:
+  - 1.8.7
+  - 1.9.2
+  - ree
+  - jruby
+  - rubinius
+notifications:
+  recipients:
+    - semmons99@gmail.com
