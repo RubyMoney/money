@@ -29,8 +29,8 @@ rescue LoadError
 end
 
 begin
-  require 'rake/gempackagetask'
-  Rake::GemPackageTask.new(gemspec) do |pkg|
+  require 'rubygems/package_task'
+  Gem::PackageTask.new(gemspec) do |pkg|
     pkg.gem_spec = gemspec
   end
   task :gem => :gemspec
