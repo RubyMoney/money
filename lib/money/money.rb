@@ -184,7 +184,7 @@ class Money
   #
   def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
     @cents = cents.round.to_i
-    @currency = Currency.wrap(currency)
+    @currency = Currency.wrap(currency) || Money.default_currency
     @bank = bank
   end
 
