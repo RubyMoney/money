@@ -15,6 +15,11 @@ describe Money do
       Money.new(0).bank.should be_equal(Money::Bank::VariableExchange.instance)
     end
 
+    it "should assign the default currency" do
+      Money.default_currency = Money::Currency.new("USD")
+      Money.new(1.00, nil).currency.should == Money.default_currency
+    end
+
   end
 
   describe "#cents" do
