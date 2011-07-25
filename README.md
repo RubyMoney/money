@@ -208,7 +208,7 @@ implementations.
 
 ## Ruby on Rails
 
-Use the `compose_of` helper to let Active Record deal with embedding the money
+Use the `composed_of` helper to let Active Record deal with embedding the money
 object in your models. The following example requires 2 columns:
 
 ``` ruby
