@@ -159,7 +159,7 @@ describe Money do
       one_thousand["ZWD"].should == "$1,000.00"
 
       # Yen
-      one_thousand["JPY"].should == "¥1,000.00"
+      one_thousand["JPY"].should == "¥100,000"
       one_thousand["CNY"].should == "¥1,000.00"
 
       # Euro
@@ -261,7 +261,7 @@ describe Money do
       one["ZWD"].should == "$1.00"
 
       # Yen
-      one["JPY"].should == "¥1.00"
+      one["JPY"].should == "¥100"
       one["CNY"].should == "¥1.00"
 
       # Euro
