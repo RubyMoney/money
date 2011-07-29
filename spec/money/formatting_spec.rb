@@ -130,6 +130,14 @@ describe Money do
   end
 
   describe "#format" do
+    context "Japanese Locale" do
+      before { @before = I18n.locale; I18n.locale = :ja }
+      it "should format Japanese currency in Japanese properly" do
+        Money.new(1000, "JPY").format.should == "1,000円"
+      end
+      after { I18n.locale = @before }
+    end
+
     it "returns the monetary value as a string" do
       Money.ca_dollar(100).format.should == "$1.00"
       Money.new(40008).format.should == "$400.08"
