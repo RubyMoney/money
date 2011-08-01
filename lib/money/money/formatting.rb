@@ -1,3 +1,4 @@
+# encoding: UTF-8
 class Money
   module Formatting
 
@@ -142,6 +143,7 @@ class Money
     def format(*rules)
       # support for old format parameters
       rules = normalize_formatting_rules(rules)
+      rules = localize_formatting_rules(rules)
 
       if cents == 0
         if rules[:display_free].respond_to?(:to_str)
@@ -187,7 +189,12 @@ class Money
         end
 
       if symbol_value && !symbol_value.empty?
-        formatted = (symbol_position == :before ? "#{symbol_value}#{formatted}" : "#{formatted} #{symbol_value}")
+        formatted = if symbol_position == :before 
+          "#{symbol_value}#{formatted}"
+        else
+          symbol_space = rules[:symbol_after_without_space] ? "" : " "
+          "#{formatted}#{symbol_space}#{symbol_value}"
+        end
       end
 
       if rules.has_key?(:decimal_mark) and rules[:decimal_mark] and
@@ -240,5 +247,14 @@ class Money
       end
       rules
     end
+  end
+
+  def localize_formatting_rules(rules)
+    if currency.iso_code == "JPY" && I18n.locale == :ja
+      rules[:symbol] = "円"
+      rules[:symbol_position] = :after
+      rules[:symbol_after_without_space] = true
+    end
+    rules
   end
 end
