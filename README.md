@@ -236,5 +236,5 @@ composed_of :price,
   :constructor => Proc.new { |cents, currency| Money.new(cents || 0, currency || Money.default_currency) }
 ```
 
-For further details read the full discussion
+Note the difference in the currency column mapping (currency_as_string vs. currency) - this matters!  For further details read the full discussion
 [here](http://github.com/RubyMoney/money/issues/4#comment_224880).
