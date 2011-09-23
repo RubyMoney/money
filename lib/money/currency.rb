@@ -7,6 +7,7 @@ class Money
   # Represents a specific currency unit.
   class Currency
     include Comparable
+    extend  CurrencyLoader
 
     # Thrown when an unknown currency is requested.
     class UnknownCurrency < StandardError; end
@@ -23,12 +24,7 @@ class Money
     # See http://en.wikipedia.org/wiki/List_of_circulating_currencies and
     # http://search.cpan.org/~tnguyen/Locale-Currency-Format-1.28/Format.pm
 
-    path_to_currency_data = File.dirname(__FILE__) + '/data/'
-
-    TABLE = JSON.parse(File.read(path_to_currency_data + 'currency.json'))
-
-    # currencies kept for backwards compatibility
-    TABLE.merge!(JSON.parse(File.read(path_to_currency_data + 'currency_bc.json')))
+    TABLE = load_currencies
 
 
     # The symbol used to identify the currency, usually the lowercase
@@ -116,7 +112,7 @@ class Money
     # @example
     #   Money::Currency.new(:usd) #=> #<Money::Currency id: usd ...>
     def initialize(id)
-      @id  = id.to_s.downcase
+      @id  = id.to_s.downcase.to_sym
       data = TABLE[@id] || raise(UnknownCurrency, "Unknown currency `#{id}'")
       data.each_pair do |key, value|
         instance_variable_set(:"@#{key}", value)
@@ -231,7 +227,7 @@ class Money
       #   Money::Currency.find(:eur) #=> #<Money::Currency id: eur ...>
       #   Money::Currency.find(:foo) #=> nil
       def find(id)
-        id = id.to_s.downcase
+        id = id.to_s.downcase.to_sym
         new(id) if self::TABLE[id]
       end
 
