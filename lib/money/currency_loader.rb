@@ -1,7 +1,9 @@
+require 'pathname'
+
 module CurrencyLoader
   extend self
 
-  DATA_PATH = File.dirname(__FILE__) + '/../../config/'
+  DATA_PATH = Pathname.new(__FILE__).dirname + "../../config/"
 
   # Loads and returns the currencies stored in JSON files in the config directory.
   #
