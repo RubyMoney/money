@@ -20,12 +20,12 @@ Gem::Specification.new do |s|
   s.rubyforge_project         = "money"
 
   s.add_dependency "i18n", "~> 0.4"
+  s.add_dependency "json"
 
   s.add_development_dependency "rspec", ">= 2.0.0"
   s.add_development_dependency "yard"
-  s.add_development_dependency "json"
 
-  s.requirements << "json if you plan to import/export rates formatted as json"
+  s.requirements << "json"
 
   s.files =  Dir.glob("{lib,spec}/**/*")
   s.files += %w(CHANGELOG.md LICENSE README.md)
