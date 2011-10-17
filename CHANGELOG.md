@@ -1,3 +1,10 @@
+master
+===========
+
+Bugfixes
+--------
+- EEK currency is no longer used, kept for BC ([#issue/110](http://github.com/RubyMoney/money/issues/110))
+
 Money 3.7.1
 ===========
 

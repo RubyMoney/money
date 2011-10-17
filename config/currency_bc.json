@@ -1,4 +1,16 @@
 {
+  "eek": {
+    "priority": 100,
+    "iso_code": "EEK",
+    "name": "Estonian Kroon",
+    "symbol": "KR",
+    "subunit": "Sent",
+    "subunit_to_unit": 100,
+    "symbol_first": false,
+    "html_entity": "",
+    "decimal_mark": ".",
+    "thousands_separator": ","
+  },
   "yen": {
     "priority": 100,
     "iso_code": "JPY",
