@@ -205,6 +205,7 @@ implementations.
 - [eu_central_bank](http://github.com/RubyMoney/eu_central_bank)
 - [google_currency](http://github.com/RubyMoney/google_currency)
 - [nordea](https://github.com/k33l0r/nordea)
+- [nbrb_currency](https://github.com/slbug/nbrb_currency)
 
 ## Ruby on Rails
 
