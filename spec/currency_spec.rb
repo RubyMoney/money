@@ -81,16 +81,7 @@ describe Money::Currency do
   end
 
   specify "#self.find should return nil unless currency matching given id" do
-    with_custom_definitions do
-      Money::Currency::TABLE[:usd] = JSON.parse(%Q({ "priority": 1, "iso_code": "USD", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": "," }))
-      Money::Currency::TABLE[:eur] = JSON.parse(%Q({ "priority": 2, "iso_code": "EUR", "iso_numeric": "978", "name": "Euro", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": false, "html_entity": "&#x20AC;", "decimal_mark": ",", "thousands_separator": "." }))
-
-      expected = Money::Currency.new(:eur)
-      Money::Currency.find(:eur).should  == expected
-      Money::Currency.find(:EUR).should  == expected
-      Money::Currency.find("eur").should == expected
-      Money::Currency.find("EUR").should == expected
-    end
+    Money::Currency.find("ZZZ").should be_nil
   end
 
   specify "#self.wrap should return nil if object is nil" do
