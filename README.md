@@ -93,6 +93,7 @@ object and the value is a hash containing all the currency attributes.
  Money::Currency::TABLE[:usd] = {
   :priority        => 1,
   :iso_code        => "USD",
+  :iso_numeric     => "840",
   :name            => "United States Dollar",
   :symbol          => "$",
   :subunit         => "Cent"
@@ -106,6 +107,7 @@ The pre-defined set of attributes includes:
 
 - `:priority` a numerical value you can use to sort/group the currency list
 - `:iso_code` the international 3-letter code as defined by the ISO 4217 standard
+- `:iso_numeric` the international 3-digit code as defined by the ISO 4217 standard
 - `:name` the currency name
 - `:symbol` the currency symbol (UTF-8 encoded)
 - `:subunit` the name of the fractional monetary unit
