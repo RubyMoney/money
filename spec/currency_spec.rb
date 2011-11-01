@@ -4,21 +4,17 @@ require "spec_helper"
 
 describe Money::Currency do
 
-  specify "#initialize should lookup data from TABLE" do
-    with_custom_definitions do
-      Money::Currency::TABLE[:usd] = JSON.parse(%Q({ "priority": 1, "iso_code": "USD", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": "," }))
-      Money::Currency::TABLE[:eur] = JSON.parse(%Q({ "priority": 2, "iso_code": "EUR", "name": "Euro", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": false, "html_entity": "&#x20AC;", "decimal_mark": ",", "thousands_separator": "." }))
-
+  specify "#initialize should lookup data from loaded config" do
       currency = Money::Currency.new("USD")
-      currency.id.should        == :usd
-      currency.priority.should  == 1
-      currency.iso_code.should  == "USD"
-      currency.name.should      == "United States Dollar"
-      currency.decimal_mark.should == "."
-      currency.separator.should == "."
+      currency.id.should                  == :usd
+      currency.priority.should            == 1
+      currency.iso_code.should            == "USD"
+      currency.iso_numeric.should         == "840"
+      currency.name.should                == "United States Dollar"
+      currency.decimal_mark.should        == "."
+      currency.separator.should           == "."
       currency.thousands_separator.should == ","
-      currency.delimiter.should == ","
-    end
+      currency.delimiter.should           == ","
   end
 
   specify "#initialize should raise UnknownMoney::Currency with unknown currency" do
@@ -67,14 +63,14 @@ describe Money::Currency do
 
   specify "#inspect" do
     Money::Currency.new(:usd).inspect.should ==
-    %Q{#<Money::Currency id: usd, priority: 1, symbol_first: true, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, iso_code: USD, subunit: Cent>}
+    %Q{#<Money::Currency id: usd, priority: 1, symbol_first: true, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, iso_code: USD, iso_numeric: 840, subunit: Cent>}
   end
 
 
   specify "#self.find should return currency matching given id" do
     with_custom_definitions do
-      Money::Currency::TABLE[:usd] = JSON.parse(%Q({ "priority": 1, "iso_code": "USD", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": "," }))
-      Money::Currency::TABLE[:eur] = JSON.parse(%Q({ "priority": 2, "iso_code": "EUR", "name": "Euro", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": false, "html_entity": "&#x20AC;", "decimal_mark": ",", "thousands_separator": "." }))
+      Money::Currency::TABLE[:usd] = JSON.parse(%Q({ "priority": 1, "iso_code": "USD", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": "," }))
+      Money::Currency::TABLE[:eur] = JSON.parse(%Q({ "priority": 2, "iso_code": "EUR", "iso_numeric": "978", "name": "Euro", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": false, "html_entity": "&#x20AC;", "decimal_mark": ",", "thousands_separator": "." }))
 
       expected = Money::Currency.new(:eur)
       Money::Currency.find(:eur).should  == expected
@@ -86,8 +82,8 @@ describe Money::Currency do
 
   specify "#self.find should return nil unless currency matching given id" do
     with_custom_definitions do
-      Money::Currency::TABLE[:usd] = JSON.parse(%Q({ "priority": 1, "iso_code": "USD", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": "," }))
-      Money::Currency::TABLE[:eur] = JSON.parse(%Q({ "priority": 2, "iso_code": "EUR", "name": "Euro", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": false, "html_entity": "&#x20AC;", "decimal_mark": ",", "thousands_separator": "." }))
+      Money::Currency::TABLE[:usd] = JSON.parse(%Q({ "priority": 1, "iso_code": "USD", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": "," }))
+      Money::Currency::TABLE[:eur] = JSON.parse(%Q({ "priority": 2, "iso_code": "EUR", "iso_numeric": "978", "name": "Euro", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": false, "html_entity": "&#x20AC;", "decimal_mark": ",", "thousands_separator": "." }))
 
       expected = Money::Currency.new(:eur)
       Money::Currency.find(:eur).should  == expected
