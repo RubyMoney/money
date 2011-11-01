@@ -1,9 +1,35 @@
-master
+Money 4.0.0
 ===========
+
+The big change this release is moving the currency information into a JSON
+file. This should make it easier for users to add and test things. Thanks to
+Steve Morris for working on this during his Mendicant University course.
+
+In addition to this big change there were well over a dozen other minor
+changes.
+
+Features
+--------
+- a new exchange bank nordea has been added to the README. (k33l0r)
+- a new exchange bank nbrb_currency has been added to the README. (slbug)
+- update Rake tasks
+- See our CI status in the README
+- Add syntax highlighting to the README (phlipper)
+- Remove minor unit from YEN (pwim)
+- Format YEN (pwim)
+- Update README for `_as_string` (mjankowski)
+- Update Lebanon currency (kaleemullah)
+- Update Polish złoty (holek)
+- Move currency information into JSON storage! (stevemorris)
+- Add ISO4217 Numeric codes (alovak)
 
 Bugfixes
 --------
 - EEK currency is no longer used, kept for BC ([#issue/110](http://github.com/RubyMoney/money/issues/110))
+- Lithuanian Litas symbol position fixed (laurynas)
+- Fixed README typos (phlipper)
+- Fixed README typos (pwim)
+- Fix specs (alovak)
 
 Money 3.7.1
 ===========
