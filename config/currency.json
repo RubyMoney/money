@@ -9,7 +9,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "784"
   },
   "afn": {
     "priority": 100,
@@ -21,7 +22,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "971"
   },
   "all": {
     "priority": 100,
@@ -33,7 +35,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "008"
   },
   "amd": {
     "priority": 100,
@@ -45,7 +48,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "051"
   },
   "ang": {
     "priority": 100,
@@ -57,7 +61,8 @@
     "symbol_first": true,
     "html_entity": "&#x0192;",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "532"
   },
   "aoa": {
     "priority": 100,
@@ -69,7 +74,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "973"
   },
   "ars": {
     "priority": 100,
@@ -81,7 +87,8 @@
     "symbol_first": true,
     "html_entity": "&#x20B1;",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "032"
   },
   "aud": {
     "priority": 4,
@@ -93,7 +100,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "036"
   },
   "awg": {
     "priority": 100,
@@ -105,7 +113,8 @@
     "symbol_first": false,
     "html_entity": "&#x0192;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "533"
   },
   "azn": {
     "priority": 100,
@@ -117,7 +126,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "944"
   },
   "bam": {
     "priority": 100,
@@ -129,7 +139,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "977"
   },
   "bbd": {
     "priority": 100,
@@ -141,7 +152,8 @@
     "symbol_first": false,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "052"
   },
   "bdt": {
     "priority": 100,
@@ -153,7 +165,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "050"
   },
   "bgn": {
     "priority": 100,
@@ -165,7 +178,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "975"
   },
   "bhd": {
     "priority": 100,
@@ -177,7 +191,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "048"
   },
   "bif": {
     "priority": 100,
@@ -189,7 +204,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "108"
   },
   "bmd": {
     "priority": 100,
@@ -201,7 +217,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "060"
   },
   "bnd": {
     "priority": 100,
@@ -213,7 +230,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "096"
   },
   "bob": {
     "priority": 100,
@@ -225,7 +243,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "068"
   },
   "brl": {
     "priority": 100,
@@ -237,7 +256,8 @@
     "symbol_first": true,
     "html_entity": "R$",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "986"
   },
   "bsd": {
     "priority": 100,
@@ -249,7 +269,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "044"
   },
   "btn": {
     "priority": 100,
@@ -261,7 +282,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "064"
   },
   "bwp": {
     "priority": 100,
@@ -273,7 +295,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "072"
   },
   "byr": {
     "priority": 100,
@@ -285,7 +308,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "974"
   },
   "bzd": {
     "priority": 100,
@@ -297,7 +321,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "084"
   },
   "cad": {
     "priority": 5,
@@ -309,7 +334,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "124"
   },
   "cdf": {
     "priority": 100,
@@ -321,7 +347,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "976"
   },
   "chf": {
     "priority": 100,
@@ -333,7 +360,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "756"
   },
   "clp": {
     "priority": 100,
@@ -345,7 +373,8 @@
     "symbol_first": true,
     "html_entity": "&#x20B1;",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "152"
   },
   "cny": {
     "priority": 100,
@@ -357,7 +386,8 @@
     "symbol_first": true,
     "html_entity": "&#x5713;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "156"
   },
   "cop": {
     "priority": 100,
@@ -369,7 +399,8 @@
     "symbol_first": true,
     "html_entity": "&#x20B1;",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "170"
   },
   "crc": {
     "priority": 100,
@@ -381,7 +412,8 @@
     "symbol_first": true,
     "html_entity": "&#x20A1;",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "188"
   },
   "cuc": {
     "priority": 100,
@@ -393,7 +425,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "931"
   },
   "cup": {
     "priority": 100,
@@ -405,7 +438,8 @@
     "symbol_first": true,
     "html_entity": "&#x20B1;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "192"
   },
   "cve": {
     "priority": 100,
@@ -417,7 +451,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "132"
   },
   "czk": {
     "priority": 100,
@@ -429,7 +464,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "203"
   },
   "djf": {
     "priority": 100,
@@ -441,7 +477,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "262"
   },
   "dkk": {
     "priority": 100,
@@ -453,7 +490,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "208"
   },
   "dop": {
     "priority": 100,
@@ -465,7 +503,8 @@
     "symbol_first": true,
     "html_entity": "&#x20B1;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "214"
   },
   "dzd": {
     "priority": 100,
@@ -477,7 +516,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "012"
   },
   "egp": {
     "priority": 100,
@@ -489,7 +529,8 @@
     "symbol_first": true,
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "818"
   },
   "ern": {
     "priority": 100,
@@ -501,7 +542,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "232"
   },
   "etb": {
     "priority": 100,
@@ -513,7 +555,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "230"
   },
   "eur": {
     "priority": 2,
@@ -525,7 +568,8 @@
     "symbol_first": false,
     "html_entity": "&#x20AC;",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "978"
   },
   "fjd": {
     "priority": 100,
@@ -537,7 +581,8 @@
     "symbol_first": false,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "242"
   },
   "fkp": {
     "priority": 100,
@@ -549,7 +594,8 @@
     "symbol_first": false,
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "238"
   },
   "gbp": {
     "priority": 3,
@@ -561,7 +607,8 @@
     "symbol_first": true,
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "826"
   },
   "gel": {
     "priority": 100,
@@ -573,7 +620,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "981"
   },
   "ghs": {
     "priority": 100,
@@ -585,7 +633,8 @@
     "symbol_first": true,
     "html_entity": "&#x20B5;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "936"
   },
   "gip": {
     "priority": 100,
@@ -597,7 +646,8 @@
     "symbol_first": true,
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "292"
   },
   "gmd": {
     "priority": 100,
@@ -609,7 +659,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "270"
   },
   "gnf": {
     "priority": 100,
@@ -621,7 +672,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "324"
   },
   "gtq": {
     "priority": 100,
@@ -633,7 +685,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "320"
   },
   "gyd": {
     "priority": 100,
@@ -645,7 +698,8 @@
     "symbol_first": false,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "328"
   },
   "hkd": {
     "priority": 100,
@@ -657,7 +711,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "344"
   },
   "hnl": {
     "priority": 100,
@@ -669,7 +724,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "340"
   },
   "hrk": {
     "priority": 100,
@@ -681,7 +737,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "191"
   },
   "htg": {
     "priority": 100,
@@ -693,7 +750,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "332"
   },
   "huf": {
     "priority": 100,
@@ -705,7 +763,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "348"
   },
   "idr": {
     "priority": 100,
@@ -717,7 +776,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "360"
   },
   "ils": {
     "priority": 100,
@@ -729,7 +789,8 @@
     "symbol_first": true,
     "html_entity": "&#x20AA;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "376"
   },
   "inr": {
     "priority": 100,
@@ -741,7 +802,8 @@
     "symbol_first": true,
     "html_entity": "&#x20A8;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "356"
   },
   "iqd": {
     "priority": 100,
@@ -753,7 +815,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "368"
   },
   "irr": {
     "priority": 100,
@@ -765,7 +828,8 @@
     "symbol_first": true,
     "html_entity": "&#xFDFC;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "364"
   },
   "isk": {
     "priority": 100,
@@ -777,7 +841,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "352"
   },
   "jmd": {
     "priority": 100,
@@ -789,7 +854,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "388"
   },
   "jod": {
     "priority": 100,
@@ -801,7 +867,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "400"
   },
   "jpy": {
     "priority": 6,
@@ -813,7 +880,8 @@
     "symbol_first": true,
     "html_entity": "&#x00A5;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "392"
   },
   "kes": {
     "priority": 100,
@@ -825,7 +893,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "404"
   },
   "kgs": {
     "priority": 100,
@@ -837,7 +906,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "417"
   },
   "khr": {
     "priority": 100,
@@ -849,7 +919,8 @@
     "symbol_first": false,
     "html_entity": "&#x17DB;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "116"
   },
   "kmf": {
     "priority": 100,
@@ -861,7 +932,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "174"
   },
   "kpw": {
     "priority": 100,
@@ -873,7 +945,8 @@
     "symbol_first": false,
     "html_entity": "&#x20A9;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "408"
   },
   "krw": {
     "priority": 100,
@@ -885,7 +958,8 @@
     "symbol_first": true,
     "html_entity": "&#x20A9;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "410"
   },
   "kwd": {
     "priority": 100,
@@ -897,7 +971,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "414"
   },
   "kyd": {
     "priority": 100,
@@ -909,7 +984,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "136"
   },
   "kzt": {
     "priority": 100,
@@ -921,7 +997,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "398"
   },
   "lak": {
     "priority": 100,
@@ -933,7 +1010,8 @@
     "symbol_first": false,
     "html_entity": "&#x20AD;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "418"
   },
   "lbp": {
     "priority": 100,
@@ -945,7 +1023,8 @@
     "symbol_first": true,
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "422"
   },
   "lkr": {
     "priority": 100,
@@ -957,7 +1036,8 @@
     "symbol_first": false,
     "html_entity": "&#x0BF9;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "144"
   },
   "lrd": {
     "priority": 100,
@@ -969,7 +1049,8 @@
     "symbol_first": false,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "430"
   },
   "lsl": {
     "priority": 100,
@@ -981,7 +1062,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "426"
   },
   "ltl": {
     "priority": 100,
@@ -993,7 +1075,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "440"
   },
   "lvl": {
     "priority": 100,
@@ -1005,7 +1088,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "428"
   },
   "lyd": {
     "priority": 100,
@@ -1017,7 +1101,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "434"
   },
   "mad": {
     "priority": 100,
@@ -1029,7 +1114,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "504"
   },
   "mdl": {
     "priority": 100,
@@ -1041,7 +1127,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "498"
   },
   "mga": {
     "priority": 100,
@@ -1053,7 +1140,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "969"
   },
   "mkd": {
     "priority": 100,
@@ -1065,7 +1153,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "807"
   },
   "mmk": {
     "priority": 100,
@@ -1077,7 +1166,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "104"
   },
   "mnt": {
     "priority": 100,
@@ -1089,7 +1179,8 @@
     "symbol_first": false,
     "html_entity": "&#x20AE;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "496"
   },
   "mop": {
     "priority": 100,
@@ -1101,7 +1192,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "446"
   },
   "mro": {
     "priority": 100,
@@ -1113,7 +1205,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "478"
   },
   "mur": {
     "priority": 100,
@@ -1125,7 +1218,8 @@
     "symbol_first": true,
     "html_entity": "&#x20A8;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "480"
   },
   "mvr": {
     "priority": 100,
@@ -1137,7 +1231,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "462"
   },
   "mwk": {
     "priority": 100,
@@ -1149,7 +1244,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "454"
   },
   "mxn": {
     "priority": 100,
@@ -1161,7 +1257,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "484"
   },
   "myr": {
     "priority": 100,
@@ -1173,7 +1270,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "458"
   },
   "mzn": {
     "priority": 100,
@@ -1185,7 +1283,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "943"
   },
   "nad": {
     "priority": 100,
@@ -1197,7 +1296,8 @@
     "symbol_first": false,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "516"
   },
   "ngn": {
     "priority": 100,
@@ -1209,7 +1309,8 @@
     "symbol_first": false,
     "html_entity": "&#x20A6;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "566"
   },
   "nio": {
     "priority": 100,
@@ -1221,7 +1322,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "558"
   },
   "nok": {
     "priority": 100,
@@ -1233,7 +1335,8 @@
     "symbol_first": true,
     "html_entity": "kr",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "578"
   },
   "npr": {
     "priority": 100,
@@ -1245,7 +1348,8 @@
     "symbol_first": true,
     "html_entity": "&#x20A8;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "524"
   },
   "nzd": {
     "priority": 100,
@@ -1257,7 +1361,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "554"
   },
   "omr": {
     "priority": 100,
@@ -1269,7 +1374,8 @@
     "symbol_first": true,
     "html_entity": "&#xFDFC;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "512"
   },
   "pab": {
     "priority": 100,
@@ -1281,7 +1387,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "590"
   },
   "pen": {
     "priority": 100,
@@ -1293,7 +1400,8 @@
     "symbol_first": true,
     "html_entity": "S/.",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "604"
   },
   "pgk": {
     "priority": 100,
@@ -1305,7 +1413,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "598"
   },
   "php": {
     "priority": 100,
@@ -1317,7 +1426,8 @@
     "symbol_first": false,
     "html_entity": "&#x20B1;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "608"
   },
   "pkr": {
     "priority": 100,
@@ -1329,7 +1439,8 @@
     "symbol_first": true,
     "html_entity": "&#x20A8;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "586"
   },
   "pln": {
     "priority": 100,
@@ -1341,7 +1452,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "985"
   },
   "pyg": {
     "priority": 100,
@@ -1353,7 +1465,8 @@
     "symbol_first": true,
     "html_entity": "&#x20B2;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "600"
   },
   "qar": {
     "priority": 100,
@@ -1365,7 +1478,8 @@
     "symbol_first": false,
     "html_entity": "&#xFDFC;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "634"
   },
   "ron": {
     "priority": 100,
@@ -1377,7 +1491,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "946"
   },
   "rsd": {
     "priority": 100,
@@ -1389,7 +1504,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "941"
   },
   "rub": {
     "priority": 100,
@@ -1401,7 +1517,8 @@
     "symbol_first": false,
     "html_entity": "&#x0440;&#x0443;&#x0431;",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "643"
   },
   "rwf": {
     "priority": 100,
@@ -1413,7 +1530,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "646"
   },
   "sar": {
     "priority": 100,
@@ -1425,7 +1543,8 @@
     "symbol_first": true,
     "html_entity": "&#xFDFC;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "682"
   },
   "sbd": {
     "priority": 100,
@@ -1437,7 +1556,8 @@
     "symbol_first": false,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "090"
   },
   "scr": {
     "priority": 100,
@@ -1449,7 +1569,8 @@
     "symbol_first": false,
     "html_entity": "&#x20A8;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "690"
   },
   "sdg": {
     "priority": 100,
@@ -1461,7 +1582,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "938"
   },
   "sek": {
     "priority": 100,
@@ -1473,7 +1595,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "752"
   },
   "sgd": {
     "priority": 100,
@@ -1485,7 +1608,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "702"
   },
   "shp": {
     "priority": 100,
@@ -1497,7 +1621,8 @@
     "symbol_first": false,
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "654"
   },
   "skk": {
     "priority": 100,
@@ -1509,7 +1634,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "703"
   },
   "sll": {
     "priority": 100,
@@ -1521,7 +1647,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "694"
   },
   "sos": {
     "priority": 100,
@@ -1533,7 +1660,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "706"
   },
   "srd": {
     "priority": 100,
@@ -1545,7 +1673,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "968"
   },
   "std": {
     "priority": 100,
@@ -1557,7 +1686,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "678"
   },
   "svc": {
     "priority": 100,
@@ -1569,7 +1699,8 @@
     "symbol_first": true,
     "html_entity": "&#x20A1;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "222"
   },
   "syp": {
     "priority": 100,
@@ -1581,7 +1712,8 @@
     "symbol_first": false,
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "760"
   },
   "szl": {
     "priority": 100,
@@ -1593,7 +1725,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "748"
   },
   "thb": {
     "priority": 100,
@@ -1605,7 +1738,8 @@
     "symbol_first": true,
     "html_entity": "&#x0E3F;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "764"
   },
   "tjs": {
     "priority": 100,
@@ -1617,7 +1751,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "972"
   },
   "tmm": {
     "priority": 100,
@@ -1629,7 +1764,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "795"
   },
   "tnd": {
     "priority": 100,
@@ -1641,7 +1777,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "788"
   },
   "top": {
     "priority": 100,
@@ -1653,7 +1790,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "776"
   },
   "try": {
     "priority": 100,
@@ -1665,7 +1803,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "949"
   },
   "ttd": {
     "priority": 100,
@@ -1677,7 +1816,8 @@
     "symbol_first": false,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "780"
   },
   "twd": {
     "priority": 100,
@@ -1689,7 +1829,8 @@
     "symbol_first": false,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "901"
   },
   "tzs": {
     "priority": 100,
@@ -1701,7 +1842,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "834"
   },
   "uah": {
     "priority": 100,
@@ -1713,7 +1855,8 @@
     "symbol_first": false,
     "html_entity": "&#x20B4",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "980"
   },
   "ugx": {
     "priority": 100,
@@ -1725,7 +1868,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "800"
   },
   "usd": {
     "priority": 1,
@@ -1737,7 +1881,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "840"
   },
   "uyu": {
     "priority": 100,
@@ -1749,7 +1894,8 @@
     "symbol_first": true,
     "html_entity": "&#x20B1;",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "858"
   },
   "uzs": {
     "priority": 100,
@@ -1761,7 +1907,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "860"
   },
   "vef": {
     "priority": 100,
@@ -1773,7 +1920,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "937"
   },
   "vnd": {
     "priority": 100,
@@ -1785,7 +1933,8 @@
     "symbol_first": true,
     "html_entity": "&#x20AB;",
     "decimal_mark": ",",
-    "thousands_separator": "."
+    "thousands_separator": ".",
+    "iso_numeric": "704"
   },
   "vuv": {
     "priority": 100,
@@ -1797,7 +1946,8 @@
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "548"
   },
   "wst": {
     "priority": 100,
@@ -1809,7 +1959,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "882"
   },
   "xaf": {
     "priority": 100,
@@ -1821,7 +1972,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "950"
   },
   "xcd": {
     "priority": 100,
@@ -1833,7 +1985,8 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "951"
   },
   "xof": {
     "priority": 100,
@@ -1845,7 +1998,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "952"
   },
   "xpf": {
     "priority": 100,
@@ -1857,7 +2011,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "953"
   },
   "yer": {
     "priority": 100,
@@ -1869,7 +2024,8 @@
     "symbol_first": false,
     "html_entity": "&#xFDFC;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "886"
   },
   "zar": {
     "priority": 100,
@@ -1881,7 +2037,8 @@
     "symbol_first": true,
     "html_entity": "&#x0052;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "710"
   },
   "zmk": {
     "priority": 100,
@@ -1893,7 +2050,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "894"
   },
   "zwd": {
     "priority": 100,
@@ -1905,6 +2063,7 @@
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "716"
   }
 }
