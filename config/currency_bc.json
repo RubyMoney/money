@@ -9,7 +9,8 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "233"
   },
   "yen": {
     "priority": 100,
@@ -21,7 +22,8 @@
     "symbol_first": true,
     "html_entity": "&#x00A5;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": ""
   },
   "ghc": {
     "priority": 100,
@@ -33,6 +35,7 @@
     "symbol_first": true,
     "html_entity": "&#x20B5;",
     "decimal_mark": ".",
-    "thousands_separator": ","
+    "thousands_separator": ",",
+    "iso_numeric": "288"
   }
 }
