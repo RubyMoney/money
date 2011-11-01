@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
 
   s.requirements << "json"
 
-  s.files =  Dir.glob("{lib,spec}/**/*")
+  s.files =  Dir.glob("{config,lib,spec}/**/*")
   s.files += %w(CHANGELOG.md LICENSE README.md)
   s.files += %w(Rakefile .gemtest money.gemspec)
 
