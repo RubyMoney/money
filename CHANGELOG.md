@@ -1,3 +1,10 @@
+Money 4.0.1
+===========
+
+Bugfixes
+--------
+- add missing config dir
+
 Money 4.0.0
 ===========
 
