@@ -1,3 +1,10 @@
+HEAD
+====
+
+Features
+--------
+- force UTF-8 encoding on currency JSON (jduff)
+
 Money 4.0.1
 ===========
 
