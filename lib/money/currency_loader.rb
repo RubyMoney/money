@@ -9,13 +9,15 @@ module CurrencyLoader
   #
   # @return [Hash]
   def load_currencies
-    json = File.read(DATA_PATH + 'currency.json')
-    json.force_encoding(::Encoding::UTF_8) if defined?(::Encoding)
-    currencies = JSON.parse(json, :symbolize_names => true)
+    currencies = parse_currency_file("currency.json")
+    currencies.merge! parse_currency_file("currency_bc.json")
+  end
 
-    # merge the currencies kept for backwards compatibility
-    json = File.read(DATA_PATH + 'currency_bc.json')
+  private
+
+  def parse_currency_file(filename)
+    json = File.read(DATA_PATH + filename)
     json.force_encoding(::Encoding::UTF_8) if defined?(::Encoding)
-    currencies.merge!(JSON.parse(json, :symbolize_names => true))
+    JSON.parse(json, :symbolize_names => true)
   end
 end
