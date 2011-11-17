@@ -208,6 +208,7 @@ implementations.
 - [google_currency](http://github.com/RubyMoney/google_currency)
 - [nordea](https://github.com/k33l0r/nordea)
 - [nbrb_currency](https://github.com/slbug/nbrb_currency)
+- [money-open-exchange-rates](https://github.com/spk/money-open-exchange-rates)
 
 ## Ruby on Rails
 
