@@ -26,6 +26,12 @@ class Money
 
     TABLE = load_currencies
 
+    # Default currency attributes used when creating new currencies from a block
+
+    DEFAULT_CURRENCY_ATTRIBUTES = {
+      :decimal_mark => ".",
+      :thousands_separator => ","
+    }
 
     # The symbol used to identify the currency, usually the lowercase
     # +iso_code+ attribute.
@@ -83,7 +89,7 @@ class Money
     #
     # @return [String]
     attr_reader :thousands_separator
-    alias :delimiter :thousands_separator 
+    alias :delimiter :thousands_separator
 
     # Should the currency symbol precede the amount, or should it come after?
     #
@@ -111,14 +117,21 @@ class Money
     #
     # @param [String, Symbol, #to_s] id Used to look into +TABLE+ and retrieve
     #  the applicable attributes.
+    # @param data An optional hash of currency parameters used to create a new currency
     #
     # @return [Money::Currency]
     #
     # @example
     #   Money::Currency.new(:usd) #=> #<Money::Currency id: usd ...>
-    def initialize(id)
+    def initialize(id, data = nil )
       @id  = id.to_s.downcase.to_sym
-      data = TABLE[@id] || raise(UnknownCurrency, "Unknown currency `#{id}'")
+
+      if data
+        data = DEFAULT_CURRENCY_ATTRIBUTES.merge( data )
+      else
+        data = TABLE[@id] || raise(UnknownCurrency, "Unknown currency `#{id}'")
+      end
+
       data.each_pair do |key, value|
         instance_variable_set(:"@#{key}", value)
       end
