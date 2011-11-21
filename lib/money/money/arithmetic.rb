@@ -242,5 +242,16 @@ class Money
       cents != 0 ? self : nil
     end
 
+
+    # Returns a money object with changed polarity.
+    #
+    # @return [Money]
+    #
+    # @example
+    #    - Money.new(100) #=> #<Money @cents=-100>
+    def -@
+      Money.new(-cents, currency)
+    end
+
   end
 end
