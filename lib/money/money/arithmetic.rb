@@ -242,5 +242,21 @@ class Money
       cents != 0 ? self : nil
     end
 
+
+    # Returns a new Money object containing the difference between the two
+    # operands' monetary values. If +other_money+ has a different currency then
+    # its monetary value is automatically exchanged to this object's currency
+    # using +exchange_to+.
+    #
+    # @param [Money] other_money Other +Money+ object to subtract.
+    #
+    # @return [Money]
+    #
+    # @example
+    #   Money.new(100) - Money.new(99) #=> #<Money @cents=1>
+    def -@
+      Money.new(-cents, currency)
+    end
+
   end
 end
