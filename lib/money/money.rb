@@ -340,8 +340,13 @@ class Money
   # Conversation to +self+.
   #
   # @return [self]
-  def to_money
-    self
+  def to_money(given_currency = nil)
+    given_currency = Currency.wrap(given_currency) if given_currency
+    if given_currency.nil? || self.currency == given_currency
+      self
+    else
+      exchange_to(given_currency)
+    end
   end
 
   # Common inspect function
