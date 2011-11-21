@@ -96,6 +96,14 @@ describe Money do
     intersection.should == [Money.new(1_00, :eur)]
   end
 
+  specify "to_money works" do
+    money = Money.new(10_00, "DKK")
+    money.should == money.to_money
+    money.should == money.to_money("DKK")
+    money.bank.should_receive(:exchange_with).with(Money.new(10_00, Money::Currency.new("DKK")), Money::Currency.new("EUR")).and_return(Money.new(200_00, Money::Currency.new('EUR')))
+    money.to_money("EUR").should == Money.new(200_00, "EUR")
+  end
+
 
   specify "Money.to_s works" do
     Money.new(10_00).to_s.should == "10.00"
