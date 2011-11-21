@@ -412,6 +412,12 @@ describe Money do
     n.should     == Money.new(-1, :USD)
   end
 
+  specify "-@ changes the sign of a number" do
+    (- Money.new(0)).should == Money.new(0)
+    (- Money.new(1)).should == Money.new(-1)
+    (- Money.new(-1)).should == Money.new(1)
+  end
+
   describe "Actions involving two Money objects" do
     describe "if the other Money object has the same currency" do
       specify "#<=> compares the two object amounts" do

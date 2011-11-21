@@ -17,6 +17,27 @@ describe Money::Currency do
       currency.delimiter.should           == ","
   end
 
+  specify "#initialize should accept currency parameters for a new currency" do
+      currency = Money::Currency.new "gamepoints", {
+                                        :priority => 200,
+                                        :name  => "Game Points",
+                                        :subunit_to_unit => 1,
+                                        :symbol => '★'
+                                      }
+
+      currency.id.should                  == :gamepoints
+      currency.priority.should            == 200
+      currency.iso_code.should            == nil
+      currency.iso_numeric.should         == nil
+      currency.name.should                == "Game Points"
+      currency.decimal_mark.should        == "."
+      currency.separator.should           == "."
+      currency.thousands_separator.should == ","
+      currency.delimiter.should           == ","
+      currency.subunit_to_unit.should     == 1
+
+  end
+
   specify "#initialize should raise UnknownMoney::Currency with unknown currency" do
     lambda { Money::Currency.new("xxx") }.should raise_error(Money::Currency::UnknownCurrency, /xxx/)
   end
