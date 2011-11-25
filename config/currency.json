@@ -1423,7 +1423,7 @@
     "symbol": "₱",
     "subunit": "Centavo",
     "subunit_to_unit": 100,
-    "symbol_first": false,
+    "symbol_first": true,
     "html_entity": "&#x20B1;",
     "decimal_mark": ".",
     "thousands_separator": ",",
