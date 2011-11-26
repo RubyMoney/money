@@ -26,6 +26,10 @@ This library aids one in handling money and different currencies.
 - [API Documentation](http://money.rubyforge.org)
 - [Git Repository](http://github.com/RubyMoney/money)
 
+### Note
+
+Your app must use UTF-8 to function with this library. There are a number of non-ASCII currency attributes.
+
 ## Downloading
 
 Install stable releases with the following command:
