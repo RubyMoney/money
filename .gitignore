@@ -24,3 +24,4 @@ Gemfile.lock
 ## PROJECT::SPECIFIC
 .yardoc
 doc
+.rbenv-version
