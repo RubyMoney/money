@@ -66,6 +66,11 @@ describe Money::Currency do
     %Q{#<Money::Currency id: usd, priority: 1, symbol_first: true, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, iso_code: USD, iso_numeric: 840, subunit: Cent>}
   end
 
+  specify "#code" do
+    Money::Currency.new(:usd).code.should == "$"
+    Money::Currency.new(:azn).code.should == "AZN"
+  end
+
 
   specify "#self.find should return currency matching given id" do
     with_custom_definitions do

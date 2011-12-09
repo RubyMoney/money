@@ -58,6 +58,13 @@ class Money
     # @return [String]
     attr_reader :symbol
 
+    # Returns currency symbol or iso code for currencies with no symbol.
+    #
+    # @return [String]
+    def code
+      symbol || iso_code
+    end
+
     # The html entity for the currency symbol
     #
     # @return [String]
