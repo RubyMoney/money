@@ -168,12 +168,7 @@ class Money
           symbol
         end
 
-      formatted = case rules[:no_cents]
-                  when true
-                    "#{self.to_s.to_i}"
-                  else
-                    "#{self.to_s}"
-                  end
+      formatted = rules[:no_cents] ? "#{self.to_s.to_i}" : "#{self.to_s}"
                   
       if rules[:no_cents_if_whole] && cents % currency.subunit_to_unit == 0
         formatted = "#{self.to_s.to_i}"
