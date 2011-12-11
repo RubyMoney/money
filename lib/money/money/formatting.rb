@@ -200,11 +200,7 @@ class Money
       thousands_separator_value = thousands_separator
       # Determine thousands_separator
       if rules.has_key?(:thousands_separator)
-        if rules[:thousands_separator] === false or rules[:thousands_separator].nil?
-          thousands_separator_value = ""
-        elsif rules[:thousands_separator]
-          thousands_separator_value = rules[:thousands_separator]
-        end
+        thousands_separator_value = rules[:thousands_separator] ? rules[:thousands_separator] : ''
       end
 
       # Apply thousands_separator
