@@ -114,7 +114,6 @@ class Money
     Money.new(cents, "EUR")
   end
 
-
   # Creates a new Money object of +amount+ value in dollars,
   # with given +currency+.
   #
@@ -145,6 +144,7 @@ class Money
     money.instance_variable_set("@bank", bank)
     money
   end
+
   # Adds a new exchange rate to the default bank and return the rate.
   #
   # @param [Currency, String, Symbol] from_currency Currency to exchange from.
@@ -211,7 +211,7 @@ class Money
   # @example
   #   Money.new(100, :USD).currency_as_string #=> "USD"
   def currency_as_string
-    self.currency.to_s
+    currency.to_s
   end
 
   # Set currency object using a string
@@ -245,6 +245,13 @@ class Money
   #   Money.new(100, "USD").symbol #=> "$"
   def symbol
     currency.symbol || "¤"
+  end
+
+  # Common inspect function
+  #
+  # @return [String]
+  def inspect
+    "#<Money cents:#{cents} currency:#{currency}>"
   end
 
   # Returns the amount of money as a string.
@@ -285,6 +292,18 @@ class Money
   #   Money.us_dollar(100).to_f => 1.0
   def to_f
     to_d.to_f
+  end
+
+  # Conversation to +self+.
+  #
+  # @return [self]
+  def to_money(given_currency = nil)
+    given_currency = Currency.wrap(given_currency) if given_currency
+    if given_currency.nil? || self.currency == given_currency
+      self
+    else
+      exchange_to(given_currency)
+    end
   end
 
   # Receive the amount of this money object in another Currency.
@@ -337,25 +356,6 @@ class Money
     exchange_to("EUR")
   end
 
-  # Conversation to +self+.
-  #
-  # @return [self]
-  def to_money(given_currency = nil)
-    given_currency = Currency.wrap(given_currency) if given_currency
-    if given_currency.nil? || self.currency == given_currency
-      self
-    else
-      exchange_to(given_currency)
-    end
-  end
-
-  # Common inspect function
-  #
-  # @return [String]
-  def inspect
-    "#<Money cents:#{cents} currency:#{currency}>"
-  end
-
   # Allocates money between different parties without loosing pennies.
   # After the mathmatically split has been performed, left over pennies will
   # be distributed round-robin amongst the parties. This means that parties
@@ -382,7 +382,7 @@ class Money
 
     left_over.times { |i| amounts[i % amounts.length] += 1 }
 
-    return amounts.collect { |cents| Money.new(cents, currency) }
+    amounts.collect { |cents| Money.new(cents, currency) }
   end
 
   # Split money amongst parties evenly without loosing pennies.
@@ -405,6 +405,7 @@ class Money
       result[index] = index < remainder ? high : low
     end
 
-    return result
+    result
   end
+
 end

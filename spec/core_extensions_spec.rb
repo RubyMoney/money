@@ -1,10 +1,10 @@
 require "spec_helper"
 
-describe "Money core extensions" do
+describe Money, "core extensions" do
 
   describe Numeric do
     describe "#to_money" do
-      it "should work" do
+      it "work as documented" do
         money = 1234.to_money
         money.cents.should == 1234_00
         money.currency.should == Money.default_currency
@@ -18,18 +18,18 @@ describe "Money core extensions" do
         money.currency.should == Money.default_currency
       end
 
-      it "should accept optional currency" do
+      it "accepts optional currency" do
         1234.to_money('USD').should == Money.new(123400, 'USD')
         1234.to_money('EUR').should == Money.new(123400, 'EUR')
       end
 
-      it "should respect :subunit_to_unit currency property" do
+      it "respects :subunit_to_unit currency property" do
         10.to_money('USD').should == Money.new(10_00, 'USD')
         10.to_money('TND').should == Money.new(10_000, 'TND')
         10.to_money('CLP').should == Money.new(10, 'CLP')
       end
 
-      specify "#issue/15" do
+      specify "GH-15" do
         amount = 555.55.to_money
         amount.should == Money.new(55555)
       end
@@ -39,7 +39,7 @@ describe "Money core extensions" do
   describe String do
     describe "#to_money" do
 
-      StringToMoney = {
+      STRING_TO_MONEY = {
         "20.15"           => Money.new(20_15)             ,
         "100"             => Money.new(100_00)            ,
         "100.37"          => Money.new(100_37)            ,
@@ -94,31 +94,31 @@ describe "Money core extensions" do
         "$1.99000 USD"    => Money.new(1_99, "USD")       ,
       }
 
-      specify "it should work" do
-        StringToMoney.each do |string, money|
+      it "works as documented" do
+        STRING_TO_MONEY.each do |string, money|
           string.to_money.should == money
         end
       end
 
-      it "should coerce input to string" do
+      it "coerces input to string" do
         Money.parse(20, "USD").should == Money.new(20_00, "USD")
       end
 
-      it "should accept optional currency" do
+      it "accepts optional currency" do
         "10.10".to_money('USD').should == Money.new(1010, 'USD')
         "10.10".to_money('EUR').should == Money.new(1010, 'EUR')
         "10.10 USD".to_money('USD').should == Money.new(1010, 'USD')
       end
 
-      it "should raise error if optional currency doesn't match string currency" do
-        lambda{ "10.10 USD".to_money('EUR') }.should raise_error(/Mismatching Currencies/)
+      it "raises error if optional currency doesn't match string currency" do
+        expect { "10.10 USD".to_money('EUR') }.to raise_error(/Mismatching Currencies/)
       end
 
-      it "should ignore unrecognized data" do
+      it "ignores unrecognized data" do
         "hello 2000 world".to_money.should == Money.new(2000_00)
       end
 
-      it "should respect :subunit_to_unit currency property" do
+      it "respects :subunit_to_unit currency property" do
         "1".to_money("USD").should == Money.new(1_00,  "USD")
         "1".to_money("TND").should == Money.new(1_000, "TND")
         "1".to_money("CLP").should == Money.new(1,     "CLP")
@@ -127,30 +127,32 @@ describe "Money core extensions" do
     end
 
     describe "#to_currency" do
-      it "should convert string to Currency" do
-        "USD".to_currency.should == Money::Currency.new(:usd)
-        "EUR".to_currency.should == Money::Currency.new(:eur)
+      it "converts String to Currency" do
+        "USD".to_currency.should == Money::Currency.new("USD")
+        "EUR".to_currency.should == Money::Currency.new("EUR")
       end
 
-      it "should raise Money::Currency::UnknownCurrency with unknown Currency" do
-        lambda { "XXX".to_currency }.should raise_error(Money::Currency::UnknownCurrency)
-        lambda { " ".to_currency }.should raise_error(Money::Currency::UnknownCurrency)
+      it "raises Money::Currency::UnknownCurrency with unknown Currency" do
+        expect { "XXX".to_currency }.to raise_error(Money::Currency::UnknownCurrency)
+        expect { " ".to_currency }.to raise_error(Money::Currency::UnknownCurrency)
       end
     end
   end
 
   describe Symbol do
     describe "#to_currency" do
-      it "should convert symbol to Currency" do
-        :usd.to_currency.should == Money::Currency.new(:usd)
-        :ars.to_currency.should == Money::Currency.new(:ars)
+      it "converts Symbol to Currency" do
+        :usd.to_currency.should == Money::Currency.new("USD")
+        :ars.to_currency.should == Money::Currency.new("ARS")
       end
-      it "should work case-insensitive" do
-        :EUR.to_currency.should == Money::Currency.new(:eur)
+
+      it "is case-insensitive" do
+        :EUR.to_currency.should == Money::Currency.new("EUR")
       end
-      it "should raise Money::Currency::UnknownCurrency with unknown Currency" do
-        lambda { :XXX.to_currency }.should raise_error(Money::Currency::UnknownCurrency)
-        lambda { :" ".to_currency }.should raise_error(Money::Currency::UnknownCurrency)
+
+      it "raises Money::Currency::UnknownCurrency with unknown Currency" do
+        expect { :XXX.to_currency }.to raise_error(Money::Currency::UnknownCurrency)
+        expect { :" ".to_currency }.to raise_error(Money::Currency::UnknownCurrency)
       end
     end
   end
