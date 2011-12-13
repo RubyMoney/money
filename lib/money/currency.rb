@@ -58,13 +58,6 @@ class Money
     # @return [String]
     attr_reader :symbol
 
-    # Returns currency symbol or iso code for currencies with no symbol.
-    #
-    # @return [String]
-    def code
-      symbol || iso_code
-    end
-
     # The html entity for the currency symbol
     #
     # @return [String]
@@ -97,22 +90,49 @@ class Money
     # @return [boolean]
     attr_reader :symbol_first
 
-    def symbol_first?
-      !!@symbol_first
-    end
 
-    # The number of decimal places needed.
-    #
-    # @return [Integer]
-    def decimal_places
-      if subunit_to_unit == 1
-        0
-      elsif subunit_to_unit % 10 == 0
-        Math.log10(subunit_to_unit).to_s.to_i
-      else
-        Math.log10(subunit_to_unit).to_s.to_i+1
+    class << self
+
+      # Lookup a currency with given +id+ an returns a +Currency+ instance on
+      # success, +nil+ otherwise.
+      #
+      # @param [String, Symbol, #to_s] id Used to look into +TABLE+ and
+      # retrieve the applicable attributes.
+      #
+      # @return [Money::Currency]
+      #
+      # @example
+      #   Money::Currency.find(:eur) #=> #<Money::Currency id: eur ...>
+      #   Money::Currency.find(:foo) #=> nil
+      def find(id)
+        id = id.to_s.downcase.to_sym
+        new(id) if self::TABLE[id]
+      end
+
+      # Wraps the object in a +Currency+ unless it's already a +Currency+
+      # object.
+      #
+      # @param [Object] object The object to attempt and wrap as a +Currency+
+      # object.
+      #
+      # @return [Money::Currency]
+      #
+      # @example
+      #   c1 = Money::Currency.new(:usd)
+      #   Money::Currency.wrap(nil)   #=> nil
+      #   Money::Currency.wrap(c1)    #=> #<Money::Currency id: usd ...>
+      #   Money::Currency.wrap("usd") #=> #<Money::Currency id: usd ...>
+      def wrap(object)
+        if object.nil?
+          nil
+        elsif object.is_a?(Currency)
+          object
+        else
+          Currency.new(object)
+        end
       end
     end
+
 
     # Create a new +Currency+ object.
     #
@@ -192,6 +212,16 @@ class Money
       id.hash
     end
 
+    # Returns a human readable representation.
+    #
+    # @return [String]
+    #
+    # @example
+    #   Money::Currency.new(:usd) #=> #<Currency id: usd ...>
+    def inspect
+      "#<#{self.class.name} id: #{id}, priority: #{priority}, symbol_first: #{symbol_first}, thousands_separator: #{thousands_separator}, html_entity: #{html_entity}, decimal_mark: #{decimal_mark}, name: #{name}, symbol: #{symbol}, subunit_to_unit: #{subunit_to_unit}, iso_code: #{iso_code}, iso_numeric: #{iso_numeric}, subunit: #{subunit}>"
+    end
+
     # Returns a string representation corresponding to the upcase +id+
     # attribute.
     #
@@ -214,57 +244,30 @@ class Money
       self
     end
 
-    # Returns a human readable representation.
+
+    # Returns currency symbol or iso code for currencies with no symbol.
     #
     # @return [String]
+    def code
+      symbol || iso_code
+    end
+
+    def symbol_first?
+      !!@symbol_first
+    end
+
+    # The number of decimal places needed.
     #
-    # @example
-    #   Money::Currency.new(:usd) #=> #<Currency id: usd ...>
-    def inspect
-      "#<#{self.class.name} id: #{id}, priority: #{priority}, symbol_first: #{symbol_first}, thousands_separator: #{thousands_separator}, html_entity: #{html_entity}, decimal_mark: #{decimal_mark}, name: #{name}, symbol: #{symbol}, subunit_to_unit: #{subunit_to_unit}, iso_code: #{iso_code}, iso_numeric: #{iso_numeric}, subunit: #{subunit}>"
-    end
-
-    # Class Methods
-    class << self
-
-      # Lookup a currency with given +id+ an returns a +Currency+ instance on
-      # success, +nil+ otherwise.
-      #
-      # @param [String, Symbol, #to_s] id Used to look into +TABLE+ and
-      # retrieve the applicable attributes.
-      #
-      # @return [Money::Currency]
-      #
-      # @example
-      #   Money::Currency.find(:eur) #=> #<Money::Currency id: eur ...>
-      #   Money::Currency.find(:foo) #=> nil
-      def find(id)
-        id = id.to_s.downcase.to_sym
-        new(id) if self::TABLE[id]
-      end
-
-      # Wraps the object in a +Currency+ unless it's already a +Currency+
-      # object.
-      #
-      # @param [Object] object The object to attempt and wrap as a +Currency+
-      # object.
-      #
-      # @return [Money::Currency]
-      #
-      # @example
-      #   c1 = Money::Currency.new(:usd)
-      #   Money::Currency.wrap(nil)   #=> nil
-      #   Money::Currency.wrap(c1)    #=> #<Money::Currency id: usd ...>
-      #   Money::Currency.wrap("usd") #=> #<Money::Currency id: usd ...>
-      def wrap(object)
-        if object.nil?
-          nil
-        elsif object.is_a?(Currency)
-          object
-        else
-          Currency.new(object)
-        end
+    # @return [Integer]
+    def decimal_places
+      if subunit_to_unit == 1
+        0
+      elsif subunit_to_unit % 10 == 0
+        Math.log10(subunit_to_unit).to_s.to_i
+      else
+        Math.log10(subunit_to_unit).to_s.to_i+1
       end
     end
+
   end
 end
