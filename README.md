@@ -26,6 +26,10 @@ This library aids one in handling money and different currencies.
 - [API Documentation](http://money.rubyforge.org)
 - [Git Repository](http://github.com/RubyMoney/money)
 
+### Note
+
+Your app must use UTF-8 to function with this library. There are a number of non-ASCII currency attributes.
+
 ## Downloading
 
 Install stable releases with the following command:
@@ -209,6 +213,7 @@ implementations.
 - [nordea](https://github.com/k33l0r/nordea)
 - [nbrb_currency](https://github.com/slbug/nbrb_currency)
 - [money-open-exchange-rates](https://github.com/spk/money-open-exchange-rates)
+- [money-historical-bank](https://github.com/coutud/money-historical-bank)
 
 ## Ruby on Rails
 

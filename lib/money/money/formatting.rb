@@ -168,12 +168,7 @@ class Money
           symbol
         end
 
-      formatted = case rules[:no_cents]
-                  when true
-                    "#{self.to_s.to_i}"
-                  else
-                    "#{self.to_s}"
-                  end
+      formatted = rules[:no_cents] ? "#{self.to_s.to_i}" : self.to_s
                   
       if rules[:no_cents_if_whole] && cents % currency.subunit_to_unit == 0
         formatted = "#{self.to_s.to_i}"
@@ -205,11 +200,7 @@ class Money
       thousands_separator_value = thousands_separator
       # Determine thousands_separator
       if rules.has_key?(:thousands_separator)
-        if rules[:thousands_separator] === false or rules[:thousands_separator].nil?
-          thousands_separator_value = ""
-        elsif rules[:thousands_separator]
-          thousands_separator_value = rules[:thousands_separator]
-        end
+        thousands_separator_value = rules[:thousands_separator] || ''
       end
 
       # Apply thousands_separator
