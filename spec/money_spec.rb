@@ -35,7 +35,7 @@ describe Money do
       Money.new_with_dollars(BigDecimal.new('1234')).cents.should == 1234_00
     end
 
-    it "accepts a currency option" do
+    it "accepts optional currency" do
       m = Money.new_with_dollars(1)
       m.currency.should == Money.default_currency
 
@@ -46,7 +46,7 @@ describe Money do
       m.currency.should == Money::Currency.wrap("EUR")
     end
 
-    it "accepts a bank option" do
+    it "accepts optional bank" do
       m = Money.new_with_dollars(1)
       m.bank.should == Money.default_bank
 
