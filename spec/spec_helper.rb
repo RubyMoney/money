@@ -13,6 +13,13 @@ RSpec.configure do |config|
 end
 
 
+# Sets $VERBOSE to nil for the duration of the block and back to its original value afterwards.
+#
+#   silence_warnings do
+#     value = noisy_call # no warning voiced
+#   end
+#
+#   noisy_call # warning voiced
 def silence_warnings
   old_verbose, $VERBOSE = $VERBOSE, nil
   yield
@@ -22,16 +29,4 @@ end
 
 def reset_i18n
   I18n.backend = I18n::Backend::Simple.new
-end
-
-def store_number_currency_formats(locale)
-  I18n.backend.store_translations(locale,
-                                  :number => {
-                                      :currency => {
-                                          :format => {
-                                              :delimiter => ",",
-                                              :separator => "."
-                                          }
-                                      }
-                                  })
 end
