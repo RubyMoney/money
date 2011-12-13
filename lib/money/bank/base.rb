@@ -106,7 +106,6 @@ class Money
         raise NotImplementedError, "#exchange_with must be implemented"
       end
 
-
       # Given two currency strings or object, checks whether they're both the
       # same currency. Return +true+ if the currencies are the same, +false+
       # otherwise.
