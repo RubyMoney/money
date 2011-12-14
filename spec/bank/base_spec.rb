@@ -1,20 +1,17 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Money::Bank::Base do
-  before :each do
-    @bank = Money::Bank::Base.new
-  end
 
-  describe '#new with &block' do
-    it 'should store @rounding_method' do
-      proc = Proc.new{|n| n.ceil}
+  describe "#initialize" do
+    it "accepts a block and stores @rounding_method" do
+      proc = Proc.new { |n| n.ceil }
       bank = Money::Bank::Base.new(&proc)
       bank.rounding_method.should == proc
     end
   end
 
-  describe '#setup' do
-    it 'should call #setup after #initialize' do
+  describe "#setup" do
+    it "calls #setup after #initialize" do
       class MyBank < Money::Bank::Base
         attr_reader :setup_called
 
@@ -28,45 +25,45 @@ describe Money::Bank::Base do
     end
   end
 
-  describe '#exchange_with' do
-    it 'should raise NotImplementedError' do
-      lambda { @bank.exchange_with(Money.new(100, 'USD'), 'EUR') }.should raise_exception(NotImplementedError)
+  describe "#exchange_with" do
+    it "is not implemented" do
+      expect { subject.exchange_with(Money.new(100, 'USD'), 'EUR') }.to raise_exception(NotImplementedError)
     end
   end
 
-  describe '#same_currency?' do
-    it 'should accept str/str' do
-      lambda{@bank.send(:same_currency?, 'USD', 'EUR')}.should_not raise_exception
+  describe "#same_currency?" do
+    it "accepts str/str" do
+      expect { subject.send(:same_currency?, 'USD', 'EUR') }.to_not raise_exception
     end
 
-    it 'should accept currency/str' do
-      lambda{@bank.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR')}.should_not raise_exception
+    it "accepts currency/str" do
+      expect { subject.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR') }.to_not raise_exception
     end
 
-    it 'should accept str/currency' do
-      lambda{@bank.send(:same_currency?, 'USD', Money::Currency.wrap('EUR'))}.should_not raise_exception
+    it "accepts str/currency" do
+      expect { subject.send(:same_currency?, 'USD', Money::Currency.wrap('EUR')) }.to_not raise_exception
     end
 
-    it 'should accept currency/currency' do
-      lambda{@bank.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR'))}.should_not raise_exception
+    it "accepts currency/currency" do
+      expect { subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR')) }.to_not raise_exception
     end
 
-    it 'should return `true` when currencies match' do
-      @bank.send(:same_currency?, 'USD', 'USD').should == true
-      @bank.send(:same_currency?, Money::Currency.wrap('USD'), 'USD').should == true
-      @bank.send(:same_currency?, 'USD', Money::Currency.wrap('USD')).should == true
-      @bank.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('USD')).should == true
+    it "returns true when currencies match" do
+      subject.send(:same_currency?, 'USD', 'USD').should be_true
+      subject.send(:same_currency?, Money::Currency.wrap('USD'), 'USD').should be_true
+      subject.send(:same_currency?, 'USD', Money::Currency.wrap('USD')).should be_true
+      subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('USD')).should be_true
     end
 
-    it 'should return `false` when currencies do not match' do
-      @bank.send(:same_currency?, 'USD', 'EUR').should == false
-      @bank.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR').should == false
-      @bank.send(:same_currency?, 'USD', Money::Currency.wrap('EUR')).should == false
-      @bank.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR')).should == false
+    it "returns false when currencies do not match" do
+      subject.send(:same_currency?, 'USD', 'EUR').should be_false
+      subject.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR').should be_false
+      subject.send(:same_currency?, 'USD', Money::Currency.wrap('EUR')).should be_false
+      subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR')).should be_false
     end
 
-    it 'should raise an UnknownCurrency exception when an unknown currency is passed' do
-      lambda{@bank.send(:same_currency?, 'AAA', 'BBB')}.should raise_exception(Money::Currency::UnknownCurrency)
+    it "raises an UnknownCurrency exception when an unknown currency is passed" do
+      expect { subject.send(:same_currency?, 'AAA', 'BBB') }.to raise_exception(Money::Currency::UnknownCurrency)
     end
   end
 end

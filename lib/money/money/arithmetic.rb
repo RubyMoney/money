@@ -1,6 +1,17 @@
 class Money
   module Arithmetic
 
+    # Returns a money object with changed polarity.
+    #
+    # @return [Money]
+    #
+    # @example
+    #    - Money.new(100) #=> #<Money @cents=-100>
+    def -@
+      Money.new(-cents, currency)
+    end
+
+
     # Checks whether two money objects have the same currency and the same
     # amount. Checks against money objects with a different currency and checks
     # against objects that do not respond to #to_money will always return false.
@@ -240,17 +251,6 @@ class Money
     #   Money.new(0).nonzero?   #=> nil
     def nonzero?
       cents != 0 ? self : nil
-    end
-
-
-    # Returns a money object with changed polarity.
-    #
-    # @return [Money]
-    #
-    # @example
-    #    - Money.new(100) #=> #<Money @cents=-100>
-    def -@
-      Money.new(-cents, currency)
     end
 
   end

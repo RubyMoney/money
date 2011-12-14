@@ -1,4 +1,5 @@
 require 'money/bank/base'
+
 autoload :JSON, 'json'
 autoload :YAML, 'yaml'
 
