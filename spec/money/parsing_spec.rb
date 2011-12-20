@@ -51,6 +51,18 @@ describe Money, "parsing" do
       Money.parse('hellothere').should    == empty_price
       Money.parse('').should              == empty_price
     end
+
+    it "handles negative inputs" do
+      five_ninety_five = Money.new(595, 'USD')
+
+      Money.parse("$-5.95").should == -five_ninety_five
+      Money.parse("-$5.95").should == -five_ninety_five
+      Money.parse("$5.95-").should == -five_ninety_five
+    end
+
+    it "raises ArgumentError when unable to detect polarity" do
+      lambda { Money.parse('-$5.95-') }.should raise_error ArgumentError
+    end
   end
 
   describe ".from_string" do

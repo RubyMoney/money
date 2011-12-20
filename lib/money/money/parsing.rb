@@ -230,15 +230,15 @@ class Money
         num = input.gsub(/[^\d|\.|,|\'|\-]/, '').strip
 
         # set a boolean flag for if the number is negative or not
-        negative = num.split(//).first == "-"
+        negative = num =~ /^-|-$/ ? true : false
 
         # if negative, remove the minus sign from the number
         # if it's not negative, the hyphen makes the value invalid
         if negative
-          num = num.gsub(/^-/, '')
-        else
-          raise ArgumentError, "Invalid currency amount (hyphen)" if num.include?('-')
+          num = num.sub(/^-|-$/, '')
         end
+
+        raise ArgumentError, "Invalid currency amount (hyphen)" if num.include?('-')
 
         #if the number ends with punctuation, just throw it out.  If it means decimal,
         #it won't hurt anything.  If it means a literal period or comma, this will
