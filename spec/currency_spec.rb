@@ -108,6 +108,12 @@ describe Money::Currency do
       usd = Money::Currency.new(:usd)
       usd.to_currency.should == usd
     end
+
+    it "doesn't create new symbols indefinitely" do
+      expect {
+        expect { Money::Currency.new("bogus") }.to raise_exception(Money::Currency::UnknownCurrency)
+      }.to_not change{ Symbol.all_symbols.size }
+    end
   end
 
   describe "#code" do

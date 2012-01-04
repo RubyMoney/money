@@ -26,6 +26,10 @@ class Money
 
     TABLE = load_currencies
 
+    # We need a string-based validator before creating an unbounded number of symbols.
+    # http://www.randomhacks.net/articles/2007/01/20/13-ways-of-looking-at-a-ruby-symbol#11
+    # https://github.com/RubyMoney/money/issues/132
+    STRINGIFIED_KEYS = TABLE.keys.map{|k| k.to_s.downcase }
 
     # The symbol used to identify the currency, usually the lowercase
     # +iso_code+ attribute.
@@ -144,8 +148,11 @@ class Money
     # @example
     #   Money::Currency.new(:usd) #=> #<Money::Currency id: usd ...>
     def initialize(id)
-      @id  = id.to_s.downcase.to_sym
-      data = TABLE[@id] || raise(UnknownCurrency, "Unknown currency `#{id}'")
+      id = id.to_s.downcase
+      raise(UnknownCurrency, "Unknown currency `#{id}'") unless STRINGIFIED_KEYS.include?(id)
+
+      @id  = id.to_sym
+      data = TABLE[@id]
       data.each_pair do |key, value|
         instance_variable_set(:"@#{key}", value)
       end
