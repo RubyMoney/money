@@ -19,7 +19,6 @@ rdoc
 pkg
 *.rbc
 .rvmrc
-Gemfile.lock
 
 ## PROJECT::SPECIFIC
 .yardoc
