@@ -1,9 +1,16 @@
 HEAD
 ====
 
-Features
---------
-- force UTF-8 encoding on currency JSON (jduff)
+- Money.to_money now understands a currency option (GH-121)
+- Added Money#-@ method to change object polarity (GH-122)
+- Added Money#symbol_or_iso_code utility method (GH-128)
+- Money.parse now understands trailing - as negative inputs (GH-133)
+- Money::Currency.new now validates input to avoid memory leaks (GH-137)
+
+- Forced UTF-8 encoding on currency JSON (GH-117)
+- Fixed position of Philippine peso sign (GH-124)
+- Fixed position of Danish currency sign (GH-127)
+
 
 Money 4.0.1
 ===========
