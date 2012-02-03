@@ -1,5 +1,7 @@
-HEAD
-====
+# Changelog
+
+
+## 4.0.2
 
 - Money.to_money now understands a currency option (GH-121)
 - Added Money#-@ method to change object polarity (GH-122)
@@ -12,12 +14,10 @@ HEAD
 - Fixed position of Danish currency sign (GH-127)
 
 
-Money 4.0.1
-===========
+## 4.0.1
 
-Bugfixes
---------
-- add missing config dir
+- Add missing config dir.
+
 
 Money 4.0.0
 ===========
