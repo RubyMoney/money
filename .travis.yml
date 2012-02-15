@@ -5,10 +5,10 @@ rvm:
   - 1.9.3
   - ruby-head
   - jruby-18mode
-  #- jruby-19mode
-  #- jruby-head
+  #- jruby-19mode ## json error
+  #- jruby-head ## json error
   - rbx-18mode
-  - rbx-19mode
+  #- rbx-19mode ## unknown method
   - ree
 notifications:
   recipients:
