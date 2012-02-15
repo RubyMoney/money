@@ -263,17 +263,19 @@ class Money
       !!@symbol_first
     end
 
+    DECIMAL_PLACES_MAP = {
+      1 => 0,
+      5 => 1,
+      10 => 1,
+      100 => 2,
+      1000 => 3
+    }
+
     # The number of decimal places needed.
     #
     # @return [Integer]
     def decimal_places
-      if subunit_to_unit == 1
-        0
-      elsif subunit_to_unit % 10 == 0
-        Math.log10(subunit_to_unit).to_s.to_i
-      else
-        Math.log10(subunit_to_unit).to_s.to_i+1
-      end
+      DECIMAL_PLACES_MAP[subunit_to_unit]
     end
 
   end
