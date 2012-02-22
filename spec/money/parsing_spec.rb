@@ -207,4 +207,10 @@ describe Money, "parsing" do
     end
   end
 
+  context "given the same inputs to .parse and .from_*" do
+    it "gives the same results" do
+      4.635.to_money.should == "4.635".to_money
+    end
+  end
+
 end
