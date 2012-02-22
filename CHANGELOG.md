@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.3
+
+- Fix rounding error in Numeric.to_money (GH-145)
 
 ## 4.0.2
 
