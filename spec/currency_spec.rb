@@ -4,18 +4,17 @@ require "spec_helper"
 
 describe Money::Currency do
 
+  FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": "," }'
+
   describe ".find" do
     it "returns currency matching given id" do
-      with_custom_definitions do
-        Money::Currency::TABLE[:usd] = JSON.parse(%Q({ "priority": 1, "iso_code": "USD", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": "," }))
-        Money::Currency::TABLE[:eur] = JSON.parse(%Q({ "priority": 2, "iso_code": "EUR", "iso_numeric": "978", "name": "Euro", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 100, "symbol_first": false, "html_entity": "&#x20AC;", "decimal_mark": ",", "thousands_separator": "." }))
+      Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))
 
-        expected = Money::Currency.new(:eur)
-        Money::Currency.find(:eur).should  == expected
-        Money::Currency.find(:EUR).should  == expected
-        Money::Currency.find("eur").should == expected
-        Money::Currency.find("EUR").should == expected
-      end
+      expected = Money::Currency.new(:foo)
+      Money::Currency.find(:foo).should  == expected
+      Money::Currency.find(:FOO).should  == expected
+      Money::Currency.find("foo").should == expected
+      Money::Currency.find("FOO").should == expected
     end
 
     it "returns nil unless currency matching given id" do
@@ -122,18 +121,4 @@ describe Money::Currency do
       Money::Currency.new(:azn).code.should == "AZN"
     end
   end
-
-
-  def with_custom_definitions(&block)
-    begin
-      old = Money::Currency::TABLE.dup
-      Money::Currency::TABLE.clear
-      yield
-    ensure
-      silence_warnings do
-        Money::Currency.const_set("TABLE", old)
-      end
-    end
-  end
-
 end
