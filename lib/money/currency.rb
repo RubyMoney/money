@@ -12,24 +12,81 @@ class Money
     # Thrown when an unknown currency is requested.
     class UnknownCurrency < StandardError; end
 
-    # List of known currencies.
-    #
-    # == monetary unit
-    # The standard unit of value of a currency, as the dollar in the United States or the peso in Mexico.
-    # http://www.answers.com/topic/monetary-unit
-    # == fractional monetary unit, subunit
-    # A monetary unit that is valued at a fraction (usually one hundredth) of the basic monetary unit
-    # http://www.answers.com/topic/fractional-monetary-unit-subunit
-    #
-    # See http://en.wikipedia.org/wiki/List_of_circulating_currencies and
-    # http://search.cpan.org/~tnguyen/Locale-Currency-Format-1.28/Format.pm
+    class << self
 
-    TABLE = load_currencies
+      # Lookup a currency with given +id+ an returns a +Currency+ instance on
+      # success, +nil+ otherwise.
+      #
+      # @param [String, Symbol, #to_s] id Used to look into +table+ and
+      # retrieve the applicable attributes.
+      #
+      # @return [Money::Currency]
+      #
+      # @example
+      #   Money::Currency.find(:eur) #=> #<Money::Currency id: eur ...>
+      #   Money::Currency.find(:foo) #=> nil
+      def find(id)
+        id = id.to_s.downcase.to_sym
+        new(id) if self.table[id]
+      end
 
-    # We need a string-based validator before creating an unbounded number of symbols.
-    # http://www.randomhacks.net/articles/2007/01/20/13-ways-of-looking-at-a-ruby-symbol#11
-    # https://github.com/RubyMoney/money/issues/132
-    STRINGIFIED_KEYS = TABLE.keys.map{|k| k.to_s.downcase }
+      # Wraps the object in a +Currency+ unless it's already a +Currency+
+      # object.
+      #
+      # @param [Object] object The object to attempt and wrap as a +Currency+
+      # object.
+      #
+      # @return [Money::Currency]
+      #
+      # @example
+      #   c1 = Money::Currency.new(:usd)
+      #   Money::Currency.wrap(nil)   #=> nil
+      #   Money::Currency.wrap(c1)    #=> #<Money::Currency id: usd ...>
+      #   Money::Currency.wrap("usd") #=> #<Money::Currency id: usd ...>
+      def wrap(object)
+        if object.nil?
+          nil
+        elsif object.is_a?(Currency)
+          object
+        else
+          Currency.new(object)
+        end
+      end
+
+      # List of known currencies.
+      #
+      # == monetary unit
+      # The standard unit of value of a currency, as the dollar in the United States or the peso in Mexico.
+      # http://www.answers.com/topic/monetary-unit
+      # == fractional monetary unit, subunit
+      # A monetary unit that is valued at a fraction (usually one hundredth) of the basic monetary unit
+      # http://www.answers.com/topic/fractional-monetary-unit-subunit
+      #
+      # See http://en.wikipedia.org/wiki/List_of_circulating_currencies and
+      # http://search.cpan.org/~tnguyen/Locale-Currency-Format-1.28/Format.pm
+      def table
+        @table ||= load_currencies
+      end
+
+      # We need a string-based validator before creating an unbounded number of symbols.
+      # http://www.randomhacks.net/articles/2007/01/20/13-ways-of-looking-at-a-ruby-symbol#11
+      # https://github.com/RubyMoney/money/issues/132
+      def stringified_keys
+        @stringified_keys ||= stringify_keys
+      end
+
+      def register(curr)
+        key = curr[:iso_code].downcase.to_sym
+        @table[key] = curr
+        @stringified_keys = stringify_keys
+      end
+
+      private
+
+      def stringify_keys
+        table.keys.map{|k| k.to_s.downcase}
+      end
+    end
 
     # The symbol used to identify the currency, usually the lowercase
     # +iso_code+ attribute.
@@ -94,53 +151,9 @@ class Money
     # @return [boolean]
     attr_reader :symbol_first
 
-
-    class << self
-
-      # Lookup a currency with given +id+ an returns a +Currency+ instance on
-      # success, +nil+ otherwise.
-      #
-      # @param [String, Symbol, #to_s] id Used to look into +TABLE+ and
-      # retrieve the applicable attributes.
-      #
-      # @return [Money::Currency]
-      #
-      # @example
-      #   Money::Currency.find(:eur) #=> #<Money::Currency id: eur ...>
-      #   Money::Currency.find(:foo) #=> nil
-      def find(id)
-        id = id.to_s.downcase.to_sym
-        new(id) if self::TABLE[id]
-      end
-
-      # Wraps the object in a +Currency+ unless it's already a +Currency+
-      # object.
-      #
-      # @param [Object] object The object to attempt and wrap as a +Currency+
-      # object.
-      #
-      # @return [Money::Currency]
-      #
-      # @example
-      #   c1 = Money::Currency.new(:usd)
-      #   Money::Currency.wrap(nil)   #=> nil
-      #   Money::Currency.wrap(c1)    #=> #<Money::Currency id: usd ...>
-      #   Money::Currency.wrap("usd") #=> #<Money::Currency id: usd ...>
-      def wrap(object)
-        if object.nil?
-          nil
-        elsif object.is_a?(Currency)
-          object
-        else
-          Currency.new(object)
-        end
-      end
-    end
-
-
     # Create a new +Currency+ object.
     #
-    # @param [String, Symbol, #to_s] id Used to look into +TABLE+ and retrieve
+    # @param [String, Symbol, #to_s] id Used to look into +table+ and retrieve
     #  the applicable attributes.
     #
     # @return [Money::Currency]
@@ -149,10 +162,10 @@ class Money
     #   Money::Currency.new(:usd) #=> #<Money::Currency id: usd ...>
     def initialize(id)
       id = id.to_s.downcase
-      raise(UnknownCurrency, "Unknown currency `#{id}'") unless STRINGIFIED_KEYS.include?(id)
+      raise(UnknownCurrency, "Unknown currency `#{id}'") unless self.class.stringified_keys.include?(id)
 
       @id  = id.to_sym
-      data = TABLE[@id]
+      data = self.class.table[@id]
       data.each_pair do |key, value|
         instance_variable_set(:"@#{key}", value)
       end
