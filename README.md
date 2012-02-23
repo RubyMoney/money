@@ -89,12 +89,11 @@ currency.iso_code #=> "USD"
 currency.name     #=> "United States Dollar"
 ```
 
-To define a new `Money::Currency` simply add a new item to the
-`Money::Currency::TABLE` hash, where the key is the identifier for the currency
-object and the value is a hash containing all the currency attributes.
+To define a new `Money::Currency` use `Money::Currency.register` as shown
+below.
 
 ``` ruby
- Money::Currency::TABLE[:usd] = {
+curr = {
   :priority        => 1,
   :iso_code        => "USD",
   :iso_numeric     => "840",
@@ -105,6 +104,8 @@ object and the value is a hash containing all the currency attributes.
   :separator       => ".",
   :delimiter       => ","
 }
+
+Money::Currency.register(curr)
 ```
 
 The pre-defined set of attributes includes:
@@ -154,10 +155,10 @@ def all_currencies(hash)
   hash.keys
 end
 
-major_currencies(Money::Currency::TABLE)
+major_currencies(Money::Currency.table)
 # => [ :usd, :eur, :bgp, :cad ]
 
-all_currencies(Money::Currency::TABLE)
+all_currencies(Money::Currency.table)
 # => [ :aed, :afn, all, ... ]
 ```
 

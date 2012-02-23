@@ -1,7 +1,8 @@
 # Changelog
 
-## 4.0.3
-
+## 5.0.0
+- Money::Currency::TABLE removed. Use Money::Currency.register to add
+  additional currencies (GH-143)
 - Fix rounding error in Numeric.to_money (GH-145)
 
 ## 4.0.2
