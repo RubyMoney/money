@@ -123,6 +123,20 @@ describe Money::Currency do
     end
   end
 
+  describe "#decimal_places" do
+    it "proper places for known currency" do
+      Money::Currency.new(:mro).decimal_places == 1
+      Money::Currency.new(:usd).decimal_places == 2
+    end
+
+    it "proper places for custom currency" do
+      with_custom_definitions do
+        Money::Currency::TABLE[:usd] = JSON.parse(%Q({ "priority": 1, "iso_code": "HEH", "iso_numeric": "840", "name": "HEH bucks", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 450, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": "," }))
+
+        Money::Currency.new(:usd).decimal_places == 3
+      end
+    end
+  end
 
   def with_custom_definitions(&block)
     begin

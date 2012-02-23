@@ -263,9 +263,9 @@ class Money
       !!@symbol_first
     end
 
-    DECIMAL_PLACES_MAP = {
+    # Cache decimal places for subunit_to_unit values.  Common ones pre-cached.
+    DECIMAL_PLACES_CACHE = { 
       1 => 0,
-      5 => 1,
       10 => 1,
       100 => 2,
       1000 => 3
@@ -275,8 +275,26 @@ class Money
     #
     # @return [Integer]
     def decimal_places
-      DECIMAL_PLACES_MAP[subunit_to_unit]
+      places  = DECIMAL_PLACES_CACHE[subunit_to_unit]
+      unless places
+        places = calculate_decimal_places(subunit_to_unit)
+        DECIMAL_PLACES_CACHE[subunit_to_unit] = places
+      end
+      places
     end
+
+    # If we need to figure out how many decimal places we need we
+    # use repeated integer division.
+    def calculate_decimal_places(num)
+      return 0 if num == 1
+      i = 1
+      while num >= 10
+        num /= 10
+        i += 1 if num >= 10
+      end
+      i
+    end
+    private :calculate_decimal_places
 
   end
 end
