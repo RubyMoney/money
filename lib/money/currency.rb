@@ -281,7 +281,8 @@ class Money
       5 => 1,
       10 => 1,
       100 => 2,
-      1000 => 3
+      1000 => 3,
+      10000 => 4
     }
 
     # The number of decimal places needed.
