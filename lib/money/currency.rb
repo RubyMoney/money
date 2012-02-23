@@ -277,21 +277,24 @@ class Money
     end
 
     # Cache decimal places for subunit_to_unit values.  Common ones pre-cached.
-    DECIMAL_PLACES_CACHE = { 
-      1 => 0,
-      10 => 1,
-      100 => 2,
-      1000 => 3
-    }
+    def self.decimal_places_cache
+      @decimal_places_cache ||= {
+        1 => 0,
+        10 => 1,
+        100 => 2,
+        1000 => 3
+      }
+    end
 
     # The number of decimal places needed.
     #
     # @return [Integer]
     def decimal_places
-      places  = DECIMAL_PLACES_CACHE[subunit_to_unit]
+      cache = self.class.decimal_places_cache
+      places  = cache[subunit_to_unit]
       unless places
         places = calculate_decimal_places(subunit_to_unit)
-        DECIMAL_PLACES_CACHE[subunit_to_unit] = places
+        cache[subunit_to_unit] = places
       end
       places
     end
