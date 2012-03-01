@@ -117,7 +117,7 @@ describe Money, "formatting" do
       one_thousand["CNY"].should == "¥1,000.00"
 
       # Euro
-      one_thousand["EUR"].should == "1.000,00 €"
+      one_thousand["EUR"].should == "€1.000,00"
 
       # Rupees
       one_thousand["INR"].should == "₨1,000.00"
@@ -139,8 +139,8 @@ describe Money, "formatting" do
     end
 
     it "inserts thousands separator into the result if the amount is sufficiently large and the currency symbol is at the end" do
-      Money.euro(1_234_567_12).format.should == "1.234.567,12 €"
-      Money.euro(1_234_567_12).format(:no_cents => true).should == "1.234.567 €"
+      Money.euro(1_234_567_12).format.should == "€1.234.567,12"
+      Money.euro(1_234_567_12).format(:no_cents => true).should == "€1.234.567"
     end
 
     describe ":with_currency option" do
@@ -216,7 +216,7 @@ describe Money, "formatting" do
         one["CNY"].should == "¥1.00"
 
         # Euro
-        one["EUR"].should == "1,00 €"
+        one["EUR"].should == "€1,00"
 
         # Rupees
         one["INR"].should == "₨1.00"
@@ -235,12 +235,12 @@ describe Money, "formatting" do
       specify "(:symbol => true) returns $ when currency code is not recognized" do
         currency = Money::Currency.new("EUR")
         currency.should_receive(:symbol).and_return(nil)
-        Money.new(100, currency).format(:symbol => true).should == "1,00 ¤"
+        Money.new(100, currency).format(:symbol => true).should == "¤1,00"
       end
 
       specify "(:symbol => some non-Boolean value that evaluates to true) returns symbol based on the given currency code" do
         Money.new(100, "GBP").format(:symbol => true).should == "£1.00"
-        Money.new(100, "EUR").format(:symbol => true).should == "1,00 €"
+        Money.new(100, "EUR").format(:symbol => true).should == "€1,00"
         Money.new(100, "SEK").format(:symbol => true).should == "kr1.00"
       end
 
@@ -259,7 +259,7 @@ describe Money, "formatting" do
         money.format.should == "£1.00"
 
         money = Money.new(100, "EUR")
-        money.format.should == "1,00 €"
+        money.format.should == "€1,00"
       end
     end
 
