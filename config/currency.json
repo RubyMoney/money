@@ -565,7 +565,7 @@
     "symbol": "€",
     "subunit": "Cent",
     "subunit_to_unit": 100,
-    "symbol_first": false,
+    "symbol_first": true,
     "html_entity": "&#x20AC;",
     "decimal_mark": ",",
     "thousands_separator": ".",
