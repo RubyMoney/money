@@ -7,6 +7,7 @@
 - Allow on-the-fly calculation of decimal places if not known already
   (GH-146,GH-147,GH-148)
 - Move Euro symbol ahead of amount (GH-151)
+- Changed settings for Polish currency (GH-152)
 
 ## 4.0.2
 
