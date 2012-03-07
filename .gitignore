@@ -13,6 +13,9 @@ tmtags
 ## VIM
 *.swp
 
+## Rubymine
+.idea
+
 ## PROJECT::GENERAL
 coverage
 rdoc

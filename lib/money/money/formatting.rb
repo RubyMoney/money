@@ -163,7 +163,7 @@ class Money
             ""
           end
         elsif rules[:html]
-          currency.html_entity
+          currency.html_entity == '' ? currency.symbol : currency.html_entity
         else
           symbol
         end
