@@ -310,6 +310,11 @@ describe Money, "formatting" do
         string = Money.ca_dollar(570).format(:html => true, :with_currency => true)
         string.should == "$5.70 <span class=\"currency\">CAD</span>"
       end
+
+      specify "should fallback to symbol if entity is not available" do
+        string = Money.new(570, 'DKK').format(:html => true)
+        string.should == "5,70 kr"
+      end
     end
 
     describe ":symbol_position option" do
