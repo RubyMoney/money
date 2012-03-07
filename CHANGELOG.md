@@ -8,6 +8,7 @@
   (GH-146,GH-147,GH-148)
 - Move Euro symbol ahead of amount (GH-151)
 - Changed settings for Polish currency (GH-152)
+- Fall back to symbol if there is no html_entity present (GH-153)
 
 ## 4.0.2
 
