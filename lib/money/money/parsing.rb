@@ -1,4 +1,4 @@
-#encoding: UTF-8
+#encoding: utf-8
 
 class Money
   module Parsing
@@ -38,17 +38,17 @@ class Money
 
         # raise Money::Currency.table.collect{|c| c[1][:symbol]}.inspect
 
-        # Check the first character for a currency symbol, alternatively get it from the stated currency string
-        c = if Money.assume_from_symbol && %w($ € £).include?(i[0,1])
-          case i[0,1]
-          when '$' then 'USD'
-          when '€' then 'EUR'
-          when '£' then 'GBP'
-          else
-            nil
+        # Check the first character for a currency symbol, alternatively get it
+        # from the stated currency string
+        c = if Money.assume_from_symbol && i =~ /^(\$|€|£)/
+          case i
+          when /^$/ then "USD"
+          when /^€/ then "EUR"
+          when /^£/ then "GBP"
           end
         else
-          get_currency_code_from_string(i)
+          m = i.scan(/([A-Z]{2,3})/)
+          m[0] ? m[0][0] : nil
         end
 
         # check that currency passed and embedded currency are the same,
@@ -357,14 +357,6 @@ class Money
         # if negative, multiply by -1; otherwise, return positive cents
         negative ? cents * -1 : cents
       end
-
-      private
-
-      def get_currency_code_from_string(str)
-        m = str.scan /([A-Z]{2,3})/
-        m[0] ? m[0][0] : nil
-      end
-
     end
   end
 end
