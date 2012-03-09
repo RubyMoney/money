@@ -30,7 +30,10 @@ describe Money, "parsing" do
           Money.parse(" €5.95 ").should == Money.new(595, 'EUR')
           Money.parse("£9.99").should == Money.new(999, 'GBP')
         end
-      end
+        it 'should assume default currency if not a recognised symbol' do
+          Money.parse("L9.99").should == Money.new(999, 'USD')
+        end
+       end
       context 'opted out' do
         before do
           Money.assume_from_symbol = false
@@ -40,6 +43,7 @@ describe Money, "parsing" do
           Money.parse("€5.95").should == Money.new(595, 'USD')
           Money.parse(" €5.95 ").should == Money.new(595, 'USD')
           Money.parse("£9.99").should == Money.new(999, 'USD')
+
         end
       end
       it 'should opt out by default' do
