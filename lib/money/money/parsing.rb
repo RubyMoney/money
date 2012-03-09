@@ -39,20 +39,16 @@ class Money
         # raise Money::Currency.table.collect{|c| c[1][:symbol]}.inspect
 
         # Check the first character for a currency symbol, alternatively get it from the stated currency string
-        if Money.assume_from_symbol
-          if ['$','€','£'].include? i[0,1]
-            c = case i[0,1]
-              when '$' then 'USD'
-              when '€' then 'EUR'
-              when '£' then 'GBP'
-            end
+        c = if Money.assume_from_symbol && %w($ € £).include?(i[0,1])
+          case i[0,1]
+          when '$' then 'USD'
+          when '€' then 'EUR'
+          when '£' then 'GBP'
           else
-            # Get the currency.
-            c = get_currency_code_from_string(i)
+            nil
           end
         else
-          # Get the currency.
-          c = get_currency_code_from_string(i)
+          get_currency_code_from_string(i)
         end
 
         # check that currency passed and embedded currency are the same,
