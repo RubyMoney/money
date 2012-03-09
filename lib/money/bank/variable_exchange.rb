@@ -194,7 +194,7 @@ class Money
               end
 
           unless file.nil?
-            File.open(file, "w").write(s)
+            File.open(file, "w") {|f| f.write(s) }
           end
         }
         s
