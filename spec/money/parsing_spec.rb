@@ -19,6 +19,13 @@ describe Money, "parsing" do
       Money.parse('EUR 1.111.234.567,89').should == Money.new(111123456789, 'EUR')
     end
 
+    it "parses formatted inputs with the currency passed as a symbol" do
+      Money.parse("$5.95").should == Money.new(595, 'USD')
+      Money.parse("€5.95").should == Money.new(595, 'EUR')
+      Money.parse(" €5.95 ").should == Money.new(595, 'EUR')
+      Money.parse("£9.99").should == Money.new(999, 'GBP')
+    end
+
     it "parses USD-formatted inputs under $10" do
       five_ninety_five = Money.new(595, 'USD')
 
