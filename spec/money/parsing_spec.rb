@@ -19,6 +19,38 @@ describe Money, "parsing" do
       Money.parse('EUR 1.111.234.567,89').should == Money.new(111123456789, 'EUR')
     end
 
+    describe 'currency assumption' do
+      context 'opted in' do
+        before do
+          Money.assume_from_symbol = true
+        end
+        it "parses formatted inputs with the currency passed as a symbol" do
+          Money.parse("$5.95").should == Money.new(595, 'USD')
+          Money.parse("€5.95").should == Money.new(595, 'EUR')
+          Money.parse(" €5.95 ").should == Money.new(595, 'EUR')
+          Money.parse("£9.99").should == Money.new(999, 'GBP')
+        end
+        it 'should assume default currency if not a recognised symbol' do
+          Money.parse("L9.99").should == Money.new(999, 'USD')
+        end
+       end
+      context 'opted out' do
+        before do
+          Money.assume_from_symbol = false
+        end
+        it "parses formatted inputs with the currency passed as a symbol but ignores the symbol" do
+          Money.parse("$5.95").should == Money.new(595, 'USD')
+          Money.parse("€5.95").should == Money.new(595, 'USD')
+          Money.parse(" €5.95 ").should == Money.new(595, 'USD')
+          Money.parse("£9.99").should == Money.new(999, 'USD')
+
+        end
+      end
+      it 'should opt out by default' do
+        Money.assume_from_symbol.should be_false
+      end
+    end
+
     it "parses USD-formatted inputs under $10" do
       five_ninety_five = Money.new(595, 'USD')
 

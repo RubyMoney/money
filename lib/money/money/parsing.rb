@@ -1,3 +1,5 @@
+#encoding: UTF-8
+
 class Money
   module Parsing
     def self.included(base)
@@ -32,11 +34,22 @@ class Money
       # @see Money.from_string
       #
       def parse(input, currency = nil)
-        i = input.to_s
+        i = input.to_s.strip
 
-        # Get the currency.
-        m = i.scan /([A-Z]{2,3})/
-          c = m[0] ? m[0][0] : nil
+        # raise Money::Currency.table.collect{|c| c[1][:symbol]}.inspect
+
+        # Check the first character for a currency symbol, alternatively get it from the stated currency string
+        c = if Money.assume_from_symbol && %w($ € £).include?(i[0,1])
+          case i[0,1]
+          when '$' then 'USD'
+          when '€' then 'EUR'
+          when '£' then 'GBP'
+          else
+            nil
+          end
+        else
+          get_currency_code_from_string(i)
+        end
 
         # check that currency passed and embedded currency are the same,
         # and negotiate the final currency
@@ -343,6 +356,13 @@ class Money
 
         # if negative, multiply by -1; otherwise, return positive cents
         negative ? cents * -1 : cents
+      end
+
+      private
+
+      def get_currency_code_from_string(str)
+        m = str.scan /([A-Z]{2,3})/
+        m[0] ? m[0][0] : nil
       end
 
     end
