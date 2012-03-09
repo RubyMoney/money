@@ -39,16 +39,20 @@ class Money
         # raise Money::Currency.table.collect{|c| c[1][:symbol]}.inspect
 
         # Check the first character for a currency symbol, alternatively get it from the stated currency string
-        if ['$','€','£'].include? i[0,1]
-          c = case i[0,1]
-            when '$' then 'USD'
-            when '€' then 'EUR'
-            when '£' then 'GBP'
+        if Money.assume_from_symbol
+          if ['$','€','£'].include? i[0,1]
+            c = case i[0,1]
+              when '$' then 'USD'
+              when '€' then 'EUR'
+              when '£' then 'GBP'
+            end
+          else
+            # Get the currency.
+            c = get_currency_code_from_string(i)
           end
         else
           # Get the currency.
-          m = i.scan /([A-Z]{2,3})/
-          c = m[0] ? m[0][0] : nil
+          c = get_currency_code_from_string(i)
         end
 
         # check that currency passed and embedded currency are the same,
@@ -356,6 +360,13 @@ class Money
 
         # if negative, multiply by -1; otherwise, return positive cents
         negative ? cents * -1 : cents
+      end
+
+      private
+
+      def get_currency_code_from_string(str)
+        m = str.scan /([A-Z]{2,3})/
+        m[0] ? m[0][0] : nil
       end
 
     end

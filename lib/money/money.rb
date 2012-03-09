@@ -47,6 +47,11 @@ class Money
     #
     # @return [true,false]
     attr_accessor :use_i18n
+
+    # Use this to enable the ability to assume the currency froma passed symbol
+    #
+    # @return [true,false]
+    attr_accessor :assume_from_symbol
   end
 
   # Set the default bank for creating new +Money+ objects.
@@ -57,6 +62,9 @@ class Money
 
   # Default to using i18n
   self.use_i18n = true
+
+  # Default to not using currency symbol assumptions when parsing
+  self.assume_from_symbol = false
 
   # Create a new money object with value 0.
   #
