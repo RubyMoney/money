@@ -9,6 +9,8 @@
 - Move Euro symbol ahead of amount (GH-151)
 - Changed settings for Polish currency (GH-152)
 - Fall back to symbol if there is no html_entity present (GH-153)
+- Optionally Allow parsing of money values prefixed by symbols in key
+  currencies (GH-155)
 
 ## 4.0.2
 
