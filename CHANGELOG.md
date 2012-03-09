@@ -11,6 +11,8 @@
 - Fall back to symbol if there is no html_entity present (GH-153)
 - Optionally Allow parsing of money values prefixed by symbols in key
   currencies (GH-155)
+- Fix bug where rates exported to a file from VariableExchange leave the File
+  object open (GH-154)
 
 ## 4.0.2
 
