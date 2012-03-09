@@ -146,7 +146,7 @@ describe Money::Bank::VariableExchange do
     context "with :file provided" do
       it "writes rates to file" do
         f = mock('IO')
-        File.should_receive(:open).with('null', 'w').and_return(f)
+        File.should_receive(:open).with('null', 'w').and_yield(f)
         f.should_receive(:write).with(@rates.to_json)
 
         subject.export_rates(:json, 'null')
