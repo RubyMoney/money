@@ -164,6 +164,34 @@ describe Money do
     end
   end
 
+  describe "#positive?" do
+    it "returns true if the amount is greater than 0" do
+      Money.new(1).should be_positive
+    end
+
+    it "returns false if the amount is 0" do
+      Money.new(0).should_not be_positive
+    end
+
+    it "returns false if the amount is negative" do
+      Money.new(-1).should_not be_positive
+    end
+  end
+
+  describe "#negative?" do
+    it "returns true if the amount is less than 0" do
+      Money.new(-1).should be_negative
+    end
+
+    it "returns false if the amount is 0" do
+      Money.new(0).should_not be_negative
+    end
+
+    it "returns false if the amount is greater than 0" do
+      Money.new(1).should_not be_negative
+    end
+  end
+
   describe "#+" do
     it "adds other amount to current amount (same currency)" do
       (Money.new(10_00, "USD") + Money.new(90, "USD")).should == Money.new(10_90, "USD")

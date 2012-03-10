@@ -56,6 +56,32 @@ class Money
       end
     end
 
+    # Test if the amount is positive. Returns +true+ if the money amount is
+    # greater than 0, +false+ otherwise.
+    #
+    # @return [Boolean]
+    #
+    # @example
+    #   Money.new(1).positive?  #=> true
+    #   Money.new(0).positive?  #=> false
+    #   Money.new(-1).positive? #=> false
+    def positive?
+      cents > 0
+    end
+
+    # Test if the amount is negative. Returns +true+ if the money amount is
+    # less than 0, +false+ otherwise.
+    #
+    # @return [Boolean]
+    #
+    # @example
+    #   Money.new(-1).negative? #=> true
+    #   Money.new(0).negative?  #=> false
+    #   Money.new(1).negative?  #=> false
+    def negative?
+      cents < 0
+    end
+
     # Returns a new Money object containing the sum of the two operands' monetary
     # values. If +other_money+ has a different currency then its monetary value
     # is automatically exchanged to this object's currency using +exchange_to+.
