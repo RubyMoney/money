@@ -64,6 +64,12 @@ Money.new(1000, "USD") - Money.new(200, "USD") == Money.new(800, "USD")
 Money.new(1000, "USD") / 5                     == Money.new(200, "USD")
 Money.new(1000, "USD") * 5                     == Money.new(5000, "USD")
 
+# Assumptive Currencies
+Money.assume_from_symbol = true
+Money.new("$100") == Money.new(10000, "USD") 
+Money.new("€100") == Money.new(10000, "EUR") 
+Money.new("£100") == Money.new(10000, "GBP") 
+
 # Currency conversions
 some_code_to_setup_exchange_rates
 Money.new(1000, "USD").exchange_to("EUR") == Money.new(some_value, "EUR")

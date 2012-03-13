@@ -48,7 +48,7 @@ class Money
     # @return [true,false]
     attr_accessor :use_i18n
 
-    # Use this to enable the ability to assume the currency froma passed symbol
+    # Use this to enable the ability to assume the currency from a passed symbol
     #
     # @return [true,false]
     attr_accessor :assume_from_symbol
