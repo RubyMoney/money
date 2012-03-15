@@ -204,7 +204,13 @@ class Money
       end
 
       # Apply thousands_separator
-      formatted.gsub!(/(\d)(?=(?:\d{3})+(?:[^\d]|$))/, "\\1#{thousands_separator_value}")
+      regexp_decimal = Regexp.escape(decimal_mark)
+      regexp_format  = if formatted =~ /#{regexp_decimal}/
+           /(\d)(?=(?:\d{3})+(?:#{regexp_decimal}))/
+         else
+           /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
+         end
+      formatted.gsub!(regexp_format, "\\1#{thousands_separator_value}")
 
       if rules[:with_currency]
         formatted << " "
