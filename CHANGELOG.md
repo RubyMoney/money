@@ -13,6 +13,7 @@
   currencies (GH-155)
 - Fix bug where rates exported to a file from VariableExchange leave the File
   object open (GH-154)
+- Added Money#positive? and Money#negative? methods (GH-157)
 
 ## 4.0.2
 
