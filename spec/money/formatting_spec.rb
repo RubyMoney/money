@@ -4,6 +4,9 @@ require "spec_helper"
 
 describe Money, "formatting" do
 
+  BAR = '{ "priority": 1, "iso_code": "BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": "," }'
+  EU4 = '{ "priority": 1, "iso_code": "EU4", "iso_numeric": "841", "name": "Euro with 4 decimal places", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "€", "decimal_mark": ",", "thousands_separator": "." }'
+
   context "without i18n" do
     subject { Money.empty("USD") }
 
@@ -403,5 +406,41 @@ describe Money, "formatting" do
     end
   end
 
+  context "custom currencies with 4 decimal places" do
+    before :each do
+      Money::Currency.register(JSON.parse(BAR, :symbolize_names => true))
+      Money::Currency.register(JSON.parse(EU4, :symbolize_names => true))
+    end
+
+    it "respects custom subunit to unit, decimal and thousands separator" do
+      Money.new(4, "BAR").format.should == "$0.0004"
+      Money.new(4, "EU4").format.should == "€0,0004"
+
+      Money.new(24, "BAR").format.should == "$0.0024"
+      Money.new(24, "EU4").format.should == "€0,0024"
+
+      Money.new(324, "BAR").format.should == "$0.0324"
+      Money.new(324, "EU4").format.should == "€0,0324"
+
+      Money.new(5324, "BAR").format.should == "$0.5324"
+      Money.new(5324, "EU4").format.should == "€0,5324"
+
+      Money.new(65324, "BAR").format.should == "$6.5324"
+      Money.new(65324, "EU4").format.should == "€6,5324"
+
+      Money.new(865324, "BAR").format.should == "$86.5324"
+      Money.new(865324, "EU4").format.should == "€86,5324"
+
+      Money.new(1865324, "BAR").format.should == "$186.5324"
+      Money.new(1865324, "EU4").format.should == "€186,5324"
+
+      Money.new(33310034, "BAR").format.should == "$3,331.0034"
+      Money.new(33310034, "EU4").format.should == "€3.331,0034"
+
+      Money.new(88833310034, "BAR").format.should == "$8,883,331.0034"
+      Money.new(88833310034, "EU4").format.should == "€8.883.331,0034"
+    end
+
+  end
 end
 
