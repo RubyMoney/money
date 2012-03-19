@@ -30,7 +30,7 @@ class Money
   class << self
     # Each Money object is associated to a bank object, which is responsible
     # for currency exchange. This property allows you to specify the default
-    # bank object. The default value for this property is an instance if
+    # bank object. The default value for this property is an instance of
     # +Bank::VariableExchange.+ It allows one to specify custom exchange rates.
     #
     # @return [Money::Bank::*]
