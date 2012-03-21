@@ -4,6 +4,9 @@ require "spec_helper"
 
 describe Money, "parsing" do
 
+  bar = '{ "priority": 1, "iso_code": "BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": "," }'
+  eu4 = '{ "priority": 1, "iso_code": "EU4", "iso_numeric": "841", "name": "Euro with 4 decimal places", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "€", "decimal_mark": ",", "thousands_separator": "." }'
+
   describe ".parse" do
     it "parses european-formatted inputs under 10EUR" do
       five_ninety_five = Money.new(595, 'EUR')
@@ -94,6 +97,56 @@ describe Money, "parsing" do
 
     it "raises ArgumentError when unable to detect polarity" do
       lambda { Money.parse('-$5.95-') }.should raise_error ArgumentError
+    end
+
+    it "parses correctly strings with exactly 3 decimal digits" do
+      Money.parse("6,534", "EUR").should == Money.new(653, "EUR")
+    end
+
+    context "custom currencies with 4 decimal places" do
+      before :each do
+        Money::Currency.register(JSON.parse(bar, :symbolize_names => true))
+        Money::Currency.register(JSON.parse(eu4, :symbolize_names => true))
+      end
+
+      # String#to_money(Currency) is equivalent to Money.parse(String, Currency)
+      it "parses strings respecting subunit to unit, decimal and thousands separator" do
+        "$0.4".to_money("BAR").should == Money.new(4000, "BAR")
+        "€0,4".to_money("EU4").should == Money.new(4000, "EU4")
+
+        "$0.04".to_money("BAR").should == Money.new(400, "BAR")
+        "€0,04".to_money("EU4").should == Money.new(400, "EU4")
+
+        "$0.004".to_money("BAR").should == Money.new(40, "BAR")
+        "€0,004".to_money("EU4").should == Money.new(40, "EU4")
+
+        "$0.0004".to_money("BAR").should == Money.new(4, "BAR")
+        "€0,0004".to_money("EU4").should == Money.new(4, "EU4")
+
+        "$0.0024".to_money("BAR").should == Money.new(24, "BAR")
+        "€0,0024".to_money("EU4").should == Money.new(24, "EU4")
+
+        "$0.0324".to_money("BAR").should == Money.new(324, "BAR")
+        "€0,0324".to_money("EU4").should == Money.new(324, "EU4")
+
+        "$0.5324".to_money("BAR").should == Money.new(5324, "BAR")
+        "€0,5324".to_money("EU4").should == Money.new(5324, "EU4")
+
+        "$6.5324".to_money("BAR").should == Money.new(65324, "BAR")
+        "€6,5324".to_money("EU4").should == Money.new(65324, "EU4")
+
+        "$86.5324".to_money("BAR").should == Money.new(865324, "BAR")
+        "€86,5324".to_money("EU4").should == Money.new(865324, "EU4")
+
+        "$186.5324".to_money("BAR").should == Money.new(1865324, "BAR")
+        "€186,5324".to_money("EU4").should == Money.new(1865324, "EU4")
+
+        "$3,331.0034".to_money("BAR").should == Money.new(33310034, "BAR")
+        "€3.331,0034".to_money("EU4").should == Money.new(33310034, "EU4")
+
+        "$8,883,331.0034".to_money("BAR").should == Money.new(88833310034, "BAR")
+        "€8.883.331,0034".to_money("EU4").should == Money.new(88833310034, "EU4")
+      end
     end
   end
 

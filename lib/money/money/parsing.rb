@@ -245,6 +245,9 @@ class Money
         # set a boolean flag for if the number is negative or not
         negative = num =~ /^-|-$/ ? true : false
 
+        # decimal mark character
+        decimal_char = currency.decimal_mark
+
         # if negative, remove the minus sign from the number
         # if it's not negative, the hyphen makes the value invalid
         if negative
@@ -292,41 +295,47 @@ class Money
             # assign first decimal_mark for reusability
             decimal_mark = used_decimal_marks.first
 
-            # decimal_mark is used as a decimal_mark when there are multiple instances, always
-            if num.scan(decimal_mark).length > 1 # multiple matches; treat as decimal_mark
-              major, minor = num.gsub(decimal_mark, ''), 0
+            # When we have identified the decimal mark character
+            if decimal_char == decimal_mark
+              major, minor = num.split(decimal_char)
+
             else
-              # ex: 1,000 - 1.0000 - 10001.000
-              # split number into possible major (dollars) and minor (cents) values
-              possible_major, possible_minor = num.split(decimal_mark)
-              possible_major ||= "0"
-              possible_minor ||= "00"
-
-              # if the minor (cents) length isn't 3, assign major/minor from the possibles
-              # e.g.
-              #   1,00 => 1.00
-              #   1.0000 => 1.00
-              #   1.2 => 1.20
-              if possible_minor.length != 3 # thousands_separator
-                major, minor = possible_major, possible_minor
+              # decimal_mark is used as a decimal_mark when there are multiple instances, always
+              if num.scan(decimal_mark).length > 1 # multiple matches; treat as decimal_mark
+                major, minor = num.gsub(decimal_mark, ''), 0
               else
-                # minor length is three
-                # let's try to figure out intent of the thousands_separator
+                # ex: 1,000 - 1.0000 - 10001.000
+                # split number into possible major (dollars) and minor (cents) values
+                possible_major, possible_minor = num.split(decimal_mark)
+                possible_major ||= "0"
+                possible_minor ||= "00"
 
-                # the major length is greater than three, which means
-                # the comma or period is used as a thousands_separator
+                # if the minor (cents) length isn't 3, assign major/minor from the possibles
                 # e.g.
-                #   1000,000
-                #   100000,000
-                if possible_major.length > 3
+                #   1,00 => 1.00
+                #   1.0000 => 1.00
+                #   1.2 => 1.20
+                if possible_minor.length != 3 # thousands_separator
                   major, minor = possible_major, possible_minor
                 else
-                  # number is in format ###{sep}### or ##{sep}### or #{sep}###
-                  # handle as , is sep, . is thousands_separator
-                  if decimal_mark == '.'
+                  # minor length is three
+                  # let's try to figure out intent of the thousands_separator
+
+                  # the major length is greater than three, which means
+                  # the comma or period is used as a thousands_separator
+                  # e.g.
+                  #   1000,000
+                  #   100000,000
+                  if possible_major.length > 3
                     major, minor = possible_major, possible_minor
                   else
-                    major, minor = "#{possible_major}#{possible_minor}", 0
+                    # number is in format ###{sep}### or ##{sep}### or #{sep}###
+                    # handle as , is sep, . is thousands_separator
+                    if decimal_mark == '.'
+                      major, minor = possible_major, possible_minor
+                    else
+                      major, minor = "#{possible_major}#{possible_minor}", 0
+                    end
                   end
                 end
               end
