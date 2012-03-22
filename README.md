@@ -254,7 +254,7 @@ definition:
 ``` ruby
 composed_of :price,
   :class_name => "Money",
-  :mapping => [%w(cents cents), %w(currency currency)],
+  :mapping => [%w(price_cents cents), %w(currency currency)],
   :constructor => Proc.new { |cents, currency| Money.new(cents || 0, currency || Money.default_currency) }
 ```
 
