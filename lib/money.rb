@@ -27,4 +27,8 @@ require 'money/currency'
 require 'money/money'
 require 'money/core_extensions'
 
-require 'money/monetizable/monetize' if defined?(Rails) && Rails::VERSION::MAJOR == 3
+# FIXME: Consider usage of specific major version (Rails::VERSION::MAJOR == 3)
+if defined?(Rails)
+  require 'money/monetizable/monetize'
+  require 'money/monetizable/railtie'
+end
