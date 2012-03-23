@@ -26,3 +26,5 @@ require 'money/currency_loader'
 require 'money/currency'
 require 'money/money'
 require 'money/core_extensions'
+
+require 'money/monetizable/monetize' if defined?(Rails) && Rails::VERSION::MAJOR == 3
