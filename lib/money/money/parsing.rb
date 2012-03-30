@@ -240,7 +240,7 @@ class Money
       #
       def extract_cents(input, currency = Money.default_currency)
         # remove anything that's not a number, potential thousands_separator, or minus sign
-        num = input.gsub(/[^\d|\.|,|\'|\-]/, '').strip
+        num = input.gsub(/[^\d.,'-]/, '')
 
         # set a boolean flag for if the number is negative or not
         negative = num =~ /^-|-$/ ? true : false
