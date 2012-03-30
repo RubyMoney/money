@@ -1,6 +1,8 @@
 # Changelog
 
 ## 5.0.0
+- Minor bugfix - incorrect use of character range resulted in 
+  botched results for Money::Parsing#extract_cents (GH-162)
 - Money::Currency::TABLE removed. Use Money::Currency.register to add
   additional currencies (GH-143)
 - Fix rounding error in Numeric.to_money (GH-145)
