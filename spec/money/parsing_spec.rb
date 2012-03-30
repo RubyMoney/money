@@ -292,6 +292,12 @@ describe Money, "parsing" do
     end
   end
 
+  describe ".extract_cents" do
+    it "correctly treats pipe marks '|' in input (regression test)" do
+      Money.extract_cents('100|0').should == Money.extract_cents('100!0')
+    end
+  end
+
   context "given the same inputs to .parse and .from_*" do
     it "gives the same results" do
       4.635.to_money.should == "4.635".to_money
