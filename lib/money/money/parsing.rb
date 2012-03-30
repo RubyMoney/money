@@ -47,8 +47,7 @@ class Money
           when /^£/ then "GBP"
           end
         else
-          m = i.scan(/([A-Z]{2,3})/)
-          m[0] ? m[0][0] : nil
+          i[/[A-Z]{2,3}/]
         end
 
         # check that currency passed and embedded currency are the same,
