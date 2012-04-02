@@ -28,8 +28,8 @@ This library aids one in handling money and different currencies.
 
 ### Resources
 
-- [Website](http://money.rubyforge.org)
-- [API Documentation](http://money.rubyforge.org)
+- [Website](http://rubymoney.github.com/money)
+- [API Documentation](http://rubydoc.info/gems/money/frames)
 - [Git Repository](http://github.com/RubyMoney/money)
 
 ### Note
