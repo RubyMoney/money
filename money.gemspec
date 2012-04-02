@@ -6,12 +6,11 @@ Gem::Specification.new do |s|
   s.authors     = ["Tobias Luetke", "Hongli Lai", "Jeremy McNevin",
                    "Shane Emmons", "Simone Carletti"]
   s.email       = ["semmons99+RubyMoney@gmail.com"]
-  s.homepage    = "https://github.com/RubyMoney/money"
+  s.homepage    = "http://rubymoney.github.com/money"
   s.summary     = "Money and currency exchange support library."
   s.description = "This library aids one in handling money and different currencies."
 
   s.required_rubygems_version = ">= 1.3.6"
-  s.rubyforge_project         = "money"
 
   s.add_dependency "i18n", "~> 0.4"
   s.add_dependency "json"
