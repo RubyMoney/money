@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = "money"
-  s.version     = "4.0.2"
+  s.version     = "5.0.0.rc1"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Tobias Luetke", "Hongli Lai", "Jeremy McNevin",
                    "Shane Emmons", "Simone Carletti"]
