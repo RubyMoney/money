@@ -230,6 +230,9 @@ implementations.
 
 ## Ruby on Rails
 
+To integrate money in a rails application use [money-rails](http://github.com/RubyMoney/money-rails)
+gem or follow the instructions below.
+
 Use the `composed_of` helper to let Active Record deal with embedding the money
 object in your models. The following example requires 2 columns:
 
