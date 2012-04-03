@@ -1,6 +1,7 @@
 # RubyMoney - Money
 
 [![Build Status](http://travis-ci.org/RubyMoney/money.png)](http://travis-ci.org/RubyMoney/money)
+[![Dependency Status](!https://gemnasium.com/RubyMoney/money.png)](https://gemnasium.com/RubyMoney/money)
 
 ## Contributing
 
