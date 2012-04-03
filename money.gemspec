@@ -15,8 +15,9 @@ Gem::Specification.new do |s|
   s.add_dependency "i18n", "~> 0.4"
   s.add_dependency "json"
 
-  s.add_development_dependency "rspec", "~> 2.8.0"
-  s.add_development_dependency "yard"
+  s.add_development_dependency "rspec",     "~> 2.9.0"
+  s.add_development_dependency "yard",      "~> 0.7.5"
+  s.add_development_dependency "redcarpet", "~> 2.1.1"
 
   s.requirements << "json"
 
