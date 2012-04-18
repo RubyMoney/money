@@ -192,7 +192,7 @@ class Money
         end
       end
 
-      if rules.has_key?(:decimal_mark) and rules[:decimal_mark] and
+      if rules.has_key?(:decimal_mark) && rules[:decimal_mark] &&
         rules[:decimal_mark] != decimal_mark
         formatted.sub!(decimal_mark, rules[:decimal_mark])
       end
@@ -236,10 +236,10 @@ class Money
         rules = rules.pop
         rules = { rules => true } if rules.is_a?(Symbol)
       end
-      if not rules.include?(:decimal_mark) and rules.include?(:separator)
+      if !rules.include?(:decimal_mark) && rules.include?(:separator)
         rules[:decimal_mark] = rules[:separator]
       end
-      if not rules.include?(:thousands_separator) and rules.include?(:delimiter)
+      if !rules.include?(:thousands_separator) && rules.include?(:delimiter)
         rules[:thousands_separator] = rules[:delimiter]
       end
       rules
