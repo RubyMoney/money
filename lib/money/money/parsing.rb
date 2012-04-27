@@ -258,10 +258,10 @@ class Money
         #if the number ends with punctuation, just throw it out.  If it means decimal,
         #it won't hurt anything.  If it means a literal period or comma, this will
         #save it from being mis-interpreted as a decimal.
-        num.chop! if num.match /[\.|,]$/
+        num.chop! if num.match(/[\.|,]$/)
 
           # gather all decimal_marks within the result number
-          used_decimal_marks = num.scan /[^\d]/
+          used_decimal_marks = num.scan(/[^\d]/)
 
           # determine the number of unique decimal_marks within the number
           #
