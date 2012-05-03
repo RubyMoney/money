@@ -68,6 +68,40 @@ class Money
         new(cents, currency)
       end
 
+      # Parses the current string and converts it to a +Money+ object.
+      # Excess characters will be discarded. If no numeric characters are
+      # given, an ArgumentError is being raised.
+      #
+      # @param [String, #to_s] input The input to parse.
+      # @param [Currency, String, Symbol] currency The currency format.
+      #   The currency to set the resulting +Money+ object to.
+      #
+      # @return [Money]
+      #
+      # @raise [ArgumentError] If +input+ string does not contain any numbers
+      #   or if any +currency+ is supplied and given value doesn't match the
+      #   one extracted from the +input+ string.
+      #
+      # @example
+      #   '100'.to_money                #=> #<Money @cents=10000>
+      #   '100.37'.to_money             #=> #<Money @cents=10037>
+      #   '100 USD'.to_money            #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
+      #   'USD 100'.to_money            #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
+      #   '$100 USD'.to_money           #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
+      #   'hello 2000 world'.to_money   #=> #<Money @cents=200000 @currency=#<Money::Currency id: usd>>
+      #
+      # @example Mismatching currencies
+      #   'USD 2000'.to_money("EUR")    #=> ArgumentError
+      #
+      # @see Money.from_string
+      #
+      def parse!(input, currency=nil)
+        unless input =~ /[0-9]/
+          raise ArgumentError, "`input' should contain a numeric character"
+        end
+        parse(input, currency)
+      end
+
       # Converts a String into a Money object treating the +value+
       # as dollars and converting them to the corresponding cents value,
       # according to +currency+ subunit property,
