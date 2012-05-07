@@ -190,9 +190,21 @@ class Money
   #
   # @see Money.new_with_dollars
   #
-  def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
+  def initialize(cents, currency = Money.default_currency, bank = Money.default_bank, decimal_precision = nil)
     @cents = cents.round.to_i
     @currency = Currency.wrap(currency)
+    if !decimal_precision.nil? && @currency.decimal_places != decimal_precision.to_i
+      subunit_to_unit_ratio = (10**(decimal_precision.to_i - @currency.decimal_places))
+      Currency.register({:id => @currency.id, :priority => @currency.priority,
+                                  :iso_code => "#{@currency.iso_code}#{decimal_precision.to_i.to_s}",
+                                  :iso_numeric => "#{@currency.iso_numeric}#{decimal_precision.to_i.to_s}",
+                                  :name => "#{@currency.name} with decimal precision of #{decimal_precision.to_i.to_s}",
+                                  :symbol => @currency.symbol, :subunit => "#{(1/subunit_to_unit_ratio).to_s}_#{@currency.subunit}",
+                                  :subunit_to_unit => @currency.subunit_to_unit * subunit_to_unit_ratio,
+                                  :symbol_first => @currency.symbol_first, :html_entity => @currency.html_entity,
+                                  :decimal_mark => @currency.decimal_mark, :thousands_separator => @currency.thousands_separator})
+      @currency = Currency.wrap("#{@currency.iso_code}#{decimal_precision.to_i.to_s}")
+    end
     @bank = bank
   end
 

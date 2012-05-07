@@ -139,11 +139,13 @@ describe Money, "formatting" do
     it "inserts commas into the result if the amount is sufficiently large" do
       Money.us_dollar(1_000_000_000_12).format.should == "$1,000,000,000.12"
       Money.us_dollar(1_000_000_000_12).format(:no_cents => true).should == "$1,000,000,000"
+      Money.us_dollar(1_000_000_000_12).format(:precision => 5).should == "$1,000,000,000.12000"
     end
 
     it "inserts thousands separator into the result if the amount is sufficiently large and the currency symbol is at the end" do
       Money.euro(1_234_567_12).format.should == "€1.234.567,12"
       Money.euro(1_234_567_12).format(:no_cents => true).should == "€1.234.567"
+      Money.euro(1_234_567_12).format(:precision => 5).should == "€1.234.567,12000"
     end
 
     describe ":with_currency option" do
@@ -191,6 +193,15 @@ describe Money, "formatting" do
         Money.new(10034, "USD").format(:no_cents_if_whole => false, :symbol => false).should == "100.34"
         Money.new(10000, "IQD").format(:no_cents_if_whole => false, :symbol => false).should == "10.000"
         Money.new(10034, "IQD").format(:no_cents_if_whole => false, :symbol => false).should == "10.034"
+      end
+    end
+
+    describe ":precision option" do
+      specify "(:precision => an precision integer) works as documented" do
+        Money.new(12345671234567890, "USD", Money.default_bank, 10).format(:precision => 5).should == "$1,234,567.12345"
+        Money.new(12345671234567890, "USD", Money.default_bank, 10).format(:precision => 2).should == "$1,234,567.12"
+        Money.new(12345671234567890, "USD", Money.default_bank, 10).format(:precision => 9).should == "$1,234,567.123456789"
+        Money.new(12345671234567890, "USD", Money.default_bank, 10).format(:with_currency => true, :precision => 0).should == "$1,234,567 USD"
       end
     end
 
