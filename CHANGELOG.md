@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.1
+- Added support for precision in creation of Money objects
+- Added support for precision when formatting Money objects to string
+
 ## 5.0.0
 - Minor bugfix - incorrect use of character range resulted in 
   botched results for Money::Parsing#extract_cents (GH-162)
