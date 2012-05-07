@@ -29,7 +29,7 @@ describe Money do
       Money.new_with_dollars(1, "CLP").should == Money.new(1,     "CLP")
     end
 
-    it "does not loose precision" do
+    it "does not lose precision" do
       Money.new_with_dollars(1234).cents.should == 1234_00
       Money.new_with_dollars(100.37).cents.should == 100_37
       Money.new_with_dollars(BigDecimal.new('1234')).cents.should == 1234_00
@@ -52,6 +52,18 @@ describe Money do
 
       m = Money.new_with_dollars(1, "EUR", bank = Object.new)
       m.bank.should == bank
+    end
+
+    it "accepts optional decimal precision" do
+      Money.new(1_234_567_12, "USD", Money.default_bank).format.should == "$1,234,567.12"
+
+      # Because no precision is specified, this number will be interpreted as 123 trillion with a precision of 2
+      # rather than 1 million USD with a precision of 10
+      Money.new(1_234_567_1234567890, "USD", Money.default_bank).format.should == "$123,456,712,345,678.90"
+
+      Money.new(1_234_567_1234567890, "USD", Money.default_bank, 10).format(:precision => 10).should == "$1,234,567.1234567890"
+
+      Money.new(1_234_567_1234567890, "USD", Money.default_bank, 10).format(:precision => 5).should == "$1,234,567.12345"
     end
 
     it "is associated to the singleton instance of Bank::VariableExchange by default" do
