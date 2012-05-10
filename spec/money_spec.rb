@@ -5,10 +5,25 @@ require "spec_helper"
 describe Money do
 
   describe ".new" do
-    it "rounds the given cents to an integer" do
-      Money.new(1.00, "USD").cents.should == 1
-      Money.new(1.01, "USD").cents.should == 1
-      Money.new(1.50, "USD").cents.should == 2
+    it "Attempts to convert cents of all types to a BigDecimal" do
+      # INTEGER
+      Money.new(1, "USD").cents.should == 1
+      Money.new(12, "USD").cents.should == 12
+
+      # FLOAT
+      # These tests SHOULD theoretically pass, but we're talking about Floating Point here
+      Money.new(1.00, "USD").cents.should == BigDecimal.new(1.00.to_s)
+      Money.new(1.01, "USD").cents.should == BigDecimal.new(1.01.to_s)
+      Money.new(1.50, "USD").cents.should == BigDecimal.new(1.50.to_s)
+
+      # RATIONAL
+      Money.new((1/2).to_r, "USD").cents.should == (1/2).to_r
+
+      # BIGDECIMAL
+      Money.new(BigDecimal.new('12.3456'), "USD").cents.should == BigDecimal.new('12.3456')
+
+      # String
+      Money.new('12.3456', "USD").cents.should == BigDecimal.new('12.3456')
     end
 
     it "is associated to the singleton instance of Bank::VariableExchange by default" do
@@ -57,13 +72,9 @@ describe Money do
     it "accepts optional decimal precision" do
       Money.new(1_234_567_12, "USD", Money.default_bank).format.should == "$1,234,567.12"
 
-      # Because no precision is specified, this number will be interpreted as 123 trillion with a precision of 2
-      # rather than 1 million USD with a precision of 10
-      Money.new(1_234_567_1234567890, "USD", Money.default_bank).format.should == "$123,456,712,345,678.90"
+      Money.new("1234567.1234567890", "USD", Money.default_bank).format(:precision => 10).should == "$1,234,567.1234567890"
 
-      Money.new(1_234_567_1234567890, "USD", Money.default_bank, 10).format(:precision => 10).should == "$1,234,567.1234567890"
-
-      Money.new(1_234_567_1234567890, "USD", Money.default_bank, 10).format(:precision => 5).should == "$1,234,567.12345"
+      Money.new("1234567.1234567890", "USD", Money.default_bank).format(:precision => 5).should == "$1,234,567.12345"
     end
 
     it "is associated to the singleton instance of Bank::VariableExchange by default" do

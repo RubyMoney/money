@@ -14,7 +14,12 @@ class Money
   # The value of the money in cents.
   #
   # @return [Integer]
-  attr_reader :cents
+  #attr_reader :cents
+  
+  # The value of the money in cents.
+  #
+  # @return [BigDecimal]
+  attr_reader :fractional_cents
 
   # The currency the money is in.
   #
@@ -190,22 +195,10 @@ class Money
   #
   # @see Money.new_with_dollars
   #
-  def initialize(cents, currency = Money.default_currency, bank = Money.default_bank, decimal_precision = nil)
-    @cents = cents.round.to_i
+  def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
     @currency = Currency.wrap(currency)
-    if !decimal_precision.nil? && @currency.decimal_places != decimal_precision.to_i
-      subunit_to_unit_ratio = (10**(decimal_precision.to_i - @currency.decimal_places))
-      Currency.register({:id => @currency.id, :priority => @currency.priority,
-                                  :iso_code => "#{@currency.iso_code}#{decimal_precision.to_i.to_s}",
-                                  :iso_numeric => "#{@currency.iso_numeric}#{decimal_precision.to_i.to_s}",
-                                  :name => "#{@currency.name} with decimal precision of #{decimal_precision.to_i.to_s}",
-                                  :symbol => @currency.symbol, :subunit => "#{(1/subunit_to_unit_ratio).to_s}_#{@currency.subunit}",
-                                  :subunit_to_unit => @currency.subunit_to_unit * subunit_to_unit_ratio,
-                                  :symbol_first => @currency.symbol_first, :html_entity => @currency.html_entity,
-                                  :decimal_mark => @currency.decimal_mark, :thousands_separator => @currency.thousands_separator})
-      @currency = Currency.wrap("#{@currency.iso_code}#{decimal_precision.to_i.to_s}")
-    end
     @bank = bank
+    self.cents = cents
   end
 
   # Returns the value of the money in dollars,
@@ -222,6 +215,44 @@ class Money
   #
   def dollars
     to_f
+  end
+
+  # The value of the money in cents.
+  #
+  # @return [Integer]
+  def cents
+    (fractional_cents == 0) ? @cents : BigDecimal(@cents.to_s) + fractional_cents
+  end
+
+  def cents=(value)
+    # Handle potential conversion issues from non-integer values
+    case
+    when value.is_a?(Integer)
+      value = BigDecimal.new(value.to_s)
+    when value.is_a?(Float)
+      warn "Cents assigned a value in Floating Point Format. Unexpected results possible including loss of precision"
+      value = BigDecimal.new(value.to_s)
+    when value.is_a?(Rational)
+      value = BigDecimal.new(value.to_s)
+    when value.is_a?(BigDecimal)
+      # Do Nothing. We don't need to convert value
+    when value.is_a?(String)
+      puts "Converted String to BigDecimal: #{value} | #{BigDecimal.new(value).to_s('F')}"
+      value = BigDecimal.new(value)
+    else
+      # Try converting value into a decimal value using to_d if possible, then to_s, finally failing with NaN
+      value = case
+      when value.respond_to?(:to_d)
+        value.to_d
+      when value.respond_to?(:to_s)
+        BigDecimal.new(value.to_s)
+      else
+        BigDecimal.new('NaN')
+      end
+    end
+
+    @cents = value.fix.to_i
+    @fractional_cents = value.frac
   end
 
   # Return string representation of currency object
@@ -280,15 +311,34 @@ class Money
   #
   # @example
   #   Money.ca_dollar(100).to_s #=> "1.00"
-  def to_s
-    unit, subunit  = cents.abs.divmod(currency.subunit_to_unit).map{|o| o.to_s}
-    if currency.decimal_places == 0
+  def to_s(precision=nil)
+    precision ||= currency.decimal_places
+    
+    whole_currency = BigDecimal.new((fractional_cents == 0) ? cents.to_s : cents.to_s).abs / BigDecimal.new(currency.subunit_to_unit.to_s)
+
+    unit = whole_currency.fix.to_i.to_s
+
+    subunit = whole_currency.frac.to_s('F').gsub!(/\A0\.(?=\d+\Z)/, '')
+
+    subunit = (subunit + ("0" * precision.to_i))[0..(precision.to_i - 1)]
+
+    # return number
+    # unit, subunit = cents.abs.divmod(currency.subunit_to_unit).map{|o| o.to_s}
+    # subunit = (BigDecimal.new(subunit.to_s) / BigDecimal.new(currency.subunit_to_unit.to_s)).round(precision).to_s('F')
+
+    puts "Cents: #{cents.to_s} | Whole Currency: #{whole_currency.to_s('F')} | Unit: #{unit.to_s} | Subunit: #{subunit.to_s} | Precision: #{precision.to_s}"
+    if precision == 0
       return "-#{unit}" if cents < 0
       return unit
     end
-    subunit = (("0" * currency.decimal_places) + subunit)[(-1*currency.decimal_places)..-1]
-    return "-#{unit}#{decimal_mark}#{subunit}" if cents < 0
-    "#{unit}#{decimal_mark}#{subunit}"
+
+    # subunit = (subunit + ("0" * precision.to_i))[0..(precision.to_i - 1)]
+    
+    if cents < 0
+      "-#{unit}#{decimal_mark}#{subunit}"
+    else
+      "#{unit}#{decimal_mark}#{subunit}"
+    end
   end
 
   # Return the amount of money as a BigDecimal.

@@ -198,10 +198,10 @@ describe Money, "formatting" do
 
     describe ":precision option" do
       specify "(:precision => an precision integer) works as documented" do
-        Money.new(12345671234567890, "USD", Money.default_bank, 10).format(:precision => 5).should == "$1,234,567.12345"
-        Money.new(12345671234567890, "USD", Money.default_bank, 10).format(:precision => 2).should == "$1,234,567.12"
-        Money.new(12345671234567890, "USD", Money.default_bank, 10).format(:precision => 9).should == "$1,234,567.123456789"
-        Money.new(12345671234567890, "USD", Money.default_bank, 10).format(:with_currency => true, :precision => 0).should == "$1,234,567 USD"
+        Money.new('1234567.1234567890', "USD").format(:precision => 5).should == "$1,234,567.12345"
+        Money.new('1234567.1234567890', "USD").format(:precision => 2).should == "$1,234,567.12"
+        Money.new('1234567.1234567890', "USD").format(:precision => 9).should == "$1,234,567.123456789"
+        Money.new('1234567.1234567890', "USD").format(:with_currency => true, :precision => 0).should == "$1,234,567 USD"
       end
     end
 
