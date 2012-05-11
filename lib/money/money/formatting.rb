@@ -183,13 +183,7 @@ class Money
         when rules.has_key?(:precision) && rules[:precision] < 0
           raise(Error, "Precision(#{rules[:precision].to_s}) cannot be less than zero")
         when rules.has_key?(:precision) && rules[:precision] != currency.decimal_places
-          unit, subunit = cents.abs.divmod(currency.subunit_to_unit).map{|o| o.to_s}
-          subunit = (subunit + ("0" * rules[:precision].to_i))[0..(rules[:precision].to_i - 1)]
-          if cents < 0
-            "-#{unit}#{decimal_mark}#{subunit}"
-          else
-            "#{unit}#{decimal_mark}#{subunit}"
-          end
+          self.to_s(rules[:precision])
         else
           self.to_s
         end

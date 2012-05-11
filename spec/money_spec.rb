@@ -12,18 +12,22 @@ describe Money do
 
       # FLOAT
       # These tests SHOULD theoretically pass, but we're talking about Floating Point here
-      Money.new(1.00, "USD").cents.should == BigDecimal.new(1.00.to_s)
-      Money.new(1.01, "USD").cents.should == BigDecimal.new(1.01.to_s)
-      Money.new(1.50, "USD").cents.should == BigDecimal.new(1.50.to_s)
+      @precision = Money.infinite_precision; Money.infinite_precision = true
+      Money.new(1.00, "USD").cents.should == BigDecimal(1.00.to_s)
+      # .01 is a problem floating point
+      Money.new(1.01, "USD").cents.should be_within(1E-10).of(BigDecimal(1.01.to_s))
+      Money.new(1.50, "USD").cents.should == BigDecimal(1.50.to_s)
 
       # RATIONAL
-      Money.new((1/2).to_r, "USD").cents.should == (1/2).to_r
+      Money.new(Rational(1,2).to_s, "USD").cents.should == (BigDecimal(Rational(1,2).to_s))
 
       # BIGDECIMAL
-      Money.new(BigDecimal.new('12.3456'), "USD").cents.should == BigDecimal.new('12.3456')
+      Money.new(BigDecimal('12.3456'), "USD").cents.should == BigDecimal('12.3456')
 
       # String
-      Money.new('12.3456', "USD").cents.should == BigDecimal.new('12.3456')
+      Money.new('12.3456', "USD").cents.should == BigDecimal('12.3456')
+
+      Money.infinite_precision = @precision
     end
 
     it "is associated to the singleton instance of Bank::VariableExchange by default" do
@@ -41,7 +45,7 @@ describe Money do
     it "respects :subunit_to_unit currency property" do
       Money.new_with_dollars(1, "USD").should == Money.new(1_00,  "USD")
       Money.new_with_dollars(1, "TND").should == Money.new(1_000, "TND")
-      Money.new_with_dollars(1, "CLP").should == Money.new(1,     "CLP")
+      Money.new_with_dollars(1, "CLP").should == Money.new(1, "CLP")
     end
 
     it "does not lose precision" do
@@ -70,11 +74,15 @@ describe Money do
     end
 
     it "accepts optional decimal precision" do
+      @precision = Money.infinite_precision; Money.infinite_precision = true
+
       Money.new(1_234_567_12, "USD", Money.default_bank).format.should == "$1,234,567.12"
 
-      Money.new("1234567.1234567890", "USD", Money.default_bank).format(:precision => 10).should == "$1,234,567.1234567890"
+      Money.new("123456712.34567890", "USD", Money.default_bank).format(:precision => 10).should == "$1,234,567.1234567890"
 
-      Money.new("1234567.1234567890", "USD", Money.default_bank).format(:precision => 5).should == "$1,234,567.12345"
+      Money.new("123456712.34567890", "USD", Money.default_bank).format(:precision => 5).should == "$1,234,567.12345"
+
+      Money.infinite_precision = @precision
     end
 
     it "is associated to the singleton instance of Bank::VariableExchange by default" do
@@ -112,7 +120,6 @@ describe Money do
       Money.new(10_00, "EUR").exchange_to("USD").should == Money.new(100_00, "USD")
     end
   end
-
 
   describe "#cents" do
     it "returns the amount of cents" do

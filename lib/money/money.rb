@@ -13,13 +13,8 @@ class Money
 
   # The value of the money in cents.
   #
-  # @return [Integer]
-  #attr_reader :cents
-  
-  # The value of the money in cents.
-  #
-  # @return [BigDecimal]
-  attr_reader :fractional_cents
+  # @return infinite_precision ? [BigDecimal] : [Integer]
+  attr_reader :cents
 
   # The currency the money is in.
   #
@@ -57,6 +52,11 @@ class Money
     #
     # @return [true,false]
     attr_accessor :assume_from_symbol
+
+    # Use this to enable storage of infinite precision internally
+    #
+    # @return [true,false]
+    attr_accessor :infinite_precision
   end
 
   # Set the default bank for creating new +Money+ objects.
@@ -70,6 +70,9 @@ class Money
 
   # Default to not using currency symbol assumptions when parsing
   self.assume_from_symbol = false
+
+  # Default to using integers rather than infinite precision
+  self.infinite_precision = false
 
   # Create a new money object with value 0.
   #
@@ -198,7 +201,7 @@ class Money
   def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
     @currency = Currency.wrap(currency)
     @bank = bank
-    self.cents = cents
+    @cents = BigDecimal(cents.to_s)
   end
 
   # Returns the value of the money in dollars,
@@ -221,38 +224,7 @@ class Money
   #
   # @return [Integer]
   def cents
-    (fractional_cents == 0) ? @cents : BigDecimal(@cents.to_s) + fractional_cents
-  end
-
-  def cents=(value)
-    # Handle potential conversion issues from non-integer values
-    case
-    when value.is_a?(Integer)
-      value = BigDecimal.new(value.to_s)
-    when value.is_a?(Float)
-      warn "Cents assigned a value in Floating Point Format. Unexpected results possible including loss of precision"
-      value = BigDecimal.new(value.to_s)
-    when value.is_a?(Rational)
-      value = BigDecimal.new(value.to_s)
-    when value.is_a?(BigDecimal)
-      # Do Nothing. We don't need to convert value
-    when value.is_a?(String)
-      puts "Converted String to BigDecimal: #{value} | #{BigDecimal.new(value).to_s('F')}"
-      value = BigDecimal.new(value)
-    else
-      # Try converting value into a decimal value using to_d if possible, then to_s, finally failing with NaN
-      value = case
-      when value.respond_to?(:to_d)
-        value.to_d
-      when value.respond_to?(:to_s)
-        BigDecimal.new(value.to_s)
-      else
-        BigDecimal.new('NaN')
-      end
-    end
-
-    @cents = value.fix.to_i
-    @fractional_cents = value.frac
+    self.class.infinite_precision ? @cents : @cents.to_i
   end
 
   # Return string representation of currency object
@@ -313,27 +285,28 @@ class Money
   #   Money.ca_dollar(100).to_s #=> "1.00"
   def to_s(precision=nil)
     precision ||= currency.decimal_places
-    
-    whole_currency = BigDecimal.new((fractional_cents == 0) ? cents.to_s : cents.to_s).abs / BigDecimal.new(currency.subunit_to_unit.to_s)
 
-    unit = whole_currency.fix.to_i.to_s
+    unit, subunit = cents.abs.divmod(BigDecimal(currency.subunit_to_unit.to_s))
+    unit = unit.to_i.to_s
 
-    subunit = whole_currency.frac.to_s('F').gsub!(/\A0\.(?=\d+\Z)/, '')
-
-    subunit = (subunit + ("0" * precision.to_i))[0..(precision.to_i - 1)]
-
-    # return number
-    # unit, subunit = cents.abs.divmod(currency.subunit_to_unit).map{|o| o.to_s}
-    # subunit = (BigDecimal.new(subunit.to_s) / BigDecimal.new(currency.subunit_to_unit.to_s)).round(precision).to_s('F')
-
-    puts "Cents: #{cents.to_s} | Whole Currency: #{whole_currency.to_s('F')} | Unit: #{unit.to_s} | Subunit: #{subunit.to_s} | Precision: #{precision.to_s}"
+    # If we have a precision of 0, just return the unit
     if precision == 0
       return "-#{unit}" if cents < 0
       return unit
     end
 
-    # subunit = (subunit + ("0" * precision.to_i))[0..(precision.to_i - 1)]
-    
+    # Convert Subunit into the proper representation of a subunit in relation to a unit
+    subunit = subunit / BigDecimal((10**currency.decimal_places).to_s)
+
+    # Stringify the subunits and remove the decimal point
+    subunit = subunit.to_s('F').gsub!(/\A0\.(?=\d+\Z)/, '')
+
+    # Pad the string with zeros if necessary
+    subunit += "0" * precision.to_i
+
+    # Return the necessary number of digits based on precision
+    subunit = subunit[0..(precision.to_i - 1)]
+
     if cents < 0
       "-#{unit}#{decimal_mark}#{subunit}"
     else
@@ -442,17 +415,17 @@ class Money
     allocations = splits.inject(0.0) {|sum, i| sum += i }
     raise ArgumentError, "splits add to more then 100%" if (allocations - 1.0) > Float::EPSILON
 
-    left_over = cents
+    left_over = cents.to_i
 
     amounts = splits.collect do |ratio|
-      fraction = (cents * ratio / allocations).floor
+      fraction = (cents.to_i * ratio / allocations).floor
       left_over -= fraction
       fraction
     end
 
     left_over.times { |i| amounts[i % amounts.length] += 1 }
 
-    amounts.collect { |cents| Money.new(cents, currency) }
+    amounts.collect { |cents| Money.new(cents.to_i, currency) }
   end
 
   # Split money amongst parties evenly without loosing pennies.
@@ -465,10 +438,10 @@ class Money
   #   Money.new(100, "USD").split(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
   def split(num)
     raise ArgumentError, "need at least one party" if num < 1
-    low = Money.new(cents / num)
-    high = Money.new(low.cents + 1)
+    low = Money.new(cents.to_i / num)
+    high = Money.new(low.cents.to_i + 1)
 
-    remainder = cents % num
+    remainder = cents.to_i % num
     result = []
 
     num.times do |index|
