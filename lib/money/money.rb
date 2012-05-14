@@ -57,6 +57,12 @@ class Money
     #
     # @return [true,false]
     attr_accessor :infinite_precision
+
+    # The default rounding mode that BigDecimal uses
+    # when it needs to return a rounded value.
+    #
+    # @return [BigDecimal::ROUND_MODE]
+    attr_accessor :default_rounding_mode
   end
 
   # Set the default bank for creating new +Money+ objects.
@@ -73,6 +79,9 @@ class Money
 
   # Default to using integers rather than infinite precision
   self.infinite_precision = false
+
+  # Default to Default BigDecimal Rounding (currently ROUND_HALF_UP)
+  self.default_rounding_mode = BigDecimal::ROUND_HALF_UP
 
   # Create a new money object with value 0.
   #
@@ -201,7 +210,11 @@ class Money
   def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
     @currency = Currency.wrap(currency)
     @bank = bank
-    @cents = BigDecimal(cents.to_s)
+    if cents.respond_to?(:to_d)
+      @cents = cents.to_d
+    else
+      @cents = BigDecimal(cents.to_s)
+    end
   end
 
   # Returns the value of the money in dollars,
@@ -223,8 +236,9 @@ class Money
   # The value of the money in cents.
   #
   # @return [Integer]
-  def cents
-    self.class.infinite_precision ? @cents : @cents.to_i
+  def cents(precision = nil, rounding_mode = Money.default_rounding_mode)
+    precision ||= (self.class.infinite_precision) ? @cents.precs.first : 0
+    self.class.infinite_precision ? @cents.round(precision, rounding_mode) : @cents.round(precision, rounding_mode).to_i
   end
 
   # Return string representation of currency object
@@ -283,10 +297,8 @@ class Money
   #
   # @example
   #   Money.ca_dollar(100).to_s #=> "1.00"
-  def to_s(precision=nil)
-    precision ||= currency.decimal_places
-
-    unit, subunit = cents.abs.divmod(BigDecimal(currency.subunit_to_unit.to_s))
+  def to_s(precision = currency.decimal_places, rounding_mode = Money.default_rounding_mode)
+    unit, subunit = cents(precision - currency.decimal_places, rounding_mode).abs.divmod(BigDecimal(currency.subunit_to_unit.to_s))
     unit = unit.to_i.to_s
 
     # If we have a precision of 0, just return the unit
@@ -415,17 +427,17 @@ class Money
     allocations = splits.inject(0.0) {|sum, i| sum += i }
     raise ArgumentError, "splits add to more then 100%" if (allocations - 1.0) > Float::EPSILON
 
-    left_over = cents.to_i
+    left_over = cents
 
     amounts = splits.collect do |ratio|
-      fraction = (cents.to_i * ratio / allocations).floor
+      fraction = (cents * ratio / allocations).floor
       left_over -= fraction
       fraction
     end
 
     left_over.times { |i| amounts[i % amounts.length] += 1 }
 
-    amounts.collect { |cents| Money.new(cents.to_i, currency) }
+    amounts.collect { |cents| Money.new(cents, currency) }
   end
 
   # Split money amongst parties evenly without loosing pennies.
@@ -438,10 +450,10 @@ class Money
   #   Money.new(100, "USD").split(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
   def split(num)
     raise ArgumentError, "need at least one party" if num < 1
-    low = Money.new(cents.to_i / num)
-    high = Money.new(low.cents.to_i + 1)
+    low = Money.new(cents / num)
+    high = Money.new(low.cents + 1)
 
-    remainder = cents.to_i % num
+    remainder = cents % num
     result = []
 
     num.times do |index|

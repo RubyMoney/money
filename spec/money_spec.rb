@@ -5,27 +5,50 @@ require "spec_helper"
 describe Money do
 
   describe ".new" do
-    it "Attempts to convert cents of all types to a BigDecimal" do
+    it "keeps partial cents when using infinite precision" do
+      @precision = Money.infinite_precision; Money.infinite_precision = true
+
+      # INTEGER
+      Money.new(1, "USD").cents.should == BigDecimal(1.to_s)
+      Money.new(12, "USD").cents.should == BigDecimal(12.to_s)
+
+      # FLOAT
+      Money.new(1.00, "USD").cents.should == BigDecimal(1.00.to_s)
+      Money.new(1.01, "USD").cents.should == BigDecimal(1.01.to_s)
+      Money.new(1.50, "USD").cents(2).should == BigDecimal(1.50.to_s)
+
+      # RATIONAL
+      Money.new(Rational(1,2), "USD").cents.should == Rational(1,2).to_d
+
+      # BIGDECIMAL
+      Money.new(BigDecimal('12.345678'), "USD").cents.should == BigDecimal('12.345678')
+
+      # String
+      Money.new('12.3456', "USD").cents.should == BigDecimal('12.3456')
+
+      Money.infinite_precision = @precision
+    end
+
+    it "keeps only whole cents when not using infinite precision" do
+      @precision = Money.infinite_precision; Money.infinite_precision = false
+
       # INTEGER
       Money.new(1, "USD").cents.should == 1
       Money.new(12, "USD").cents.should == 12
 
       # FLOAT
-      # These tests SHOULD theoretically pass, but we're talking about Floating Point here
-      @precision = Money.infinite_precision; Money.infinite_precision = true
-      Money.new(1.00, "USD").cents.should == BigDecimal(1.00.to_s)
-      # .01 is a problem floating point
-      Money.new(1.01, "USD").cents.should be_within(1E-10).of(BigDecimal(1.01.to_s))
-      Money.new(1.50, "USD").cents.should == BigDecimal(1.50.to_s)
+      Money.new(1.00, "USD").cents.should == 1
+      Money.new(1.01, "USD").cents.should == 1
+      Money.new(1.50, "USD").cents.should == 2
 
       # RATIONAL
-      Money.new(Rational(1,2).to_s, "USD").cents.should == (BigDecimal(Rational(1,2).to_s))
+      Money.new(Rational(1,2), "USD").cents.should == 1
 
       # BIGDECIMAL
-      Money.new(BigDecimal('12.3456'), "USD").cents.should == BigDecimal('12.3456')
+      Money.new(BigDecimal('12.3456'), "USD").cents.should == 12
 
       # String
-      Money.new('12.3456', "USD").cents.should == BigDecimal('12.3456')
+      Money.new('12.3456', "USD").cents.should == 12
 
       Money.infinite_precision = @precision
     end
@@ -80,13 +103,75 @@ describe Money do
 
       Money.new("123456712.34567890", "USD", Money.default_bank).format(:precision => 10).should == "$1,234,567.1234567890"
 
-      Money.new("123456712.34567890", "USD", Money.default_bank).format(:precision => 5).should == "$1,234,567.12345"
+      Money.new("123456712.34567890", "USD", Money.default_bank).format(:precision => 5).should == "$1,234,567.12346"
 
       Money.infinite_precision = @precision
     end
 
     it "is associated to the singleton instance of Bank::VariableExchange by default" do
       Money.new_with_dollars(0).bank.should be(Money::Bank::VariableExchange.instance)
+    end
+
+    it "rounds according to the value of Money#default_rounding_mode which defaults to ROUND_HALF_UP" do
+      # Infinite Precision is false
+      @precision = Money.infinite_precision; Money.infinite_precision = false
+
+      Money.new('12.5678').cents.should == BigDecimal('13')
+      
+      Money.default_rounding_mode = BigDecimal::ROUND_HALF_EVEN
+      Money.new('12.5678').cents.should == BigDecimal('12')
+
+      Money.default_rounding_mode = BigDecimal::ROUND_HALF_DOWN
+      Money.new('12.5678').cents.should == BigDecimal('12')
+
+      Money.default_rounding_mode = BigDecimal::ROUND_HALF_UP
+      Money.new('12.5678').cents.should == BigDecimal('13')
+
+      Money.default_rounding_mode = BigDecimal::ROUND_CEILING
+      Money.new('12.5678').cents.should == BigDecimal('13')
+
+      Money.default_rounding_mode = BigDecimal::ROUND_HALF_UP
+
+      # Infinite Precision is true
+      Money.infinite_precision = true
+
+      Money.new('12.12345678').cents(4).should == BigDecimal('12.1235')
+      
+      Money.default_rounding_mode = BigDecimal::ROUND_HALF_EVEN
+      Money.new('12.12345678').cents(4).should == BigDecimal('12.1234')
+
+      Money.default_rounding_mode = BigDecimal::ROUND_HALF_DOWN
+      Money.new('12.12345678').cents(4).should == BigDecimal('12.1234')
+
+      Money.default_rounding_mode = BigDecimal::ROUND_HALF_UP
+      Money.new('12.12345678').cents(4).should == BigDecimal('12.1235')
+
+      Money.default_rounding_mode = BigDecimal::ROUND_CEILING
+      Money.new('12.12345678').cents(4).should == BigDecimal('12.1235')
+
+      Money.default_rounding_mode = BigDecimal::ROUND_HALF_UP
+
+      Money.infinite_precision = @precision
+    end
+
+    it "returns cents values using the rounding type passed" do
+      # Infinite Precision is false
+      @precision = Money.infinite_precision; Money.infinite_precision = false
+
+      Money.new('12.5678').cents(nil, BigDecimal::ROUND_HALF_EVEN).should == BigDecimal('12')
+      Money.new('12.5678').cents(nil, BigDecimal::ROUND_HALF_DOWN).should == BigDecimal('12')
+      Money.new('12.5678').cents(nil, BigDecimal::ROUND_HALF_UP).should == BigDecimal('13')
+      Money.new('12.5678').cents(nil, BigDecimal::ROUND_CEILING).should == BigDecimal('13')
+
+      # Infinite Precision is true
+      Money.infinite_precision = true
+
+      Money.new('12.12345678').cents(4, BigDecimal::ROUND_HALF_EVEN).should == BigDecimal('12.1234')
+      Money.new('12.12345678').cents(4, BigDecimal::ROUND_HALF_DOWN).should == BigDecimal('12.1234')
+      Money.new('12.12345678').cents(4, BigDecimal::ROUND_HALF_UP).should == BigDecimal('12.1235')
+      Money.new('12.12345678').cents(4, BigDecimal::ROUND_CEILING).should == BigDecimal('12.1235')
+
+      Money.infinite_precision = @precision
     end
   end
 
@@ -126,13 +211,6 @@ describe Money do
       Money.new(1_00).cents.should == 1_00
       Money.new_with_dollars(1).cents.should == 1_00
     end
-
-    it "stores cents as an integer regardless of what is passed into the constructor" do
-      [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
-        m.cents.should == 100
-        m.cents.should be_a(Fixnum)
-      end
-    end
   end
 
   describe "#dollars" do
@@ -147,7 +225,7 @@ describe Money do
       Money.new(1,     "CLP").dollars.should == 1
     end
 
-    it "does not loose precision" do
+    it "does not lose precision" do
       Money.new(100_37).dollars.should == 100.37
       Money.new_with_dollars(100.37).dollars.should == 100.37
     end
@@ -294,13 +372,13 @@ describe Money do
       Money.ca_dollar(005).allocate([1]).should == [Money.ca_dollar(5)]
     end
 
-    it "does not loose pennies" do
+    it "does not lose pennies" do
       moneys = Money.us_dollar(5).allocate([0.3, 0.7])
       moneys[0].should == Money.us_dollar(2)
       moneys[1].should == Money.us_dollar(3)
     end
 
-    it "does not loose pennies" do
+    it "does not lose pennies" do
       moneys = Money.us_dollar(100).allocate([0.333, 0.333, 0.333])
       moneys[0].cents.should == 34
       moneys[1].cents.should == 33
