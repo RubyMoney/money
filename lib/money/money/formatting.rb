@@ -168,11 +168,46 @@ class Money
           symbol
         end
 
-      formatted = rules[:no_cents] ? "#{self.to_s.to_i}" : self.to_s
+      formatted = 
+        case
+        when rules.has_key?(:no_cents) && rules[:no_cents]
+          "#{self.to_s.to_i}"
+        when rules.has_key?(:no_cents_if_whole) && rules[:no_cents_if_whole] && cents % currency.subunit_to_unit == 0
+          "#{self.to_s.to_i}"
+        # :precision => 0 is semantically equivalent to :no_cents => true
+        # so, returning the same result here.
+        when rules.has_key?(:precision) && rules[:precision] == 0
+          "#{self.to_s.to_i}"
+        # precision of less than 0 has an unknown connotation, so raise
+        # an error instead of returning a result
+        when rules.has_key?(:precision) && rules[:precision] < 0
+          raise(Error, "Precision(#{rules[:precision].to_s}) cannot be less than zero")
+        when rules.has_key?(:precision) && rules[:precision] != currency.decimal_places
+          self.to_s(rules[:precision])
+        else
+          self.to_s
+        end
 
-      if rules[:no_cents_if_whole] && cents % currency.subunit_to_unit == 0
-        formatted = "#{self.to_s.to_i}"
+      if rules.has_key?(:decimal_mark) && rules[:decimal_mark] &&
+        rules[:decimal_mark] != decimal_mark
+        formatted.sub!(decimal_mark, rules[:decimal_mark])
       end
+
+      thousands_separator_value = thousands_separator
+      # Determine thousands_separator
+      if rules.has_key?(:thousands_separator)
+        thousands_separator_value = rules[:thousands_separator] || ''
+      end
+
+      # Apply thousands_separator
+      formatted_parts = formatted.split(decimal_mark)
+      integer_part = formatted_parts.first
+      decimal_part = formatted_parts.last if formatted_parts.length > 1
+
+      integer_part.gsub!(/(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/, "\\1#{thousands_separator_value}")
+
+      formatted = "#{integer_part}"
+      formatted += "#{decimal_mark}#{decimal_part}" if formatted_parts.length > 1
 
       symbol_position =
         if rules.has_key?(:symbol_position)
@@ -191,26 +226,6 @@ class Money
           "#{formatted}#{symbol_space}#{symbol_value}"
         end
       end
-
-      if rules.has_key?(:decimal_mark) && rules[:decimal_mark] &&
-        rules[:decimal_mark] != decimal_mark
-        formatted.sub!(decimal_mark, rules[:decimal_mark])
-      end
-
-      thousands_separator_value = thousands_separator
-      # Determine thousands_separator
-      if rules.has_key?(:thousands_separator)
-        thousands_separator_value = rules[:thousands_separator] || ''
-      end
-
-      # Apply thousands_separator
-      regexp_decimal = Regexp.escape(decimal_mark)
-      regexp_format  = if formatted =~ /#{regexp_decimal}/
-           /(\d)(?=(?:\d{3})+(?:#{regexp_decimal}))/
-         else
-           /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
-         end
-      formatted.gsub!(regexp_format, "\\1#{thousands_separator_value}")
 
       if rules[:with_currency]
         formatted << " "

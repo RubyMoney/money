@@ -13,7 +13,7 @@ class Money
 
   # The value of the money in cents.
   #
-  # @return [Integer]
+  # @return infinite_precision ? [BigDecimal] : [Integer]
   attr_reader :cents
 
   # The currency the money is in.
@@ -52,6 +52,17 @@ class Money
     #
     # @return [true,false]
     attr_accessor :assume_from_symbol
+
+    # Use this to enable storage of infinite precision internally
+    #
+    # @return [true,false]
+    attr_accessor :infinite_precision
+
+    # The default rounding mode that BigDecimal uses
+    # when it needs to return a rounded value.
+    #
+    # @return [BigDecimal::ROUND_MODE]
+    attr_accessor :default_rounding_mode
   end
 
   # Set the default bank for creating new +Money+ objects.
@@ -65,6 +76,12 @@ class Money
 
   # Default to not using currency symbol assumptions when parsing
   self.assume_from_symbol = false
+
+  # Default to using integers rather than infinite precision
+  self.infinite_precision = false
+
+  # Default to Default BigDecimal Rounding (currently ROUND_HALF_UP)
+  self.default_rounding_mode = BigDecimal::ROUND_HALF_UP
 
   # Create a new money object with value 0.
   #
@@ -191,9 +208,13 @@ class Money
   # @see Money.new_with_dollars
   #
   def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
-    @cents = cents.round.to_i
     @currency = Currency.wrap(currency)
     @bank = bank
+    if cents.respond_to?(:to_d)
+      @cents = cents.to_d
+    else
+      @cents = BigDecimal(cents.to_s)
+    end
   end
 
   # Returns the value of the money in dollars,
@@ -210,6 +231,14 @@ class Money
   #
   def dollars
     to_f
+  end
+
+  # The value of the money in cents.
+  #
+  # @return [Integer]
+  def cents(precision = nil, rounding_mode = Money.default_rounding_mode)
+    precision ||= (self.class.infinite_precision) ? @cents.precs.first : 0
+    self.class.infinite_precision ? @cents.round(precision, rounding_mode) : @cents.round(precision, rounding_mode).to_i
   end
 
   # Return string representation of currency object
@@ -268,15 +297,33 @@ class Money
   #
   # @example
   #   Money.ca_dollar(100).to_s #=> "1.00"
-  def to_s
-    unit, subunit  = cents.abs.divmod(currency.subunit_to_unit).map{|o| o.to_s}
-    if currency.decimal_places == 0
+  def to_s(precision = currency.decimal_places, rounding_mode = Money.default_rounding_mode)
+    unit, subunit = cents(precision - currency.decimal_places, rounding_mode).abs.divmod(BigDecimal(currency.subunit_to_unit.to_s))
+    unit = unit.to_i.to_s
+
+    # If we have a precision of 0, just return the unit
+    if precision == 0
       return "-#{unit}" if cents < 0
       return unit
     end
-    subunit = (("0" * currency.decimal_places) + subunit)[(-1*currency.decimal_places)..-1]
-    return "-#{unit}#{decimal_mark}#{subunit}" if cents < 0
-    "#{unit}#{decimal_mark}#{subunit}"
+
+    # Convert Subunit into the proper representation of a subunit in relation to a unit
+    subunit = subunit / BigDecimal((10**currency.decimal_places).to_s)
+
+    # Stringify the subunits and remove the decimal point
+    subunit = subunit.to_s('F').gsub!(/\A0\.(?=\d+\Z)/, '')
+
+    # Pad the string with zeros if necessary
+    subunit += "0" * precision.to_i
+
+    # Return the necessary number of digits based on precision
+    subunit = subunit[0..(precision.to_i - 1)]
+
+    if cents < 0
+      "-#{unit}#{decimal_mark}#{subunit}"
+    else
+      "#{unit}#{decimal_mark}#{subunit}"
+    end
   end
 
   # Return the amount of money as a BigDecimal.
