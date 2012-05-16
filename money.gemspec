@@ -12,16 +12,16 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
-  s.add_dependency "i18n",       "~> 0.4"
-  s.add_dependency "multi_json", "~> 1.3"
+  s.add_dependency "i18n",       "~> 0.6.0"
+  s.add_dependency "multi_json", "~> 1.3.5"
 
-  s.add_development_dependency "rspec",       "~> 2.9.0"
-  s.add_development_dependency "yard",        "~> 0.7.5"
+  s.add_development_dependency "rspec",       "~> 2.10.0"
+  s.add_development_dependency "yard",        "~> 0.8.1"
   s.add_development_dependency "redcarpet",   "~> 2.1.1"
-  s.add_development_dependency "guard",       "~> 1.0.1"
+  s.add_development_dependency "guard",       "~> 1.0.2"
   s.add_development_dependency "spork",       "~> 0.9.0"
-  s.add_development_dependency "guard-spork", "~> 0.6.1"
-  s.add_development_dependency "guard-rspec", "~> 0.7.0"
+  s.add_development_dependency "guard-spork", "~> 0.8.0"
+  s.add_development_dependency "guard-rspec", "~> 0.7.2"
 
   s.files =  Dir.glob("{config,lib,spec}/**/*")
   s.files += %w(CHANGELOG.md LICENSE README.md)
