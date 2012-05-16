@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.1.0
+- Switch to multi_json gem (GH-170)
+- Fix "warning: ambiguous first argument..." (GH-166)
+- Minor code cleaning
+
 ## 5.0.0
 - Minor bugfix - incorrect use of character range resulted in 
   botched results for Money::Parsing#extract_cents (GH-162)
