@@ -408,8 +408,8 @@ describe Money, "formatting" do
 
   context "custom currencies with 4 decimal places" do
     before :each do
-      Money::Currency.register(JSON.parse(BAR, :symbolize_names => true))
-      Money::Currency.register(JSON.parse(EU4, :symbolize_names => true))
+      Money::Currency.register(MultiJson.load(BAR, :symbolize_keys => true))
+      Money::Currency.register(MultiJson.load(EU4, :symbolize_keys => true))
     end
 
     it "respects custom subunit to unit, decimal and thousands separator" do
