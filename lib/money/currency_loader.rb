@@ -16,6 +16,6 @@ module CurrencyLoader
   def parse_currency_file(filename)
     json = File.read("#{DATA_PATH}/#{filename}")
     json.force_encoding(::Encoding::UTF_8) if defined?(::Encoding)
-    JSON.parse(json, :symbolize_names => true)
+    MultiJson.load(json, :symbolize_keys => true)
   end
 end
