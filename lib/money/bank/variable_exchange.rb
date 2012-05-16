@@ -1,6 +1,6 @@
 require 'money/bank/base'
 
-autoload :JSON, 'json'
+autoload :MultiJson, 'multi_json'
 autoload :YAML, 'yaml'
 
 class Money
@@ -186,7 +186,7 @@ class Money
         @mutex.synchronize {
           s = case format
               when :json
-                JSON.dump(@rates)
+                MultiJson.dump(@rates)
               when :ruby
                 Marshal.dump(@rates)
               when :yaml
@@ -224,7 +224,7 @@ class Money
         @mutex.synchronize {
           @rates = case format
                    when :json
-                     JSON.load(s)
+                     MultiJson.load(s)
                    when :ruby
                      Marshal.load(s)
                    when :yaml
