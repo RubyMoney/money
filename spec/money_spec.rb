@@ -106,34 +106,15 @@ describe Money do
 
 
   describe "#cents" do
-    context "infinite_precision = false" do
-      it "returns the amount of cents" do
-        Money.new(1_00).cents.should == 1_00
-        Money.new_with_dollars(1).cents.should == 1_00
-      end
+    it "returns the amount of cents" do
+      Money.new(1_00).cents.should == 1_00
+      Money.new_with_dollars(1).cents.should == 1_00
+    end
 
-      it "stores cents as an integer regardless of what is passed into the constructor" do
-        [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
-          m.cents.should == 100
-          m.cents.should be_a(Fixnum)
-        end
-      end
-
-      context "infinite_precision = true" do
-        before do
-          Money.infinite_precision = true
-        end
-
-        after do
-          Money.infinite_precision = false
-        end
-
-        it "returns a BigDecimal" do
-          [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
-            m.cents.should == 100
-            m.cents.should be_a(BigDecimal)
-          end
-        end
+    it "stores cents as an integer regardless of what is passed into the constructor" do
+      [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
+        m.cents.should == 100
+        m.cents.should be_a(Fixnum)
       end
     end
 
