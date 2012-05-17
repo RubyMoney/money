@@ -13,6 +13,21 @@ describe Money do
     it "is associated to the singleton instance of Bank::VariableExchange by default" do
       Money.new(0).bank.should be(Money::Bank::VariableExchange.instance)
     end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "doesn't round cents" do
+        Money.new(1.01, "USD").cents.should == BigDecimal("1.01")
+        Money.new(1.50, "USD").cents.should == BigDecimal("1.50")
+      end
+    end
   end
 
   describe ".new_with_dollars" do
@@ -101,6 +116,23 @@ describe Money do
         [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
           m.cents.should == 100
           m.cents.should be_a(Fixnum)
+        end
+      end
+
+      context "infinite_precision = true" do
+        before do
+          Money.infinite_precision = true
+        end
+
+        after do
+          Money.infinite_precision = false
+        end
+
+        it "returns a BigDecimal" do
+          [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
+            m.cents.should == 100
+            m.cents.should be_a(BigDecimal)
+          end
         end
       end
     end
