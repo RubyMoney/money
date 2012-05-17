@@ -15,7 +15,7 @@ describe Money do
     end
 
     it "handles Rationals" do
-      n = Rational("1")
+      n = Rational(1)
       Money.new(n).cents.should == 1
     end
 
