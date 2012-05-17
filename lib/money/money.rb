@@ -14,7 +14,9 @@ class Money
   # The value of the money in cents.
   #
   # @return [Integer]
-  attr_reader :cents
+  def cents
+    @cents.round(0, BigDecimal::ROUND_HALF_EVEN).to_i
+  end
 
   # The currency the money is in.
   #
@@ -191,9 +193,9 @@ class Money
   # @see Money.new_with_dollars
   #
   def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
-    @cents = cents.round.to_i
+    @cents    = BigDecimal(cents.to_s)
     @currency = Currency.wrap(currency)
-    @bank = bank
+    @bank     = bank
   end
 
   # Returns the value of the money in dollars,
