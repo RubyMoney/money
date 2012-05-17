@@ -3,7 +3,6 @@
 require "spec_helper"
 
 describe Money do
-
   describe "-@" do
     it "changes the sign of a number" do
       (- Money.new(0)).should == Money.new(0)
@@ -275,6 +274,28 @@ describe Money do
         (t[:a] / t[:b]).should == t[:c]
       end
     end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "uses BigDecimal division" do
+        ts = [
+          {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3.25, :USD)},
+          {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-3.25, :USD)},
+          {:a => Money.new(-13, :USD), :b =>  4, :c => Money.new(-3.25, :USD)},
+          {:a => Money.new(-13, :USD), :b => -4, :c => Money.new( 3.25, :USD)},
+        ]
+        ts.each do |t|
+          (t[:a] / t[:b]).should == t[:c]
+        end
+      end
+    end
   end
 
   describe "#div" do
@@ -314,6 +335,28 @@ describe Money do
         t[:a].div(t[:b]).should == t[:c]
       end
     end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "uses BigDecimal division" do
+        ts = [
+          {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3.25, :USD)},
+          {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-3.25, :USD)},
+          {:a => Money.new(-13, :USD), :b =>  4, :c => Money.new(-3.25, :USD)},
+          {:a => Money.new(-13, :USD), :b => -4, :c => Money.new( 3.25, :USD)},
+        ]
+        ts.each do |t|
+          t[:a].div(t[:b]).should == t[:c]
+        end
+      end
+    end
   end
 
   describe "#divmod" do
@@ -351,6 +394,28 @@ describe Money do
       ts.each do |t|
         t[:b].should_receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
         t[:a].divmod(t[:b]).should == t[:c]
+      end
+    end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "uses BigDecimal division" do
+        ts = [
+            {:a => Money.new( 13, :USD), :b =>  4, :c => [Money.new( 3, :USD), Money.new( 1, :USD)]},
+            {:a => Money.new( 13, :USD), :b => -4, :c => [Money.new(-4, :USD), Money.new(-3, :USD)]},
+            {:a => Money.new(-13, :USD), :b =>  4, :c => [Money.new(-4, :USD), Money.new( 3, :USD)]},
+            {:a => Money.new(-13, :USD), :b => -4, :c => [Money.new( 3, :USD), Money.new(-1, :USD)]},
+        ]
+        ts.each do |t|
+          t[:a].divmod(t[:b]).should == t[:c]
+        end
       end
     end
   end
@@ -506,5 +571,4 @@ describe Money do
       money.nonzero?.should be_equal(money)
     end
   end
-
 end
