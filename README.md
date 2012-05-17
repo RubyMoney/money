@@ -227,7 +227,7 @@ implementations.
 - [nordea](https://github.com/k33l0r/nordea)
 - [nbrb_currency](https://github.com/slbug/nbrb_currency)
 - [money-open-exchange-rates](https://github.com/spk/money-open-exchange-rates)
-- [money-historical-bank](https://github.com/coutud/money-historical-bank)
+- [money-historical-bank](https://github.com/atwam/money-historical-bank)
 
 ## Ruby on Rails
 
