@@ -429,7 +429,7 @@ class Money
     end
 
     unless self.class.infinite_precision
-      left_over.times { |i| amounts[i % amounts.length] += 1 }
+      left_over.to_i.times { |i| amounts[i % amounts.length] += 1 }
     end
 
     amounts.collect { |cents| Money.new(cents, currency) }

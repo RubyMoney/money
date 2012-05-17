@@ -364,11 +364,12 @@ describe Money do
       end
 
       it "allows for fractional cents allocation" do
-        one_third = BigDecimal(1) / BigDecimal(3)
+        one_third = BigDecimal("1") / BigDecimal("3")
+
         moneys = Money.new(100).allocate([one_third, one_third, one_third])
-        moneys[0].cents.should == one_third * BigDecimal(100)
-        moneys[1].cents.should == one_third * BigDecimal(100)
-        moneys[2].cents.should == one_third * BigDecimal(100)
+        moneys[0].cents.should == one_third * BigDecimal("100")
+        moneys[1].cents.should == one_third * BigDecimal("100")
+        moneys[2].cents.should == one_third * BigDecimal("100")
       end
     end
   end
@@ -408,12 +409,12 @@ describe Money do
       end
 
       it "allows for splitting by fractional cents" do
-        one_third = BigDecimal("100") / BigDecimal("3")
+        thirty_three_and_one_third = BigDecimal("100") / BigDecimal("3")
 
         moneys = Money.new(100).split(3)
-        moneys[0].cents.should == one_third
-        moneys[1].cents.should == one_third
-        moneys[2].cents.should == one_third
+        moneys[0].cents.should == thirty_three_and_one_third
+        moneys[1].cents.should == thirty_three_and_one_third
+        moneys[2].cents.should == thirty_three_and_one_third
       end
     end
   end
