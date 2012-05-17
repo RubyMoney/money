@@ -219,6 +219,18 @@ describe Money do
     it "respects :decimal_mark" do
       Money.new(10_00, "BRL").to_s.should == "10,00"
     end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "it shows fractional cents"
+    end
   end
 
   describe "#to_d" do
@@ -303,6 +315,18 @@ describe Money do
     it "requires total to be less then 1" do
       expect { Money.us_dollar(0.05).allocate([0.5, 0.6]) }.to raise_error(ArgumentError)
     end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "allows for fractional cents allocation"
+    end
   end
 
   describe "#split" do
@@ -328,6 +352,18 @@ describe Money do
       moneys[0].cents.should == 34
       moneys[1].cents.should == 33
       moneys[2].cents.should == 33
+    end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "allows for splitting by fractional cents"
     end
   end
 end
