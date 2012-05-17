@@ -261,7 +261,9 @@ describe Money do
         Money.infinite_precision = false
       end
 
-      it "it shows fractional cents"
+      it "shows fractional cents" do
+        Money.new(1.05, "USD").to_s.should == "0.0105"
+      end
     end
   end
 

@@ -283,14 +283,29 @@ class Money
   # @example
   #   Money.ca_dollar(100).to_s #=> "1.00"
   def to_s
-    unit, subunit  = cents.abs.divmod(currency.subunit_to_unit).map{|o| o.to_s}
+    unit, subunit = cents.abs.divmod(currency.subunit_to_unit)
+    fractional    = ""
+
+    if self.class.infinite_precision
+      subunit, fractional = subunit.divmod(BigDecimal("1"))
+
+      unit       = unit.to_i.to_s
+      subunit    = subunit.to_i.to_s
+      fractional = fractional.to_s("F")[2..-1]
+    else
+      unit, subunit = unit.to_s, subunit.to_s
+    end
+
     if currency.decimal_places == 0
+      unit = "#{unit}.#{fractional}" unless fractional == ""
       return "-#{unit}" if cents < 0
       return unit
     end
+
     subunit = (("0" * currency.decimal_places) + subunit)[(-1*currency.decimal_places)..-1]
-    return "-#{unit}#{decimal_mark}#{subunit}" if cents < 0
-    "#{unit}#{decimal_mark}#{subunit}"
+
+    return "-#{unit}#{decimal_mark}#{subunit}#{fractional}" if cents < 0
+    "#{unit}#{decimal_mark}#{subunit}#{fractional}"
   end
 
   # Return the amount of money as a BigDecimal.
