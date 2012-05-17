@@ -407,7 +407,14 @@ describe Money do
         Money.infinite_precision = false
       end
 
-      it "allows for splitting by fractional cents"
+      it "allows for splitting by fractional cents" do
+        one_third = BigDecimal("100") / BigDecimal("3")
+
+        moneys = Money.new(100).split(3)
+        moneys[0].cents.should == one_third
+        moneys[1].cents.should == one_third
+        moneys[2].cents.should == one_third
+      end
     end
   end
 end

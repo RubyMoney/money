@@ -445,8 +445,14 @@ class Money
   #   Money.new(100, "USD").split(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
   def split(num)
     raise ArgumentError, "need at least one party" if num < 1
-    low = Money.new(cents / num)
-    high = Money.new(low.cents + 1)
+
+    if self.class.infinite_precision
+      amt = self.div(BigDecimal(num.to_s))
+      return 1.upto(num).map{amt}
+    end
+
+    low = Money.new(cents / num, self.currency)
+    high = Money.new(low.cents + 1, self.currency)
 
     remainder = cents % num
     result = []
