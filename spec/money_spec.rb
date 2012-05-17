@@ -363,7 +363,13 @@ describe Money do
         Money.infinite_precision = false
       end
 
-      it "allows for fractional cents allocation"
+      it "allows for fractional cents allocation" do
+        one_third = BigDecimal(1) / BigDecimal(3)
+        moneys = Money.new(100).allocate([one_third, one_third, one_third])
+        moneys[0].cents.should == one_third * BigDecimal(100)
+        moneys[1].cents.should == one_third * BigDecimal(100)
+        moneys[2].cents.should == one_third * BigDecimal(100)
+      end
     end
   end
 

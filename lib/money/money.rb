@@ -407,18 +407,30 @@ class Money
   #   Money.new(5, "USD").allocate([0.3,0.7)) #=> [Money.new(2), Money.new(3)]
   #   Money.new(100, "USD").allocate([0.33,0.33,0.33]) #=> [Money.new(34), Money.new(33), Money.new(33)]
   def allocate(splits)
-    allocations = splits.inject(0.0) {|sum, i| sum += i }
-    raise ArgumentError, "splits add to more then 100%" if (allocations - 1.0) > Float::EPSILON
+    allocations = splits.inject(BigDecimal("0")) do |sum, n|
+      n = BigDecimal(n.to_s) unless n.is_a?(BigDecimal)
+      sum + n
+    end
+
+    if (allocations - BigDecimal("1")) > Float::EPSILON
+      raise ArgumentError, "splits add to more then 100%"
+    end
 
     left_over = cents
 
-    amounts = splits.collect do |ratio|
-      fraction = (cents * ratio / allocations).floor
-      left_over -= fraction
-      fraction
+    amounts = splits.map do |ratio|
+      if self.class.infinite_precision
+        fraction = cents * ratio
+      else
+        fraction = (cents * ratio / allocations).floor
+        left_over -= fraction
+        fraction
+      end
     end
 
-    left_over.times { |i| amounts[i % amounts.length] += 1 }
+    unless self.class.infinite_precision
+      left_over.times { |i| amounts[i % amounts.length] += 1 }
+    end
 
     amounts.collect { |cents| Money.new(cents, currency) }
   end
