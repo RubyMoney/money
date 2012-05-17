@@ -3,7 +3,6 @@
 require "spec_helper"
 
 describe Money do
-
   describe ".new" do
     it "rounds the given cents to an integer" do
       Money.new(1.00, "USD").cents.should == 1
@@ -92,15 +91,39 @@ describe Money do
 
 
   describe "#cents" do
-    it "returns the amount of cents" do
-      Money.new(1_00).cents.should == 1_00
-      Money.new_with_dollars(1).cents.should == 1_00
+    context "infinite_precision = false" do
+      it "returns the amount of cents" do
+        Money.new(1_00).cents.should == 1_00
+        Money.new_with_dollars(1).cents.should == 1_00
+      end
+
+      it "stores cents as an integer regardless of what is passed into the constructor" do
+        [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
+          m.cents.should == 100
+          m.cents.should be_a(Fixnum)
+        end
+      end
     end
 
-    it "stores cents as an integer regardless of what is passed into the constructor" do
-      [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
-        m.cents.should == 100
-        m.cents.should be_a(Fixnum)
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "returns the amount of cents" do
+        Money.new(1_00).cents.should == BigDecimal("100")
+        Money.new_with_dollars(1).cents.should == BigDecimal("100")
+      end
+
+      it "stores cents as an integer regardless of what is passed into the constructor" do
+        [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
+          m.cents.should == BigDecimal("100")
+          m.cents.should be_a(BigDecimal)
+        end
       end
     end
   end
@@ -307,6 +330,4 @@ describe Money do
       moneys[2].cents.should == 33
     end
   end
-
 end
-

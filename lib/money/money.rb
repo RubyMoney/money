@@ -15,7 +15,11 @@ class Money
   #
   # @return [Integer]
   def cents
-    @cents.round(0, BigDecimal::ROUND_HALF_EVEN).to_i
+    if self.class.infinite_precision
+      @cents
+    else
+      @cents.round(0, BigDecimal::ROUND_HALF_EVEN).to_i
+    end
   end
 
   # The currency the money is in.
