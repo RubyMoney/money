@@ -14,6 +14,16 @@ describe Money do
       Money.new(0).bank.should be(Money::Bank::VariableExchange.instance)
     end
 
+    # it "handles Rationals" do
+    #   n = Rational("1")
+    #   Money.new(n).cents.should == 1
+    # end
+
+    it "handles Floats" do
+      n = Float("1")
+      Money.new(n).cents.should == 1
+    end
+
     context "infinite_precision = true" do
       before do
         Money.infinite_precision = true

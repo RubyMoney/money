@@ -1,8 +1,8 @@
 # encoding: utf-8
-require 'money/bank/variable_exchange'
-require 'money/money/arithmetic'
-require 'money/money/parsing'
-require 'money/money/formatting'
+require "money/bank/variable_exchange"
+require "money/money/arithmetic"
+require "money/money/parsing"
+require "money/money/formatting"
 
 # Represents an amount of money in a given currency.
 class Money
@@ -68,6 +68,11 @@ class Money
     #
     # @return [BigDecimal::ROUND_MODE]
     attr_accessor :rounding_mode
+
+    # Use this to specify precision for converting Rational to BigDecimal
+    #
+    # @return [Integer]
+    attr_accessor :conversion_precision
   end
 
   # Set the default bank for creating new +Money+ objects.
@@ -87,6 +92,9 @@ class Money
 
   # Default to bankers rounding
   self.rounding_mode = BigDecimal::ROUND_HALF_EVEN
+
+  # Default the conversion of Rationals precision to 16
+  self.conversion_precision = 16
 
   # Create a new money object with value 0.
   #
@@ -213,7 +221,13 @@ class Money
   # @see Money.new_with_dollars
   #
   def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
-    @cents    = BigDecimal(cents.to_s)
+    @cents    = if cents.is_a?(Rational)
+                  cents.to_d(self.class.conversion_precision)
+                elsif cents.respond_to?(:to_d)
+                  cents.to_d
+                else
+                  BigDecimal.new(cents.to_s)
+                end
     @currency = Currency.wrap(currency)
     @bank     = bank
   end
