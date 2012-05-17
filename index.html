@@ -1,0 +1,352 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Money by RubyMoney</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Money</h1>
+        <p>Library for dealing with money and currency conversion</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/RubyMoney/money" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/RubyMoney/money/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/RubyMoney/money/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>RubyMoney - Money</h1>
+
+<p><a href="http://travis-ci.org/RubyMoney/money"><img src="http://travis-ci.org/RubyMoney/money.png" alt="Build Status"></a>
+<a href="https://gemnasium.com/RubyMoney/money"><img src="https://gemnasium.com/RubyMoney/money.png" alt="Dependency Status"></a></p>
+
+<h2>Contributing</h2>
+
+<p>When contributing, please make sure to update the CHANGELOG and AUTHORS files
+when you submit your pull request. Upon merging of your first pull request,
+you will be given commit access to the repository.</p>
+
+<h2>Introduction</h2>
+
+<p>This library aids one in handling money and different currencies.</p>
+
+<h3>Features</h3>
+
+<ul>
+<li>Provides a <code>Money</code> class which encapsulates all information about an certain
+amount of money, such as its value and its currency.</li>
+<li>Provides a <code>Money::Currency</code> class which encapsulates all information about
+a monetary unit.</li>
+<li>Represents monetary values as integers, in cents. This avoids floating point
+rounding errors.</li>
+<li>Represents currency as <code>Money::Currency</code> instances providing an high level of
+flexibility.</li>
+<li>Provides APIs for exchanging money from one currency to another.</li>
+<li>Has the ability to parse a money and currency strings
+into the corresponding Money/Currency object.</li>
+</ul><h3>Resources</h3>
+
+<ul>
+<li><a href="http://rubymoney.github.com/money">Website</a></li>
+<li><a href="http://rubydoc.info/gems/money/frames">API Documentation</a></li>
+<li><a href="http://github.com/RubyMoney/money">Git Repository</a></li>
+</ul><h3>Note</h3>
+
+<p>Your app must use UTF-8 to function with this library. There are a number of non-ASCII currency attributes.</p>
+
+<h2>Downloading</h2>
+
+<p>Install stable releases with the following command:</p>
+
+<pre><code>gem install money
+</code></pre>
+
+<p>The development version (hosted on Github) can be installed with:</p>
+
+<pre><code>git clone git://github.com/RubyMoney/money.git
+cd money
+rake install
+</code></pre>
+
+<h2>Usage</h2>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'money'</span>
+
+<span class="c1"># 10.00 USD</span>
+<span class="n">money</span> <span class="o">=</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span>
+<span class="n">money</span><span class="o">.</span><span class="n">cents</span>     <span class="c1">#=&gt; 1000</span>
+<span class="n">money</span><span class="o">.</span><span class="n">currency</span>  <span class="c1">#=&gt; Currency.new("USD")</span>
+
+<span class="c1"># Comparisons</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span> <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span>   <span class="c1">#=&gt; true</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span> <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span>    <span class="c1">#=&gt; false</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span> <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"EUR"</span><span class="p">)</span>   <span class="c1">#=&gt; false</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span> <span class="o">!=</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"EUR"</span><span class="p">)</span>   <span class="c1">#=&gt; true</span>
+
+<span class="c1"># Arithmetic</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span> <span class="o">+</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span> <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1500</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span> <span class="o">-</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span> <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span>                     <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span> <span class="o">*</span> <span class="mi">5</span>                     <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span>
+
+<span class="c1"># Assumptive Currencies</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">assume_from_symbol</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">"$100"</span><span class="p">)</span> <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">"€100"</span><span class="p">)</span> <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="s2">"EUR"</span><span class="p">)</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">"£100"</span><span class="p">)</span> <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="s2">"GBP"</span><span class="p">)</span>
+
+<span class="c1"># Currency conversions</span>
+<span class="n">some_code_to_setup_exchange_rates</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span><span class="o">.</span><span class="n">exchange_to</span><span class="p">(</span><span class="s2">"EUR"</span><span class="p">)</span> <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">some_value</span><span class="p">,</span> <span class="s2">"EUR"</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h2>Currency</h2>
+
+<p>Currencies are consistently represented as instances of <code>Money::Currency</code>.
+The most part of <code>Money</code> APIs allows you to supply either a <code>String</code> or a
+<code>Money::Currency</code>.</p>
+
+<div class="highlight">
+<pre><span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span> <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="no">Currency</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">"USD"</span><span class="p">))</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"EUR"</span><span class="p">)</span><span class="o">.</span><span class="n">currency</span> <span class="o">==</span> <span class="no">Currency</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">"EUR"</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>A <code>Money::Currency</code> instance holds all the information about the currency,
+including the currency symbol, name and much more.</p>
+
+<div class="highlight">
+<pre><span class="n">currency</span> <span class="o">=</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span><span class="o">.</span><span class="n">currency</span>
+<span class="n">currency</span><span class="o">.</span><span class="n">iso_code</span> <span class="c1">#=&gt; "USD"</span>
+<span class="n">currency</span><span class="o">.</span><span class="n">name</span>     <span class="c1">#=&gt; "United States Dollar"</span>
+</pre>
+</div>
+
+
+<p>To define a new <code>Money::Currency</code> use <code>Money::Currency.register</code> as shown
+below.</p>
+
+<div class="highlight">
+<pre><span class="n">curr</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:priority</span>        <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="ss">:iso_code</span>        <span class="o">=&gt;</span> <span class="s2">"USD"</span><span class="p">,</span>
+  <span class="ss">:iso_numeric</span>     <span class="o">=&gt;</span> <span class="s2">"840"</span><span class="p">,</span>
+  <span class="ss">:name</span>            <span class="o">=&gt;</span> <span class="s2">"United States Dollar"</span><span class="p">,</span>
+  <span class="ss">:symbol</span>          <span class="o">=&gt;</span> <span class="s2">"$"</span><span class="p">,</span>
+  <span class="ss">:subunit</span>         <span class="o">=&gt;</span> <span class="s2">"Cent"</span>
+  <span class="ss">:subunit_to_unit</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span>
+  <span class="ss">:separator</span>       <span class="o">=&gt;</span> <span class="s2">"."</span><span class="p">,</span>
+  <span class="ss">:delimiter</span>       <span class="o">=&gt;</span> <span class="s2">","</span>
+<span class="p">}</span>
+
+<span class="no">Money</span><span class="o">::</span><span class="no">Currency</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">curr</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>The pre-defined set of attributes includes:</p>
+
+<ul>
+<li>
+<code>:priority</code> a numerical value you can use to sort/group the currency list</li>
+<li>
+<code>:iso_code</code> the international 3-letter code as defined by the ISO 4217 standard</li>
+<li>
+<code>:iso_numeric</code> the international 3-digit code as defined by the ISO 4217 standard</li>
+<li>
+<code>:name</code> the currency name</li>
+<li>
+<code>:symbol</code> the currency symbol (UTF-8 encoded)</li>
+<li>
+<code>:subunit</code> the name of the fractional monetary unit</li>
+<li>
+<code>:subunit_to_unit</code> the proportion between the unit and the subunit</li>
+<li>
+<code>:separator</code> character between the whole and fraction amounts</li>
+<li>
+<code>:delimiter</code> character between each thousands place</li>
+</ul><p>All attributes are optional. Some attributes, such as <code>:symbol</code>, are used by
+the Money class to print out a representation of the object. Other attributes,
+such as <code>:name</code> or <code>:priority</code>, exist to provide a basic API you can take
+advantage of to build your application.</p>
+
+<h3>:priority</h3>
+
+<p>The priority attribute is an arbitrary numerical value you can assign to the
+<code>Money::Currency</code> and use in sorting/grouping operation.</p>
+
+<p>For instance, let's assume your Rails application needs to render a currency
+selector like the one available
+<a href="http://finance.yahoo.com/currency-converter/">here</a>. You can create a couple of
+custom methods to return the list of major currencies and all currencies as
+follows:</p>
+
+<div class="highlight">
+<pre><span class="c1"># Returns an array of currency id where</span>
+<span class="c1"># priority &lt; 10</span>
+<span class="k">def</span> <span class="nf">major_currencies</span><span class="p">(</span><span class="nb">hash</span><span class="p">)</span>
+  <span class="nb">hash</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="o">[]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">array</span><span class="p">,</span> <span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">attributes</span><span class="p">)</span><span class="o">|</span>
+    <span class="n">priority</span> <span class="o">=</span> <span class="n">attributes</span><span class="o">[</span><span class="ss">:priority</span><span class="o">]</span>
+    <span class="k">if</span> <span class="n">priority</span> <span class="o">&amp;&amp;</span> <span class="n">priority</span> <span class="o">&lt;</span> <span class="mi">10</span>
+      <span class="n">array</span><span class="o">[</span><span class="n">priority</span><span class="o">]</span> <span class="o">||=</span> <span class="o">[]</span>
+      <span class="n">array</span><span class="o">[</span><span class="n">priority</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="nb">id</span>
+    <span class="k">end</span>
+    <span class="n">array</span>
+  <span class="k">end</span><span class="o">.</span><span class="n">compact</span><span class="o">.</span><span class="n">flatten</span>
+<span class="k">end</span>
+
+<span class="c1"># Returns an array of all currency id</span>
+<span class="k">def</span> <span class="nf">all_currencies</span><span class="p">(</span><span class="nb">hash</span><span class="p">)</span>
+  <span class="nb">hash</span><span class="o">.</span><span class="n">keys</span>
+<span class="k">end</span>
+
+<span class="n">major_currencies</span><span class="p">(</span><span class="no">Money</span><span class="o">::</span><span class="no">Currency</span><span class="o">.</span><span class="n">table</span><span class="p">)</span>
+<span class="c1"># =&gt; [ :usd, :eur, :bgp, :cad ]</span>
+
+<span class="n">all_currencies</span><span class="p">(</span><span class="no">Money</span><span class="o">::</span><span class="no">Currency</span><span class="o">.</span><span class="n">table</span><span class="p">)</span>
+<span class="c1"># =&gt; [ :aed, :afn, all, ... ]</span>
+</pre>
+</div>
+
+
+<h3>Default Currency</h3>
+
+<p>By default <code>Money</code> defaults to USD as its currency. This can be overwritten
+using:</p>
+
+<div class="highlight">
+<pre><span class="no">Money</span><span class="o">.</span><span class="n">default_currency</span> <span class="o">=</span> <span class="no">Money</span><span class="o">::</span><span class="no">Currency</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">"CAD"</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>If you use Rails, then <code>environment.rb</code> is a very good place to put this.</p>
+
+<h2>Currency Exchange</h2>
+
+<p>Exchanging money is performed through an exchange bank object. The default
+exchange bank object requires one to manually specify the exchange rate. Here's
+an example of how it works:</p>
+
+<div class="highlight">
+<pre><span class="no">Money</span><span class="o">.</span><span class="n">add_rate</span><span class="p">(</span><span class="s2">"USD"</span><span class="p">,</span> <span class="s2">"CAD"</span><span class="p">,</span> <span class="mi">1</span><span class="o">.</span><span class="mi">24515</span><span class="p">)</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">add_rate</span><span class="p">(</span><span class="s2">"CAD"</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">803115</span><span class="p">)</span>
+
+<span class="no">Money</span><span class="o">.</span><span class="n">us_dollar</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">exchange_to</span><span class="p">(</span><span class="s2">"CAD"</span><span class="p">)</span>  <span class="c1"># =&gt; Money.new(124, "CAD")</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">ca_dollar</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">exchange_to</span><span class="p">(</span><span class="s2">"USD"</span><span class="p">)</span>  <span class="c1"># =&gt; Money.new(80, "USD")</span>
+</pre>
+</div>
+
+
+<p>Comparison and arithmetic operations work as expected:</p>
+
+<div class="highlight">
+<pre><span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span> <span class="o">&lt;=&gt;</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">900</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span>   <span class="c1"># =&gt; 1; 9.00 USD is smaller</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"EUR"</span><span class="p">)</span> <span class="o">+</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">"EUR"</span><span class="p">)</span> <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1010</span><span class="p">,</span> <span class="s2">"EUR"</span><span class="p">)</span>
+
+<span class="no">Money</span><span class="o">.</span><span class="n">add_rate</span><span class="p">(</span><span class="s2">"USD"</span><span class="p">,</span> <span class="s2">"EUR"</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+<span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"EUR"</span><span class="p">)</span> <span class="o">+</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">"USD"</span><span class="p">)</span> <span class="o">==</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1500</span><span class="p">,</span> <span class="s2">"EUR"</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>There is nothing stopping you from creating bank objects which scrapes
+<a href="http://www.xe.com">XE</a> for the current rates or just returns <code>rand(2)</code>:</p>
+
+<div class="highlight">
+<pre><span class="no">Money</span><span class="o">.</span><span class="n">default_bank</span> <span class="o">=</span> <span class="no">ExchangeBankWhichScrapesXeDotCom</span><span class="o">.</span><span class="n">new</span>
+</pre>
+</div>
+
+
+<h3>Implementations</h3>
+
+<p>The following is a list of Money.gem compatible currency exchange rate
+implementations.</p>
+
+<ul>
+<li><a href="http://github.com/RubyMoney/eu_central_bank">eu_central_bank</a></li>
+<li><a href="http://github.com/RubyMoney/google_currency">google_currency</a></li>
+<li><a href="https://github.com/k33l0r/nordea">nordea</a></li>
+<li><a href="https://github.com/slbug/nbrb_currency">nbrb_currency</a></li>
+<li><a href="https://github.com/spk/money-open-exchange-rates">money-open-exchange-rates</a></li>
+<li><a href="https://github.com/atwam/money-historical-bank">money-historical-bank</a></li>
+</ul><h2>Ruby on Rails</h2>
+
+<p>To integrate money in a rails application use <a href="http://github.com/RubyMoney/money-rails">money-rails</a>
+gem or follow the instructions below.</p>
+
+<p>Use the <code>composed_of</code> helper to let Active Record deal with embedding the money
+object in your models. The following example requires 2 columns:</p>
+
+<div class="highlight">
+<pre><span class="ss">:price_cents</span><span class="p">,</span> <span class="ss">:integer</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">:null</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+<span class="ss">:currency</span><span class="p">,</span> <span class="ss">:string</span>
+</pre>
+</div>
+
+
+<p>Then in your model file:</p>
+
+<div class="highlight">
+<pre><span class="n">composed_of</span> <span class="ss">:price</span><span class="p">,</span>
+  <span class="ss">:class_name</span> <span class="o">=&gt;</span> <span class="s2">"Money"</span><span class="p">,</span>
+  <span class="ss">:mapping</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="sx">%w(price_cents cents)</span><span class="p">,</span> <span class="sx">%w(currency currency_as_string)</span><span class="o">]</span><span class="p">,</span>
+  <span class="ss">:constructor</span> <span class="o">=&gt;</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">cents</span><span class="p">,</span> <span class="n">currency</span><span class="o">|</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">cents</span> <span class="o">||</span> <span class="mi">0</span><span class="p">,</span> <span class="n">currency</span> <span class="o">||</span> <span class="no">Money</span><span class="o">.</span><span class="n">default_currency</span><span class="p">)</span> <span class="p">},</span>
+  <span class="ss">:converter</span> <span class="o">=&gt;</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span> <span class="n">value</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="ss">:to_money</span><span class="p">)</span> <span class="p">?</span> <span class="n">value</span><span class="o">.</span><span class="n">to_money</span> <span class="p">:</span> <span class="k">raise</span><span class="p">(</span><span class="no">ArgumentError</span><span class="p">,</span> <span class="s2">"Can't convert </span><span class="si">#{</span><span class="n">value</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2"> to Money"</span><span class="p">)</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>For Money 2.2.x and previous versions, simply use the following <code>composed_of</code>
+definition:</p>
+
+<div class="highlight">
+<pre><span class="n">composed_of</span> <span class="ss">:price</span><span class="p">,</span>
+  <span class="ss">:class_name</span> <span class="o">=&gt;</span> <span class="s2">"Money"</span><span class="p">,</span>
+  <span class="ss">:mapping</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="sx">%w(price_cents cents)</span><span class="p">,</span> <span class="sx">%w(currency currency)</span><span class="o">]</span><span class="p">,</span>
+  <span class="ss">:constructor</span> <span class="o">=&gt;</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">cents</span><span class="p">,</span> <span class="n">currency</span><span class="o">|</span> <span class="no">Money</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">cents</span> <span class="o">||</span> <span class="mi">0</span><span class="p">,</span> <span class="n">currency</span> <span class="o">||</span> <span class="no">Money</span><span class="o">.</span><span class="n">default_currency</span><span class="p">)</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Note the difference in the currency column mapping (currency_as_string vs. currency) - this matters!  For further details read the full discussion
+<a href="http://github.com/RubyMoney/money/issues/4#comment_224880">here</a>.</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/RubyMoney">RubyMoney</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    
+  </body>
+</html>
