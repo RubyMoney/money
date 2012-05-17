@@ -54,6 +54,11 @@ class Money
     #
     # @return [true,false]
     attr_accessor :assume_from_symbol
+
+    # Use this to enable infinite precision cents
+    #
+    # @return [true,false]
+    attr_accessor :infinite_precision
   end
 
   # Set the default bank for creating new +Money+ objects.
@@ -67,6 +72,9 @@ class Money
 
   # Default to not using currency symbol assumptions when parsing
   self.assume_from_symbol = false
+
+  # Default to not using infinite precision cents
+  self.infinite_precision = false
 
   # Create a new money object with value 0.
   #
