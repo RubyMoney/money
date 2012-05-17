@@ -292,6 +292,7 @@ class Money
       unit       = unit.to_i.to_s
       subunit    = subunit.to_i.to_s
       fractional = fractional.to_s("F")[2..-1]
+      fractional = "" if fractional =~ /^0+$/
     else
       unit, subunit = unit.to_s, subunit.to_s
     end

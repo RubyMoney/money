@@ -264,6 +264,10 @@ describe Money do
       it "shows fractional cents" do
         Money.new(1.05, "USD").to_s.should == "0.0105"
       end
+
+      it "suppresses fractional cents when there is none" do
+        Money.new(1.0, "USD").to_s.should == "0.01"
+      end
     end
   end
 
