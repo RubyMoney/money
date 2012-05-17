@@ -118,6 +118,20 @@ describe Money do
       end
     end
 
+    context "user changes rounding_mode" do
+      after do
+        Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
+      end
+
+      it "respects the rounding_mode" do
+        Money.rounding_mode = BigDecimal::ROUND_DOWN
+        Money.new(1.9).cents.should == 1
+
+        Money.rounding_mode = BigDecimal::ROUND_UP
+        Money.new(1.1).cents.should == 2
+      end
+    end
+
     context "infinite_precision = true" do
       before do
         Money.infinite_precision = true

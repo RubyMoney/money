@@ -18,7 +18,7 @@ class Money
     if self.class.infinite_precision
       @cents
     else
-      @cents.round(0, BigDecimal::ROUND_HALF_EVEN).to_i
+      @cents.round(0, self.class.rounding_mode).to_i
     end
   end
 
@@ -63,6 +63,11 @@ class Money
     #
     # @return [true,false]
     attr_accessor :infinite_precision
+
+    # Use this to specify the rounding mode
+    #
+    # @return [BigDecimal::ROUND_MODE]
+    attr_accessor :rounding_mode
   end
 
   # Set the default bank for creating new +Money+ objects.
@@ -79,6 +84,9 @@ class Money
 
   # Default to not using infinite precision cents
   self.infinite_precision = false
+
+  # Default to bankers rounding
+  self.rounding_mode = BigDecimal::ROUND_HALF_EVEN
 
   # Create a new money object with value 0.
   #
