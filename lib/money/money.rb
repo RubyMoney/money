@@ -320,7 +320,7 @@ class Money
     end
 
     if currency.decimal_places == 0
-      unit = "#{unit}.#{fractional}" unless fractional == ""
+      unit = "#{unit}#{decimal_mark}#{fractional}" unless fractional == ""
       return "-#{unit}" if cents < 0
       return unit
     end
