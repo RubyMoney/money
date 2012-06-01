@@ -167,6 +167,46 @@ describe Money, "formatting" do
       end
     end
 
+    describe ":precision option" do
+      specify "(:precision => 5) works as documented" do
+        Money.new(10000, "VUV").format(:precision => 5, :symbol => false).should == "10,000.00000"
+        precision = Money.infinite_precision
+        Money.infinite_precision = true
+        Money.new(1234.5678, "VND").format(:precision => 5, :symbol => false).should == "123,45678"
+        Money.new(1234.0000, "USD").format(:precision => 5, :symbol => false).should == "12.34000"
+        Money.new(1234.5674, "USD").format(:precision => 5, :symbol => false).should == "12.34567"
+        Money.infinite_precision = precision
+      end
+      specify "(:precision => 0) works as documented" do
+        Money.new(10000, "VUV").format(:precision => 0, :symbol => false).should == "10,000"
+        precision = Money.infinite_precision
+        Money.infinite_precision = true
+        Money.new(1234.5678, "VND").format(:precision => 0, :symbol => false).should == "123"
+        Money.new(1234.0000, "USD").format(:precision => 0, :symbol => false).should == "12"
+        Money.new(1266.7890, "USD").format(:precision => 0, :symbol => false).should == "13"
+        Money.infinite_precision = precision
+      end
+      specify "(:precision => -1) works as documented" do
+        Money.new(10000, "VND").format(:precision => -1, :symbol => false).should == "1.000"
+        precision = Money.infinite_precision
+        Money.infinite_precision = true
+        Money.new(1234.5678, "USD").format(:precision => -1, :symbol => false).should == "10"
+        Money.new(1234.0000, "USD").format(:precision => -1, :symbol => false).should == "10"
+        Money.new(1256.7890, "USD").format(:precision => -1, :symbol => false).should == "10"
+        Money.new(1567.890, "USD").format(:precision => -1, :symbol => false).should == "20"
+        Money.infinite_precision = precision
+      end
+      specify "(:precision => nil) works as documented" do
+        Money.new(10000, "VUV").format(:precision => nil, :symbol => false).should == "10,000"
+        precision = Money.infinite_precision
+        Money.infinite_precision = true
+        Money.new(1234.5678, "USD").format(:precision => nil, :symbol => false).should == "12.345678"
+        Money.new(1234.0000, "USD").format(:precision => nil, :symbol => false).should == "12.34"
+        Money.new(1256.7890, "USD").format(:precision => nil, :symbol => false).should == "12.56789"
+        Money.infinite_precision = precision
+      end
+    end
+
     describe ":no_cents_if_whole option" do
       specify "(:no_cents_if_whole => true) works as documented" do
         Money.new(10000, "VUV").format(:no_cents_if_whole => true, :symbol => false).should == "10,000"

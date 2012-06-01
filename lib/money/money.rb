@@ -360,11 +360,7 @@ class Money
     end
 
     absolute_str = if currency.decimal_places == 0
-      if fraction_str == ""
-        unit_str
-      else
-        "#{unit_str}#{decimal_mark}#{fraction_str}"
-      end
+      unit_str
     else
       # need to pad subunit to right position,
       # for example 1 usd 3 cents should be 1.03 not 1.3
