@@ -1,8 +1,8 @@
 # encoding: utf-8
-require 'money/bank/variable_exchange'
-require 'money/money/arithmetic'
-require 'money/money/parsing'
-require 'money/money/formatting'
+require "money/bank/variable_exchange"
+require "money/money/arithmetic"
+require "money/money/parsing"
+require "money/money/formatting"
 
 # Represents an amount of money in a given currency.
 class Money
@@ -14,7 +14,13 @@ class Money
   # The value of the money in cents.
   #
   # @return [Integer]
-  attr_reader :cents
+  def cents
+    if self.class.infinite_precision
+      @cents
+    else
+      @cents.round(0, self.class.rounding_mode).to_i
+    end
+  end
 
   # The currency the money is in.
   #
@@ -52,6 +58,21 @@ class Money
     #
     # @return [true,false]
     attr_accessor :assume_from_symbol
+
+    # Use this to enable infinite precision cents
+    #
+    # @return [true,false]
+    attr_accessor :infinite_precision
+
+    # Use this to specify the rounding mode
+    #
+    # @return [BigDecimal::ROUND_MODE]
+    attr_accessor :rounding_mode
+
+    # Use this to specify precision for converting Rational to BigDecimal
+    #
+    # @return [Integer]
+    attr_accessor :conversion_precision
   end
 
   # Set the default bank for creating new +Money+ objects.
@@ -65,6 +86,15 @@ class Money
 
   # Default to not using currency symbol assumptions when parsing
   self.assume_from_symbol = false
+
+  # Default to not using infinite precision cents
+  self.infinite_precision = false
+
+  # Default to bankers rounding
+  self.rounding_mode = BigDecimal::ROUND_HALF_EVEN
+
+  # Default the conversion of Rationals precision to 16
+  self.conversion_precision = 16
 
   # Create a new money object with value 0.
   #
@@ -191,9 +221,15 @@ class Money
   # @see Money.new_with_dollars
   #
   def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
-    @cents = cents.round.to_i
+    @cents    = if cents.is_a?(Rational)
+                  cents.to_d(self.class.conversion_precision)
+                elsif cents.respond_to?(:to_d)
+                  cents.to_d
+                else
+                  BigDecimal.new(cents.to_s)
+                end
     @currency = Currency.wrap(currency)
-    @bank = bank
+    @bank     = bank
   end
 
   # Returns the value of the money in dollars,
@@ -269,14 +305,30 @@ class Money
   # @example
   #   Money.ca_dollar(100).to_s #=> "1.00"
   def to_s
-    unit, subunit  = cents.abs.divmod(currency.subunit_to_unit).map{|o| o.to_s}
+    unit, subunit = cents.abs.divmod(currency.subunit_to_unit)
+    fractional    = ""
+
+    if self.class.infinite_precision
+      subunit, fractional = subunit.divmod(BigDecimal("1"))
+
+      unit       = unit.to_i.to_s
+      subunit    = subunit.to_i.to_s
+      fractional = fractional.to_s("F")[2..-1]
+      fractional = "" if fractional =~ /^0+$/
+    else
+      unit, subunit = unit.to_s, subunit.to_s
+    end
+
     if currency.decimal_places == 0
+      unit = "#{unit}#{decimal_mark}#{fractional}" unless fractional == ""
       return "-#{unit}" if cents < 0
       return unit
     end
+
     subunit = (("0" * currency.decimal_places) + subunit)[(-1*currency.decimal_places)..-1]
-    return "-#{unit}#{decimal_mark}#{subunit}" if cents < 0
-    "#{unit}#{decimal_mark}#{subunit}"
+
+    return "-#{unit}#{decimal_mark}#{subunit}#{fractional}" if cents < 0
+    "#{unit}#{decimal_mark}#{subunit}#{fractional}"
   end
 
   # Return the amount of money as a BigDecimal.
@@ -377,18 +429,30 @@ class Money
   #   Money.new(5, "USD").allocate([0.3,0.7)) #=> [Money.new(2), Money.new(3)]
   #   Money.new(100, "USD").allocate([0.33,0.33,0.33]) #=> [Money.new(34), Money.new(33), Money.new(33)]
   def allocate(splits)
-    allocations = splits.inject(0.0) {|sum, i| sum += i }
-    raise ArgumentError, "splits add to more then 100%" if (allocations - 1.0) > Float::EPSILON
+    allocations = splits.inject(BigDecimal("0")) do |sum, n|
+      n = BigDecimal(n.to_s) unless n.is_a?(BigDecimal)
+      sum + n
+    end
+
+    if (allocations - BigDecimal("1")) > Float::EPSILON
+      raise ArgumentError, "splits add to more then 100%"
+    end
 
     left_over = cents
 
-    amounts = splits.collect do |ratio|
-      fraction = (cents * ratio / allocations).floor
-      left_over -= fraction
-      fraction
+    amounts = splits.map do |ratio|
+      if self.class.infinite_precision
+        fraction = cents * ratio
+      else
+        fraction = (cents * ratio / allocations).floor
+        left_over -= fraction
+        fraction
+      end
     end
 
-    left_over.times { |i| amounts[i % amounts.length] += 1 }
+    unless self.class.infinite_precision
+      left_over.to_i.times { |i| amounts[i % amounts.length] += 1 }
+    end
 
     amounts.collect { |cents| Money.new(cents, currency) }
   end
@@ -403,8 +467,14 @@ class Money
   #   Money.new(100, "USD").split(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
   def split(num)
     raise ArgumentError, "need at least one party" if num < 1
-    low = Money.new(cents / num)
-    high = Money.new(low.cents + 1)
+
+    if self.class.infinite_precision
+      amt = self.div(BigDecimal(num.to_s))
+      return 1.upto(num).map{amt}
+    end
+
+    low = Money.new(cents / num, self.currency)
+    high = Money.new(low.cents + 1, self.currency)
 
     remainder = cents % num
     result = []
