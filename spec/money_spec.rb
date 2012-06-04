@@ -3,7 +3,6 @@
 require "spec_helper"
 
 describe Money do
-
   describe ".new" do
     it "rounds the given cents to an integer" do
       Money.new(1.00, "USD").cents.should == 1
@@ -13,6 +12,31 @@ describe Money do
 
     it "is associated to the singleton instance of Bank::VariableExchange by default" do
       Money.new(0).bank.should be(Money::Bank::VariableExchange.instance)
+    end
+
+    it "handles Rationals" do
+      n = Rational(1)
+      Money.new(n).cents.should == 1
+    end
+
+    it "handles Floats" do
+      n = Float("1")
+      Money.new(n).cents.should == 1
+    end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "doesn't round cents" do
+        Money.new(1.01, "USD").cents.should == BigDecimal("1.01")
+        Money.new(1.50, "USD").cents.should == BigDecimal("1.50")
+      end
     end
   end
 
@@ -101,6 +125,42 @@ describe Money do
       [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
         m.cents.should == 100
         m.cents.should be_a(Fixnum)
+      end
+    end
+
+    context "user changes rounding_mode" do
+      after do
+        Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
+      end
+
+      it "respects the rounding_mode" do
+        Money.rounding_mode = BigDecimal::ROUND_DOWN
+        Money.new(1.9).cents.should == 1
+
+        Money.rounding_mode = BigDecimal::ROUND_UP
+        Money.new(1.1).cents.should == 2
+      end
+    end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "returns the amount of cents" do
+        Money.new(1_00).cents.should == BigDecimal("100")
+        Money.new_with_dollars(1).cents.should == BigDecimal("100")
+      end
+
+      it "stores cents as an integer regardless of what is passed into the constructor" do
+        [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
+          m.cents.should == BigDecimal("100")
+          m.cents.should be_a(BigDecimal)
+        end
       end
     end
   end
@@ -196,6 +256,24 @@ describe Money do
     it "respects :decimal_mark" do
       Money.new(10_00, "BRL").to_s.should == "10,00"
     end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "shows fractional cents" do
+        Money.new(1.05, "USD").to_s.should == "0.0105"
+      end
+
+      it "suppresses fractional cents when there is none" do
+        Money.new(1.0, "USD").to_s.should == "0.01"
+      end
+    end
   end
 
   describe "#to_d" do
@@ -280,6 +358,25 @@ describe Money do
     it "requires total to be less then 1" do
       expect { Money.us_dollar(0.05).allocate([0.5, 0.6]) }.to raise_error(ArgumentError)
     end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "allows for fractional cents allocation" do
+        one_third = BigDecimal("1") / BigDecimal("3")
+
+        moneys = Money.new(100).allocate([one_third, one_third, one_third])
+        moneys[0].cents.should == one_third * BigDecimal("100")
+        moneys[1].cents.should == one_third * BigDecimal("100")
+        moneys[2].cents.should == one_third * BigDecimal("100")
+      end
+    end
   end
 
   describe "#split" do
@@ -306,7 +403,24 @@ describe Money do
       moneys[1].cents.should == 33
       moneys[2].cents.should == 33
     end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "allows for splitting by fractional cents" do
+        thirty_three_and_one_third = BigDecimal("100") / BigDecimal("3")
+
+        moneys = Money.new(100).split(3)
+        moneys[0].cents.should == thirty_three_and_one_third
+        moneys[1].cents.should == thirty_three_and_one_third
+        moneys[2].cents.should == thirty_three_and_one_third
+      end
+    end
   end
-
 end
-

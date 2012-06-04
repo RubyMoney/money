@@ -198,7 +198,12 @@ class Money
         q, m = a.divmod(b)
         return [q, Money.new(m, self.currency)]
       else
-        return [self.div(val), Money.new(self.cents.modulo(val), self.currency)]
+        if self.class.infinite_precision
+          q, m = self.cents.divmod(BigDecimal(val.to_s))
+          return [Money.new(q, self.currency), Money.new(m, self.currency)]
+        else
+          return [self.div(val), Money.new(self.cents.modulo(val), self.currency)]
+        end
       end
     end
 
