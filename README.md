@@ -231,36 +231,28 @@ implementations.
 
 ## Ruby on Rails
 
-To integrate money in a rails application use [money-rails](http://github.com/RubyMoney/money-rails)
+To integrate money in a Rails application use [money-rails](http://github.com/RubyMoney/money-rails)
 gem or follow the instructions below.
 
-Use the `composed_of` helper to let Active Record deal with embedding the money
+Define accessor methods to let Active Record deal with embedding the money
 object in your models. The following example requires 2 columns:
 
 ``` ruby
 :price_cents, :integer, :default => 0, :null => false
-:currency, :string
+:price_currency, :string
 ```
 
 Then in your model file:
 
 ``` ruby
-composed_of :price,
-  :class_name => "Money",
-  :mapping => [%w(price_cents cents), %w(currency currency_as_string)],
-  :constructor => Proc.new { |cents, currency| Money.new(cents || 0, currency || Money.default_currency) },
-  :converter => Proc.new { |value| value.respond_to?(:to_money) ? value.to_money : raise(ArgumentError, "Can't convert #{value.class} to Money") }
+def price
+  Money.new price_cents || 0, price_currency || Money.default_currency
+end
+
+def price=(value)
+  Money.parse(value).tap do |price|
+    write_attribute :price_cents,    price.cents
+    write_attribute :price_currency, price.currency_as_string
+  end
+end
 ```
-
-For Money 2.2.x and previous versions, simply use the following `composed_of`
-definition:
-
-``` ruby
-composed_of :price,
-  :class_name => "Money",
-  :mapping => [%w(price_cents cents), %w(currency currency)],
-  :constructor => Proc.new { |cents, currency| Money.new(cents || 0, currency || Money.default_currency) }
-```
-
-Note the difference in the currency column mapping (currency_as_string vs. currency) - this matters!  For further details read the full discussion
-[here](http://github.com/RubyMoney/money/issues/4#comment_224880).
