@@ -2052,18 +2052,5 @@
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "894"
-  },
-  "zwd": {
-    "priority": 100,
-    "iso_code": "ZWD",
-    "name": "Zimbabwean Dollar",
-    "symbol": "$",
-    "subunit": "Cent",
-    "subunit_to_unit": 100,
-    "symbol_first": true,
-    "html_entity": "$",
-    "decimal_mark": ".",
-    "thousands_separator": ",",
-    "iso_numeric": "716"
   }
 }
