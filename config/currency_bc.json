@@ -50,5 +50,57 @@
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": ""
+  },
+  "zwd": {
+    "priority": 100,
+    "iso_code": "ZWD",
+    "name": "Zimbabwean Dollar",
+    "symbol": "$",
+    "subunit": "Cent",
+    "subunit_to_unit": 100,
+    "symbol_first": true,
+    "html_entity": "$",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "716"
+  },
+  "zwl": {
+    "priority": 100,
+    "iso_code": "ZWL",
+    "name": "Zimbabwean Dollar",
+    "symbol": "$",
+    "subunit": "Cent",
+    "subunit_to_unit": 100,
+    "symbol_first": true,
+    "html_entity": "$",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "932"
+  },
+  "zwn": {
+    "priority": 100,
+    "iso_code": "ZWN",
+    "name": "Zimbabwean Dollar",
+    "symbol": "$",
+    "subunit": "Cent",
+    "subunit_to_unit": 100,
+    "symbol_first": true,
+    "html_entity": "$",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "942"
+  },
+  "zwr": {
+    "priority": 100,
+    "iso_code": "ZWR",
+    "name": "Zimbabwean Dollar",
+    "symbol": "$",
+    "subunit": "Cent",
+    "subunit_to_unit": 100,
+    "symbol_first": true,
+    "html_entity": "$",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "935"
   }
 }

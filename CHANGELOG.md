@@ -3,6 +3,7 @@
 ## master
 
 - Update Turkmenistan manat from TMM to TMT currency (GH-181). [Thanks @Exoth]
+- Moved ZWD Zimbabwean dollars to currency_bc.json, also added there ZWL, ZWN, and ZWR Zimbabwean dollars (GH-184).
 
 ## 5.1.0
 - Switch to multi_json gem (GH-170)
