@@ -1,5 +1,9 @@
 # Changelog
 
+## master
+
+- Update Turkmenistan manat from TMM to TMT currency (GH-181). [Thanks @Exoth]
+
 ## 5.1.0
 - Switch to multi_json gem (GH-170)
 - Fix "warning: ambiguous first argument..." (GH-166)

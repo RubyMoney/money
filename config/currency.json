@@ -1754,7 +1754,7 @@
     "thousands_separator": ",",
     "iso_numeric": "972"
   },
-  "tmm": {
+  "tmt": {
     "priority": 100,
     "iso_code": "TMM",
     "name": "Turkmenistani Manat",
@@ -1765,7 +1765,7 @@
     "html_entity": "",
     "decimal_mark": ".",
     "thousands_separator": ",",
-    "iso_numeric": "795"
+    "iso_numeric": "934"
   },
   "tnd": {
     "priority": 100,

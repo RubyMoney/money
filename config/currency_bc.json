@@ -38,4 +38,17 @@
     "thousands_separator": ",",
     "iso_numeric": "288"
   }
+  "tmm": {
+    "priority": 100,
+    "iso_code": "TMM",
+    "name": "Turkmenistani Manat",
+    "symbol": "m",
+    "subunit": "Tennesi",
+    "subunit_to_unit": 100,
+    "symbol_first": false,
+    "html_entity": "",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "795"
+  },
 }
