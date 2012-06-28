@@ -109,9 +109,8 @@ describe Money::Currency do
     end
 
     it "doesn't create new symbols indefinitely" do
-      expect {
-        expect { Money::Currency.new("bogus") }.to raise_exception(Money::Currency::UnknownCurrency)
-      }.to_not change{ Symbol.all_symbols.size }
+      expect { Money::Currency.new("bogus") }.to raise_exception(Money::Currency::UnknownCurrency)
+      Symbol.all_symbols.map{|s| s.to_s}.should_not include("bogus")
     end
   end
 
