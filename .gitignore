@@ -9,6 +9,7 @@ pkg/*
 # YARD
 .yardoc
 yardoc/
+doc/
 
 # Project
 .rbenv-version
