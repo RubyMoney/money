@@ -1,0 +1,97 @@
+---
+:eek:
+  :priority: 100
+  :iso_code: EEK
+  :name: Estonian Kroon
+  :symbol: KR
+  :subunit: Sent
+  :subunit_to_unit: 100
+  :symbol_first: false
+  :html_entity: ''
+  :decimal_mark: .
+  :thousands_separator: ! ','
+  :iso_numeric: '233'
+:ghc:
+  :priority: 100
+  :iso_code: GHS
+  :name: Ghanaian Cedi
+  :symbol: ₵
+  :subunit: Pesewa
+  :subunit_to_unit: 100
+  :symbol_first: true
+  :html_entity: ! '&#x20B5;'
+  :decimal_mark: .
+  :thousands_separator: ! ','
+  :iso_numeric: '288'
+:tmm:
+  :priority: 100
+  :iso_code: TMM
+  :name: Turkmenistani Manat
+  :symbol: m
+  :subunit: Tennesi
+  :subunit_to_unit: 100
+  :symbol_first: false
+  :html_entity: ''
+  :decimal_mark: .
+  :thousands_separator: ! ','
+  :iso_numeric: '795'
+:yen:
+  :priority: 100
+  :iso_code: JPY
+  :name: Japanese Yen
+  :symbol: ¥
+  :subunit: Sen
+  :subunit_to_unit: 100
+  :symbol_first: true
+  :html_entity: ! '&#x00A5;'
+  :decimal_mark: .
+  :thousands_separator: ! ','
+  :iso_numeric: ''
+:zwd:
+  :priority: 100
+  :iso_code: ZWD
+  :name: Zimbabwean Dollar
+  :symbol: $
+  :subunit: Cent
+  :subunit_to_unit: 100
+  :symbol_first: true
+  :html_entity: $
+  :decimal_mark: .
+  :thousands_separator: ! ','
+  :iso_numeric: '716'
+:zwl:
+  :priority: 100
+  :iso_code: ZWL
+  :name: Zimbabwean Dollar
+  :symbol: $
+  :subunit: Cent
+  :subunit_to_unit: 100
+  :symbol_first: true
+  :html_entity: $
+  :decimal_mark: .
+  :thousands_separator: ! ','
+  :iso_numeric: '932'
+:zwn:
+  :priority: 100
+  :iso_code: ZWN
+  :name: Zimbabwean Dollar
+  :symbol: $
+  :subunit: Cent
+  :subunit_to_unit: 100
+  :symbol_first: true
+  :html_entity: $
+  :decimal_mark: .
+  :thousands_separator: ! ','
+  :iso_numeric: '942'
+:zwr:
+  :priority: 100
+  :iso_code: ZWR
+  :name: Zimbabwean Dollar
+  :symbol: $
+  :subunit: Cent
+  :subunit_to_unit: 100
+  :symbol_first: true
+  :html_entity: $
+  :decimal_mark: .
+  :thousands_separator: ! ','
+  :iso_numeric: '935'
