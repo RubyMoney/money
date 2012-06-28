@@ -3,19 +3,18 @@ module CurrencyLoader
 
   DATA_PATH = File.expand_path("../../../config", __FILE__)
 
-  # Loads and returns the currencies stored in JSON files in the config directory.
+  # Loads and returns the currencies stored in YAML files in the config
+  # directory.
   #
   # @return [Hash]
   def load_currencies
-    currencies = parse_currency_file("currency.json")
-    currencies.merge! parse_currency_file("currency_bc.json")
+    currencies = parse_currency_file("currency.yml")
+    currencies.merge! parse_currency_file("currency_bc.yml")
   end
 
   private
 
   def parse_currency_file(filename)
-    json = File.read("#{DATA_PATH}/#{filename}")
-    json.force_encoding(::Encoding::UTF_8) if defined?(::Encoding)
-    MultiJson.load(json, :symbolize_keys => true)
+    YAML.load_file("#{DATA_PATH}/#{filename}")
   end
 end
