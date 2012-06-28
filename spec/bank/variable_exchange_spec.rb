@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'multi_json'
+require 'json'
 require 'yaml'
 
 describe Money::Bank::VariableExchange do
@@ -120,7 +120,7 @@ describe Money::Bank::VariableExchange do
     context "with format == :json" do
       it "should return rates formatted as json" do
         json = subject.export_rates(:json)
-        MultiJson.load(json).should == @rates
+        JSON.load(json).should == @rates
       end
     end
 
@@ -147,7 +147,7 @@ describe Money::Bank::VariableExchange do
       it "writes rates to file" do
         f = mock('IO')
         File.should_receive(:open).with('null', 'w').and_yield(f)
-        f.should_receive(:write).with(MultiJson.dump(@rates))
+        f.should_receive(:write).with(JSON.dump(@rates))
 
         subject.export_rates(:json, 'null')
       end
