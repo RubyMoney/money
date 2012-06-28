@@ -18,10 +18,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec",       "~> 2.10.0"
   s.add_development_dependency "yard",        "~> 0.8.1"
   s.add_development_dependency "kramdown",    "~> 0.13.7"
-  s.add_development_dependency "guard",       "~> 1.1.1"
+  s.add_development_dependency "guard",       "~> 1.2.1"
   s.add_development_dependency "spork",       "~> 0.9.0"
-  s.add_development_dependency "guard-spork", "~> 1.0.0"
-  s.add_development_dependency "guard-rspec", "~> 1.0.0"
+  s.add_development_dependency "guard-spork", "~> 1.1.0"
+  s.add_development_dependency "guard-rspec", "~> 1.1.0"
 
   s.files =  Dir.glob("{config,lib,spec}/**/*")
   s.files += %w(CHANGELOG.md LICENSE README.md)
