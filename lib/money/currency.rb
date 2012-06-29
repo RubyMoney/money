@@ -6,8 +6,8 @@ class Money
 
   # Represents a specific currency unit.
   class Currency
+    extend List
     include Comparable
-    extend  CurrencyLoader
 
     # Thrown when an unknown currency is requested.
     class UnknownCurrency < StandardError; end
@@ -51,21 +51,6 @@ class Money
         else
           Currency.new(object)
         end
-      end
-
-      # List of known currencies.
-      #
-      # == monetary unit
-      # The standard unit of value of a currency, as the dollar in the United States or the peso in Mexico.
-      # http://www.answers.com/topic/monetary-unit
-      # == fractional monetary unit, subunit
-      # A monetary unit that is valued at a fraction (usually one hundredth) of the basic monetary unit
-      # http://www.answers.com/topic/fractional-monetary-unit-subunit
-      #
-      # See http://en.wikipedia.org/wiki/List_of_circulating_currencies and
-      # http://search.cpan.org/~tnguyen/Locale-Currency-Format-1.28/Format.pm
-      def table
-        @table ||= load_currencies
       end
 
       # We need a string-based validator before creating an unbounded number of symbols.
