@@ -4,9 +4,9 @@ rvm:
   - 1.9.2
   - 1.9.3
   - ruby-head
-  #- jruby-18mode
-  #- jruby-19mode ## json error
-  #- jruby-head ## json error
+  - jruby-18mode
+  - jruby-19mode
+  - jruby-head
   - rbx-18mode
   - rbx-19mode
   - ree
