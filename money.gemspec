@@ -13,8 +13,8 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
 
   s.add_dependency "i18n", "~> 0.6.0"
-  s.add_dependency "json"
 
+  s.add_development_dependency "json"
   s.add_development_dependency "rspec",       "~> 2.10.0"
   s.add_development_dependency "yard",        "~> 0.8.1"
   s.add_development_dependency "kramdown",    "~> 0.13.7"
