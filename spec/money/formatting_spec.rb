@@ -132,7 +132,7 @@ describe Money, "formatting" do
       one_thousand["BRL"].should == "R$ 1.000,00"
 
       # Other
-      one_thousand["SEK"].should == "kr1,000.00"
+      one_thousand["SEK"].should == "1.000,00 kr"
       one_thousand["GHC"].should == "₵1,000.00"
     end
 
@@ -231,7 +231,7 @@ describe Money, "formatting" do
         one["BRL"].should == "R$ 1,00"
 
         # Other
-        one["SEK"].should == "kr1.00"
+        one["SEK"].should == "1,00 kr"
         one["GHC"].should == "₵1.00"
       end
 
@@ -244,7 +244,7 @@ describe Money, "formatting" do
       specify "(:symbol => some non-Boolean value that evaluates to true) returns symbol based on the given currency code" do
         Money.new(100, "GBP").format(:symbol => true).should == "£1.00"
         Money.new(100, "EUR").format(:symbol => true).should == "€1,00"
-        Money.new(100, "SEK").format(:symbol => true).should == "kr1.00"
+        Money.new(100, "SEK").format(:symbol => true).should == "1,00 kr"
       end
 
       specify "(:symbol => "", nil or false) returns the amount without a symbol" do
