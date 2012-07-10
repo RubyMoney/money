@@ -93,7 +93,11 @@ class Money
     # @example
     #   Money.new(100) + Money.new(100) #=> #<Money @cents=200>
     def +(other_money)
-      if currency == other_money.currency
+      if zero?
+        other_money
+      elsif other_money.zero?
+        self
+      elsif currency == other_money.currency
         Money.new(cents + other_money.cents, other_money.currency)
       else
         Money.new(cents + other_money.exchange_to(currency).cents, currency)
@@ -112,7 +116,11 @@ class Money
     # @example
     #   Money.new(100) - Money.new(99) #=> #<Money @cents=1>
     def -(other_money)
-      if currency == other_money.currency
+      if zero?
+        Money.new(-other_money.cents, other_money.currency)
+      elsif other_money.zero?
+        self
+      elsif currency == other_money.currency
         Money.new(cents - other_money.cents, other_money.currency)
       else
         Money.new(cents - other_money.exchange_to(currency).cents, currency)
