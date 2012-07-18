@@ -151,11 +151,6 @@ class Money
     # @return [boolean]
     attr_reader :symbol_first
 
-    # The character used to separate by indian currency format grouping of the whole unit.
-    #
-    # @return [boolean]
-    attr_reader :south_asian_number_formatting
-
     # Create a new +Currency+ object.
     #
     # @param [String, Symbol, #to_s] id Used to look into +table+ and retrieve
