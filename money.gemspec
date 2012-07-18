@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
 
   s.files =  Dir.glob("{config,lib,spec}/**/*")
   s.files += %w(CHANGELOG.md LICENSE README.md)
-  s.files += %w(Rakefile .gemtest money.gemspec)
+  s.files += %w(Rakefile money.gemspec)
 
   s.require_path = "lib"
 end
