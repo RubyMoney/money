@@ -154,7 +154,7 @@ class Money
     # The character used to separate by indian currency format grouping of the whole unit.
     #
     # @return [boolean]
-    attr_reader :indian_currency
+    attr_reader :south_asian_number_formatting
 
     # Create a new +Currency+ object.
     #

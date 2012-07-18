@@ -108,8 +108,8 @@ class Money
     #   Money.new(100, "AWG").format(:symbol => "ƒ") #=> "ƒ1.00"
     #
     #   # You can specify a indian currency format
-    #   Money.new(10000000, "INR").format(:indian_currency => true) #=> "1,00,000.00"
-    #   Money.new(10000000).format(:indian_currency => true) #=> "$1,00,000.00"
+    #   Money.new(10000000, "INR").format(:south_asian_number_formatting => true) #=> "1,00,000.00"
+    #   Money.new(10000000).format(:south_asian_number_formatting => true) #=> "$1,00,000.00"
     #
     # @option *rules [Boolean, String, nil] :decimal_mark (true) Whether the
     #  currency should be separated by the specified character or '.'
@@ -246,7 +246,7 @@ class Money
 
   def regexp_format(formatted, rules, decimal_mark)
     regexp_decimal = Regexp.escape(decimal_mark)
-    if rules[:indian_currency]
+    if rules[:south_asian_number_formatting]
       /(\d+?)(?=(\d\d)+(\d)(?:\.))/
     else
       if formatted =~ /#{regexp_decimal}/
