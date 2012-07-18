@@ -282,6 +282,13 @@ describe Money, "formatting" do
       end
     end
 
+    describe ":indian_currency format delimiter" do
+      specify "(:indian_currency => true) works as documented" do
+        Money.new(10000000, 'INR').format(:indian_currency => true, :symbol => false).should == "1,00,000.00"
+        Money.new(10000000).format(:indian_currency => true).should == "$1,00,000.00"
+      end
+    end
+
     describe ":thousands_separator option" do
       specify "(:thousands_separator => a thousands_separator string) works as documented" do
         Money.us_dollar(100000).format(:thousands_separator => ".").should == "$1.000.00"
