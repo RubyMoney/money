@@ -8,7 +8,7 @@ describe Money::Currency do
 
   describe ".find" do
     it "returns currency matching given id" do
-      Money::Currency.register(MultiJson.load(FOO, :symbolize_keys => true))
+      Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))
 
       expected = Money::Currency.new(:foo)
       Money::Currency.find(:foo).should  == expected
@@ -128,7 +128,7 @@ describe Money::Currency do
     end
 
     it "proper places for custom currency" do
-      Money::Currency.register(MultiJson.load(FOO, :symbolize_keys => true))
+      Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))
       Money::Currency.new(:foo).decimal_places == 3
     end
   end
