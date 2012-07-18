@@ -144,7 +144,7 @@ class Money
     #
     # @return [String]
     attr_reader :thousands_separator
-    alias :delimiter :thousands_separator 
+    alias :delimiter :thousands_separator
 
     # Should the currency symbol precede the amount, or should it come after?
     #
