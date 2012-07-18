@@ -144,12 +144,17 @@ class Money
     #
     # @return [String]
     attr_reader :thousands_separator
-    alias :delimiter :thousands_separator 
+    alias :delimiter :thousands_separator
 
     # Should the currency symbol precede the amount, or should it come after?
     #
     # @return [boolean]
     attr_reader :symbol_first
+
+    # The character used to separate by indian currency format grouping of the whole unit.
+    #
+    # @return [boolean]
+    attr_reader :indian_currency
 
     # Create a new +Currency+ object.
     #

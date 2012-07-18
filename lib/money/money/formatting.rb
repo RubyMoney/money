@@ -73,7 +73,7 @@ class Money
     #   Money.ca_dollar(100).format(:no_cents => true) #=> "$1"
     #   Money.ca_dollar(599).format(:no_cents => true) #=> "$5"
     #
-    # @option *rules [Boolean] :no_cents_if_whole (false) Whether cents should be 
+    # @option *rules [Boolean] :no_cents_if_whole (false) Whether cents should be
     #  omitted if the cent value is zero
     #
     # @example
@@ -106,6 +106,10 @@ class Money
     #
     #   # You can specify a string as value to enforce using a particular symbol.
     #   Money.new(100, "AWG").format(:symbol => "ƒ") #=> "ƒ1.00"
+    #
+    #   # You can specify a indian currency format
+    #   Money.new(10000000, "INR").format(:indian_currency => true) #=> "1,00,000.00"
+    #   Money.new(10000000).format(:indian_currency => true) #=> "$1,00,000.00"
     #
     # @option *rules [Boolean, String, nil] :decimal_mark (true) Whether the
     #  currency should be separated by the specified character or '.'
@@ -184,7 +188,7 @@ class Money
         end
 
       if symbol_value && !symbol_value.empty?
-        formatted = if symbol_position == :before 
+        formatted = if symbol_position == :before
           "#{symbol_value}#{formatted}"
         else
           symbol_space = rules[:symbol_after_without_space] ? "" : " "
@@ -204,13 +208,7 @@ class Money
       end
 
       # Apply thousands_separator
-      regexp_decimal = Regexp.escape(decimal_mark)
-      regexp_format  = if formatted =~ /#{regexp_decimal}/
-           /(\d)(?=(?:\d{3})+(?:#{regexp_decimal}))/
-         else
-           /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
-         end
-      formatted.gsub!(regexp_format, "\\1#{thousands_separator_value}")
+      formatted.gsub!(regexp_format(formatted, rules, decimal_mark), "\\1#{thousands_separator_value}")
 
       if rules[:with_currency]
         formatted << " "
@@ -243,6 +241,19 @@ class Money
         rules[:thousands_separator] = rules[:delimiter]
       end
       rules
+    end
+  end
+
+  def regexp_format(formatted, rules, decimal_mark)
+    regexp_decimal = Regexp.escape(decimal_mark)
+    if rules[:indian_currency]
+      /(\d+?)(?=(\d\d)+(\d)(?:\.))/
+    else
+      if formatted =~ /#{regexp_decimal}/
+        /(\d)(?=(?:\d{3})+(?:#{regexp_decimal}))/
+      else
+        /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
+      end
     end
   end
 
