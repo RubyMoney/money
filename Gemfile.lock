@@ -25,6 +25,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  json
   kramdown (~> 0.13.7)
   money!
   rake
