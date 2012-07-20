@@ -285,7 +285,7 @@ describe Money, "formatting" do
 
     describe ":south_asian_number_formatting delimiter" do
       before(:each) do
-        Money::Currency.register(MultiJson.load(INDIAN_BAR, :symbolize_keys => true))
+        Money::Currency.register(JSON.parse(INDIAN_BAR, :symbolize_names => true))
       end
 
       specify "(:south_asian_number_formatting => true) works as documented" do
@@ -421,8 +421,8 @@ describe Money, "formatting" do
 
   context "custom currencies with 4 decimal places" do
     before :each do
-      Money::Currency.register(MultiJson.load(BAR, :symbolize_keys => true))
-      Money::Currency.register(MultiJson.load(EU4, :symbolize_keys => true))
+      Money::Currency.register(JSON.parse(BAR, :symbolize_names => true))
+      Money::Currency.register(JSON.parse(EU4, :symbolize_names => true))
     end
 
     it "respects custom subunit to unit, decimal and thousands separator" do
