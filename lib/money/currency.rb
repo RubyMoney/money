@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'multi_json'
+require 'json'
 
 class Money
 
