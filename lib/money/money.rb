@@ -330,6 +330,7 @@ class Money
     return "-#{unit}#{decimal_mark}#{subunit}#{fractional}" if cents < 0
     "#{unit}#{decimal_mark}#{subunit}#{fractional}"
   end
+  alias_method :to_liquid, :to_s
 
   # Return the amount of money as a BigDecimal.
   #

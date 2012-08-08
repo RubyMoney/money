@@ -256,6 +256,7 @@ class Money
     def to_s
       id.to_s.upcase
     end
+    alias_method :to_liquid, :to_s
 
     # Conversation to +self+.
     #
