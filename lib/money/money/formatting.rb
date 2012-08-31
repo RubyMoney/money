@@ -187,12 +187,18 @@ class Money
           :after
         end
 
+      sign = ""
+      if rules[:sign_before_symbol] == true && self.negative?
+        formatted.tr!("-", "")
+        sign = "-"
+      end
+
       if symbol_value && !symbol_value.empty?
         formatted = if symbol_position == :before
-          "#{symbol_value}#{formatted}"
+          "#{sign}#{symbol_value}#{formatted}"
         else
           symbol_space = rules[:symbol_after_without_space] ? "" : " "
-          "#{formatted}#{symbol_space}#{symbol_value}"
+          "#{sign}#{formatted}#{symbol_space}#{symbol_value}"
         end
       end
 
