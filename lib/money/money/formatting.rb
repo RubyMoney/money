@@ -169,7 +169,7 @@ class Money
         end
 
       formatted = rules[:no_cents] ? "#{self.to_s.to_i}" : self.to_s
-                  
+
       if rules[:no_cents_if_whole] && cents % currency.subunit_to_unit == 0
         formatted = "#{self.to_s.to_i}"
       end
@@ -184,7 +184,7 @@ class Money
         end
 
       if symbol_value && !symbol_value.empty?
-        formatted = if symbol_position == :before 
+        formatted = if symbol_position == :before
           "#{symbol_value}#{formatted}"
         else
           symbol_space = rules[:symbol_after_without_space] ? "" : " "
