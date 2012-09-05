@@ -45,7 +45,7 @@ class Money
       #
       # @return [Money::Bank::Base]
       def self.instance
-        @@singleton ||= self.new
+        @singleton ||= self.new
       end
 
       # The rounding method to use when exchanging rates.

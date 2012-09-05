@@ -2,6 +2,14 @@ require 'spec_helper'
 
 describe Money::Bank::Base do
 
+  describe ".instance" do
+    it "is local to one class" do
+      klass = Money::Bank::Base
+      subclass = Class.new(Money::Bank::Base)
+      klass.instance.should_not == subclass.instance
+    end
+  end
+
   describe "#initialize" do
     it "accepts a block and stores @rounding_method" do
       proc = Proc.new { |n| n.ceil }
