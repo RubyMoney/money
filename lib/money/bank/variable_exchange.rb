@@ -4,9 +4,6 @@ require 'yaml'
 
 class Money
   module Bank
-    # Thrown when an unknown rate format is requested.
-    class UnknownRateFormat < StandardError; end
-
     # Class for aiding in exchanging money between different currencies. By
     # default, the +Money+ class uses an object of this class (accessible
     # through +Money#bank+) for performing currency exchanges.
