@@ -165,9 +165,10 @@ class Money
         @mutex.synchronize { @rates[rate_key_for(from, to)] }
       end
 
-      # Return the known rates as a string in the format specified. If +file+
-      # is given will also write the string out to the file specified.
-      # Available formats are +:json+, +:ruby+ and +:yaml+.
+      # Dumps known rates using the specified serializer
+      # such as JSON, Marshal, YAML or any other that responds to dump.
+      #
+      # If +file+ is given will also write the string out to the file specified.
       #
       # @param [Symbol] format Request format for the resulting string.
       # @param [String] file Optional file location to write the rates to.
@@ -181,7 +182,7 @@ class Money
       #   bank.set_rate("USD", "CAD", 1.24515)
       #   bank.set_rate("CAD", "USD", 0.803115)
       #
-      #   s = bank.export_rates(:json)
+      #   s = bank.export_rates(JSON)
       #   s #=> "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
       def export_rates(format, file=nil)
         s = ""
@@ -195,8 +196,8 @@ class Money
         s
       end
 
-      # Loads rates provided in +s+ given the specified format. Available
-      # formats are +:json+, +:ruby+ and +:yaml+.
+      # Loads rates provided in +s+ given the specified serializer
+      # such as JSON, Marshal, YAML or any other that responds to load.
       #
       # @param [Symbol] format The format of +s+.
       # @param [String] s The rates string.
@@ -208,7 +209,7 @@ class Money
       # @example
       #   s = "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
       #   bank = Money::Bank::VariableExchange.new
-      #   bank.import_rates(:json, s)
+      #   bank.import_rates(JSON, s)
       #
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
