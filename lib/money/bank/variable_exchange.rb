@@ -34,6 +34,11 @@ class Money
 
       # Available formats for importing/exporting rates.
       RATE_FORMATS = [:json, :ruby, :yaml]
+      FORMAT_MAP = {
+        :json => JSON,
+        :ruby => Marshal,
+        :yaml => YAML
+      }
 
       # Setup rates hash and mutex for rates locking
       #
@@ -183,14 +188,7 @@ class Money
 
         s = ""
         @mutex.synchronize {
-          s = case format
-              when :json
-                JSON.dump(@rates)
-              when :ruby
-                Marshal.dump(@rates)
-              when :yaml
-                YAML.dump(@rates)
-              end
+          s = FORMAT_MAP[format].dump(@rates)
 
           unless file.nil?
             File.open(file, "w") {|f| f.write(s) }
@@ -221,14 +219,7 @@ class Money
           RATE_FORMATS.include? format
 
         @mutex.synchronize {
-          @rates = case format
-                   when :json
-                     JSON.load(s)
-                   when :ruby
-                     Marshal.load(s)
-                   when :yaml
-                     YAML.load(s)
-                   end
+          @rates = FORMAT_MAP[format].load(s)
         }
         self
       end
