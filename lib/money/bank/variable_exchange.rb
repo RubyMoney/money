@@ -39,6 +39,7 @@ class Money
         :ruby => Marshal,
         :yaml => YAML
       }
+      FORMAT_MAP.default_proc = lambda { |hash, key| key }
 
       # Setup rates hash and mutex for rates locking
       #
@@ -183,9 +184,6 @@ class Money
       #   s = bank.export_rates(:json)
       #   s #=> "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
       def export_rates(format, file=nil)
-        raise Money::Bank::UnknownRateFormat unless
-          RATE_FORMATS.include? format
-
         s = ""
         @mutex.synchronize {
           s = FORMAT_MAP[format].dump(@rates)
@@ -215,9 +213,6 @@ class Money
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
       def import_rates(format, s)
-        raise Money::Bank::UnknownRateFormat unless
-          RATE_FORMATS.include? format
-
         @mutex.synchronize {
           @rates = FORMAT_MAP[format].load(s)
         }
