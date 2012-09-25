@@ -2,6 +2,7 @@
 
 ## master
 
+- Added Money.new_with_amount and Money#amount. Money.new_with_dollars and Money#dollars remain as synonyms.
 - Calling Bank::Base.instance doesn't make Bank::VariableExchange.instance
   return Bank::Base.instance anymore (semaperepelitsa)
 - Update Turkmenistan manat from TMM to TMT currency (GH-181). [Thanks @Exoth]

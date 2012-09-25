@@ -41,45 +41,55 @@ describe Money do
   end
 
   describe ".new_with_dollars" do
+    it "is synonym of #new_with_amount" do
+      MoneyExpectation = Class.new(Money)
+      def MoneyExpectation.new_with_amount *args
+        args
+      end
+      MoneyExpectation.new_with_dollars("expectation").should == ["expectation"]
+    end
+  end
+
+  describe ".new_with_amount" do
     it "converts given amount to cents" do
-      Money.new_with_dollars(1).should == Money.new(100)
-      Money.new_with_dollars(1, "USD").should == Money.new(100, "USD")
-      Money.new_with_dollars(1, "EUR").should == Money.new(100, "EUR")
+      Money.new_with_amount(1).should == Money.new(100)
+      Money.new_with_amount(1, "USD").should == Money.new(100, "USD")
+      Money.new_with_amount(1, "EUR").should == Money.new(100, "EUR")
     end
 
     it "respects :subunit_to_unit currency property" do
-      Money.new_with_dollars(1, "USD").should == Money.new(1_00,  "USD")
-      Money.new_with_dollars(1, "TND").should == Money.new(1_000, "TND")
-      Money.new_with_dollars(1, "CLP").should == Money.new(1,     "CLP")
+      Money.new_with_amount(1, "USD").should == Money.new(1_00,  "USD")
+      Money.new_with_amount(1, "TND").should == Money.new(1_000, "TND")
+      Money.new_with_amount(1, "CLP").should == Money.new(1,     "CLP")
     end
 
     it "does not loose precision" do
-      Money.new_with_dollars(1234).cents.should == 1234_00
-      Money.new_with_dollars(100.37).cents.should == 100_37
-      Money.new_with_dollars(BigDecimal.new('1234')).cents.should == 1234_00
+      Money.new_with_amount(1234).cents.should == 1234_00
+      Money.new_with_amount(100.37).cents.should == 100_37
+      Money.new_with_amount(BigDecimal.new('1234')).cents.should == 1234_00
     end
 
     it "accepts optional currency" do
-      m = Money.new_with_dollars(1)
+      m = Money.new_with_amount(1)
       m.currency.should == Money.default_currency
 
-      m = Money.new_with_dollars(1, Money::Currency.wrap("EUR"))
+      m = Money.new_with_amount(1, Money::Currency.wrap("EUR"))
       m.currency.should == Money::Currency.wrap("EUR")
 
-      m = Money.new_with_dollars(1, "EUR")
+      m = Money.new_with_amount(1, "EUR")
       m.currency.should == Money::Currency.wrap("EUR")
     end
 
     it "accepts optional bank" do
-      m = Money.new_with_dollars(1)
+      m = Money.new_with_amount(1)
       m.bank.should == Money.default_bank
 
-      m = Money.new_with_dollars(1, "EUR", bank = Object.new)
+      m = Money.new_with_amount(1, "EUR", bank = Object.new)
       m.bank.should == bank
     end
 
     it "is associated to the singleton instance of Bank::VariableExchange by default" do
-      Money.new_with_dollars(0).bank.should be(Money::Bank::VariableExchange.instance)
+      Money.new_with_amount(0).bank.should be(Money::Bank::VariableExchange.instance)
     end
   end
 
@@ -165,21 +175,34 @@ describe Money do
     end
   end
 
-  describe "#dollars" do
+  describe "#amount" do
     it "returns the amount of cents as dollars" do
-      Money.new(1_00).dollars.should == 1
-      Money.new_with_dollars(1).dollars.should == 1
+      Money.new(1_00).amount.should == 1
+      Money.new_with_amount(1).amount.should == 1
     end
 
     it "respects :subunit_to_unit currency property" do
-      Money.new(1_00,  "USD").dollars.should == 1
-      Money.new(1_000, "TND").dollars.should == 1
-      Money.new(1,     "CLP").dollars.should == 1
+      Money.new(1_00,  "USD").amount.should == 1
+      Money.new(1_000, "TND").amount.should == 1
+      Money.new(1,     "CLP").amount.should == 1
     end
 
     it "does not loose precision" do
-      Money.new(100_37).dollars.should == 100.37
-      Money.new_with_dollars(100.37).dollars.should == 100.37
+      Money.new(100_37).amount.should == 100.37
+      Money.new_with_amount(100.37).amount.should == 100.37
+    end
+  end
+
+  describe "#dollars" do
+    it "is synonym of #amount" do
+      m = Money.new(0)
+
+      # Make a small expectation
+      def m.amount
+        5
+      end
+      
+      m.dollars.should == 5
     end
   end
 

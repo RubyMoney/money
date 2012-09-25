@@ -152,35 +152,41 @@ class Money
     Money.new(cents, "EUR")
   end
 
-  # Creates a new Money object of +amount+ value in dollars,
+  # Creates a new Money object of +amount+ value ,
   # with given +currency+.
   #
-  # The amount value is expressed in +dollars+
-  # where the +dollar+ is the main monetary unit,
+  # The amount value is expressed in the main monetary unit,
   # opposite to the subunit-based representation
   # used internally by this library called +cents+.
   #
-  # @param [Numeric] amount The money amount, in dollars.
+  # @param [Numeric] amount The money amount, in main monetary unit.
   # @param [Currency, String, Symbol] currency The currency format.
   # @param [Money::Bank::*] bank The exchange bank to use.
   #
   # @return [Money]
   #
   # @example
-  #   Money.new_with_dollars(100)
+  #   Money.new_with_amount(100)
   #   #=> #<Money @cents=10000 @currency="USD">
-  #   Money.new_with_dollars(100, "USD")
+  #   Money.new_with_amount(100, "USD")
   #   #=> #<Money @cents=10000 @currency="USD">
-  #   Money.new_with_dollars(100, "EUR")
+  #   Money.new_with_amount(100, "EUR")
   #   #=> #<Money @cents=10000 @currency="EUR">
   #
   # @see Money.new
   #
-  def self.new_with_dollars(amount, currency = Money.default_currency, bank = Money.default_bank)
+  def self.new_with_amount(amount, currency = Money.default_currency, bank = Money.default_bank)
     money = from_numeric(amount, currency)
     # Hack! You can't change a bank
     money.instance_variable_set("@bank", bank)
     money
+  end
+
+  # Synonym of #new_with_amount
+  #
+  # @see Money.new_with_amount
+  def self.new_with_dollars(*args)
+    self.new_with_amount(*args)
   end
 
   # Adds a new exchange rate to the default bank and return the rate.
@@ -235,16 +241,34 @@ class Money
   # Returns the value of the money in dollars,
   # instead of in cents.
   #
+  # Synonym of #amount
+  #
   # @return [Float]
   #
   # @example
   #   Money.new(100).dollars           # => 1.0
   #   Money.new_with_dollars(1).dollar # => 1.0
   #
+  # @see #amount
   # @see #to_f
   # @see #cents
   #
   def dollars
+    amount
+  end
+
+  # Returns the numerical value of the money
+  #
+  # @return [Float]
+  #
+  # @example
+  #   Money.new(100).amount            # => 1.0
+  #   Money.new_with_amount(1).amount  # => 1.0
+  #
+  # @see #to_f
+  # @see #cents
+  #
+  def amount
     to_f
   end
 
