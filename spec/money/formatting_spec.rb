@@ -397,10 +397,10 @@ describe Money, "formatting" do
     end
 
     it "brute forces :subunit_to_unit = 100" do
-      ("0.00".."9.99").each do |amt|
+      %w{0.00 0.01 1.00 1.01 5.67 9.99}.each do |amt|
         amt.to_money("USD").format(:symbol => false).should == amt
       end
-      ("-0.01".."-9.99").each do |amt|
+      %w{-0.01 -1.00 -1.01 -5.67 -9.99}.each do |amt|
         amt.to_money("USD").format(:symbol => false).should == amt
       end
       "1000.00".to_money("USD").format(:symbol => false).should == "1,000.00"
@@ -408,12 +408,14 @@ describe Money, "formatting" do
     end
 
     it "brute forces :subunit_to_unit = 1000" do
-      ("0.000".."9.999").each do |amt|
+      %w{0.000 0.001 1.000 1.001 5.678 9.999}.each do |amt|
         amt.to_money("IQD").format(:symbol => false).should == amt
       end
-      ("-0.001".."-9.999").each do |amt|
+
+      %w{-0.001 -1.000 -1.001 -5.678 -9.999}.each do |amt|
         amt.to_money("IQD").format(:symbol => false).should == amt
       end
+
       "1000.000".to_money("IQD").format(:symbol => false).should == "1,000.000"
       "-1000.000".to_money("IQD").format(:symbol => false).should == "-1,000.000"
     end
