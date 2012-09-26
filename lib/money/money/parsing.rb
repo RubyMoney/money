@@ -21,12 +21,12 @@ class Money
       #   the +input+ string.
       #
       # @example
-      #   '100'.to_money                #=> #<Money @cents=10000>
-      #   '100.37'.to_money             #=> #<Money @cents=10037>
-      #   '100 USD'.to_money            #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
-      #   'USD 100'.to_money            #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
-      #   '$100 USD'.to_money           #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
-      #   'hello 2000 world'.to_money   #=> #<Money @cents=200000 @currency=#<Money::Currency id: usd>>
+      #   '100'.to_money                #=> #<Money @fractional=10000>
+      #   '100.37'.to_money             #=> #<Money @fractional=10037>
+      #   '100 USD'.to_money            #=> #<Money @fractional=10000, @currency=#<Money::Currency id: usd>>
+      #   'USD 100'.to_money            #=> #<Money @fractional=10000, @currency=#<Money::Currency id: usd>>
+      #   '$100 USD'.to_money           #=> #<Money @fractional=10000, @currency=#<Money::Currency id: usd>>
+      #   'hello 2000 world'.to_money   #=> #<Money @fractional=200000 @currency=#<Money::Currency id: usd>>
       #
       # @example Mismatching currencies
       #   'USD 2000'.to_money("EUR")    #=> ArgumentError
@@ -64,12 +64,12 @@ class Money
         end
         currency = Money::Currency.wrap(currency)
 
-        cents = extract_cents(i, currency)
-        new(cents, currency)
+        fractional = extract_cents(i, currency)
+        new(fractional, currency)
       end
 
       # Converts a String into a Money object treating the +value+
-      # as dollars and converting them to the corresponding cents value,
+      # as amount and converting to fractional unit,
       # according to +currency+ subunit property,
       # before instantiating the Money object.
       #
@@ -84,13 +84,13 @@ class Money
       #
       # @example
       #   Money.from_string("100")
-      #   #=> #<Money @cents=10000 @currency="USD">
+      #   #=> #<Money @fractional=10000 @currency="USD">
       #   Money.from_string("100", "USD")
-      #   #=> #<Money @cents=10000 @currency="USD">
+      #   #=> #<Money @fractional=10000 @currency="USD">
       #   Money.from_string("100", "EUR")
-      #   #=> #<Money @cents=10000 @currency="EUR">
+      #   #=> #<Money @fractional=10000 @currency="EUR">
       #   Money.from_string("100", "BHD")
-      #   #=> #<Money @cents=100 @currency="BHD">
+      #   #=> #<Money @fractional=100 @currency="BHD">
       #
       # @see String#to_money
       # @see Money.parse
@@ -100,7 +100,7 @@ class Money
       end
 
       # Converts a Fixnum into a Money object treating the +value+
-      # as dollars and converting them to the corresponding cents value,
+      # as amount and to corresponding fractional unit,
       # according to +currency+ subunit property,
       # before instantiating the Money object.
       #
@@ -111,13 +111,13 @@ class Money
       #
       # @example
       #   Money.from_fixnum(100)
-      #   #=> #<Money @cents=10000 @currency="USD">
+      #   #=> #<Money @fractional=10000 @currency="USD">
       #   Money.from_fixnum(100, "USD")
-      #   #=> #<Money @cents=10000 @currency="USD">
+      #   #=> #<Money @fractional=10000 @currency="USD">
       #   Money.from_fixnum(100, "EUR")
-      #   #=> #<Money @cents=10000 @currency="EUR">
+      #   #=> #<Money @fractional=10000 @currency="EUR">
       #   Money.from_fixnum(100, "BHD")
-      #   #=> #<Money @cents=100 @currency="BHD">
+      #   #=> #<Money @fractional=100 @currency="BHD">
       #
       # @see Fixnum#to_money
       # @see Money.from_numeric
@@ -129,7 +129,7 @@ class Money
       end
 
       # Converts a Float into a Money object treating the +value+
-      # as dollars and converting them to the corresponding cents value,
+      # as dollars and to corresponding fractional unit,
       # according to +currency+ subunit property,
       # before instantiating the Money object.
       #
@@ -143,13 +143,13 @@ class Money
       #
       # @example
       #   Money.from_float(100.0)
-      #   #=> #<Money @cents=10000 @currency="USD">
+      #   #=> #<Money @fractional=10000 @currency="USD">
       #   Money.from_float(100.0, "USD")
-      #   #=> #<Money @cents=10000 @currency="USD">
+      #   #=> #<Money @fractional=10000 @currency="USD">
       #   Money.from_float(100.0, "EUR")
-      #   #=> #<Money @cents=10000 @currency="EUR">
+      #   #=> #<Money @fractional=10000 @currency="EUR">
       #   Money.from_float(100.0, "BHD")
-      #   #=> #<Money @cents=100 @currency="BHD">
+      #   #=> #<Money @fractional=100 @currency="BHD">
       #
       # @see Float#to_money
       # @see Money.from_numeric
@@ -159,7 +159,7 @@ class Money
       end
 
       # Converts a BigDecimal into a Money object treating the +value+
-      # as dollars and converting them to the corresponding cents value,
+      # as dollars and converting to corresponding fractional unit,
       # according to +currency+ subunit property,
       # before instantiating the Money object.
       #
@@ -170,13 +170,13 @@ class Money
       #
       # @example
       #   Money.from_bigdecimal(BigDecimal.new("100")
-      #   #=> #<Money @cents=10000 @currency="USD">
+      #   #=> #<Money @fractional=10000 @currency="USD">
       #   Money.from_bigdecimal(BigDecimal.new("100", "USD")
-      #   #=> #<Money @cents=10000 @currency="USD">
+      #   #=> #<Money @fractional=10000 @currency="USD">
       #   Money.from_bigdecimal(BigDecimal.new("100", "EUR")
-      #   #=> #<Money @cents=10000 @currency="EUR">
+      #   #=> #<Money @fractional=10000 @currency="EUR">
       #   Money.from_bigdecimal(BigDecimal.new("100", "BHD")
-      #   #=> #<Money @cents=100 @currency="BHD">
+      #   #=> #<Money @fractional=100 @currency="BHD">
       #
       # @see BigDecimal#to_money
       # @see Money.from_numeric
@@ -188,7 +188,7 @@ class Money
       end
 
       # Converts a Numeric value into a Money object treating the +value+
-      # as dollars and converting them to the corresponding cents value,
+      # as dollars and converting to corresponding fractional unit,
       # according to +currency+ subunit property,
       # before instantiating the Money object.
       #
@@ -209,9 +209,9 @@ class Money
       #
       # @example
       #   Money.from_numeric(100)
-      #   #=> #<Money @cents=10000 @currency="USD">
+      #   #=> #<Money @fractional=10000 @currency="USD">
       #   Money.from_numeric(100.00)
-      #   #=> #<Money @cents=10000 @currency="USD">
+      #   #=> #<Money @fractional=10000 @currency="USD">
       #   Money.from_numeric("100")
       #   #=> ArgumentError
       #

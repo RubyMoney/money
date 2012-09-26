@@ -149,7 +149,7 @@ class Money
       rules = normalize_formatting_rules(rules)
       rules = localize_formatting_rules(rules)
 
-      if cents == 0
+      if fractional == 0
         if rules[:display_free].respond_to?(:to_str)
           return rules[:display_free]
         elsif rules[:display_free]
