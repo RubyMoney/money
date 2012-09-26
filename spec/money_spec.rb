@@ -124,17 +124,26 @@ describe Money do
     end
   end
 
-
   describe "#cents" do
-    it "returns the amount of cents" do
-      Money.new(1_00).cents.should == 1_00
-      Money.new_with_dollars(1).cents.should == 1_00
+    it "is a synonym of #fractional" do
+      expectation = Money.new(0)
+      def expectation.fractional
+        "expectation"
+      end
+      expectation.cents.should == "expectation"
+    end
+  end
+
+  describe "#fractional" do
+    it "returns the amount in fractional unit" do
+      Money.new(1_00).fractional.should == 1_00
+      Money.new_with_amount(1).fractional.should == 1_00
     end
 
-    it "stores cents as an integer regardless of what is passed into the constructor" do
+    it "stores fractional as an integer regardless of what is passed into the constructor" do
       [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
-        m.cents.should == 100
-        m.cents.should be_a(Fixnum)
+        m.fractional.should == 100
+        m.fractional.should be_a(Fixnum)
       end
     end
 
@@ -145,10 +154,10 @@ describe Money do
 
       it "respects the rounding_mode" do
         Money.rounding_mode = BigDecimal::ROUND_DOWN
-        Money.new(1.9).cents.should == 1
+        Money.new(1.9).fractional.should == 1
 
         Money.rounding_mode = BigDecimal::ROUND_UP
-        Money.new(1.1).cents.should == 2
+        Money.new(1.1).fractional.should == 2
       end
     end
 
@@ -161,9 +170,9 @@ describe Money do
         Money.infinite_precision = false
       end
 
-      it "returns the amount of cents" do
-        Money.new(1_00).cents.should == BigDecimal("100")
-        Money.new_with_dollars(1).cents.should == BigDecimal("100")
+      it "returns the amount in fractional unit" do
+        Money.new(1_00).fractional.should == BigDecimal("100")
+        Money.new_with_amount(1).fractional.should == BigDecimal("100")
       end
 
       it "stores cents as an integer regardless of what is passed into the constructor" do

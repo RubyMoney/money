@@ -11,10 +11,17 @@ class Money
   include Formatting
   include Parsing
 
-  # The value of the money in cents.
+  # Convenience method for fractional part of the amount. Synonym of #fractional
   #
   # @return [Integer]
   def cents
+    fractional
+  end
+
+  # The value of the amount represented in the fractional unit of the currency. Example: USD, 1 dollar (amount) == 100 cents (fractional unit).
+  #
+  # @return [Integer]
+  def fractional
     if self.class.infinite_precision
       @cents
     else
