@@ -23,9 +23,9 @@ class Money
   # @return [Integer]
   def fractional
     if self.class.infinite_precision
-      @cents
+      @fractional
     else
-      @cents.round(0, self.class.rounding_mode).to_i
+      @fractional.round(0, self.class.rounding_mode).to_i
     end
   end
 
@@ -110,7 +110,7 @@ class Money
   # @return [Money]
   #
   # @example
-  #   Money.empty #=> #<Money @cents=0>
+  #   Money.empty #=> #<Money @fractional=0>
   def self.empty(currency = default_currency)
     Money.new(0, currency)
   end
@@ -174,11 +174,11 @@ class Money
   #
   # @example
   #   Money.new_with_amount(100)
-  #   #=> #<Money @cents=10000 @currency="USD">
+  #   #=> #<Money @fractional=10000 @currency="USD">
   #   Money.new_with_amount(100, "USD")
-  #   #=> #<Money @cents=10000 @currency="USD">
+  #   #=> #<Money @fractional=10000 @currency="USD">
   #   Money.new_with_amount(100, "EUR")
-  #   #=> #<Money @cents=10000 @currency="EUR">
+  #   #=> #<Money @fractional=10000 @currency="EUR">
   #
   # @see Money.new
   #
@@ -211,13 +211,13 @@ class Money
   end
 
 
-  # Creates a new Money object of +cents+ value in cents,
-  # with given +currency+.
+  # Creates a new Money object of value given in the 
+  # +fractional unit+ of the given +currency+.
   #
   # Alternatively you can use the convenience
   # methods like {Money.ca_dollar} and {Money.us_dollar}.
   #
-  # @param [Integer] cents The money amount, in cents.
+  # @param [Integer] The value given in the fractional unit.
   # @param [Currency, String, Symbol] currency The currency format.
   # @param [Money::Bank::*] bank The exchange bank to use.
   #
@@ -225,28 +225,29 @@ class Money
   #
   # @example
   #   Money.new(100)
-  #   #=> #<Money @cents=100 @currency="USD">
+  #   #=> #<Money @fractional=100 @currency="USD">
   #   Money.new(100, "USD")
-  #   #=> #<Money @cents=100 @currency="USD">
+  #   #=> #<Money @fractional=100 @currency="USD">
   #   Money.new(100, "EUR")
-  #   #=> #<Money @cents=100 @currency="EUR">
+  #   #=> #<Money @fractional=100 @currency="EUR">
   #
   # @see Money.new_with_dollars
   #
-  def initialize(cents, currency = Money.default_currency, bank = Money.default_bank)
-    @cents    = if cents.is_a?(Rational)
-                  cents.to_d(self.class.conversion_precision)
-                elsif cents.respond_to?(:to_d)
-                  cents.to_d
-                else
-                  BigDecimal.new(cents.to_s)
-                end
+  def initialize(fractional, currency = Money.default_currency, bank = Money.default_bank)
+    @fractional = if fractional.is_a?(Rational)
+                    fractional.to_d(self.class.conversion_precision)
+                  elsif fractional.respond_to?(:to_d)
+                    fractional.to_d
+                  else
+                    BigDecimal.new(fractional.to_s)
+                  end
     @currency = Currency.wrap(currency)
     @bank     = bank
   end
 
+  # Assuming using a currency using dollars:
   # Returns the value of the money in dollars,
-  # instead of in cents.
+  # instead of in the fractional unit cents.
   #
   # Synonym of #amount
   #
@@ -273,7 +274,7 @@ class Money
   #   Money.new_with_amount(1).amount  # => 1.0
   #
   # @see #to_f
-  # @see #cents
+  # @see #fractional
   #
   def amount
     to_f
@@ -301,7 +302,7 @@ class Money
     @currency = Currency.wrap(val)
   end
 
-  # Returns a Fixnum hash value based on the +cents+ and +currency+ attributes
+  # Returns a Fixnum hash value based on the +fractional+ and +currency+ attributes
   # in order to use functions like & (intersection), group_by, etc.
   #
   # @return [Fixnum]
@@ -309,7 +310,7 @@ class Money
   # @example
   #   Money.new(100).hash #=> 908351
   def hash
-    [cents.hash, currency.hash].hash
+    [fractional.hash, currency.hash].hash
   end
 
   # Uses +Currency#symbol+. If +nil+ is returned, defaults to "¤".
@@ -326,7 +327,7 @@ class Money
   #
   # @return [String]
   def inspect
-    "#<Money cents:#{cents} currency:#{currency}>"
+    "#<Money fractional:#{fractional} currency:#{currency}>"
   end
 
   # Returns the amount of money as a string.
@@ -336,30 +337,41 @@ class Money
   # @example
   #   Money.ca_dollar(100).to_s #=> "1.00"
   def to_s
-    unit, subunit = cents.abs.divmod(currency.subunit_to_unit)
-    fractional    = ""
+    unit, subunit = fractional().abs.divmod(currency.subunit_to_unit)
+
+    unit_str       = ""
+    subunit_str    = ""
+    fraction_str   = ""
 
     if self.class.infinite_precision
-      subunit, fractional = subunit.divmod(BigDecimal("1"))
+      subunit, fraction = subunit.divmod(BigDecimal("1"))
 
-      unit       = unit.to_i.to_s
-      subunit    = subunit.to_i.to_s
-      fractional = fractional.to_s("F")[2..-1]
-      fractional = "" if fractional =~ /^0+$/
+      unit_str       = unit.to_i.to_s
+      subunit_str    = subunit.to_i.to_s
+      fraction_str   = fraction.to_s("F")[2..-1] # want fractional part "0.xxx"
+
+      fraction_str = "" if fraction_str =~ /^0+$/
     else
-      unit, subunit = unit.to_s, subunit.to_s
+      unit_str, subunit_str = unit.to_s, subunit.to_s
     end
 
-    if currency.decimal_places == 0
-      unit = "#{unit}#{decimal_mark}#{fractional}" unless fractional == ""
-      return "-#{unit}" if cents < 0
-      return unit
+    absolute_str = if currency.decimal_places == 0
+      if fraction_str == ""
+        unit_str
+      else
+        "#{unit_str}#{decimal_mark}#{fraction_str}"
+      end
+    else
+      # need to pad subunit to right position,
+      # for example 1 usd 3 cents should be 1.03 not 1.3
+      subunit_str.insert(0, '0') while subunit_str.length < currency.decimal_places
+
+      "#{unit_str}#{decimal_mark}#{subunit_str}#{fraction_str}"
     end
 
-    subunit = (("0" * currency.decimal_places) + subunit)[(-1*currency.decimal_places)..-1]
-
-    return "-#{unit}#{decimal_mark}#{subunit}#{fractional}" if cents < 0
-    "#{unit}#{decimal_mark}#{subunit}#{fractional}"
+    absolute_str.tap do |str|
+      str.insert(0, "-") if fractional() < 0
+    end
   end
 
   # Return the amount of money as a BigDecimal.
@@ -369,7 +381,7 @@ class Money
   # @example
   #   Money.us_dollar(100).to_d => BigDecimal.new("1.0")
   def to_d
-    BigDecimal.new(cents.to_s) / BigDecimal.new(currency.subunit_to_unit.to_s)
+    BigDecimal.new(fractional.to_s) / BigDecimal.new(currency.subunit_to_unit.to_s)
   end
 
   # Return the amount of money as a float. Floating points cannot guarantee
@@ -469,13 +481,13 @@ class Money
       raise ArgumentError, "splits add to more then 100%"
     end
 
-    left_over = cents
+    left_over = fractional
 
     amounts = splits.map do |ratio|
       if self.class.infinite_precision
-        fraction = cents * ratio
+        fraction = fractional * ratio
       else
-        fraction = (cents * ratio / allocations).floor
+        fraction = (fractional * ratio / allocations).floor
         left_over -= fraction
         fraction
       end
@@ -485,7 +497,7 @@ class Money
       left_over.to_i.times { |i| amounts[i % amounts.length] += 1 }
     end
 
-    amounts.collect { |cents| Money.new(cents, currency) }
+    amounts.collect { |fractional| Money.new(fractional, currency) }
   end
 
   # Split money amongst parties evenly without loosing pennies.
@@ -504,10 +516,10 @@ class Money
       return 1.upto(num).map{amt}
     end
 
-    low = Money.new(cents / num, self.currency)
-    high = Money.new(low.cents + 1, self.currency)
+    low = Money.new(fractional / num, self.currency)
+    high = Money.new(low.fractional + 1, self.currency)
 
-    remainder = cents % num
+    remainder = fractional % num
     result = []
 
     num.times do |index|

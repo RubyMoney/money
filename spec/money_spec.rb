@@ -175,10 +175,10 @@ describe Money do
         Money.new_with_amount(1).fractional.should == BigDecimal("100")
       end
 
-      it "stores cents as an integer regardless of what is passed into the constructor" do
+      it "stores in fractional unit as an integer regardless of what is passed into the constructor" do
         [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
-          m.cents.should == BigDecimal("100")
-          m.cents.should be_a(BigDecimal)
+          m.fractional.should == BigDecimal("100")
+          m.fractional.should be_a(BigDecimal)
         end
       end
     end
