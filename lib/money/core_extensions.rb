@@ -9,9 +9,9 @@ class Numeric
   # @return [Money]
   #
   # @example
-  #   100.to_money                   #=> #<Money @cents=10000>
-  #   100.37.to_money                #=> #<Money @cents=10037>
-  #   BigDecimal.new('100').to_money #=> #<Money @cents=10000>
+  #   100.to_money                   #=> #<Money @fractional=10000>
+  #   100.37.to_money                #=> #<Money @fractional=10037>
+  #   BigDecimal.new('100').to_money #=> #<Money @fractional=10000>
   #
   # @see Money.from_numeric
   #
@@ -33,12 +33,12 @@ class String
   # @return [Money]
   #
   # @example
-  #   '100'.to_money                #=> #<Money @cents=10000>
-  #   '100.37'.to_money             #=> #<Money @cents=10037>
-  #   '100 USD'.to_money            #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
-  #   'USD 100'.to_money            #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
-  #   '$100 USD'.to_money           #=> #<Money @cents=10000, @currency=#<Money::Currency id: usd>>
-  #   'hello 2000 world'.to_money   #=> #<Money @cents=200000 @currency=#<Money::Currency id: usd>>
+  #   '100'.to_money                #=> #<Money @fractional=10000>
+  #   '100.37'.to_money             #=> #<Money @fractional=10037>
+  #   '100 USD'.to_money            #=> #<Money @fractional=10000, @currency=#<Money::Currency id: usd>>
+  #   'USD 100'.to_money            #=> #<Money @fractional=10000, @currency=#<Money::Currency id: usd>>
+  #   '$100 USD'.to_money           #=> #<Money @fractional=10000, @currency=#<Money::Currency id: usd>>
+  #   'hello 2000 world'.to_money   #=> #<Money @fractional=200000 @currency=#<Money::Currency id: usd>>
   #
   # @see Money.from_string
   #

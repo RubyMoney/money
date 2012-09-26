@@ -6,9 +6,9 @@ class Money
     # @return [Money]
     #
     # @example
-    #    - Money.new(100) #=> #<Money @cents=-100>
+    #    - Money.new(100) #=> #<Money @fractional=-100>
     def -@
-      Money.new(-cents, currency)
+      Money.new(-fractional, currency)
     end
 
 
@@ -26,7 +26,7 @@ class Money
     def ==(other_money)
       if other_money.respond_to?(:to_money)
         other_money = other_money.to_money
-        cents == other_money.cents && self.currency == other_money.currency
+        fractional == other_money.fractional && self.currency == other_money.currency
       else
         false
       end
@@ -47,9 +47,9 @@ class Money
       if other_money.respond_to?(:to_money)
         other_money = other_money.to_money
         if self.currency == other_money.currency
-          cents <=> other_money.cents
+          fractional <=> other_money.fractional
         else
-          cents <=> other_money.exchange_to(currency).cents
+          fractional <=> other_money.exchange_to(currency).fractional
         end
       else
         raise ArgumentError, "Comparison of #{self.class} with #{other_money.inspect} failed"
@@ -66,7 +66,7 @@ class Money
     #   Money.new(0).positive?  #=> false
     #   Money.new(-1).positive? #=> false
     def positive?
-      cents > 0
+      fractional > 0
     end
 
     # Test if the amount is negative. Returns +true+ if the money amount is
@@ -79,7 +79,7 @@ class Money
     #   Money.new(0).negative?  #=> false
     #   Money.new(1).negative?  #=> false
     def negative?
-      cents < 0
+      fractional < 0
     end
 
     # Returns a new Money object containing the sum of the two operands' monetary
@@ -91,12 +91,12 @@ class Money
     # @return [Money]
     #
     # @example
-    #   Money.new(100) + Money.new(100) #=> #<Money @cents=200>
+    #   Money.new(100) + Money.new(100) #=> #<Money @fractional=200>
     def +(other_money)
       if currency == other_money.currency
-        Money.new(cents + other_money.cents, other_money.currency)
+        Money.new(fractional + other_money.fractional, other_money.currency)
       else
-        Money.new(cents + other_money.exchange_to(currency).cents, currency)
+        Money.new(fractional + other_money.exchange_to(currency).fractional, currency)
       end
     end
 
@@ -110,12 +110,12 @@ class Money
     # @return [Money]
     #
     # @example
-    #   Money.new(100) - Money.new(99) #=> #<Money @cents=1>
+    #   Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
     def -(other_money)
       if currency == other_money.currency
-        Money.new(cents - other_money.cents, other_money.currency)
+        Money.new(fractional - other_money.fractional, other_money.currency)
       else
-        Money.new(cents - other_money.exchange_to(currency).cents, currency)
+        Money.new(fractional - other_money.exchange_to(currency).fractional, currency)
       end
     end
 
@@ -131,13 +131,13 @@ class Money
     # @raise [ArgumentError] If +value+ is a Money instance.
     #
     # @example
-    #   Money.new(100) * 2 #=> #<Money @cents=200>
+    #   Money.new(100) * 2 #=> #<Money @fractional=200>
     #
     def *(value)
       if value.is_a?(Money)
         raise ArgumentError, "Can't multiply a Money by a Money"
       else
-        Money.new(cents * value, currency)
+        Money.new(fractional * value, currency)
       end
     end
 
@@ -153,18 +153,18 @@ class Money
     # @return [Float] The resulting number if you divide Money by a Money.
     #
     # @example
-    #   Money.new(100) / 10            #=> #<Money @cents=10>
+    #   Money.new(100) / 10            #=> #<Money @fractional=10>
     #   Money.new(100) / Money.new(10) #=> 10.0
     #
     def /(value)
       if value.is_a?(Money)
         if currency == value.currency
-          (cents / BigDecimal.new(value.cents.to_s)).to_f
+          (fractional / BigDecimal.new(value.fractional.to_s)).to_f
         else
-          (cents / BigDecimal(value.exchange_to(currency).cents.to_s)).to_f
+          (fractional / BigDecimal(value.exchange_to(currency).fractional.to_s)).to_f
         end
       else
-        Money.new(cents / value, currency)
+        Money.new(fractional / value, currency)
       end
     end
 
@@ -189,20 +189,20 @@ class Money
     # @return [Array<Money,Money>,Array<Fixnum,Money>]
     #
     # @example
-    #   Money.new(100).divmod(9)            #=> [#<Money @cents=11>, #<Money @cents=1>]
-    #   Money.new(100).divmod(Money.new(9)) #=> [11, #<Money @cents=1>]
+    #   Money.new(100).divmod(9)            #=> [#<Money @fractional=11>, #<Money @fractional=1>]
+    #   Money.new(100).divmod(Money.new(9)) #=> [11, #<Money @fractional=1>]
     def divmod(val)
       if val.is_a?(Money)
-        a = self.cents
-        b = self.currency == val.currency ? val.cents : val.exchange_to(self.currency).cents
+        a = self.fractional
+        b = self.currency == val.currency ? val.fractional : val.exchange_to(self.currency).cents
         q, m = a.divmod(b)
         return [q, Money.new(m, self.currency)]
       else
         if self.class.infinite_precision
-          q, m = self.cents.divmod(BigDecimal(val.to_s))
+          q, m = self.fractional.divmod(BigDecimal(val.to_s))
           return [Money.new(q, self.currency), Money.new(m, self.currency)]
         else
-          return [self.div(val), Money.new(self.cents.modulo(val), self.currency)]
+          return [self.div(val), Money.new(self.fractional.modulo(val), self.currency)]
         end
       end
     end
@@ -214,8 +214,8 @@ class Money
     # @return [Money]
     #
     # @example
-    #   Money.new(100).modulo(9)            #=> #<Money @cents=1>
-    #   Money.new(100).modulo(Money.new(9)) #=> #<Money @cents=1>
+    #   Money.new(100).modulo(9)            #=> #<Money @fractional=1>
+    #   Money.new(100).modulo(Money.new(9)) #=> #<Money @fractional=1>
     def modulo(val)
       self.divmod(val)[1]
     end
@@ -238,14 +238,14 @@ class Money
     # @return [Money]
     #
     # @example
-    #   Money.new(100).remainder(9) #=> #<Money @cents=1>
+    #   Money.new(100).remainder(9) #=> #<Money @fractional=1>
     def remainder(val)
       a, b = self, val
       b = b.exchange_to(a.currency) if b.is_a?(Money) and a.currency != b.currency
 
       a_sign, b_sign = :pos, :pos
-      a_sign = :neg if a.cents < 0
-      b_sign = :neg if (b.is_a?(Money) and b.cents < 0) or (b < 0)
+      a_sign = :neg if a.fractional < 0
+      b_sign = :neg if (b.is_a?(Money) and b.fractional < 0) or (b < 0)
 
       return a.modulo(b) if a_sign == b_sign
       a.modulo(b) - (b.is_a?(Money) ? b : Money.new(b, a.currency))
@@ -256,9 +256,9 @@ class Money
     # @return [Money]
     #
     # @example
-    #   Money.new(-100).abs #=> #<Money @cents=100>
+    #   Money.new(-100).abs #=> #<Money @fractional=100>
     def abs
-      Money.new(self.cents.abs, self.currency)
+      Money.new(self.fractional.abs, self.currency)
     end
 
     # Test if the money amount is zero.
@@ -269,7 +269,7 @@ class Money
     #   Money.new(100).zero? #=> false
     #   Money.new(0).zero?   #=> true
     def zero?
-      cents == 0
+      fractional == 0
     end
 
     # Test if the money amount is non-zero. Returns this money object if it is
@@ -278,10 +278,10 @@ class Money
     # @return [Money, nil]
     #
     # @example
-    #   Money.new(100).nonzero? #=> #<Money @cents=100>
+    #   Money.new(100).nonzero? #=> #<Money @fractional=100>
     #   Money.new(0).nonzero?   #=> nil
     def nonzero?
-      cents != 0 ? self : nil
+      fractional != 0 ? self : nil
     end
 
   end
