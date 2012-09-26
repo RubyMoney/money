@@ -231,28 +231,6 @@ implementations.
 
 ## Ruby on Rails
 
-To integrate money in a Rails application use [money-rails](http://github.com/RubyMoney/money-rails)
-gem or follow the instructions below.
+To integrate money in a Rails application use [money-rails](http://github.com/RubyMoney/money-rails).
 
-Define accessor methods to let Active Record deal with embedding the money
-object in your models. The following example requires 2 columns:
-
-``` ruby
-:price_cents, :integer, :default => 0, :null => false
-:price_currency, :string
-```
-
-Then in your model file:
-
-``` ruby
-def price
-  Money.new price_cents || 0, price_currency || Money.default_currency
-end
-
-def price=(value)
-  Money.parse(value).tap do |price|
-    write_attribute :price_cents,    price.cents
-    write_attribute :price_currency, price.currency_as_string
-  end
-end
-```
+For depreceated methods of integrating with Rails, check [the wiki](https://github.com/RubyMoney/money/wiki).
