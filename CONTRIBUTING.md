@@ -6,6 +6,7 @@
 2. Grab dependencies: `bundle install`
 3. Make sure everything is working: `bundle exec rake spec`
 4. Make your changes
+5. Test your changes
 5. Create a Pull Request
 6. Celebrate!!!1!
 
