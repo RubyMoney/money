@@ -137,9 +137,15 @@ describe Money::Bank::VariableExchange do
       end
     end
 
-    context "with unknown format" do
-      it "raises Money::Bank::UnknownRateFormat" do
-        expect { subject.export_rates(:foo)}.should raise_error Money::Bank::UnknownRateFormat
+    context "with any other serializer" do
+      it "should return serialized rates" do
+        serializer = Class.new {
+          define_method(:dump) do |hash|
+            Hash[hash.map{ |k, v| [k, v.to_s] }]
+          end
+        }
+        result = subject.export_rates(serializer.new)
+        result.should == { "USD_TO_EUR" => "1.25", "USD_TO_JPY" => "2.55" }
       end
     end
 
@@ -182,9 +188,16 @@ describe Money::Bank::VariableExchange do
       end
     end
 
-    context "with unknown format" do
-      it "raises Money::Bank::UnknownRateFormat" do
-        expect { subject.import_rates(:foo, "")}.should raise_error Money::Bank::UnknownRateFormat
+    context "with any other serializer" do
+      it "loads the rates provided" do
+        rates = { "USD_TO_EUR" => "1.25" }
+        deserializer = Class.new {
+          define_method(:load) do |hash|
+            Hash[hash.map{ |k, v| [k, v.to_f] }]
+          end
+        }
+        subject.import_rates(deserializer.new, rates)
+        subject.get_rate('USD', 'EUR').should == 1.25
       end
     end
   end

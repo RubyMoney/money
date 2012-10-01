@@ -4,9 +4,6 @@ require 'yaml'
 
 class Money
   module Bank
-    # Thrown when an unknown rate format is requested.
-    class UnknownRateFormat < StandardError; end
-
     # Class for aiding in exchanging money between different currencies. By
     # default, the +Money+ class uses an object of this class (accessible
     # through +Money#bank+) for performing currency exchanges.
@@ -34,6 +31,12 @@ class Money
 
       # Available formats for importing/exporting rates.
       RATE_FORMATS = [:json, :ruby, :yaml]
+      FORMAT_MAP = {
+        :json => JSON,
+        :ruby => Marshal,
+        :yaml => YAML
+      }
+      FORMAT_MAP.default_proc = lambda { |hash, key| key }
 
       # Setup rates hash and mutex for rates locking
       #
@@ -159,9 +162,10 @@ class Money
         @mutex.synchronize { @rates[rate_key_for(from, to)] }
       end
 
-      # Return the known rates as a string in the format specified. If +file+
-      # is given will also write the string out to the file specified.
-      # Available formats are +:json+, +:ruby+ and +:yaml+.
+      # Dumps known rates using the specified serializer
+      # such as JSON, Marshal, YAML or any other that responds to dump.
+      #
+      # If +file+ is given will also write the string out to the file specified.
       #
       # @param [Symbol] format Request format for the resulting string.
       # @param [String] file Optional file location to write the rates to.
@@ -175,22 +179,12 @@ class Money
       #   bank.set_rate("USD", "CAD", 1.24515)
       #   bank.set_rate("CAD", "USD", 0.803115)
       #
-      #   s = bank.export_rates(:json)
+      #   s = bank.export_rates(JSON)
       #   s #=> "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
       def export_rates(format, file=nil)
-        raise Money::Bank::UnknownRateFormat unless
-          RATE_FORMATS.include? format
-
         s = ""
         @mutex.synchronize {
-          s = case format
-              when :json
-                JSON.dump(@rates)
-              when :ruby
-                Marshal.dump(@rates)
-              when :yaml
-                YAML.dump(@rates)
-              end
+          s = FORMAT_MAP[format].dump(@rates)
 
           unless file.nil?
             File.open(file, "w") {|f| f.write(s) }
@@ -199,8 +193,8 @@ class Money
         s
       end
 
-      # Loads rates provided in +s+ given the specified format. Available
-      # formats are +:json+, +:ruby+ and +:yaml+.
+      # Loads rates provided in +s+ given the specified serializer
+      # such as JSON, Marshal, YAML or any other that responds to load.
       #
       # @param [Symbol] format The format of +s+.
       # @param [String] s The rates string.
@@ -212,23 +206,13 @@ class Money
       # @example
       #   s = "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
       #   bank = Money::Bank::VariableExchange.new
-      #   bank.import_rates(:json, s)
+      #   bank.import_rates(JSON, s)
       #
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
       def import_rates(format, s)
-        raise Money::Bank::UnknownRateFormat unless
-          RATE_FORMATS.include? format
-
         @mutex.synchronize {
-          @rates = case format
-                   when :json
-                     JSON.load(s)
-                   when :ruby
-                     Marshal.load(s)
-                   when :yaml
-                     YAML.load(s)
-                   end
+          @rates = FORMAT_MAP[format].load(s)
         }
         self
       end
