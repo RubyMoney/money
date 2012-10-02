@@ -11,6 +11,9 @@ class Money
     require "money/currency/loader"
     extend  Loader
 
+    require "money/currency/heuristics"
+    extend  Heuristics
+
     # Thrown when an unknown currency is requested.
     class UnknownCurrency < StandardError; end
 
