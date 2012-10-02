@@ -7,7 +7,9 @@ class Money
   # Represents a specific currency unit.
   class Currency
     include Comparable
-    extend  CurrencyLoader
+
+    require "money/currency/loader"
+    extend  Loader
 
     # Thrown when an unknown currency is requested.
     class UnknownCurrency < StandardError; end
