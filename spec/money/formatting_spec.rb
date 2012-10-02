@@ -361,64 +361,10 @@ describe Money, "formatting" do
       end
     end
 
-    it "brute forces :subunit_to_unit = 1" do
-      ("0".."9").each do |amt|
-        amt.to_money("VUV").format(:symbol => false).should == amt
-      end
-      ("-1".."-9").each do |amt|
-        amt.to_money("VUV").format(:symbol => false).should == amt
-      end
-      "1000".to_money("VUV").format(:symbol => false).should == "1,000"
-      "-1000".to_money("VUV").format(:symbol => false).should == "-1,000"
+    it "maintains floating point precision" do
+      "0.01".to_money("USD").format(:symbol => false).should == "0.01"
     end
 
-    it "brute forces :subunit_to_unit = 5" do
-      ("0.0".."9.4").each do |amt|
-        next if amt[-1].to_i > 4
-        amt.to_money("MGA").format(:symbol => false).should == amt
-      end
-      ("-0.1".."-9.4").each do |amt|
-        next if amt[-1].to_i > 4
-        amt.to_money("MGA").format(:symbol => false).should == amt
-      end
-      "1000.0".to_money("MGA").format(:symbol => false).should == "1,000.0"
-      "-1000.0".to_money("MGA").format(:symbol => false).should == "-1,000.0"
-    end
-
-    it "brute forces :subunit_to_unit = 10" do
-      ("0.0".."9.9").each do |amt|
-        amt.to_money("VND").format(:symbol => false).should == amt.to_s.gsub(/\./, ",")
-      end
-      ("-0.1".."-9.9").each do |amt|
-        amt.to_money("VND").format(:symbol => false).should == amt.to_s.gsub(/\./, ",")
-      end
-      "1000.0".to_money("VND").format(:symbol => false).should == "1.000,0"
-      "-1000.0".to_money("VND").format(:symbol => false).should == "-1.000,0"
-    end
-
-    it "brute forces :subunit_to_unit = 100" do
-      %w{0.00 0.01 1.00 1.01 5.67 9.99}.each do |amt|
-        amt.to_money("USD").format(:symbol => false).should == amt
-      end
-      %w{-0.01 -1.00 -1.01 -5.67 -9.99}.each do |amt|
-        amt.to_money("USD").format(:symbol => false).should == amt
-      end
-      "1000.00".to_money("USD").format(:symbol => false).should == "1,000.00"
-      "-1000.00".to_money("USD").format(:symbol => false).should == "-1,000.00"
-    end
-
-    it "brute forces :subunit_to_unit = 1000" do
-      %w{0.000 0.001 1.000 1.001 5.678 9.999}.each do |amt|
-        amt.to_money("IQD").format(:symbol => false).should == amt
-      end
-
-      %w{-0.001 -1.000 -1.001 -5.678 -9.999}.each do |amt|
-        amt.to_money("IQD").format(:symbol => false).should == amt
-      end
-
-      "1000.000".to_money("IQD").format(:symbol => false).should == "1,000.000"
-      "-1000.000".to_money("IQD").format(:symbol => false).should == "-1,000.000"
-    end
   end
 
   context "custom currencies with 4 decimal places" do
