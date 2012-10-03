@@ -50,9 +50,15 @@ describe Money::Currency::Heuristics do
     end
 
     it "Finds several currencies when several match" do
-      it.analyze('$400').should == ["ARS", "AUD", "BBD", "BMD", "BND", "BSD", "BZD", "CAD", "CLP", "COP", "CUC", "CUP", "CVE", "DOP", "FJD", "GYD", "HKD", "JMD", "KYD", "LRD", "MXN", "NAD", "NZD", "SBD", "SGD", "SRD", "TTD", "TWD", "USD", "UYU", "XCD", "ZWD", "ZWL", "ZWN", "ZWR"]
+      r = it.analyze('$400')
+      r.should include("ARS")
+      r.should include("USD")
+      r.should include("NZD")
 
-      it.analyze('9000 £').should == ["FKP", "GBP", "GIP", "LBP", "SDG", "SHP", "SYP"]
+      r = it.analyze('9000 £')
+      r.should include("GBP")
+      r.should include("SHP")
+      r.should include("SYP")
     end
 
     it "should use alternate symbols" do
