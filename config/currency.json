@@ -857,7 +857,7 @@
     "iso_code": "INR",
     "name": "Indian Rupee",
     "symbol": "₹",
-    "alternate_symbols": ["Rs", "৳", "૱", "௹", "रु"],
+    "alternate_symbols": ["Rs", "৳", "૱", "௹", "रु", "₨"],
     "subunit": "Paisa",
     "subunit_to_unit": 100,
     "symbol_first": true,
