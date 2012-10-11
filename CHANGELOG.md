@@ -13,6 +13,7 @@
 - Update dependencies to latest and greatest (GH-172)
 - TravisBot is now watching Pull Request!!! (GH-171)
 - Minor code cleaning
+- Remove subunit from South Korean won (KRW)
 
 ## 5.0.0
 - Minor bugfix - incorrect use of character range resulted in 
