@@ -2,6 +2,7 @@
 
 ## master
 
+- Changed the symbol and html entity for INR. It is now "₹" instead of "₨".
 - Renamed Money#cents to Money#fractional. Money#cents can still be used as a synonym and equivalent of Money#fractional.
 - Added Money.new_with_amount and Money#amount. Money.new_with_dollars and Money#dollars remain as synonyms.
 - Calling Bank::Base.instance doesn't make Bank::VariableExchange.instance

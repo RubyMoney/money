@@ -796,11 +796,11 @@
     "priority": 100,
     "iso_code": "INR",
     "name": "Indian Rupee",
-    "symbol": "₨",
+    "symbol": "₹",
     "subunit": "Paisa",
     "subunit_to_unit": 100,
     "symbol_first": true,
-    "html_entity": "&#x20A8;",
+    "html_entity": "&#x20b9;",
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "356"
