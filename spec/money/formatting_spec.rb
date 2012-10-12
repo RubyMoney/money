@@ -124,7 +124,7 @@ describe Money, "formatting" do
       one_thousand["EUR"].should == "€1.000,00"
 
       # Rupees
-      one_thousand["INR"].should == "₨1,000.00"
+      one_thousand["INR"].should == "₹1,000.00"
       one_thousand["NPR"].should == "₨1,000.00"
       one_thousand["SCR"].should == "1,000.00 ₨"
       one_thousand["LKR"].should == "1,000.00 ₨"
@@ -223,7 +223,7 @@ describe Money, "formatting" do
         one["EUR"].should == "€1,00"
 
         # Rupees
-        one["INR"].should == "₨1.00"
+        one["INR"].should == "₹1.00"
         one["NPR"].should == "₨1.00"
         one["SCR"].should == "1.00 ₨"
         one["LKR"].should == "1.00 ₨"
