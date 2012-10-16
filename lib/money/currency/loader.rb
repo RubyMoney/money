@@ -1,7 +1,7 @@
-module CurrencyLoader
+module Money::Currency::Loader
   extend self
 
-  DATA_PATH = File.expand_path("../../../config", __FILE__)
+  DATA_PATH = File.expand_path("../../../../config", __FILE__)
 
   # Loads and returns the currencies stored in JSON files in the config directory.
   #
