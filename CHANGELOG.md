@@ -3,6 +3,21 @@
 ## master
 
 - Changed the symbol and html entity for INR. It is now "₹" instead of "₨".
+- Added Money::Currency.analyze for determining potential currencies for a given string using powereful algorithms - will detect symbols, iso codes and names even if mixed with text.
+- Changed UGX symbol from 'Sh' to 'USh'.
+- Changed SYP symbol from "£ or ل.س" to "£S". The previous symbols remain as alternates.
+- Changed RWF symbol from 'FR' to 'FRw'.
+- Changed RSD symbol from "din. or дин." to 'РСД'. The previous symbols remain as alternates.
+- Added MGA symbol 'Ar'
+- Added KGS symbol 'som'
+- Changed KES symbol from 'Sh' to 'KSh'
+- Added ETB symbol 'Br'
+- Changed EGP symbol from "£ or ج.م" to "ج.م"
+- Changed DJF symbol from 'Fr' to 'Fdj'
+- Changed CVE symbol from '$ or Esc' to '$'. 'Esc' remains as an alternate symbol.
+- Added BTN symbol 'Nu.'
+- Changed BAM symbol from 'KM or КМ' to 'КМ', the alternate (cyrillic script) remains as an alternate symbol.
+- Added alternate symbols for all currencies. For example, USD can be written as both '$' and 'US$', SEK can be 'Kr' or ':-', etc.
 - Renamed Money#cents to Money#fractional. Money#cents can still be used as a synonym and equivalent of Money#fractional.
 - Added Money.new_with_amount and Money#amount. Money.new_with_dollars and Money#dollars remain as synonyms.
 - Calling Bank::Base.instance doesn't make Bank::VariableExchange.instance
