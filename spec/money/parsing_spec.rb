@@ -27,8 +27,10 @@ describe Money, "parsing" do
         before do
           Money.assume_from_symbol = true
         end
-        it "parses formatted inputs with the currency passed as a symbol" do
-          Money.parse("$5.95").should == Money.new(595, 'USD')
+        it "parses formatted inputs with the currency passed as a symbol" do 
+          with_default_currency("EUR") do
+            Money.parse("$5.95").should == Money.new(595, 'USD')
+          end
           Money.parse("€5.95").should == Money.new(595, 'EUR')
           Money.parse(" €5.95 ").should == Money.new(595, 'EUR')
           Money.parse("£9.99").should == Money.new(999, 'GBP')
