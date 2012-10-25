@@ -1,8 +1,11 @@
+$LOAD_PATH.unshift File.dirname(__FILE__)
 require 'rspec'
 require 'money'
+require 'support/default_currency_helper'
 
 RSpec.configure do |c|
   c.order = "rand"
+  c.include DefaultCurrencyHelper
 end
 
 def silence_warnings

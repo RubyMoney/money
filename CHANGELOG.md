@@ -2,6 +2,7 @@
 
 ## master
 
+- Fix currency assumption when parsing $ with a non-USD default currency.
 - Changed the Bulgarian lev symbol position from before the amount to after the amount.
 - Changed the symbol and html entity for INR. It is now "₹" instead of "₨".
 - Added Money::Currency.analyze for determining potential currencies for a given string using powereful algorithms - will detect symbols, iso codes and names even if mixed with text.

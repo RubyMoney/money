@@ -42,7 +42,7 @@ class Money
         # from the stated currency string
         c = if Money.assume_from_symbol && i =~ /^(\$|€|£)/
           case i
-          when /^$/ then "USD"
+          when /^\$/ then "USD"
           when /^€/ then "EUR"
           when /^£/ then "GBP"
           end
