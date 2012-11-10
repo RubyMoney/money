@@ -74,9 +74,9 @@ describe Money, "parsing" do
     end
 
     it "does not return a price if there is a price range" do
-      lambda { Money.parse('$5.95-10.95') }.should    raise_error ArgumentError
-      lambda { Money.parse('$5.95 - 10.95') }.should  raise_error ArgumentError
-      lambda { Money.parse('$5.95 - $10.95') }.should raise_error ArgumentError
+      expect { Money.parse('$5.95-10.95') }.to    raise_error ArgumentError
+      expect { Money.parse('$5.95 - 10.95') }.to  raise_error ArgumentError
+      expect { Money.parse('$5.95 - $10.95') }.to raise_error ArgumentError
     end
 
     it "does not return a price for completely invalid input" do
@@ -98,7 +98,7 @@ describe Money, "parsing" do
     end
 
     it "raises ArgumentError when unable to detect polarity" do
-      lambda { Money.parse('-$5.95-') }.should raise_error ArgumentError
+      expect { Money.parse('-$5.95-') }.to raise_error ArgumentError
     end
 
     it "parses correctly strings with exactly 3 decimal digits" do
@@ -260,7 +260,7 @@ describe Money, "parsing" do
     end
 
     it "raises ArgumentError with unsupported argument" do
-      lambda { Money.from_numeric("100") }.should raise_error(ArgumentError)
+      expect { Money.from_numeric("100") }.to raise_error(ArgumentError)
     end
 
     it "optimizes workload" do

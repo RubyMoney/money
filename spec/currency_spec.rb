@@ -46,7 +46,7 @@ describe Money::Currency do
     end
 
     it "raises UnknownMoney::Currency with unknown currency" do
-      lambda { Money::Currency.new("xxx") }.should raise_error(Money::Currency::UnknownCurrency, /xxx/)
+      expect { Money::Currency.new("xxx") }.to raise_error(Money::Currency::UnknownCurrency, /xxx/)
     end
   end
 

@@ -139,7 +139,7 @@ describe Money::Bank::VariableExchange do
 
     context "with unknown format" do
       it "raises Money::Bank::UnknownRateFormat" do
-        expect { subject.export_rates(:foo)}.should raise_error Money::Bank::UnknownRateFormat
+        expect { subject.export_rates(:foo)}.to raise_error Money::Bank::UnknownRateFormat
       end
     end
 
@@ -184,7 +184,7 @@ describe Money::Bank::VariableExchange do
 
     context "with unknown format" do
       it "raises Money::Bank::UnknownRateFormat" do
-        expect { subject.import_rates(:foo, "")}.should raise_error Money::Bank::UnknownRateFormat
+        expect { subject.import_rates(:foo, "")}.to raise_error Money::Bank::UnknownRateFormat
       end
     end
   end
@@ -214,13 +214,13 @@ describe Money::Bank::VariableExchange do
     end
 
     it "raises a Money::Currency::UnknownCurrency exception when an unknown currency is passed" do
-      expect { subject.send(:rate_key_for, 'AAA', 'BBB')}.should raise_exception(Money::Currency::UnknownCurrency)
+      expect { subject.send(:rate_key_for, 'AAA', 'BBB')}.to raise_exception(Money::Currency::UnknownCurrency)
     end
   end
 
   describe "#marshal_dump" do
     it "does not raise an error" do
-      expect {  Marshal.dump(subject) }.should_not raise_error
+      expect {  Marshal.dump(subject) }.to_not raise_error
     end
 
     it "works with Marshal.load" do

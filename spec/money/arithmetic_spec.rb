@@ -156,10 +156,10 @@ describe Money do
 
     it "raises ArgumentError when used to compare with an object that doesn't respond to #to_money" do
       expected_message = /Comparison .+ failed/
-      lambda{ Money.new(1_00) <=> Object.new  }.should raise_error(ArgumentError, expected_message)
-      lambda{ Money.new(1_00) <=> Class       }.should raise_error(ArgumentError, expected_message)
-      lambda{ Money.new(1_00) <=> Kernel      }.should raise_error(ArgumentError, expected_message)
-      lambda{ Money.new(1_00) <=> /foo/       }.should raise_error(ArgumentError, expected_message)
+      expect{ Money.new(1_00) <=> Object.new  }.to raise_error(ArgumentError, expected_message)
+      expect{ Money.new(1_00) <=> Class       }.to raise_error(ArgumentError, expected_message)
+      expect{ Money.new(1_00) <=> Kernel      }.to raise_error(ArgumentError, expected_message)
+      expect{ Money.new(1_00) <=> /foo/       }.to raise_error(ArgumentError, expected_message)
     end
   end
 
@@ -229,11 +229,11 @@ describe Money do
     end
 
     it "does not multiply Money by Money (same currency)" do
-      lambda { Money.new( 10, :USD) * Money.new( 4, :USD) }.should raise_error(ArgumentError)
+      expect { Money.new( 10, :USD) * Money.new( 4, :USD) }.to raise_error(ArgumentError)
     end
 
     it "does not multiply Money by Money (different currency)" do
-      lambda { Money.new( 10, :USD) * Money.new( 4, :EUR) }.should raise_error(ArgumentError)
+      expect { Money.new( 10, :USD) * Money.new( 4, :EUR) }.to raise_error(ArgumentError)
     end
   end
 
