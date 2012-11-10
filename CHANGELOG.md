@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## 5.1.0
 
 - Fix currency assumption when parsing $ with a non-USD default currency.
 - Changed the Bulgarian lev symbol position from before the amount to after the amount.
@@ -34,6 +34,7 @@
 - Remove subunit from South Korean won (KRW)
 
 ## 5.0.0
+
 - Minor bugfix - incorrect use of character range resulted in 
   botched results for Money::Parsing#extract_cents (GH-162)
 - Money::Currency::TABLE removed. Use Money::Currency.register to add
