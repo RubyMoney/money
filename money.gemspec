@@ -15,9 +15,9 @@ Gem::Specification.new do |s|
 
   s.add_dependency "i18n",       "~> 0.6.0"
 
-  s.add_development_dependency "rspec",       "~> 2.10.0"
+  s.add_development_dependency "rspec",       "~> 2.11.0"
   s.add_development_dependency "yard",        "~> 0.8.1"
-  s.add_development_dependency "kramdown",    "~> 0.13.7"
+  s.add_development_dependency "kramdown",    "~> 0.14.0"
 
   s.files =  Dir.glob("{config,lib,spec}/**/*")
   s.files += %w(CHANGELOG.md LICENSE README.md)
