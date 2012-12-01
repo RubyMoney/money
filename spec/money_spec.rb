@@ -146,6 +146,35 @@ describe Money do
         m.fractional.should be_a(Fixnum)
       end
     end
+    
+    it "when loading a serialized Money object from YAML fractional rounding always works on bigdecimal" do
+      # Loading a YAML serialized money object is a common use case when dealing with persisting the money object in a queue, for example delayed_job
+      serialized = <<YAML
+!ruby/object:Money
+  fractional: 249.5
+  currency: !ruby/object:Money::Currency
+    id: :eur
+    priority: 2
+    iso_code: EUR
+    name: Euro
+    symbol: €
+    alternate_symbols: []
+    subunit: Cent
+    subunit_to_unit: 100
+    symbol_first: true
+    html_entity: ! '&#x20AC;'
+    decimal_mark: ! ','
+    thousands_separator: .
+    iso_numeric: '978'
+    mutex: !ruby/object:Mutex {}
+    last_updated: 2012-11-23 20:41:47.454438399 +02:00      
+YAML
+      m = YAML::load serialized
+      m.should be_a(Money)
+      m.class.infinite_precision.should == false
+      m.fractional.should == 250 # 249.5 rounded up
+      m.fractional.should be_a(Integer)
+    end
 
     context "user changes rounding_mode" do
       after do
