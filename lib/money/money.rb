@@ -29,7 +29,7 @@ class Money
       # @fractional can end up being set to a Float. We need to ensure 
       # it is BigDecimal before calling #round with two paramers. 
       # Float class only provides #round with 0 or 1 parameter.
-      BigDecimal.new(@fractional, 0).round(0, self.class.rounding_mode).to_i
+      BigDecimal.new(@fractional.to_s, 0).round(0, self.class.rounding_mode).to_i
     end
   end
 
