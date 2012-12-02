@@ -147,9 +147,9 @@ describe Money do
       end
     end
     
-    it "when loading a serialized Money object from YAML fractional rounding always works on bigdecimal" do
-      # Loading a YAML serialized money object is a common use case when dealing with persisting the money object in a queue, for example delayed_job
-      serialized = <<YAML
+    context "loading a serialized Money via YAML" do
+      it "uses BigDecimal when rounding" do
+        serialized = <<YAML
 !ruby/object:Money
   fractional: 249.5
   currency: !ruby/object:Money::Currency
@@ -167,13 +167,14 @@ describe Money do
     thousands_separator: .
     iso_numeric: '978'
     mutex: !ruby/object:Mutex {}
-    last_updated: 2012-11-23 20:41:47.454438399 +02:00      
+    last_updated: 2012-11-23 20:41:47.454438399 +02:00
 YAML
-      m = YAML::load serialized
-      m.should be_a(Money)
-      m.class.infinite_precision.should == false
-      m.fractional.should == 250 # 249.5 rounded up
-      m.fractional.should be_a(Integer)
+        m = YAML::load serialized
+        m.should be_a(Money)
+        m.class.infinite_precision.should == false
+        m.fractional.should == 250 # 249.5 rounded up
+        m.fractional.should be_a(Integer)
+      end
     end
 
     context "user changes rounding_mode" do

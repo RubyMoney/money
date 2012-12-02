@@ -25,7 +25,10 @@ class Money
     if self.class.infinite_precision
       @fractional
     else
-      # If the Money object is created from a serialized YAML string, @fractional can end up being set to a Float. We need to ensure it is BigDecimal before calling #round with two paramers. Float class only provides #round with 0 or 1 parameter.
+      # If the Money object is created from a serialized YAML string, 
+      # @fractional can end up being set to a Float. We need to ensure 
+      # it is BigDecimal before calling #round with two paramers. 
+      # Float class only provides #round with 0 or 1 parameter.
       BigDecimal.new(@fractional, 0).round(0, self.class.rounding_mode).to_i
     end
   end
