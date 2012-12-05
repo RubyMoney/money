@@ -1,5 +1,8 @@
 # Changelog
 
+## master
+- Ensure BigDecimal.new always receives a string - compatibility fix for ruby-1.9.2-p320
+
 ## 5.1.0
 
 - Fix currency assumption when parsing $ with a non-USD default currency.
