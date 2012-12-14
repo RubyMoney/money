@@ -1,7 +1,9 @@
 # Changelog
 
 ## master
+
 - Ensure BigDecimal.new always receives a string - compatibility fix for ruby-1.9.2-p320
+- Update Maldivian Currency to MVR and fix ރ. to be ރ
 
 ## 5.1.0
 
