@@ -139,6 +139,11 @@ class Money
     # @return [Integer]
     attr_reader :subunit_to_unit
 
+    # The number of digits after the decimal separator.
+    #
+    # @return [Float]
+    attr_reader :exponent
+
     # The decimal mark, or character used to separate the whole unit from the subunit.
     #
     # @return [String]
@@ -244,7 +249,7 @@ class Money
     # @example
     #   Money::Currency.new(:usd) #=> #<Currency id: usd ...>
     def inspect
-      "#<#{self.class.name} id: #{id}, priority: #{priority}, symbol_first: #{symbol_first}, thousands_separator: #{thousands_separator}, html_entity: #{html_entity}, decimal_mark: #{decimal_mark}, name: #{name}, symbol: #{symbol}, subunit_to_unit: #{subunit_to_unit}, iso_code: #{iso_code}, iso_numeric: #{iso_numeric}, subunit: #{subunit}>"
+      "#<#{self.class.name} id: #{id}, priority: #{priority}, symbol_first: #{symbol_first}, thousands_separator: #{thousands_separator}, html_entity: #{html_entity}, decimal_mark: #{decimal_mark}, name: #{name}, symbol: #{symbol}, subunit_to_unit: #{subunit_to_unit}, exponent: #{exponent}, iso_code: #{iso_code}, iso_numeric: #{iso_numeric}, subunit: #{subunit}>"
     end
 
     # Returns a string representation corresponding to the upcase +id+
@@ -279,6 +284,13 @@ class Money
 
     def symbol_first?
       !!@symbol_first
+    end
+
+    # Returns the number of digits after the decimal separator.
+    #
+    # @return [Float]
+    def exponent
+      Math.log10(@subunit_to_unit)
     end
 
     # Cache decimal places for subunit_to_unit values.  Common ones pre-cached.
