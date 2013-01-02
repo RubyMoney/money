@@ -1,6 +1,6 @@
 # RubyMoney - Money
 
-[![Build Status](http://travis-ci.org/RubyMoney/money.png)](http://travis-ci.org/RubyMoney/money)
+[![Build Status](https://travis-ci.org/RubyMoney/money.png?branch=master)](https://travis-ci.org/RubyMoney/money)
 
 ## Contributing
 
