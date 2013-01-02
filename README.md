@@ -186,6 +186,19 @@ Money.default_currency = Money::Currency.new("CAD")
 
 If you use Rails, then `environment.rb` is a very good place to put this.
 
+### Currency Exponent
+
+The exponent of a money value is the number of digits after the decimal
+separator (which separates the major unit from the minor unit). See e.g.
+[Wikipedia on ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) for more
+information.  You can find the exponent (as a `Float`) by
+
+``` ruby
+Money::Currency.new("USD").exponent  # => 2.0
+Money::Currency.new("JPY").exponent  # => 0.0
+Money::Currency.new("MGA").exponent  # => 0.6989700043360189
+```
+
 ## Currency Exchange
 
 Exchanging money is performed through an exchange bank object. The default
