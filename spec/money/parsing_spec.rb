@@ -298,6 +298,29 @@ describe Money, "parsing" do
     it "correctly treats pipe marks '|' in input (regression test)" do
       Money.extract_cents('100|0').should == Money.extract_cents('100!0')
     end
+    
+    it "treats the thousands_separator as such if and only if there are three digits after it" do
+      eur = Money::Currency.find(:eur)
+      usd = Money::Currency.find(:usd)
+      
+      Money.extract_cents('100.00', eur).should == 10_000
+      Money.extract_cents('100.0', eur).should == 10_000
+      Money.extract_cents('100,00', eur).should == 10_000
+      Money.extract_cents('100,0', eur).should == 10_000
+      Money.extract_cents('100.0000', eur).should == 10_000
+      Money.extract_cents('100,0000', eur).should == 10_000
+      Money.extract_cents('100,00', usd).should == 10_000
+      Money.extract_cents('100,0', usd).should == 10_000
+      Money.extract_cents('100.00', usd).should == 10_000
+      Money.extract_cents('100.0', usd).should == 10_000
+      Money.extract_cents('100.0000', usd).should == 10_000
+      Money.extract_cents('100,0000', usd).should == 10_000
+      
+      Money.extract_cents('100.000', eur).should == 10_000_000
+      Money.extract_cents('100,000', eur).should == 10_000
+      Money.extract_cents('100,000', usd).should == 10_000_000
+      Money.extract_cents('100.000', usd).should == 10_000
+    end
   end
 
   context "given the same inputs to .parse and .from_*" do

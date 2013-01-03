@@ -282,61 +282,20 @@ class Money
             major, minor = num.gsub(decimal_mark, '').split(thousands_separator)
             min = 0 unless min
           when 1
-            # we can't determine if the comma or period is supposed to be a decimal_mark or a thousands_separator
-            # e.g.
-            # 1,00 - comma is a thousands_separator
-            # 1.000 - period is a thousands_separator
-            # 1,000 - comma is a decimal_mark
-            # 1,000,000 - comma is a decimal_mark
-            # 10000,00 - comma is a thousands_separator
-            # 1000,000 - comma is a thousands_separator
-
-            # assign first decimal_mark for reusability
-            decimal_mark = used_decimal_marks.first
-
-            # When we have identified the decimal mark character
-            if decimal_char == decimal_mark
+            if used_decimal_marks.first == decimal_char
+              # the character is a decimal mark, so we can safely
+              # assume that digits before the decimal mark are majors
+              # and digits after it are minors
               major, minor = num.split(decimal_char)
-
             else
-              # decimal_mark is used as a decimal_mark when there are multiple instances, always
-              if num.scan(decimal_mark).length > 1 # multiple matches; treat as decimal_mark
-                major, minor = num.gsub(decimal_mark, ''), 0
+              # the character must be a thousands separator
+              # but we need to make sure that this is the intention
+              if (num.split(currency.thousands_separator).last.length == 3)
+                # yes, we can safely assume that this was the intention indeed
+                major, minor = num.gsub(currency.thousands_separator, ''), 0
               else
-                # ex: 1,000 - 1.0000 - 10001.000
-                # split number into possible major (dollars) and minor (cents) values
-                possible_major, possible_minor = num.split(decimal_mark)
-                possible_major ||= "0"
-                possible_minor ||= "00"
-
-                # if the minor (cents) length isn't 3, assign major/minor from the possibles
-                # e.g.
-                #   1,00 => 1.00
-                #   1.0000 => 1.00
-                #   1.2 => 1.20
-                if possible_minor.length != 3 # thousands_separator
-                  major, minor = possible_major, possible_minor
-                else
-                  # minor length is three
-                  # let's try to figure out intent of the thousands_separator
-
-                  # the major length is greater than three, which means
-                  # the comma or period is used as a thousands_separator
-                  # e.g.
-                  #   1000,000
-                  #   100000,000
-                  if possible_major.length > 3
-                    major, minor = possible_major, possible_minor
-                  else
-                    # number is in format ###{sep}### or ##{sep}### or #{sep}###
-                    # handle as , is sep, . is thousands_separator
-                    if decimal_mark == '.'
-                      major, minor = possible_major, possible_minor
-                    else
-                      major, minor = "#{possible_major}#{possible_minor}", 0
-                    end
-                  end
-                end
+                # nope, the input intends the thousands separator as a decimal mark
+                major, minor = num.split(currency.thousands_separator)
               end
             end
           else
