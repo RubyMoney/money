@@ -199,6 +199,14 @@ Money::Currency.new("JPY").exponent  # => 0.0
 Money::Currency.new("MGA").exponent  # => 0.6989700043360189
 ```
 
+### Currency Lookup
+
+To find a given currency by ISO 4217 numeric code (three digits) you can do
+
+``` ruby
+Money::Currency.find_numeric(978) #=> Money::Currency.new(:eur)
+```
+
 ## Currency Exchange
 
 Exchanging money is performed through an exchange bank object. The default
