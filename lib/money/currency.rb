@@ -35,6 +35,22 @@ class Money
         new(id) if self.table[id]
       end
 
+      # Lookup a currency with given +num+ as an ISO 4217 numeric and returns an
+      # +Currency+ instance on success, +nil+ otherwise.
+      #
+      # @param [Integer, #to_i] num used to look into +table+ in +iso_numeric+
+      # and find the right currency id.
+      #
+      # @return [Money::Currency]
+      #
+      # @example
+      #   Money::Currency.find_numeric(978) #=> #<Money::Currency id: eur ...>
+      #   Money::Currency.find_numeric(1) #=> nil
+      def find_numeric(num)
+        id = (self.table.select { |cur| self.table[cur][:iso_numeric].to_i == num }).keys.first
+        new(id) if self.table[id]
+      end
+
       # Wraps the object in a +Currency+ unless it's already a +Currency+
       # object.
       #
