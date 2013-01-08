@@ -22,6 +22,27 @@ describe Money::Currency do
     end
   end
 
+  describe ".find_by_iso_numeric" do
+    it "returns currency matching given numeric code" do
+      Money::Currency.find_by_iso_numeric(978).should          == Money::Currency.new(:eur)
+      Money::Currency.find_by_iso_numeric(208).should_not      == Money::Currency.new(:eur)
+      Money::Currency.find_by_iso_numeric('840').should        == Money::Currency.new(:usd)
+
+      class Mock
+        def to_s
+          '208'
+        end
+      end
+      Money::Currency.find_by_iso_numeric(Mock.new).should     == Money::Currency.new(:dkk)
+      Money::Currency.find_by_iso_numeric(Mock.new).should_not == Money::Currency.new(:usd)
+    end
+
+    it "returns nil if no currency has the given numeric code" do
+      Money::Currency.find_by_iso_numeric('non iso 4217 numeric code').should == nil
+      Money::Currency.find_by_iso_numeric(0).should                           == nil
+    end
+  end
+
   describe ".wrap" do
     it "returns nil if object is nil" do
       Money::Currency.wrap(nil).should == nil
