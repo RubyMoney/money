@@ -1,6 +1,6 @@
 # RubyMoney - Money
 
-[![Build Status](https://travis-ci.org/RubyMoney/money.png?branch=master)](https://travis-ci.org/RubyMoney/money)
+[![Gem Version](https://badge.fury.io/rb/money.png)](http://badge.fury.io/rb/money) [![Build Status](https://travis-ci.org/RubyMoney/money.png?branch=master)](https://travis-ci.org/RubyMoney/money)
 
 ## Contributing
 
