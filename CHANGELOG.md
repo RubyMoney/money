@@ -2,12 +2,13 @@
 
 ## master
 
+- Added :sign_before_symbol option to format negative numbers as -£1 rather than £-1
 - Ensure BigDecimal.new always receives a string - compatibility fix for ruby-1.9.2-p320
 - Update Maldivian Currency to MVR and fix ރ. to be ރ
 - Add exponent to currency
 - Add find_numeric to find currencies by ISO 4217 numeric code.
 
-## 5.1.0
+## 5.1.0
 
 - Fix currency assumption when parsing $ with a non-USD default currency.
 - Changed the Bulgarian lev symbol position from before the amount to after the amount.
@@ -42,7 +43,7 @@
 
 ## 5.0.0
 
-- Minor bugfix - incorrect use of character range resulted in 
+- Minor bugfix - incorrect use of character range resulted in
   botched results for Money::Parsing#extract_cents (GH-162)
 - Money::Currency::TABLE removed. Use Money::Currency.register to add
   additional currencies (GH-143)
