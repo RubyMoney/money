@@ -144,6 +144,15 @@ class Money
     # @example
     #   s = Money.ca_dollar(570).format(:html => true, :with_currency => true)
     #   s #=>  "$5.70 <span class=\"currency\">CAD</span>"
+    #
+    # @option *rules [Boolean] :sign_before_symbol (false) Whether the sign should be
+    #  before the currency symbol.
+    #
+    # @example
+    #   # You can specify to display the sign before the symbol for negative numbers
+    #   Money.new(-100, "GBP").format(:sign_before_symbol => true)  #=> "-£1.00"
+    #   Money.new(-100, "GBP").format(:sign_before_symbol => false) #=> "£-1.00"
+    #   Money.new(-100, "GBP").format                               #=> "£-1.00"
     def format(*rules)
       # support for old format parameters
       rules = normalize_formatting_rules(rules)
@@ -187,12 +196,18 @@ class Money
           :after
         end
 
+      sign = ""
+      if rules[:sign_before_symbol] == true && self.negative?
+        formatted.tr!("-", "")
+        sign = "-"
+      end
+
       if symbol_value && !symbol_value.empty?
         formatted = if symbol_position == :before
-          "#{symbol_value}#{formatted}"
+          "#{sign}#{symbol_value}#{formatted}"
         else
           symbol_space = rules[:symbol_after_without_space] ? "" : " "
-          "#{formatted}#{symbol_space}#{symbol_value}"
+          "#{sign}#{formatted}#{symbol_space}#{symbol_value}"
         end
       end
 
