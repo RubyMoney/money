@@ -150,9 +150,9 @@ class Money
     #
     # @example
     #   # You can specify to display the sign before the symbol for negative numbers
-    #   Money.new(-100, "GBP").format(:sign_before_symbol => true) #=> "-£1.00"
+    #   Money.new(-100, "GBP").format(:sign_before_symbol => true)  #=> "-£1.00"
     #   Money.new(-100, "GBP").format(:sign_before_symbol => false) #=> "£-1.00"
-    #   Money.new(-100, "GBP").format #=> "£-1.00"
+    #   Money.new(-100, "GBP").format                               #=> "£-1.00"
     def format(*rules)
       # support for old format parameters
       rules = normalize_formatting_rules(rules)
