@@ -343,6 +343,17 @@ describe Money, "formatting" do
       end
     end
 
+    describe ":sign_before_symbol option" do
+      specify "(:sign_before_symbol => true) works as documented" do
+        Money.us_dollar(-100000).format(:sign_before_symbol => true).should == "-$1,000.00"
+      end
+
+      specify "(:sign_before_symbol => false) works as documented" do
+        Money.us_dollar(-100000).format(:sign_before_symbol => false).should == "$-1,000.00"
+        Money.us_dollar(-100000).format(:sign_before_symbol => nil).should == "$-1,000.00"
+      end
+    end
+
     context "when the monetary value is 0" do
       let(:money) { Money.us_dollar(0) }
 
