@@ -2,6 +2,7 @@
 
 ## master
 
+- Added :sign_before_symbol option to format negative numbers as -£1 rather than £-1
 - Update Turkmenistan manat from TMM to TMT currency (GH-181). [Thanks @Exoth]
 - Moved ZWD Zimbabwean dollars to currency_bc.json, also added there ZWL, ZWN, and ZWR Zimbabwean dollars (GH-184).
 
@@ -13,7 +14,7 @@
 - Minor code cleaning
 
 ## 5.0.0
-- Minor bugfix - incorrect use of character range resulted in 
+- Minor bugfix - incorrect use of character range resulted in
   botched results for Money::Parsing#extract_cents (GH-162)
 - Money::Currency::TABLE removed. Use Money::Currency.register to add
   additional currencies (GH-143)
