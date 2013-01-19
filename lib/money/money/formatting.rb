@@ -181,11 +181,23 @@ class Money
           symbol
         end
 
-      formatted = rules[:no_cents] ? "#{self.to_s.to_i}" : self.to_s
-
-      if rules[:no_cents_if_whole] && cents % currency.subunit_to_unit == 0
-        formatted = "#{self.to_s.to_i}"
-      end
+      formatted =
+        case
+        when rules.has_key?(:no_cents) && rules[:no_cents]
+          "#{self.to_s.to_i}"
+        when rules.has_key?(:no_cents_if_whole) && rules[:no_cents_if_whole] && cents % currency.subunit_to_unit == 0
+          "#{self.to_s.to_i}"
+        # When using the :precision key, use BigDecimal for rounding
+        when rules.has_key?(:precision) && !rules[:precision].nil?
+          formatted_to_decimal = BigDecimal(self.to_s.gsub(decimal_mark, ".")).round(rules[:precision], Money::rounding_mode).to_s("F")
+          formatted_to_decimal.gsub!(".", decimal_mark)
+          # Remove extraneous decimal marker and zero when using BigDecimal.to_s to format string with precision <= 0
+          formatted_to_decimal.gsub!("#{decimal_mark}0", "") if rules[:precision] <= 0
+          formatted_to_decimal = "#{formatted_to_decimal}#{"0" * (rules[:precision] - formatted_to_decimal.split(decimal_mark).last.length)}" if rules[:precision] > 0
+          formatted_to_decimal
+        else
+          self.to_s
+        end
 
       symbol_position =
         if rules.has_key?(:symbol_position)
