@@ -7,6 +7,7 @@
 - Update Maldivian Currency to MVR and fix ރ. to be ރ
 - Add exponent to currency
 - Add find_numeric to find currencies by ISO 4217 numeric code.
+- Fixed regression where thousands seperator was missing on certain currencies. (GH-245)
 
 ## 5.1.0
 
