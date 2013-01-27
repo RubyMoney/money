@@ -165,6 +165,12 @@ describe Money, "formatting" do
       it "respects :subunit_to_unit currency property" do
         Money.new(10_00, "BHD").format(:no_cents => true).should == "ب.د1"
       end
+
+      it "inserts thousand separators if symbol contains decimal mark and no_cents is true" do
+        Money.new(100000000, "AMD").format(no_cents: true).should == "1,000,000 դր."
+        Money.new(100000000, "USD").format(no_cents: true).should == "$1,000,000"
+        Money.new(100000000, "RUB").format(no_cents: true).should == "1.000.000 р."
+      end
     end
 
     describe ":no_cents_if_whole option" do
