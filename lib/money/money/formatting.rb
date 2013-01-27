@@ -223,7 +223,8 @@ class Money
       end
 
       # Apply thousands_separator
-      formatted.gsub!(regexp_format(formatted, rules, decimal_mark), "\\1#{thousands_separator_value}")
+      formatted.gsub!(regexp_format(formatted, rules, decimal_mark, symbol_value),
+                      "\\1#{thousands_separator_value}")
 
       if rules[:with_currency]
         formatted << " "
@@ -259,12 +260,13 @@ class Money
     end
   end
 
-  def regexp_format(formatted, rules, decimal_mark)
+  def regexp_format(formatted, rules, decimal_mark, symbol_value)
     regexp_decimal = Regexp.escape(decimal_mark)
     if rules[:south_asian_number_formatting]
       /(\d+?)(?=(\d\d)+(\d)(?:\.))/
     else
-      if formatted =~ /#{regexp_decimal}/
+      # Symbols may contain decimal marks (E.g "դր.")
+      if formatted.sub(symbol_value, "") =~ /#{regexp_decimal}/
         /(\d)(?=(?:\d{3})+(?:#{regexp_decimal}))/
       else
         /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
