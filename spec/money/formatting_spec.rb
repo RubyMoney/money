@@ -360,6 +360,34 @@ describe Money, "formatting" do
       end
     end
 
+    describe ":symbol_before_without_space option" do
+      it "does not insert space between currency symbol and amount when set to true" do
+        Money.euro(1_234_567_12).format(:symbol_position => :before, :symbol_before_without_space => true).should == "€1.234.567,12"
+      end
+
+      it "inserts space between currency symbol and amount when set to false" do
+        Money.euro(1_234_567_12).format(:symbol_position => :before, :symbol_before_without_space => false).should == "€ 1.234.567,12"
+      end
+
+      it "defaults to true" do
+        Money.euro(1_234_567_12).format(:symbol_position => :before).should == "€1.234.567,12"
+      end
+    end
+
+    describe ":symbol_after_without_space option" do
+      it "does not insert space between amount and currency symbol when set to true" do
+        Money.euro(1_234_567_12).format(:symbol_position => :after, :symbol_after_without_space => true).should == "1.234.567,12€"
+      end
+
+      it "inserts space between amount and currency symbol when set to false" do
+        Money.euro(1_234_567_12).format(:symbol_position => :after, :symbol_after_without_space => false).should == "1.234.567,12 €"
+      end
+
+      it "defaults to false" do
+        Money.euro(1_234_567_12).format(:symbol_position => :after).should == "1.234.567,12 €"
+      end
+    end
+
     context "when the monetary value is 0" do
       let(:money) { Money.us_dollar(0) }
 
