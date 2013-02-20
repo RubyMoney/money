@@ -1,13 +1,13 @@
 # Changelog
 
-## master
+## 5.1.1
 
 - Added :sign_before_symbol option to format negative numbers as -£1 rather than £-1
 - Ensure BigDecimal.new always receives a string - compatibility fix for ruby-1.9.2-p320
 - Update Maldivian Currency to MVR and fix ރ. to be ރ
 - Add exponent to currency
 - Add find_numeric to find currencies by ISO 4217 numeric code.
-- Fixed regression where thousands seperator was missing on certain currencies. (GH-245)
+- Fixed regression where thousands separator was missing on certain currencies. (GH-245)
 - Added :symbol_before_without_space option to add a space between currency symbol and amount.
 
 ## 5.1.0
