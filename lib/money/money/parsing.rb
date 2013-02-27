@@ -277,9 +277,10 @@ class Money
           # two decimal_marks, so we know the last item in this array is the
           # major/minor thousands_separator and the rest are decimal_marks
         when 2
-          decimal_mark, thousands_separator = used_delimiters.uniq
-          # remove all decimal_marks, split on the thousands_separator
-          major, minor = num.gsub(decimal_mark, '').split(thousands_separator)
+          thousands_separator, decimal_mark = used_delimiters.uniq
+
+          # remove all thousands_separator, split on the decimal_mark
+          major, minor = num.gsub(thousands_separator, '').split(decimal_mark)
           min = 0 unless min
         when 1
           # we can't determine if the comma or period is supposed to be a decimal_mark or a thousands_separator
