@@ -261,7 +261,7 @@ class Money
         num.chop! if num.match(/[\.|,]$/)
 
         # gather all decimal_marks within the result number
-        used_decimal_marks = num.scan(/[^\d]/)
+        used_delimiters = num.scan(/[^\d]/)
 
         # determine the number of unique decimal_marks within the number
         #
@@ -270,14 +270,14 @@ class Money
         # $125,00 would return 1
         # $199 would return 0
         # $1 234,567.89 would raise an error (decimal_marks are space, comma, and period)
-        case used_decimal_marks.uniq.length
+        case used_delimiters.uniq.length
           # no decimal_mark or thousands_separator; major (dollars) is the number, and minor (cents) is 0
         when 0 then major, minor = num, 0
 
           # two decimal_marks, so we know the last item in this array is the
           # major/minor thousands_separator and the rest are decimal_marks
         when 2
-          decimal_mark, thousands_separator = used_decimal_marks.uniq
+          decimal_mark, thousands_separator = used_delimiters.uniq
           # remove all decimal_marks, split on the thousands_separator
           major, minor = num.gsub(decimal_mark, '').split(thousands_separator)
           min = 0 unless min
@@ -292,7 +292,7 @@ class Money
           # 1000,000 - comma is a thousands_separator
 
           # assign first decimal_mark for reusability
-          decimal_mark = used_decimal_marks.first
+          decimal_mark = used_delimiters.first
 
           # When we have identified the decimal mark character
           if decimal_char == decimal_mark
