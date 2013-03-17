@@ -1561,7 +1561,7 @@
     "subunit": "Grosz",
     "subunit_to_unit": 100,
     "symbol_first": false,
-    "html_entity": "",
+    "html_entity": "z&#322;",
     "decimal_mark": ",",
     "thousands_separator": " ",
     "iso_numeric": "985"
