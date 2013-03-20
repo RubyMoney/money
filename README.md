@@ -254,4 +254,4 @@ implementations.
 
 To integrate money in a Rails application use [money-rails](http://github.com/RubyMoney/money-rails).
 
-For depreceated methods of integrating with Rails, check [the wiki](https://github.com/RubyMoney/money/wiki).
+For deprecated methods of integrating with Rails, check [the wiki](https://github.com/RubyMoney/money/wiki).
