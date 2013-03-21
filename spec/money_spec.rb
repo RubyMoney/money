@@ -118,6 +118,15 @@ describe Money do
   end
 
   describe ".add_rate" do
+    before do
+      @default_bank = Money.default_bank
+      Money.default_bank = Money::Bank::VariableExchange.new
+    end
+
+    after do
+      Money.default_bank = @default_bank
+    end
+
     it "saves rate into current bank" do
       Money.add_rate("EUR", "USD", 10)
       Money.new(10_00, "EUR").exchange_to("USD").should == Money.new(100_00, "USD")
