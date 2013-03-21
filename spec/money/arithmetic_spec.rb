@@ -126,16 +126,40 @@ describe Money do
       (Money.new(100_00, "USD") <=> target).should > 0
     end
 
-    it "can be used to compare with a String money value" do
+    it "cannot compare objects with different currencies when no rate exists, unless one of the amounts is zero" do
+      expect { Money.new(100_00, "EUR") <=> Money.new(100_00, "USD") }.to raise_error(Money::Bank::UnknownRate)
+
+      (Money.new(100_00, "EUR") <=> Money.new(0, "USD")).should > 0
+      (Money.new(0, "EUR") <=> Money.new(100_00, "USD")).should < 0
+      (Money.new(0, "EUR") <=> Money.new(0, "USD")).should == 0
+    end
+
+    it "can be used to compare with a String money value when Money object is in default currency" do
       (Money.new(1_00) <=> "1.00").should == 0
       (Money.new(1_00) <=> ".99").should > 0
       (Money.new(1_00) <=> "2.00").should < 0
     end
 
-    it "can be used to compare with a Numeric money value" do
+    it "can be used to compare with a String money value when Money object is not in default currency if String evaluates to zero" do
+      expect { Money.new(1_00, "EUR") <=> "1.00" }.to raise_error(Money::Bank::UnknownRate)
+
+      (Money.new(1_00, "EUR") <=> "0.00").should > 0
+      (Money.new(0_00, "EUR") <=> "0.00").should == 0
+      (Money.new(-1_00, "EUR") <=> "0.00").should < 0
+    end
+
+    it "can be used to compare with a Numeric money value when Money object is in default currency" do
       (Money.new(1_00) <=> 1).should == 0
       (Money.new(1_00) <=> 0.99).should > 0
       (Money.new(1_00) <=> 2.00).should < 0
+    end
+
+    it "can be used to compare with a Numeric money value when Money object is not in default currency if String evaluates to zero" do
+      expect { Money.new(1_00, "EUR") <=> 1 }.to raise_error(Money::Bank::UnknownRate)
+
+      (Money.new(1_00, "EUR") <=> 0).should > 0
+      (Money.new(0_00, "EUR") <=> 0).should == 0
+      (Money.new(-1_00, "EUR") <=> 0).should < 0
     end
 
     it "can be used to compare with an object that responds to #to_money" do

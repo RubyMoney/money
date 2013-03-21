@@ -1,5 +1,9 @@
 # Changelog
 
+## master
+
+- Allow combined comparison operator to handle zero values without rates
+
 ## 5.1.1
 
 - Added :sign_before_symbol option to format negative numbers as -£1 rather than £-1
