@@ -46,7 +46,7 @@ class Money
     def <=>(other_money)
       if other_money.respond_to?(:to_money)
         other_money = other_money.to_money
-        if self.currency == other_money.currency
+        if fractional == 0 || other_money.fractional == 0 || currency == other_money.currency
           fractional <=> other_money.fractional
         else
           fractional <=> other_money.exchange_to(currency).fractional
