@@ -90,6 +90,16 @@ class Money
         @table ||= load_currencies
       end
 
+      # List the currencies imported and registered
+      # @return [Array]
+      #
+      # @example
+      #   Money::Currency.iso_codes()
+      #   [#<Currency ..USD>, 'CAD', 'EUR']...
+      def all
+        table.keys.map {|curr| Currency.new(curr)}.sort_by(&:priority)
+      end
+
       # We need a string-based validator before creating an unbounded number of symbols.
       # http://www.randomhacks.net/articles/2007/01/20/13-ways-of-looking-at-a-ruby-symbol#11
       # https://github.com/RubyMoney/money/issues/132

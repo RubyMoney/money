@@ -1,7 +1,7 @@
 # Changelog
 
 ## master
-
+- Added Money::Currency.all method
 - Allow combined comparison operator to handle zero values without rates
 
 ## 5.1.1
