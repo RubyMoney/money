@@ -60,8 +60,7 @@ describe Money::Currency do
       Money::Currency.all.should include Money::Currency.new(:foo)
     end
     it 'is sorted by priority' do
-      Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))
-      Money::Currency.all.first.should == Money::Currency.new(:foo)
+      Money::Currency.all.first.priority.should == 1
     end
   end
 
