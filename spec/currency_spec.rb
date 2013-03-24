@@ -51,6 +51,18 @@ describe Money::Currency do
     end
   end
 
+  describe ".all" do
+    it "returns an array of currencies" do
+      Money::Currency.all.should include Money::Currency.new(:usd)
+    end
+    it "includes registered currencies" do
+      Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))
+      Money::Currency.all.should include Money::Currency.new(:foo)
+    end
+    it 'is sorted by priority' do
+      Money::Currency.all.first.priority.should == 1
+    end
+  end
 
   describe "#initialize" do
     it "lookups data from loaded config" do
