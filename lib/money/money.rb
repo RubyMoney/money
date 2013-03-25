@@ -221,7 +221,7 @@ class Money
   # Alternatively you can use the convenience
   # methods like {Money.ca_dollar} and {Money.us_dollar}.
   #
-  # @param [Integer] The value given in the fractional unit.
+  # @param [Numeric] fractional The value given in the fractional unit.
   # @param [Currency, String, Symbol] currency The currency format.
   # @param [Money::Bank::*] bank The exchange bank to use.
   #
@@ -468,7 +468,7 @@ class Money
   # be distributed round-robin amongst the parties. This means that parties
   # listed first will likely recieve more pennies then ones that are listed later
   #
-  # @param [0.50, 0.25, 0.25] to give 50% of the cash to party1, 25% ot party2, and 25% to party3.
+  # @param [Array<Float, Float, Float>] splits [0.50, 0.25, 0.25] to give 50% of the cash to party1, 25% to party2, and 25% to party3.
   #
   # @return [Array<Money, Money, Money>]
   #
@@ -506,7 +506,7 @@ class Money
 
   # Split money amongst parties evenly without loosing pennies.
   #
-  # @param [2] number of parties.
+  # @param [Numeric] num number of parties.
   #
   # @return [Array<Money, Money, Money>]
   #

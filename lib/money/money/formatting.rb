@@ -47,7 +47,7 @@ class Money
 
     # Creates a formatted price string according to several rules.
     #
-    # @param [Hash] *rules The options used to format the string.
+    # @param [Hash] rules The options used to format the string.
     #
     # @return [String]
     #
@@ -268,7 +268,7 @@ class Money
 
     # Cleans up formatting rules.
     #
-    # @param [Hash]
+    # @param [Hash] rules
     #
     # @return [Hash]
     def normalize_formatting_rules(rules)
