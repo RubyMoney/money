@@ -31,7 +31,7 @@ class Money
       # @example Mismatching currencies
       #   'USD 2000'.to_money("EUR")    #=> ArgumentError
       #
-      # @see Money.from_string
+      # @see #from_string
       #
       def parse(input, currency = nil)
         i = input.to_s.strip
@@ -73,7 +73,7 @@ class Money
       # according to +currency+ subunit property,
       # before instantiating the Money object.
       #
-      # Behind the scenes, this method relies on {Money.from_bigdecimal}
+      # Behind the scenes, this method relies on {#from_bigdecimal}
       # to avoid problems with string-to-numeric conversion.
       #
       # @param [String, #to_s] value The money amount, in dollars.
@@ -93,7 +93,7 @@ class Money
       #   #=> #<Money @fractional=100 @currency="BHD">
       #
       # @see String#to_money
-      # @see Money.parse
+      # @see #parse
       #
       def from_string(value, currency = Money.default_currency)
         from_bigdecimal(BigDecimal.new(value.to_s), currency)
@@ -120,7 +120,7 @@ class Money
       #   #=> #<Money @fractional=100 @currency="BHD">
       #
       # @see Fixnum#to_money
-      # @see Money.from_numeric
+      # @see #from_numeric
       #
       def from_fixnum(value, currency = Money.default_currency)
         currency = Money::Currency.wrap(currency)
@@ -152,7 +152,7 @@ class Money
       #   #=> #<Money @fractional=100 @currency="BHD">
       #
       # @see Float#to_money
-      # @see Money.from_numeric
+      # @see #from_numeric
       #
       def from_float(value, currency = Money.default_currency)
         from_bigdecimal(BigDecimal.new(value.to_s), currency)
@@ -179,7 +179,7 @@ class Money
       #   #=> #<Money @fractional=100 @currency="BHD">
       #
       # @see BigDecimal#to_money
-      # @see Money.from_numeric
+      # @see #from_numeric
       #
       def from_bigdecimal(value, currency = Money.default_currency)
         currency = Money::Currency.wrap(currency)
@@ -196,8 +196,8 @@ class Money
       # and tries to forwards the call to the most appropriate method
       # in order to reduce computation effort.
       # For instance, if +value+ is an Integer, this method calls
-      # {Money.from_fixnum} instead of using the default
-      # {Money.from_bigdecimal} which adds the overload to converts
+      # {#from_fixnum} instead of using the default
+      # {#from_bigdecimal} which adds the overload to converts
       # the value into a slower BigDecimal instance.
       #
       # @param [Numeric] value The money amount, in dollars.
@@ -216,9 +216,9 @@ class Money
       #   #=> ArgumentError
       #
       # @see Numeric#to_money
-      # @see Money.from_fixnum
-      # @see Money.from_float
-      # @see Money.from_bigdecimal
+      # @see #from_fixnum
+      # @see #from_float
+      # @see #from_bigdecimal
       #
       def from_numeric(value, currency = Money.default_currency)
         case value
