@@ -180,7 +180,7 @@ class Money
 
     # Should the currency symbol precede the amount, or should it come after?
     #
-    # @return [boolean]
+    # @return [Boolean]
     attr_reader :symbol_first
 
     # Create a new +Currency+ object.
