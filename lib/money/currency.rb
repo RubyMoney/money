@@ -166,11 +166,6 @@ class Money
     # @return [Integer]
     attr_reader :subunit_to_unit
 
-    # The number of digits after the decimal separator.
-    #
-    # @return [Float]
-    attr_reader :exponent
-
     # The decimal mark, or character used to separate the whole unit from the subunit.
     #
     # @return [String]
