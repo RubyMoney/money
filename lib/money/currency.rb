@@ -48,7 +48,7 @@ class Money
       #   Money::Currency.find_by_iso_numeric('001') #=> nil
       def find_by_iso_numeric(num)
         num = num.to_s
-        id, garbage = self.table.find{|key, currency| currency[:iso_numeric] == num}
+        id, _ = self.table.find{|key, currency| currency[:iso_numeric] == num}
         new(id) if self.table[id]
       end
 
