@@ -19,6 +19,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "yard",        "~> 0.8.1"
   s.add_development_dependency "kramdown",    "~> 0.14.0"
 
+  s.license = "MIT"
+
   s.files =  Dir.glob("{config,lib,spec}/**/*")
   s.files += %w(CHANGELOG.md LICENSE README.md)
   s.files += %w(Rakefile money.gemspec)
