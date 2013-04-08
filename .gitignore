@@ -2,6 +2,7 @@
 .bundle
 Gemfile.lock
 pkg/*
+bin/
 
 # Rubinius
 *.rbc
@@ -15,3 +16,4 @@ doc/
 .rbenv-version
 .rbx
 .rvmrc
+.ruby-version
