@@ -171,6 +171,12 @@ describe Money, "formatting" do
         Money.new(100000000, "USD").format(no_cents: true).should == "$1,000,000"
         Money.new(100000000, "RUB").format(no_cents: true).should == "1.000.000 р."
       end
+
+      it "doesn't incorrectly format HTML" do
+        money = ::Money.new(1999, "RUB")
+        output = money.format(:html => true, :no_cents => true)
+        output.should == "19 &#x0440;&#x0443;&#x0431;"
+      end
     end
 
     describe ":no_cents_if_whole option" do
