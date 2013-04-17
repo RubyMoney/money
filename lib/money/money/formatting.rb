@@ -214,6 +214,16 @@ class Money
         formatted = "#{self.to_s.to_i}"
       end
 
+      thousands_separator_value = thousands_separator
+      # Determine thousands_separator
+      if rules.has_key?(:thousands_separator)
+        thousands_separator_value = rules[:thousands_separator] || ''
+      end
+
+      # Apply thousands_separator
+      formatted.gsub!(regexp_format(formatted, rules, decimal_mark, symbol_value),
+                      "\\1#{thousands_separator_value}")
+
       symbol_position =
         if rules.has_key?(:symbol_position)
           rules[:symbol_position]
@@ -243,16 +253,6 @@ class Money
         rules[:decimal_mark] != decimal_mark
         formatted.sub!(decimal_mark, rules[:decimal_mark])
       end
-
-      thousands_separator_value = thousands_separator
-      # Determine thousands_separator
-      if rules.has_key?(:thousands_separator)
-        thousands_separator_value = rules[:thousands_separator] || ''
-      end
-
-      # Apply thousands_separator
-      formatted.gsub!(regexp_format(formatted, rules, decimal_mark, symbol_value),
-                      "\\1#{thousands_separator_value}")
 
       if rules[:with_currency]
         formatted << " "
