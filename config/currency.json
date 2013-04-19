@@ -1874,6 +1874,20 @@
     "thousands_separator": ",",
     "iso_numeric": "968"
   },
+  "ssp": {
+    "priority": 100,
+    "iso_code": "SHP",
+    "name": "South Sudanese Pound",
+    "symbol": "£",
+    "alternate_symbols": [],
+    "subunit": "piaster",
+    "subunit_to_unit": 100,
+    "symbol_first": false,
+    "html_entity": "&#x00A3;",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "728"
+  },
   "std": {
     "priority": 100,
     "iso_code": "STD",
