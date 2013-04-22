@@ -283,58 +283,66 @@ class Money
           major, minor = num.gsub(thousands_separator, '').split(decimal_mark)
           min = 0 unless min
         when 1
-          # we can't determine if the comma or period is supposed to be a decimal_mark or a thousands_separator
-          # e.g.
-          # 1,00 - comma is a thousands_separator
-          # 1.000 - period is a thousands_separator
-          # 1,000 - comma is a decimal_mark
-          # 1,000,000 - comma is a decimal_mark
-          # 10000,00 - comma is a thousands_separator
-          # 1000,000 - comma is a thousands_separator
 
-          # assign first decimal_mark for reusability
-          decimal_mark = used_delimiters.first
-
-          # When we have identified the decimal mark character
-          if decimal_char == decimal_mark
-            major, minor = num.split(decimal_char)
-
+          # if we have a currency that defines these, assume that the input provider
+          # knows what they are doing
+          if currency.thousands_separator && currency.decimal_mark
+            major, minor = num.gsub(currency.thousands_separator, '').split(currency.decimal_mark)
           else
-            # decimal_mark is used as a decimal_mark when there are multiple instances, always
-            if num.scan(decimal_mark).length > 1 # multiple matches; treat as decimal_mark
-              major, minor = num.gsub(decimal_mark, ''), 0
+
+            # we can't determine if the comma or period is supposed to be a decimal_mark or a thousands_separator
+            # e.g.
+            # 1,00 - comma is a thousands_separator
+            # 1.000 - period is a thousands_separator
+            # 1,000 - comma is a decimal_mark
+            # 1,000,000 - comma is a decimal_mark
+            # 10000,00 - comma is a thousands_separator
+            # 1000,000 - comma is a thousands_separator
+
+            # assign first decimal_mark for reusability
+            decimal_mark = used_delimiters.first
+
+            # When we have identified the decimal mark character
+            if decimal_char == decimal_mark
+              major, minor = num.split(decimal_char)
+
             else
-              # ex: 1,000 - 1.0000 - 10001.000
-              # split number into possible major (dollars) and minor (cents) values
-              possible_major, possible_minor = num.split(decimal_mark)
-              possible_major ||= "0"
-              possible_minor ||= "00"
-
-              # if the minor (cents) length isn't 3, assign major/minor from the possibles
-              # e.g.
-              #   1,00 => 1.00
-              #   1.0000 => 1.00
-              #   1.2 => 1.20
-              if possible_minor.length != 3 # thousands_separator
-                major, minor = possible_major, possible_minor
+              # decimal_mark is used as a decimal_mark when there are multiple instances, always
+              if num.scan(decimal_mark).length > 1 # multiple matches; treat as decimal_mark
+                major, minor = num.gsub(decimal_mark, ''), 0
               else
-                # minor length is three
-                # let's try to figure out intent of the thousands_separator
+                # ex: 1,000 - 1.0000 - 10001.000
+                # split number into possible major (dollars) and minor (cents) values
+                possible_major, possible_minor = num.split(decimal_mark)
+                possible_major ||= "0"
+                possible_minor ||= "00"
 
-                # the major length is greater than three, which means
-                # the comma or period is used as a thousands_separator
+                # if the minor (cents) length isn't 3, assign major/minor from the possibles
                 # e.g.
-                #   1000,000
-                #   100000,000
-                if possible_major.length > 3
+                #   1,00 => 1.00
+                #   1.0000 => 1.00
+                #   1.2 => 1.20
+                if possible_minor.length != 3 # thousands_separator
                   major, minor = possible_major, possible_minor
                 else
-                  # number is in format ###{sep}### or ##{sep}### or #{sep}###
-                  # handle as , is sep, . is thousands_separator
-                  if decimal_mark == '.'
+                  # minor length is three
+                  # let's try to figure out intent of the thousands_separator
+
+                  # the major length is greater than three, which means
+                  # the comma or period is used as a thousands_separator
+                  # e.g.
+                  #   1000,000
+                  #   100000,000
+                  if possible_major.length > 3
                     major, minor = possible_major, possible_minor
                   else
-                    major, minor = "#{possible_major}#{possible_minor}", 0
+                    # number is in format ###{sep}### or ##{sep}### or #{sep}###
+                    # handle as , is sep, . is thousands_separator
+                    if decimal_mark == '.'
+                      major, minor = possible_major, possible_minor
+                    else
+                      major, minor = "#{possible_major}#{possible_minor}", 0
+                    end
                   end
                 end
               end
