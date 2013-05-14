@@ -46,6 +46,7 @@
 - TravisBot is now watching Pull Request!!! (GH-171)
 - Minor code cleaning
 - Remove subunit from South Korean won (KRW)
+- Fixed bug where bankers rounding wasn't being used everywhere.
 
 ## 5.0.0
 
