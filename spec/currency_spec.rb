@@ -101,6 +101,12 @@ describe Money::Currency do
       Money::Currency.new(:eur).should     == Money::Currency.new(:EUR)
       Money::Currency.new(:eur).should_not == Money::Currency.new(:usd)
     end
+    
+    it "allows direct comparison of currencies and symbols/strings" do
+      Money::Currency.new(:eur).should     == 'eur'
+      Money::Currency.new(:eur).should     == :EUR
+      Money::Currency.new(:eur).should_not == 'usd'
+    end
   end
 
   describe "#eql?" do
