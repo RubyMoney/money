@@ -96,8 +96,9 @@ describe Money::Currency do
       currency.should == currency
     end
 
-    it "returns true if the id is equal" do
+    it "returns true if the id is equal ignorning case" do
       Money::Currency.new(:eur).should     == Money::Currency.new(:eur)
+      Money::Currency.new(:eur).should     == Money::Currency.new(:EUR)
       Money::Currency.new(:eur).should_not == Money::Currency.new(:usd)
     end
   end

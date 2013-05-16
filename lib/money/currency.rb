@@ -234,7 +234,7 @@ class Money
     #   c1 == c2 #=> false
     def ==(other_currency)
       self.equal?(other_currency) ||
-      self.id == other_currency.id
+      self.id.downcase == other_currency.id.downcase
     end
 
     # Compares +self+ with +other_currency+ and returns +true+ if the are the
