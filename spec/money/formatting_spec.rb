@@ -175,7 +175,7 @@ describe Money, "formatting" do
       it "doesn't incorrectly format HTML" do
         money = ::Money.new(1999, "RUB")
         output = money.format(:html => true, :no_cents => true)
-        output.should == "19 <span class=\"currency_symbol\">&#x0440;&#x0443;&#x0431;</span>"
+        output.should == "19 &#x0440;&#x0443;&#x0431;"
       end
     end
 
@@ -336,14 +336,22 @@ describe Money, "formatting" do
     describe ":html option" do
       specify "(:html => true) works as documented" do
         string = Money.ca_dollar(570).format(:html => true, :with_currency => true)
-        string.should == "<span class=\"currency_symbol\">$</span>5.70 <span class=\"currency\">CAD</span>"
+        string.should == "$5.70 <span class=\"currency\">CAD</span>"
       end
 
       specify "should fallback to symbol if entity is not available" do
         string = Money.new(570, 'DKK').format(:html => true)
-        string.should == "5,70 <span class=\"currency_symbol\">kr</span>"
+        string.should == "5,70 kr"
       end
     end
+
+    describe ":html_wrap_symbol option" do
+      specify "(:html_wrap_symbol => true) works as documented" do
+        string = Money.ca_dollar(570).format(:html_wrap_symbol => true)
+        string.should == "<span class=\"currency_symbol\">$</span>5.70"
+      end
+    end
+
 
     describe ":symbol_position option" do
       it "inserts currency symbol before the amount when set to :before" do

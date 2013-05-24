@@ -240,7 +240,7 @@ class Money
       end
 
       if symbol_value && !symbol_value.empty?
-        symbol_value = "<span class=\"currency_symbol\">#{symbol_value}</span>" if rules[:html]
+        symbol_value = "<span class=\"currency_symbol\">#{symbol_value}</span>" if rules[:html_wrap_symbol]
 
         formatted = if symbol_position == :before
           symbol_space = rules[:symbol_before_without_space] === false ? " " : ""
