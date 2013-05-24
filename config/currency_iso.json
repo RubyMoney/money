@@ -306,20 +306,6 @@
     "thousands_separator": ",",
     "iso_numeric": "064"
   },
-  "btc": {
-    "priority": 100,
-    "iso_code": "BTC",
-    "name": "Bitcoin",
-    "symbol": "B⃦",
-    "alternate_symbols": [],
-    "subunit": "Satoshi",
-    "subunit_to_unit": 10000000,
-    "symbol_first": true,
-    "html_entity": "",
-    "decimal_mark": ".",
-    "thousands_separator": ",",
-    "iso_numeric": ""
-  },
   "bwp": {
     "priority": 100,
     "iso_code": "BWP",
@@ -585,20 +571,6 @@
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "012"
-  },
-  "eek": {
-    "priority": 100,
-    "iso_code": "EEK",
-    "name": "Estonian Kroon",
-    "symbol": "KR",
-    "alternate_symbols": [],
-    "subunit": "Sent",
-    "subunit_to_unit": 100,
-    "symbol_first": false,
-    "html_entity": "",
-    "decimal_mark": ".",
-    "thousands_separator": ",",
-    "iso_numeric": "233"
   },
   "egp": {
     "priority": 100,
@@ -949,20 +921,6 @@
     "decimal_mark": ",",
     "thousands_separator": ".",
     "iso_numeric": "352"
-  },
-  "jep": {
-    "priority": 100,
-    "iso_code": "JEP",
-    "name": "Jersey Pound",
-    "symbol": "£",
-    "alternate_symbols": [],
-    "subunit": "Penny",
-    "subunit_to_unit": 100,
-    "symbol_first": true,
-    "html_entity": "&#x00A3;",
-    "decimal_mark": ".",
-    "thousands_separator": ",",
-    "iso_numeric": ""
   },
   "jmd": {
     "priority": 100,
@@ -1355,20 +1313,6 @@
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "478"
-  },
-  "mtl": {
-    "priority": 100,
-    "iso_code": "MTL",
-    "name": "Maltese Lira",
-    "symbol": "₤",
-    "alternate_symbols": ["Lm"],
-    "subunit": "Cent",
-    "subunit_to_unit": 100,
-    "symbol_first": true,
-    "html_entity": "&#x00A3;",
-    "decimal_mark": ".",
-    "thousands_separator": ",",
-    "iso_numeric": "470"
   },
   "mur": {
     "priority": 100,
@@ -2349,19 +2293,5 @@
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "967"
-  },
-  "zwl": {
-    "priority": 100,
-    "iso_code": "ZWL",
-    "name": "Zimbabwean Dollar",
-    "symbol": "$",
-    "alternate_symbols": [],
-    "subunit": "cent",
-    "subunit_to_unit": 100,
-    "symbol_first": true,
-    "html_entity": "$",
-    "decimal_mark": ".",
-    "thousands_separator": ",",
-    "iso_numeric": "932"
   }
 }

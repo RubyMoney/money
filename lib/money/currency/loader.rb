@@ -7,8 +7,9 @@ module Money::Currency::Loader
   #
   # @return [Hash]
   def load_currencies
-    currencies = parse_currency_file("currency.json")
-    currencies.merge! parse_currency_file("currency_bc.json")
+    currencies = parse_currency_file("currency_iso.json")
+    currencies.merge! parse_currency_file("currency_non_iso.json")
+    currencies.merge! parse_currency_file("currency_backwards_compatible.json")
   end
 
   private

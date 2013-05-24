@@ -27,6 +27,20 @@
     "thousands_separator": ",",
     "iso_numeric": "288"
   },
+  "mtl": {
+    "priority": 100,
+    "iso_code": "MTL",
+    "name": "Maltese Lira",
+    "symbol": "₤",
+    "alternate_symbols": ["Lm"],
+    "subunit": "Cent",
+    "subunit_to_unit": 100,
+    "symbol_first": true,
+    "html_entity": "&#x00A3;",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "470"
+  },
   "tmm": {
     "priority": 100,
     "iso_code": "TMM",

@@ -1,0 +1,30 @@
+{
+  "btc": {
+    "priority": 100,
+    "iso_code": "BTC",
+    "name": "Bitcoin",
+    "symbol": "B⃦",
+    "alternate_symbols": [],
+    "subunit": "Satoshi",
+    "subunit_to_unit": 10000000,
+    "symbol_first": true,
+    "html_entity": "",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": ""
+  },
+  "jep": {
+    "priority": 100,
+    "iso_code": "JEP",
+    "name": "Jersey Pound",
+    "symbol": "£",
+    "alternate_symbols": [],
+    "subunit": "Penny",
+    "subunit_to_unit": 100,
+    "symbol_first": true,
+    "html_entity": "&#x00A3;",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": ""
+  }
+}
