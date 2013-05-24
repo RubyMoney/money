@@ -13,13 +13,25 @@ describe Money, "parsing" do
 
       Money.parse('EUR 5,95').should    == five_ninety_five
       #TODO: try and handle these
-      #Money.parse('€5,95').should       == five_ninety_five
-      #Money.parse('&#036;5.95').should  == five_ninety_five
+      # Money.parse('€5,95').should       == five_ninety_five
+      # Money.parse('&#036;5.95').should  == five_ninety_five
     end
 
     it "parses european-formatted inputs with multiple thousands-seperators" do
       Money.parse('EUR 1.234.567,89').should     == Money.new(123456789, 'EUR')
       Money.parse('EUR 1.111.234.567,89').should == Money.new(111123456789, 'EUR')
+    end
+
+    it "parses european-formatted inputs with one thousands-seperator and no cents" do
+      Money.parse('EUR 1.234').should     == Money.new(123400, 'EUR')
+    end
+
+    it "parses euro input with no thousands-seperators" do
+      Money.parse('EUR 1234').should     == Money.new(123400, 'EUR')
+    end
+
+    it "parses euro input with no thousands-seperators and some cents" do
+      Money.parse('EUR 1234,56').should     == Money.new(123456, 'EUR')
     end
 
     describe 'currency assumption' do
@@ -31,8 +43,8 @@ describe Money, "parsing" do
           with_default_currency("EUR") do
             Money.parse("$5.95").should == Money.new(595, 'USD')
           end
-          Money.parse("€5.95").should == Money.new(595, 'EUR')
-          Money.parse(" €5.95 ").should == Money.new(595, 'EUR')
+          Money.parse("€5,95").should == Money.new(595, 'EUR')
+          Money.parse(" €5,95 ").should == Money.new(595, 'EUR')
           Money.parse("£9.99").should == Money.new(999, 'GBP')
         end
         it 'should assume default currency if not a recognised symbol' do

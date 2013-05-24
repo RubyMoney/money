@@ -3,6 +3,7 @@
 ## master
 - Added Money::Currency.all method
 - Allow combined comparison operator to handle zero values without rates
+- Fix parsing of Euro amounts without decimal marks such as 6.000
 
 ## 5.1.1
 
