@@ -345,6 +345,14 @@ describe Money, "formatting" do
       end
     end
 
+    describe ":html_wrap_symbol option" do
+      specify "(:html_wrap_symbol => true) works as documented" do
+        string = Money.ca_dollar(570).format(:html_wrap_symbol => true)
+        string.should == "<span class=\"currency_symbol\">$</span>5.70"
+      end
+    end
+
+
     describe ":symbol_position option" do
       it "inserts currency symbol before the amount when set to :before" do
         Money.euro(1_234_567_12).format(:symbol_position => :before).should == "€1.234.567,12"
