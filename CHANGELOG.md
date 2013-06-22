@@ -1,6 +1,7 @@
 # Changelog
 
 ## master
+- Fix typo
 - Wrap the currency symbol in a span if :html is specified in the rules
 - Added Money::Currency.all method
 - Allow combined comparison operator to handle zero values without rates
