@@ -8,7 +8,7 @@
 4. Make your changes
 5. Test your changes
 5. Create a Pull Request
-6. Celebrate!!!1!
+6. Celebrate!!!!!
 
 ## Notes
 
