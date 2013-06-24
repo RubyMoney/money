@@ -107,6 +107,10 @@ describe Money::Currency do
       Money::Currency.new(:eur).should     == :EUR
       Money::Currency.new(:eur).should_not == 'usd'
     end
+
+    it "allows comparison with nil and returns false" do
+      Money::Currency.new(:eur).should_not == nil
+    end
   end
 
   describe "#eql?" do
