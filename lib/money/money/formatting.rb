@@ -296,7 +296,7 @@ class Money
       /(\d+?)(?=(\d\d)+(\d)(?:\.))/
     else
       # Symbols may contain decimal marks (E.g "դր.")
-      if formatted.sub(symbol_value, "") =~ /#{regexp_decimal}/
+      if formatted.sub(symbol_value.to_s, "") =~ /#{regexp_decimal}/
         /(\d)(?=(?:\d{3})+(?:#{regexp_decimal}))/
       else
         /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
