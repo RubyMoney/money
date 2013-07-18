@@ -167,9 +167,9 @@ describe Money, "formatting" do
       end
 
       it "inserts thousand separators if symbol contains decimal mark and no_cents is true" do
-        Money.new(100000000, "AMD").format(no_cents: true).should == "1,000,000 դր."
-        Money.new(100000000, "USD").format(no_cents: true).should == "$1,000,000"
-        Money.new(100000000, "RUB").format(no_cents: true).should == "1.000.000 р."
+        Money.new(100000000, "AMD").format(:no_cents => true).should == "1,000,000 դր."
+        Money.new(100000000, "USD").format(:no_cents => true).should == "$1,000,000"
+        Money.new(100000000, "RUB").format(:no_cents => true).should == "1.000.000 р."
       end
 
       it "doesn't incorrectly format HTML" do
@@ -298,6 +298,10 @@ describe Money, "formatting" do
     describe ":south_asian_number_formatting delimiter" do
       before(:each) do
         Money::Currency.register(JSON.parse(INDIAN_BAR, :symbolize_names => true))
+      end
+
+      after(:each) do
+        Money::Currency.unregister(JSON.parse(INDIAN_BAR, :symbolize_names => true))
       end
 
       specify "(:south_asian_number_formatting => true) works as documented" do
@@ -430,6 +434,11 @@ describe Money, "formatting" do
     before :each do
       Money::Currency.register(JSON.parse(BAR, :symbolize_names => true))
       Money::Currency.register(JSON.parse(EU4, :symbolize_names => true))
+    end
+
+    after :each do
+      Money::Currency.unregister(JSON.parse(BAR, :symbolize_names => true))
+      Money::Currency.unregister(JSON.parse(EU4, :symbolize_names => true))
     end
 
     it "respects custom subunit to unit, decimal and thousands separator" do

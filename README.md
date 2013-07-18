@@ -34,7 +34,7 @@ This library aids one in handling money and different currencies.
 
 - Your app must use UTF-8 to function with this library. There are a
   number of non-ASCII currency attributes.
-- This app requires Ruby 1.9 and JSON. If you're using JRuby < 1.7.0
+- This app requires JSON. If you're using JRuby < 1.7.0
   you'll need to add `gem "json"` to your Gemfile or similar.
 
 ## Downloading

@@ -5,6 +5,8 @@
 - Wrap the currency symbol in a span if :html is specified in the rules
 - Added Money::Currency.all method
 - Allow combined comparison operator to handle zero values without rates
+- Added Money::Currency.unregister method
+- Works on Ruby 1.8.7
 
 ## 5.1.1
 

@@ -111,6 +111,11 @@ describe Money, "parsing" do
         Money::Currency.register(JSON.parse(eu4, :symbolize_names => true))
       end
 
+      after :each do
+        Money::Currency.unregister(JSON.parse(bar, :symbolize_names => true))
+        Money::Currency.unregister(JSON.parse(eu4, :symbolize_names => true))
+      end
+
       # String#to_money(Currency) is equivalent to Money.parse(String, Currency)
       it "parses strings respecting subunit to unit, decimal and thousands separator" do
         "$0.4".to_money("BAR").should == Money.new(4000, "BAR")

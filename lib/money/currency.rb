@@ -113,6 +113,12 @@ class Money
         @stringified_keys = stringify_keys
       end
 
+      def unregister(curr)
+        key = curr[:iso_code].downcase.to_sym
+        @table.delete(key)
+        @stringified_keys = stringify_keys
+      end
+
       private
 
       def stringify_keys
