@@ -7,8 +7,15 @@ describe Money::Currency do
   FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 450, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": "," }'
 
   describe ".find" do
-    it "returns currency matching given id" do
+    before :each do
       Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))
+    end
+
+    after :each do
+      Money::Currency.unregister(JSON.parse(FOO, :symbolize_names => true))
+    end
+
+    it "returns currency matching given id" do
 
       expected = Money::Currency.new(:foo)
       Money::Currency.find(:foo).should  == expected
@@ -58,6 +65,7 @@ describe Money::Currency do
     it "includes registered currencies" do
       Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))
       Money::Currency.all.should include Money::Currency.new(:foo)
+      Money::Currency.unregister(JSON.parse(FOO, :symbolize_names => true))
     end
     it 'is sorted by priority' do
       Money::Currency.all.first.priority.should == 1
@@ -182,6 +190,7 @@ describe Money::Currency do
     it "proper places for custom currency" do
       Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))
       Money::Currency.new(:foo).decimal_places == 3
+      Money::Currency.unregister(JSON.parse(FOO, :symbolize_names => true))
     end
   end
 end
