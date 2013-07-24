@@ -11,13 +11,12 @@ Gem::Specification.new do |s|
   s.description = "This library aids one in handling money and different currencies."
 
   s.required_ruby_version     = ">= 1.8.7"
-  s.required_rubygems_version = ">= 1.3.6"
 
-  s.add_dependency "i18n",       "~> 0.6.0"
+  s.add_dependency "i18n",       "~> 0.6.4"
 
-  s.add_development_dependency "rspec",       "~> 2.11.0"
-  s.add_development_dependency "yard",        "~> 0.8.1"
-  s.add_development_dependency "kramdown",    "~> 0.14.0"
+  s.add_development_dependency "rspec",       "~> 2.14"
+  s.add_development_dependency "yard",        "~> 0.8"
+  s.add_development_dependency "kramdown",    "~> 1.1"
 
   s.license = "MIT"
 
