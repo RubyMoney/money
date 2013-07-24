@@ -34,6 +34,7 @@ class Money
       # @see #from_string
       #
       def parse(input, currency = nil)
+        Money.deprecate ".parse is depreciated and will be remove in 6.1.0. Please write your own parsing methods."
         i = input.to_s.strip
 
         # raise Money::Currency.table.collect{|c| c[1][:symbol]}.inspect

@@ -7,6 +7,8 @@
 - Allow combined comparison operator to handle zero values without rates
 - Added Money::Currency.unregister method
 - Works on Ruby 1.8.7
+- Update deps
+- Depreciate Money.parse
 
 ## 5.1.1
 

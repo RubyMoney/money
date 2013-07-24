@@ -8,6 +8,11 @@ describe Money, "parsing" do
   eu4 = '{ "priority": 1, "iso_code": "EU4", "iso_numeric": "841", "name": "Euro with 4 decimal places", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "€", "decimal_mark": ",", "thousands_separator": "." }'
 
   describe ".parse" do
+    it "is depreciated" do
+      Money.should_receive(:deprecate)
+      Money.parse("1.95")
+    end
+
     it "parses european-formatted inputs under 10EUR" do
       five_ninety_five = Money.new(595, 'EUR')
 
