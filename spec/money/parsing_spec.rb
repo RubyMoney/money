@@ -9,7 +9,7 @@ describe Money, "parsing" do
 
   describe ".parse" do
     it "is depreciated" do
-      Money.should_receive(:deprecate)
+      Money.should_receive(:deprecate).at_least(1).times
       Money.parse("1.95")
     end
 
@@ -32,7 +32,7 @@ describe Money, "parsing" do
         before do
           Money.assume_from_symbol = true
         end
-        it "parses formatted inputs with the currency passed as a symbol" do 
+        it "parses formatted inputs with the currency passed as a symbol" do
           with_default_currency("EUR") do
             Money.parse("$5.95").should == Money.new(595, 'USD')
           end
