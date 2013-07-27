@@ -97,6 +97,7 @@ class Money
       # @see #parse
       #
       def from_string(value, currency = Money.default_currency)
+        Money.deprecate ".from_string is depreciated and will be remove in 6.1.0. Please write your own parsing methods."
         from_bigdecimal(BigDecimal.new(value.to_s), currency)
       end
 
@@ -156,6 +157,7 @@ class Money
       # @see #from_numeric
       #
       def from_float(value, currency = Money.default_currency)
+        Money.deprecate ".from_float is depreciated and will be remove in 6.1.0. Please write your own parsing methods."
         from_bigdecimal(BigDecimal.new(value.to_s), currency)
       end
 
@@ -218,7 +220,6 @@ class Money
       #
       # @see Numeric#to_money
       # @see #from_fixnum
-      # @see #from_float
       # @see #from_bigdecimal
       #
       def from_numeric(value, currency = Money.default_currency)
@@ -239,6 +240,7 @@ class Money
       # @return [Integer]
       #
       def extract_cents(input, currency = Money.default_currency)
+        Money.deprecate ".extract_cents is depreciated and will be remove in 6.1.0. Please write your own parsing methods."
         # remove anything that's not a number, potential thousands_separator, or minus sign
         num = input.gsub(/[^\d.,'-]/, '')
 
@@ -362,6 +364,7 @@ class Money
                 else
                   minor.to_i
                 end
+
         cents += minor
 
         # if negative, multiply by -1; otherwise, return positive cents

@@ -1,6 +1,5 @@
 # Open +Numeric+ to add new method.
 class Numeric
-
   # Converts this numeric into a +Money+ object in the given +currency+.
   #
   # @param [Currency, String, Symbol] currency
@@ -16,14 +15,13 @@ class Numeric
   # @see Money.from_numeric
   #
   def to_money(currency = nil)
+    Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extension'` to use Numeric#to_money."
     Money.from_numeric(self, currency || Money.default_currency)
   end
-
 end
 
 # Open +String+ to add new methods.
 class String
-
   # Parses the current string and converts it to a +Money+ object.
   # Excess characters will be discarded.
   #
@@ -43,6 +41,7 @@ class String
   # @see Money.from_string
   #
   def to_money(currency = nil)
+    Money.deprecate "String#to_money is depreciated and will be remove in 6.1.0. Please write your own parsing methods."
     Money.parse(self, currency)
   end
 
@@ -57,14 +56,13 @@ class String
   #   "USD".to_currency #=> #<Money::Currency id: usd>
   #
   def to_currency
+    Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extension'` to use String#to_currency."
     Money::Currency.new(self)
   end
-
 end
 
 # Open +Symbol+ to add new methods.
 class Symbol
-
   # Converts the current symbol into a +Currency+ object.
   #
   # @return [Money::Currency]
@@ -76,7 +74,7 @@ class Symbol
   #   :ars.to_currency #=> #<Money::Currency id: ars>
   #
   def to_currency
+    Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extension'` to use Symbol#to_currency."
     Money::Currency.new(self)
   end
-
 end
