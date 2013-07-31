@@ -82,7 +82,9 @@ describe Money, "formatting" do
       before { @_locale = I18n.locale; I18n.locale = :ja }
 
       it "formats Japanese currency in Japanese properly" do
-        Money.new(1000, "JPY").format.should == "1,000円"
+        money = Money.new(1000, "JPY")
+        money.format.should == "1,000円"
+        money.format(:symbol => false).should == "1,000"
       end
 
       after  { I18n.locale = @_locale }
@@ -265,6 +267,9 @@ describe Money, "formatting" do
         money.format(:symbol => "").should == "1.00"
         money.format(:symbol => nil).should == "1.00"
         money.format(:symbol => false).should == "1.00"
+
+        money = Money.new(100, "JPY")
+        money.format(:symbol => false).should == "100"
       end
 
       it "defaults :symbol to true" do

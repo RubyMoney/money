@@ -306,7 +306,7 @@ class Money
 
   def localize_formatting_rules(rules)
     if currency.iso_code == "JPY" && I18n.locale == :ja
-      rules[:symbol] = "円"
+      rules[:symbol] = "円" unless rules[:symbol] == false
       rules[:symbol_position] = :after
       rules[:symbol_after_without_space] = true
     end
