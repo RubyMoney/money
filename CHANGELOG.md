@@ -9,6 +9,8 @@
 - Works on Ruby 1.8.7
 - Update deps
 - Depreciate Money.parse
+- Passing :symbol => false when formatting 'JPY' currency in :ja locale
+  will work as expected
 
 ## 5.1.1
 
