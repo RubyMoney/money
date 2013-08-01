@@ -241,12 +241,50 @@ describe Money do
     it "divides Money by Fixnum and returns Money" do
       ts = [
         {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3, :USD)},
-        {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-4, :USD)},
-        {:a => Money.new(-13, :USD), :b =>  4, :c => Money.new(-4, :USD)},
+        {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-3, :USD)},
+        {:a => Money.new(-13, :USD), :b =>  4, :c => Money.new(-3, :USD)},
         {:a => Money.new(-13, :USD), :b => -4, :c => Money.new( 3, :USD)},
       ]
       ts.each do |t|
         (t[:a] / t[:b]).should == t[:c]
+      end
+    end
+
+    context 'rounding preference' do
+      before do
+        Money.stub(:rounding_mode => rounding_mode)
+      end
+
+      after do
+        Money.unstub(:rounding_mode)
+      end
+
+      context 'ceiling rounding' do
+        let(:rounding_mode) { BigDecimal::ROUND_CEILING }
+        it "obeys the rounding preference" do
+          (Money.new(10) / 3).should == Money.new(4)
+        end
+      end
+
+      context 'floor rounding' do
+        let(:rounding_mode) { BigDecimal::ROUND_FLOOR }
+        it "obeys the rounding preference" do
+          (Money.new(10) / 6).should == Money.new(1)
+        end
+      end
+
+      context 'half up rounding' do
+        let(:rounding_mode) { BigDecimal::ROUND_HALF_UP }
+        it "obeys the rounding preference" do
+          (Money.new(10) / 4).should == Money.new(3)
+        end
+      end
+
+      context 'half down rounding' do
+        let(:rounding_mode) { BigDecimal::ROUND_HALF_DOWN }
+        it "obeys the rounding preference" do
+          (Money.new(10) / 4).should == Money.new(2)
+        end
       end
     end
 
@@ -302,8 +340,8 @@ describe Money do
     it "divides Money by Fixnum and returns Money" do
       ts = [
           {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3, :USD)},
-          {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-4, :USD)},
-          {:a => Money.new(-13, :USD), :b =>  4, :c => Money.new(-4, :USD)},
+          {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-3, :USD)},
+          {:a => Money.new(-13, :USD), :b =>  4, :c => Money.new(-3, :USD)},
           {:a => Money.new(-13, :USD), :b => -4, :c => Money.new( 3, :USD)},
       ]
       ts.each do |t|
@@ -363,8 +401,8 @@ describe Money do
     it "calculates division and modulo with Fixnum" do
       ts = [
           {:a => Money.new( 13, :USD), :b =>  4, :c => [Money.new( 3, :USD), Money.new( 1, :USD)]},
-          {:a => Money.new( 13, :USD), :b => -4, :c => [Money.new(-4, :USD), Money.new(-3, :USD)]},
-          {:a => Money.new(-13, :USD), :b =>  4, :c => [Money.new(-4, :USD), Money.new( 3, :USD)]},
+          {:a => Money.new( 13, :USD), :b => -4, :c => [Money.new(-3, :USD), Money.new(-3, :USD)]},
+          {:a => Money.new(-13, :USD), :b =>  4, :c => [Money.new(-3, :USD), Money.new( 3, :USD)]},
           {:a => Money.new(-13, :USD), :b => -4, :c => [Money.new( 3, :USD), Money.new(-1, :USD)]},
       ]
       ts.each do |t|
