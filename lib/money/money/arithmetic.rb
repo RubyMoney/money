@@ -164,7 +164,7 @@ class Money
           (fractional / BigDecimal(value.exchange_to(currency).fractional.to_s)).to_f
         end
       else
-        Money.new(fractional / value, currency)
+        Money.new(fractional / BigDecimal.new(value.to_s), currency)
       end
     end
 
