@@ -11,6 +11,7 @@
 - Depreciate Money.parse
 - Passing :symbol => false when formatting 'JPY' currency in :ja locale
   will work as expected
+- Divide now obeys the specified rounding mode
 
 ## 5.1.1
 
