@@ -533,6 +533,17 @@ class Money
     result
   end
 
+  # Round the monetary amount to smallest unit of coinage.
+  #
+  # This method is only useful when operating with infinite_precision turned
+  # on. Without infinite_precision values are rounded to the smallest unit of
+  # coinage automatically.
+  #
+  # @return (Money)
+  #
+  # @example
+  #   Money.new(10.1, 'USD').round #=> Money.new(10, 'USD')
+  #
   def round
     if self.class.infinite_precision
       return Money.new(fractional.round(0, self.class.rounding_mode))
