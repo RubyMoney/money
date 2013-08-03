@@ -497,7 +497,7 @@ YAML
 
   describe "#round" do
 
-    let(:money) { Money.new(15.75) }
+    let(:money) { Money.new(15.75, 'NZD') }
     subject(:rounded) { money.round }
 
     context "without infinite_precision" do
@@ -527,6 +527,10 @@ YAML
 
       it "rounds the cents" do
         rounded.cents.should eq 16
+      end
+
+      it "maintains the currency" do
+        rounded.currency.should eq Money::Currency.new('NZD')
       end
     end
   end
