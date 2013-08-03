@@ -532,6 +532,11 @@ YAML
       it "maintains the currency" do
         rounded.currency.should eq Money::Currency.new('NZD')
       end
+
+      it "uses a provided rounding strategy" do
+        rounded = money.round(BigDecimal::ROUND_DOWN)
+        rounded.cents.should eq 15
+      end
     end
   end
 end
