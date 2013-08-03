@@ -494,4 +494,40 @@ YAML
       end
     end
   end
+
+  describe "#round" do
+
+    let(:money) { Money.new(15.75) }
+    subject(:rounded) { money.round }
+
+    context "without infinite_precision" do
+      before do
+        Money.infinite_precision = false
+      end
+
+      it "returns self (as it is already rounded)" do
+        rounded = money.round
+        rounded.should be money
+        rounded.cents.should eq 16
+      end
+    end
+
+    context "with infinite_precision" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "returns a different money" do
+        rounded.should_not be money
+      end
+
+      it "rounds the cents" do
+        rounded.cents.should eq 16
+      end
+    end
+  end
 end

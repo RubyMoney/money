@@ -533,4 +533,12 @@ class Money
     result
   end
 
+  def round
+    if self.class.infinite_precision
+      return Money.new(fractional.round(0, self.class.rounding_mode))
+    else
+      return self
+    end
+  end
+
 end
