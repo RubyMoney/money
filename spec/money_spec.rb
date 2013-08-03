@@ -157,8 +157,8 @@ describe Money do
     end
     
     context "loading a serialized Money via YAML" do
-      it "uses BigDecimal when rounding" do
-        serialized = <<YAML
+
+      let(:serialized) { <<YAML
 !ruby/object:Money
   fractional: 249.5
   currency: !ruby/object:Money::Currency
@@ -178,11 +178,29 @@ describe Money do
     mutex: !ruby/object:Mutex {}
     last_updated: 2012-11-23 20:41:47.454438399 +02:00
 YAML
+      }
+
+      it "uses BigDecimal when rounding" do
         m = YAML::load serialized
         m.should be_a(Money)
         m.class.infinite_precision.should == false
         m.fractional.should == 250 # 249.5 rounded up
         m.fractional.should be_a(Integer)
+      end
+
+      context "with infinite_precision" do
+        before do
+          Money.infinite_precision = true
+        end
+
+        after do
+          Money.infinite_precision = false
+        end
+
+        it "is a BigDecimal" do
+          money = YAML::load serialized
+          money.fractional.should be_a BigDecimal
+        end
       end
     end
 
@@ -491,6 +509,51 @@ YAML
         moneys[0].cents.should == thirty_three_and_one_third
         moneys[1].cents.should == thirty_three_and_one_third
         moneys[2].cents.should == thirty_three_and_one_third
+      end
+    end
+  end
+
+  describe "#round" do
+
+    let(:money) { Money.new(15.75, 'NZD') }
+    subject(:rounded) { money.round }
+
+    context "without infinite_precision" do
+      before do
+        Money.infinite_precision = false
+      end
+
+      it "returns self (as it is already rounded)" do
+        rounded = money.round
+        rounded.should be money
+        rounded.cents.should eq 16
+      end
+    end
+
+    context "with infinite_precision" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "returns a different money" do
+        rounded.should_not be money
+      end
+
+      it "rounds the cents" do
+        rounded.cents.should eq 16
+      end
+
+      it "maintains the currency" do
+        rounded.currency.should eq Money::Currency.new('NZD')
+      end
+
+      it "uses a provided rounding strategy" do
+        rounded = money.round(BigDecimal::ROUND_DOWN)
+        rounded.cents.should eq 15
       end
     end
   end
