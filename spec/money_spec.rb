@@ -157,8 +157,8 @@ describe Money do
     end
     
     context "loading a serialized Money via YAML" do
-      it "uses BigDecimal when rounding" do
-        serialized = <<YAML
+
+      let(:serialized) { <<YAML
 !ruby/object:Money
   fractional: 249.5
   currency: !ruby/object:Money::Currency
@@ -178,11 +178,29 @@ describe Money do
     mutex: !ruby/object:Mutex {}
     last_updated: 2012-11-23 20:41:47.454438399 +02:00
 YAML
+      }
+
+      it "uses BigDecimal when rounding" do
         m = YAML::load serialized
         m.should be_a(Money)
         m.class.infinite_precision.should == false
         m.fractional.should == 250 # 249.5 rounded up
         m.fractional.should be_a(Integer)
+      end
+
+      context "with infinite_precision" do
+        before do
+          Money.infinite_precision = true
+        end
+
+        after do
+          Money.infinite_precision = false
+        end
+
+        it "is a BigDecimal" do
+          money = YAML::load serialized
+          money.fractional.should be_a BigDecimal
+        end
       end
     end
 
