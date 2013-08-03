@@ -22,16 +22,25 @@ class Money
   #
   # @return [Integer]
   def fractional
+    # Ensure we have a BigDecimal. If the Money object is created
+    # from YAML, @fractional can end up being set to a Float.
+    fractional = as_d(@fractional)
+
     if self.class.infinite_precision
-      @fractional
+      fractional
     else
-      # If the Money object is created from a serialized YAML string, 
-      # @fractional can end up being set to a Float. We need to ensure 
-      # it is BigDecimal before calling #round with two paramers. 
-      # Float class only provides #round with 0 or 1 parameter.
-      BigDecimal.new(@fractional.to_s, 0).round(0, self.class.rounding_mode).to_i
+      fractional.round(0, self.class.rounding_mode).to_i
     end
   end
+
+  def as_d(num)
+    if num.respond_to?(:to_d)
+      num.to_d
+    else
+      BigDecimal.new(num.to_s)
+    end
+  end
+  private :as_d
 
   # The currency the money is in.
   #
@@ -240,10 +249,8 @@ class Money
   def initialize(fractional, currency = Money.default_currency, bank = Money.default_bank)
     @fractional = if fractional.is_a?(Rational)
                     fractional.to_d(self.class.conversion_precision)
-                  elsif fractional.respond_to?(:to_d)
-                    fractional.to_d
                   else
-                    BigDecimal.new(fractional.to_s)
+                    as_d(fractional)
                   end
     @currency = Currency.wrap(currency)
     @bank     = bank
@@ -531,6 +538,25 @@ class Money
     end
 
     result
+  end
+
+  # Round the monetary amount to smallest unit of coinage.
+  #
+  # This method is only useful when operating with infinite_precision turned
+  # on. Without infinite_precision values are rounded to the smallest unit of
+  # coinage automatically.
+  #
+  # @return (Money)
+  #
+  # @example
+  #   Money.new(10.1, 'USD').round #=> Money.new(10, 'USD')
+  #
+  def round(rounding_mode = self.class.rounding_mode)
+    if self.class.infinite_precision
+      return Money.new(fractional.round(0, rounding_mode), self.currency)
+    else
+      return self
+    end
   end
 
 end
