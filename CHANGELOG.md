@@ -12,6 +12,8 @@
 - Passing :symbol => false when formatting 'JPY' currency in :ja locale
   will work as expected
 - Divide now obeys the specified rounding mode
+- Add Money#round method. This is helpful when working in infinite_precision mode and would like to perform rounding at specific points in your work flow.
+- In infinite precision mode, deserialized Money objects no longer return Float values from the `fractional` method.
 
 ## 5.1.1
 
