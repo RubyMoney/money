@@ -135,7 +135,7 @@ describe Money, "formatting" do
       one_thousand["BRL"].should == "R$ 1.000,00"
 
       # Other
-      one_thousand["SEK"].should == "1.000,00 kr"
+      one_thousand["SEK"].should == "1 000,00 kr"
       one_thousand["GHC"].should == "₵1,000.00"
     end
 
