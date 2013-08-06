@@ -14,6 +14,7 @@
 - Divide now obeys the specified rounding mode
 - Add Money#round method. This is helpful when working in infinite_precision mode and would like to perform rounding at specific points in your work flow.
 - In infinite precision mode, deserialized Money objects no longer return Float values from the `fractional` method.
+- Changed `thousands_separator` for Swedish Krona from dot to blank space.
 
 ## 5.1.1
 
