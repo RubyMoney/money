@@ -249,6 +249,7 @@ implementations.
 - [nbrb_currency](https://github.com/slbug/nbrb_currency)
 - [money-open-exchange-rates](https://github.com/spk/money-open-exchange-rates)
 - [money-historical-bank](https://github.com/atwam/money-historical-bank)
+- [russian_central_bank](https://github.com/rmustafin/russian_central_bank)
 
 ## Ruby on Rails
 
