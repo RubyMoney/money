@@ -155,7 +155,7 @@ describe Money do
         m.fractional.should be_a(Fixnum)
       end
     end
-    
+
     context "loading a serialized Money via YAML" do
 
       let(:serialized) { <<YAML
@@ -267,7 +267,7 @@ YAML
       def m.amount
         5
       end
-      
+
       m.dollars.should == 5
     end
   end
@@ -419,6 +419,13 @@ YAML
       money = Money.new(100_00, "USD")
       money.bank.should_receive(:exchange_with).with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR")).and_return(Money.new(200_00, Money::Currency.new('EUR')))
       money.exchange_to("EUR").should == Money.new(200_00, "EUR")
+    end
+
+    it "exchanges the amount properly and makes changes to the money object itself" do
+      money = Money.new(100_00, "USD")
+      money.bank.should_receive(:exchange_with).with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR")).and_return(Money.new(200_00, Money::Currency.new('EUR')))
+      money.exchange_to!("EUR")
+      money.should == Money.new(200_00, "EUR")
     end
   end
 
