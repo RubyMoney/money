@@ -224,7 +224,7 @@ class Money
   end
 
 
-  # Creates a new Money object of value given in the 
+  # Creates a new Money object of value given in the
   # +fractional unit+ of the given +currency+.
   #
   # Alternatively you can use the convenience
@@ -432,6 +432,23 @@ class Money
   def exchange_to(other_currency)
     other_currency = Currency.wrap(other_currency)
     @bank.exchange_with(self, other_currency)
+  end
+
+  # Change the amount of this money object in another Currency.
+  # This method will change the object itself
+  # @param [Currency, String, Symbol] other_currency Currency to exchange to.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   money = Money.new(2000, "USD")
+  #   money.exchange_to!("EUR")
+  #   money.exchange_to!(Currency.new("EUR"))
+  def exchange_to!(other_currency)
+    money = exchange_to(other_currency)
+    @currency = money.currency
+    @fractional = money.fractional
+    self
   end
 
   # Receive a money object with the same amount as the current Money object
