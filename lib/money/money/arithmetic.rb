@@ -49,7 +49,7 @@ class Money
         if fractional == 0 || other_money.fractional == 0 || currency == other_money.currency
           fractional <=> other_money.fractional
         else
-          fractional <=> other_money.exchange_to(currency).fractional
+          fractional <=> fractional_from_other(other_money)
         end
       else
         raise ArgumentError, "Comparison of #{self.class} with #{other_money.inspect} failed"
@@ -93,11 +93,7 @@ class Money
     # @example
     #   Money.new(100) + Money.new(100) #=> #<Money @fractional=200>
     def +(other_money)
-      if currency == other_money.currency
-        Money.new(fractional + other_money.fractional, other_money.currency)
-      else
-        Money.new(fractional + other_money.exchange_to(currency).fractional, currency)
-      end
+      Money.new(fractional + fractional_from_other(other_money), currency)
     end
 
     # Returns a new Money object containing the difference between the two
@@ -112,11 +108,7 @@ class Money
     # @example
     #   Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
     def -(other_money)
-      if currency == other_money.currency
-        Money.new(fractional - other_money.fractional, other_money.currency)
-      else
-        Money.new(fractional - other_money.exchange_to(currency).fractional, currency)
-      end
+      Money.new(fractional - fractional_from_other(other_money), currency)
     end
 
     # Multiplies the monetary value with the given number and returns a new
@@ -282,6 +274,16 @@ class Money
     #   Money.new(0).nonzero?   #=> nil
     def nonzero?
       fractional != 0 ? self : nil
+    end
+    
+    private
+    
+    def fractional_from_other(other_money)
+      if currency == other_money.currency
+        other_money.fractional
+      else
+        other_money.exchange_to(currency).fractional
+      end
     end
 
   end
