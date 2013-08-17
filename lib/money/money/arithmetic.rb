@@ -134,8 +134,11 @@ class Money
     #   Money.new(100) * 2 #=> #<Money @fractional=200>
     #
     def *(value)
-      raise ArgumentError, "Can't multiply a Money by a #{value.class.name}'s value" unless value.is_a? Numeric
-      Money.new(fractional * value, currency)
+      if value.is_a? Numeric
+        Money.new(fractional * value, currency)
+      else
+        raise ArgumentError, "Can't multiply a Money by a #{value.class.name}'s value"
+      end
     end
 
     # Divides the monetary value with the given number and returns a new +Money+
