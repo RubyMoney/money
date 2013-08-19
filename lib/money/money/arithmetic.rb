@@ -128,16 +128,16 @@ class Money
     #
     # @return [Money] The resulting money.
     #
-    # @raise [ArgumentError] If +value+ is a Money instance.
+    # @raise [ArgumentError] If +value+ is NOT a number.
     #
     # @example
     #   Money.new(100) * 2 #=> #<Money @fractional=200>
     #
     def *(value)
-      if value.is_a?(Money)
-        raise ArgumentError, "Can't multiply a Money by a Money"
-      else
+      if value.is_a? Numeric
         Money.new(fractional * value, currency)
+      else
+        raise ArgumentError, "Can't multiply a Money by a #{value.class.name}'s value"
       end
     end
 
