@@ -1,6 +1,7 @@
 # Changelog
 
 ## master
+- Only allow to multiply a money by a number (int, float)
 - Fix typo
 - Wrap the currency symbol in a span if :html is specified in the rules
 - Added Money::Currency.all method

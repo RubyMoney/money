@@ -259,6 +259,10 @@ describe Money do
     it "does not multiply Money by Money (different currency)" do
       expect { Money.new( 10, :USD) * Money.new( 4, :EUR) }.to raise_error(ArgumentError)
     end
+
+    it "does not multiply Money by an object which is NOT a number" do
+      expect { Money.new( 10, :USD) *  'abc' }.to raise_error(ArgumentError)
+    end
   end
 
   describe "#/" do
