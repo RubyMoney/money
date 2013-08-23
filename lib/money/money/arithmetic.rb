@@ -284,5 +284,13 @@ class Money
       fractional != 0 ? self : nil
     end
 
+    # Used to make Money instance handle the operations when arguments order is reversed
+    # @return [Array]
+    #
+    # @example
+    #   2 * Money.new(10) #=> #<Money @fractional=20>
+    def coerce(other)
+      [self, other]
+    end
   end
 end
