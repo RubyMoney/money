@@ -93,11 +93,8 @@ class Money
     # @example
     #   Money.new(100) + Money.new(100) #=> #<Money @fractional=200>
     def +(other_money)
-      if currency == other_money.currency
-        Money.new(fractional + other_money.fractional, other_money.currency)
-      else
-        Money.new(fractional + other_money.exchange_to(currency).fractional, currency)
-      end
+      other_money = other_money.exchange_to(currency)
+      Money.new(fractional + other_money.fractional, currency)
     end
 
     # Returns a new Money object containing the difference between the two
@@ -112,11 +109,8 @@ class Money
     # @example
     #   Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
     def -(other_money)
-      if currency == other_money.currency
-        Money.new(fractional - other_money.fractional, other_money.currency)
-      else
-        Money.new(fractional - other_money.exchange_to(currency).fractional, currency)
-      end
+      other_money = other_money.exchange_to(currency)
+      Money.new(fractional - other_money.fractional, currency)
     end
 
     # Multiplies the monetary value with the given number and returns a new
@@ -158,11 +152,7 @@ class Money
     #
     def /(value)
       if value.is_a?(Money)
-        if currency == value.currency
-          (fractional / BigDecimal.new(value.fractional.to_s)).to_f
-        else
-          (fractional / BigDecimal(value.exchange_to(currency).fractional.to_s)).to_f
-        end
+        fractional / BigDecimal(value.exchange_to(currency).fractional.to_s).to_f
       else
         Money.new(fractional / BigDecimal.new(value.to_s), currency)
       end
@@ -193,16 +183,16 @@ class Money
     #   Money.new(100).divmod(Money.new(9)) #=> [11, #<Money @fractional=1>]
     def divmod(val)
       if val.is_a?(Money)
-        a = self.fractional
-        b = self.currency == val.currency ? val.fractional : val.exchange_to(self.currency).cents
+        a = fractional
+        b = val.exchange_to(currency).cents
         q, m = a.divmod(b)
-        return [q, Money.new(m, self.currency)]
+        return [q, Money.new(m, currency)]
       else
         if self.class.infinite_precision
-          q, m = self.fractional.divmod(BigDecimal(val.to_s))
-          return [Money.new(q, self.currency), Money.new(m, self.currency)]
+          q, m = fractional.divmod(BigDecimal(val.to_s))
+          return [Money.new(q, currency), Money.new(m, currency)]
         else
-          return [self.div(val), Money.new(self.fractional.modulo(val), self.currency)]
+          return [div(val), Money.new(fractional.modulo(val), currency)]
         end
       end
     end
@@ -217,7 +207,7 @@ class Money
     #   Money.new(100).modulo(9)            #=> #<Money @fractional=1>
     #   Money.new(100).modulo(Money.new(9)) #=> #<Money @fractional=1>
     def modulo(val)
-      self.divmod(val)[1]
+      divmod(val)[1]
     end
 
     # Synonym for +#modulo+.
@@ -228,7 +218,7 @@ class Money
     #
     # @see #modulo
     def %(val)
-      self.modulo(val)
+      modulo(val)
     end
 
     # If different signs +self.modulo(val) - val+ otherwise +self.modulo(val)+
@@ -258,7 +248,7 @@ class Money
     # @example
     #   Money.new(-100).abs #=> #<Money @fractional=100>
     def abs
-      Money.new(self.fractional.abs, self.currency)
+      Money.new(fractional.abs, currency)
     end
 
     # Test if the money amount is zero.
