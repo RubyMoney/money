@@ -26,7 +26,7 @@ class Money
     def ==(other_money)
       if other_money.respond_to?(:to_money)
         other_money = other_money.to_money
-        fractional == other_money.fractional && self.currency == other_money.currency
+        fractional == other_money.fractional && currency == other_money.currency
       else
         false
       end
