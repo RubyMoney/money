@@ -637,4 +637,11 @@ describe Money do
       money.nonzero?.should be_equal(money)
     end
   end
+
+  describe "#coerce" do
+    it "allows mathematical operations by coercing arguments" do
+      result = 2 * Money.new(4, 'USD')
+      result.should == Money.new(8, 'USD')
+    end
+  end
 end
