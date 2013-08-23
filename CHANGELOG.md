@@ -16,6 +16,7 @@
 - Add Money#round method. This is helpful when working in infinite_precision mode and would like to perform rounding at specific points in your work flow.
 - In infinite precision mode, deserialized Money objects no longer return Float values from the `fractional` method.
 - Changed `thousands_separator` for Swedish Krona from dot to blank space.
+- Allow mathematical operations with first argument being not an instance of Money (eg. 2 * money instead of money * 2).
 
 ## 5.1.1
 
