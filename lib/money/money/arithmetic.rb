@@ -152,9 +152,9 @@ class Money
     #
     def /(value)
       if value.is_a?(Money)
-        fractional / BigDecimal(value.exchange_to(currency).fractional.to_s).to_f
+        fractional / as_d(value.exchange_to(currency).fractional).to_f
       else
-        Money.new(fractional / BigDecimal.new(value.to_s), currency)
+        Money.new(fractional / as_d(value), currency)
       end
     end
 
@@ -189,7 +189,7 @@ class Money
         return [q, Money.new(m, currency)]
       else
         if self.class.infinite_precision
-          q, m = fractional.divmod(BigDecimal(val.to_s))
+          q, m = fractional.divmod(as_d(val))
           return [Money.new(q, currency), Money.new(m, currency)]
         else
           return [div(val), Money.new(fractional.modulo(val), currency)]
