@@ -34,7 +34,9 @@ class Money
   end
 
   def as_d(num)
-    if num.respond_to?(:to_d)
+    if num.is_a?(Rational)
+      num.to_d(self.class.conversion_precision)
+    elsif num.respond_to?(:to_d)
       num.to_d
     else
       BigDecimal.new(num.to_s)
@@ -247,11 +249,7 @@ class Money
   # @see Money.new_with_dollars
   #
   def initialize(fractional, currency = Money.default_currency, bank = Money.default_bank)
-    @fractional = if fractional.is_a?(Rational)
-                    fractional.to_d(self.class.conversion_precision)
-                  else
-                    as_d(fractional)
-                  end
+    @fractional = as_d(fractional)
     @currency = Currency.wrap(currency)
     @bank     = bank
   end
@@ -392,7 +390,7 @@ class Money
   # @example
   #   Money.us_dollar(100).to_d => BigDecimal.new("1.0")
   def to_d
-    BigDecimal.new(fractional.to_s) / BigDecimal.new(currency.subunit_to_unit.to_s)
+    as_d(fractional) / as_d(currency.subunit_to_unit)
   end
 
   # Return the amount of money as a float. Floating points cannot guarantee
@@ -483,10 +481,7 @@ class Money
   #   Money.new(5, "USD").allocate([0.3,0.7)) #=> [Money.new(2), Money.new(3)]
   #   Money.new(100, "USD").allocate([0.33,0.33,0.33]) #=> [Money.new(34), Money.new(33), Money.new(33)]
   def allocate(splits)
-    allocations = splits.inject(BigDecimal("0")) do |sum, n|
-      n = BigDecimal(n.to_s) unless n.is_a?(BigDecimal)
-      sum + n
-    end
+    allocations = splits.inject(0) { |sum, n| sum + as_d(n) }
 
     if (allocations - BigDecimal("1")) > Float::EPSILON
       raise ArgumentError, "splits add to more then 100%"
@@ -523,12 +518,12 @@ class Money
     raise ArgumentError, "need at least one party" if num < 1
 
     if self.class.infinite_precision
-      amt = self.div(BigDecimal(num.to_s))
+      amt = div(as_d(num))
       return 1.upto(num).map{amt}
     end
 
-    low = Money.new(fractional / num, self.currency)
-    high = Money.new(low.fractional + 1, self.currency)
+    low = Money.new(fractional / num, currency)
+    high = Money.new(low.fractional + 1, currency)
 
     remainder = fractional % num
     result = []
@@ -546,7 +541,7 @@ class Money
   # on. Without infinite_precision values are rounded to the smallest unit of
   # coinage automatically.
   #
-  # @return (Money)
+  # @return [Money]
   #
   # @example
   #   Money.new(10.1, 'USD').round #=> Money.new(10, 'USD')
