@@ -260,14 +260,14 @@ class Money
   #
   # Synonym of #amount
   #
-  # @return [Float]
+  # @return [BigDecimal]
   #
   # @example
   #   Money.new(100).dollars           # => 1.0
   #   Money.new_with_dollars(1).dollar # => 1.0
   #
   # @see #amount
-  # @see #to_f
+  # @see #to_d
   # @see #cents
   #
   def dollars
