@@ -276,17 +276,17 @@ class Money
 
   # Returns the numerical value of the money
   #
-  # @return [Float]
+  # @return [BigDecimal]
   #
   # @example
   #   Money.new(100).amount            # => 1.0
   #   Money.new_with_amount(1).amount  # => 1.0
   #
-  # @see #to_f
+  # @see #to_d
   # @see #fractional
   #
   def amount
-    to_f
+    to_d
   end
 
   # Return string representation of currency object
@@ -396,7 +396,7 @@ class Money
   # Return the amount of money as a float. Floating points cannot guarantee
   # precision. Therefore, this function should only be used when you no longer
   # need to represent currency or working with another system that requires
-  # decimals.
+  # floats.
   #
   # @return [Float]
   #
