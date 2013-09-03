@@ -411,6 +411,34 @@ describe Money, "formatting" do
       end
     end
 
+    describe ":sign_positive option" do
+      specify "(:sign_positive => true, :sign_before_symbol => true) works as documented" do
+        Money.us_dollar(      0).format(:sign_positive => true, :sign_before_symbol => true).should == "$0.00"
+        Money.us_dollar( 100000).format(:sign_positive => true, :sign_before_symbol => true).should == "+$1,000.00"
+        Money.us_dollar(-100000).format(:sign_positive => true, :sign_before_symbol => true).should == "-$1,000.00"
+      end
+
+      specify "(:sign_positive => true, :sign_before_symbol => false) works as documented" do
+        Money.us_dollar(      0).format(:sign_positive => true, :sign_before_symbol => false).should == "$0.00"
+        Money.us_dollar( 100000).format(:sign_positive => true, :sign_before_symbol => false).should == "$+1,000.00"
+        Money.us_dollar( 100000).format(:sign_positive => true, :sign_before_symbol => nil).should == "$+1,000.00"
+        Money.us_dollar(-100000).format(:sign_positive => true, :sign_before_symbol => false).should == "$-1,000.00"
+        Money.us_dollar(-100000).format(:sign_positive => true, :sign_before_symbol => nil).should == "$-1,000.00"
+      end
+
+      specify "(:sign_positive => false, :sign_before_symbol => true) works as documented" do
+        Money.us_dollar( 100000).format(:sign_positive => false, :sign_before_symbol => true).should == "$1,000.00"
+        Money.us_dollar(-100000).format(:sign_positive => false, :sign_before_symbol => true).should == "-$1,000.00"
+      end
+
+      specify "(:sign_positive => false, :sign_before_symbol => false) works as documented" do
+        Money.us_dollar( 100000).format(:sign_positive => false, :sign_before_symbol => false).should == "$1,000.00"
+        Money.us_dollar( 100000).format(:sign_positive => false, :sign_before_symbol => nil).should == "$1,000.00"
+        Money.us_dollar(-100000).format(:sign_positive => false, :sign_before_symbol => false).should == "$-1,000.00"
+        Money.us_dollar(-100000).format(:sign_positive => false, :sign_before_symbol => nil).should == "$-1,000.00"
+      end
+    end
+
     context "when the monetary value is 0" do
       let(:money) { Money.us_dollar(0) }
 
