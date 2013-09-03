@@ -269,7 +269,7 @@ For deprecated methods of integrating with Rails, check [the wiki](https://githu
     application to accept a `BigDecimal` return value. This is the recommended
     path.
   * The second is to migrate from the `#amount` and `#dollars` methods to use
-    the `#to_f` method instead. This option should only be used where `Float` is
-    the desired type and nothing else will do for your application's
+    the `#to_f` method instead. This option should only be used where `Float`
+    is the desired type and nothing else will do for your application's
     requirements.
 
