@@ -10,6 +10,17 @@ Gem::Specification.new do |s|
   s.summary     = "Money and currency exchange support library."
   s.description = "This library aids one in handling money and different currencies."
 
+  s.post_install_message = '''
+Please note the following API changes in Money version 6
+
+ - Money#amount, Money#dollars methods now return instances of BigDecimal (rather than Float).
+
+Please read the migration notes at https://github.com/RubyMoney/money#migration-notes
+and choose the migration that best suits your application.
+
+Test responsibly :-)
+'''
+
   s.required_ruby_version     = ">= 1.8.7"
 
   s.add_dependency "i18n",       "~> 0.6.4"
