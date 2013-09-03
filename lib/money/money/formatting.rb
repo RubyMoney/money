@@ -180,6 +180,18 @@ class Money
     #   Money.new(-100, "GBP").format(:sign_before_symbol => true)  #=> "-£1.00"
     #   Money.new(-100, "GBP").format(:sign_before_symbol => false) #=> "£-1.00"
     #   Money.new(-100, "GBP").format                               #=> "£-1.00"
+    #
+    # @option *rules [Boolean] :sign_positive (false) Whether positive numbers should be
+    #  signed, too.
+    #
+    # @example
+    #   # You can specify to display the sign with positive numbers
+    #   Money.new(100, "GBP").format(:sign_positive => true,  :sign_before_symbol => true)  #=> "+£1.00"
+    #   Money.new(100, "GBP").format(:sign_positive => true,  :sign_before_symbol => false) #=> "£+1.00"
+    #   Money.new(100, "GBP").format(:sign_positive => false, :sign_before_symbol => true)  #=> "£1.00"
+    #   Money.new(100, "GBP").format(:sign_positive => false, :sign_before_symbol => false) #=> "£1.00"
+    #   Money.new(100, "GBP").format                               #=> "£+1.00"
+
     def format(*rules)
       # support for old format parameters
       rules = normalize_formatting_rules(rules)
@@ -208,7 +220,9 @@ class Money
           symbol
         end
 
-      formatted = rules[:no_cents] ? "#{self.to_s.to_i}" : self.to_s
+      sign = self.negative? ? '-' : ''
+      formatted = rules[:no_cents] ? "#{self.abs.to_s.to_i}" : self.abs.to_s
+
 
       if rules[:no_cents_if_whole] && cents % currency.subunit_to_unit == 0
         formatted = "#{self.to_s.to_i}"
@@ -233,10 +247,13 @@ class Money
           :after
         end
 
-      sign = ""
-      if rules[:sign_before_symbol] == true && self.negative?
-        formatted.tr!("-", "")
-        sign = "-"
+      if rules[:sign_positive] == true && self.positive?
+        sign = '+'
+      end
+
+      if rules[:sign_before_symbol] == true
+        sign_before = sign
+        sign = ''
       end
 
       if symbol_value && !symbol_value.empty?
@@ -244,10 +261,10 @@ class Money
 
         formatted = if symbol_position == :before
           symbol_space = rules[:symbol_before_without_space] === false ? " " : ""
-          "#{sign}#{symbol_value}#{symbol_space}#{formatted}"
+          "#{sign_before}#{symbol_value}#{symbol_space}#{sign}#{formatted}"
         else
           symbol_space = rules[:symbol_after_without_space] ? "" : " "
-          "#{sign}#{formatted}#{symbol_space}#{symbol_value}"
+          "#{sign_before}#{formatted}#{symbol_space}#{sign}#{symbol_value}"
         end
       end
 
