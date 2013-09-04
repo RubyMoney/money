@@ -18,6 +18,7 @@
 - In infinite precision mode, deserialized Money objects no longer return Float values from the `fractional` method.
 - Changed `thousands_separator` for Swedish Krona from dot to blank space.
 - Allow mathematical operations with first argument being not an instance of Money (eg. 2 * money instead of money * 2).
+- Money#dollars and Money#amount methods return numbers of type BigDecimal.
 
 ## 5.1.1
 

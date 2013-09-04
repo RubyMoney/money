@@ -257,6 +257,10 @@ YAML
       Money.new(100_37).amount.should == 100.37
       Money.new_with_amount(100.37).amount.should == 100.37
     end
+
+    it 'produces a BigDecimal' do
+      Money.new(1_00).amount.should be_a BigDecimal
+    end
   end
 
   describe "#dollars" do
