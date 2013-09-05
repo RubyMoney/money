@@ -8,7 +8,9 @@ require "money/money/formatting"
 # goods and services and repayment of debts in a given socio-economic context
 # or country." -Wikipedia
 #
-# Represents an amount of money in a given currency.
+# An instance of Money represents an amount of a specific currency.
+#
+# Money is a value object and should be treated as immutable.
 #
 # @see http://en.wikipedia.org/wiki/Money
 class Money
@@ -284,8 +286,8 @@ class Money
   # @return [BigDecimal]
   #
   # @example
-  #   Money.new(100).dollars           # => 1.0
-  #   Money.new_with_dollars(1).dollar # => 1.0
+  #   Money.new(1_00, "USD").dollars   # => BigDecimal.new("1.00")
+  #   Money.new_with_dollars(1).dollar # => BigDecimal.new("1.00")
   #
   # @see #amount
   # @see #to_d
@@ -300,8 +302,8 @@ class Money
   # @return [BigDecimal]
   #
   # @example
-  #   Money.new(100).amount            # => 1.0
-  #   Money.new_with_amount(1).amount  # => 1.0
+  #   Money.new(1_00, "USD").amount    # => BigDecimal.new("1.00")
+  #   Money.new_with_amount(1).amount  # => BigDecimal.new("1.00")
   #
   # @see #to_d
   # @see #fractional
@@ -409,7 +411,7 @@ class Money
   # @return [BigDecimal]
   #
   # @example
-  #   Money.us_dollar(100).to_d #=> BigDecimal.new("1.0")
+  #   Money.us_dollar(1_00).to_d #=> BigDecimal.new("1.00")
   def to_d
     as_d(fractional) / as_d(currency.subunit_to_unit)
   end
