@@ -4,7 +4,15 @@ require "money/money/arithmetic"
 require "money/money/parsing"
 require "money/money/formatting"
 
-# Represents an amount of money in a given currency.
+# "Money is any object or record that is generally accepted as payment for
+# goods and services and repayment of debts in a given socio-economic context
+# or country." -Wikipedia
+#
+# An instance of Money represents an amount of a specific currency.
+#
+# Money is a value object and should be treated as immutable.
+#
+# @see http://en.wikipedia.org/wiki/Money
 class Money
   include Comparable
   include Arithmetic
@@ -13,14 +21,36 @@ class Money
 
   # Convenience method for fractional part of the amount. Synonym of #fractional
   #
-  # @return [Integer]
+  # @return [Integer] when inifinte_precision is false
+  # @return [BigDecimal] when inifinte_precision is true
+  #
+  # @see infinite_precision
   def cents
     fractional
   end
 
-  # The value of the amount represented in the fractional unit of the currency. Example: USD, 1 dollar (amount) == 100 cents (fractional unit).
+  # The value of the monetary amount represented in the fractional or subunit
+  # of the currency.
   #
-  # @return [Integer]
+  # For example, in the US Dollar currency the fractional unit is cents, and
+  # there are 100 cents in one US Dollar. So given the Money representation of
+  # one US dollar, the fractional interpretation is 100.
+  #
+  # Another example is that of the Kuwaiti Dinar. In this case the fractional
+  # unit is the Fils and there 1000 Fils to one Kuwaiti Dinar. So given the
+  # Money representation of one Kuwaiti Dinar, the fractional interpretation is
+  # 1000.
+  #
+  # @example
+  #   Money.new_with_amount(1, "USD").fractional      #=> 100
+  #   Money.new_with_amount(1, "KWD").fractional      #=> 1000
+  #   Money.new_with_amount(105.50, "USD").fractional #=> 10550
+  #   Money.new_with_amount(15.763, 'KWD').fractional #=> 15763
+  #
+  # @return [Integer] when inifinte_precision is false
+  # @return [BigDecimal] when inifinte_precision is true
+  #
+  # @see infinite_precision
   def fractional
     # Ensure we have a BigDecimal. If the Money object is created
     # from YAML, @fractional can end up being set to a Float.
@@ -188,12 +218,9 @@ class Money
   # @return [Money]
   #
   # @example
-  #   Money.new_with_amount(100)
-  #   #=> #<Money @fractional=10000 @currency="USD">
-  #   Money.new_with_amount(100, "USD")
-  #   #=> #<Money @fractional=10000 @currency="USD">
-  #   Money.new_with_amount(100, "EUR")
-  #   #=> #<Money @fractional=10000 @currency="EUR">
+  #   Money.new_with_amount(100)        #=> #<Money @fractional=10000 @currency="USD">
+  #   Money.new_with_amount(100, "USD") #=> #<Money @fractional=10000 @currency="USD">
+  #   Money.new_with_amount(100, "EUR") #=> #<Money @fractional=10000 @currency="EUR">
   #
   # @see Money.new
   #
@@ -225,8 +252,7 @@ class Money
     Money.default_bank.add_rate(from_currency, to_currency, rate)
   end
 
-
-  # Creates a new Money object of value given in the 
+  # Creates a new Money object of value given in the
   # +fractional unit+ of the given +currency+.
   #
   # Alternatively you can use the convenience
@@ -239,12 +265,9 @@ class Money
   # @return [Money]
   #
   # @example
-  #   Money.new(100)
-  #   #=> #<Money @fractional=100 @currency="USD">
-  #   Money.new(100, "USD")
-  #   #=> #<Money @fractional=100 @currency="USD">
-  #   Money.new(100, "EUR")
-  #   #=> #<Money @fractional=100 @currency="EUR">
+  #   Money.new(100)        #=> #<Money @fractional=100 @currency="USD">
+  #   Money.new(100, "USD") #=> #<Money @fractional=100 @currency="USD">
+  #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
   #
   # @see Money.new_with_dollars
   #
@@ -263,8 +286,8 @@ class Money
   # @return [BigDecimal]
   #
   # @example
-  #   Money.new(100).dollars           # => 1.0
-  #   Money.new_with_dollars(1).dollar # => 1.0
+  #   Money.new(1_00, "USD").dollars   # => BigDecimal.new("1.00")
+  #   Money.new_with_dollars(1).dollar # => BigDecimal.new("1.00")
   #
   # @see #amount
   # @see #to_d
@@ -279,8 +302,8 @@ class Money
   # @return [BigDecimal]
   #
   # @example
-  #   Money.new(100).amount            # => 1.0
-  #   Money.new_with_amount(1).amount  # => 1.0
+  #   Money.new(1_00, "USD").amount    # => BigDecimal.new("1.00")
+  #   Money.new_with_amount(1).amount  # => BigDecimal.new("1.00")
   #
   # @see #to_d
   # @see #fractional
@@ -388,7 +411,7 @@ class Money
   # @return [BigDecimal]
   #
   # @example
-  #   Money.us_dollar(100).to_d => BigDecimal.new("1.0")
+  #   Money.us_dollar(1_00).to_d #=> BigDecimal.new("1.00")
   def to_d
     as_d(fractional) / as_d(currency.subunit_to_unit)
   end
@@ -401,7 +424,7 @@ class Money
   # @return [Float]
   #
   # @example
-  #   Money.us_dollar(100).to_f => 1.0
+  #   Money.us_dollar(100).to_f #=> 1.0
   def to_f
     to_d.to_f
   end
@@ -473,13 +496,14 @@ class Money
   # be distributed round-robin amongst the parties. This means that parties
   # listed first will likely recieve more pennies then ones that are listed later
   #
-  # @param [Array<Float, Float, Float>] splits [0.50, 0.25, 0.25] to give 50% of the cash to party1, 25% to party2, and 25% to party3.
+  # @param [Array<Numeric>] splits [0.50, 0.25, 0.25] to give 50% of the cash to party1, 25% to party2, and 25% to party3.
   #
-  # @return [Array<Money, Money, Money>]
+  # @return [Array<Money>]
   #
   # @example
-  #   Money.new(5, "USD").allocate([0.3,0.7)) #=> [Money.new(2), Money.new(3)]
-  #   Money.new(100, "USD").allocate([0.33,0.33,0.33]) #=> [Money.new(34), Money.new(33), Money.new(33)]
+  #   Money.new(5,   "USD").allocate([0.3, 0.7])         #=> [Money.new(2), Money.new(3)]
+  #   Money.new(100, "USD").allocate([0.33, 0.33, 0.33]) #=> [Money.new(34), Money.new(33), Money.new(33)]
+  #
   def allocate(splits)
     allocations = splits.inject(0) { |sum, n| sum + as_d(n) }
 
@@ -510,7 +534,7 @@ class Money
   #
   # @param [Numeric] num number of parties.
   #
-  # @return [Array<Money, Money, Money>]
+  # @return [Array<Money>]
   #
   # @example
   #   Money.new(100, "USD").split(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
@@ -537,14 +561,18 @@ class Money
 
   # Round the monetary amount to smallest unit of coinage.
   #
-  # This method is only useful when operating with infinite_precision turned
-  # on. Without infinite_precision values are rounded to the smallest unit of
-  # coinage automatically.
+  # @note
+  #   This method is only useful when operating with infinite_precision turned
+  #   on. Without infinite_precision values are rounded to the smallest unit of
+  #   coinage automatically.
   #
   # @return [Money]
   #
   # @example
   #   Money.new(10.1, 'USD').round #=> Money.new(10, 'USD')
+  #
+  # @see
+  #   Money.infinite_precision
   #
   def round(rounding_mode = self.class.rounding_mode)
     if self.class.infinite_precision

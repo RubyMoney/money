@@ -5,6 +5,8 @@ require 'json'
 class Money
 
   # Represents a specific currency unit.
+  #
+  # @see http://en.wikipedia.org/wiki/Currency
   class Currency
     include Comparable
 
@@ -140,11 +142,14 @@ class Money
     # The international 3-letter code as defined by the ISO 4217 standard.
     #
     # @return [String]
+    # @see http://iso4217.net/
     attr_reader :iso_code
+
     #
     # The international 3-numeric code as defined by the ISO 4217 standard.
     #
     # @return [String]
+    # @see http://iso4217.net/
     attr_reader :iso_numeric
 
     # The currency name.
