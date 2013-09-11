@@ -260,6 +260,23 @@ describe Money, "parsing" do
       m = Money.from_bigdecimal(BigDecimal.new("1"), "EUR")
       m.currency.should == Money::Currency.wrap("EUR")
     end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "keeps precision" do
+        Money.from_bigdecimal(BigDecimal.new("1.23456")).should == Money.new(123.456)
+        Money.from_bigdecimal(BigDecimal.new("-1.23456")).should == Money.new(-123.456)
+        Money.from_bigdecimal(BigDecimal.new("1.23456")).should == Money.new(123.456, "USD")
+        Money.from_bigdecimal(BigDecimal.new("1.23456"), "EUR").should == Money.new(123.456, "EUR")
+      end
+    end
   end
 
   describe ".from_numeric" do
