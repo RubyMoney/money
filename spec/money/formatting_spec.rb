@@ -439,6 +439,36 @@ describe Money, "formatting" do
       end
     end
 
+    describe ":rounded_infinite_precision option" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "does round fractional when set to true" do
+        Money.new(BigDecimal.new('12.1'), "USD").format(:rounded_infinite_precision => true).should == "$0.12"
+        Money.new(BigDecimal.new('12.5'), "USD").format(:rounded_infinite_precision => true).should == "$0.13"
+        Money.new(BigDecimal.new('123.1'), "BHD").format(:rounded_infinite_precision => true).should == "ب.د0.123"
+        Money.new(BigDecimal.new('123.5'), "BHD").format(:rounded_infinite_precision => true).should == "ب.د0.124"
+        Money.new(BigDecimal.new('100.1'), "USD").format(:rounded_infinite_precision => true).should == "$1"
+        Money.new(BigDecimal.new('109.5'), "USD").format(:rounded_infinite_precision => true).should == "$1.10"
+        Money.new(BigDecimal.new('1'), "MGA").format(:rounded_infinite_precision => true).should == "Ar0.2"
+      end
+
+      it "does not round fractional when set to false" do
+        Money.new(BigDecimal.new('12.1'), "USD").format(:rounded_infinite_precision => false).should == "$0.121"
+        Money.new(BigDecimal.new('12.5'), "USD").format(:rounded_infinite_precision => false).should == "$0.125"
+        Money.new(BigDecimal.new('123.1'), "BHD").format(:rounded_infinite_precision => false).should == "ب.د0.1231"
+        Money.new(BigDecimal.new('123.5'), "BHD").format(:rounded_infinite_precision => false).should == "ب.د0.1235"
+        Money.new(BigDecimal.new('100.1'), "USD").format(:rounded_infinite_precision => false).should == "$1.001"
+        Money.new(BigDecimal.new('109.5'), "USD").format(:rounded_infinite_precision => false).should == "$1.095"
+        Money.new(BigDecimal.new('1'), "MGA").format(:rounded_infinite_precision => false).should == "Ar0.1"
+      end
+    end
+
     context "when the monetary value is 0" do
       let(:money) { Money.us_dollar(0) }
 
