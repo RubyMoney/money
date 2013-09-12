@@ -19,6 +19,7 @@
 - Changed `thousands_separator` for Swedish Krona from dot to blank space.
 - Allow mathematical operations with first argument being not an instance of Money (eg. 2 * money instead of money * 2).
 - Money#dollars and Money#amount methods return numbers of type BigDecimal.
+- Change Money.from_bigdecimal (and in that way .to_money too) to keep precision when using `Money.infinite_precision = true`
 
 ## 5.1.1
 

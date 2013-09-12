@@ -187,7 +187,8 @@ class Money
       def from_bigdecimal(value, currency = Money.default_currency)
         currency = Money::Currency.wrap(currency)
         amount   = value * currency.subunit_to_unit
-        new(amount.round, currency)
+        amount   = amount.round unless Money.infinite_precision
+        new(amount, currency)
       end
 
       # Converts a Numeric value into a Money object treating the +value+
