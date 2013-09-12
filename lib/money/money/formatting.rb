@@ -223,8 +223,15 @@ class Money
       formatted = self.abs.to_s
 
       if rules[:rounded_infinite_precision]
-        formatted = formatted.to_d.round(Math.log10(currency.subunit_to_unit).to_i).to_s("F")
-        formatted.gsub!(/\.0$/, '')
+        formatted = formatted.to_d.round(currency.decimal_places).to_s("F")
+        formatted.gsub!(/\..*/) do |decimal_part|
+          if decimal_part == '.0'
+            ''
+          else
+            decimal_part << '0' while decimal_part.length < (currency.decimal_places + 1)
+            decimal_part
+          end
+        end
       end
 
       sign = self.negative? ? '-' : ''
