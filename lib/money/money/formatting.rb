@@ -220,12 +220,17 @@ class Money
           symbol
         end
 
+      formatted = self.abs.to_s
+
+      if rules[:rounded_infinite_precision]
+        formatted = formatted.to_d.round(Math.log10(currency.subunit_to_unit).to_i).to_s("F")
+        formatted.gsub!(/\.0$/, '')
+      end
+
       sign = self.negative? ? '-' : ''
-      formatted = rules[:no_cents] ? "#{self.abs.to_s.to_i}" : self.abs.to_s
 
-
-      if rules[:no_cents_if_whole] && cents % currency.subunit_to_unit == 0
-        formatted = "#{self.to_s.to_i}"
+      if rules[:no_cents] || (rules[:no_cents_if_whole] && cents % currency.subunit_to_unit == 0)
+        formatted = "#{formatted.to_i}"
       end
 
       thousands_separator_value = thousands_separator

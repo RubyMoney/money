@@ -20,6 +20,7 @@
 - Allow mathematical operations with first argument being not an instance of Money (eg. 2 * money instead of money * 2).
 - Money#dollars and Money#amount methods return numbers of type BigDecimal.
 - Change Money.from_bigdecimal (and in that way .to_money too) to keep precision when using `Money.infinite_precision = true`
+- Add :rounded_infinite_precision option to .format
 
 ## 5.1.1
 
