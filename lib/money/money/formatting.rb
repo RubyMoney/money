@@ -63,9 +63,17 @@ class Money
     #  should be appended to the result string.
     #
     # @example
-    #   Money.ca_dollar(100).format => "$1.00"
+    #   Money.ca_dollar(100).format #=> "$1.00"
     #   Money.ca_dollar(100).format(:with_currency => true) #=> "$1.00 CAD"
     #   Money.us_dollar(85).format(:with_currency => true)  #=> "$0.85 USD"
+    #
+    # @option *rules [Boolean] :rounded_infinite_precision (false) Whether the
+    #  amount of money should be rounded when using infinite_precision
+    #
+    # @example
+    #   Money.us_dollar(100.1).format #=> "$1.001"
+    #   Money.us_dollar(100.1).format(:rounded_infinite_precision => true) #=> "$1"
+    #   Money.us_dollar(100.9).format(:rounded_infinite_precision => true) #=> "$1.01"
     #
     # @option *rules [Boolean] :no_cents (false) Whether cents should be omitted.
     #
