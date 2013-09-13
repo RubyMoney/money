@@ -21,6 +21,7 @@
 - Money#dollars and Money#amount methods return numbers of type BigDecimal.
 - Change Money.from_bigdecimal (and in that way .to_money too) to keep precision when using `Money.infinite_precision = true`
 - Add :rounded_infinite_precision option to .format
+- Changed the New Taiwan Dollar symbol position from after the amount to before the amount.
 
 ## 5.1.1
 
