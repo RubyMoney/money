@@ -453,7 +453,7 @@ describe Money, "formatting" do
         Money.new(BigDecimal.new('12.5'), "USD").format(:rounded_infinite_precision => true).should == "$0.13"
         Money.new(BigDecimal.new('123.1'), "BHD").format(:rounded_infinite_precision => true).should == "ب.د0.123"
         Money.new(BigDecimal.new('123.5'), "BHD").format(:rounded_infinite_precision => true).should == "ب.د0.124"
-        Money.new(BigDecimal.new('100.1'), "USD").format(:rounded_infinite_precision => true).should == "$1"
+        Money.new(BigDecimal.new('100.1'), "USD").format(:rounded_infinite_precision => true).should == "$1.00"
         Money.new(BigDecimal.new('109.5'), "USD").format(:rounded_infinite_precision => true).should == "$1.10"
         Money.new(BigDecimal.new('1'), "MGA").format(:rounded_infinite_precision => true).should == "Ar0.2"
       end
