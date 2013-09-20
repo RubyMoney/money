@@ -233,12 +233,8 @@ class Money
       if rules[:rounded_infinite_precision]
         formatted = ((BigDecimal(formatted) * currency.subunit_to_unit).round / BigDecimal(currency.subunit_to_unit.to_s)).to_s("F")
         formatted.gsub!(/\..*/) do |decimal_part|
-          if decimal_part == '.0'
-            ''
-          else
-            decimal_part << '0' while decimal_part.length < (currency.decimal_places + 1)
-            decimal_part
-          end
+          decimal_part << '0' while decimal_part.length < (currency.decimal_places + 1)
+          decimal_part
         end
       end
 
