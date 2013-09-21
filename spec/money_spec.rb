@@ -4,38 +4,59 @@ require "spec_helper"
 
 describe Money do
   describe ".new" do
-    it "rounds the given cents to an integer" do
-      Money.new(1.00, "USD").cents.should == 1
-      Money.new(1.01, "USD").cents.should == 1
-      Money.new(1.50, "USD").cents.should == 2
+    let(:initializing_value) { 1 }
+    subject(:money) { Money.new(initializing_value) }
+
+    its(:bank) { should be Money::Bank::VariableExchange.instance }
+
+    context 'given the initializing value is an integer' do
+      let(:initializing_value) { Integer(1) }
+      it 'stores the integer as the number of cents' do
+        expect(money.cents).to eq initializing_value
+      end
     end
 
-    it "is associated to the singleton instance of Bank::VariableExchange by default" do
-      Money.new(0).bank.should be(Money::Bank::VariableExchange.instance)
+    context 'given the initializing value is a float' do
+      context 'and the value is 1.00' do
+        let(:initializing_value) { 1.00 }
+        it { should eq Money.new(1) }
+      end
+
+      context 'and the value is 1.01' do
+        let(:initializing_value) { 1.01 }
+        it { should eq Money.new(1) }
+      end
+
+      context 'and the value is 1.50' do
+        let(:initializing_value) { 1.50 }
+        it { should eq Money.new(2) }
+      end
     end
 
-    it "handles Rationals" do
-      n = Rational(1)
-      Money.new(n).cents.should == 1
+    context 'given the initializing value is a rational' do
+      let(:initializing_value) { Rational(1) }
+      it { should eq Money.new(1) }
     end
 
-    it "handles Floats" do
-      n = Float("1")
-      Money.new(n).cents.should == 1
+    context 'given a currency is not provided' do
+      subject(:money) { Money.new(initializing_value) }
+      its(:currency) { should eq Money.default_currency }
+    end
+
+    context 'given a currency is provided' do
+      subject(:money) { Money.new(initializing_value, currency) }
+
+      context 'and the currency is NZD' do
+        let(:currency) { Money::Currency.new('NZD') }
+        its(:currency) { should eq Money::Currency.new('NZD') }
+      end
     end
 
     context "infinite_precision = true" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
-      it "doesn't round cents" do
-        Money.new(1.01, "USD").cents.should == BigDecimal("1.01")
-        Money.new(1.50, "USD").cents.should == BigDecimal("1.50")
+      before { Money.stub(:infinite_precision => true) }
+      context 'given the initializing value is 1.50' do
+        let(:initializing_value) { 1.50 }
+        its(:cents) { should eq BigDecimal('1.50') }
       end
     end
   end
