@@ -272,9 +272,16 @@ class Money
   # @see Money.new_with_dollars
   #
   def initialize(fractional, currency = Money.default_currency, bank = Money.default_bank)
-    @fractional = as_d(fractional)
-    @currency = Currency.wrap(currency)
-    @bank     = bank
+    if (fractional.is_a? Money)
+      money = fractional
+      @fractional = money.fractional
+      @currency   = money.currency
+      @bank       = money.bank
+    else
+      @fractional = as_d(fractional)
+      @currency   = Currency.wrap(currency)
+      @bank       = bank
+    end
   end
 
   # Assuming using a currency using dollars:

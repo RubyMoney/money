@@ -38,6 +38,11 @@ describe Money do
       it { should eq Money.new(1) }
     end
 
+    context 'given the initializing value is money' do
+      let(:initializing_value) { Money.new(1_00, Money::Currency.new('NZD')) }
+      it { should eq initializing_value }
+    end
+
     context 'given a currency is not provided' do
       subject(:money) { Money.new(initializing_value) }
       its(:currency) { should eq Money.default_currency }
