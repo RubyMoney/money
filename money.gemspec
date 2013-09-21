@@ -28,7 +28,6 @@ Test responsibly :-)
   s.add_development_dependency "rspec",       "~> 2.14"
   s.add_development_dependency "yard",        "~> 0.8"
   s.add_development_dependency "kramdown",    "~> 1.1"
-  s.add_development_dependency "json"
 
   s.license = "MIT"
 
