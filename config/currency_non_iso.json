@@ -6,7 +6,7 @@
     "symbol": "B⃦",
     "alternate_symbols": [],
     "subunit": "Satoshi",
-    "subunit_to_unit": 10000000,
+    "subunit_to_unit": 100000000,
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
