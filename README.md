@@ -240,6 +240,13 @@ There is nothing stopping you from creating bank objects which scrapes
 Money.default_bank = ExchangeBankWhichScrapesXeDotCom.new
 ```
 
+If you wish to disable automatic currency conversion to prevent arithmetic when
+currencies don't match:
+
+``` ruby
+Money.disallow_currency_conversion!
+```
+
 ### Implementations
 
 The following is a list of Money.gem compatible currency exchange rate

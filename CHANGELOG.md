@@ -25,6 +25,7 @@
 - Changed the New Taiwan Dollar symbol position from after the amount to before the amount.
 - Passing a Money instance to the Money constructor will obtain a new Money object with the same property values as the original
 - Add deprecation warning to comparators
+- Add Money.disallow_currency_conversion! option
 
 ## 5.1.1
 
