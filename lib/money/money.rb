@@ -253,6 +253,12 @@ class Money
     Money.default_bank.add_rate(from_currency, to_currency, rate)
   end
 
+  # Sets the default bank to be a SingleCurrency bank that raises on
+  # currency exchange. Useful when apps operate in a single currency at a time.
+  def self.disallow_currency_conversion!
+    self.default_bank = Bank::SingleCurrency.instance
+  end
+
   # Creates a new Money object of value given in the
   # +fractional unit+ of the given +currency+.
   #
