@@ -159,6 +159,21 @@ describe Money do
     end
   end
 
+  describe ".disallow_currency_conversions!" do
+    before do
+      @default_bank = Money.default_bank
+    end
+
+    after do
+      Money.default_bank = @default_bank
+    end
+
+    it "disallows conversions when doing money arithmetic" do
+      Money.disallow_currency_conversion!
+      expect { Money.new(100, "USD") + Money.new(100, "EUR") }.to raise_exception(Money::Bank::DifferentCurrencyError)
+    end
+  end
+
   describe "#cents" do
     it "is a synonym of #fractional" do
       expectation = Money.new(0)
