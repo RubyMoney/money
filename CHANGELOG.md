@@ -24,6 +24,7 @@
 - Add :rounded_infinite_precision option to .format
 - Changed the New Taiwan Dollar symbol position from after the amount to before the amount.
 - Passing a Money instance to the Money constructor will obtain a new Money object with the same property values as the original
+- Add deprecation warning to comparators
 
 ## 5.1.1
 
