@@ -1,5 +1,6 @@
 # encoding: utf-8
 require "money/bank/variable_exchange"
+require "money/bank/single_currency"
 require "money/money/arithmetic"
 require "money/money/parsing"
 require "money/money/formatting"
@@ -250,6 +251,12 @@ class Money
   #   Money.add_rate("USD", "CAD", 1.25) #=> 1.25
   def self.add_rate(from_currency, to_currency, rate)
     Money.default_bank.add_rate(from_currency, to_currency, rate)
+  end
+
+  # Sets the default bank to be a SingleCurrency bank that raises on
+  # currency exchange. Useful when apps operate in a single currency at a time.
+  def self.disallow_currency_conversion!
+    self.default_bank = Bank::SingleCurrency.instance
   end
 
   # Creates a new Money object of value given in the
