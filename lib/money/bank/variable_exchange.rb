@@ -7,6 +7,16 @@ class Money
     # Thrown when an unknown rate format is requested.
     class UnknownRateFormat < StandardError; end
 
+    class RateFormatsContainer < Hash
+      def [](key)
+        if has_key?(key)
+          super
+        else
+          raise Money::Bank::UnknownRateFormat
+        end
+      end
+    end
+
     # Class for aiding in exchanging money between different currencies. By
     # default, the +Money+ class uses an object of this class (accessible
     # through +Money#bank+) for performing currency exchanges.
@@ -33,7 +43,9 @@ class Money
       attr_reader :rates
 
       # Available formats for importing/exporting rates.
-      RATE_FORMATS = [:json, :ruby, :yaml]
+      RATE_FORMATS = RateFormatsContainer.new.tap do |hash|
+        hash.update(:json => JSON, :ruby => Marshal, :yaml => YAML)
+      end
 
       # Setup rates hash and mutex for rates locking
       #
@@ -178,19 +190,9 @@ class Money
       #   s = bank.export_rates(:json)
       #   s #=> "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
       def export_rates(format, file=nil)
-        raise Money::Bank::UnknownRateFormat unless
-          RATE_FORMATS.include? format
-
         s = ""
         @mutex.synchronize {
-          s = case format
-              when :json
-                JSON.dump(@rates)
-              when :ruby
-                Marshal.dump(@rates)
-              when :yaml
-                YAML.dump(@rates)
-              end
+          s = RATE_FORMATS[format].dump(@rates)
 
           unless file.nil?
             File.open(file, "w") {|f| f.write(s) }
@@ -217,19 +219,7 @@ class Money
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
       def import_rates(format, s)
-        raise Money::Bank::UnknownRateFormat unless
-          RATE_FORMATS.include? format
-
-        @mutex.synchronize {
-          @rates = case format
-                   when :json
-                     JSON.load(s)
-                   when :ruby
-                     Marshal.load(s)
-                   when :yaml
-                     YAML.load(s)
-                   end
-        }
+        @mutex.synchronize { @rates = RATE_FORMATS[format].load(s) }
         self
       end
 
