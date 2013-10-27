@@ -26,6 +26,7 @@
 - Passing a Money instance to the Money constructor will obtain a new Money object with the same property values as the original
 - Add deprecation warning to comparators
 - Add Money.disallow_currency_conversion! option
+- Allow to inherits from `Money`
 
 ## 5.1.1
 
