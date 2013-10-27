@@ -128,7 +128,7 @@ class Money
     attr_accessor :conversion_precision
   end
 
-  def self.set_up_default
+  def self.setup_defaults
     # Set the default bank for creating new +Money+ objects.
     self.default_bank = Bank::VariableExchange.instance
 
@@ -152,10 +152,10 @@ class Money
   end
 
   def self.inherited(base)
-    base.set_up_default
+    base.setup_defaults
   end
 
-  set_up_default
+  setup_defaults
 
   # Create a new money object with value 0.
   #
