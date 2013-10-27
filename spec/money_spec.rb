@@ -602,4 +602,16 @@ YAML
       end
     end
   end
+
+  describe "inheritance" do
+    it "allows inheritance" do
+      # TypeError:
+      #   wrong argument type nil (expected Fixnum)
+      # ./lib/money/money.rb:63:in `round'
+      # ./lib/money/money.rb:63:in `fractional'
+      # ./lib/money/money/arithmetic.rb:115:in `-'
+      MoneyChild = Class.new(Money)
+      (MoneyChild.new(1000) - Money.new(500)).should eq Money.new(500)
+    end
+  end
 end
