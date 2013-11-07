@@ -268,7 +268,7 @@ For deprecated methods of integrating with Rails, check [the wiki](https://githu
 
 ## Migration Notes
 
-#### Version 6.0.0.pre3
+#### Version 6.0.0
 
 - The `Money#dollars` and `Money#amount` methods now return instances of
   `BigDecimal` rather than `Float`. We should avoid representing monetary

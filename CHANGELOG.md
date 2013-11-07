@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## 6.0.0
 - Fix BTC subunit
 - New option :sign_positive to add a + sign to positive numbers
 - Only allow to multiply a money by a number (int, float)
