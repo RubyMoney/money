@@ -1,6 +1,7 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'rspec'
 require 'money'
+require 'money/core_extensions'
 require 'support/default_currency_helper'
 
 RSpec.configure do |c|
