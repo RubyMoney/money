@@ -15,7 +15,7 @@ class Numeric
   # @see Money.from_numeric
   #
   def to_money(currency = nil)
-    Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extensions'` to use Numeric#to_money." unless $MONEY_CORE_EXTENSIONS_LOADED_EXPLICITLY
+    Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extensions'` to use Numeric#to_money." unless Money.silence_core_extensions_deprecation_message
     Money.from_numeric(self, currency || Money.default_currency)
   end
 end
@@ -56,7 +56,7 @@ class String
   #   "USD".to_currency #=> #<Money::Currency id: usd>
   #
   def to_currency
-    Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extensions'` to use String#to_currency." unless $MONEY_CORE_EXTENSIONS_LOADED_EXPLICITLY
+    Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extensions'` to use String#to_currency." unless Money.silence_core_extensions_deprecation_message
     Money::Currency.new(self)
   end
 end
@@ -74,7 +74,7 @@ class Symbol
   #   :ars.to_currency #=> #<Money::Currency id: ars>
   #
   def to_currency
-    Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extensions'` to use Symbol#to_currency." unless $MONEY_CORE_EXTENSIONS_LOADED_EXPLICITLY
+    Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extensions'` to use Symbol#to_currency." unless Money.silence_core_extensions_deprecation_message
     Money::Currency.new(self)
   end
 end

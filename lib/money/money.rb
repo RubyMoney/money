@@ -126,6 +126,12 @@ class Money
     #
     # @return [Integer]
     attr_accessor :conversion_precision
+
+
+    # Use this to suppress warnings about the core extensions being loaded implicitly.
+    #
+    # @return [true,false]
+    attr_accessor :silence_core_extensions_deprecation_message
   end
 
   def self.setup_defaults

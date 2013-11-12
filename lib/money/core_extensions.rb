@@ -1,2 +1,2 @@
-$MONEY_CORE_EXTENSIONS_LOADED_EXPLICITLY = true;
+Money.silence_core_extensions_deprecation_message = true;
 require "money/core_extensions/core_extensions"
