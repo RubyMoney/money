@@ -34,7 +34,7 @@ class Money
       # @see #from_string
       #
       def parse(input, currency = nil)
-        Money.deprecate ".parse is deprecated and will be remove in 6.1.0. Please write your own parsing methods."
+        Money.deprecate ".parse is deprecated and will be removed in 6.1.0. Please write your own parsing methods."
         i = input.to_s.strip
 
         # raise Money::Currency.table.collect{|c| c[1][:symbol]}.inspect
@@ -97,7 +97,7 @@ class Money
       # @see #parse
       #
       def from_string(value, currency = Money.default_currency)
-        Money.deprecate ".from_string is deprecated and will be remove in 6.1.0. Please write your own parsing methods."
+        Money.deprecate ".from_string is deprecated and will be removed in 6.1.0. Please write your own parsing methods."
         from_bigdecimal(BigDecimal.new(value.to_s), currency)
       end
 
@@ -157,7 +157,7 @@ class Money
       # @see #from_numeric
       #
       def from_float(value, currency = Money.default_currency)
-        Money.deprecate ".from_float is deprecated and will be remove in 6.1.0. Please write your own parsing methods."
+        Money.deprecate ".from_float is deprecated and will be removed in 6.1.0. Please write your own parsing methods."
         from_bigdecimal(BigDecimal.new(value.to_s), currency)
       end
 
@@ -241,7 +241,7 @@ class Money
       # @return [Integer]
       #
       def extract_cents(input, currency = Money.default_currency)
-        Money.deprecate ".extract_cents is deprecated and will be remove in 6.1.0. Please write your own parsing methods."
+        Money.deprecate ".extract_cents is deprecated and will be removed in 6.1.0. Please write your own parsing methods."
         # remove anything that's not a number, potential thousands_separator, or minus sign
         num = input.gsub(/[^\d.,'-]/, '')
 
