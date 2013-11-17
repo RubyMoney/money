@@ -41,7 +41,7 @@ class String
   # @see Money.from_string
   #
   def to_money(currency = nil)
-    Money.deprecate "String#to_money is depreciated and will be remove in 6.1.0. Please write your own parsing methods."
+    Money.deprecate "String#to_money is deprecated and will be remove in 6.1.0. Please write your own parsing methods."
     Money.parse(self, currency)
   end
 
