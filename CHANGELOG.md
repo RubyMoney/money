@@ -1,5 +1,8 @@
 # Changelog
 
+## next release
+ - Deprecated methods lists caller on print out for easier updating.
+
 ## 6.0.0
 - Fix BTC subunit
 - New option :sign_positive to add a + sign to positive numbers
