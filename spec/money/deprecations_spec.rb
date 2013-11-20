@@ -15,4 +15,3 @@ describe Money do
     end
   end
 end
-
