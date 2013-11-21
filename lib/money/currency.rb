@@ -321,7 +321,12 @@ class Money
     #   Money::Currency.new(:usd).to_sym #=> :USD
     #   Money::Currency.new(:eur).to_sym #=> :EUR
     def to_sym
-      id.upcase
+      if id.respond_to?(:upcase)
+        id.upcase
+      else
+        # Ruby <= 1.8.7 doesn't support Symbol#upcase
+        id.to_s.upcase.to_sym
+      end
     end
 
     # Conversation to +self+.
