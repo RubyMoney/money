@@ -154,6 +154,20 @@ describe Money::Currency do
     end
   end
 
+  describe "#to_str" do
+    it "works as documented" do
+      Money::Currency.new(:usd).to_str.should == "USD"
+      Money::Currency.new(:eur).to_str.should == "EUR"
+    end
+  end
+
+  describe "#to_sym" do
+    it "works as documented" do
+      Money::Currency.new(:usd).to_sym.should == :USD
+      Money::Currency.new(:eur).to_sym.should == :EUR
+    end
+  end
+
   describe "#to_currency" do
     it "works as documented" do
       usd = Money::Currency.new(:usd)
