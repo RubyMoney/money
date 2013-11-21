@@ -300,6 +300,35 @@ class Money
       id.to_s.upcase
     end
 
+    # Returns a string representation corresponding to the upcase +id+
+    # attribute. Useful in cases where only implicit conversions are made.
+    #
+    # @return [String]
+    #
+    # @example
+    #   Money::Currency.new(:usd).to_str #=> "USD"
+    #   Money::Currency.new(:eur).to_str #=> "EUR"
+    def to_str
+      id.to_s.upcase
+    end
+    
+    # Returns a symbol representation corresponding to the upcase +id+
+    # attribute.
+    #
+    # @return [Symbol]
+    #
+    # @example
+    #   Money::Currency.new(:usd).to_sym #=> :USD
+    #   Money::Currency.new(:eur).to_sym #=> :EUR
+    def to_sym
+      if id.respond_to?(:upcase)
+        id.upcase
+      else
+        # Ruby <= 1.8.7 doesn't support Symbol#upcase
+        id.to_s.upcase.to_sym
+      end
+    end
+
     # Conversation to +self+.
     #
     # @return [self]

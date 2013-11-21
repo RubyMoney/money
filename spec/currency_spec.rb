@@ -112,6 +112,8 @@ describe Money::Currency do
     
     it "allows direct comparison of currencies and symbols/strings" do
       Money::Currency.new(:eur).should     == 'eur'
+      Money::Currency.new(:eur).should     == 'EUR'
+      Money::Currency.new(:eur).should     == :eur
       Money::Currency.new(:eur).should     == :EUR
       Money::Currency.new(:eur).should_not == 'usd'
     end
@@ -151,6 +153,20 @@ describe Money::Currency do
     it "works as documented" do
       Money::Currency.new(:usd).to_s.should == "USD"
       Money::Currency.new(:eur).to_s.should == "EUR"
+    end
+  end
+
+  describe "#to_str" do
+    it "works as documented" do
+      Money::Currency.new(:usd).to_str.should == "USD"
+      Money::Currency.new(:eur).to_str.should == "EUR"
+    end
+  end
+
+  describe "#to_sym" do
+    it "works as documented" do
+      Money::Currency.new(:usd).to_sym.should == :USD
+      Money::Currency.new(:eur).to_sym.should == :EUR
     end
   end
 
