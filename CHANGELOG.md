@@ -2,6 +2,7 @@
 
 ## next release
  - Deprecated methods lists caller on print out for easier updating.
+ - Added support for Money::Currency#to_str and Money::Currency#to_ym
 
 ## 6.0.0
 - Fix BTC subunit
