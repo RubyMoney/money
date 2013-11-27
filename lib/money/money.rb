@@ -118,9 +118,7 @@ class Money
     attr_accessor :infinite_precision
 
     # Use this to specify the rounding mode
-    #
-    # @return [BigDecimal::ROUND_MODE]
-    attr_accessor :rounding_mode
+    attr_writer :rounding_mode
 
     # Use this to specify precision for converting Rational to BigDecimal
     #
@@ -156,6 +154,25 @@ class Money
   end
 
   setup_defaults
+
+  # Use this to return the rounding mode.  You may also pass it a 
+  # rounding mode and a block to temporatly change it.
+  #
+  # @return [BigDecimal::ROUND_MODE]
+  #
+  # @example
+  #   Money.rounding_mode(BigDecimal::ROUND_HALF_UP) do
+  #     fee = Money.new(1200) * BigDecimal.new('0.029')
+  #   end
+  def self.rounding_mode(mode=nil)
+    unless mode.nil?
+      current_rounding_mode = @rounding_mode
+      self.rounding_mode = mode
+        yield
+      self.rounding_mode = current_rounding_mode
+    end
+    @rounding_mode
+  end
 
   # Create a new money object with value 0.
   #

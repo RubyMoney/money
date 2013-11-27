@@ -3,6 +3,7 @@
 ## next release
  - Deprecated methods lists caller on print out for easier updating.
  - Added support for Money::Currency#to_str and Money::Currency#to_sym
+ - Added ability to temporally change the rounding methond inside a given block
 
 ## 6.0.0
 - Fix BTC subunit

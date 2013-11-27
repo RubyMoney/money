@@ -250,12 +250,30 @@ YAML
         Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
       end
 
-      it "respects the rounding_mode" do
-        Money.rounding_mode = BigDecimal::ROUND_DOWN
-        Money.new(1.9).fractional.should == 1
+      context "with the setter" do
+        it "respects the rounding_mode" do
+          Money.rounding_mode = BigDecimal::ROUND_DOWN
+          Money.new(1.9).fractional.should == 1
 
-        Money.rounding_mode = BigDecimal::ROUND_UP
-        Money.new(1.1).fractional.should == 2
+          Money.rounding_mode = BigDecimal::ROUND_UP
+          Money.new(1.1).fractional.should == 2
+        end
+      end
+
+      context "with a block" do
+        it "respects the rounding_mode" do
+          Money.rounding_mode(BigDecimal::ROUND_DOWN) do
+            Money.new(1.9).fractional.should == 1
+            Money.rounding_mode.should == BigDecimal::ROUND_DOWN
+          end
+
+          Money.rounding_mode(BigDecimal::ROUND_UP) do
+            Money.new(1.1).fractional.should == 2
+            Money.rounding_mode.should == BigDecimal::ROUND_UP
+          end
+
+          Money.rounding_mode.should == BigDecimal::ROUND_HALF_EVEN
+        end
       end
     end
 
