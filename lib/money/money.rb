@@ -168,7 +168,7 @@ class Money
     unless mode.nil?
       current_rounding_mode = @rounding_mode
       self.rounding_mode = mode
-        yield
+      yield
       self.rounding_mode = current_rounding_mode
     end
     @rounding_mode
