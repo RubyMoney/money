@@ -263,14 +263,12 @@ YAML
       context "with a block" do
         it "respects the rounding_mode" do
           Money.rounding_mode(BigDecimal::ROUND_DOWN) do
-            Money.new(1.9).fractional.should == 1
-            Money.rounding_mode.should == BigDecimal::ROUND_DOWN
-          end
+            Money.new(1.9).fractional
+          end.should == 1
 
           Money.rounding_mode(BigDecimal::ROUND_UP) do
-            Money.new(1.1).fractional.should == 2
-            Money.rounding_mode.should == BigDecimal::ROUND_UP
-          end
+            Money.new(1.1).fractional
+          end.should == 2
 
           Money.rounding_mode.should == BigDecimal::ROUND_HALF_EVEN
         end

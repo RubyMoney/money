@@ -156,22 +156,22 @@ class Money
   setup_defaults
 
   # Use this to return the rounding mode.  You may also pass it a 
-  # rounding mode and a block to temporatly change it.
+  # rounding mode and a block to temporatly change it.  It will
+  # then return the results of the block instead.
   #
   # @return [BigDecimal::ROUND_MODE]
   #
   # @example
-  #   Money.rounding_mode(BigDecimal::ROUND_HALF_UP) do
-  #     fee = Money.new(1200) * BigDecimal.new('0.029')
+  #   fee = Money.rounding_mode(BigDecimal::ROUND_HALF_UP) do
+  #     Money.new(1200) * BigDecimal.new('0.029')
   #   end
   def self.rounding_mode(mode=nil)
-    unless mode.nil?
-      current_rounding_mode = @rounding_mode
-      self.rounding_mode = mode
-        yield
-      self.rounding_mode = current_rounding_mode
-    end
-    @rounding_mode
+    return Thread.current[:money_rounding_mode] || @rounding_mode if mode.nil?
+
+    Thread.current[:money_rounding_mode] = mode
+    yield
+  ensure
+    Thread.current[:money_rounding_mode] = nil
   end
 
   # Create a new money object with value 0.
