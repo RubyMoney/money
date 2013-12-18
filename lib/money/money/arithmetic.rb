@@ -11,7 +11,6 @@ class Money
       Money.new(-fractional, currency)
     end
 
-
     # Checks whether two money objects have the same currency and the same
     # amount. Checks against money objects with a different currency and checks
     # against objects that do not respond to #to_money will always return false.
@@ -25,7 +24,9 @@ class Money
     #   Money.new(100) == Money.new(100) #=> true
     def ==(other_money)
       if other_money.respond_to?(:to_money)
-        Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extensions'` to compare Money to core classes." unless other_money.is_a? Money
+        unless other_money.is_a?(Money)
+          Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extensions'` to compare Money to core classes." unless Money.silence_core_extensions_deprecations
+        end
         other_money = other_money.to_money
         fractional == other_money.fractional && currency == other_money.currency
       else
@@ -46,7 +47,9 @@ class Money
 
     def <=>(other_money)
       if other_money.respond_to?(:to_money)
-        Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extensions'` to compare Money to core classes." unless other_money.is_a? Money
+        unless other_money.is_a?(Money)
+          Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extensions'` to compare Money to core classes." unless Money.silence_core_extensions_deprecations
+        end
         other_money = other_money.to_money
         if fractional == 0 || other_money.fractional == 0 || currency == other_money.currency
           fractional <=> other_money.fractional
