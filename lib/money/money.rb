@@ -159,7 +159,7 @@ class Money
   # rounding mode and a block to temporatly change it.  It will
   # then return the results of the block instead.
   #
-  # @param [BigDecimal::ROUND_MODE]
+  # @param [BigDecimal::ROUND_MODE] optional
   #
   # @return [BigDecimal::ROUND_MODE,Yield] rounding mode or block results
   #
