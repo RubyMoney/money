@@ -155,11 +155,13 @@ class Money
 
   setup_defaults
 
-  # Use this to return the rounding mode.  You may also pass it a 
+  # Use this to return the rounding mode.  You may also pass a 
   # rounding mode and a block to temporatly change it.  It will
   # then return the results of the block instead.
   #
-  # @return [BigDecimal::ROUND_MODE]
+  # @param [BigDecimal::ROUND_MODE]
+  #
+  # @return [BigDecimal::ROUND_MODE,Yield] rounding mode or block results
   #
   # @example
   #   fee = Money.rounding_mode(BigDecimal::ROUND_HALF_UP) do
