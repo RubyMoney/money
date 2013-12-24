@@ -4,6 +4,8 @@
 
 :warning: Please read the [migration notes](#migration-notes) before upgrading to a new major version.
 
+If you miss String parsing, check out the new [monetize gem](https://github.com/RubyMoney/monetize).
+
 ## Contributing
 
 See the [Contribution Guidelines](https://github.com/RubyMoney/money/blob/master/CONTRIBUTING.md)
