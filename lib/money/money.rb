@@ -185,7 +185,8 @@ class Money
   # @example
   #   Money.empty #=> #<Money @fractional=0>
   def self.empty(currency = default_currency)
-    Money.new(0, currency)
+    @empty ||= {}
+    @empty[currency] ||= Money.new(0, currency)
   end
 
   # Creates a new Money object of the given value, using the Canadian
