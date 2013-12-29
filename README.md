@@ -3,6 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/money.png)](http://badge.fury.io/rb/money)
 [![Build Status](https://travis-ci.org/RubyMoney/money.png?branch=master)](https://travis-ci.org/RubyMoney/money)
 [![Code Climate](https://codeclimate.com/github/RubyMoney/money.png)](https://codeclimate.com/github/RubyMoney/money)
+[![Coverage Status](https://coveralls.io/repos/RubyMoney/money/badge.png?branch=master)](https://coveralls.io/r/RubyMoney/money?branch=master)
 [![Dependency Status](https://gemnasium.com/RubyMoney/money.png)](https://gemnasium.com/RubyMoney/money)
 [![License](http://img.shields.io/license/MIT.png?color=green)](http://opensource.org/licenses/MIT)
 
