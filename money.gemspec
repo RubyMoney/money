@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = "money"
-  s.version     = "6.0.1.beta1"
+  s.version     = "6.0.1.beta2"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Shane Emmons"]
   s.email       = ["shane@emmons.io"]
@@ -21,7 +21,7 @@ Test responsibly :-)
 MSG
 
   s.add_dependency "i18n", "~> 0.6.4"
-  s.add_dependency "monetize", "~> 0.1.2"
+  s.add_dependency "monetize", "~> 0.1.3"
 
   s.add_development_dependency "rspec", "~> 2.14"
   s.add_development_dependency "yard", "~> 0.8"
