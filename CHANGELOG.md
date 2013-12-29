@@ -1,9 +1,10 @@
 # Changelog
 
-## next release
+## 6.0.1.beta1
  - Deprecated methods lists caller on print out for easier updating.
  - Added support for Money::Currency#to_str and Money::Currency#to_sym
  - Added ability to temporally change the rounding methond inside a given block
+ - Replaced parsing and core extensions with the monetize gem
 
 ## 6.0.0
 - Fix BTC subunit
