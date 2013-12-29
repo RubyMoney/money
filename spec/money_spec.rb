@@ -133,6 +133,11 @@ describe Money do
     end
   end
 
+  describe ".zero" do
+    subject { Money.zero }
+    it { should == Money.empty }
+  end
+
   describe ".ca_dollar" do
     it "creates a new Money object of the given value in CAD" do
       Money.ca_dollar(50).should == Money.new(50, "CAD")
