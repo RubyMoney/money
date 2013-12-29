@@ -1,4 +1,7 @@
 # encoding: utf-8
+require "monetize"
+require "monetize/core_extensions"
+
 require "money/bank/variable_exchange"
 require "money/bank/single_currency"
 require "money/money/arithmetic"
@@ -155,7 +158,7 @@ class Money
 
   setup_defaults
 
-  # Use this to return the rounding mode.  You may also pass a 
+  # Use this to return the rounding mode.  You may also pass a
   # rounding mode and a block to temporatly change it.  It will
   # then return the results of the block instead.
   #

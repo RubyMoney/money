@@ -17,9 +17,6 @@ describe Money, "parsing" do
       five_ninety_five = Money.new(595, 'EUR')
 
       Money.parse('EUR 5,95').should    == five_ninety_five
-      #TODO: try and handle these
-      #Money.parse('€5,95').should       == five_ninety_five
-      #Money.parse('&#036;5.95').should  == five_ninety_five
     end
 
     it "parses european-formatted inputs with multiple thousands-seperators" do
@@ -291,9 +288,9 @@ describe Money, "parsing" do
     end
 
     it "optimizes workload" do
-      Money.should_receive(:from_fixnum).with(1, "USD").and_return(Money.new(1_00,  "USD"))
+      Monetize.should_receive(:from_fixnum).with(1, "USD").and_return(Money.new(1_00,  "USD"))
       Money.from_numeric(1, "USD").should == Money.new(1_00,  "USD")
-      Money.should_receive(:from_bigdecimal).with(BigDecimal.new("1.0"), "USD").and_return(Money.new(1_00,  "USD"))
+      Monetize.should_receive(:from_bigdecimal).with(BigDecimal.new("1.0"), "USD").and_return(Money.new(1_00,  "USD"))
       Money.from_numeric(1.0, "USD").should == Money.new(1_00,  "USD")
     end
 

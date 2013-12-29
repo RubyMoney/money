@@ -110,8 +110,8 @@ describe Money, "core extensions" do
         "10.10 USD".to_money('USD').should == Money.new(1010, 'USD')
       end
 
-      it "raises error if optional currency doesn't match string currency" do
-        expect { "10.10 USD".to_money('EUR') }.to raise_error(/Mismatching Currencies/)
+      it "uses the parsed currency even if a currency was specified by the method" do
+        expect("10.10 USD".to_money("EUR")).to eq Money.new(1010, "USD")
       end
 
       it "ignores unrecognized data" do
