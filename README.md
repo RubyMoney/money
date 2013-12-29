@@ -1,6 +1,10 @@
 # RubyMoney - Money
 
-[![Gem Version](https://badge.fury.io/rb/money.png)](http://badge.fury.io/rb/money) [![Build Status](https://travis-ci.org/RubyMoney/money.png?branch=master)](https://travis-ci.org/RubyMoney/money) [![Code Climate](https://codeclimate.com/github/RubyMoney/money.png)](https://codeclimate.com/github/RubyMoney/money)
+[![Gem Version](https://badge.fury.io/rb/money.png)](http://badge.fury.io/rb/money)
+[![Build Status](https://travis-ci.org/RubyMoney/money.png?branch=master)](https://travis-ci.org/RubyMoney/money)
+[![Code Climate](https://codeclimate.com/github/RubyMoney/money.png)](https://codeclimate.com/github/RubyMoney/money)
+[![Dependency Status](https://gemnasium.com/RubyMoney/money.png)](https://gemnasium.com/RubyMoney/money)
+[![License](http://img.shields.io/license/MIT.png?color=green)](http://opensource.org/licenses/MIT)
 
 :warning: Please read the [migration notes](#migration-notes) before upgrading to a new major version.
 
