@@ -127,6 +127,20 @@ class Money
     #
     # @return [Integer]
     attr_accessor :conversion_precision
+
+    # Create a new money object with value 0.
+    #
+    # @param [Currency, String, Symbol] currency The currency to use.
+    #
+    # @return [Money]
+    #
+    # @example
+    #   Money.empty #=> #<Money @fractional=0>
+    def empty(currency = default_currency)
+      @empty ||= {}
+      @empty[currency] ||= Money.new(0, currency)
+    end
+    alias_method :zero, :empty
   end
 
   def self.setup_defaults
@@ -177,18 +191,6 @@ class Money
     yield
   ensure
     Thread.current[:money_rounding_mode] = nil
-  end
-
-  # Create a new money object with value 0.
-  #
-  # @param [Currency, String, Symbol] currency The currency to use.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   Money.empty #=> #<Money @fractional=0>
-  def self.empty(currency = default_currency)
-    Money.new(0, currency)
   end
 
   # Creates a new Money object of the given value, using the Canadian

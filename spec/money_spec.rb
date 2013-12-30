@@ -123,6 +123,19 @@ describe Money do
     it "creates a new Money object of 0 cents" do
       Money.empty.should == Money.new(0)
     end
+
+    it "memoizes the result" do
+      Money.empty.object_id.should == Money.empty.object_id
+    end
+
+    it "memoizes a result for each currency" do
+      Money.empty(:cad).object_id.should == Money.empty(:cad).object_id
+    end
+  end
+
+  describe ".zero" do
+    subject { Money.zero }
+    it { should == Money.empty }
   end
 
   describe ".ca_dollar" do
@@ -375,11 +388,11 @@ YAML
     it "works as documented" do
       currency = Money::Currency.new("EUR")
       currency.should_receive(:symbol).and_return("€")
-      Money.empty(currency).symbol.should == "€"
+      Money.new(0, currency).symbol.should == "€"
 
       currency = Money::Currency.new("EUR")
       currency.should_receive(:symbol).and_return(nil)
-      Money.empty(currency).symbol.should == "¤"
+      Money.new(0, currency).symbol.should == "¤"
     end
   end
 
