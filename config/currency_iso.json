@@ -427,7 +427,7 @@
     "subunit": "Fen",
     "subunit_to_unit": 100,
     "symbol_first": true,
-    "html_entity": "&#x5713;",
+    "html_entity": "&#20803;",
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "156"
