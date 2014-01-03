@@ -17,7 +17,7 @@ See the [Contribution Guidelines](https://github.com/RubyMoney/money/blob/master
 
 ## Introduction
 
-This library aids one in handling money and different currencies.
+A Ruby Library for dealing with money and currency conversion.
 
 ### Features
 
@@ -30,8 +30,6 @@ This library aids one in handling money and different currencies.
 - Represents currency as `Money::Currency` instances providing an high level of
   flexibility.
 - Provides APIs for exchanging money from one currency to another.
-- Has the ability to parse a money and currency strings
-  into the corresponding Money/Currency object.
 
 ### Resources
 
@@ -79,12 +77,6 @@ Money.new(1000, "USD") + Money.new(500, "USD") == Money.new(1500, "USD")
 Money.new(1000, "USD") - Money.new(200, "USD") == Money.new(800, "USD")
 Money.new(1000, "USD") / 5                     == Money.new(200, "USD")
 Money.new(1000, "USD") * 5                     == Money.new(5000, "USD")
-
-# Assumptive Currencies
-Money.assume_from_symbol = true
-Money.parse("$100") == Money.new(10000, "USD")
-Money.parse("€100") == Money.new(10000, "EUR")
-Money.parse("£100") == Money.new(10000, "GBP")
 
 # Currency conversions
 some_code_to_setup_exchange_rates

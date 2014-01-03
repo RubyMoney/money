@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Shane Emmons"]
   s.email       = ["shane@emmons.io"]
   s.homepage    = "http://rubymoney.github.io/money"
-  s.summary     = "Money and currency exchange support library."
-  s.description = "This library aids one in handling money and different currencies."
+  s.summary     = "A Ruby Library for dealing with money and currency conversion."
+  s.description = "A Ruby Library for dealing with money and currency conversion."
   s.license     = "MIT"
 
   s.post_install_message = <<MSG
