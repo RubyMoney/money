@@ -1,6 +1,8 @@
 # encoding: utf-8
 
-require 'json'
+require "json"
+require "money/currency/loader"
+require "money/currency/heuristics"
 
 class Money
 
@@ -9,12 +11,8 @@ class Money
   # @see http://en.wikipedia.org/wiki/Currency
   class Currency
     include Comparable
-
-    require "money/currency/loader"
-    extend  Loader
-
-    require "money/currency/heuristics"
-    extend  Heuristics
+    extend Money::Currency::Loader
+    extend Money::Currency::Heuristics
 
     # Thrown when an unknown currency is requested.
     class UnknownCurrency < StandardError; end
@@ -181,13 +179,13 @@ class Money
     #
     # @return [String]
     attr_reader :decimal_mark
-    alias :separator :decimal_mark
+    alias_method :separator, :decimal_mark
 
     # The character used to separate thousands grouping of the whole unit.
     #
     # @return [String]
     attr_reader :thousands_separator
-    alias :delimiter :thousands_separator
+    alias_method :delimiter, :thousands_separator
 
     # Should the currency symbol precede the amount, or should it come after?
     #
@@ -311,7 +309,7 @@ class Money
     def to_str
       id.to_s.upcase
     end
-    
+
     # Returns a symbol representation corresponding to the upcase +id+
     # attribute.
     #
@@ -335,7 +333,6 @@ class Money
     def to_currency
       self
     end
-
 
     # Returns currency symbol or iso code for currencies with no symbol.
     #
@@ -390,6 +387,5 @@ class Money
       i
     end
     private :calculate_decimal_places
-
   end
 end
