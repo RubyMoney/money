@@ -3,47 +3,35 @@ class Money
   module Formatting
 
     if Object.const_defined?("I18n")
-      def thousands_separator
-        if self.class.use_i18n
-          I18n.t(
-            :"number.currency.format.delimiter",
-            :default => I18n.t(
-              :"number.format.delimiter",
-              :default => (currency.thousands_separator || ",")
+      [
+        [:thousands_separator, :delimiter, "."],
+        [:decimal_mark, :separator, ","]
+      ].each do |method, name, character|
+        define_method(method) do
+          if self.class.use_i18n
+            I18n.t(
+              :"number.currency.format.#{name}",
+              :default => I18n.t(
+                :"number.format.#{name}",
+                :default => (currency.send(method) || character)
+              )
             )
-          )
-        else
-          currency.thousands_separator || ","
+          else
+            currency.send(method) || character
+          end
         end
       end
     else
       def thousands_separator
         currency.thousands_separator || ","
       end
-    end
-    alias :delimiter :thousands_separator
 
-
-    if Object.const_defined?("I18n")
-      def decimal_mark
-        if self.class.use_i18n
-          I18n.t(
-            :"number.currency.format.separator",
-            :default => I18n.t(
-              :"number.format.separator",
-              :default => (currency.decimal_mark || ".")
-            )
-          )
-        else
-          currency.decimal_mark || "."
-        end
-      end
-    else
       def decimal_mark
         currency.decimal_mark || "."
       end
     end
-    alias :separator :decimal_mark
+    alias_method :delimiter, :thousands_separator
+    alias_method :separator, :decimal_mark
 
     # Creates a formatted price string according to several rules.
     #
@@ -297,7 +285,6 @@ class Money
       end
       formatted
     end
-
 
     private
 
