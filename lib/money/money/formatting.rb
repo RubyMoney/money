@@ -201,20 +201,7 @@ class Money
         end
       end
 
-      symbol_value =
-        if rules.has_key?(:symbol)
-          if rules[:symbol] === true
-            symbol
-          elsif rules[:symbol]
-            rules[:symbol]
-          else
-            ""
-          end
-        elsif rules[:html]
-          currency.html_entity == '' ? currency.symbol : currency.html_entity
-        else
-          symbol
-        end
+      symbol_value = symbol_value_from(rules)
 
       formatted = self.abs.to_s
 
@@ -242,14 +229,7 @@ class Money
       formatted.gsub!(regexp_format(formatted, rules, decimal_mark, symbol_value),
                       "\\1#{thousands_separator_value}")
 
-      symbol_position =
-        if rules.has_key?(:symbol_position)
-          rules[:symbol_position]
-        elsif currency.symbol_first?
-          :before
-        else
-          :after
-        end
+      symbol_position = symbol_position_from(rules)
 
       if rules[:sign_positive] == true && self.positive?
         sign = '+'
@@ -331,5 +311,31 @@ class Money
       rules[:symbol_after_without_space] = true
     end
     rules
+  end
+
+  def symbol_value_from(rules)
+    if rules.has_key?(:symbol)
+      if rules[:symbol] === true
+        symbol
+      elsif rules[:symbol]
+        rules[:symbol]
+      else
+        ""
+      end
+    elsif rules[:html]
+      currency.html_entity == '' ? currency.symbol : currency.html_entity
+    else
+      symbol
+    end
+  end
+
+  def symbol_position_from(rules)
+    if rules.has_key?(:symbol_position)
+      rules[:symbol_position]
+    elsif currency.symbol_first?
+      :before
+    else
+      :after
+    end
   end
 end
