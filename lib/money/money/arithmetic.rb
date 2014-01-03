@@ -25,7 +25,7 @@ class Money
     def ==(other_money)
       if other_money.respond_to?(:to_money)
         unless other_money.is_a?(Money)
-          Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extensions'` to compare Money to core classes." unless Money.silence_core_extensions_deprecations
+          Money.deprecate "as of Money 6.1.0 you must `require 'monetize/core_extensions'` to compare Money to core classes." unless Money.silence_core_extensions_deprecations
         end
         other_money = other_money.to_money
         fractional == other_money.fractional && currency == other_money.currency
@@ -48,7 +48,7 @@ class Money
     def <=>(other_money)
       if other_money.respond_to?(:to_money)
         unless other_money.is_a?(Money)
-          Money.deprecate "as of Money 6.1.0 you must `require 'money/core_extensions'` to compare Money to core classes." unless Money.silence_core_extensions_deprecations
+          Money.deprecate "as of Money 6.1.0 you must `require 'monetize/core_extensions'` to compare Money to core classes." unless Money.silence_core_extensions_deprecations
         end
         other_money = other_money.to_money
         if fractional == 0 || other_money.fractional == 0 || currency == other_money.currency
