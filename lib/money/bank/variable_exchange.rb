@@ -84,27 +84,38 @@ class Money
       #
       #   # Exchange 100 CAD to USD:
       #   bank.exchange_with(c2, "USD") #=> #<Money @fractional=803115>
-      def exchange_with(from, to_currency)
-        return from if same_currency?(from.currency, to_currency)
-
-        rate = get_rate(from.currency, to_currency)
-        unless rate
-          raise UnknownRate, "No conversion rate known for '#{from.currency.iso_code}' -> '#{to_currency}'"
+      def exchange_with(from, to_currency, &block)
+        to_currency = Currency.wrap(to_currency)
+        if from.currency == to_currency
+          from
+        else
+          if rate = get_rate(from.currency, to_currency)
+            fractional = calculate_fractional(from, to_currency)
+            Money.new(
+              exchange(fractional, rate, &block), to_currency
+            )
+          else
+            raise UnknownRate, "No conversion rate known for '#{from.currency.iso_code}' -> '#{to_currency}'"
+          end
         end
-        _to_currency_  = Currency.wrap(to_currency)
+      end
 
-        fractional = BigDecimal.new(from.fractional.to_s) / (BigDecimal.new(from.currency.subunit_to_unit.to_s) / BigDecimal.new(_to_currency_.subunit_to_unit.to_s))
+      def calculate_fractional(from, to_currency)
+        BigDecimal.new(from.fractional.to_s) / (
+          BigDecimal.new(from.currency.subunit_to_unit.to_s) /
+          BigDecimal.new(to_currency.subunit_to_unit.to_s)
+        )
+      end
 
-        ex = fractional * BigDecimal.new(rate.to_s)
-        ex = ex.to_f
-        ex = if block_given?
-               yield ex
-             elsif @rounding_method
-               @rounding_method.call(ex)
-             else
-               ex.to_s.to_i
-             end
-        Money.new(ex, _to_currency_)
+      def exchange(fractional, rate, &block)
+        ex = (fractional * BigDecimal.new(rate.to_s)).to_f
+        if block_given?
+          yield ex
+        elsif @rounding_method
+          @rounding_method.call(ex)
+        else
+          ex.to_s.to_i
+        end
       end
 
       # Registers a conversion rate and returns it (uses +#set_rate+).
