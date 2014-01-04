@@ -140,6 +140,8 @@ class Money
       # @param [Currency, String, Symbol] from Currency to exchange from.
       # @param [Currency, String, Symbol] to Currency to exchange to.
       # @param [Numeric] rate Rate to use when exchanging currencies.
+      # @param [Hash] opts Options hash to set special parameters
+      # @option opts [Boolean] :without_mutex disables the usage of a mutex
       #
       # @return [Numeric]
       #
@@ -147,8 +149,13 @@ class Money
       #   bank = Money::Bank::VariableExchange.new
       #   bank.set_rate("USD", "CAD", 1.24515)
       #   bank.set_rate("CAD", "USD", 0.803115)
-      def set_rate(from, to, rate)
-        @mutex.synchronize { @rates[rate_key_for(from, to)] = rate }
+      def set_rate(from, to, rate, opts = {})
+        fn = -> { @rates[rate_key_for(from, to)] = rate }
+        if opts[:without_mutex]
+          fn.call
+        else
+          @mutex.synchronize { fn.call }
+        end
       end
 
       # Retrieve the rate for the given currencies. Uses +Mutex+ to synchronize
@@ -156,6 +163,8 @@ class Money
       #
       # @param [Currency, String, Symbol] from Currency to exchange from.
       # @param [Currency, String, Symbol] to Currency to exchange to.
+      # @param [Hash] opts Options hash to set special parameters
+      # @option opts [Boolean] :without_mutex disables the usage of a mutex
       #
       # @return [Numeric]
       #
@@ -166,8 +175,13 @@ class Money
       #
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
-      def get_rate(from, to)
-        @mutex.synchronize { @rates[rate_key_for(from, to)] }
+      def get_rate(from, to, opts = {})
+        fn = -> { @rates[rate_key_for(from, to)] }
+        if opts[:without_mutex]
+          fn.call
+        else
+          @mutex.synchronize { fn.call }
+        end
       end
 
       # Return the known rates as a string in the format specified. If +file+
@@ -176,6 +190,8 @@ class Money
       #
       # @param [Symbol] format Request format for the resulting string.
       # @param [String] file Optional file location to write the rates to.
+      # @param [Hash] opts Options hash to set special parameters
+      # @option opts [Boolean] :without_mutex disables the usage of a mutex
       #
       # @return [String]
       #
@@ -188,12 +204,12 @@ class Money
       #
       #   s = bank.export_rates(:json)
       #   s #=> "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
-      def export_rates(format, file=nil)
+      def export_rates(format, file = nil, opts = {})
         raise Money::Bank::UnknownRateFormat unless
           RATE_FORMATS.include? format
 
         s = ""
-        @mutex.synchronize {
+        fn = -> {
           s = case format
               when :json
                 JSON.dump(@rates)
@@ -207,6 +223,11 @@ class Money
             File.open(file, "w") {|f| f.write(s) }
           end
         }
+        if opts[:without_mutex]
+          fn.call
+        else
+          @mutex.synchronize { fn.call }
+        end
         s
       end
 
@@ -215,6 +236,8 @@ class Money
       #
       # @param [Symbol] format The format of +s+.
       # @param [String] s The rates string.
+      # @param [Hash] opts Options hash to set special parameters
+      # @option opts [Boolean] :without_mutex disables the usage of a mutex
       #
       # @return [self]
       #
@@ -227,11 +250,11 @@ class Money
       #
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
-      def import_rates(format, s)
+      def import_rates(format, s, opts = {})
         raise Money::Bank::UnknownRateFormat unless
           RATE_FORMATS.include? format
 
-        @mutex.synchronize {
+        fn = -> {
           @rates = case format
                    when :json
                      JSON.load(s)
@@ -241,6 +264,11 @@ class Money
                      YAML.load(s)
                    end
         }
+        if opts[:without_mutex]
+          fn.call
+        else
+          @mutex.synchronize { fn.call }
+        end
         self
       end
 
