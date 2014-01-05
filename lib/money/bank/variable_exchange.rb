@@ -30,7 +30,7 @@ class Money
     #   bank.exchange_with(c2, "USD") #=> #<Money @fractional=803115>
     class VariableExchange < Base
 
-      attr_reader :rates
+      attr_reader :rates, :mutex
 
       # Available formats for importing/exporting rates.
       RATE_FORMATS = [:json, :ruby, :yaml]
