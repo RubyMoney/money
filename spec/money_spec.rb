@@ -441,6 +441,10 @@ YAML
       it "suppresses fractional cents when there is none" do
         Money.new(1.0, "USD").to_s.should == "0.01"
       end
+
+      it "shows fractional if needed when :subunut_to_unit == 1" do
+        Money.new(10_00.1, "CLP").to_s.should == "1000,1"
+      end
     end
   end
 

@@ -393,42 +393,52 @@ class Money
   # @example
   #   Money.ca_dollar(100).to_s #=> "1.00"
   def to_s
+    unit, subunit, fraction = strings_from_fractional
+
+    str = if currency.decimal_places == 0
+            if fraction == ""
+              unit
+            else
+              "#{unit}#{decimal_mark}#{fraction}"
+            end
+          else
+            "#{unit}#{decimal_mark}#{pad_subunit(subunit)}#{fraction}"
+          end
+
+    fractional < 0 ? "-#{str}" : str
+  end
+
+  def strings_from_fractional
     unit, subunit = fractional().abs.divmod(currency.subunit_to_unit)
 
-    unit_str       = ""
-    subunit_str    = ""
-    fraction_str   = ""
-
     if self.class.infinite_precision
-      subunit, fraction = subunit.divmod(BigDecimal("1"))
-
-      unit_str       = unit.to_i.to_s
-      subunit_str    = subunit.to_i.to_s
-      fraction_str   = fraction.to_s("F")[2..-1] # want fractional part "0.xxx"
-
-      fraction_str = "" if fraction_str =~ /^0+$/
+      strings_for_infinite_precision(unit, subunit)
     else
-      unit_str, subunit_str = unit.to_s, subunit.to_s
-    end
-
-    absolute_str = if currency.decimal_places == 0
-      if fraction_str == ""
-        unit_str
-      else
-        "#{unit_str}#{decimal_mark}#{fraction_str}"
-      end
-    else
-      # need to pad subunit to right position,
-      # for example 1 usd 3 cents should be 1.03 not 1.3
-      subunit_str.insert(0, '0') while subunit_str.length < currency.decimal_places
-
-      "#{unit_str}#{decimal_mark}#{subunit_str}#{fraction_str}"
-    end
-
-    absolute_str.tap do |str|
-      str.insert(0, "-") if fractional() < 0
+      strings_for_base_precision(unit, subunit)
     end
   end
+  private :strings_from_fractional
+
+  def strings_for_infinite_precision(unit, subunit)
+    subunit, fraction = subunit.divmod(BigDecimal("1"))
+    fraction = fraction.to_s("F")[2..-1] # want fractional part "0.xxx"
+    fraction = "" if fraction =~ /^0+$/
+
+    [unit.to_i.to_s, subunit.to_i.to_s, fraction]
+  end
+  private :strings_for_infinite_precision
+
+  def strings_for_base_precision(unit, subunit)
+    [unit.to_s, subunit.to_s, ""]
+  end
+  private :strings_for_base_precision
+
+  def pad_subunit(subunit)
+    cnt = currency.decimal_places
+    padding = "0" * cnt
+    "#{padding}#{subunit}"[-1 * cnt, cnt]
+  end
+  private :pad_subunit
 
   # Return the amount of money as a BigDecimal.
   #
