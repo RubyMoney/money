@@ -648,4 +648,32 @@ YAML
       (MoneyChild.new(1000) - Money.new(500)).should eq Money.new(500)
     end
   end
+
+  describe "#as_*" do
+    before do
+      Money.default_bank = Money::Bank::VariableExchange.new
+      Money.add_rate("EUR", "USD", 1)
+      Money.add_rate("EUR", "CAD", 1)
+      Money.add_rate("USD", "EUR", 1)
+    end
+
+    after do
+      Money.default_bank = Money::Bank::VariableExchange.instance
+    end
+
+    specify "as_us_dollar converts Money object to USD" do
+      obj = Money.new(1, "EUR")
+      obj.as_us_dollar.should == Money.new(1, "USD")
+    end
+
+    specify "as_ca_dollar converts Money object to CAD" do
+      obj = Money.new(1, "EUR")
+      obj.as_ca_dollar.should == Money.new(1, "CAD")
+    end
+
+    specify "as_euro converts Money object to EUR" do
+      obj = Money.new(1, "USD")
+      obj.as_euro.should == Money.new(1, "EUR")
+    end
+  end
 end
