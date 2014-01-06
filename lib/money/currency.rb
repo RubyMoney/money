@@ -33,7 +33,9 @@ class Money
       #   Money::Currency.find(:foo) #=> nil
       def find(id)
         id = id.to_s.downcase.to_sym
-        new(id) if self.table[id]
+        new(id)
+      rescue UnknownCurrency
+        nil
       end
 
       # Lookup a currency with given +num+ as an ISO 4217 numeric and returns an
@@ -50,7 +52,9 @@ class Money
       def find_by_iso_numeric(num)
         num = num.to_s
         id, _ = self.table.find{|key, currency| currency[:iso_numeric] == num}
-        new(id) if self.table[id]
+        new(id)
+      rescue UnknownCurrency
+        nil
       end
 
       # Wraps the object in a +Currency+ unless it's already a +Currency+
@@ -67,9 +71,7 @@ class Money
       #   Money::Currency.wrap(c1)    #=> #<Money::Currency id: usd ...>
       #   Money::Currency.wrap("usd") #=> #<Money::Currency id: usd ...>
       def wrap(object)
-        if object.nil?
-          nil
-        elsif object.is_a?(Currency)
+        if object.nil? || object.is_a?(Currency)
           object
         else
           Currency.new(object)
@@ -166,12 +168,15 @@ class Money
     #   Money::Currency.new(:usd) #=> #<Money::Currency id: usd ...>
     def initialize(id)
       id = id.to_s.downcase
-      raise(UnknownCurrency, "Unknown currency `#{id}'") unless self.class.stringified_keys.include?(id)
 
-      @id  = id.to_sym
-      data = self.class.table[@id]
-      data.each_pair do |key, value|
-        instance_variable_set(:"@#{key}", value)
+      if self.class.stringified_keys.include?(id)
+        @id = id.to_sym
+        data = self.class.table[@id]
+        data.each_pair do |key, value|
+          instance_variable_set(:"@#{key}", value)
+        end
+      else
+        raise UnknownCurrency, "Unknown currency '#{id}'"
       end
     end
 
@@ -258,7 +263,7 @@ class Money
     # Returns a string representation corresponding to the upcase +id+
     # attribute.
     #
-    # -–
+    # --
     # DEV: id.to_s.upcase corresponds to iso_code but don't use ISO_CODE for consistency.
     #
     # @return [String]
@@ -323,12 +328,7 @@ class Money
 
     # Cache decimal places for subunit_to_unit values.  Common ones pre-cached.
     def self.decimal_places_cache
-      @decimal_places_cache ||= {
-        1 => 0,
-        10 => 1,
-        100 => 2,
-        1000 => 3
-      }
+      @decimal_places_cache ||= {1 => 0, 10 => 1, 100 => 2, 1000 => 3}
     end
 
     # The number of decimal places needed.
