@@ -296,8 +296,6 @@ class Money
     #   Money::Currency.new(:usd).to_sym #=> :USD
     #   Money::Currency.new(:eur).to_sym #=> :EUR
     def to_sym
-      id.upcase
-    rescue NoMethodError
       id.to_s.upcase.to_sym
     end
 
