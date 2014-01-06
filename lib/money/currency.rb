@@ -9,6 +9,7 @@ class Money
   # Represents a specific currency unit.
   #
   # @see http://en.wikipedia.org/wiki/Currency
+  # @see http://iso4217.net/
   class Currency
     include Comparable
     extend Money::Currency::Loader
@@ -126,71 +127,33 @@ class Money
       end
     end
 
-    # The symbol used to identify the currency, usually the lowercase
-    # +iso_code+ attribute.
-    #
-    # @return [Symbol]
-    attr_reader :id
+    # @attr_reader [Symbol] id The symbol used to identify the currency,
+    # usually the lowercase +iso_code+ attribute.
+    # @attr_reader [Integer] priority A numerical value you can use to
+    # sort/group the currency list.
+    # @attr_reader [String] iso_code The international 3-letter code as defined
+    # by the ISO 4217 standard.
+    # @attr_reader [String] iso_numeric The international 3-numeric code as
+    # defined by the ISO 4217 standard.
+    # @attr_reader [String] name The currency name.
+    # @attr_reader [String] symbol The currency symbol (UTF-8 encoded).
+    # @attr_reader [String] html_entity The html entity for the currency symbol
+    # @attr_reader [String] subunit The name of the fractional monetary unit.
+    # @attr_reader [Integer] subunit_to_unit The proportion between the unit
+    # and the subunit
+    # @attr_reader [String] decimal_mark The decimal mark, or character used to
+    # separate the whole unit from the subunit.
+    # @attr_reader [String] The character used to separate thousands grouping
+    # of the whole unit.
+    # @attr_reader [Boolean] symbol_first Should the currency symbol precede
+    # the amount, or should it come after?
 
-    # A numerical value you can use to sort/group the currency list.
-    #
-    # @return [Integer]
-    attr_reader :priority
+    attr_reader :id, :priority, :iso_code, :iso_numeric, :name, :symbol,
+      :html_entity, :subunit, :subunit_to_unit, :decimal_mark,
+      :thousands_separator, :symbol_first
 
-    # The international 3-letter code as defined by the ISO 4217 standard.
-    #
-    # @return [String]
-    # @see http://iso4217.net/
-    attr_reader :iso_code
-
-    #
-    # The international 3-numeric code as defined by the ISO 4217 standard.
-    #
-    # @return [String]
-    # @see http://iso4217.net/
-    attr_reader :iso_numeric
-
-    # The currency name.
-    #
-    # @return [String]
-    attr_reader :name
-
-    # The currency symbol (UTF-8 encoded).
-    #
-    # @return [String]
-    attr_reader :symbol
-
-    # The html entity for the currency symbol
-    #
-    # @return [String]
-    attr_reader :html_entity
-
-    # The name of the fractional monetary unit.
-    #
-    # @return [String]
-    attr_reader :subunit
-
-    # The proportion between the unit and the subunit
-    #
-    # @return [Integer]
-    attr_reader :subunit_to_unit
-
-    # The decimal mark, or character used to separate the whole unit from the subunit.
-    #
-    # @return [String]
-    attr_reader :decimal_mark
     alias_method :separator, :decimal_mark
-
-    # The character used to separate thousands grouping of the whole unit.
-    #
-    # @return [String]
-    attr_reader :thousands_separator
     alias_method :delimiter, :thousands_separator
-
-    # Should the currency symbol precede the amount, or should it come after?
-    #
-    # @return [Boolean]
-    attr_reader :symbol_first
 
     # Create a new +Currency+ object.
     #
