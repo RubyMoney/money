@@ -96,6 +96,16 @@ describe Money::Bank::VariableExchange do
     it "raises an UnknownCurrency exception when an unknown currency is passed" do
       expect { subject.set_rate('AAA', 'BBB', 1.25) }.to raise_exception(Money::Currency::UnknownCurrency)
     end
+
+    it "uses a mutex by default" do
+      subject.instance_variable_get(:@mutex).should_receive(:synchronize)
+      subject.set_rate('USD', 'EUR', 1.25)
+    end
+
+    it "doesn't use mutex if requested not to" do
+      subject.instance_variable_get(:@mutex).should_not_receive(:synchronize)
+      subject.set_rate('USD', 'EUR', 1.25, :without_mutex => true)
+    end
   end
 
   describe "#get_rate" do
@@ -106,6 +116,16 @@ describe Money::Bank::VariableExchange do
 
     it "raises an UnknownCurrency exception when an unknown currency is passed" do
       expect { subject.get_rate('AAA', 'BBB') }.to raise_exception(Money::Currency::UnknownCurrency)
+    end
+
+    it "uses a mutex by default" do
+      subject.instance_variable_get(:@mutex).should_receive(:synchronize)
+      subject.get_rate('USD', 'EUR')
+    end
+
+    it "doesn't use mutex if requested not to" do
+      subject.instance_variable_get(:@mutex).should_not_receive(:synchronize)
+      subject.get_rate('USD', 'EUR', :without_mutex => true)
     end
   end
 
@@ -152,6 +172,16 @@ describe Money::Bank::VariableExchange do
         subject.export_rates(:json, 'null')
       end
     end
+
+    it "uses a mutex by default" do
+      subject.instance_variable_get(:@mutex).should_receive(:synchronize)
+      subject.export_rates(:yaml)
+    end
+
+    it "doesn't use mutex if requested not to" do
+      subject.instance_variable_get(:@mutex).should_not_receive(:synchronize)
+      subject.export_rates(:yaml, nil, :without_mutex => true)
+    end
   end
 
   describe "#import_rates" do
@@ -186,6 +216,18 @@ describe Money::Bank::VariableExchange do
       it "raises Money::Bank::UnknownRateFormat" do
         expect { subject.import_rates(:foo, "")}.to raise_error Money::Bank::UnknownRateFormat
       end
+    end
+
+    it "uses a mutex by default" do
+      subject.instance_variable_get(:@mutex).should_receive(:synchronize)
+      s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
+      subject.import_rates(:yaml, s)
+    end
+
+    it "doesn't use mutex if requested not to" do
+      subject.instance_variable_get(:@mutex).should_not_receive(:synchronize)
+      s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
+      subject.import_rates(:yaml, s, :without_mutex => true)
     end
   end
 
