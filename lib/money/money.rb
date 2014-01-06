@@ -18,10 +18,7 @@ require "money/money/formatting"
 #
 # @see http://en.wikipedia.org/wiki/Money
 class Money
-  include Comparable
-  include Arithmetic
-  include Formatting
-  include Parsing
+  include Comparable, Money::Arithmetic, Money::Formatting, Money::Parsing
 
   # Convenience method for fractional part of the amount. Synonym of #fractional
   #
@@ -67,17 +64,6 @@ class Money
     end
   end
 
-  def as_d(num)
-    if num.is_a?(Rational)
-      num.to_d(self.class.conversion_precision)
-    else
-      num.to_d
-    end
-  rescue NoMethodError
-    BigDecimal.new(num.to_s)
-  end
-  private :as_d
-
   # @attr_reader [Currency] currency The currency the money is in.
   # @attr_reader [Money::Bank::*] bank The +Money::Bank+ based object used to
   # perform currency exchanges with.
@@ -103,7 +89,8 @@ class Money
     # @attr_accessor [Integer] conversion_precision Use this to specify
     # precision for converting Rational to BigDecimal
     attr_accessor :default_bank, :default_currency, :use_i18n,
-      :assume_from_symbol, :infinite_precision, :conversion_precision
+      :assume_from_symbol, :infinite_precision, :conversion_precision,
+      :silence_core_extensions_deprecations
 
     # @attr_writer rounding_mode Use this to specify the rounding mode
     attr_writer :rounding_mode
@@ -144,6 +131,9 @@ class Money
 
     # Default the conversion of Rationals precision to 16
     self.conversion_precision = 16
+
+    # Default alerting about deprecations
+    self.silence_core_extensions_deprecations = false
   end
 
   def self.inherited(base)
@@ -408,38 +398,6 @@ class Money
     fractional < 0 ? "-#{str}" : str
   end
 
-  def strings_from_fractional
-    unit, subunit = fractional().abs.divmod(currency.subunit_to_unit)
-
-    if self.class.infinite_precision
-      strings_for_infinite_precision(unit, subunit)
-    else
-      strings_for_base_precision(unit, subunit)
-    end
-  end
-  private :strings_from_fractional
-
-  def strings_for_infinite_precision(unit, subunit)
-    subunit, fraction = subunit.divmod(BigDecimal("1"))
-    fraction = fraction.to_s("F")[2..-1] # want fractional part "0.xxx"
-    fraction = "" if fraction =~ /^0+$/
-
-    [unit.to_i.to_s, subunit.to_i.to_s, fraction]
-  end
-  private :strings_for_infinite_precision
-
-  def strings_for_base_precision(unit, subunit)
-    [unit.to_s, subunit.to_s, ""]
-  end
-  private :strings_for_base_precision
-
-  def pad_subunit(subunit)
-    cnt = currency.decimal_places
-    padding = "0" * cnt
-    "#{padding}#{subunit}"[-1 * cnt, cnt]
-  end
-  private :pad_subunit
-
   # Return the amount of money as a BigDecimal.
   #
   # @return [BigDecimal]
@@ -554,28 +512,6 @@ class Money
     amounts.collect { |fractional| Money.new(fractional, currency) }
   end
 
-  def allocations_from_splits(splits)
-    splits.inject(0) { |sum, n| sum + as_d(n) }
-  end
-  private :allocations_from_splits
-
-  def amounts_from_splits(allocations, splits)
-    left_over = fractional
-
-    amounts = splits.map do |ratio|
-      if self.class.infinite_precision
-        fractional * ratio
-      else
-        (fractional * ratio / allocations).floor.tap do |frac|
-          left_over -= frac
-        end
-      end
-    end
-
-    [amounts, left_over]
-  end
-  private :amounts_from_splits
-
   # Split money amongst parties evenly without loosing pennies.
   #
   # @param [Numeric] num number of parties.
@@ -593,24 +529,6 @@ class Money
       split_flat(num)
     end
   end
-
-  def split_infinite(num)
-    amt = div(as_d(num))
-    1.upto(num).map{amt}
-  end
-  private :split_infinite
-
-  def split_flat(num)
-    low = Money.new(fractional / num, currency)
-    high = Money.new(low.fractional + 1, currency)
-
-    remainder = fractional % num
-
-    Array.new(num).each_with_index.map do |_, index|
-      index < remainder ? high : low
-    end
-  end
-  private :split_flat
 
   # Round the monetary amount to smallest unit of coinage.
   #
@@ -632,6 +550,82 @@ class Money
       Money.new(fractional.round(0, rounding_mode), self.currency)
     else
       self
+    end
+  end
+
+  private
+
+  def as_d(num)
+    if num.is_a?(Rational)
+      num.to_d(self.class.conversion_precision)
+    else
+      num.to_d
+    end
+  rescue NoMethodError
+    BigDecimal.new(num.to_s)
+  end
+
+  def strings_from_fractional
+    unit, subunit = fractional().abs.divmod(currency.subunit_to_unit)
+
+    if self.class.infinite_precision
+      strings_for_infinite_precision(unit, subunit)
+    else
+      strings_for_base_precision(unit, subunit)
+    end
+  end
+
+  def strings_for_infinite_precision(unit, subunit)
+    subunit, fraction = subunit.divmod(BigDecimal("1"))
+    fraction = fraction.to_s("F")[2..-1] # want fractional part "0.xxx"
+    fraction = "" if fraction =~ /^0+$/
+
+    [unit.to_i.to_s, subunit.to_i.to_s, fraction]
+  end
+
+  def strings_for_base_precision(unit, subunit)
+    [unit.to_s, subunit.to_s, ""]
+  end
+
+  def pad_subunit(subunit)
+    cnt = currency.decimal_places
+    padding = "0" * cnt
+    "#{padding}#{subunit}"[-1 * cnt, cnt]
+  end
+
+  def allocations_from_splits(splits)
+    splits.inject(0) { |sum, n| sum + as_d(n) }
+  end
+
+  def amounts_from_splits(allocations, splits)
+    left_over = fractional
+
+    amounts = splits.map do |ratio|
+      if self.class.infinite_precision
+        fractional * ratio
+      else
+        (fractional * ratio / allocations).floor.tap do |frac|
+          left_over -= frac
+        end
+      end
+    end
+
+    [amounts, left_over]
+  end
+
+  def split_infinite(num)
+    amt = div(as_d(num))
+    1.upto(num).map{amt}
+  end
+
+  def split_flat(num)
+    low = Money.new(fractional / num, currency)
+    high = Money.new(low.fractional + 1, currency)
+
+    remainder = fractional % num
+
+    Array.new(num).each_with_index.map do |_, index|
+      index < remainder ? high : low
     end
   end
 end
