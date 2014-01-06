@@ -78,55 +78,35 @@ class Money
   end
   private :as_d
 
-  # The currency the money is in.
-  #
-  # @return [Currency]
-  attr_reader :currency
-
-  # The +Money::Bank+ based object used to perform currency exchanges with.
-  #
-  # @return [Money::Bank::*]
-  attr_reader :bank
+  # @attr_reader [Currency] currency The currency the money is in.
+  # @attr_reader [Money::Bank::*] bank The +Money::Bank+ based object used to
+  # perform currency exchanges with.
+  attr_reader :currency, :bank
 
   # Class Methods
   class << self
-    # Each Money object is associated to a bank object, which is responsible
-    # for currency exchange. This property allows you to specify the default
-    # bank object. The default value for this property is an instance of
-    # +Bank::VariableExchange.+ It allows one to specify custom exchange rates.
-    #
-    # @return [Money::Bank::*]
-    attr_accessor :default_bank
+    # @attr_accessor [Money::Bank::*] default_bank Each Money object is
+    # associated to a bank object, which is responsible for currency exchange.
+    # This property allows you to specify the default bank object. The default
+    # value for this property is an instance of +Bank::VariableExchange.+ It
+    # allows one to specify custom exchange rates.
+    # @attr_accessor [Money::Currency] default_currency The default currency,
+    # which is used when +Money.new+ is called without an explicit currency
+    # argument. The default value is Currency.new("USD"). The value must be a
+    # valid +Money::Currency+ instance.
+    # @attr_accessor [true, false] use_i18n Use this to disable i18n even if
+    # it's used by other objects in your app.
+    # @attr_accessor [true, false] assume_from_symbol Use this to enable the
+    # ability to assume the currency from a passed symbol
+    # @attr_accessor [true, false] infinite_precision Use this to enable
+    # infinite precision cents
+    # @attr_accessor [Integer] conversion_precision Use this to specify
+    # precision for converting Rational to BigDecimal
+    attr_accessor :default_bank, :default_currency, :use_i18n,
+      :assume_from_symbol, :infinite_precision, :conversion_precision
 
-    # The default currency, which is used when +Money.new+ is called without an
-    # explicit currency argument. The default value is Currency.new("USD"). The
-    # value must be a valid +Money::Currency+ instance.
-    #
-    # @return [Money::Currency]
-    attr_accessor :default_currency
-
-    # Use this to disable i18n even if it's used by other objects in your app.
-    #
-    # @return [true,false]
-    attr_accessor :use_i18n
-
-    # Use this to enable the ability to assume the currency from a passed symbol
-    #
-    # @return [true,false]
-    attr_accessor :assume_from_symbol
-
-    # Use this to enable infinite precision cents
-    #
-    # @return [true,false]
-    attr_accessor :infinite_precision
-
-    # Use this to specify the rounding mode
+    # @attr_writer rounding_mode Use this to specify the rounding mode
     attr_writer :rounding_mode
-
-    # Use this to specify precision for converting Rational to BigDecimal
-    #
-    # @return [Integer]
-    attr_accessor :conversion_precision
 
     # Create a new money object with value 0.
     #
@@ -185,10 +165,12 @@ class Money
   #     Money.new(1200) * BigDecimal.new('0.029')
   #   end
   def self.rounding_mode(mode=nil)
-    return Thread.current[:money_rounding_mode] || @rounding_mode if mode.nil?
-
-    Thread.current[:money_rounding_mode] = mode
-    yield
+    if mode.nil?
+      Thread.current[:money_rounding_mode] || @rounding_mode
+    else
+      Thread.current[:money_rounding_mode] = mode
+      yield
+    end
   ensure
     Thread.current[:money_rounding_mode] = nil
   end
@@ -258,10 +240,9 @@ class Money
   # @see Money.new
   #
   def self.new_with_amount(amount, currency = Money.default_currency, bank = Money.default_bank)
-    money = from_numeric(amount, currency)
-    # Hack! You can't change a bank
-    money.instance_variable_set("@bank", bank)
-    money
+    from_numeric(amount, currency).tap do |money|
+      money.instance_variable_set("@bank", bank) # Hack! You can't change a bank
+    end
   end
 
   # Synonym of #new_with_amount
@@ -310,17 +291,14 @@ class Money
   #
   # @see Money.new_with_dollars
   #
-  def initialize(fractional, currency = Money.default_currency, bank = Money.default_bank)
-    if (fractional.is_a? Money)
-      money = fractional
-      @fractional = money.fractional
-      @currency   = money.currency
-      @bank       = money.bank
-    else
-      @fractional = as_d(fractional)
-      @currency   = Currency.wrap(currency)
-      @bank       = bank
-    end
+  def initialize(obj, currency = Money.default_currency, bank = Money.default_bank)
+    @fractional = obj.fractional
+    @currency   = obj.currency
+    @bank       = obj.bank
+  rescue NoMethodError
+    @fractional = as_d(obj)
+    @currency   = Currency.wrap(currency)
+    @bank       = bank
   end
 
   # Assuming using a currency using dollars:
@@ -479,7 +457,7 @@ class Money
   #
   # @return [self]
   def to_money(given_currency = nil)
-    given_currency = Currency.wrap(given_currency) if given_currency
+    given_currency = Currency.wrap(given_currency)
     if given_currency.nil? || self.currency == given_currency
       self
     else
@@ -551,23 +529,13 @@ class Money
   #   Money.new(100, "USD").allocate([0.33, 0.33, 0.33]) #=> [Money.new(34), Money.new(33), Money.new(33)]
   #
   def allocate(splits)
-    allocations = splits.inject(0) { |sum, n| sum + as_d(n) }
+    allocations = allocations_from_splits(splits)
 
     if (allocations - BigDecimal("1")) > Float::EPSILON
       raise ArgumentError, "splits add to more then 100%"
     end
 
-    left_over = fractional
-
-    amounts = splits.map do |ratio|
-      if self.class.infinite_precision
-        fraction = fractional * ratio
-      else
-        fraction = (fractional * ratio / allocations).floor
-        left_over -= fraction
-        fraction
-      end
-    end
+    amounts, left_over = amounts_from_splits(allocations, splits)
 
     unless self.class.infinite_precision
       left_over.to_i.times { |i| amounts[i % amounts.length] += 1 }
@@ -575,6 +543,28 @@ class Money
 
     amounts.collect { |fractional| Money.new(fractional, currency) }
   end
+
+  def allocations_from_splits(splits)
+    splits.inject(0) { |sum, n| sum + as_d(n) }
+  end
+  private :allocations_from_splits
+
+  def amounts_from_splits(allocations, splits)
+    left_over = fractional
+
+    amounts = splits.map do |ratio|
+      if self.class.infinite_precision
+        fractional * ratio
+      else
+        (fractional * ratio / allocations).floor.tap do |frac|
+          left_over -= frac
+        end
+      end
+    end
+
+    [amounts, left_over]
+  end
+  private :amounts_from_splits
 
   # Split money amongst parties evenly without loosing pennies.
   #
@@ -588,22 +578,29 @@ class Money
     raise ArgumentError, "need at least one party" if num < 1
 
     if self.class.infinite_precision
-      amt = div(as_d(num))
-      return 1.upto(num).map{amt}
+      split_infinite(num)
+    else
+      split_flat(num)
     end
+  end
 
+  def split_infinite(num)
+    amt = div(as_d(num))
+    1.upto(num).map{amt}
+  end
+  private :split_infinite
+
+  def split_flat(num)
     low = Money.new(fractional / num, currency)
     high = Money.new(low.fractional + 1, currency)
 
     remainder = fractional % num
-    result = []
 
-    num.times do |index|
-      result[index] = index < remainder ? high : low
+    Array.new(num).each_with_index.map do |_, index|
+      index < remainder ? high : low
     end
-
-    result
   end
+  private :split_flat
 
   # Round the monetary amount to smallest unit of coinage.
   #
@@ -622,10 +619,9 @@ class Money
   #
   def round(rounding_mode = self.class.rounding_mode)
     if self.class.infinite_precision
-      return Money.new(fractional.round(0, rounding_mode), self.currency)
+      Money.new(fractional.round(0, rounding_mode), self.currency)
     else
-      return self
+      self
     end
   end
-
 end
