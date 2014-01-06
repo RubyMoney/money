@@ -205,9 +205,18 @@ class Money
     #   c1 == c1 #=> true
     #   c1 == c2 #=> false
     def ==(other_currency)
-      self.equal?(other_currency) ||
-      self.id.to_s.downcase == (other_currency.is_a?(Currency) ? other_currency.id.to_s.downcase : other_currency.to_s.downcase)
+      self.equal?(other_currency) || compare_ids(other_currency)
     end
+
+    def compare_ids(other_currency)
+      other_currency_id = if other_currency.is_a?(Currency)
+                            other_currency.id.to_s.downcase
+                          else
+                            other_currency.to_s.downcase
+                          end
+      self.id.to_s.downcase == other_currency_id
+    end
+    private :compare_ids
 
     # Compares +self+ with +other_currency+ and returns +true+ if the are the
     # same or if their +id+ attributes match.
@@ -282,12 +291,9 @@ class Money
     #   Money::Currency.new(:usd).to_sym #=> :USD
     #   Money::Currency.new(:eur).to_sym #=> :EUR
     def to_sym
-      if id.respond_to?(:upcase)
-        id.upcase
-      else
-        # Ruby <= 1.8.7 doesn't support Symbol#upcase
-        id.to_s.upcase.to_sym
-      end
+      id.upcase
+    rescue NoMethodError
+      id.to_s.upcase.to_sym
     end
 
     # Conversation to +self+.
@@ -329,25 +335,27 @@ class Money
     #
     # @return [Integer]
     def decimal_places
-      cache = self.class.decimal_places_cache
-      places  = cache[subunit_to_unit]
-      unless places
-        places = calculate_decimal_places(subunit_to_unit)
-        cache[subunit_to_unit] = places
-      end
-      places
+      cache[subunit_to_unit] ||= calculate_decimal_places(subunit_to_unit)
     end
+
+    def cache
+      self.class.decimal_places_cache
+    end
+    private :cache
 
     # If we need to figure out how many decimal places we need we
     # use repeated integer division.
     def calculate_decimal_places(num)
-      return 0 if num == 1
-      i = 1
-      while num >= 10
-        num /= 10
-        i += 1 if num >= 10
+      if num == 1
+        0
+      else
+        i = 1
+        while num >= 10
+          num /= 10
+          i += 1 if num >= 10
+        end
+        i
       end
-      i
     end
     private :calculate_decimal_places
   end
