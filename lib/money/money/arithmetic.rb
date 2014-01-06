@@ -45,19 +45,21 @@ class Money
       self == other_money
     end
 
-    def <=>(other_money)
-      if other_money.respond_to?(:to_money)
-        unless other_money.is_a?(Money)
-          Money.deprecate "as of Money 6.1.0 you must `require 'monetize/core_extensions'` to compare Money to core classes." unless Money.silence_core_extensions_deprecations
-        end
-        other_money = other_money.to_money
-        if fractional == 0 || other_money.fractional == 0 || currency == other_money.currency
-          fractional <=> other_money.fractional
-        else
-          fractional <=> other_money.exchange_to(currency).fractional
-        end
-      else
-        raise ArgumentError, "Comparison of #{self.class} with #{other_money.inspect} failed"
+    def <=>(val)
+      check_compare_deprecate(val)
+
+      val = val.to_money
+      unless fractional == 0 || val.fractional == 0 || currency == val.currency
+        val = val.exchange_to(currency)
+      end
+      fractional <=> val.fractional
+    rescue NoMethodError
+      raise ArgumentError, "Comparison of #{self.class} with #{val.inspect} failed"
+    end
+
+    def check_compare_deprecate(val)
+      unless val.is_a?(Money) || Money.silence_core_extensions_deprecations
+        Money.deprecate "as of Money 6.1.0 you must `require 'monetize/core_extensions'` to compare Money to core classes."
       end
     end
 
@@ -188,19 +190,28 @@ class Money
     #   Money.new(100).divmod(Money.new(9)) #=> [11, #<Money @fractional=1>]
     def divmod(val)
       if val.is_a?(Money)
-        a = fractional
-        b = val.exchange_to(currency).cents
-        q, m = a.divmod(b)
-        return [q, Money.new(m, currency)]
+        divmod_money(val)
       else
-        if self.class.infinite_precision
-          q, m = fractional.divmod(as_d(val))
-          return [Money.new(q, currency), Money.new(m, currency)]
-        else
-          return [div(val), Money.new(fractional.modulo(val), currency)]
-        end
+        divmod_other(val)
       end
     end
+
+    def divmod_money(val)
+      cents = val.exchange_to(currency).cents
+      quotient, remainder = fractional.divmod(cents)
+      [quotient, Money.new(remainder, currency)]
+    end
+    private :divmod_money
+
+    def divmod_other(val)
+      if self.class.infinite_precision
+        quotient, remainder = fractional.divmod(as_d(val))
+        [Money.new(quotient, currency), Money.new(remainder, currency)]
+      else
+        [div(val), Money.new(fractional.modulo(val), currency)]
+      end
+    end
+    private :divmod_other
 
     # Equivalent to +self.divmod(val)[1]+
     #
@@ -235,15 +246,15 @@ class Money
     # @example
     #   Money.new(100).remainder(9) #=> #<Money @fractional=1>
     def remainder(val)
-      a, b = self, val
-      b = b.exchange_to(a.currency) if b.is_a?(Money) and a.currency != b.currency
+      if val.is_a?(Money) && currency != val.currency
+        val = val.exchange_to(currency)
+      end
 
-      a_sign, b_sign = :pos, :pos
-      a_sign = :neg if a.fractional < 0
-      b_sign = :neg if (b.is_a?(Money) and b.fractional < 0) or (b < 0)
-
-      return a.modulo(b) if a_sign == b_sign
-      a.modulo(b) - (b.is_a?(Money) ? b : Money.new(b, a.currency))
+      if (fractional < 0 && val < 0) || (fractional > 0 && val > 0)
+        self.modulo(val)
+      else
+        self.modulo(val) - (val.is_a?(Money) ? val : Money.new(val, currency))
+      end
     end
 
     # Return absolute value of self as a new Money object.
