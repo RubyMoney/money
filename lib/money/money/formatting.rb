@@ -1,33 +1,22 @@
 # encoding: UTF-8
 class Money
   module Formatting
-
-    if Object.const_defined?("I18n")
-      [
-        [:thousands_separator, :delimiter, "."],
-        [:decimal_mark, :separator, ","]
-      ].each do |method, name, character|
-        define_method(method) do
-          if self.class.use_i18n
-            I18n.t(
-              :"number.currency.format.#{name}",
-              :default => I18n.t(
-                :"number.format.#{name}",
-                :default => (currency.send(method) || character)
-              )
+    [
+      [:thousands_separator, :delimiter, "."],
+      [:decimal_mark, :separator, ","]
+    ].each do |method, name, character|
+      define_method(method) do
+        if self.class.use_i18n
+          I18n.t(
+            :"number.currency.format.#{name}",
+            :default => I18n.t(
+              :"number.format.#{name}",
+              :default => (currency.send(method) || character)
             )
-          else
-            currency.send(method) || character
-          end
+          )
+        else
+          currency.send(method) || character
         end
-      end
-    else
-      def thousands_separator
-        currency.thousands_separator || ","
-      end
-
-      def decimal_mark
-        currency.decimal_mark || "."
       end
     end
     alias_method :delimiter, :thousands_separator
