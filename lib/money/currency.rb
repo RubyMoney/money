@@ -344,16 +344,12 @@ class Money
     # If we need to figure out how many decimal places we need we
     # use repeated integer division.
     def calculate_decimal_places(num)
-      if num == 1
-        0
-      else
-        i = 1
-        while num >= 10
-          num /= 10
-          i += 1 if num >= 10
-        end
-        i
+      i = 1
+      while num >= 10
+        num /= 10
+        i += 1 if num >= 10
       end
+      i
     end
     private :calculate_decimal_places
   end
