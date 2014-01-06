@@ -70,11 +70,11 @@ class Money
   def as_d(num)
     if num.is_a?(Rational)
       num.to_d(self.class.conversion_precision)
-    elsif num.respond_to?(:to_d)
-      num.to_d
     else
-      BigDecimal.new(num.to_s)
+      num.to_d
     end
+  rescue NoMethodError
+    BigDecimal.new(num.to_s)
   end
   private :as_d
 

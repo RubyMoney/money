@@ -43,6 +43,11 @@ describe Money do
       it { should eq initializing_value }
     end
 
+    context "given the initializing value doesn't respond to .to_d" do
+      let(:initializing_value) { :"1" }
+      it { should eq Money.new(1) }
+    end
+
     context 'given a currency is not provided' do
       subject(:money) { Money.new(initializing_value) }
       its(:currency) { should eq Money.default_currency }
@@ -209,7 +214,7 @@ describe Money do
         m.fractional.should be_a(Fixnum)
       end
     end
-    
+
     context "loading a serialized Money via YAML" do
 
       let(:serialized) { <<YAML
@@ -341,7 +346,7 @@ YAML
       def m.amount
         5
       end
-      
+
       m.dollars.should == 5
     end
   end
