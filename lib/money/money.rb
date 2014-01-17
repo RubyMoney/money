@@ -1,11 +1,7 @@
 # encoding: utf-8
-require "monetize"
-require "monetize/core_extensions"
-
 require "money/bank/variable_exchange"
 require "money/bank/single_currency"
 require "money/money/arithmetic"
-require "money/money/parsing"
 require "money/money/formatting"
 
 # "Money is any object or record that is generally accepted as payment for
@@ -18,7 +14,7 @@ require "money/money/formatting"
 #
 # @see http://en.wikipedia.org/wiki/Money
 class Money
-  include Comparable, Money::Arithmetic, Money::Formatting, Money::Parsing
+  include Comparable, Money::Arithmetic, Money::Formatting
 
   # Convenience method for fractional part of the amount. Synonym of #fractional
   #
@@ -41,12 +37,6 @@ class Money
   # unit is the Fils and there 1000 Fils to one Kuwaiti Dinar. So given the
   # Money representation of one Kuwaiti Dinar, the fractional interpretation is
   # 1000.
-  #
-  # @example
-  #   Money.new_with_amount(1, "USD").fractional      #=> 100
-  #   Money.new_with_amount(1, "KWD").fractional      #=> 1000
-  #   Money.new_with_amount(105.50, "USD").fractional #=> 10550
-  #   Money.new_with_amount(15.763, 'KWD').fractional #=> 15763
   #
   # @return [Integer] when inifinte_precision is false
   # @return [BigDecimal] when inifinte_precision is true
@@ -82,15 +72,12 @@ class Money
     # valid +Money::Currency+ instance.
     # @attr_accessor [true, false] use_i18n Use this to disable i18n even if
     # it's used by other objects in your app.
-    # @attr_accessor [true, false] assume_from_symbol Use this to enable the
-    # ability to assume the currency from a passed symbol
     # @attr_accessor [true, false] infinite_precision Use this to enable
     # infinite precision cents
     # @attr_accessor [Integer] conversion_precision Use this to specify
     # precision for converting Rational to BigDecimal
     attr_accessor :default_bank, :default_currency, :use_i18n,
-      :assume_from_symbol, :infinite_precision, :conversion_precision,
-      :silence_core_extensions_deprecations
+      :infinite_precision, :conversion_precision
 
     # @attr_writer rounding_mode Use this to specify the rounding mode
     attr_writer :rounding_mode
@@ -128,9 +115,6 @@ class Money
     # Default to using i18n
     self.use_i18n = true
 
-    # Default to not using currency symbol assumptions when parsing
-    self.assume_from_symbol = false
-
     # Default to not using infinite precision cents
     self.infinite_precision = false
 
@@ -139,9 +123,6 @@ class Money
 
     # Default the conversion of Rationals precision to 16
     self.conversion_precision = 16
-
-    # Default alerting about deprecations
-    self.silence_core_extensions_deprecations = false
   end
 
   def self.inherited(base)
@@ -217,39 +198,6 @@ class Money
     Money.new(cents, "EUR")
   end
 
-  # Creates a new Money object of +amount+ value ,
-  # with given +currency+.
-  #
-  # The amount value is expressed in the main monetary unit,
-  # opposite to the subunit-based representation
-  # used internally by this library called +cents+.
-  #
-  # @param [Numeric] amount The money amount, in main monetary unit.
-  # @param [Currency, String, Symbol] currency The currency format.
-  # @param [Money::Bank::*] bank The exchange bank to use.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   Money.new_with_amount(100)        #=> #<Money @fractional=10000 @currency="USD">
-  #   Money.new_with_amount(100, "USD") #=> #<Money @fractional=10000 @currency="USD">
-  #   Money.new_with_amount(100, "EUR") #=> #<Money @fractional=10000 @currency="EUR">
-  #
-  # @see Money.new
-  #
-  def self.new_with_amount(amount, currency = Money.default_currency, bank = Money.default_bank)
-    from_numeric(amount, currency).tap do |money|
-      money.instance_variable_set("@bank", bank) # Hack! You can't change a bank
-    end
-  end
-
-  # Synonym of #new_with_amount
-  #
-  # @see Money.new_with_amount
-  def self.new_with_dollars(*args)
-    self.new_with_amount(*args)
-  end
-
   # Adds a new exchange rate to the default bank and return the rate.
   #
   # @param [Currency, String, Symbol] from_currency Currency to exchange from.
@@ -287,8 +235,6 @@ class Money
   #   Money.new(100, "USD") #=> #<Money @fractional=100 @currency="USD">
   #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
   #
-  # @see Money.new_with_dollars
-  #
   def initialize(obj, currency = Money.default_currency, bank = Money.default_bank)
     @fractional = obj.fractional
     @currency   = obj.currency
@@ -309,7 +255,6 @@ class Money
   #
   # @example
   #   Money.new(1_00, "USD").dollars   # => BigDecimal.new("1.00")
-  #   Money.new_with_dollars(1).dollar # => BigDecimal.new("1.00")
   #
   # @see #amount
   # @see #to_d
@@ -325,7 +270,6 @@ class Money
   #
   # @example
   #   Money.new(1_00, "USD").amount    # => BigDecimal.new("1.00")
-  #   Money.new_with_amount(1).amount  # => BigDecimal.new("1.00")
   #
   # @see #to_d
   # @see #fractional
