@@ -1,6 +1,9 @@
 # Changelog
 
-## 6.0.1.beta1
+## 6.1.0
+ - Remove deprecated methods.
+
+## 6.0.1
  - Deprecated methods lists caller on print out for easier updating.
  - Added support for Money::Currency#to_str and Money::Currency#to_sym
  - Added ability to temporally change the rounding methond inside a given block
@@ -112,11 +115,9 @@
 - Fixed position of Philippine peso sign (GH-124)
 - Fixed position of Danish currency sign (GH-127)
 
-
 ## 4.0.1
 
 - Add missing config dir.
-
 
 Money 4.0.0
 ===========
@@ -304,7 +305,6 @@ Bugfixes
    ([#issue/26](http://github.com/RubyMoney/money/issues/26))
  - Use BigDecimal when floating point calculations are needed.
  - Ruby 1.9.2 compatibility enhancements.
-
 
 Money 3.1.0
 ===========
