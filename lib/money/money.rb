@@ -110,6 +110,14 @@ class Money
     alias_method :zero, :empty
   end
 
+  def self.default_currency
+    if @default_currency.respond_to?(:call)
+      Money::Currency.new(@default_currency.call)
+    else
+      Money::Currency.new(@default_currency)
+    end
+  end
+
   def self.setup_defaults
     # Set the default bank for creating new +Money+ objects.
     self.default_bank = Bank::VariableExchange.instance
