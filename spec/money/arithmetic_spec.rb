@@ -27,19 +27,6 @@ describe Money do
       Money.new(1_00, "USD").should_not == nil
     end
 
-    it "can be used to compare with a String money value" do
-      Money.new(1_00, "USD").should == "1.00"
-      Money.new(1_00, "USD").should_not == "2.00"
-      Money.new(1_00, "GBP").should_not == "1.00"
-    end
-
-    it "can be used to compare with a Numeric money value" do
-      Money.new(1_00, "USD").should == 1
-      Money.new(1_57, "USD").should == 1.57
-      Money.new(1_00, "USD").should_not == 2
-      Money.new(1_00, "GBP").should_not == 1
-    end
-
     it "can be used to compare with an object that responds to #to_money" do
       klass = Class.new do
         def initialize(money)
@@ -72,19 +59,6 @@ describe Money do
       Money.new(1_00, "USD").eql?(Kernel).should be false
       Money.new(1_00, "USD").eql?(/foo/).should be false
       Money.new(1_00, "USD").eql?(nil).should be false
-    end
-
-    it "can be used to compare with a String money value" do
-      Money.new(1_00, "USD").eql?("1.00").should be true
-      Money.new(1_00, "USD").eql?("2.00").should be false
-      Money.new(1_00, "GBP").eql?("1.00").should be false
-    end
-
-    it "can be used to compare with a Numeric money value" do
-      Money.new(1_00, "USD").eql?(1).should be true
-      Money.new(1_57, "USD").eql?(1.57).should be true
-      Money.new(1_00, "USD").eql?(2).should be false
-      Money.new(1_00, "GBP").eql?(1).should be false
     end
 
     it "can be used to compare with an object that responds to #to_money" do
@@ -124,42 +98,6 @@ describe Money do
       target = Money.new(200_00, "EUR")
       target.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(99_00, "USD"))
       (Money.new(100_00, "USD") <=> target).should > 0
-    end
-
-    it "cannot compare objects with different currencies when no rate exists, unless one of the amounts is zero" do
-      expect { Money.new(100_00, "EUR") <=> Money.new(100_00, "USD") }.to raise_error(Money::Bank::UnknownRate)
-
-      (Money.new(100_00, "EUR") <=> Money.new(0, "USD")).should > 0
-      (Money.new(0, "EUR") <=> Money.new(100_00, "USD")).should < 0
-      (Money.new(0, "EUR") <=> Money.new(0, "USD")).should == 0
-    end
-
-    it "can be used to compare with a String money value when Money object is in default currency" do
-      (Money.new(1_00) <=> "1.00").should == 0
-      (Money.new(1_00) <=> ".99").should > 0
-      (Money.new(1_00) <=> "2.00").should < 0
-    end
-
-    it "can be used to compare with a String money value when Money object is not in default currency if String evaluates to zero" do
-      expect { Money.new(1_00, "EUR") <=> "1.00" }.to raise_error(Money::Bank::UnknownRate)
-
-      (Money.new(1_00, "EUR") <=> "0.00").should > 0
-      (Money.new(0_00, "EUR") <=> "0.00").should == 0
-      (Money.new(-1_00, "EUR") <=> "0.00").should < 0
-    end
-
-    it "can be used to compare with a Numeric money value when Money object is in default currency" do
-      (Money.new(1_00) <=> 1).should == 0
-      (Money.new(1_00) <=> 0.99).should > 0
-      (Money.new(1_00) <=> 2.00).should < 0
-    end
-
-    it "can be used to compare with a Numeric money value when Money object is not in default currency if String evaluates to zero" do
-      expect { Money.new(1_00, "EUR") <=> 1 }.to raise_error(Money::Bank::UnknownRate)
-
-      (Money.new(1_00, "EUR") <=> 0).should > 0
-      (Money.new(0_00, "EUR") <=> 0).should == 0
-      (Money.new(-1_00, "EUR") <=> 0).should < 0
     end
 
     it "can be used to compare with an object that responds to #to_money" do
@@ -573,31 +511,6 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => -4, :c => Money.new(-1, :USD)},
       ]
       ts.each do |t|
-        t[:a].remainder(t[:b]).should == t[:c]
-      end
-    end
-
-    it "calculates remainder with Money (same currency)" do
-      ts = [
-          {:a => Money.new( 13, :USD), :b => Money.new( 4, :USD), :c => Money.new( 1, :USD)},
-          {:a => Money.new( 13, :USD), :b => Money.new(-4, :USD), :c => Money.new( 1, :USD)},
-          {:a => Money.new(-13, :USD), :b => Money.new( 4, :USD), :c => Money.new(-1, :USD)},
-          {:a => Money.new(-13, :USD), :b => Money.new(-4, :USD), :c => Money.new(-1, :USD)},
-      ]
-      ts.each do |t|
-        t[:a].remainder(t[:b]).should == t[:c]
-      end
-    end
-
-    it "calculates remainder with Money (different currency)" do
-      ts = [
-          {:a => Money.new( 13, :USD), :b => Money.new( 4, :EUR), :c => Money.new( 5, :USD)},
-          {:a => Money.new( 13, :USD), :b => Money.new(-4, :EUR), :c => Money.new( 5, :USD)},
-          {:a => Money.new(-13, :USD), :b => Money.new( 4, :EUR), :c => Money.new(-5, :USD)},
-          {:a => Money.new(-13, :USD), :b => Money.new(-4, :EUR), :c => Money.new(-5, :USD)},
-      ]
-      ts.each do |t|
-        t[:b].should_receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
         t[:a].remainder(t[:b]).should == t[:c]
       end
     end

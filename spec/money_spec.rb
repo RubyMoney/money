@@ -71,59 +71,6 @@ describe Money do
     end
   end
 
-  describe ".new_with_dollars" do
-    it "is synonym of #new_with_amount" do
-      MoneyExpectation = Class.new(Money)
-      def MoneyExpectation.new_with_amount *args
-        args
-      end
-      MoneyExpectation.new_with_dollars("expectation").should == ["expectation"]
-    end
-  end
-
-  describe ".new_with_amount" do
-    it "converts given amount to cents" do
-      Money.new_with_amount(1).should == Money.new(100)
-      Money.new_with_amount(1, "USD").should == Money.new(100, "USD")
-      Money.new_with_amount(1, "EUR").should == Money.new(100, "EUR")
-    end
-
-    it "respects :subunit_to_unit currency property" do
-      Money.new_with_amount(1, "USD").should == Money.new(1_00,  "USD")
-      Money.new_with_amount(1, "TND").should == Money.new(1_000, "TND")
-      Money.new_with_amount(1, "CLP").should == Money.new(1,     "CLP")
-    end
-
-    it "does not loose precision" do
-      Money.new_with_amount(1234).cents.should == 1234_00
-      Money.new_with_amount(100.37).cents.should == 100_37
-      Money.new_with_amount(BigDecimal.new('1234')).cents.should == 1234_00
-    end
-
-    it "accepts optional currency" do
-      m = Money.new_with_amount(1)
-      m.currency.should == Money.default_currency
-
-      m = Money.new_with_amount(1, Money::Currency.wrap("EUR"))
-      m.currency.should == Money::Currency.wrap("EUR")
-
-      m = Money.new_with_amount(1, "EUR")
-      m.currency.should == Money::Currency.wrap("EUR")
-    end
-
-    it "accepts optional bank" do
-      m = Money.new_with_amount(1)
-      m.bank.should == Money.default_bank
-
-      m = Money.new_with_amount(1, "EUR", bank = Object.new)
-      m.bank.should == bank
-    end
-
-    it "is associated to the singleton instance of Bank::VariableExchange by default" do
-      Money.new_with_amount(0).bank.should be(Money::Bank::VariableExchange.instance)
-    end
-  end
-
   describe ".empty" do
     it "creates a new Money object of 0 cents" do
       Money.empty.should == Money.new(0)
@@ -205,14 +152,12 @@ describe Money do
   describe "#fractional" do
     it "returns the amount in fractional unit" do
       Money.new(1_00).fractional.should == 1_00
-      Money.new_with_amount(1).fractional.should == 1_00
     end
 
     it "stores fractional as an integer regardless of what is passed into the constructor" do
-      [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
-        m.fractional.should == 100
-        m.fractional.should be_a(Fixnum)
-      end
+      m = Money.new(100)
+      m.fractional.should == 100
+      m.fractional.should be_a(Fixnum)
     end
 
     context "loading a serialized Money via YAML" do
@@ -304,14 +249,12 @@ YAML
 
       it "returns the amount in fractional unit" do
         Money.new(1_00).fractional.should == BigDecimal("100")
-        Money.new_with_amount(1).fractional.should == BigDecimal("100")
       end
 
       it "stores in fractional unit as an integer regardless of what is passed into the constructor" do
-        [ Money.new(100), 1.to_money, 1.00.to_money, BigDecimal('1.00').to_money ].each do |m|
-          m.fractional.should == BigDecimal("100")
-          m.fractional.should be_a(BigDecimal)
-        end
+        m = Money.new(100)
+        m.fractional.should == BigDecimal("100")
+        m.fractional.should be_a(BigDecimal)
       end
     end
   end
@@ -319,7 +262,6 @@ YAML
   describe "#amount" do
     it "returns the amount of cents as dollars" do
       Money.new(1_00).amount.should == 1
-      Money.new_with_amount(1).amount.should == 1
     end
 
     it "respects :subunit_to_unit currency property" do
@@ -330,7 +272,6 @@ YAML
 
     it "does not loose precision" do
       Money.new(100_37).amount.should == 100.37
-      Money.new_with_amount(100.37).amount.should == 100.37
     end
 
     it 'produces a BigDecimal' do

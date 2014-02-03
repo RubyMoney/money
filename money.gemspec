@@ -26,7 +26,6 @@ Test responsibly :-)
 MSG
 
   s.add_dependency "i18n", "~> 0.6.4"
-  s.add_dependency "monetize", "~> 0.1.3"
 
   s.add_development_dependency "bundler", "~> 1.3"
   s.add_development_dependency "rake"

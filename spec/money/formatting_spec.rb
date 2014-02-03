@@ -361,7 +361,6 @@ describe Money, "formatting" do
       end
     end
 
-
     describe ":symbol_position option" do
       it "inserts currency symbol before the amount when set to :before" do
         Money.euro(1_234_567_12).format(:symbol_position => :before).should == "€1.234.567,12"
@@ -486,11 +485,6 @@ describe Money, "formatting" do
         money.format(:display_free => 'gratis').should == 'gratis'
       end
     end
-
-    it "maintains floating point precision" do
-      "0.01".to_money("USD").format(:symbol => false).should == "0.01"
-    end
-
   end
 
   context "custom currencies with 4 decimal places" do
@@ -535,4 +529,3 @@ describe Money, "formatting" do
 
   end
 end
-
