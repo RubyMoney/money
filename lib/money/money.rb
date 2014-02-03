@@ -82,14 +82,12 @@ class Money
     # valid +Money::Currency+ instance.
     # @attr_accessor [true, false] use_i18n Use this to disable i18n even if
     # it's used by other objects in your app.
-    # @attr_accessor [true, false] assume_from_symbol Use this to enable the
-    # ability to assume the currency from a passed symbol
     # @attr_accessor [true, false] infinite_precision Use this to enable
     # infinite precision cents
     # @attr_accessor [Integer] conversion_precision Use this to specify
     # precision for converting Rational to BigDecimal
     attr_accessor :default_bank, :default_currency, :use_i18n,
-      :assume_from_symbol, :infinite_precision, :conversion_precision,
+      :infinite_precision, :conversion_precision,
       :silence_core_extensions_deprecations
 
     # @attr_writer rounding_mode Use this to specify the rounding mode
@@ -108,6 +106,22 @@ class Money
       @empty[currency] ||= Money.new(0, currency)
     end
     alias_method :zero, :empty
+  end
+
+  # Set the ability to assume the currency from a passed symbol. (Wrapper for
+  # Monetize.assume_from_symbol.)
+  #
+  # @param [true, false]
+  def self.assume_from_symbol=(value)
+    Monetize.assume_from_symbol = value
+  end
+
+  # Return the ability to assume the currency from a passed symbol. (Wrapper for
+  # Monetize.assume_from_symbol.)
+  #
+  # @param [true, false]
+  def self.assume_from_symbol
+    Monetize.assume_from_symbol
   end
 
   def self.default_currency
