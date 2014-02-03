@@ -445,14 +445,21 @@ class Money
   #
   # @param [Currency, String, Symbol] other_currency Currency to exchange to.
   #
+  # @yield [n] Optional block to use when rounding after exchanging one currency
+  #  for another.
+  # @yieldparam [Float] n The resulting float after exchanging one currency for
+  #  another.
+  # @yieldreturn [Integer]
+  #
   # @return [Money]
   #
   # @example
   #   Money.new(2000, "USD").exchange_to("EUR")
+  #   Money.new(2000, "USD").exchange_to("EUR") {|x| x.round}
   #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
-  def exchange_to(other_currency)
+  def exchange_to(other_currency, &rounding_method)
     other_currency = Currency.wrap(other_currency)
-    @bank.exchange_with(self, other_currency)
+    @bank.exchange_with(self, other_currency, &rounding_method)
   end
 
   # Receive a money object with the same amount as the current Money object

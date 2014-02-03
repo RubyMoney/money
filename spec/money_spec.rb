@@ -503,6 +503,12 @@ YAML
       money.bank.should_receive(:exchange_with).with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR")).and_return(Money.new(200_00, Money::Currency.new('EUR')))
       money.exchange_to("EUR").should == Money.new(200_00, "EUR")
     end
+
+    it 'uses the block given as rounding method' do
+      money = Money.new(100_00, 'USD')
+      money.bank.should_receive(:exchange_with).and_yield(300_00)
+      expect { |block| money.exchange_to(Money::Currency.new('EUR'), &block) }.to yield_successive_args(300_00)
+    end
   end
 
   describe "#allocate" do
