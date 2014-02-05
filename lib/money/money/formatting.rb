@@ -241,8 +241,10 @@ class Money
           "#{sign_before}#{symbol_value}#{symbol_space}#{sign}#{formatted}"
         else
           symbol_space = rules[:symbol_after_without_space] ? "" : " "
-          "#{sign_before}#{formatted}#{symbol_space}#{sign}#{symbol_value}"
+          "#{sign_before}#{sign}#{formatted}#{symbol_space}#{symbol_value}"
         end
+      else
+        formatted="#{sign_before}#{sign}#{formatted}"
       end
 
       if rules.has_key?(:decimal_mark) && rules[:decimal_mark] &&

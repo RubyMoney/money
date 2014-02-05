@@ -282,6 +282,15 @@ describe Money, "formatting" do
         money = Money.new(100, "EUR")
         money.format.should == "€1,00"
       end
+
+      specify "(:symbol => false) returns a signed amount without a symbol" do
+        money = Money.new(-100, "EUR")
+        money.format(:symbol => false).should == "-1,00"
+
+        money = Money.new(100, "EUR")
+        money.format(:symbol => false,
+                     :sign_positive => true).should == "+1,00"
+      end
     end
 
     describe ":decimal_mark option" do
