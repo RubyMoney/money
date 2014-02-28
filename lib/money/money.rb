@@ -77,7 +77,6 @@ class Money
     # @attr_accessor [Integer] conversion_precision Use this to specify
     # precision for converting Rational to BigDecimal
     attr_accessor :default_bank, :default_currency, :use_i18n,
-      :infinite_precision, :conversion_precision,
       :infinite_precision, :conversion_precision
 
     # @attr_writer rounding_mode Use this to specify the rounding mode
