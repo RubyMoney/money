@@ -163,11 +163,13 @@ class Money
     if mode.nil?
       Thread.current[:money_rounding_mode] || @rounding_mode
     else
-      Thread.current[:money_rounding_mode] = mode
-      yield
+      begin
+        Thread.current[:money_rounding_mode] = mode
+        yield
+      ensure
+        Thread.current[:money_rounding_mode] = nil
+      end
     end
-  ensure
-    Thread.current[:money_rounding_mode] = nil
   end
 
   # Creates a new Money object of the given value, using the Canadian
