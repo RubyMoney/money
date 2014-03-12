@@ -235,6 +235,18 @@ YAML
 
           Money.rounding_mode.should == BigDecimal::ROUND_HALF_EVEN
         end
+
+        it "works for multiplication within a block" do
+          Money.rounding_mode(BigDecimal::ROUND_DOWN) do
+            (Money.new(1_00) * "0.019".to_d).fractional.should == 1
+          end
+
+          Money.rounding_mode(BigDecimal::ROUND_UP) do
+            (Money.new(1_00) * "0.011".to_d).fractional.should == 2
+          end
+
+          Money.rounding_mode.should == BigDecimal::ROUND_HALF_EVEN
+        end
       end
     end
 

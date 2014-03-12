@@ -2,6 +2,7 @@
 
 ## 6.1.0
  - Remove deprecated methods.
+ - Fix issue with block form of rounding_mode.
 
 ## 6.0.1
  - Deprecated methods lists caller on print out for easier updating.
