@@ -132,7 +132,7 @@ describe Money, "formatting" do
       one_thousand["LKR"].should == "1,000.00 ₨"
 
       # Brazilian Real
-      one_thousand["BRL"].should == "R$ 1.000,00"
+      one_thousand["BRL"].should == "R$1.000,00"
 
       # Other
       one_thousand["SEK"].should == "1 000,00 kr"
@@ -243,7 +243,7 @@ describe Money, "formatting" do
         one["LKR"].should == "1.00 ₨"
 
         # Brazilian Real
-        one["BRL"].should == "R$ 1,00"
+        one["BRL"].should == "R$1,00"
 
         # Other
         one["SEK"].should == "1,00 kr"

@@ -269,7 +269,7 @@
     "priority": 100,
     "iso_code": "BRL",
     "name": "Brazilian Real",
-    "symbol": "R$ ",
+    "symbol": "R$",
     "subunit": "Centavo",
     "subunit_to_unit": 100,
     "symbol_first": true,
