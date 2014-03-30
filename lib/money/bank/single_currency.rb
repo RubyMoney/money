@@ -20,7 +20,7 @@ class Money
         if from.currency == to_currency
           from
         else
-          raise DifferentCurrencyError, "No exchanging of currencies allowed: #{from} to #{to_currency}"
+          raise DifferentCurrencyError, "No exchanging of currencies allowed: #{from} #{from.currency} to #{to_currency}"
         end
       end
     end
