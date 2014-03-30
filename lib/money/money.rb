@@ -421,7 +421,11 @@ class Money
   #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
   def exchange_to(other_currency, &rounding_method)
     other_currency = Currency.wrap(other_currency)
-    @bank.exchange_with(self, other_currency, &rounding_method)
+    if self.currency == other_currency
+      self
+    else
+      @bank.exchange_with(self, other_currency, &rounding_method)
+    end
   end
 
   # Receive a money object with the same amount as the current Money object
