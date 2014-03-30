@@ -7,5 +7,11 @@ describe Money::Bank::SingleCurrency do
         subject.exchange_with(Money.new(100, 'USD'), 'EUR')
       }.to raise_exception(Money::Bank::DifferentCurrencyError, "No exchanging of currencies allowed: 1.00 to EUR")
     end
+
+    context "the currencies match" do
+      it "returns the value unchanged" do
+        expect(subject.exchange_with(Money.new(100, 'USD'), 'USD')).to eq(Money.new(100, 'USD'))
+      end
+    end
   end
 end

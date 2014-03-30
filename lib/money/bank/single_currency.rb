@@ -17,7 +17,11 @@ class Money
       # Raises a DifferentCurrencyError to remove possibility of accidentally
       # exchanging currencies
       def exchange_with(from, to_currency, &block)
-        raise DifferentCurrencyError, "No exchanging of currencies allowed: #{from} to #{to_currency}"
+        if from.currency == to_currency
+          from
+        else
+          raise DifferentCurrencyError, "No exchanging of currencies allowed: #{from} to #{to_currency}"
+        end
       end
     end
   end
