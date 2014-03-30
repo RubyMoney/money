@@ -503,6 +503,12 @@ YAML
       money.bank.should_receive(:exchange_with).with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR")).and_return(Money.new(200_00, Money::Currency.new('EUR')))
       money.exchange_to("EUR").should == Money.new(200_00, "EUR")
     end
+
+    it "does no exchange when the currencies are the same" do
+      money = Money.new(100_00, "USD")
+      money.bank.should_not_receive(:exchange_with)
+      money.exchange_to("USD").should == money
+    end
   end
 
   describe "#allocate" do

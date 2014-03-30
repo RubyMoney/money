@@ -443,8 +443,12 @@ class Money
   #   Money.new(2000, "USD").exchange_to("EUR")
   #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
   def exchange_to(other_currency)
-    other_currency = Currency.wrap(other_currency)
-    @bank.exchange_with(self, other_currency)
+    if self.currency == other_currency
+      self
+    else
+      other_currency = Currency.wrap(other_currency)
+      @bank.exchange_with(self, other_currency)
+    end
   end
 
   # Receive a money object with the same amount as the current Money object
