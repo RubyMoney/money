@@ -462,6 +462,12 @@ YAML
       money.bank.should_receive(:exchange_with).and_yield(300_00)
       expect { |block| money.exchange_to(Money::Currency.new('EUR'), &block) }.to yield_successive_args(300_00)
     end
+
+    it "does no exchange when the currencies are the same" do
+      money = Money.new(100_00, "USD")
+      money.bank.should_not_receive(:exchange_with)
+      money.exchange_to("USD").should == money
+    end
   end
 
   describe "#allocate" do
