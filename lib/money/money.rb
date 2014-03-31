@@ -97,22 +97,6 @@ class Money
     alias_method :zero, :empty
   end
 
-  # Set the ability to assume the currency from a passed symbol. (Wrapper for
-  # Monetize.assume_from_symbol.)
-  #
-  # @param [true, false]
-  def self.assume_from_symbol=(value)
-    Monetize.assume_from_symbol = value
-  end
-
-  # Return the ability to assume the currency from a passed symbol. (Wrapper for
-  # Monetize.assume_from_symbol.)
-  #
-  # @param [true, false]
-  def self.assume_from_symbol
-    Monetize.assume_from_symbol
-  end
-
   def self.default_currency
     if @default_currency.respond_to?(:call)
       Money::Currency.new(@default_currency.call)
