@@ -8,8 +8,6 @@
 [![Dependency Status](https://gemnasium.com/RubyMoney/money.png)](https://gemnasium.com/RubyMoney/money)
 [![License](http://img.shields.io/license/MIT.png?color=green)](http://opensource.org/licenses/MIT)
 
-Checkout the 6.1.0 branch for the latest features and deprecation removal.
-
 :warning: Please read the [migration notes](#migration-notes) before upgrading to a new major version.
 
 If you miss String parsing, check out the new [monetize gem](https://github.com/RubyMoney/monetize).
