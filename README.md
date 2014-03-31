@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/RubyMoney/money.png?branch=master)](https://travis-ci.org/RubyMoney/money)
 [![Code Climate](https://codeclimate.com/github/RubyMoney/money.png)](https://codeclimate.com/github/RubyMoney/money)
 [![Coverage Status](https://coveralls.io/repos/RubyMoney/money/badge.png?branch=master)](https://coveralls.io/r/RubyMoney/money?branch=master)
+[![Inline docs](http://inch-pages.github.io/github/RubyMoney/money.png)](http://inch-pages.github.io/github/RubyMoney/money)
 [![Dependency Status](https://gemnasium.com/RubyMoney/money.png)](https://gemnasium.com/RubyMoney/money)
 [![License](http://img.shields.io/license/MIT.png?color=green)](http://opensource.org/licenses/MIT)
 
