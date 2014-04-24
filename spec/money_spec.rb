@@ -434,6 +434,16 @@ YAML
     end
   end
 
+  describe "#to_i" do
+    it "works as documented" do
+      Money.new(10_00).to_i.should == 10
+    end
+
+    it "respects :subunit_to_unit currency property" do
+      Money.new(10_00, "BHD").to_i.should == 1
+    end
+  end
+
   describe "#to_money" do
     it "works as documented" do
       money = Money.new(10_00, "DKK")
