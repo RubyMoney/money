@@ -266,6 +266,35 @@ To integrate money in a Rails application use [money-rails](http://github.com/Ru
 
 For deprecated methods of integrating with Rails, check [the wiki](https://github.com/RubyMoney/money/wiki).
 
+## I18n
+
+If you want thousands seperator and decimal mark to be same across all
+currencies this can be defined in your `I18n` translation files.
+
+In an rails application this may look like:
+```yml
+# config/locale/en.yml
+en:
+  number:
+    format:
+      delimeter: "."
+      seperator: ","
+  # or
+  number:
+    currency:
+      format:
+        delimeter: "."
+        seperator: ","
+```
+
+For this example `Money.new(123456789, "SEK").format` will return `1,234,567.89
+kr` which otherwise will return `1 234 567,89 kr`.
+
+If you wish to disable this feature:
+``` ruby
+Money.use_i18n = false
+```
+
 ## Migration Notes
 
 #### Version 6.0.0
