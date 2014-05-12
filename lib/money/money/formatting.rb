@@ -247,10 +247,7 @@ class Money
         formatted="#{sign_before}#{sign}#{formatted}"
       end
 
-      if rules.has_key?(:decimal_mark) && rules[:decimal_mark] &&
-        rules[:decimal_mark] != decimal_mark
-        formatted.sub!(decimal_mark, rules[:decimal_mark])
-      end
+      apply_decimal_mark_from_rules(formatted, rules)
 
       if rules[:with_currency]
         formatted << " "
@@ -282,6 +279,20 @@ class Money
         rules[:thousands_separator] = rules[:delimiter]
       end
       rules
+    end
+
+    # Applies decimal mark from rules to formatted
+    #
+    # @param [String] formatted
+    # @param [Hash]   rules
+    def apply_decimal_mark_from_rules(formatted, rules)
+      if rules.has_key?(:decimal_mark) && rules[:decimal_mark] &&
+        rules[:decimal_mark] != decimal_mark
+
+        regexp_decimal = Regexp.escape(decimal_mark)
+        formatted.sub!(/(.*)(#{regexp_decimal})(.*)\Z/,
+                       "\\1#{rules[:decimal_mark]}\\3")
+      end
     end
   end
 
