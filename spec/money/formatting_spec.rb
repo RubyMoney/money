@@ -351,6 +351,13 @@ describe Money, "formatting" do
       end
     end
 
+    describe ":thousands_separator and :decimal_mark option" do
+      specify "(:thousands_separator => a thousands_separator string, :decimal_mark => a decimal_mark string) works as documented" do
+        Money.new(123_456_789, "USD").format(thousands_separator: ".", decimal_mark: ",").should eq("$1.234.567,89")
+        Money.new(987_654_321, "USD").format(thousands_separator: " ", decimal_mark: ".").should eq("$9 876 543.21")
+      end
+    end
+
     describe ":html option" do
       specify "(:html => true) works as documented" do
         string = Money.ca_dollar(570).format(:html => true, :with_currency => true)

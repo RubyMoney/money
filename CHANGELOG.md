@@ -1,5 +1,8 @@
 # Changelog
 
+## Next release
+ - Fixes formatting error when both `thousands_separator` and `decimal_mark` was added to Money#format as options.
+
 ## 6.1.0
  - Remove deprecated methods.
  - Fix issue with block form of rounding_mode.
