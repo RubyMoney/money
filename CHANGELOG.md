@@ -6,6 +6,8 @@
 ## 6.1.0
  - Remove deprecated methods.
  - Fix issue with block form of rounding_mode.
+ - Add Money#to_i which returns the whole part of the value. i.e.
+   Money.new(100, "USD").to_i # => 1
 
 ## 6.0.1
  - Deprecated methods lists caller on print out for easier updating.
