@@ -362,6 +362,16 @@ class Money
     as_d(fractional) / as_d(currency.subunit_to_unit)
   end
 
+  # Return the amount of money as a Integer.
+  #
+  # @return [Integer]
+  #
+  # @example
+  #   Money.us_dollar(1_00).to_i #=> 1
+  def to_i
+    to_d.to_i
+  end
+
   # Return the amount of money as a float. Floating points cannot guarantee
   # precision. Therefore, this function should only be used when you no longer
   # need to represent currency or working with another system that requires
