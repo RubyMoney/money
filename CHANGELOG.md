@@ -2,12 +2,17 @@
 
 ## Next release
  - Fixes formatting error when both `thousands_separator` and `decimal_mark` was added to Money#format as options.
+ - Add Money#to_i which returns the whole part of the value. i.e.
+   Money.new(100, "USD").to_i # => 1
+ - Fix output on Ukrainian Hryvnia symbol in HTML.
+ - Add documentation about i18n in README.
+
+## 6.1.1
+ - Remove lingering Monetize call
 
 ## 6.1.0
  - Remove deprecated methods.
  - Fix issue with block form of rounding_mode.
- - Add Money#to_i which returns the whole part of the value. i.e.
-   Money.new(100, "USD").to_i # => 1
 
 ## 6.0.1
  - Deprecated methods lists caller on print out for easier updating.
