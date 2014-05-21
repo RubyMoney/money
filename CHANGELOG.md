@@ -6,6 +6,7 @@
    Money.new(100, "USD").to_i # => 1
  - Fix output on Ukrainian Hryvnia symbol in HTML.
  - Add documentation about i18n in README.
+ - Update iso code, symbol, subunit for the new Turkmenistani manat (GH-181)
 
 ## 6.1.1
  - Remove lingering Monetize call
