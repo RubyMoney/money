@@ -71,7 +71,9 @@ class Money
       #   Money::Currency.wrap(c1)    #=> #<Money::Currency id: usd ...>
       #   Money::Currency.wrap("usd") #=> #<Money::Currency id: usd ...>
       def wrap(object)
-        if object.nil? || object.is_a?(Currency)
+        if object.nil?
+          nil
+        elsif object.is_a?(Currency)
           object
         else
           Currency.new(object)
@@ -125,7 +127,7 @@ class Money
       private
 
       def stringify_keys
-        table.keys.map{|k| k.to_s.downcase}
+        table.keys.each_with_object(Set.new) { |k, set| set.add(k.to_s.downcase) }
       end
     end
 
@@ -172,9 +174,18 @@ class Money
       if self.class.stringified_keys.include?(id)
         @id = id.to_sym
         data = self.class.table[@id]
-        data.each_pair do |key, value|
-          instance_variable_set(:"@#{key}", value)
-        end
+        @priority = data[:priority]
+        @iso_code = data[:iso_code]
+        @name = data[:name]
+        @symbol = data[:symbol]
+        @alternate_symbols = data[:alternate_symbols]
+        @subunit = data[:subunit]
+        @subunit_to_unit = data[:subunit_to_unit]
+        @symbol_first = data[:symbol_first]
+        @html_entity = data[:html_entity]
+        @decimal_mark = data[:decimal_mark]
+        @thousands_separator = data[:thousands_separator]
+        @iso_numeric = data[:iso_numeric]
       else
         raise UnknownCurrency, "Unknown currency '#{id}'"
       end

@@ -23,10 +23,12 @@ class Money
     #   Money.new(100) == Money.new(101) #=> false
     #   Money.new(100) == Money.new(100) #=> true
     def ==(other_money)
-      other_money = other_money.to_money
-      fractional == other_money.fractional && currency == other_money.currency
-    rescue NoMethodError
-      false
+      if other_money.respond_to?(:to_money)
+        other_money = other_money.to_money
+        fractional == other_money.fractional && currency == other_money.currency
+      else
+        false
+      end
     end
 
     # Synonymous with +#==+.
@@ -41,13 +43,15 @@ class Money
     end
 
     def <=>(val)
-      val = val.to_money
-      unless fractional == 0 || val.fractional == 0 || currency == val.currency
-        val = val.exchange_to(currency)
+      if val.respond_to?(:to_money)
+        val = val.to_money unless val.respond_to?(:fractional)
+        if fractional != 0 && val.fractional != 0 && currency != val.currency
+          val = val.exchange_to(currency)
+        end
+        fractional <=> val.fractional
+      else
+        raise ArgumentError, "Comparison of #{self.class} with #{val.inspect} failed"
       end
-      fractional <=> val.fractional
-    rescue NoMethodError
-      raise ArgumentError, "Comparison of #{self.class} with #{val.inspect} failed"
     end
 
     # Test if the amount is positive. Returns +true+ if the money amount is
