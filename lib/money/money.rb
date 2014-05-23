@@ -238,13 +238,9 @@ class Money
   #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
   #
   def initialize(obj, currency = Money.default_currency, bank = Money.default_bank)
-    @fractional = obj.fractional
-    @currency   = obj.currency
-    @bank       = obj.bank
-  rescue NoMethodError
-    @fractional = as_d(obj)
-    @currency   = Currency.wrap(currency)
-    @bank       = bank
+    @fractional = obj.respond_to?(:fractional) ? obj.fractional : as_d(obj)
+    @currency   = obj.respond_to?(:currency) ? obj.currency : Currency.wrap(currency)
+    @bank       = obj.respond_to?(:bank) ? obj.bank : bank
   end
 
   # Assuming using a currency using dollars:
@@ -531,13 +527,11 @@ class Money
   private
 
   def as_d(num)
-    if num.is_a?(Rational)
-      num.to_d(self.class.conversion_precision)
+    if num.respond_to?(:to_d)
+      num.is_a?(Rational) ? num.to_d(self.class.conversion_precision) : num.to_d
     else
-      num.to_d
+      BigDecimal.new(num.to_s)
     end
-  rescue NoMethodError
-    BigDecimal.new(num.to_s)
   end
 
   def strings_from_fractional
