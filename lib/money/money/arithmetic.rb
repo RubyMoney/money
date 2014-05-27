@@ -91,6 +91,7 @@ class Money
     # @example
     #   Money.new(100) + Money.new(100) #=> #<Money @fractional=200>
     def +(other_money)
+      return self if other_money == 0
       other_money = other_money.exchange_to(currency)
       Money.new(fractional + other_money.fractional, currency)
     end
@@ -107,6 +108,7 @@ class Money
     # @example
     #   Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
     def -(other_money)
+      return self if other_money == 0
       other_money = other_money.exchange_to(currency)
       Money.new(fractional - other_money.fractional, currency)
     end

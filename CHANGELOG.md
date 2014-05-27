@@ -8,6 +8,7 @@
  - Add documentation about i18n in README.
  - Update iso code, symbol, subunit for the new Turkmenistani manat (GH-181)
  - Performance Improvements (1.99x faster on MRI, 1.85x on Rubinius, 41.4x faster on JRuby)
+ - Money can now add and subtract Fixnum 0
 
 ## 6.1.1
  - Remove lingering Monetize call
