@@ -163,6 +163,10 @@ describe Money do
       other.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(9_00, "USD"))
       (Money.new(10_00, "USD") + other).should == Money.new(19_00, "USD")
     end
+
+    it "adds Fixnum 0 to money and returns the same ammount" do
+      (Money.new(10_00) + 0).should == Money.new(10_00)
+    end
   end
 
   describe "#-" do
@@ -174,6 +178,10 @@ describe Money do
       other = Money.new(90, "EUR")
       other.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(9_00, "USD"))
       (Money.new(10_00, "USD") - other).should == Money.new(1_00, "USD")
+    end
+
+    it "subtract Fixnum 0 to money and returns the same ammount" do
+      (Money.new(10_00) - 0).should == Money.new(10_00)
     end
   end
 
