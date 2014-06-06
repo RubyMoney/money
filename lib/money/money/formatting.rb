@@ -3,8 +3,8 @@ class Money
   module Formatting
     def self.included(base)
       [
-        [:thousands_separator, :delimiter, "."],
-        [:decimal_mark, :separator, ","]
+        [:thousands_separator, :delimiter, ","],
+        [:decimal_mark, :separator, "."]
       ].each do |method, name, character|
         define_i18n_method(method, name, character)
       end
