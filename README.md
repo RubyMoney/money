@@ -277,14 +277,14 @@ In an rails application this may look like:
 en:
   number:
     format:
-      delimeter: "."
-      seperator: ","
+      delimeter: ","
+      separator: "."
   # or
   number:
     currency:
       format:
-        delimeter: "."
-        seperator: ","
+        delimeter: ","
+        separator: "."
 ```
 
 For this example `Money.new(123456789, "SEK").format` will return `1,234,567.89
