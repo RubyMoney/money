@@ -661,6 +661,10 @@ YAML
       @default_currency = Money.default_currency
     end
 
+    after do
+      Money.default_currency = @default_currency
+    end
+
     it "accepts a lambda" do
       Money.default_currency = lambda { :eur }
       Money.default_currency.should == Money::Currency.new(:eur)
@@ -669,10 +673,6 @@ YAML
     it "accepts a symbol" do
       Money.default_currency = :eur
       Money.default_currency.should == Money::Currency.new(:eur)
-    end
-
-    after do
-      Money.default_currency = @default_currency
     end
   end
 end
