@@ -564,5 +564,73 @@ describe Money do
       result = 2 * Money.new(4, 'USD')
       result.should == Money.new(8, 'USD')
     end
+
+    it "raises TypeError dividing by a Money (unless other is a Money)" do
+      expect {
+        2 / Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+    end
+
+    it "raises TypeError subtracting by a Money (unless other is a Money)" do
+      expect {
+        2 - Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+    end
+
+    it "raises TypeError adding by a Money (unless other is a Money)" do
+      expect {
+        2 + Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+    end
+
+    it "treats multiplication as commutative" do
+      expect {
+        2 * Money.new(2, 'USD')
+      }.to_not raise_exception
+      result = 2 * Money.new(2, 'USD')
+      expect(result).to eq(Money.new(4, 'USD'))
+    end
+
+    it "doesn't work with non-numerics" do
+      expect {
+        "2" * Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+    end
+
+    it "correctly handles <=>" do
+      expect {
+        2 < Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+
+      expect {
+        2 > Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+
+      expect {
+        2 <= Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+
+      expect {
+        2 >= Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+
+      expect {
+        2 <=> Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+    end
+
+    it "raises exceptions for all numeric types, not just Integer" do
+      expect {
+        2.0 / Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+
+      expect {
+        Rational(2,3) / Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+
+      expect {
+        BigDecimal(2) / Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+    end
   end
 end
