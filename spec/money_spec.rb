@@ -60,6 +60,11 @@ describe Money do
         let(:currency) { Money::Currency.new('NZD') }
         its(:currency) { should eq Money::Currency.new('NZD') }
       end
+
+      context 'and the currency is nil' do
+        let(:currency) { nil }
+        its(:currency) { should eq Money.default_currency }
+      end
     end
 
     context "infinite_precision = true" do
