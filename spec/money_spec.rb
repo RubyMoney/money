@@ -24,6 +24,10 @@ describe Money do
       Money.new(n).cents.should == 1
     end
 
+    it "uses Money.default_currency when currency argument is nil" do
+      expect(Money.new(1, nil).currency).to eq(Money.default_currency)
+    end
+
     context "infinite_precision = true" do
       before do
         Money.infinite_precision = true
@@ -155,7 +159,7 @@ describe Money do
         m.fractional.should be_a(Fixnum)
       end
     end
-    
+
     context "loading a serialized Money via YAML" do
 
       let(:serialized) { <<YAML
@@ -267,7 +271,7 @@ YAML
       def m.amount
         5
       end
-      
+
       m.dollars.should == 5
     end
   end

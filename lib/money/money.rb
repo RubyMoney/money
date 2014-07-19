@@ -224,7 +224,7 @@ class Money
   end
 
 
-  # Creates a new Money object of value given in the 
+  # Creates a new Money object of value given in the
   # +fractional unit+ of the given +currency+.
   #
   # Alternatively you can use the convenience
@@ -252,7 +252,7 @@ class Money
                   else
                     as_d(fractional)
                   end
-    @currency = Currency.wrap(currency)
+    @currency = Currency.wrap(currency) || Money.default_currency
     @bank     = bank
   end
 
