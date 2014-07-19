@@ -240,6 +240,7 @@ class Money
   def initialize(obj, currency = Money.default_currency, bank = Money.default_bank)
     @fractional = obj.respond_to?(:fractional) ? obj.fractional : as_d(obj)
     @currency   = obj.respond_to?(:currency) ? obj.currency : Currency.wrap(currency)
+    @currency ||= Money.default_currency 
     @bank       = obj.respond_to?(:bank) ? obj.bank : bank
   end
 
