@@ -129,7 +129,7 @@
     "priority": 100,
     "iso_code": "AZN",
     "name": "Azerbaijani Manat",
-    "symbol": null,
+    "symbol": "₼",
     "alternate_symbols": ["m", "man"],
     "subunit": "Qəpik",
     "subunit_to_unit": 100,
