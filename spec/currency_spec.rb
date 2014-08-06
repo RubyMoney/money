@@ -109,7 +109,7 @@ describe Money::Currency do
       Money::Currency.new(:eur).should     == Money::Currency.new(:EUR)
       Money::Currency.new(:eur).should_not == Money::Currency.new(:usd)
     end
-    
+
     it "allows direct comparison of currencies and symbols/strings" do
       Money::Currency.new(:eur).should     == 'eur'
       Money::Currency.new(:eur).should     == 'EUR'
@@ -185,7 +185,7 @@ describe Money::Currency do
   describe "#code" do
     it "works as documented" do
       Money::Currency.new(:usd).code.should == "$"
-      Money::Currency.new(:azn).code.should == "AZN"
+      Money::Currency.new(:azn).code.should == "\u20BC"
     end
   end
 
