@@ -212,6 +212,8 @@ class Money
         formatted = "#{formatted.to_i}"
       end
 
+      apply_decimal_mark_from_rules(formatted, rules)
+
       thousands_separator_value = thousands_separator
       # Determine thousands_separator
       if rules.has_key?(:thousands_separator)
@@ -246,8 +248,6 @@ class Money
       else
         formatted="#{sign_before}#{sign}#{formatted}"
       end
-
-      apply_decimal_mark_from_rules(formatted, rules)
 
       if rules[:with_currency]
         formatted << " "
