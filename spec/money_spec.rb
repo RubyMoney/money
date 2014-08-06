@@ -88,6 +88,10 @@ describe Money do
     it "memoizes a result for each currency" do
       Money.empty(:cad).object_id.should == Money.empty(:cad).object_id
     end
+
+    it "doesn't allow money to be modified for a currency" do
+      Money.empty.should be_frozen
+    end
   end
 
   describe ".zero" do
