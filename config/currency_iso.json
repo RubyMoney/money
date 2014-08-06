@@ -1448,7 +1448,7 @@
     "alternate_symbols": [",-"],
     "subunit": "Øre",
     "subunit_to_unit": 100,
-    "symbol_first": true,
+    "symbol_first": false,
     "html_entity": "kr",
     "decimal_mark": ",",
     "thousands_separator": ".",
