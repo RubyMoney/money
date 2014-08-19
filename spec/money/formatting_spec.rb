@@ -482,6 +482,28 @@ describe Money, "formatting" do
         Money.new(BigDecimal.new('109.5'), "USD").format(:rounded_infinite_precision => false).should == "$1.095"
         Money.new(BigDecimal.new('1'), "MGA").format(:rounded_infinite_precision => false).should == "Ar0.1"
       end
+
+      describe ":rounded_infinite_precision option with i18n = false" do
+        before do
+          Money.use_i18n = false
+          Money.infinite_precision = true
+        end
+
+        after do
+          Money.use_i18n = true
+          Money.infinite_precision = false
+        end
+
+        it 'does round fractional when set to true' do
+          Money.new(BigDecimal.new('12.1'), "EUR").format(:rounded_infinite_precision => true).should == "€0,12"
+          Money.new(BigDecimal.new('12.5'), "EUR").format(:rounded_infinite_precision => true).should == "€0,13"
+          Money.new(BigDecimal.new('100.1'), "EUR").format(:rounded_infinite_precision => true).should == "€1,00"
+          Money.new(BigDecimal.new('109.5'), "EUR").format(:rounded_infinite_precision => true).should == "€1,10"
+
+          Money.new(BigDecimal.new('100012.1'), "EUR").format(:rounded_infinite_precision => true).should == "€1.000,12"
+          Money.new(BigDecimal.new('100012.5'), "EUR").format(:rounded_infinite_precision => true).should == "€1.000,13"
+        end
+      end
     end
 
     context "when the monetary value is 0" do
