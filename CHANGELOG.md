@@ -11,6 +11,7 @@
  - Money can now add and subtract Fixnum 0
  - Money#new uses Money.default_currency if currency arg is nil (GH-410)
  - Fixed formatting of NOK, putting the symbol after numbers
+ - Fixed issue where rounded_infinite_precision formatting fails for some localized currencies (GH-422)
 
 ## 6.1.1
  - Remove lingering Monetize call

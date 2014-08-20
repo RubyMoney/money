@@ -199,11 +199,13 @@ class Money
       formatted = self.abs.to_s
 
       if rules[:rounded_infinite_precision]
+        formatted.gsub!(/#{currency.decimal_mark}/, '.') unless '.' == currency.decimal_mark
         formatted = ((BigDecimal(formatted) * currency.subunit_to_unit).round / BigDecimal(currency.subunit_to_unit.to_s)).to_s("F")
         formatted.gsub!(/\..*/) do |decimal_part|
           decimal_part << '0' while decimal_part.length < (currency.decimal_places + 1)
           decimal_part
         end
+        formatted.gsub!(/\./, currency.decimal_mark) unless '.' == currency.decimal_mark
       end
 
       sign = self.negative? ? '-' : ''
