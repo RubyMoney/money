@@ -22,11 +22,11 @@ describe Money::Bank::VariableExchange do
         end
 
         it "exchanges one currency to another" do
-          bank.exchange_with(Money.new(100, 'USD'), 'EUR').should == Money.new(133, 'EUR')
+          expect(bank.exchange_with(Money.new(100, 'USD'), 'EUR')).to eq Money.new(133, 'EUR')
         end
 
         it "truncates extra digits" do
-          bank.exchange_with(Money.new(10, 'USD'), 'EUR').should == Money.new(13, 'EUR')
+          expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR')).to eq Money.new(13, 'EUR')
         end
 
         it "raises an UnknownCurrency exception when an unknown currency is requested" do
@@ -40,13 +40,13 @@ describe Money::Bank::VariableExchange do
         #it "rounds the exchanged result down" do
         #  bank.add_rate("USD", "EUR", 0.788332676)
         #  bank.add_rate("EUR", "YEN", 122.631477)
-        #  bank.exchange_with(Money.new(10_00,  "USD"), "EUR").should == Money.new(788, "EUR")
-        #  bank.exchange_with(Money.new(500_00, "EUR"), "YEN").should == Money.new(6131573, "YEN")
+        #  expect(bank.exchange_with(Money.new(10_00,  "USD"), "EUR")).to eq Money.new(788, "EUR")
+        #  expect(bank.exchange_with(Money.new(500_00, "EUR"), "YEN")).to eq Money.new(6131573, "YEN")
         #end
 
         it "accepts a custom truncation method" do
           proc = Proc.new { |n| n.ceil }
-          bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc).should == Money.new(14, 'EUR')
+          expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc)).to eq Money.new(14, 'EUR')
         end
       end
     end
@@ -61,12 +61,12 @@ describe Money::Bank::VariableExchange do
 
       describe "#exchange_with" do
         it "uses the stored truncation method" do
-          bank.exchange_with(Money.new(10, 'USD'), 'EUR').should == Money.new(14, 'EUR')
+          expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR')).to eq Money.new(14, 'EUR')
         end
 
         it "accepts a custom truncation method" do
           proc = Proc.new { |n| n.ceil + 1 }
-          bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc).should == Money.new(15, 'EUR')
+          expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc)).to eq Money.new(15, 'EUR')
         end
       end
     end
@@ -77,20 +77,20 @@ describe Money::Bank::VariableExchange do
       subject.add_rate("USD", "EUR", 0.788332676)
       subject.add_rate("EUR", "YEN", 122.631477)
 
-      subject.instance_variable_get(:@rates)['USD_TO_EUR'].should == 0.788332676
-      subject.instance_variable_get(:@rates)['EUR_TO_JPY'].should == 122.631477
+      expect(subject.instance_variable_get(:@rates)['USD_TO_EUR']).to eq 0.788332676
+      expect(subject.instance_variable_get(:@rates)['EUR_TO_JPY']).to eq 122.631477
     end
 
     it "treats currency names case-insensitively" do
       subject.add_rate("usd", "eur", 1)
-      subject.instance_variable_get(:@rates)['USD_TO_EUR'].should == 1
+      expect(subject.instance_variable_get(:@rates)['USD_TO_EUR']).to eq 1
     end
   end
 
   describe "#set_rate" do
     it "sets a rate" do
       subject.set_rate('USD', 'EUR', 1.25)
-      subject.instance_variable_get(:@rates)['USD_TO_EUR'].should == 1.25
+      expect(subject.instance_variable_get(:@rates)['USD_TO_EUR']).to eq 1.25
     end
 
     it "raises an UnknownCurrency exception when an unknown currency is passed" do
@@ -98,12 +98,12 @@ describe Money::Bank::VariableExchange do
     end
 
     it "uses a mutex by default" do
-      subject.instance_variable_get(:@mutex).should_receive(:synchronize)
+      expect(subject.instance_variable_get(:@mutex)).to receive(:synchronize)
       subject.set_rate('USD', 'EUR', 1.25)
     end
 
     it "doesn't use mutex if requested not to" do
-      subject.instance_variable_get(:@mutex).should_not_receive(:synchronize)
+      expect(subject.instance_variable_get(:@mutex)).not_to receive(:synchronize)
       subject.set_rate('USD', 'EUR', 1.25, :without_mutex => true)
     end
   end
@@ -111,7 +111,7 @@ describe Money::Bank::VariableExchange do
   describe "#get_rate" do
     it "returns a rate" do
       subject.set_rate('USD', 'EUR', 1.25)
-      subject.get_rate('USD', 'EUR').should == 1.25
+      expect(subject.get_rate('USD', 'EUR')).to eq 1.25
     end
 
     it "raises an UnknownCurrency exception when an unknown currency is passed" do
@@ -119,12 +119,12 @@ describe Money::Bank::VariableExchange do
     end
 
     it "uses a mutex by default" do
-      subject.instance_variable_get(:@mutex).should_receive(:synchronize)
+      expect(subject.instance_variable_get(:@mutex)).to receive(:synchronize)
       subject.get_rate('USD', 'EUR')
     end
 
     it "doesn't use mutex if requested not to" do
-      subject.instance_variable_get(:@mutex).should_not_receive(:synchronize)
+      expect(subject.instance_variable_get(:@mutex)).not_to receive(:synchronize)
       subject.get_rate('USD', 'EUR', :without_mutex => true)
     end
   end
@@ -140,20 +140,20 @@ describe Money::Bank::VariableExchange do
     context "with format == :json" do
       it "should return rates formatted as json" do
         json = subject.export_rates(:json)
-        JSON.load(json).should == @rates
+        expect(JSON.load(json)).to eq @rates
       end
     end
 
     context "with format == :ruby" do
       it "should return rates formatted as ruby objects" do
-        Marshal.load(subject.export_rates(:ruby)).should == @rates
+        expect(Marshal.load(subject.export_rates(:ruby))).to eq @rates
       end
     end
 
     context "with format == :yaml" do
       it "should return rates formatted as yaml" do
         yaml = subject.export_rates(:yaml)
-        YAML.load(yaml).should == @rates
+        expect(YAML.load(yaml)).to eq @rates
       end
     end
 
@@ -166,20 +166,20 @@ describe Money::Bank::VariableExchange do
     context "with :file provided" do
       it "writes rates to file" do
         f = double('IO')
-        File.should_receive(:open).with('null', 'w').and_yield(f)
-        f.should_receive(:write).with(JSON.dump(@rates))
+        expect(File).to receive(:open).with('null', 'w').and_yield(f)
+        expect(f).to receive(:write).with(JSON.dump(@rates))
 
         subject.export_rates(:json, 'null')
       end
     end
 
     it "uses a mutex by default" do
-      subject.instance_variable_get(:@mutex).should_receive(:synchronize)
+      expect(subject.instance_variable_get(:@mutex)).to receive(:synchronize)
       subject.export_rates(:yaml)
     end
 
     it "doesn't use mutex if requested not to" do
-      subject.instance_variable_get(:@mutex).should_not_receive(:synchronize)
+      expect(subject.instance_variable_get(:@mutex)).not_to receive(:synchronize)
       subject.export_rates(:yaml, nil, :without_mutex => true)
     end
   end
@@ -189,8 +189,8 @@ describe Money::Bank::VariableExchange do
       it "loads the rates provided" do
         s = '{"USD_TO_EUR":1.25,"USD_TO_JPY":2.55}'
         subject.import_rates(:json, s)
-        subject.get_rate('USD', 'EUR').should == 1.25
-        subject.get_rate('USD', 'JPY').should == 2.55
+        expect(subject.get_rate('USD', 'EUR')).to eq 1.25
+        expect(subject.get_rate('USD', 'JPY')).to eq 2.55
       end
     end
 
@@ -198,8 +198,8 @@ describe Money::Bank::VariableExchange do
       it "loads the rates provided" do
         s = Marshal.dump({"USD_TO_EUR"=>1.25,"USD_TO_JPY"=>2.55})
         subject.import_rates(:ruby, s)
-        subject.get_rate('USD', 'EUR').should == 1.25
-        subject.get_rate('USD', 'JPY').should == 2.55
+        expect(subject.get_rate('USD', 'EUR')).to eq 1.25
+        expect(subject.get_rate('USD', 'JPY')).to eq 2.55
       end
     end
 
@@ -207,8 +207,8 @@ describe Money::Bank::VariableExchange do
       it "loads the rates provided" do
         s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
         subject.import_rates(:yaml, s)
-        subject.get_rate('USD', 'EUR').should == 1.25
-        subject.get_rate('USD', 'JPY').should == 2.55
+        expect(subject.get_rate('USD', 'EUR')).to eq 1.25
+        expect(subject.get_rate('USD', 'JPY')).to eq 2.55
       end
     end
 
@@ -219,13 +219,13 @@ describe Money::Bank::VariableExchange do
     end
 
     it "uses a mutex by default" do
-      subject.instance_variable_get(:@mutex).should_receive(:synchronize)
+      expect(subject.instance_variable_get(:@mutex)).to receive(:synchronize)
       s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
       subject.import_rates(:yaml, s)
     end
 
     it "doesn't use mutex if requested not to" do
-      subject.instance_variable_get(:@mutex).should_not_receive(:synchronize)
+      expect(subject.instance_variable_get(:@mutex)).not_to receive(:synchronize)
       s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
       subject.import_rates(:yaml, s, :without_mutex => true)
     end
@@ -249,10 +249,10 @@ describe Money::Bank::VariableExchange do
     end
 
     it "returns a hashkey based on the passed arguments" do
-      subject.send(:rate_key_for, 'USD', 'EUR').should == 'USD_TO_EUR'
-      subject.send(:rate_key_for, Money::Currency.wrap('USD'), 'EUR').should == 'USD_TO_EUR'
-      subject.send(:rate_key_for, 'USD', Money::Currency.wrap('EUR')).should == 'USD_TO_EUR'
-      subject.send(:rate_key_for, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR')).should == 'USD_TO_EUR'
+      expect(subject.send(:rate_key_for, 'USD', 'EUR')).to eq 'USD_TO_EUR'
+      expect(subject.send(:rate_key_for, Money::Currency.wrap('USD'), 'EUR')).to eq 'USD_TO_EUR'
+      expect(subject.send(:rate_key_for, 'USD', Money::Currency.wrap('EUR'))).to eq 'USD_TO_EUR'
+      expect(subject.send(:rate_key_for, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR'))).to eq 'USD_TO_EUR'
     end
 
     it "raises a Money::Currency::UnknownCurrency exception when an unknown currency is passed" do
@@ -268,8 +268,8 @@ describe Money::Bank::VariableExchange do
     it "works with Marshal.load" do
       bank = Marshal.load(Marshal.dump(subject))
 
-      bank.rates.should           == subject.rates
-      bank.rounding_method.should == subject.rounding_method
+      expect(bank.rates).to           eq subject.rates
+      expect(bank.rounding_method).to eq subject.rounding_method
     end
   end
 end

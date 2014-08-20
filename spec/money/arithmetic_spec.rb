@@ -5,26 +5,26 @@ require "spec_helper"
 describe Money do
   describe "-@" do
     it "changes the sign of a number" do
-      (- Money.new(0)).should == Money.new(0)
-      (- Money.new(1)).should == Money.new(-1)
-      (- Money.new(-1)).should == Money.new(1)
+      expect((- Money.new(0))).to  eq Money.new(0)
+      expect((- Money.new(1))).to  eq Money.new(-1)
+      expect((- Money.new(-1))).to eq Money.new(1)
     end
   end
 
   describe "#==" do
     it "returns true if and only if their amount and currency are equal" do
-      Money.new(1_00, "USD").should == Money.new(1_00, "USD")
-      Money.new(1_00, "USD").should_not == Money.new(1_00, "EUR")
-      Money.new(1_00, "USD").should_not == Money.new(2_00, "USD")
-      Money.new(1_00, "USD").should_not == Money.new(99_00, "EUR")
+      expect(Money.new(1_00, "USD")).to     eq Money.new(1_00, "USD")
+      expect(Money.new(1_00, "USD")).not_to eq Money.new(1_00, "EUR")
+      expect(Money.new(1_00, "USD")).not_to eq Money.new(2_00, "USD")
+      expect(Money.new(1_00, "USD")).not_to eq Money.new(99_00, "EUR")
     end
 
     it "returns false if used to compare with an object that doesn't respond to #to_money" do
-      Money.new(1_00, "USD").should_not == Object.new
-      Money.new(1_00, "USD").should_not == Class
-      Money.new(1_00, "USD").should_not == Kernel
-      Money.new(1_00, "USD").should_not == /foo/
-      Money.new(1_00, "USD").should_not == nil
+      expect(Money.new(1_00, "USD")).not_to eq Object.new
+      expect(Money.new(1_00, "USD")).not_to eq Class
+      expect(Money.new(1_00, "USD")).not_to eq Kernel
+      expect(Money.new(1_00, "USD")).not_to eq /foo/
+      expect(Money.new(1_00, "USD")).not_to eq nil
     end
 
     it "can be used to compare with an object that responds to #to_money" do
@@ -38,27 +38,27 @@ describe Money do
         end
       end
 
-      Money.new(1_00, "USD").should == klass.new(Money.new(1_00, "USD"))
-      Money.new(2_50, "USD").should == klass.new(Money.new(2_50, "USD"))
-      Money.new(2_50, "USD").should_not == klass.new(Money.new(3_00, "USD"))
-      Money.new(1_00, "GBP").should_not == klass.new(Money.new(1_00, "USD"))
+      expect(Money.new(1_00, "USD")).to     eq klass.new(Money.new(1_00, "USD"))
+      expect(Money.new(2_50, "USD")).to     eq klass.new(Money.new(2_50, "USD"))
+      expect(Money.new(2_50, "USD")).not_to eq klass.new(Money.new(3_00, "USD"))
+      expect(Money.new(1_00, "GBP")).not_to eq klass.new(Money.new(1_00, "USD"))
     end
   end
 
   describe "#eql?" do
     it "returns true if and only if their amount and currency are equal" do
-      Money.new(1_00, "USD").eql?(Money.new(1_00, "USD")).should be true
-      Money.new(1_00, "USD").eql?(Money.new(1_00, "EUR")).should be false
-      Money.new(1_00, "USD").eql?(Money.new(2_00, "USD")).should be false
-      Money.new(1_00, "USD").eql?(Money.new(99_00, "EUR")).should be false
+      expect(Money.new(1_00, "USD").eql?(Money.new(1_00, "USD"))).to  be true
+      expect(Money.new(1_00, "USD").eql?(Money.new(1_00, "EUR"))).to  be false
+      expect(Money.new(1_00, "USD").eql?(Money.new(2_00, "USD"))).to  be false
+      expect(Money.new(1_00, "USD").eql?(Money.new(99_00, "EUR"))).to be false
     end
 
     it "returns false if used to compare with an object that doesn't respond to #to_money" do
-      Money.new(1_00, "USD").eql?(Object.new).should be false
-      Money.new(1_00, "USD").eql?(Class).should be false
-      Money.new(1_00, "USD").eql?(Kernel).should be false
-      Money.new(1_00, "USD").eql?(/foo/).should be false
-      Money.new(1_00, "USD").eql?(nil).should be false
+      expect(Money.new(1_00, "USD").eql?(Object.new)).to  be false
+      expect(Money.new(1_00, "USD").eql?(Class)).to       be false
+      expect(Money.new(1_00, "USD").eql?(Kernel)).to      be false
+      expect(Money.new(1_00, "USD").eql?(/foo/)).to       be false
+      expect(Money.new(1_00, "USD").eql?(nil)).to         be false
     end
 
     it "can be used to compare with an object that responds to #to_money" do
@@ -72,32 +72,32 @@ describe Money do
         end
       end
 
-      Money.new(1_00, "USD").eql?(klass.new(Money.new(1_00, "USD"))).should be true
-      Money.new(2_50, "USD").eql?(klass.new(Money.new(2_50, "USD"))).should be true
-      Money.new(2_50, "USD").eql?(klass.new(Money.new(3_00, "USD"))).should be false
-      Money.new(1_00, "GBP").eql?(klass.new(Money.new(1_00, "USD"))).should be false
+      expect(Money.new(1_00, "USD").eql?(klass.new(Money.new(1_00, "USD")))).to be true
+      expect(Money.new(2_50, "USD").eql?(klass.new(Money.new(2_50, "USD")))).to be true
+      expect(Money.new(2_50, "USD").eql?(klass.new(Money.new(3_00, "USD")))).to be false
+      expect(Money.new(1_00, "GBP").eql?(klass.new(Money.new(1_00, "USD")))).to be false
     end
   end
 
   describe "#<=>" do
     it "compares the two object amounts (same currency)" do
-      (Money.new(1_00, "USD") <=> Money.new(1_00, "USD")).should == 0
-      (Money.new(1_00, "USD") <=> Money.new(99, "USD")).should > 0
-      (Money.new(1_00, "USD") <=> Money.new(2_00, "USD")).should < 0
+      expect((Money.new(1_00, "USD") <=> Money.new(1_00, "USD"))).to eq 0
+      expect((Money.new(1_00, "USD") <=> Money.new(99, "USD"))).to be > 0
+      expect((Money.new(1_00, "USD") <=> Money.new(2_00, "USD"))).to be < 0
     end
 
     it "converts other object amount to current currency, then compares the two object amounts (different currency)" do
       target = Money.new(200_00, "EUR")
-      target.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(300_00, "USD"))
-      (Money.new(100_00, "USD") <=> target).should < 0
+      expect(target).to receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(300_00, "USD"))
+      expect(Money.new(100_00, "USD") <=> target).to be < 0
 
       target = Money.new(200_00, "EUR")
-      target.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(100_00, "USD"))
-      (Money.new(100_00, "USD") <=> target).should == 0
+      expect(target).to receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(100_00, "USD"))
+      expect(Money.new(100_00, "USD") <=> target).to eq 0
 
       target = Money.new(200_00, "EUR")
-      target.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(99_00, "USD"))
-      (Money.new(100_00, "USD") <=> target).should > 0
+      expect(target).to receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(99_00, "USD"))
+      expect(Money.new(100_00, "USD") <=> target).to be > 0
     end
 
     it "can be used to compare with an object that responds to #to_money" do
@@ -111,9 +111,9 @@ describe Money do
         end
       end
 
-      (Money.new(1_00) <=> klass.new(Money.new(1_00))).should == 0
-      (Money.new(1_00) <=> klass.new(Money.new(99))).should > 0
-      (Money.new(1_00) <=> klass.new(Money.new(2_00))).should < 0
+      expect(Money.new(1_00) <=> klass.new(Money.new(1_00))).to eq 0
+      expect(Money.new(1_00) <=> klass.new(Money.new(99))).to be > 0
+      expect(Money.new(1_00) <=> klass.new(Money.new(2_00))).to be < 0
     end
 
     it "raises ArgumentError when used to compare with an object that doesn't respond to #to_money" do
@@ -127,61 +127,61 @@ describe Money do
 
   describe "#positive?" do
     it "returns true if the amount is greater than 0" do
-      Money.new(1).should be_positive
+      expect(Money.new(1)).to be_positive
     end
 
     it "returns false if the amount is 0" do
-      Money.new(0).should_not be_positive
+      expect(Money.new(0)).not_to be_positive
     end
 
     it "returns false if the amount is negative" do
-      Money.new(-1).should_not be_positive
+      expect(Money.new(-1)).not_to be_positive
     end
   end
 
   describe "#negative?" do
     it "returns true if the amount is less than 0" do
-      Money.new(-1).should be_negative
+      expect(Money.new(-1)).to be_negative
     end
 
     it "returns false if the amount is 0" do
-      Money.new(0).should_not be_negative
+      expect(Money.new(0)).not_to be_negative
     end
 
     it "returns false if the amount is greater than 0" do
-      Money.new(1).should_not be_negative
+      expect(Money.new(1)).not_to be_negative
     end
   end
 
   describe "#+" do
     it "adds other amount to current amount (same currency)" do
-      (Money.new(10_00, "USD") + Money.new(90, "USD")).should == Money.new(10_90, "USD")
+      expect(Money.new(10_00, "USD") + Money.new(90, "USD")).to eq Money.new(10_90, "USD")
     end
 
     it "converts other object amount to current currency and adds other amount to current amount (different currency)" do
       other = Money.new(90, "EUR")
-      other.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(9_00, "USD"))
-      (Money.new(10_00, "USD") + other).should == Money.new(19_00, "USD")
+      expect(other).to receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(9_00, "USD"))
+      expect(Money.new(10_00, "USD") + other).to eq Money.new(19_00, "USD")
     end
 
     it "adds Fixnum 0 to money and returns the same ammount" do
-      (Money.new(10_00) + 0).should == Money.new(10_00)
+      expect(Money.new(10_00) + 0).to eq Money.new(10_00)
     end
   end
 
   describe "#-" do
     it "subtracts other amount from current amount (same currency)" do
-      (Money.new(10_00, "USD") - Money.new(90, "USD")).should == Money.new(9_10, "USD")
+      expect(Money.new(10_00, "USD") - Money.new(90, "USD")).to eq Money.new(9_10, "USD")
     end
 
     it "converts other object amount to current currency and subtracts other amount from current amount (different currency)" do
       other = Money.new(90, "EUR")
-      other.should_receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(9_00, "USD"))
-      (Money.new(10_00, "USD") - other).should == Money.new(1_00, "USD")
+      expect(other).to receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(9_00, "USD"))
+      expect(Money.new(10_00, "USD") - other).to eq Money.new(1_00, "USD")
     end
 
     it "subtract Fixnum 0 to money and returns the same ammount" do
-      (Money.new(10_00) - 0).should == Money.new(10_00)
+      expect(Money.new(10_00) - 0).to eq Money.new(10_00)
     end
   end
 
@@ -194,7 +194,7 @@ describe Money do
         {:a => Money.new(-10, :USD), :b => -4, :c => Money.new( 40, :USD)},
       ]
       ts.each do |t|
-        (t[:a] * t[:b]).should == t[:c]
+        expect(t[:a] * t[:b]).to eq t[:c]
       end
     end
 
@@ -220,44 +220,44 @@ describe Money do
         {:a => Money.new(-13, :USD), :b => -4, :c => Money.new( 3, :USD)},
       ]
       ts.each do |t|
-        (t[:a] / t[:b]).should == t[:c]
+        expect(t[:a] / t[:b]).to eq t[:c]
       end
     end
 
     context 'rounding preference' do
       before do
-        Money.stub(:rounding_mode => rounding_mode)
+        allow(Money).to receive(:rounding_mode).and_return(rounding_mode)
       end
 
       after do
-        Money.unstub(:rounding_mode)
+        allow(Money).to receive(:rounding_mode).and_call_original
       end
 
       context 'ceiling rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_CEILING }
         it "obeys the rounding preference" do
-          (Money.new(10) / 3).should == Money.new(4)
+          expect(Money.new(10) / 3).to eq Money.new(4)
         end
       end
 
       context 'floor rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_FLOOR }
         it "obeys the rounding preference" do
-          (Money.new(10) / 6).should == Money.new(1)
+          expect(Money.new(10) / 6).to eq Money.new(1)
         end
       end
 
       context 'half up rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_HALF_UP }
         it "obeys the rounding preference" do
-          (Money.new(10) / 4).should == Money.new(3)
+          expect(Money.new(10) / 4).to eq Money.new(3)
         end
       end
 
       context 'half down rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_HALF_DOWN }
         it "obeys the rounding preference" do
-          (Money.new(10) / 4).should == Money.new(2)
+          expect(Money.new(10) / 4).to eq Money.new(2)
         end
       end
     end
@@ -270,7 +270,7 @@ describe Money do
         {:a => Money.new(-13, :USD), :b => Money.new(-4, :USD), :c =>  3.25},
       ]
       ts.each do |t|
-        (t[:a] / t[:b]).should == t[:c]
+        expect(t[:a] / t[:b]).to eq t[:c]
       end
     end
 
@@ -282,8 +282,8 @@ describe Money do
         {:a => Money.new(-13, :USD), :b => Money.new(-4, :EUR), :c =>  1.625},
       ]
       ts.each do |t|
-        t[:b].should_receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
-        (t[:a] / t[:b]).should == t[:c]
+        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        expect(t[:a] / t[:b]).to eq t[:c]
       end
     end
 
@@ -304,7 +304,7 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => -4, :c => Money.new( 3.25, :USD)},
         ]
         ts.each do |t|
-          (t[:a] / t[:b]).should == t[:c]
+          expect(t[:a] / t[:b]).to eq t[:c]
         end
       end
     end
@@ -319,7 +319,7 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => -4, :c => Money.new( 3, :USD)},
       ]
       ts.each do |t|
-        t[:a].div(t[:b]).should == t[:c]
+        expect(t[:a].div(t[:b])).to eq t[:c]
       end
     end
 
@@ -331,7 +331,7 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => Money.new(-4, :USD), :c =>  3.25},
       ]
       ts.each do |t|
-        t[:a].div(t[:b]).should == t[:c]
+        expect(t[:a].div(t[:b])).to eq t[:c]
       end
     end
 
@@ -343,8 +343,8 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => Money.new(-4, :EUR), :c =>  1.625},
       ]
       ts.each do |t|
-        t[:b].should_receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
-        t[:a].div(t[:b]).should == t[:c]
+        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        expect(t[:a].div(t[:b])).to eq t[:c]
       end
     end
 
@@ -365,7 +365,7 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => -4, :c => Money.new( 3.25, :USD)},
         ]
         ts.each do |t|
-          t[:a].div(t[:b]).should == t[:c]
+          expect(t[:a].div(t[:b])).to eq t[:c]
         end
       end
     end
@@ -380,7 +380,7 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => -4, :c => [Money.new( 3, :USD), Money.new(-1, :USD)]},
       ]
       ts.each do |t|
-        t[:a].divmod(t[:b]).should == t[:c]
+        expect(t[:a].divmod(t[:b])).to eq t[:c]
       end
     end
 
@@ -392,7 +392,7 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => Money.new(-4, :USD), :c => [ 3, Money.new(-1, :USD)]},
       ]
       ts.each do |t|
-        t[:a].divmod(t[:b]).should == t[:c]
+        expect(t[:a].divmod(t[:b])).to eq t[:c]
       end
     end
 
@@ -404,8 +404,8 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => Money.new(-4, :EUR), :c => [ 1, Money.new(-5, :USD)]},
       ]
       ts.each do |t|
-        t[:b].should_receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
-        t[:a].divmod(t[:b]).should == t[:c]
+        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        expect(t[:a].divmod(t[:b])).to eq t[:c]
       end
     end
 
@@ -426,7 +426,7 @@ describe Money do
             {:a => Money.new(-13, :USD), :b => -4, :c => [Money.new( 3, :USD), Money.new(-1, :USD)]},
         ]
         ts.each do |t|
-          t[:a].divmod(t[:b]).should == t[:c]
+          expect(t[:a].divmod(t[:b])).to eq t[:c]
         end
       end
     end
@@ -441,7 +441,7 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => -4, :c => Money.new(-1, :USD)},
       ]
       ts.each do |t|
-        t[:a].modulo(t[:b]).should == t[:c]
+        expect(t[:a].modulo(t[:b])).to eq t[:c]
       end
     end
 
@@ -453,7 +453,7 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => Money.new(-4, :USD), :c => Money.new(-1, :USD)},
       ]
       ts.each do |t|
-        t[:a].modulo(t[:b]).should == t[:c]
+        expect(t[:a].modulo(t[:b])).to eq t[:c]
       end
     end
 
@@ -465,8 +465,8 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => Money.new(-4, :EUR), :c => Money.new(-5, :USD)},
       ]
       ts.each do |t|
-        t[:b].should_receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
-        t[:a].modulo(t[:b]).should == t[:c]
+        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        expect(t[:a].modulo(t[:b])).to eq t[:c]
       end
     end
   end
@@ -480,7 +480,7 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => -4, :c => Money.new(-1, :USD)},
       ]
       ts.each do |t|
-        (t[:a] % t[:b]).should == t[:c]
+        expect(t[:a] % t[:b]).to eq t[:c]
       end
     end
 
@@ -492,7 +492,7 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => Money.new(-4, :USD), :c => Money.new(-1, :USD)},
       ]
       ts.each do |t|
-        (t[:a] % t[:b]).should == t[:c]
+        expect(t[:a] % t[:b]).to eq t[:c]
       end
     end
 
@@ -504,8 +504,8 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => Money.new(-4, :EUR), :c => Money.new(-5, :USD)},
       ]
       ts.each do |t|
-        t[:b].should_receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
-        (t[:a] % t[:b]).should == t[:c]
+        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        expect(t[:a] % t[:b]).to eq t[:c]
       end
     end
   end
@@ -519,7 +519,7 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => -4, :c => Money.new(-1, :USD)},
       ]
       ts.each do |t|
-        t[:a].remainder(t[:b]).should == t[:c]
+        expect(t[:a].remainder(t[:b])).to eq t[:c]
       end
     end
   end
@@ -527,42 +527,42 @@ describe Money do
   describe "#abs" do
     it "returns the absolute value as a new Money object" do
       n = Money.new(-1, :USD)
-      n.abs.should == Money.new( 1, :USD)
-      n.should     == Money.new(-1, :USD)
+      expect(n.abs).to eq Money.new( 1, :USD)
+      expect(n).to     eq Money.new(-1, :USD)
     end
   end
 
   describe "#zero?" do
     it "returns whether the amount is 0" do
-      Money.new(0, "USD").should be_zero
-      Money.new(0, "EUR").should be_zero
-      Money.new(1, "USD").should_not be_zero
-      Money.new(10, "YEN").should_not be_zero
-      Money.new(-1, "EUR").should_not be_zero
+      expect(Money.new(0, "USD")).to be_zero
+      expect(Money.new(0, "EUR")).to be_zero
+      expect(Money.new(1, "USD")).not_to be_zero
+      expect(Money.new(10, "YEN")).not_to be_zero
+      expect(Money.new(-1, "EUR")).not_to be_zero
     end
   end
 
   describe "#nonzero?" do
     it "returns whether the amount is not 0" do
-      Money.new(0, "USD").should_not be_nonzero
-      Money.new(0, "EUR").should_not be_nonzero
-      Money.new(1, "USD").should be_nonzero
-      Money.new(10, "YEN").should be_nonzero
-      Money.new(-1, "EUR").should be_nonzero
+      expect(Money.new(0, "USD")).not_to be_nonzero
+      expect(Money.new(0, "EUR")).not_to be_nonzero
+      expect(Money.new(1, "USD")).to be_nonzero
+      expect(Money.new(10, "YEN")).to be_nonzero
+      expect(Money.new(-1, "EUR")).to be_nonzero
     end
 
     it "has the same return-value semantics as Numeric#nonzero?" do
-      Money.new(0, "USD").nonzero?.should be_nil
+      expect(Money.new(0, "USD").nonzero?).to be_nil
 
       money = Money.new(1, "USD")
-      money.nonzero?.should be_equal(money)
+      expect(money.nonzero?).to be_equal(money)
     end
   end
 
   describe "#coerce" do
     it "allows mathematical operations by coercing arguments" do
       result = 2 * Money.new(4, 'USD')
-      result.should == Money.new(8, 'USD')
+      expect(result).to eq Money.new(8, 'USD')
     end
   end
 end
