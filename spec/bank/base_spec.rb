@@ -6,7 +6,7 @@ describe Money::Bank::Base do
     it "is local to one class" do
       klass = Money::Bank::Base
       subclass = Class.new(Money::Bank::Base)
-      klass.instance.should_not == subclass.instance
+      expect(klass.instance).not_to eq subclass.instance
     end
   end
 
@@ -14,7 +14,7 @@ describe Money::Bank::Base do
     it "accepts a block and stores @rounding_method" do
       proc = Proc.new { |n| n.ceil }
       bank = Money::Bank::Base.new(&proc)
-      bank.rounding_method.should == proc
+      expect(bank.rounding_method).to eq proc
     end
   end
 
@@ -29,7 +29,7 @@ describe Money::Bank::Base do
       end
 
       bank = MyBank.new
-      bank.setup_called.should == true
+      expect(bank.setup_called).to eq true
     end
   end
 
@@ -57,17 +57,17 @@ describe Money::Bank::Base do
     end
 
     it "returns true when currencies match" do
-      subject.send(:same_currency?, 'USD', 'USD').should be_true
-      subject.send(:same_currency?, Money::Currency.wrap('USD'), 'USD').should be_true
-      subject.send(:same_currency?, 'USD', Money::Currency.wrap('USD')).should be_true
-      subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('USD')).should be_true
+      expect(subject.send(:same_currency?, 'USD', 'USD')).to be true
+      expect(subject.send(:same_currency?, Money::Currency.wrap('USD'), 'USD')).to be true
+      expect(subject.send(:same_currency?, 'USD', Money::Currency.wrap('USD'))).to be true
+      expect(subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('USD'))).to be true
     end
 
     it "returns false when currencies do not match" do
-      subject.send(:same_currency?, 'USD', 'EUR').should be_false
-      subject.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR').should be_false
-      subject.send(:same_currency?, 'USD', Money::Currency.wrap('EUR')).should be_false
-      subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR')).should be_false
+      expect(subject.send(:same_currency?, 'USD', 'EUR')).to be false
+      expect(subject.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR')).to be false
+      expect(subject.send(:same_currency?, 'USD', Money::Currency.wrap('EUR'))).to be false
+      expect(subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR'))).to be false
     end
 
     it "raises an UnknownCurrency exception when an unknown currency is passed" do
