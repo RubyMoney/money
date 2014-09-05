@@ -224,6 +224,20 @@ class Money
       self.equal?(other_currency) || compare_ids(other_currency)
     end
 
+    # Returns a CurrencyPair with other_currency as the counter currency
+    #
+    # @param [Money::Currency] other_currency The counter currency for the pair
+    #
+    # @return [Money::CurrencyPair]
+    #
+    # @example
+    #  usd = Money::Currency.new(:usd)
+    #  aud = Money::Currency.new(:aud)
+    #  usd/aud => <Money::CurrencyPair @base=usd @counter=aud>
+    def /(other_currency)
+      Money::CurrencyPair.new(self, other_currency)
+    end
+
     def compare_ids(other_currency)
       other_currency_id = if other_currency.is_a?(Currency)
                             other_currency.id.to_s.downcase

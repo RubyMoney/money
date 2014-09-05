@@ -109,7 +109,7 @@ describe Money::Currency do
       Money::Currency.new(:eur).should     == Money::Currency.new(:EUR)
       Money::Currency.new(:eur).should_not == Money::Currency.new(:usd)
     end
-    
+
     it "allows direct comparison of currencies and symbols/strings" do
       Money::Currency.new(:eur).should     == 'eur'
       Money::Currency.new(:eur).should     == 'EUR'
@@ -120,6 +120,16 @@ describe Money::Currency do
 
     it "allows comparison with nil and returns false" do
       Money::Currency.new(:eur).should_not == nil
+    end
+  end
+
+  describe "#/" do
+    it "returns a currency pair" do
+      aud = Money::Currency.new(:aud)
+      nzd = Money::Currency.new(:nzd)
+
+      expect(aud/nzd).to eq(Money::CurrencyPair.new(:aud, :nzd))
+
     end
   end
 
