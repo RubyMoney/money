@@ -3,7 +3,7 @@
 Gemfile.lock
 pkg/*
 bin/
-
+/coverage
 # Rubinius
 *.rbc
 
