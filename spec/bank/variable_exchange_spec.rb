@@ -37,12 +37,12 @@ describe Money::Bank::VariableExchange do
           expect { bank.exchange_with(Money.new(100, 'USD'), 'JPY') }.to raise_exception(Money::Bank::UnknownRate)
         end
 
-        #it "rounds the exchanged result down" do
-        #  bank.add_rate("USD", "EUR", 0.788332676)
-        #  bank.add_rate("EUR", "YEN", 122.631477)
-        #  bank.exchange_with(Money.new(10_00,  "USD"), "EUR").should == Money.new(788, "EUR")
-        #  bank.exchange_with(Money.new(500_00, "EUR"), "YEN").should == Money.new(6131573, "YEN")
-        #end
+        it "rounds the exchanged amount" do
+          bank.add_rate('BTC', 'AUD', '430.00')
+          bank.exchange_with(Money.new(100_000_000,  'BTC'), 'AUD').should == Money.new(430_00, 'AUD')
+          bank.add_rate('AUD', 'BTC', BigDecimal.new(1)/BigDecimal.new('430.00'))
+          bank.exchange_with(Money.new(430_00,  'AUD'), 'BTC').should == Money.new(100_000_000, 'BTC')
+        end
 
         it "accepts a custom truncation method" do
           proc = Proc.new { |n| n.ceil }

@@ -114,7 +114,7 @@ class Money
         elsif @rounding_method
           @rounding_method.call(ex)
         else
-          ex.to_s.to_i
+          ex.round
         end
       end
 
