@@ -1,6 +1,9 @@
 # Changelog
 
-## Next release
+## 6.2.1
+ - Ensure set is loaded
+
+## 6.2.0
  - Fixes formatting error when both `thousands_separator` and `decimal_mark` was added to Money#format as options.
  - Add Money#to_i which returns the whole part of the value. i.e.
    Money.new(100, "USD").to_i # => 1
