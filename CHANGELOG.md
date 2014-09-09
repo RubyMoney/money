@@ -1,5 +1,8 @@
 # Changelog
 
+## Next release
+ - Add method to round a given amount of money to the nearest possible value in cash (aka Swedish rounding).
+
 ## 6.2.1
  - Ensure set is loaded
 

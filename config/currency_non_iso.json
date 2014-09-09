@@ -25,6 +25,7 @@
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
     "thousands_separator": ",",
-    "iso_numeric": ""
+    "iso_numeric": "",
+    "smallest_denomination": 1
   }
 }

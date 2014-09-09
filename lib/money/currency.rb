@@ -151,10 +151,12 @@ class Money
     # of the whole unit.
     # @attr_reader [Boolean] symbol_first Should the currency symbol precede
     # the amount, or should it come after?
+    # @attr_reader [Integer] smallest_denomination Smallest amount of cash 
+    # possible (in the subunit of this currency)
 
     attr_reader :id, :priority, :iso_code, :iso_numeric, :name, :symbol,
       :html_entity, :subunit, :subunit_to_unit, :decimal_mark,
-      :thousands_separator, :symbol_first
+      :thousands_separator, :symbol_first, :smallest_denomination
 
     alias_method :separator, :decimal_mark
     alias_method :delimiter, :thousands_separator
@@ -186,6 +188,7 @@ class Money
         @decimal_mark = data[:decimal_mark]
         @thousands_separator = data[:thousands_separator]
         @iso_numeric = data[:iso_numeric]
+        @smallest_denomination = data[:smallest_denomination]
       else
         raise UnknownCurrency, "Unknown currency '#{id}'"
       end
@@ -268,7 +271,7 @@ class Money
     # @example
     #   Money::Currency.new(:usd) #=> #<Currency id: usd ...>
     def inspect
-      "#<#{self.class.name} id: #{id}, priority: #{priority}, symbol_first: #{symbol_first}, thousands_separator: #{thousands_separator}, html_entity: #{html_entity}, decimal_mark: #{decimal_mark}, name: #{name}, symbol: #{symbol}, subunit_to_unit: #{subunit_to_unit}, exponent: #{exponent}, iso_code: #{iso_code}, iso_numeric: #{iso_numeric}, subunit: #{subunit}>"
+      "#<#{self.class.name} id: #{id}, priority: #{priority}, symbol_first: #{symbol_first}, thousands_separator: #{thousands_separator}, html_entity: #{html_entity}, decimal_mark: #{decimal_mark}, name: #{name}, symbol: #{symbol}, subunit_to_unit: #{subunit_to_unit}, exponent: #{exponent}, iso_code: #{iso_code}, iso_numeric: #{iso_numeric}, subunit: #{subunit}, smallest_denomination: #{smallest_denomination}>"
     end
 
     # Returns a string representation corresponding to the upcase +id+

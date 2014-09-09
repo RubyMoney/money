@@ -47,11 +47,27 @@ class Money
     # from YAML, @fractional can end up being set to a Float.
     fractional = as_d(@fractional)
 
-    if self.class.infinite_precision
-      fractional
-    else
-      fractional.round(0, self.class.rounding_mode).to_i
+    return_value(fractional)
+  end
+  
+  # Round a given amount of money to the nearest possible amount in cash value. For
+  # example, in Swiss francs (CHF), the smallest possible amount of cash value is
+  # CHF 0.05. Therefore, this method rounds CHF 0.07 to CHF 0.05, and CHF 0.08 to
+  # CHF 0.10.
+  #
+  # @return [Integer] when infinite_precision is false
+  # @return [BigDecimal] when infinite_precision is true
+  #
+  # @see infinite_precision
+  def round_to_nearest_cash_value
+    unless self.currency.smallest_denomination
+      raise 'Not supported for this currency'
     end
+    
+    smallest_denomination = as_d(self.currency.smallest_denomination)
+    rounded_value = (fractional / smallest_denomination).round * smallest_denomination
+    
+    return_value(rounded_value)
   end
 
   # @attr_reader [Currency] currency The currency the money is in.
@@ -596,6 +612,14 @@ class Money
 
     Array.new(num).each_with_index.map do |_, index|
       index < remainder ? high : low
+    end
+  end
+  
+  def return_value(value)
+    if self.class.infinite_precision
+      value
+    else
+      value.round(0, self.class.rounding_mode).to_i
     end
   end
 end
