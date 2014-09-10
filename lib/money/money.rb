@@ -455,7 +455,7 @@ class Money
     exchange_to("EUR")
   end
 
-  # Allocates money between different parties without loosing pennies.
+  # Allocates money between different parties without losing pennies.
   # After the mathmatically split has been performed, left over pennies will
   # be distributed round-robin amongst the parties. This means that parties
   # listed first will likely recieve more pennies then ones that are listed later
@@ -484,7 +484,7 @@ class Money
     amounts.collect { |fractional| Money.new(fractional, currency) }
   end
 
-  # Split money amongst parties evenly without loosing pennies.
+  # Split money amongst parties evenly without losing pennies.
   #
   # @param [Numeric] num number of parties.
   #

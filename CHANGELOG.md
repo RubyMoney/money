@@ -236,7 +236,7 @@ Features
    - Replace separator with decimal_mark
    - Added symbol_first and html_entity
  - Added allocation algorithm for fair(ish) splitting of money between parties
-   without loosing pennies (thanks Tobias Luetke)
+   without losing pennies (thanks Tobias Luetke)
 
 Bugfixes
 --------
