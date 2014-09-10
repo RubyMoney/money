@@ -15,6 +15,9 @@ require "money/money/formatting"
 # @see http://en.wikipedia.org/wiki/Money
 class Money
   include Comparable, Money::Arithmetic, Money::Formatting
+  
+  # Raised when smallest denomination of a currency is not defined
+  class UndefinedSmallestDenomination < StandardError; end
 
   # Convenience method for fractional part of the amount. Synonym of #fractional
   #
@@ -61,7 +64,7 @@ class Money
   # @see infinite_precision
   def round_to_nearest_cash_value
     unless self.currency.smallest_denomination
-      raise 'Not supported for this currency'
+      raise UndefinedSmallestDenomination, 'Smallest denomination of this currency is not defined'
     end
     
     smallest_denomination = as_d(self.currency.smallest_denomination)
