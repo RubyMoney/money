@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe Money::Currency do
 
-  FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 450, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": "," }'
+  FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 450, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
 
   describe ".find" do
     before :each do
@@ -75,15 +75,16 @@ describe Money::Currency do
   describe "#initialize" do
     it "lookups data from loaded config" do
       currency = Money::Currency.new("USD")
-      expect(currency.id).to                  eq :usd
-      expect(currency.priority).to            eq 1
-      expect(currency.iso_code).to            eq "USD"
-      expect(currency.iso_numeric).to         eq "840"
-      expect(currency.name).to                eq "United States Dollar"
-      expect(currency.decimal_mark).to        eq "."
-      expect(currency.separator).to           eq "."
-      expect(currency.thousands_separator).to eq ","
-      expect(currency.delimiter).to           eq ","
+      expect(currency.id).to                    eq :usd
+      expect(currency.priority).to              eq 1
+      expect(currency.iso_code).to              eq "USD"
+      expect(currency.iso_numeric).to           eq "840"
+      expect(currency.name).to                  eq "United States Dollar"
+      expect(currency.decimal_mark).to          eq "."
+      expect(currency.separator).to             eq "."
+      expect(currency.thousands_separator).to   eq ","
+      expect(currency.delimiter).to             eq ","
+      expect(currency.smallest_denomination).to eq 1
     end
 
     it "raises UnknownMoney::Currency with unknown currency" do
@@ -144,7 +145,7 @@ describe Money::Currency do
 
   describe "#inspect" do
     it "works as documented" do
-      expect(Money::Currency.new(:usd).inspect).to eq %Q{#<Money::Currency id: usd, priority: 1, symbol_first: true, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, exponent: 2.0, iso_code: USD, iso_numeric: 840, subunit: Cent>}
+      expect(Money::Currency.new(:usd).inspect).to eq %Q{#<Money::Currency id: usd, priority: 1, symbol_first: true, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, exponent: 2.0, iso_code: USD, iso_numeric: 840, subunit: Cent, smallest_denomination: 1>}
     end
   end
 

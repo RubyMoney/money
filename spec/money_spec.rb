@@ -293,6 +293,89 @@ YAML
       end
     end
   end
+  
+  describe "#round_to_nearest_cash_value" do
+    it "rounds to the nearest possible cash value" do
+      money = Money.new(2350, "AED")
+      expect(money.round_to_nearest_cash_value).to eq 2350
+      
+      money = Money.new(-2350, "AED")
+      expect(money.round_to_nearest_cash_value).to eq -2350
+      
+      money = Money.new(2213, "AED")
+      expect(money.round_to_nearest_cash_value).to eq 2225
+      
+      money = Money.new(-2213, "AED")
+      expect(money.round_to_nearest_cash_value).to eq -2225
+      
+      money = Money.new(2212, "AED")
+      expect(money.round_to_nearest_cash_value).to eq 2200
+      
+      money = Money.new(-2212, "AED")
+      expect(money.round_to_nearest_cash_value).to eq -2200
+    
+      money = Money.new(178, "CHF")
+      expect(money.round_to_nearest_cash_value).to eq 180
+      
+      money = Money.new(-178, "CHF")
+      expect(money.round_to_nearest_cash_value).to eq -180
+      
+      money = Money.new(177, "CHF")
+      expect(money.round_to_nearest_cash_value).to eq 175
+      
+      money = Money.new(-177, "CHF")
+      expect(money.round_to_nearest_cash_value).to eq -175
+      
+      money = Money.new(175, "CHF")
+      expect(money.round_to_nearest_cash_value).to eq 175
+      
+      money = Money.new(-175, "CHF")
+      expect(money.round_to_nearest_cash_value).to eq -175
+      
+      money = Money.new(299, "USD")
+      expect(money.round_to_nearest_cash_value).to eq 299
+      
+      money = Money.new(-299, "USD")
+      expect(money.round_to_nearest_cash_value).to eq -299
+      
+      money = Money.new(300, "USD")
+      expect(money.round_to_nearest_cash_value).to eq 300
+      
+      money = Money.new(-300, "USD")
+      expect(money.round_to_nearest_cash_value).to eq -300
+      
+      money = Money.new(301, "USD")
+      expect(money.round_to_nearest_cash_value).to eq 301
+      
+      money = Money.new(-301, "USD")
+      expect(money.round_to_nearest_cash_value).to eq -301
+    end
+    
+    it "raises an exception if smallest denomination is not defined" do
+      money = Money.new(100, "XAG")
+      expect {money.round_to_nearest_cash_value}.to raise_error(Money::UndefinedSmallestDenomination)
+    end
+    
+    it "returns a Fixnum when infinite_precision is not set" do
+      money = Money.new(100, "USD")
+      expect(money.round_to_nearest_cash_value).to be_a Fixnum
+    end
+  
+    context "with infinite_precision" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "returns a BigDecimal" do
+        money = Money.new(100, "EUR")
+        expect(money.round_to_nearest_cash_value).to be_a BigDecimal
+      end
+    end
+  end
 
   describe "#amount" do
     it "returns the amount of cents as dollars" do
