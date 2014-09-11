@@ -67,8 +67,9 @@ class Money
       raise UndefinedSmallestDenomination, 'Smallest denomination of this currency is not defined'
     end
     
+    fractional = as_d(@fractional)
     smallest_denomination = as_d(self.currency.smallest_denomination)
-    rounded_value = (fractional / smallest_denomination).round * smallest_denomination
+    rounded_value = (fractional / smallest_denomination).round(0, self.class.rounding_mode) * smallest_denomination
     
     return_value(rounded_value)
   end
