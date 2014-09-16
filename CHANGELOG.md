@@ -2,6 +2,7 @@
 
 ## Next release
  - Add method to round a given amount of money to the nearest possible value in cash (aka Swedish rounding).
+ - Fixed the subunit_to_unit values of the CLP and KRW currencies
 
 ## 6.2.1
  - Ensure set is loaded
