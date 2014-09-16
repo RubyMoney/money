@@ -385,7 +385,7 @@ YAML
     it "respects :subunit_to_unit currency property" do
       expect(Money.new(1_00,  "USD").amount).to eq 1
       expect(Money.new(1_000, "TND").amount).to eq 1
-      expect(Money.new(1,     "CLP").amount).to eq 1
+      expect(Money.new(1,     "VUV").amount).to eq 1
     end
 
     it "does not loose precision" do
@@ -473,7 +473,7 @@ YAML
     end
 
     it "does not have decimal when :subunit_to_unit == 1" do
-      expect(Money.new(10_00, "CLP").to_s).to eq "1000"
+      expect(Money.new(10_00, "VUV").to_s).to eq "1000"
     end
 
     it "does not work when :subunit_to_unit == 5" do
@@ -502,7 +502,7 @@ YAML
       end
 
       it "shows fractional if needed when :subunut_to_unit == 1" do
-        expect(Money.new(10_00.1, "CLP").to_s).to eq "1000,1"
+        expect(Money.new(10_00.1, "VUV").to_s).to eq "1000.1"
       end
     end
   end

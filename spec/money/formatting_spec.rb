@@ -120,7 +120,7 @@ describe Money, "formatting" do
     end
 
     it "does not display a decimal when :subunit_to_unit is 1" do
-      expect(Money.new(10_00, "CLP").format).to eq "$1.000"
+      expect(Money.new(10_00, "VUV").format).to eq "Vt1,000"
     end
 
     it "respects the thousands_separator and decimal_mark defaults" do
