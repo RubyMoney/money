@@ -586,4 +586,44 @@ describe Money, "formatting" do
     end
 
   end
+
+  context "currencies with ambiguous signs" do
+
+    it "returns ambiguous signs when disambiguate is not set" do
+      expect(Money.new(1999_98, "USD").format).to eq("$1,999.98")
+      expect(Money.new(1999_98, "CAD").format).to eq("$1,999.98")
+      expect(Money.new(1999_98, "DKK").format).to eq("1.999,98 kr")
+      expect(Money.new(1999_98, "NOK").format).to eq("1.999,98 kr")
+      expect(Money.new(1999_98, "SEK").format).to eq("1 999,98 kr")
+    end
+
+    it "returns ambiguous signs when disambiguate is false" do
+      expect(Money.new(1999_98, "USD").format(disambiguate: false)).to eq("$1,999.98")
+      expect(Money.new(1999_98, "CAD").format(disambiguate: false)).to eq("$1,999.98")
+      expect(Money.new(1999_98, "DKK").format(disambiguate: false)).to eq("1.999,98 kr")
+      expect(Money.new(1999_98, "NOK").format(disambiguate: false)).to eq("1.999,98 kr")
+      expect(Money.new(1999_98, "SEK").format(disambiguate: false)).to eq("1 999,98 kr")
+    end
+
+    it "returns disambiguate signs when disambiguate: true" do
+      expect(Money.new(1999_98, "USD").format(disambiguate: true)).to eq("$1,999.98")
+      expect(Money.new(1999_98, "CAD").format(disambiguate: true)).to eq("C$1,999.98")
+      expect(Money.new(1999_98, "DKK").format(disambiguate: true)).to eq("1.999,98 DKK")
+      expect(Money.new(1999_98, "NOK").format(disambiguate: true)).to eq("1.999,98 NOK")
+      expect(Money.new(1999_98, "SEK").format(disambiguate: true)).to eq("1 999,98 SEK")
+    end
+
+    it "should never return an ambiguous format with disambiguate: true" do
+      formatted_results = {}
+
+      # When we format the same amount in all known currencies, disambiguate should return
+      # all different values
+      Money::Currency.all.each do |currency|
+        format = Money.new(1999_98, currency).format(disambiguate: true)
+        expect(formatted_results.keys).not_to include(format), "Format '#{format}' for #{currency} is ambiguous with currency #{formatted_results[format]}."
+        formatted_results[format] = currency
+      end
+    end
+
+  end
 end

@@ -180,6 +180,15 @@ class Money
     #   Money.new(100, "GBP").format(:sign_positive => false, :sign_before_symbol => true)  #=> "£1.00"
     #   Money.new(100, "GBP").format(:sign_positive => false, :sign_before_symbol => false) #=> "£1.00"
     #   Money.new(100, "GBP").format                               #=> "£+1.00"
+    #
+    # @option *rules [Boolean] :disambiguate (false) Prevents the result from being ambiguous 
+    #  due to equal symbols for different currencies. Uses the `disambiguate_symbol`.
+    #
+    # @example
+    #   Money.new(100, "USD").format(:disambiguate => false)   #=> "$100.00"
+    #   Money.new(100, "CAD").format(:disambiguate => false)   #=> "$100.00"
+    #   Money.new(100, "USD").format(:disambiguate => true)    #=> "$100.00"
+    #   Money.new(100, "CAD").format(:disambiguate => true)    #=> "C$100.00"
 
     def format(*rules)
       # support for old format parameters
@@ -332,6 +341,8 @@ class Money
       end
     elsif rules[:html]
       currency.html_entity == '' ? currency.symbol : currency.html_entity
+    elsif rules[:disambiguate] and currency.disambiguate_symbol
+      currency.disambiguate_symbol
     else
       symbol
     end
