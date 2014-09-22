@@ -141,6 +141,7 @@ class Money
     # defined by the ISO 4217 standard.
     # @attr_reader [String] name The currency name.
     # @attr_reader [String] symbol The currency symbol (UTF-8 encoded).
+    # @attr_reader [String] disambiguate_symbol Alternative currency used if symbol is ambiguous
     # @attr_reader [String] html_entity The html entity for the currency symbol
     # @attr_reader [String] subunit The name of the fractional monetary unit.
     # @attr_reader [Integer] subunit_to_unit The proportion between the unit
@@ -155,7 +156,7 @@ class Money
     # possible (in the subunit of this currency)
 
     attr_reader :id, :priority, :iso_code, :iso_numeric, :name, :symbol,
-      :html_entity, :subunit, :subunit_to_unit, :decimal_mark,
+      :disambiguate_symbol, :html_entity, :subunit, :subunit_to_unit, :decimal_mark,
       :thousands_separator, :symbol_first, :smallest_denomination
 
     alias_method :separator, :decimal_mark
@@ -180,6 +181,7 @@ class Money
         @iso_code = data[:iso_code]
         @name = data[:name]
         @symbol = data[:symbol]
+        @disambiguate_symbol = data[:disambiguate_symbol]
         @alternate_symbols = data[:alternate_symbols]
         @subunit = data[:subunit]
         @subunit_to_unit = data[:subunit_to_unit]

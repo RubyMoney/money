@@ -18,6 +18,7 @@
     "iso_code": "JEP",
     "name": "Jersey Pound",
     "symbol": "£",
+    "disambiguate_symbol": "JEP",
     "alternate_symbols": [],
     "subunit": "Penny",
     "subunit_to_unit": 100,
