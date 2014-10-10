@@ -4,6 +4,7 @@
  - Add method to round a given amount of money to the nearest possible value in cash (aka Swedish rounding).
  - Fixed the subunit_to_unit values of the CLP and KRW currencies
  - Add option for `disambiguate` symbols for formatting
+ - Fixed the subunit_to_unit values of the VND currency
 
 ## 6.2.1
  - Ensure set is loaded
