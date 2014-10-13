@@ -1556,7 +1556,7 @@
     "alternate_symbols": [],
     "subunit": "Kobo",
     "subunit_to_unit": 100,
-    "symbol_first": false,
+    "symbol_first": true,
     "html_entity": "&#x20A6;",
     "decimal_mark": ".",
     "thousands_separator": ",",
