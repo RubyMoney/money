@@ -191,7 +191,7 @@ describe Money, "formatting" do
       it "inserts thousand separators if symbol contains decimal mark and no_cents is true" do
         expect(Money.new(100000000, "AMD").format(:no_cents => true)).to eq "1,000,000 դր."
         expect(Money.new(100000000, "USD").format(:no_cents => true)).to eq "$1,000,000"
-        expect(Money.new(100000000, "RUB").format(:no_cents => true)).to eq "1.000.000 р."
+        expect(Money.new(100000000, "RUB").format(:no_cents => true)).to eq "1.000.000 руб"
       end
 
       it "doesn't incorrectly format HTML" do
