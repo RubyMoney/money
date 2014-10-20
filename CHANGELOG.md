@@ -6,6 +6,8 @@
  - Add option for `disambiguate` symbols for formatting
  - Fixed the subunit_to_unit values of the VND currency
  - Fix formatting of NGN - show symbol before amount
+ - Switch default and alternate symbols for RUB currency
+ - Fix symbol for TRY currency
 
 ## 6.2.1
  - Ensure set is loaded
