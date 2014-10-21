@@ -8,6 +8,7 @@
  - Fix formatting of NGN - show symbol before amount
  - Switch default and alternate symbols for RUB currency
  - Fix symbol for TRY currency
+ - Fixed the subunit_to_unit values of the JPY currency to support the Sen subunit
 
 ## 6.2.1
  - Ensure set is loaded
