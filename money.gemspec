@@ -25,7 +25,7 @@ and choose the migration that best suits your application.
 Test responsibly :-)
 MSG
 
-  s.add_dependency 'i18n', ['>= 0.6.4', '<= 0.7.0.dev']
+  s.add_dependency 'i18n', ['>= 0.6.4', '<= 0.7.0.beta1']
 
   s.add_development_dependency "bundler", "~> 1.3"
   s.add_development_dependency "rake"
