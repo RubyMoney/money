@@ -562,7 +562,7 @@
     "alternate_symbols": [],
     "subunit": "Haléř",
     "subunit_to_unit": 100,
-    "symbol_first": true,
+    "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ",",
     "thousands_separator": ".",
