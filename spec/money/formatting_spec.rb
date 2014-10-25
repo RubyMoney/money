@@ -102,9 +102,9 @@ describe Money, "formatting" do
       before { @_locale = I18n.locale; I18n.locale = :ja }
 
       it "formats Japanese currency in Japanese properly" do
-        money = Money.new(1000, "JPY")
-        expect(money.format).to eq "1,000円"
-        expect(money.format(:symbol => false)).to eq "1,000"
+        money = Money.new(100000, "JPY")
+        expect(money.format).to eq "1,000.00円"
+        expect(money.format(:symbol => false)).to eq "1,000.00"
       end
 
       after  { I18n.locale = @_locale }
@@ -139,7 +139,7 @@ describe Money, "formatting" do
       expect(one_thousand["ZWD"]).to eq "$1,000.00"
 
       # Yen
-      expect(one_thousand["JPY"]).to eq "¥100,000"
+      expect(one_thousand["JPY"]).to eq "¥1,000.00"
       expect(one_thousand["CNY"]).to eq "¥1,000.00"
 
       # Euro
@@ -250,7 +250,7 @@ describe Money, "formatting" do
         expect(one["ZWD"]).to eq "$1.00"
 
         # Yen
-        expect(one["JPY"]).to eq "¥100"
+        expect(one["JPY"]).to eq "¥1.00"
         expect(one["CNY"]).to eq "¥1.00"
 
         # Euro
@@ -288,7 +288,7 @@ describe Money, "formatting" do
         expect(money.format(:symbol => nil)).to eq "1.00"
         expect(money.format(:symbol => false)).to eq "1.00"
 
-        money = Money.new(100, "JPY")
+        money = Money.new(100, "VUV")
         expect(money.format(:symbol => false)).to eq "100"
       end
 

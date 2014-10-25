@@ -191,7 +191,7 @@ describe Money::Currency do
 
   describe "#exponent" do
     it "conforms to iso 4217" do
-      Money::Currency.new(:jpy).exponent == 0
+      Money::Currency.new(:vuv).exponent == 0
       Money::Currency.new(:usd).exponent == 2
       Money::Currency.new(:iqd).exponent == 3
     end
