@@ -169,6 +169,40 @@ describe Money, "formatting" do
       expect(Money.euro(1_234_567_12).format(:no_cents => true)).to eq "€1.234.567"
     end
 
+    context 'when default_formatting_rules defines (display_free: true)' do
+      before do
+        Money.default_formatting_rules = { :display_free => "you won't pay a thing" }
+      end
+
+      after do
+        Money.default_formatting_rules = nil
+      end
+
+      context 'with no rule provided' do
+        it 'acknowledges default rule' do
+          expect(Money.new(0, 'USD').format).to eq "you won't pay a thing"
+        end
+      end
+
+      context 'with rule (display_free: false) provided' do
+        it 'acknowledges provided rule' do
+          expect(Money.new(0, 'USD').format(:display_free => false)).to eq '$0.00'
+        end
+      end
+    end
+
+    context 'when default_formatting_rules is not defined' do
+      before do
+        Money.default_formatting_rules = nil
+      end
+
+      context 'acknowledges provided rule' do
+        it 'acknowledges provided rule' do
+          expect(Money.new(100, 'USD').format(:with_currency => true)).to eq '$1.00 USD'
+        end
+      end
+    end
+
     describe ":with_currency option" do
       specify "(:with_currency option => true) works as documented" do
         expect(Money.ca_dollar(100).format(:with_currency => true)).to eq "$1.00 CAD"

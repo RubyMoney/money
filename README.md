@@ -295,6 +295,8 @@ If you wish to disable this feature:
 Money.use_i18n = false
 ```
 
+*Note: There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module](https://github.com/RubyMoney/money/blob/master/lib/money/money/formatting.rb).*
+
 ## Migration Notes
 
 #### Version 6.0.0
