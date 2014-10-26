@@ -86,18 +86,26 @@ describe Money do
       expect((Money.new(1_00, "USD") <=> Money.new(2_00, "USD"))).to be < 0
     end
 
-    it "converts other object amount to current currency, then compares the two object amounts (different currency)" do
-      target = Money.new(200_00, "EUR")
-      expect(target).to receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(300_00, "USD"))
-      expect(Money.new(100_00, "USD") <=> target).to be < 0
+    describe "compares the two object amounts (different currency)" do
+      before do
+        Money::Currency.register({
+          :iso_code        => "FOO",
+          :subunit_to_unit => 100,
+        })
+        Money.add_rate("FOO", "USD", 0.5)
+        Money.add_rate("USD", "FOO", 2)
+      end
 
-      target = Money.new(200_00, "EUR")
-      expect(target).to receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(100_00, "USD"))
-      expect(Money.new(100_00, "USD") <=> target).to eq 0
+      it "compares >, = and <" do
+        expect(Money.new(100_00, "USD") <=> Money.new(300_00, "FOO")).to be < 0
+        expect(Money.new(100_00, "USD") <=> Money.new(200_00, "FOO")).to eq 0
+        expect(Money.new(100_00, "USD") <=> Money.new(100_00, "FOO")).to be > 0
+      end
 
-      target = Money.new(200_00, "EUR")
-      expect(target).to receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(99_00, "USD"))
-      expect(Money.new(100_00, "USD") <=> target).to be > 0
+      it "chooses conversion direction that avoids rounding down error" do
+        expect(Money.new(1, "USD") <=> Money.new(3, "FOO")).to be < 0
+        # 3 FOO == 1.5 USD but gets rounded down to 1 USD
+      end
     end
 
     it "can be used to compare with an object that responds to #to_money" do

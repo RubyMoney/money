@@ -46,9 +46,14 @@ class Money
       if val.respond_to?(:to_money)
         val = val.to_money unless val.respond_to?(:fractional)
         if fractional != 0 && val.fractional != 0 && currency != val.currency
-          val = val.exchange_to(currency)
+          if bank.get_rate(val.currency, currency) > 1
+            fractional <=> val.exchange_to(currency).fractional
+          else
+            self.exchange_to(val.currency).fractional <=> val.fractional
+          end
+        else
+          fractional <=> val.fractional
         end
-        fractional <=> val.fractional
       else
         raise ArgumentError, "Comparison of #{self.class} with #{val.inspect} failed"
       end
