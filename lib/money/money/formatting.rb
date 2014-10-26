@@ -13,12 +13,11 @@ class Money
     def self.define_i18n_method(method, name, character)
       define_method(method) do
         if self.class.use_i18n
-          I18n.t(
-            :"number.currency.format.#{name}", :default => I18n.t(
-              :"number.format.#{name}",
-              :default => (currency.send(method) || character)
-            )
-          )
+          begin
+            I18n.t name, :scope => "number.currency.format", :raise => true
+          rescue I18n::MissingTranslationData => e
+            I18n.t name, :scope =>"number.format", :default => (currency.send(method) || character)
+          end
         else
           currency.send(method) || character
         end
@@ -181,7 +180,7 @@ class Money
     #   Money.new(100, "GBP").format(:sign_positive => false, :sign_before_symbol => false) #=> "£1.00"
     #   Money.new(100, "GBP").format                               #=> "£+1.00"
     #
-    # @option *rules [Boolean] :disambiguate (false) Prevents the result from being ambiguous 
+    # @option *rules [Boolean] :disambiguate (false) Prevents the result from being ambiguous
     #  due to equal symbols for different currencies. Uses the `disambiguate_symbol`.
     #
     # @example
@@ -189,10 +188,16 @@ class Money
     #   Money.new(100, "CAD").format(:disambiguate => false)   #=> "$100.00"
     #   Money.new(100, "USD").format(:disambiguate => true)    #=> "$100.00"
     #   Money.new(100, "CAD").format(:disambiguate => true)    #=> "C$100.00"
+    #
+    # Note that the default rules can be defined through +Money.default_formatting_rules+ hash.
+    #
+    # @see +Money.default_formatting_rules+ for more information.
 
     def format(*rules)
       # support for old format parameters
       rules = normalize_formatting_rules(rules)
+
+      rules = default_formatting_rules.merge(rules)
       rules = localize_formatting_rules(rules)
 
       if fractional == 0
@@ -305,6 +310,10 @@ class Money
                        "\\1#{rules[:decimal_mark]}\\3")
       end
     end
+  end
+
+  def default_formatting_rules
+    self.class.default_formatting_rules || {}
   end
 
   def regexp_format(formatted, rules, decimal_mark, symbol_value)

@@ -15,7 +15,7 @@ require "money/money/formatting"
 # @see http://en.wikipedia.org/wiki/Money
 class Money
   include Comparable, Money::Arithmetic, Money::Formatting
-  
+
   # Raised when smallest denomination of a currency is not defined
   class UndefinedSmallestDenomination < StandardError; end
 
@@ -52,7 +52,7 @@ class Money
 
     return_value(fractional)
   end
-  
+
   # Round a given amount of money to the nearest possible amount in cash value. For
   # example, in Swiss francs (CHF), the smallest possible amount of cash value is
   # CHF 0.05. Therefore, this method rounds CHF 0.07 to CHF 0.05, and CHF 0.08 to
@@ -66,11 +66,11 @@ class Money
     unless self.currency.smallest_denomination
       raise UndefinedSmallestDenomination, 'Smallest denomination of this currency is not defined'
     end
-    
+
     fractional = as_d(@fractional)
     smallest_denomination = as_d(self.currency.smallest_denomination)
     rounded_value = (fractional / smallest_denomination).round(0, self.class.rounding_mode) * smallest_denomination
-    
+
     return_value(rounded_value)
   end
 
@@ -86,18 +86,34 @@ class Money
     # This property allows you to specify the default bank object. The default
     # value for this property is an instance of +Bank::VariableExchange.+ It
     # allows one to specify custom exchange rates.
+    #
     # @attr_accessor [Money::Currency] default_currency The default currency,
     # which is used when +Money.new+ is called without an explicit currency
     # argument. The default value is Currency.new("USD"). The value must be a
     # valid +Money::Currency+ instance.
+    #
+    # @attr_accessor [Hash] default_formatting_rules Use this to define a default
+    # hash of rules for everytime +Money#format+ is called.
+    # Rules provided on method call will be merged with the default ones.
+    # To overwrite a rule, just provide the intended value while calling +format+.
+    #
+    # @see +Money::Formatting#format+ for more details.
+    #
+    # @example
+    #   Money.default_formatting_rules = { :display_free => true }
+    #   Money.new(0, "USD").format                          # => "free"
+    #   Money.new(0, "USD").format(:display_free => false)  # => "$0.00"
+    #
     # @attr_accessor [true, false] use_i18n Use this to disable i18n even if
     # it's used by other objects in your app.
+    #
     # @attr_accessor [true, false] infinite_precision Use this to enable
     # infinite precision cents
+    #
     # @attr_accessor [Integer] conversion_precision Use this to specify
     # precision for converting Rational to BigDecimal
-    attr_accessor :default_bank, :default_currency, :use_i18n,
-      :infinite_precision, :conversion_precision
+    attr_accessor :default_bank, :default_currency, :default_formatting_rules,
+      :use_i18n, :infinite_precision, :conversion_precision
 
     # @attr_writer rounding_mode Use this to specify the rounding mode
     attr_writer :rounding_mode
@@ -260,7 +276,7 @@ class Money
   def initialize(obj, currency = Money.default_currency, bank = Money.default_bank)
     @fractional = obj.respond_to?(:fractional) ? obj.fractional : as_d(obj)
     @currency   = obj.respond_to?(:currency) ? obj.currency : Currency.wrap(currency)
-    @currency ||= Money.default_currency 
+    @currency ||= Money.default_currency
     @bank       = obj.respond_to?(:bank) ? obj.bank : bank
   end
 
@@ -618,7 +634,7 @@ class Money
       index < remainder ? high : low
     end
   end
-  
+
   def return_value(value)
     if self.class.infinite_precision
       value
