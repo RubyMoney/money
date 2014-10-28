@@ -4,6 +4,7 @@ require "money/bank/single_currency"
 require "money/money/arithmetic"
 require "money/money/constructors"
 require "money/money/formatting"
+require "money/extensions/numeric"
 
 # "Money is any object or record that is generally accepted as payment for
 # goods and services and repayment of debts in a given socio-economic context
