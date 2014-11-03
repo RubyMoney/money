@@ -21,8 +21,8 @@ class Money
 
   # Convenience method for fractional part of the amount. Synonym of #fractional
   #
-  # @return [Integer] when inifinte_precision is false
-  # @return [BigDecimal] when inifinte_precision is true
+  # @return [Integer] when infinite_precision is false
+  # @return [BigDecimal] when infinite_precision is true
   #
   # @see infinite_precision
   def cents
@@ -41,8 +41,8 @@ class Money
   # Money representation of one Kuwaiti Dinar, the fractional interpretation is
   # 1000.
   #
-  # @return [Integer] when inifinte_precision is false
-  # @return [BigDecimal] when inifinte_precision is true
+  # @return [Integer] when infinite_precision is false
+  # @return [BigDecimal] when infintie_precision is true
   #
   # @see infinite_precision
   def fractional
