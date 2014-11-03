@@ -9,6 +9,7 @@
  - Switch default and alternate symbols for RUB currency
  - Fix symbol for TRY currency
  - Add `Money.default_formatting_rules` hash, meant to define default rules for everytime `Money#format` is called. They can be overwritten if provided on method call
+ - Add support for the new official symbol for Russian Ruble (RUB) — «₽»
 
 ## 6.2.1
  - Ensure set is loaded
