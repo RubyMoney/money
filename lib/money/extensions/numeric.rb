@@ -6,20 +6,20 @@ class Integer
 
   # Convert number from big integer value to float value.
   #
-  # @param [Symbol] currency
+  # @param [String] currency
   # @param [Hash] opts
   #
   # @return [Float]
   #
   # @example
-  #   123456789.to_float(:btc) => 1.23456789
-  #   123456789.to_float(:cny) => 1234.56789
+  #   123456789.to_float('btc') => 1.23456789
+  #   123456789.to_float('cny') => 1234.56789
 
-  def to_float(currency = :twd, opts = {})
-    case currency.to_sym
-    when :btc, :ltc
+  def to_float(currency, opts = {})
+    case currency.to_s
+    when 'btc', 'ltc'
       normalize_coin(currency, opts)
-    when :cny, :twd, :usd
+    when 'cny', 'twd', 'usd'
       normalize_money(currency, opts)
     else
       raise Money::Currency::UnknownCurrency, currency.inspect
@@ -29,18 +29,18 @@ class Integer
 
   # Convert number from big integer value to floor or ceil value.
   #
-  # @param [Symbol] currency
+  # @param [String] currency
   # @param [Hash] opts
   #
   # @return [Integer]
   #
   # @example
-  #   (123426845).to_integer(:cny, ceil: true) => 1234270000
-  #   (123426345).to_integer(:twd, floor: true) => 1234260000
+  #   (123426845).to_integer('cny', ceil: true) => 1234270000
+  #   (123426345).to_integer('twd', floor: true) => 1234260000
 
-  def to_integer(currency = :twd, opts = {})
-    case currency.to_sym
-    when :cny, :twd, :usd
+  def to_integer(currency, opts = {})
+    case currency.to_s
+    when 'cny', 'twd', 'usd'
       if opts[:ceil]
         (self.to_f / MONEY_DELTA).ceil * MONEY_DELTA
       elsif opts[:floor]
@@ -54,22 +54,22 @@ class Integer
 
   # Convert number from big integer value to string value.
   #
-  # @param [Symbol] currency
+  # @param [String] currency
   # @param [Hash] opts
   #
   # @return [String]
   #
   # @example
-  #   123456789.to_string(:btc) => "1.23456789 BTC"
-  #   123456789.to_string(:twd) => "NT$1,234.57"
-  #   123456789.to_string(:twd, ceil: true) => "NT$1,235.00"
-  #   123456789.to_string(:twd, round: true) => "NT$1,235"
+  #   123456789.to_string('btc') => "1.23456789 BTC"
+  #   123456789.to_string('twd') => "NT$1,234.57"
+  #   123456789.to_string('twd', ceil: true) => "NT$1,235.00"
+  #   123456789.to_string('twd', round: true) => "NT$1,235"
 
-  def to_string(currency = :twd, opts = {})
-    case currency.to_sym
-    when :btc, :ltc
+  def to_string(currency, opts = {})
+    case currency.to_s
+    when 'btc', 'ltc'
       stringify_coin(currency, opts)
-    when :cny, :twd, :usd
+    when 'cny', 'twd', 'usd'
       stringify_money(currency, opts)
     else
       raise Money::Currency::UnknownCurrency, currency.inspect
@@ -124,20 +124,20 @@ class Float
 
   # Convert number from float value to big integer value.
   #
-  # @param [Symbol] currency
+  # @param [String] currency
   # @param [Hash] opts
   #
   # @return [Integer]
   #
   # @example
-  #   (1.23456789).to_integer(:btc) => 123456789
-  #   (1.23456789).to_integer(:twd) => 123457
+  #   (1.23456789).to_integer('btc') => 123456789
+  #   (1.23456789).to_integer('twd') => 123457
 
-  def to_integer(currency = :twd, opts = {})
-    case currency.to_sym
-    when :btc, :ltc
+  def to_integer(currency, opts = {})
+    case currency.to_s
+    when 'btc', 'ltc'
       unnormalize_coin(opts)
-    when :cny, :twd, :usd
+    when 'cny', 'twd', 'usd'
       unnormalize_money(opts)
     else
       raise Money::Currency::UnknownCurrency, currency.inspect
