@@ -22,7 +22,9 @@ class Integer
     when 'cny', 'twd', 'usd'
       normalize_money(currency, opts)
     else
-      raise Money::Currency::UnknownCurrency, currency.inspect
+      # do everything else now, assume money
+      normalize_money(currency, opts)
+      # raise Money::Currency::UnknownCurrency, currency.inspect
     end
   end
 
@@ -40,14 +42,17 @@ class Integer
 
   def to_integer(currency, opts = {})
     case currency.to_s
-    when 'cny', 'twd', 'usd'
+    when 'btc', 'ltc'
+      self
+    else
+    #when 'cny', 'twd', 'usd'
       if opts[:ceil]
         (self.to_f / MONEY_DELTA).ceil * MONEY_DELTA
       elsif opts[:floor]
         (self.to_f / MONEY_DELTA).floor * MONEY_DELTA
       end
-    else
-      raise Money::Currency::UnknownCurrency, currency.inspect
+    #else
+    #  raise Money::Currency::UnknownCurrency, currency.inspect
     end
   end
 
@@ -72,7 +77,9 @@ class Integer
     when 'cny', 'twd', 'usd'
       stringify_money(currency, opts)
     else
-      raise Money::Currency::UnknownCurrency, currency.inspect
+      # do everything else too, assume money
+      stringify_money(currency, opts)
+      # raise Money::Currency::UnknownCurrency, currency.inspect
     end
   end
 
@@ -140,7 +147,9 @@ class Float
     when 'cny', 'twd', 'usd'
       unnormalize_money(opts)
     else
-      raise Money::Currency::UnknownCurrency, currency.inspect
+      # assume money
+      unnormalize_money(opts)
+      # raise Money::Currency::UnknownCurrency, currency.inspect
     end
   end
 

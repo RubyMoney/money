@@ -13,10 +13,11 @@ class String
     case self.to_s
     when 'btc', 'ltc'
       Money::Currency.new(self).to_s
-    when 'cny', 'twd', 'usd'
-      Money::Currency.new(self).name
     else
-      raise Money::Currency::UnknownCurrency, currency.inspect
+    #when 'cny', 'twd', 'usd'
+      Money::Currency.new(self).name
+    #else
+    #  raise Money::Currency::UnknownCurrency, currency.inspect
     end
   end
 
