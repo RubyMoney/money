@@ -6,6 +6,13 @@ describe Money::Currency do
 
   FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 450, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
 
+
+  describe "UnknownMoney::Currency" do
+    it "is a subclass of ArgumentError" do
+      expect(Money::Currency::UnknownCurrency < ArgumentError).to be true
+    end
+  end
+
   describe ".find" do
     before :each do
       Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))

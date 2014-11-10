@@ -16,7 +16,7 @@ class Money
     extend Money::Currency::Heuristics
 
     # Thrown when an unknown currency is requested.
-    class UnknownCurrency < StandardError; end
+    class UnknownCurrency < ArgumentError; end
 
     class << self
 
