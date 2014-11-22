@@ -93,7 +93,7 @@ class Integer
     end
   end
 
-  #private#####################
+  private
 
   def normalize_coin(currency, opts = {})
     self.to_f / COIN_I2F
