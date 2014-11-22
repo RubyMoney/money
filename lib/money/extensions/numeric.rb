@@ -3,6 +3,10 @@ MONEY_I2F = 100_000
 MONEY_DELTA = 1_000
 
 class Integer
+  CURRENCIES_WITH_DECIMALS = ['usd', 'cny', 'idr', 'eur', 'hkd', 'thb',
+                               'myr', 'sgd', 'php', 'mmk', 'bnd', 'khr', 'lak']
+
+  CURRENCIES_WITH_NO_DECIMALS = ['twd','jpy','krw','vnd']
 
   # Convert number from big integer value to float value.
   #
@@ -74,7 +78,13 @@ class Integer
     case currency.to_s
     when 'btc', 'ltc'
       stringify_coin(currency, opts)
-    when 'cny', 'twd', 'usd'
+    when *CURRENCIES_WITH_NO_DECIMALS
+      if opts!={}
+        stringify_money(currency, opts)
+      else
+        stringify_money(currency, round: true)
+      end
+    when *CURRENCIES_WITH_DECIMALS
       stringify_money(currency, opts)
     else
       # do everything else too, assume money
@@ -83,7 +93,7 @@ class Integer
     end
   end
 
-  private
+  #private#####################
 
   def normalize_coin(currency, opts = {})
     self.to_f / COIN_I2F
