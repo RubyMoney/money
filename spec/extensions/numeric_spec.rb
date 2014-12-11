@@ -11,6 +11,7 @@ describe Money, "extension" do
       expect(12343543.to_string('jpy')).to eq "¥123"
       expect(12343543.to_string('twd')).to eq "NT$123"
       expect(12343543.to_string('twd', ceil: true)).to eq "NT$124.00"
+      
     end
   end
 

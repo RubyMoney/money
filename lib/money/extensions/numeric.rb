@@ -3,9 +3,6 @@ MONEY_I2F = 100_000
 MONEY_DELTA = 1_000
 
 class Integer
-  CURRENCIES_WITH_DECIMALS = ['usd', 'cny', 'idr', 'eur', 'hkd', 'thb',
-                               'myr', 'sgd', 'php', 'mmk', 'bnd', 'khr', 'lak']
-
   CURRENCIES_WITH_NO_DECIMALS = ['twd','jpy','krw','vnd']
 
   # Convert number from big integer value to float value.
@@ -84,8 +81,6 @@ class Integer
       else
         stringify_money(currency, round: true)
       end
-    when *CURRENCIES_WITH_DECIMALS
-      stringify_money(currency, opts)
     else
       # do everything else too, assume money
       stringify_money(currency, opts)
