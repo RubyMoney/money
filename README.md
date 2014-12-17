@@ -272,18 +272,19 @@ If you want thousands seperator and decimal mark to be same across all
 currencies this can be defined in your `I18n` translation files.
 
 In an rails application this may look like:
+
 ```yml
 # config/locale/en.yml
 en:
   number:
     format:
-      delimeter: ","
+      delimiter: ","
       separator: "."
   # or
   number:
     currency:
       format:
-        delimeter: ","
+        delimiter: ","
         separator: "."
 ```
 
