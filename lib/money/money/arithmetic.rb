@@ -30,17 +30,7 @@ class Money
         false
       end
     end
-
-    # Synonymous with +#==+.
-    #
-    # @param [Money] other_money Value to compare with.
-    #
-    # @return [Money]
-    #
-    # @see #==
-    def eql?(other_money)
-      self == other_money
-    end
+    alias_method :eql?, :==
 
     def <=>(val)
       if val.respond_to?(:to_money)

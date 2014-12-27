@@ -14,7 +14,7 @@ require "money/money/formatting"
 #
 # @see http://en.wikipedia.org/wiki/Money
 class Money
-  include Comparable, Money::Arithmetic, Money::Formatting
+  include Money::Arithmetic, Money::Formatting, Comparable
 
   # Raised when smallest denomination of a currency is not defined
   class UndefinedSmallestDenomination < StandardError; end
