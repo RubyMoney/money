@@ -97,6 +97,11 @@ describe Money::Currency do
       expect(new_currency.symbol).to eq "%"
     end
 
+    specify ":iso_code must be present" do
+      expect {
+        Money::Currency.register(name: "New Currency")
+      }.to raise_error(KeyError)
+    end
   end
 
 

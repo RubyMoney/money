@@ -135,10 +135,10 @@ The pre-defined set of attributes includes:
 - `:separator` character between the whole and fraction amounts
 - `:delimiter` character between each thousands place
 
-All attributes are optional. Some attributes, such as `:symbol`, are used by
-the Money class to print out a representation of the object. Other attributes,
-such as `:name` or `:priority`, exist to provide a basic API you can take
-advantage of to build your application.
+All attributes except `:iso_code` are optional. Some attributes, such as
+`:symbol`, are used by the Money class to print out a representation of the
+object. Other attributes, such as `:name` or `:priority`, exist to provide a
+basic API you can take advantage of to build your application.
 
 ### :priority
 

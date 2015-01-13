@@ -113,13 +113,13 @@ class Money
       end
 
       def register(curr)
-        key = curr[:iso_code].downcase.to_sym
+        key = curr.fetch(:iso_code).downcase.to_sym
         @table[key] = curr
         @stringified_keys = stringify_keys
       end
 
       def unregister(curr)
-        key = curr[:iso_code].downcase.to_sym
+        key = curr.fetch(:iso_code).downcase.to_sym
         @table.delete(key)
         @stringified_keys = stringify_keys
       end
