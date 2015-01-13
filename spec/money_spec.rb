@@ -117,17 +117,29 @@ describe Money do
     it "creates a new Money object of the given value in CAD" do
       expect(Money.ca_dollar(50)).to eq Money.new(50, "CAD")
     end
+
+    it "is aliased to .cad" do
+      expect(Money.cad(50)).to eq Money.ca_dollar(50)
+    end
   end
 
   describe ".us_dollar" do
     it "creates a new Money object of the given value in USD" do
       expect(Money.us_dollar(50)).to eq Money.new(50, "USD")
     end
+
+    it "is aliased to .usd" do
+      expect(Money.usd(50)).to eq Money.us_dollar(50)
+    end
   end
 
   describe ".euro" do
     it "creates a new Money object of the given value in EUR" do
       expect(Money.euro(50)).to eq Money.new(50, "EUR")
+    end
+
+    it "is aliased to .eur" do
+      expect(Money.eur(50)).to eq Money.euro(50)
     end
   end
 

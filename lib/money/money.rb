@@ -131,6 +131,59 @@ class Money
       @empty[currency] ||= Money.new(0, currency).freeze
     end
     alias_method :zero, :empty
+
+
+    # Creates a new Money object of the given value, using the Canadian
+    # dollar currency.
+    #
+    # @param [Integer] cents The cents value.
+    #
+    # @return [Money]
+    #
+    # @example
+    #   n = Money.ca_dollar(100)
+    #   n.cents    #=> 100
+    #   n.currency #=> #<Money::Currency id: cad>
+    def ca_dollar(cents)
+      Money.new(cents, "CAD")
+    end
+
+    alias_method :cad, :ca_dollar
+
+
+    # Creates a new Money object of the given value, using the American dollar
+    # currency.
+    #
+    # @param [Integer] cents The cents value.
+    #
+    # @return [Money]
+    #
+    # @example
+    #   n = Money.us_dollar(100)
+    #   n.cents    #=> 100
+    #   n.currency #=> #<Money::Currency id: usd>
+    def us_dollar(cents)
+      Money.new(cents, "USD")
+    end
+
+    alias_method :usd, :us_dollar
+
+
+    # Creates a new Money object of the given value, using the Euro currency.
+    #
+    # @param [Integer] cents The cents value.
+    #
+    # @return [Money]
+    #
+    # @example
+    #   n = Money.euro(100)
+    #   n.cents    #=> 100
+    #   n.currency #=> #<Money::Currency id: eur>
+    def euro(cents)
+      Money.new(cents, "EUR")
+    end
+
+    alias_method :eur, :euro
   end
 
   def self.default_currency
@@ -192,49 +245,6 @@ class Money
     end
   end
 
-  # Creates a new Money object of the given value, using the Canadian
-  # dollar currency.
-  #
-  # @param [Integer] cents The cents value.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   n = Money.ca_dollar(100)
-  #   n.cents    #=> 100
-  #   n.currency #=> #<Money::Currency id: cad>
-  def self.ca_dollar(cents)
-    Money.new(cents, "CAD")
-  end
-
-  # Creates a new Money object of the given value, using the American dollar
-  # currency.
-  #
-  # @param [Integer] cents The cents value.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   n = Money.us_dollar(100)
-  #   n.cents    #=> 100
-  #   n.currency #=> #<Money::Currency id: usd>
-  def self.us_dollar(cents)
-    Money.new(cents, "USD")
-  end
-
-  # Creates a new Money object of the given value, using the Euro currency.
-  #
-  # @param [Integer] cents The cents value.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   n = Money.euro(100)
-  #   n.cents    #=> 100
-  #   n.currency #=> #<Money::Currency id: eur>
-  def self.euro(cents)
-    Money.new(cents, "EUR")
-  end
 
   # Adds a new exchange rate to the default bank and return the rate.
   #
