@@ -62,4 +62,14 @@ describe Money::Constructors do
   end
 
 
+  describe "::pound_sterling" do
+    it "creates a new Money object of the given value in GBP" do
+      expect(Money.pound_sterling(50)).to eq Money.new(50, "GBP")
+    end
+
+    it "is aliased to ::gbp" do
+      expect(Money.gbp(50)).to eq Money.pound_sterling(50)
+    end
+  end
+
 end

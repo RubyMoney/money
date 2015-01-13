@@ -65,5 +65,21 @@ class Money
     end
     alias_method :eur, :euro
 
+
+    # Creates a new Money object of the given value, in British pounds.
+    #
+    # @param [Integer] pence The pence value.
+    #
+    # @return [Money]
+    #
+    # @example
+    #   n = Money.pound_sterling(100)
+    #   n.fractional    #=> 100
+    #   n.currency #=> #<Money::Currency id: gbp>
+    def pound_sterling(pence)
+      Money.new(pence, "GBP")
+    end
+    alias_method :gbp, :pound_sterling
+
   end
 end

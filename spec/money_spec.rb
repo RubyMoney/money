@@ -121,13 +121,15 @@ describe Money do
     end
   end
 
-  describe "#cents" do
-    it "is a synonym of #fractional" do
-      expectation = Money.new(0)
-      def expectation.fractional
-        "expectation"
+  %w[cents pence].each do |units|
+    describe "##{units}" do
+      it "is a synonym of #fractional" do
+        expectation = Money.new(0)
+        def expectation.fractional
+          "expectation"
+        end
+        expect(expectation.cents).to eq "expectation"
       end
-      expect(expectation.cents).to eq "expectation"
     end
   end
 
