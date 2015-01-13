@@ -80,6 +80,26 @@ describe Money::Currency do
     end
   end
 
+
+  describe ".register" do
+    after { Money::Currency.unregister(iso_code: "XXX") if Money::Currency.find("XXX") }
+
+    it "registers a new currency" do
+      Money::Currency.register(
+        iso_code: "XXX",
+        name: "Golden Doubloon",
+        symbol: "%",
+        subunit_to_unit: 100
+      )
+      new_currency = Money::Currency.find("XXX")
+      expect(new_currency).not_to be_nil
+      expect(new_currency.name).to eq "Golden Doubloon"
+      expect(new_currency.symbol).to eq "%"
+    end
+
+  end
+
+
   describe "#initialize" do
     it "lookups data from loaded config" do
       currency = Money::Currency.new("USD")
