@@ -90,47 +90,6 @@ describe Money do
     end
   end
 
-  describe ".empty" do
-    it "creates a new Money object of 0 cents" do
-      expect(Money.empty).to eq Money.new(0)
-    end
-
-    it "memoizes the result" do
-      expect(Money.empty.object_id).to eq Money.empty.object_id
-    end
-
-    it "memoizes a result for each currency" do
-      expect(Money.empty(:cad).object_id).to eq Money.empty(:cad).object_id
-    end
-
-    it "doesn't allow money to be modified for a currency" do
-      expect(Money.empty).to be_frozen
-    end
-  end
-
-  describe ".zero" do
-    subject { Money.zero }
-    it { is_expected.to eq Money.empty }
-  end
-
-  describe ".ca_dollar" do
-    it "creates a new Money object of the given value in CAD" do
-      expect(Money.ca_dollar(50)).to eq Money.new(50, "CAD")
-    end
-  end
-
-  describe ".us_dollar" do
-    it "creates a new Money object of the given value in USD" do
-      expect(Money.us_dollar(50)).to eq Money.new(50, "USD")
-    end
-  end
-
-  describe ".euro" do
-    it "creates a new Money object of the given value in EUR" do
-      expect(Money.euro(50)).to eq Money.new(50, "EUR")
-    end
-  end
-
   describe ".add_rate" do
     before do
       @default_bank = Money.default_bank
@@ -162,13 +121,15 @@ describe Money do
     end
   end
 
-  describe "#cents" do
-    it "is a synonym of #fractional" do
-      expectation = Money.new(0)
-      def expectation.fractional
-        "expectation"
+  %w[cents pence].each do |units|
+    describe "##{units}" do
+      it "is a synonym of #fractional" do
+        expectation = Money.new(0)
+        def expectation.fractional
+          "expectation"
+        end
+        expect(expectation.cents).to eq "expectation"
       end
-      expect(expectation.cents).to eq "expectation"
     end
   end
 
