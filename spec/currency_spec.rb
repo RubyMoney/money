@@ -6,6 +6,13 @@ describe Money::Currency do
 
   FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 450, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
 
+  def register_foo
+    Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))
+  end
+
+  def unregister_foo
+    Money::Currency.unregister(JSON.parse(FOO, :symbolize_names => true))
+  end
 
   describe "UnknownMoney::Currency" do
     it "is a subclass of ArgumentError" do
@@ -14,16 +21,10 @@ describe Money::Currency do
   end
 
   describe ".find" do
-    before :each do
-      Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))
-    end
-
-    after :each do
-      Money::Currency.unregister(JSON.parse(FOO, :symbolize_names => true))
-    end
+    before { register_foo }
+    after  { unregister_foo }
 
     it "returns currency matching given id" do
-
       expected = Money::Currency.new(:foo)
       expect(Money::Currency.find(:foo)).to eq  expected
       expect(Money::Currency.find(:FOO)).to eq  expected
@@ -70,9 +71,9 @@ describe Money::Currency do
       expect(Money::Currency.all).to include Money::Currency.new(:usd)
     end
     it "includes registered currencies" do
-      Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))
+      register_foo
       expect(Money::Currency.all).to include Money::Currency.new(:foo)
-      Money::Currency.unregister(JSON.parse(FOO, :symbolize_names => true))
+      unregister_foo
     end
     it 'is sorted by priority' do
       expect(Money::Currency.all.first.priority).to eq 1
@@ -211,9 +212,9 @@ describe Money::Currency do
     end
 
     it "proper places for custom currency" do
-      Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))
+      register_foo
       Money::Currency.new(:foo).decimal_places == 3
-      Money::Currency.unregister(JSON.parse(FOO, :symbolize_names => true))
+      unregister_foo
     end
   end
 end
