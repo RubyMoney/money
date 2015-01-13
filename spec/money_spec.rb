@@ -300,55 +300,55 @@ YAML
       expect(money.round_to_nearest_cash_value).to eq 2350
       
       money = Money.new(-2350, "AED")
-      expect(money.round_to_nearest_cash_value).to eq -2350
+      expect(money.round_to_nearest_cash_value).to eq(-2350)
       
       money = Money.new(2213, "AED")
       expect(money.round_to_nearest_cash_value).to eq 2225
       
       money = Money.new(-2213, "AED")
-      expect(money.round_to_nearest_cash_value).to eq -2225
+      expect(money.round_to_nearest_cash_value).to eq(-2225)
       
       money = Money.new(2212, "AED")
       expect(money.round_to_nearest_cash_value).to eq 2200
       
       money = Money.new(-2212, "AED")
-      expect(money.round_to_nearest_cash_value).to eq -2200
+      expect(money.round_to_nearest_cash_value).to eq(-2200)
     
       money = Money.new(178, "CHF")
       expect(money.round_to_nearest_cash_value).to eq 180
       
       money = Money.new(-178, "CHF")
-      expect(money.round_to_nearest_cash_value).to eq -180
+      expect(money.round_to_nearest_cash_value).to eq(-180)
       
       money = Money.new(177, "CHF")
       expect(money.round_to_nearest_cash_value).to eq 175
       
       money = Money.new(-177, "CHF")
-      expect(money.round_to_nearest_cash_value).to eq -175
+      expect(money.round_to_nearest_cash_value).to eq(-175)
       
       money = Money.new(175, "CHF")
       expect(money.round_to_nearest_cash_value).to eq 175
       
       money = Money.new(-175, "CHF")
-      expect(money.round_to_nearest_cash_value).to eq -175
+      expect(money.round_to_nearest_cash_value).to eq(-175)
       
       money = Money.new(299, "USD")
       expect(money.round_to_nearest_cash_value).to eq 299
       
       money = Money.new(-299, "USD")
-      expect(money.round_to_nearest_cash_value).to eq -299
+      expect(money.round_to_nearest_cash_value).to eq(-299)
       
       money = Money.new(300, "USD")
       expect(money.round_to_nearest_cash_value).to eq 300
       
       money = Money.new(-300, "USD")
-      expect(money.round_to_nearest_cash_value).to eq -300
+      expect(money.round_to_nearest_cash_value).to eq(-300)
       
       money = Money.new(301, "USD")
       expect(money.round_to_nearest_cash_value).to eq 301
       
       money = Money.new(-301, "USD")
-      expect(money.round_to_nearest_cash_value).to eq -301
+      expect(money.round_to_nearest_cash_value).to eq(-301)
     end
     
     it "raises an exception if smallest denomination is not defined" do
