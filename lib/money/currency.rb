@@ -190,27 +190,11 @@ class Money
     #   Money::Currency.new(:usd) #=> #<Money::Currency id: usd ...>
     def initialize(id)
       id = id.to_s.downcase
-
-      if self.class.stringified_keys.include?(id)
-        @id = id.to_sym
-        data = self.class.table[@id]
-        @priority = data[:priority]
-        @iso_code = data[:iso_code]
-        @name = data[:name]
-        @symbol = data[:symbol]
-        @disambiguate_symbol = data[:disambiguate_symbol]
-        @alternate_symbols = data[:alternate_symbols]
-        @subunit = data[:subunit]
-        @subunit_to_unit = data[:subunit_to_unit]
-        @symbol_first = data[:symbol_first]
-        @html_entity = data[:html_entity]
-        @decimal_mark = data[:decimal_mark]
-        @thousands_separator = data[:thousands_separator]
-        @iso_numeric = data[:iso_numeric]
-        @smallest_denomination = data[:smallest_denomination]
-      else
+      unless self.class.stringified_keys.include?(id)
         raise UnknownCurrency, "Unknown currency '#{id}'"
       end
+      @id = id.to_sym
+      initialize_data!
     end
 
     # Compares +self+ with +other_currency+ against the value of +priority+
@@ -369,10 +353,11 @@ class Money
       cache[subunit_to_unit] ||= calculate_decimal_places(subunit_to_unit)
     end
 
+    private
+
     def cache
       self.class.decimal_places_cache
     end
-    private :cache
 
     # If we need to figure out how many decimal places we need we
     # use repeated integer division.
@@ -384,6 +369,23 @@ class Money
       end
       i
     end
-    private :calculate_decimal_places
+
+    def initialize_data!
+      data = self.class.table[@id]
+      @alternate_symbols     = data[:alternate_symbols]
+      @decimal_mark          = data[:decimal_mark]
+      @disambiguate_symbol   = data[:disambiguate_symbol]
+      @html_entity           = data[:html_entity]
+      @iso_code              = data[:iso_code]
+      @iso_numeric           = data[:iso_numeric]
+      @name                  = data[:name]
+      @priority              = data[:priority]
+      @smallest_denomination = data[:smallest_denomination]
+      @subunit               = data[:subunit]
+      @subunit_to_unit       = data[:subunit_to_unit]
+      @symbol                = data[:symbol]
+      @symbol_first          = data[:symbol_first]
+      @thousands_separator   = data[:thousands_separator]
+    end
   end
 end
