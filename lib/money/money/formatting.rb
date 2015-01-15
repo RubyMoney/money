@@ -359,7 +359,11 @@ class Money
 
   def symbol_position_from(rules)
     if rules.has_key?(:symbol_position)
-      rules[:symbol_position]
+      if [:before, :after].include?(rules[:symbol_position])
+        return rules[:symbol_position]
+      else
+        raise ArgumentError, ":symbol_position must be ':before' or ':after'"
+      end
     elsif currency.symbol_first?
       :before
     else

@@ -439,6 +439,10 @@ describe Money, "formatting" do
       it "inserts currency symbol after the amount when set to :after" do
         expect(Money.us_dollar(1_000_000_000_12).format(:symbol_position => :after)).to eq "1,000,000,000.12 $"
       end
+
+      it "raises an ArgumentError when passed an invalid option" do
+        expect{Money.euro(0).format(:symbol_position => :befor)}.to raise_error(ArgumentError)
+      end
     end
 
     describe ":sign_before_symbol option" do
