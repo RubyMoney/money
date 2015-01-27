@@ -1,6 +1,15 @@
 # Changelog
 
 ## Next release
+ - Fix symbol for SZL currency
+ - Trying to create a Currency without an `iso_code` now raises a more
+   helpful error message.
+ - Add `Money.usd`, `.cad` and `.eur` as aliases for `.us_dollar`,
+   `.ca_dollar`, and `.euro`.
+ - Add helper methods for British pounds: `Money.pound_sterling` and
+   `Money.gbp`.
+
+## 6.5.0
  - Add method to round a given amount of money to the nearest possible value in cash (aka Swedish rounding).
  - Fixed the subunit_to_unit values of the CLP and KRW currencies
  - Add option for `disambiguate` symbols for formatting
@@ -10,12 +19,6 @@
  - Fix symbol for TRY currency
  - Add `Money.default_formatting_rules` hash, meant to define default rules for everytime `Money#format` is called. They can be overwritten if provided on method call
  - Add support for the new official symbol for Russian Ruble (RUB) — «₽»
- - Trying to create a Currency without an `iso_code` now raises a more
-   helpful error message.
- - Add `Money.usd`, `.cad` and `.eur` as aliases for `.us_dollar`,
-   `.ca_dollar`, and `.euro`.
- - Add helper methods for British pounds: `Money.pound_sterling` and
-   `Money.gbp`.
 
 ## 6.2.1
  - Ensure set is loaded
