@@ -136,9 +136,14 @@ class Money
       end
 
       def unregister(curr)
-        key = curr.fetch(:iso_code).downcase.to_sym
-        @table.delete(key)
+        if curr.is_a?(Hash)
+          key = curr.fetch(:iso_code).downcase.to_sym
+        else
+          key = curr.downcase.to_sym
+        end
+        existed = @table.delete(key)
         @stringified_keys = stringify_keys
+        existed ? true : false
       end
 
       private

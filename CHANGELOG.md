@@ -1,6 +1,10 @@
 # Changelog
 
 ## Next release
+ - `Money::Currency.unregister` can take an ISO code argument in addition
+   to a hash.
+ - `Money::Currency.unregister` returns `true` if the given currency
+   previously existed, and `false` if it didn't.
  - Fix symbol for SZL currency
  - Trying to create a Currency without an `iso_code` now raises a more
    helpful error message.

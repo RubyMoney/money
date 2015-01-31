@@ -105,6 +105,33 @@ describe Money::Currency do
   end
 
 
+  describe ".unregister" do
+    it "unregisters a currency" do
+      Money::Currency.register(iso_code: "XXX")
+      expect(Money::Currency.find("XXX")).not_to be_nil # Sanity check
+      Money::Currency.unregister(iso_code: "XXX")
+      expect(Money::Currency.find("XXX")).to be_nil
+    end
+
+    it "returns true iff the currency existed" do
+      Money::Currency.register(iso_code: "XXX")
+      expect(Money::Currency.unregister(iso_code: "XXX")).to be_truthy
+      expect(Money::Currency.unregister(iso_code: "XXX")).to be_falsey
+    end
+
+    it "can be passed an ISO code" do
+      Money::Currency.register(iso_code: "XXX")
+      Money::Currency.register(iso_code: "YYZ")
+      # Test with string:
+      Money::Currency.unregister("XXX")
+      expect(Money::Currency.find("XXX")).to be_nil
+      # Test with symbol:
+      Money::Currency.unregister(:yyz)
+      expect(Money::Currency.find(:yyz)).to be_nil
+    end
+  end
+
+
   describe "#initialize" do
     it "lookups data from loaded config" do
       currency = Money::Currency.new("USD")
