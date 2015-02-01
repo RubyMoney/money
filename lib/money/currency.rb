@@ -105,9 +105,12 @@ class Money
         table.keys.map {|curr| Currency.new(curr)}.sort_by(&:priority)
       end
 
-      # We need a string-based validator before creating an unbounded number of symbols.
+      # We need a string-based validator before creating an unbounded number of
+      # symbols.
       # http://www.randomhacks.net/articles/2007/01/20/13-ways-of-looking-at-a-ruby-symbol#11
       # https://github.com/RubyMoney/money/issues/132
+      #
+      # @return [Set]
       def stringified_keys
         @stringified_keys ||= stringify_keys
       end
@@ -135,6 +138,14 @@ class Money
         @stringified_keys = stringify_keys
       end
 
+
+      # Unregister a currency.
+      #
+      # @param [Object] A Hash with the key `:iso_code`, or the ISO code
+      #   as a String or Symbol.
+      #
+      # @return [Boolean] true if the currency previously existed, false
+      #   if it didn't.
       def unregister(curr)
         if curr.is_a?(Hash)
           key = curr.fetch(:iso_code).downcase.to_sym
