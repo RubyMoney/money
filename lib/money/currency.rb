@@ -141,7 +141,7 @@ class Money
 
       # Unregister a currency.
       #
-      # @param [Object] A Hash with the key `:iso_code`, or the ISO code
+      # @param [Object] curr A Hash with the key `:iso_code`, or the ISO code
       #   as a String or Symbol.
       #
       # @return [Boolean] true if the currency previously existed, false
@@ -164,29 +164,42 @@ class Money
       end
     end
 
-    # @attr_reader [Symbol] id The symbol used to identify the currency,
-    # usually the lowercase +iso_code+ attribute.
-    # @attr_reader [Integer] priority A numerical value you can use to
-    # sort/group the currency list.
-    # @attr_reader [String] iso_code The international 3-letter code as defined
-    # by the ISO 4217 standard.
-    # @attr_reader [String] iso_numeric The international 3-numeric code as
-    # defined by the ISO 4217 standard.
-    # @attr_reader [String] name The currency name.
-    # @attr_reader [String] symbol The currency symbol (UTF-8 encoded).
-    # @attr_reader [String] disambiguate_symbol Alternative currency used if symbol is ambiguous
-    # @attr_reader [String] html_entity The html entity for the currency symbol
-    # @attr_reader [String] subunit The name of the fractional monetary unit.
-    # @attr_reader [Integer] subunit_to_unit The proportion between the unit
-    # and the subunit
-    # @attr_reader [String] decimal_mark The decimal mark, or character used to
-    # separate the whole unit from the subunit.
-    # @attr_reader [String] The character used to separate thousands grouping
-    # of the whole unit.
-    # @attr_reader [Boolean] symbol_first Should the currency symbol precede
-    # the amount, or should it come after?
-    # @attr_reader [Integer] smallest_denomination Smallest amount of cash 
-    # possible (in the subunit of this currency)
+    # @!attribute [r] id 
+    #   @return [Symbol] The symbol used to identify the currency, usually THE
+    #     lowercase +iso_code+ attribute.
+    # @!attribute [r] priority 
+    #   @return [Integer] A numerical value you can use to sort/group the
+    #     currency list.
+    # @!attribute [r] iso_code 
+    #   @return [String] The international 3-letter code as defined by the ISO
+    #     4217 standard.
+    # @!attribute [r] iso_numeric 
+    #   @return [String] The international 3-numeric code as defined by the ISO
+    #     4217 standard.
+    # @!attribute [r] name 
+    #   @return [String] The currency name.
+    # @!attribute [r] symbol 
+    #   @return [String] The currency symbol (UTF-8 encoded).
+    # @!attribute [r] disambiguate_symbol 
+    #   @return [String] Alternative currency used if symbol is ambiguous
+    # @!attribute [r] html_entity 
+    #   @return [String] The html entity for the currency symbol
+    # @!attribute [r] subunit 
+    #   @return [String] The name of the fractional monetary unit.
+    # @!attribute [r] subunit_to_unit 
+    #   @return [Integer] The proportion between the unit and the subunit
+    # @!attribute [r] decimal_mark 
+    #   @return [String] The decimal mark, or character used to separate the
+    #     whole unit from the subunit.
+    # @!attribute [r] The 
+    #   @return [String] character used to separate thousands grouping of the
+    #     whole unit.
+    # @!attribute [r] symbol_first 
+    #   @return [Boolean] Should the currency symbol precede the amount, or
+    #     should it come after?
+    # @!attribute [r] smallest_denomination 
+    #   @return [Integer] Smallest amount of cash possible (in the subunit of
+    #     this currency)
 
     attr_reader :id, :priority, :iso_code, :iso_numeric, :name, :symbol,
       :disambiguate_symbol, :html_entity, :subunit, :subunit_to_unit, :decimal_mark,
