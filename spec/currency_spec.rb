@@ -132,6 +132,31 @@ describe Money::Currency do
   end
 
 
+  describe ".each" do
+    it "yields each currency to the block" do
+      expect(Money::Currency).to respond_to(:each)
+      currencies = []
+      Money::Currency.each do |currency|
+        currencies.push(currency)
+      end
+
+      # Don't bother testing every single currency
+      expect(currencies[0]).to eq Money::Currency.all[0]
+      expect(currencies[1]).to eq Money::Currency.all[1]
+      expect(currencies[-1]).to eq Money::Currency.all[-1]
+    end
+  end
+
+
+  it "implements Enumerable" do
+    expect(Money::Currency).to respond_to(:all?)
+    expect(Money::Currency).to respond_to(:each_with_index)
+    expect(Money::Currency).to respond_to(:map)
+    expect(Money::Currency).to respond_to(:select)
+    expect(Money::Currency).to respond_to(:reject)
+  end
+
+
   describe "#initialize" do
     it "lookups data from loaded config" do
       currency = Money::Currency.new("USD")
@@ -156,6 +181,30 @@ describe Money::Currency do
     it "compares objects by priority" do
       expect(Money::Currency.new(:cad)).to be > Money::Currency.new(:usd)
       expect(Money::Currency.new(:usd)).to be < Money::Currency.new(:eur)
+    end
+
+    it "compares by id when priority is the same" do
+      Money::Currency.register(iso_code: "ABD", priority: 15)
+      Money::Currency.register(iso_code: "ABC", priority: 15)
+      Money::Currency.register(iso_code: "ABE", priority: 15)
+      abd = Money::Currency.find("ABD")
+      abc = Money::Currency.find("ABC")
+      abe = Money::Currency.find("ABE")
+      expect(abd).to be > abc
+      expect(abe).to be > abd
+      Money::Currency.unregister("ABD")
+      Money::Currency.unregister("ABC")
+      Money::Currency.unregister("ABE")
+    end
+
+    context "when one of the currencies has no 'priority' set" do
+      it "compares by id" do
+        Money::Currency.register(iso_code: "ABD") # No priority
+        abd = Money::Currency.find(:abd)
+        usd = Money::Currency.find(:usd)
+        expect(abd).to be < usd
+        Money::Currency.unregister(iso_code: "ABD")
+      end
     end
   end
 
