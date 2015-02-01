@@ -240,7 +240,14 @@ class Money
     #   c2 <=> c1 #=> -1
     #   c1 <=> c1 #=> 0
     def <=>(other_currency)
-      self.priority <=> other_currency.priority
+      # <=> returns nil when one of the values is nil
+      comparison = self.priority <=> other_currency.priority || 0
+
+      if comparison == 0
+        self.id <=> other_currency.id
+      else
+        comparison
+      end
     end
 
     # Compares +self+ with +other_currency+ and returns +true+ if the are the

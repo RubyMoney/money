@@ -157,6 +157,30 @@ describe Money::Currency do
       expect(Money::Currency.new(:cad)).to be > Money::Currency.new(:usd)
       expect(Money::Currency.new(:usd)).to be < Money::Currency.new(:eur)
     end
+
+    it "compares by id when priority is the same" do
+      Money::Currency.register(iso_code: "ABD", priority: 15)
+      Money::Currency.register(iso_code: "ABC", priority: 15)
+      Money::Currency.register(iso_code: "ABE", priority: 15)
+      abd = Money::Currency.find("ABD")
+      abc = Money::Currency.find("ABC")
+      abe = Money::Currency.find("ABE")
+      expect(abd).to be > abc
+      expect(abe).to be > abd
+      Money::Currency.unregister("ABD")
+      Money::Currency.unregister("ABC")
+      Money::Currency.unregister("ABE")
+    end
+
+    context "when one of the currencies has no 'priority' set" do
+      it "compares by id" do
+        Money::Currency.register(iso_code: "ABD") # No priority
+        abd = Money::Currency.find(:abd)
+        usd = Money::Currency.find(:usd)
+        expect(abd).to be < usd
+        Money::Currency.unregister(iso_code: "ABD")
+      end
+    end
   end
 
   describe "#==" do
