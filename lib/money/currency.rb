@@ -12,6 +12,7 @@ class Money
   # @see http://iso4217.net/
   class Currency
     include Comparable
+    extend Enumerable
     extend Money::Currency::Loader
     extend Money::Currency::Heuristics
 
@@ -156,6 +157,12 @@ class Money
         @stringified_keys = stringify_keys
         existed ? true : false
       end
+
+
+      def each
+        all.each { |c| yield(c) }
+      end
+
 
       private
 

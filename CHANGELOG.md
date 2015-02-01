@@ -2,6 +2,7 @@
 
 ## Next release
 
+ - `Currency` implements `Enumerable`.
  - `Currency#<=>` sorts alphabetically by `id` if the `priority`s are the same,
    and no longer raises an error if one of the priorities is missing.
  - `Money::Currency.unregister` can take an ISO code argument in addition

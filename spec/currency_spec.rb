@@ -132,6 +132,31 @@ describe Money::Currency do
   end
 
 
+  describe ".each" do
+    it "yields each currency to the block" do
+      expect(Money::Currency).to respond_to(:each)
+      currencies = []
+      Money::Currency.each do |currency|
+        currencies.push(currency)
+      end
+
+      # Don't bother testing every single currency
+      expect(currencies[0]).to eq Money::Currency.all[0]
+      expect(currencies[1]).to eq Money::Currency.all[1]
+      expect(currencies[-1]).to eq Money::Currency.all[-1]
+    end
+  end
+
+
+  it "implements Enumerable" do
+    expect(Money::Currency).to respond_to(:all?)
+    expect(Money::Currency).to respond_to(:each_with_index)
+    expect(Money::Currency).to respond_to(:map)
+    expect(Money::Currency).to respond_to(:select)
+    expect(Money::Currency).to respond_to(:reject)
+  end
+
+
   describe "#initialize" do
     it "lookups data from loaded config" do
       currency = Money::Currency.new("USD")
