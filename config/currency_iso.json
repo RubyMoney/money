@@ -357,7 +357,7 @@
     "name": "Belarusian Ruble",
     "symbol": "Br",
     "disambiguate_symbol": "BYR",
-    "alternate_symbols": ["бер. руб.","руб.", "р."],
+    "alternate_symbols": ["бел. руб.", "б.р.", "руб.", "р."],
     "subunit": null,
     "subunit_to_unit": 1,
     "symbol_first": false,
