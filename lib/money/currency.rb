@@ -16,6 +16,17 @@ class Money
     extend Money::Currency::Loader
     extend Money::Currency::Heuristics
 
+    # Thrown when a Currency has been registered without all the attributes
+    # which are required for the current action.
+    class MissingAttributeError < StandardError
+      def initialize(method, currency, attribute)
+        super(
+          "Can't call Currency.#{method} - currency '#{currency}' is missing "\
+          "the attribute '#{attribute}'"
+        )
+      end
+    end
+
     # Thrown when an unknown currency is requested.
     class UnknownCurrency < ArgumentError; end
 
@@ -103,7 +114,13 @@ class Money
       #   Money::Currency.iso_codes()
       #   [#<Currency ..USD>, 'CAD', 'EUR']...
       def all
-        table.keys.map {|curr| Currency.new(curr)}.sort_by(&:priority)
+        table.keys.map do |curr|
+          c = Currency.new(curr)
+          if c.priority.nil?
+            raise MissingAttributeError.new(:all, c.id, :priority)
+          end
+          c
+        end.sort_by(&:priority)
       end
 
       # We need a string-based validator before creating an unbounded number of
