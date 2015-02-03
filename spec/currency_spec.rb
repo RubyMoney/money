@@ -6,8 +6,12 @@ describe Money::Currency do
 
   FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 450, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
 
-  def register_foo
-    Money::Currency.register(JSON.parse(FOO, :symbolize_names => true))
+  def register_foo(opts={})
+    foo_attrs = JSON.parse(FOO, :symbolize_names => true)
+    # Pass an array of attribute names to 'skip' to remove them from the 'FOO'
+    # json before registering foo as a currency.
+    Array.wrap(opts[:skip]).each { |attr| foo_attrs.delete(attr) }
+    Money::Currency.register(foo_attrs)
   end
 
   def unregister_foo
@@ -77,6 +81,12 @@ describe Money::Currency do
     end
     it 'is sorted by priority' do
       expect(Money::Currency.all.first.priority).to eq 1
+    end
+    it "raises a MissingAttributeError if any currency has no priority" do
+      register_foo(:skip => :priority)
+      expect{Money::Currency.all}.to \
+        raise_error(Money::Currency::MissingAttributeError, /foo.*priority/)
+      unregister_foo
     end
   end
 
