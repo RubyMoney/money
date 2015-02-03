@@ -17,6 +17,9 @@
  - Add helper methods for British pounds: `Money.pound_sterling` and
    `Money.gbp`.
 
+## 6.5.1
+ - Fix format for BYR currency
+
 ## 6.5.0
  - Add method to round a given amount of money to the nearest possible value in cash (aka Swedish rounding).
  - Fixed the subunit_to_unit values of the CLP and KRW currencies
