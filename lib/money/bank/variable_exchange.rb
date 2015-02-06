@@ -24,10 +24,10 @@ class Money
     #   c2 = Money.new(100_00, "CAD")
     #
     #   # Exchange 100 USD to CAD:
-    #   bank.exchange_with(c1, "CAD") #=> #<Money @fractional=1245150>
+    #   bank.exchange_with(c1, "CAD") #=> #<Money fractional:12451 currency:CAD>
     #
     #   # Exchange 100 CAD to USD:
-    #   bank.exchange_with(c2, "USD") #=> #<Money @fractional=803115>
+    #   bank.exchange_with(c2, "USD") #=> #<Money fractional:8031 currency:USD>
     class VariableExchange < Base
 
       attr_reader :rates, :mutex
@@ -80,10 +80,10 @@ class Money
       #   c2 = Money.new(100_00, "CAD")
       #
       #   # Exchange 100 USD to CAD:
-      #   bank.exchange_with(c1, "CAD") #=> #<Money @fractional=1245150>
+      #   bank.exchange_with(c1, "CAD") #=> #<Money fractional:12451 currency:CAD>
       #
       #   # Exchange 100 CAD to USD:
-      #   bank.exchange_with(c2, "USD") #=> #<Money @fractional=803115>
+      #   bank.exchange_with(c2, "USD") #=> #<Money fractional:8031 currency:USD>
       def exchange_with(from, to_currency, &block)
         to_currency = Currency.wrap(to_currency)
         if from.currency == to_currency
