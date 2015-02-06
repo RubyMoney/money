@@ -121,6 +121,62 @@ describe Money do
     end
   end
 
+  describe ".from_amount" do
+    it "accepts numeric values" do
+      expect(Money.from_amount(1, "USD")).to eq Money.new(1_00, "USD")
+      expect(Money.from_amount(1.0, "USD")).to eq Money.new(1_00, "USD")
+      expect(Money.from_amount("1".to_d, "USD")).to eq Money.new(1_00, "USD")
+    end
+
+    it "raises ArgumentError with unsupported argument" do
+      expect { Money.from_amount("1") }.to raise_error(ArgumentError)
+      expect { Money.from_amount(Object.new) }.to raise_error(ArgumentError)
+    end
+
+    it "converts given amount to subunits according to currency" do
+      expect(Money.from_amount(1, "USD")).to eq Money.new(1_00, "USD")
+      expect(Money.from_amount(1, "TND")).to eq Money.new(1_000, "TND")
+      expect(Money.from_amount(1, "JPY")).to eq Money.new(1, "JPY")
+    end
+
+    it "rounds the given amount to subunits" do
+      expect(Money.from_amount(4.444, "USD").amount).to eq "4.44".to_d
+      expect(Money.from_amount(5.555, "USD").amount).to eq "5.56".to_d
+      expect(Money.from_amount(444.4, "JPY").amount).to eq "444".to_d
+      expect(Money.from_amount(555.5, "JPY").amount).to eq "556".to_d
+    end
+
+    it "accepts an optional currency" do
+      expect(Money.from_amount(1).currency).to eq Money.default_currency
+      jpy = Money::Currency.wrap("JPY")
+      expect(Money.from_amount(1, jpy).currency).to eq jpy
+      expect(Money.from_amount(1, "JPY").currency).to eq jpy
+    end
+
+    it "accepts an optional bank" do
+      expect(Money.from_amount(1).bank).to eq Money.default_bank
+      bank = double "bank"
+      expect(Money.from_amount(1, "USD", bank).bank).to eq bank
+    end
+
+    context "infinite_precision = true" do
+      before do
+        Money.infinite_precision = true
+      end
+
+      after do
+        Money.infinite_precision = false
+      end
+
+      it "does not round the given amount to subunits" do
+        expect(Money.from_amount(4.444, "USD").amount).to eq "4.444".to_d
+        expect(Money.from_amount(5.555, "USD").amount).to eq "5.555".to_d
+        expect(Money.from_amount(444.4, "JPY").amount).to eq "444.4".to_d
+        expect(Money.from_amount(555.5, "JPY").amount).to eq "555.5".to_d
+      end
+    end
+  end
+
   %w[cents pence].each do |units|
     describe "##{units}" do
       it "is a synonym of #fractional" do

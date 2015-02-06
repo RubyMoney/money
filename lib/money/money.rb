@@ -211,13 +211,35 @@ class Money
     self.default_bank = Bank::SingleCurrency.instance
   end
 
+  # Creates a new Money object of value given in the +unit+ of the given
+  # +currency+.
+  #
+  # @param [Numeric] amount The numerical value of the money.
+  # @param [Currency, String, Symbol] currency The currency format.
+  # @param [Money::Bank::*] bank The exchange bank to use.
+  #
+  # @example
+  #   Money.from_amount(23.45, "USD") # => #<Money fractional:2345 currency:USD>
+  #   Money.from_amount(23.45, "JPY") # => #<Money fractional:23 currency:JPY>
+  #
+  # @return [Money]
+  #
+  # @see #initialize
+  def self.from_amount(amount, currency = default_currency, bank = default_bank)
+    Numeric === amount or raise ArgumentError, "'amount' must be numeric"
+    currency = Currency.wrap(currency)
+    value = BigDecimal.new(amount.to_s) * currency.subunit_to_unit
+    value = value.round unless infinite_precision
+    new(value, currency, bank)
+  end
+
   # Creates a new Money object of value given in the
   # +fractional unit+ of the given +currency+.
   #
   # Alternatively you can use the convenience
   # methods like {Money.ca_dollar} and {Money.us_dollar}.
   #
-  # @param [Object] obj Either The fractional value of the money,
+  # @param [Object] obj Either the fractional value of the money,
   #   a Money object, or a currency. (If passed a currency as the first
   #   argument, a Money will be created in that currency with fractional value
   #   = 0.
