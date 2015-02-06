@@ -20,8 +20,8 @@ class Money
     #   bank.add_rate("USD", "CAD", 1.24515)
     #   bank.add_rate("CAD", "USD", 0.803115)
     #
-    #   c1 = 100_00.to_money("USD")
-    #   c2 = 100_00.to_money("CAD")
+    #   c1 = Money.new(100_00, "USD")
+    #   c2 = Money.new(100_00, "CAD")
     #
     #   # Exchange 100 USD to CAD:
     #   bank.exchange_with(c1, "CAD") #=> #<Money @fractional=1245150>
@@ -76,8 +76,8 @@ class Money
       #   bank.add_rate("USD", "CAD", 1.24515)
       #   bank.add_rate("CAD", "USD", 0.803115)
       #
-      #   c1 = 100_00.to_money("USD")
-      #   c2 = 100_00.to_money("CAD")
+      #   c1 = Money.new(100_00, "USD")
+      #   c2 = Money.new(100_00, "CAD")
       #
       #   # Exchange 100 USD to CAD:
       #   bank.exchange_with(c1, "CAD") #=> #<Money @fractional=1245150>
