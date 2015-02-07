@@ -512,15 +512,7 @@ describe Money, "formatting" do
       end
     end
 
-    describe ":rounded_infinite_precision option" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
+    describe ":rounded_infinite_precision option", :infinite_precision do
       it "does round fractional when set to true" do
         expect(Money.new(BigDecimal.new('12.1'), "USD").format(:rounded_infinite_precision => true)).to eq "$0.12"
         expect(Money.new(BigDecimal.new('12.5'), "USD").format(:rounded_infinite_precision => true)).to eq "$0.13"
@@ -541,15 +533,13 @@ describe Money, "formatting" do
         expect(Money.new(BigDecimal.new('1'), "MGA").format(:rounded_infinite_precision => false)).to eq "Ar0.1"
       end
 
-      describe ":rounded_infinite_precision option with i18n = false" do
+      describe "with i18n = false" do
         before do
           Money.use_i18n = false
-          Money.infinite_precision = true
         end
 
         after do
           Money.use_i18n = true
-          Money.infinite_precision = false
         end
 
         it 'does round fractional when set to true' do

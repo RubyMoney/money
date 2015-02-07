@@ -287,15 +287,7 @@ describe Money do
       end
     end
 
-    context "infinite_precision = true" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
+    context "with infinite_precision", :infinite_precision do
       it "uses BigDecimal division" do
         ts = [
           {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3.25, :USD)},
@@ -348,15 +340,7 @@ describe Money do
       end
     end
 
-    context "infinite_precision = true" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
+    context "with infinite_precision", :infinite_precision do
       it "uses BigDecimal division" do
         ts = [
           {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3.25, :USD)},
@@ -409,15 +393,7 @@ describe Money do
       end
     end
 
-    context "infinite_precision = true" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
+    context "with infinite_precision", :infinite_precision do
       it "uses BigDecimal division" do
         ts = [
             {:a => Money.new( 13, :USD), :b =>  4, :c => [Money.new( 3, :USD), Money.new( 1, :USD)]},
