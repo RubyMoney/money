@@ -21,18 +21,3 @@ end
 def reset_i18n
   I18n.backend = I18n::Backend::Simple.new
 end
-
-class Array
-
-  # No ActiveSupport :(
-  def self.wrap(object)
-    if object.nil?
-      []
-    elsif object.respond_to?(:to_ary)
-      object.to_ary || [object]
-    else
-      [object]
-    end
-  end
-
-end

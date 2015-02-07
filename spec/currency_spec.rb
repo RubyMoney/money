@@ -11,7 +11,7 @@ class Money
       foo_attrs = JSON.parse(FOO, :symbolize_names => true)
       # Pass an array of attribute names to 'skip' to remove them from the 'FOO'
       # json before registering foo as a currency.
-      Array.wrap(opts[:skip]).each { |attr| foo_attrs.delete(attr) }
+      Array(opts[:skip]).each { |attr| foo_attrs.delete(attr) }
       Money::Currency.register(foo_attrs)
     end
 
