@@ -79,6 +79,11 @@ Money.new(1000, "USD") - Money.new(200, "USD") == Money.new(800, "USD")
 Money.new(1000, "USD") / 5                     == Money.new(200, "USD")
 Money.new(1000, "USD") * 5                     == Money.new(5000, "USD")
 
+# Unit to subunit conversions
+Money.from_amount(5, "USD") == Money.new(500, "USD")  # 5 USD
+Money.from_amount(5, "JPY") == Money.new(5, "JPY")    # 5 JPY
+Money.from_amount(5, "TND") == Money.new(5000, "TND") # 5 TND
+
 # Currency conversions
 some_code_to_setup_exchange_rates
 Money.new(1000, "USD").exchange_to("EUR") == Money.new(some_value, "EUR")
