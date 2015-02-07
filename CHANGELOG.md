@@ -18,6 +18,8 @@
    `.ca_dollar`, and `.euro`.
  - Add helper methods for British pounds: `Money.pound_sterling` and
    `Money.gbp`.
+ - Add `Money.from_amount` to create money from a value in units instead of
+   fractional units.
 
 ## 6.5.1
  - Fix format for BYR currency
