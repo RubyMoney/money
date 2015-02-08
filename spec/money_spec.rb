@@ -78,8 +78,7 @@ describe Money do
       end
     end
 
-    context "infinite_precision = true" do
-      before { expect(Money).to receive(:infinite_precision).and_return(true) }
+    context "with infinite_precision", :infinite_precision do
       context 'given the initializing value is 1.50' do
         let(:initializing_value) { 1.50 }
 
@@ -146,6 +145,13 @@ describe Money do
       expect(Money.from_amount(555.5, "JPY").amount).to eq "556".to_d
     end
 
+    it "does not round the given amount when infinite_precision is set", :infinite_precision do
+      expect(Money.from_amount(4.444, "USD").amount).to eq "4.444".to_d
+      expect(Money.from_amount(5.555, "USD").amount).to eq "5.555".to_d
+      expect(Money.from_amount(444.4, "JPY").amount).to eq "444.4".to_d
+      expect(Money.from_amount(555.5, "JPY").amount).to eq "555.5".to_d
+    end
+
     it "accepts an optional currency" do
       expect(Money.from_amount(1).currency).to eq Money.default_currency
       jpy = Money::Currency.wrap("JPY")
@@ -157,23 +163,6 @@ describe Money do
       expect(Money.from_amount(1).bank).to eq Money.default_bank
       bank = double "bank"
       expect(Money.from_amount(1, "USD", bank).bank).to eq bank
-    end
-
-    context "infinite_precision = true" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
-      it "does not round the given amount to subunits" do
-        expect(Money.from_amount(4.444, "USD").amount).to eq "4.444".to_d
-        expect(Money.from_amount(5.555, "USD").amount).to eq "5.555".to_d
-        expect(Money.from_amount(444.4, "JPY").amount).to eq "444.4".to_d
-        expect(Money.from_amount(555.5, "JPY").amount).to eq "555.5".to_d
-      end
     end
   end
 
@@ -232,19 +221,9 @@ YAML
         expect(m.fractional).to be_a(Integer)
       end
 
-      context "with infinite_precision" do
-        before do
-          Money.infinite_precision = true
-        end
-
-        after do
-          Money.infinite_precision = false
-        end
-
-        it "is a BigDecimal" do
-          money = YAML::load serialized
-          expect(money.fractional).to be_a BigDecimal
-        end
+      it "is a BigDecimal when using infinite_precision", :infinite_precision do
+        money = YAML::load serialized
+        expect(money.fractional).to be_a BigDecimal
       end
     end
 
@@ -290,15 +269,7 @@ YAML
       end
     end
 
-    context "infinite_precision = true" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
+    context "with infinite_precision", :infinite_precision do
       it "returns the amount in fractional unit" do
         expect(Money.new(1_00).fractional).to eq BigDecimal("100")
       end
@@ -378,19 +349,9 @@ YAML
       expect(money.round_to_nearest_cash_value).to be_a Fixnum
     end
   
-    context "with infinite_precision" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
-      it "returns a BigDecimal" do
-        money = Money.new(100, "EUR")
-        expect(money.round_to_nearest_cash_value).to be_a BigDecimal
-      end
+    it "returns a BigDecimal when infinite_precision is set", :infinite_precision do
+      money = Money.new(100, "EUR")
+      expect(money.round_to_nearest_cash_value).to be_a BigDecimal
     end
   end
 
@@ -501,15 +462,7 @@ YAML
       expect(Money.new(10_00, "BRL").to_s).to eq "10,00"
     end
 
-    context "infinite_precision = true" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
+    context "with infinite_precision", :infinite_precision do
       it "shows fractional cents" do
         expect(Money.new(1.05, "USD").to_s).to eq "0.0105"
       end
@@ -629,15 +582,7 @@ YAML
       expect { Money.us_dollar(0.05).allocate([0.5, 0.6]) }.to raise_error(ArgumentError)
     end
 
-    context "infinite_precision = true" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
+    context "with infinite_precision", :infinite_precision do
       it "allows for fractional cents allocation" do
         one_third = BigDecimal("1") / BigDecimal("3")
 
@@ -674,15 +619,7 @@ YAML
       expect(moneys[2].cents).to eq 33
     end
 
-    context "infinite_precision = true" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
+    context "with infinite_precision", :infinite_precision do
       it "allows for splitting by fractional cents" do
         thirty_three_and_one_third = BigDecimal("100") / BigDecimal("3")
 
@@ -700,10 +637,6 @@ YAML
     subject(:rounded) { money.round }
 
     context "without infinite_precision" do
-      before do
-        Money.infinite_precision = false
-      end
-
       it "returns self (as it is already rounded)" do
         rounded = money.round
         expect(rounded).to be money
@@ -711,15 +644,7 @@ YAML
       end
     end
 
-    context "with infinite_precision" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
+    context "with infinite_precision", :infinite_precision do
       it "returns a different money" do
         expect(rounded).not_to be money
       end
