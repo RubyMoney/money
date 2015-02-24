@@ -109,7 +109,7 @@ describe Money, "formatting" do
       subject(:money) { Money.empty("CAD") }
 
       it "should use 'CAD$' as the currency symbol" do
-        expect(money.format).to eq("CAD$0.00")
+        expect(money.format(:translate => true)).to eq("CAD$0.00")
       end
     end
   end

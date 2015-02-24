@@ -212,7 +212,7 @@ class Money
 
       rules = default_formatting_rules.merge(rules)
       rules = localize_formatting_rules(rules)
-      rules = translate_formatting_rules(rules)
+      rules = translate_formatting_rules(rules) if rules[:translate]
 
       if fractional == 0
         if rules[:display_free].respond_to?(:to_str)
