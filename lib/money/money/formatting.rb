@@ -184,24 +184,36 @@ class Money
     #  due to equal symbols for different currencies. Uses the `disambiguate_symbol`.
     #
     # @example
-    #   Money.new(100, "USD").format(:disambiguate => false)   #=> "$100.00"
-    #   Money.new(100, "CAD").format(:disambiguate => false)   #=> "$100.00"
-    #   Money.new(100, "USD").format(:disambiguate => true)    #=> "$100.00"
-    #   Money.new(100, "CAD").format(:disambiguate => true)    #=> "C$100.00"
+    #   Money.new(10000, "USD").format(:disambiguate => false)   #=> "$100.00"
+    #   Money.new(10000, "CAD").format(:disambiguate => false)   #=> "$100.00"
+    #   Money.new(10000, "USD").format(:disambiguate => true)    #=> "$100.00"
+    #   Money.new(10000, "CAD").format(:disambiguate => true)    #=> "C$100.00"
     #
     # @option *rules [Boolean] :html_wrap_symbol (false) Wraps the currency symbol
     #  in a html <span> tag.
     #
     # @example
-    #   Money.new(100, "USD").format(:disambiguate => false)
+    #   Money.new(10000, "USD").format(:disambiguate => false)
     #   #=> "<span class=\"currency_symbol\">$100.00</span>
     #
     # @option *rules [Symbol] :symbol_position (:before) `:before` if the currency
     #   symbol goes before the amount, `:after` if it goes after.
     #
     # @example
-    #   Money.new(100, "USD").format(:symbol_position => :before) #=> "$100.00"
-    #   Money.new(100, "USD").format(:symbol_position => :after)  #=> "100.00 $"
+    #   Money.new(10000, "USD").format(:symbol_position => :before) #=> "$100.00"
+    #   Money.new(10000, "USD").format(:symbol_position => :after)  #=> "100.00 $"
+    #
+    # @option *rules [Boolean] :translate (true) `true` Checks for custom
+    #   symbol definitions using I18n.
+    #
+    # @example
+    #   # With the following entry in the translation files:
+    #   # en:
+    #   #   number:
+    #   #     currency:
+    #   #       symbol:
+    #   #         CAD: "CAD$"
+    #   Money.new(10000, "CAD").format(:translate => true) #=> "CAD$100.00"
     #
     # Note that the default rules can be defined through +Money.default_formatting_rules+ hash.
     #
