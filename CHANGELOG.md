@@ -2,6 +2,7 @@
 
 ## Next release
 
+ - Add Currency symbol translation support
  - `Currency.all` raises a more helpful error message
    (`Currency::MissingAttributeError`)if a currency has no priority
  - `Currency` implements `Enumerable`.

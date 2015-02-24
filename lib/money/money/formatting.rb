@@ -212,6 +212,7 @@ class Money
 
       rules = default_formatting_rules.merge(rules)
       rules = localize_formatting_rules(rules)
+      rules = translate_formatting_rules(rules)
 
       if fractional == 0
         if rules[:display_free].respond_to?(:to_str)
@@ -341,6 +342,15 @@ class Money
         /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
       end
     end
+  end
+
+  def translate_formatting_rules(rules)
+    begin
+      rules[:symbol] = I18n.t currency.iso_code, :scope => "number.currency.symbol", :raise => true
+    rescue I18n::MissingTranslationData => e
+      # Do nothing
+    end
+    rules
   end
 
   def localize_formatting_rules(rules)
