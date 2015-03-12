@@ -231,6 +231,7 @@ class Money
 
     alias_method :separator, :decimal_mark
     alias_method :delimiter, :thousands_separator
+    alias_method :eql?, :==
 
     # Create a new +Currency+ object.
     #
@@ -299,22 +300,6 @@ class Money
       self.id.to_s.downcase == other_currency_id
     end
     private :compare_ids
-
-    # Compares +self+ with +other_currency+ and returns +true+ if the are the
-    # same or if their +id+ attributes match.
-    #
-    # @param [Money::Currency] other_currency The currency to compare to.
-    #
-    # @return [Boolean]
-    #
-    # @example
-    #   c1 = Money::Currency.new(:usd)
-    #   c2 = Money::Currency.new(:jpy)
-    #   c1.eql? c1 #=> true
-    #   c1.eql? c2 #=> false
-    def eql?(other_currency)
-      self == other_currency
-    end
 
     # Returns a Fixnum hash value based on the +id+ attribute in order to use
     # functions like & (intersection), group_by, etc.
