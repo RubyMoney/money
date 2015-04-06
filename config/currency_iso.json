@@ -437,7 +437,7 @@
     "symbol": "UF",
     "alternate_symbols": [],
     "subunit": "Peso",
-    "subunit_to_unit": 1,
+    "subunit_to_unit": 10000,
     "symbol_first": true,
     "html_entity": "&#x20B1;",
     "decimal_mark": ",",

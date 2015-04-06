@@ -21,6 +21,7 @@
  - Add `Money.from_amount` to create money from a value in units instead of
    fractional units.
  - Changed CHF symbol from 'Fr' to 'CHF'
+ - Changed CLF exponent from 0 to 4
 
 ## 6.5.1
  - Fix format for BYR currency
