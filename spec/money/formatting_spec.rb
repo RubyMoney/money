@@ -95,6 +95,23 @@ describe Money, "formatting" do
         expect(money.decimal_mark).to eq ','
       end
     end
+
+    context "with number.currency.symbol.*" do
+      before :each do
+        reset_i18n
+        I18n.locale = :de
+        I18n.backend.store_translations(
+            :de,
+            :number => { :currency => { :symbol => { :CAD => "CAD$" } } }
+        )
+      end
+
+      subject(:money) { Money.empty("CAD") }
+
+      it "should use 'CAD$' as the currency symbol" do
+        expect(money.format(:translate => true)).to eq("CAD$0.00")
+      end
+    end
   end
 
   describe "#format" do
