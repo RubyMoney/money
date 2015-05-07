@@ -228,8 +228,8 @@ class Money
   def self.from_amount(amount, currency = default_currency, bank = default_bank)
     Numeric === amount or raise ArgumentError, "'amount' must be numeric"
     currency = Currency.wrap(currency)
-    value = BigDecimal.new(amount.to_s) * currency.subunit_to_unit
-    value = value.round unless infinite_precision
+    value = amount.to_d * currency.subunit_to_unit
+    value = value.round(0, rounding_mode) unless infinite_precision
     new(value, currency, bank)
   end
 
