@@ -94,12 +94,6 @@ class Money
     #     this property is an instance of +Bank::VariableExchange.+ It allows
     #     one to specify custom exchange rates.
     #
-    # @!attribute default_currency
-    #   @return [Money::Currency] The default currency, which is used when
-    #     +Money.new+ is called without an explicit currency argument. The
-    #     default value is Currency.new("USD"). The value must be a valid
-    #     +Money::Currency+ instance.
-    #
     # @!attribute default_formatting_rules
     #   @return [Hash] Use this to define a default hash of rules for everytime
     #     +Money#format+ is called.  Rules provided on method call will be
@@ -123,11 +117,17 @@ class Money
     # @!attribute [rw] conversion_precision
     #   @return [Fixnum] Use this to specify precision for converting Rational
     #     to BigDecimal
-    attr_accessor :default_bank, :default_currency, :default_formatting_rules,
+    attr_accessor :default_bank, :default_formatting_rules,
       :use_i18n, :infinite_precision, :conversion_precision
 
     # @attr_writer rounding_mode Use this to specify the rounding mode
-    attr_writer :rounding_mode
+    #
+    # @!attribute default_currency
+    #   @return [Money::Currency] The default currency, which is used when
+    #     +Money.new+ is called without an explicit currency argument. The
+    #     default value is Currency.new("USD"). The value must be a valid
+    #     +Money::Currency+ instance.
+    attr_writer :rounding_mode, :default_currency
 
   end
 

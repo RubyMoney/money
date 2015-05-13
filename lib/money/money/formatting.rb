@@ -15,7 +15,7 @@ class Money
         if self.class.use_i18n
           begin
             I18n.t name, :scope => "number.currency.format", :raise => true
-          rescue I18n::MissingTranslationData => e
+          rescue I18n::MissingTranslationData
             I18n.t name, :scope =>"number.format", :default => (currency.send(method) || character)
           end
         else
@@ -359,7 +359,7 @@ class Money
   def translate_formatting_rules(rules)
     begin
       rules[:symbol] = I18n.t currency.iso_code, :scope => "number.currency.symbol", :raise => true
-    rescue I18n::MissingTranslationData => e
+    rescue I18n::MissingTranslationData
       # Do nothing
     end
     rules
