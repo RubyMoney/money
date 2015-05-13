@@ -123,11 +123,11 @@ class Money
     # @!attribute [rw] conversion_precision
     #   @return [Fixnum] Use this to specify precision for converting Rational
     #     to BigDecimal
-    attr_accessor :default_bank, :default_currency, :default_formatting_rules,
+    attr_accessor :default_bank, :default_formatting_rules,
       :use_i18n, :infinite_precision, :conversion_precision
 
     # @attr_writer rounding_mode Use this to specify the rounding mode
-    attr_writer :rounding_mode
+    attr_writer :rounding_mode, :default_currency
 
   end
 
