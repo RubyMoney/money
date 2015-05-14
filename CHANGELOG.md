@@ -24,6 +24,8 @@
  - Changed CHF symbol from 'Fr' to 'CHF'
  - Changed CLF exponent from 0 to 4
  - Changed CLP subunit_to_unit from 1 to 100
+ - Minor fixes to prevent warnings on unused variables and the redefinition of
+   `Money.default_currency`
 
 ## 6.5.1
  - Fix format for BYR currency
