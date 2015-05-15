@@ -1142,7 +1142,7 @@
     "name": "South Korean Won",
     "symbol": "₩",
     "subunit": null,
-    "subunit_to_unit": 100,
+    "subunit_to_unit": 1,
     "alternate_symbols": [],
     "symbol_first": true,
     "html_entity": "&#x20A9;",
