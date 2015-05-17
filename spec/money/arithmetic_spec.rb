@@ -12,11 +12,18 @@ describe Money do
   end
 
   describe "#==" do
-    it "returns true if and only if their amount and currency are equal" do
+    it "returns true if both the amounts and currencies are equal" do
       expect(Money.new(1_00, "USD")).to     eq Money.new(1_00, "USD")
       expect(Money.new(1_00, "USD")).not_to eq Money.new(1_00, "EUR")
       expect(Money.new(1_00, "USD")).not_to eq Money.new(2_00, "USD")
       expect(Money.new(1_00, "USD")).not_to eq Money.new(99_00, "EUR")
+    end
+
+    it "returns true if both amounts are zero, even if currency differs" do
+      expect(Money.new(0, "USD")).to eq Money.new(0, "USD")
+      expect(Money.new(0, "USD")).to eq Money.new(0, "EUR")
+      expect(Money.new(0, "USD")).to eq Money.new(0, "AUD")
+      expect(Money.new(0, "USD")).to eq Money.new(0, "JPY")
     end
 
     it "returns false if used to compare with an object that doesn't respond to #to_money" do
