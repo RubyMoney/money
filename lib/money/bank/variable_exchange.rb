@@ -1,4 +1,5 @@
 require 'money/bank/base'
+require 'money/rates_store/memory'
 require 'json'
 require 'yaml'
 
@@ -30,27 +31,24 @@ class Money
     #   bank.exchange_with(c2, "USD") #=> #<Money fractional:8031 currency:USD>
     class VariableExchange < Base
 
-      attr_reader :rates, :mutex
+      attr_reader :rates, :mutex, :store
 
       # Available formats for importing/exporting rates.
       RATE_FORMATS = [:json, :ruby, :yaml]
 
-      # Setup rates hash and mutex for rates locking
-      #
-      # @return [self]
-      def setup
-        @rates = {}
-        @mutex = Mutex.new
-        self
+      def initialize(st = Money::RatesStore::Memory.new, &block)
+        @store = st
+        super(&block)
       end
 
       def marshal_dump
-        [@rates, @rounding_method]
+        [store.marshal_dump, @rounding_method]
       end
 
       def marshal_load(arr)
-        @rates, @rounding_method = arr
-        @mutex = Mutex.new
+        store_info = arr[0]
+        @store = store_info.shift.new(*store_info)
+        @rounding_method = arr[1]
       end
 
       # Exchanges the given +Money+ object to a new +Money+ object in
@@ -150,12 +148,7 @@ class Money
       #   bank.set_rate("USD", "CAD", 1.24515)
       #   bank.set_rate("CAD", "USD", 0.803115)
       def set_rate(from, to, rate, opts = {})
-        fn = -> { @rates[rate_key_for(from, to)] = rate }
-        if opts[:without_mutex]
-          fn.call
-        else
-          @mutex.synchronize { fn.call }
-        end
+        store.add_rate(Currency.wrap(from).iso_code, Currency.wrap(to).iso_code, rate, opts)
       end
 
       # Retrieve the rate for the given currencies. Uses +Mutex+ to synchronize
@@ -176,12 +169,7 @@ class Money
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
       def get_rate(from, to, opts = {})
-        fn = -> { @rates[rate_key_for(from, to)] }
-        if opts[:without_mutex]
-          fn.call
-        else
-          @mutex.synchronize { fn.call }
-        end
+        store.get_rate(Currency.wrap(from).iso_code, Currency.wrap(to).iso_code, opts)
       end
 
       # Return the known rates as a string in the format specified. If +file+
@@ -208,27 +196,22 @@ class Money
         raise Money::Bank::UnknownRateFormat unless
           RATE_FORMATS.include? format
 
-        s = ""
-        fn = -> {
+        store.transaction(opts) do |st|
           s = case format
-              when :json
-                JSON.dump(@rates)
-              when :ruby
-                Marshal.dump(@rates)
-              when :yaml
-                YAML.dump(@rates)
-              end
+          when :json
+            JSON.dump(st.rates)
+          when :ruby
+            Marshal.dump(st.rates)
+          when :yaml
+            YAML.dump(st.rates)
+          end
 
           unless file.nil?
             File.open(file, "w") {|f| f.write(s) }
           end
-        }
-        if opts[:without_mutex]
-          fn.call
-        else
-          @mutex.synchronize { fn.call }
+
+          s
         end
-        s
       end
 
       # Loads rates provided in +s+ given the specified format. Available
@@ -254,37 +237,22 @@ class Money
         raise Money::Bank::UnknownRateFormat unless
           RATE_FORMATS.include? format
 
-        fn = -> {
-          @rates = case format
-                   when :json
-                     JSON.load(s)
-                   when :ruby
-                     Marshal.load(s)
-                   when :yaml
-                     YAML.load(s)
-                   end
-        }
-        if opts[:without_mutex]
-          fn.call
-        else
-          @mutex.synchronize { fn.call }
+        store.transaction(opts) do |st|
+          data = case format
+           when :json
+             JSON.load(s)
+           when :ruby
+             Marshal.load(s)
+           when :yaml
+             YAML.load(s)
+           end
+
+          opts = opts.dup
+          opts[:without_mutex] = true
+          st.import_rates data, opts
         end
+
         self
-      end
-
-      private
-
-      # Return the rate hashkey for the given currencies.
-      #
-      # @param [Currency, String, Symbol] from The currency to exchange from.
-      # @param [Currency, String, Symbol] to The currency to exchange to.
-      #
-      # @return [String]
-      #
-      # @example
-      #   rate_key_for("USD", "CAD") #=> "USD_TO_CAD"
-      def rate_key_for(from, to)
-        "#{Currency.wrap(from).iso_code}_TO_#{Currency.wrap(to).iso_code}".upcase
       end
     end
   end
