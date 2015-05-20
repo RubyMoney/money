@@ -9,11 +9,11 @@ class Money
       end
 
       def add_rate(currency_iso_from, currency_iso_to, rate, opts = {})
-        transaction(opts) {|st| rates[rate_key_for(currency_iso_from, currency_iso_to)] = rate }
+        transaction(opts) { rates[rate_key_for(currency_iso_from, currency_iso_to)] = rate }
       end
 
       def get_rate(currency_iso_from, currency_iso_to, opts = {})
-        transaction(opts) {|st| rates[rate_key_for(currency_iso_from, currency_iso_to)] }
+        transaction(opts) { rates[rate_key_for(currency_iso_from, currency_iso_to)] }
       end
 
       def marshal_dump
@@ -21,7 +21,7 @@ class Money
       end
 
       def import_rates(data, opts = {})
-        transaction(opts) {|st| @rates = data }
+        transaction(opts) { @rates = data }
         self
       end
 
@@ -29,7 +29,7 @@ class Money
         if opts[:without_mutex]
           block.call self
         else
-          @mutex.synchronize { block.call(self) }
+          @mutex.synchronize(&block)
         end
       end
 

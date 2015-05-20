@@ -186,15 +186,11 @@ class Money
           end
         end
 
-        it "uses a mutex by default" do
-          expect(subject.store.instance_variable_get(:@mutex)).to receive(:synchronize)
-          subject.export_rates(:yaml)
+        it "delegates options to store" do
+          expect(subject.store).to receive(:transaction).with({:foo => 1})
+          subject.export_rates(:yaml, nil, :foo => 1)
         end
 
-        it "doesn't use mutex if requested not to" do
-          expect(subject.instance_variable_get(:@mutex)).not_to receive(:synchronize)
-          subject.export_rates(:yaml, nil, :without_mutex => true)
-        end
       end
 
       describe "#import_rates" do
@@ -231,17 +227,12 @@ class Money
           end
         end
 
-        it "uses a mutex by default" do
-          expect(subject.store.instance_variable_get(:@mutex)).to receive(:synchronize)
+        it "delegates options to store#transaction" do
+          expect(subject.store).to receive(:transaction).with({:foo => 1})
           s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
-          subject.import_rates(:yaml, s)
+          subject.import_rates(:yaml, s, :foo => 1)
         end
 
-        it "doesn't use mutex if requested not to" do
-          expect(subject.store.instance_variable_get(:@mutex)).not_to receive(:synchronize)
-          s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
-          subject.import_rates(:yaml, s, :without_mutex => true)
-        end
       end
 
       describe "#marshal_dump" do

@@ -33,4 +33,42 @@ describe Money::RatesStore::Memory do
       expect(subject.rates['EUR_TO_JPY']).to eq 122.631477
     end
   end
+
+  describe '#import_rates' do
+    let(:data) do
+      {'USD_TO_CAD' => 0.98}
+    end
+
+    context 'mutex' do
+      it 'imports rates in store-specific format, no threading issues' do
+        expect(subject.instance_variable_get('@mutex')).to receive(:synchronize).and_call_original
+        subject.import_rates(data)
+        expect(subject.rates['USD_TO_CAD']).to eql 0.98
+      end
+    end
+
+    context 'no mutex' do
+      it 'imports rates in store-specific format' do
+        expect(subject.instance_variable_get('@mutex')).not_to receive(:synchronize)
+        subject.import_rates(data, :without_mutex => true)
+        expect(subject.rates['USD_TO_CAD']).to eql 0.98
+      end
+    end
+  end
+
+  describe '#transaction' do
+    context 'mutex' do
+      it 'uses mutex' do
+        expect(subject.instance_variable_get('@mutex')).to receive(:synchronize)
+        subject.transaction{ a = 1}
+      end
+    end
+
+    context 'no mutex' do
+      it 'does not use mutex' do
+        expect(subject.instance_variable_get('@mutex')).not_to receive(:synchronize)
+        subject.transaction(:without_mutex => true){ a = 1}
+      end
+    end
+  end
 end

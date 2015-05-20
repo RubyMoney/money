@@ -196,14 +196,14 @@ class Money
         raise Money::Bank::UnknownRateFormat unless
           RATE_FORMATS.include? format
 
-        store.transaction(opts) do |st|
+        store.transaction(opts) do
           s = case format
           when :json
-            JSON.dump(st.rates)
+            JSON.dump(store.rates)
           when :ruby
-            Marshal.dump(st.rates)
+            Marshal.dump(store.rates)
           when :yaml
-            YAML.dump(st.rates)
+            YAML.dump(store.rates)
           end
 
           unless file.nil?
@@ -237,7 +237,7 @@ class Money
         raise Money::Bank::UnknownRateFormat unless
           RATE_FORMATS.include? format
 
-        store.transaction(opts) do |st|
+        store.transaction(opts) do
           data = case format
            when :json
              JSON.load(s)
@@ -249,7 +249,7 @@ class Money
 
           opts = opts.dup
           opts[:without_mutex] = true
-          st.import_rates data, opts
+          store.import_rates data, opts
         end
 
         self
