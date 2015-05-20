@@ -16,6 +16,9 @@ class Money
     # conversion rates. One must manually specify them with +add_rate+, after
     # which one can perform exchanges with +#exchange_with+.
     #
+    # Exchange rates are stored in memory using +Money::RatesStore::Memory+ by default.
+    # Pass custom rates stores for other types of storage (file, database, etc)
+    #
     # @example
     #   bank = Money::Bank::VariableExchange.new
     #   bank.add_rate("USD", "CAD", 1.24515)
@@ -29,6 +32,14 @@ class Money
     #
     #   # Exchange 100 CAD to USD:
     #   bank.exchange_with(c2, "USD") #=> #<Money fractional:8031 currency:USD>
+    #
+    #   # With custom exchange rates storage
+    #   redis_store = MyCustomRedisStore.new(host: 'localhost:6379')
+    #   bank = Money::Bank::VariableExchange.new(redis_store)
+    #   # Store rates in redis
+    #   bank.add_rate 'USD', 'CAD', 0.98
+    #   # Get rate from redis
+    #   bank.get_rate 'USD', 'CAD'
     class VariableExchange < Base
 
       attr_reader :rates, :mutex, :store
@@ -36,6 +47,13 @@ class Money
       # Available formats for importing/exporting rates.
       RATE_FORMATS = [:json, :ruby, :yaml]
 
+      # Initializes a new +Money::Bank::VariableExchange+ object.
+      # It defaults to using an in-memory, thread safe store instance for
+      # storing exchange rates.
+      #
+      # @param [RateStore] st An exchange rate store, used to persist exchange rate pairs.
+      # @yield [n] Optional block to use when rounding after exchanging one
+      #  currency for another. See +Money::bank::base+
       def initialize(st = Money::RatesStore::Memory.new, &block)
         @store = st
         super(&block)
@@ -117,6 +135,7 @@ class Money
       end
 
       # Registers a conversion rate and returns it (uses +#set_rate+).
+      # Delegates to +Money::RatesStore::Memory+
       #
       # @param [Currency, String, Symbol] from Currency to exchange from.
       # @param [Currency, String, Symbol] to Currency to exchange to.
@@ -132,8 +151,9 @@ class Money
         set_rate(from, to, rate)
       end
 
-      # Set the rate for the given currencies. Uses +Mutex+ to synchronize data
+      # Set the rate for the given currencies.
       # access.
+      # Delegates to +Money::RatesStore::Memory+
       #
       # @param [Currency, String, Symbol] from Currency to exchange from.
       # @param [Currency, String, Symbol] to Currency to exchange to.
@@ -151,8 +171,9 @@ class Money
         store.add_rate(Currency.wrap(from).iso_code, Currency.wrap(to).iso_code, rate, opts)
       end
 
-      # Retrieve the rate for the given currencies. Uses +Mutex+ to synchronize
+      # Retrieve the rate for the given currencies.
       # data access.
+      # Delegates to +Money::RatesStore::Memory+
       #
       # @param [Currency, String, Symbol] from Currency to exchange from.
       # @param [Currency, String, Symbol] to Currency to exchange to.
@@ -216,6 +237,7 @@ class Money
 
       # Loads rates provided in +s+ given the specified format. Available
       # formats are +:json+, +:ruby+ and +:yaml+.
+      # Delegates to +Money::RatesStore::Memory+
       #
       # @param [Symbol] format The format of +s+.
       # @param [String] s The rates string.
