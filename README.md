@@ -270,7 +270,7 @@ def add_rate(iso_from, iso_to, rate); end
 # @return [Numeric] rate.
 def get_rate(iso_from, iso_to); end
 
-# Iterate over rate tupes (iso_from, iso_to, rate)
+# Iterate over rate tuples (iso_from, iso_to, rate)
 #
 # @yieldparam iso_from [String] Currency ISO string.
 # @yieldparam iso_to [String] Currency ISO string.
