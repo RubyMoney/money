@@ -42,10 +42,11 @@ class Money
     #   bank.get_rate 'USD', 'CAD'
     class VariableExchange < Base
 
-      attr_reader :rates, :mutex, :store
+      attr_reader :mutex, :store
 
       # Available formats for importing/exporting rates.
       RATE_FORMATS = [:json, :ruby, :yaml]
+      SERIALIZER_SEPARATOR = '_TO_'.freeze
 
       # Initializes a new +Money::Bank::VariableExchange+ object.
       # It defaults to using an in-memory, thread safe store instance for
@@ -158,8 +159,7 @@ class Money
       # @param [Currency, String, Symbol] from Currency to exchange from.
       # @param [Currency, String, Symbol] to Currency to exchange to.
       # @param [Numeric] rate Rate to use when exchanging currencies.
-      # @param [Hash] opts Options hash to set special parameters
-      # @option opts [Boolean] :without_mutex disables the usage of a mutex
+      # @param [Hash] opts Options hash to set special parameters. Backwards compatibility only.
       #
       # @return [Numeric]
       #
@@ -168,7 +168,7 @@ class Money
       #   bank.set_rate("USD", "CAD", 1.24515)
       #   bank.set_rate("CAD", "USD", 0.803115)
       def set_rate(from, to, rate, opts = {})
-        store.add_rate(Currency.wrap(from).iso_code, Currency.wrap(to).iso_code, rate, opts)
+        store.add_rate(Currency.wrap(from).iso_code, Currency.wrap(to).iso_code, rate)
       end
 
       # Retrieve the rate for the given currencies.
@@ -177,8 +177,7 @@ class Money
       #
       # @param [Currency, String, Symbol] from Currency to exchange from.
       # @param [Currency, String, Symbol] to Currency to exchange to.
-      # @param [Hash] opts Options hash to set special parameters
-      # @option opts [Boolean] :without_mutex disables the usage of a mutex
+      # @param [Hash] opts Options hash to set special parameters. Backwards compatibility only.
       #
       # @return [Numeric]
       #
@@ -190,7 +189,7 @@ class Money
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
       def get_rate(from, to, opts = {})
-        store.get_rate(Currency.wrap(from).iso_code, Currency.wrap(to).iso_code, opts)
+        store.get_rate(Currency.wrap(from).iso_code, Currency.wrap(to).iso_code)
       end
 
       # Return the known rates as a string in the format specified. If +file+
@@ -199,8 +198,7 @@ class Money
       #
       # @param [Symbol] format Request format for the resulting string.
       # @param [String] file Optional file location to write the rates to.
-      # @param [Hash] opts Options hash to set special parameters
-      # @option opts [Boolean] :without_mutex disables the usage of a mutex
+      # @param [Hash] opts Options hash to set special parameters. Backwards compatibility only.
       #
       # @return [String]
       #
@@ -217,14 +215,14 @@ class Money
         raise Money::Bank::UnknownRateFormat unless
           RATE_FORMATS.include? format
 
-        store.transaction(opts) do
+        store.transaction do
           s = case format
           when :json
-            JSON.dump(store.rates)
+            JSON.dump(rates)
           when :ruby
-            Marshal.dump(store.rates)
+            Marshal.dump(rates)
           when :yaml
-            YAML.dump(store.rates)
+            YAML.dump(rates)
           end
 
           unless file.nil?
@@ -235,14 +233,20 @@ class Money
         end
       end
 
+      # This should be deprecated.
+      def rates
+        store.each_rate.each_with_object({}) do |(from,to,rate),hash|
+          hash[[from, to].join(SERIALIZER_SEPARATOR)] = rate
+        end
+      end
+
       # Loads rates provided in +s+ given the specified format. Available
       # formats are +:json+, +:ruby+ and +:yaml+.
       # Delegates to +Money::RatesStore::Memory+
       #
       # @param [Symbol] format The format of +s+.
       # @param [String] s The rates string.
-      # @param [Hash] opts Options hash to set special parameters
-      # @option opts [Boolean] :without_mutex disables the usage of a mutex
+      # @param [Hash] opts Options hash to set special parameters. Backwards compatibility only.
       #
       # @return [self]
       #
@@ -259,7 +263,7 @@ class Money
         raise Money::Bank::UnknownRateFormat unless
           RATE_FORMATS.include? format
 
-        store.transaction(opts) do
+        store.transaction do
           data = case format
            when :json
              JSON.load(s)
@@ -269,9 +273,10 @@ class Money
              YAML.load(s)
            end
 
-          opts = opts.dup
-          opts[:without_mutex] = true
-          store.import_rates data, opts
+          data.each do |key, rate|
+            from, to = key.split(SERIALIZER_SEPARATOR)
+            store.add_rate from, to, rate
+          end
         end
 
         self

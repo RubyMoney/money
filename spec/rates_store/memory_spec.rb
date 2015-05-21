@@ -16,43 +16,30 @@ describe Money::RatesStore::Memory do
       subject.add_rate('USD', 'EUR', 1.25)
     end
 
-    it "doesn't use mutex if requested not to" do
-      expect(subject.instance_variable_get(:@mutex)).not_to receive(:synchronize)
-      subject.add_rate('USD', 'EUR', 1.25, :without_mutex => true)
+    context ':without_mutex' do
+      let(:subject) { Money::RatesStore::Memory.new(:without_mutex => true) }
+
+      it "doesn't use mutex if requested not to" do
+        expect(subject.instance_variable_get(:@mutex)).not_to receive(:synchronize)
+        subject.add_rate('USD', 'EUR', 1.25)
+      end
     end
   end
 
-  describe '#rates' do
+  describe '#each_rate' do
     before do
-      subject.add_rate("USD", "EUR", 0.788332676)
-      subject.add_rate("EUR", "JPY", 122.631477)
+      subject.add_rate('USD', 'CAD', 0.9)
+      subject.add_rate('CAD', 'USD', 1.1)
     end
 
-    it 'indexes added rates' do
-      expect(subject.rates['USD_TO_EUR']).to eq 0.788332676
-      expect(subject.rates['EUR_TO_JPY']).to eq 122.631477
-    end
-  end
-
-  describe '#import_rates' do
-    let(:data) do
-      {'USD_TO_CAD' => 0.98}
+    it 'iterates over rates' do
+      expect{|b| subject.each_rate(&b)}.to yield_successive_args(['USD', 'CAD', 0.9], ['CAD', 'USD', 1.1])
     end
 
-    context 'mutex' do
-      it 'imports rates in store-specific format, no threading issues' do
-        expect(subject.instance_variable_get('@mutex')).to receive(:synchronize).and_call_original
-        subject.import_rates(data)
-        expect(subject.rates['USD_TO_CAD']).to eql 0.98
-      end
-    end
-
-    context 'no mutex' do
-      it 'imports rates in store-specific format' do
-        expect(subject.instance_variable_get('@mutex')).not_to receive(:synchronize)
-        subject.import_rates(data, :without_mutex => true)
-        expect(subject.rates['USD_TO_CAD']).to eql 0.98
-      end
+    it 'is an Enumeator' do
+      expect(subject.each_rate).to be_kind_of(Enumerator)
+      result = subject.each_rate.each_with_object({}){|(from, to, rate),m| m[[from,to].join] = rate}
+      expect(result).to match({'USDCAD' => 0.9, 'CADUSD' => 1.1})
     end
   end
 
@@ -62,12 +49,22 @@ describe Money::RatesStore::Memory do
         expect(subject.instance_variable_get('@mutex')).to receive(:synchronize)
         subject.transaction{ a = 1}
       end
+
+      it 'wraps block in mutex transaction only once' do
+        expect{
+          subject.transaction do
+            subject.add_rate('USD', 'CAD', 1)
+          end
+        }.not_to raise_error
+      end
     end
 
     context 'no mutex' do
+      let(:subject) { Money::RatesStore::Memory.new(:without_mutex => true) }
+
       it 'does not use mutex' do
         expect(subject.instance_variable_get('@mutex')).not_to receive(:synchronize)
-        subject.transaction(:without_mutex => true){ a = 1}
+        subject.transaction{ a = 1}
       end
     end
   end

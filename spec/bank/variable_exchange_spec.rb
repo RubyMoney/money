@@ -92,15 +92,15 @@ class Money
 
       describe "#add_rate" do
         it 'delegates to store#add_rate' do
-          expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 1.25, {}).and_return 1.25
+          expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 1.25).and_return 1.25
           expect(subject.add_rate('USD', 'EUR', 1.25)).to eql 1.25
         end
 
         it "adds rates with correct ISO codes" do
-          expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 0.788332676, {})
+          expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 0.788332676)
           subject.add_rate("USD", "EUR", 0.788332676)
 
-          expect(subject.store).to receive(:add_rate).with('EUR', 'JPY', 122.631477, {})
+          expect(subject.store).to receive(:add_rate).with('EUR', 'JPY', 122.631477)
           subject.add_rate("EUR", "YEN", 122.631477)
         end
 
@@ -112,7 +112,7 @@ class Money
 
       describe "#set_rate" do
         it 'delegates to store#add_rate' do
-          expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 1.25, {}).and_return 1.25
+          expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 1.25).and_return 1.25
           expect(subject.set_rate('USD', 'EUR', 1.25)).to eql 1.25
         end
 
@@ -136,8 +136,8 @@ class Money
           expect { subject.get_rate('AAA', 'BBB') }.to raise_exception(Currency::UnknownCurrency)
         end
 
-        it "delegates options to store" do
-          expect(subject.store).to receive(:get_rate).with('USD', 'EUR', {:without_mutex => true})
+        it "delegates options to store, options are a no-op" do
+          expect(subject.store).to receive(:get_rate).with('USD', 'EUR')
           subject.get_rate('USD', 'EUR', :without_mutex => true)
         end
       end
@@ -186,8 +186,8 @@ class Money
           end
         end
 
-        it "delegates options to store" do
-          expect(subject.store).to receive(:transaction).with({:foo => 1})
+        it "delegates execution to store, options are a no-op" do
+          expect(subject.store).to receive(:transaction)
           subject.export_rates(:yaml, nil, :foo => 1)
         end
 
@@ -227,8 +227,8 @@ class Money
           end
         end
 
-        it "delegates options to store#transaction" do
-          expect(subject.store).to receive(:transaction).with({:foo => 1})
+        it "delegates execution to store#transaction" do
+          expect(subject.store).to receive(:transaction)
           s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
           subject.import_rates(:yaml, s, :foo => 1)
         end
