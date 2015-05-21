@@ -27,6 +27,7 @@
  - Minor fixes to prevent warnings on unused variables and the redefinition of
    `Money.default_currency`
  - `Money#==` changed to acknowledge that 0 in one currency is equal to 0 in any currency.
+ - Changed KRW subunit_to_unit from 100 to 1
 
 ## 6.5.1
  - Fix format for BYR currency
