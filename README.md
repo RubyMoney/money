@@ -242,7 +242,7 @@ Money.new(1000, "EUR") + Money.new(1000, "USD") == Money.new(1500, "EUR")
 
 The default bank is initialized with an in-memory store for exchange rates.
 
-```
+```ruby
 Money.default_bank = Money::Bank::VariableExchange.new(Money::RatesStore::Memory.new)
 ```
 
