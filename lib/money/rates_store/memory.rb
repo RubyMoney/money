@@ -74,6 +74,18 @@ class Money
         end
       end
 
+      # Iterate over rate tupes (iso_from, iso_to, rate)
+      #
+      # @yieldparam iso_from [String] Currency ISO string.
+      # @yieldparam iso_to [String] Currency ISO string.
+      # @yieldparam rate [Numeric] Exchange rate.
+      #
+      # @return [Enumerator]
+      #
+      # @example
+      #   store.each_rate do |iso_from, iso_to, rate|
+      #     puts [iso_from, iso_to, rate].join
+      #   end
       def each_rate(&block)
         enum = Enumerator.new do |yielder|
           index.each do |key, rate|

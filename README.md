@@ -238,11 +238,116 @@ Money.add_rate("USD", "EUR", 0.5)
 Money.new(1000, "EUR") + Money.new(1000, "USD") == Money.new(1500, "EUR")
 ```
 
-There is nothing stopping you from creating bank objects which scrapes
+### Bank stores
+
+The default bank is initialized with an in-memory store for exchange rates.
+
+```
+Money.default_bank = Money::Bank::VariableExchange.new(Money::RatesStore::Memory.new)
+```
+
+You can pass you own store implementation, ie. for storing and retrieving rates off a database, file, cache, etc.
+
+```ruby
+Money.default_bank = Money::Bank::VariableExchange.new(MyCustomStore.new)
+```
+
+Stores must implement the following interface:
+
+```ruby
+# Add new exchange rate.
+# @param [String] iso_from Currency ISO code. ex. 'USD'
+# @param [String] iso_to Currency ISO code. ex. 'CAD'
+# @param [Numeric] rate Exchange rate. ex. 0.0016
+#
+# @return [Numeric] rate.
+def add_rate(iso_from, iso_to, rate); end
+
+# Get rate. Must be idempotent. ie. adding the same rate must not produce duplicates.
+# @param [String] iso_from Currency ISO code. ex. 'USD'
+# @param [String] iso_to Currency ISO code. ex. 'CAD'
+#
+# @return [Numeric] rate.
+def get_rate(iso_from, iso_to); end
+
+# Iterate over rate tupes (iso_from, iso_to, rate)
+#
+# @yieldparam iso_from [String] Currency ISO string.
+# @yieldparam iso_to [String] Currency ISO string.
+# @yieldparam rate [Numeric] Exchange rate.
+#
+# @return [Enumerator]
+#
+# @example
+#   store.each_rate do |iso_from, iso_to, rate|
+#     puts [iso_from, iso_to, rate].join
+#   end
+def each_rate(&block); end
+
+# Wrap store operations in a thread-safe transaction
+# (or IO or Database transaction, depending on your implementation)
+#
+# @yield [n] Block that will be wrapped in transaction.
+#
+# @example
+#   store.transaction do
+#     store.add_rate('USD', 'CAD', 0.9)
+#     store.add_rate('USD', 'CLP', 0.0016)
+#   end
+def transaction(&block); end
+
+# Serialize store and its content to make Marshal.dump work.
+# 
+# Returns an array with store class and any arguments needed to initialize the store in the current state.
+
+# @return [Array] [class, arg1, arg2]
+def marshal_dump; end
+```
+
+The following example implements an `ActiveRecord` store to save exchange rates to a database.
+
+```ruby
+# DB columns :from[String], :to[String], :rate[Float]
+
+class ExchangeRate < ActiveRecord::Base
+  def self.get_rate(from_iso_code, to_iso_code)
+    rate = find_by_from_and_to(from_iso_code, to_iso_code)
+    rate.present? ? rate.rate : nil
+  end
+
+  def self.add_rate(from_iso_code, to_iso_code, rate)
+    exrate = find_or_initialize_by_from_and_to(from_iso_code, to_iso_code)
+    exrate.rate = rate
+    exrate.save!
+  end
+end
+```
+
+Now you can use it with the default bank.
+
+```ruby
+Money.default_bank = Money::Bank::VariableExchange.new(ExchangeRate)
+
+# Add to the underlying store
+Money.default_bank.add_rate('USD', 'CAD', 0.9)
+# Retrieve from the underlying store
+Money.default_bank.get_rate('USD', 'CAD') # => 0.9
+# Exchanging amounts just works.
+Money.new(1000, 'USD').exchange_to('CAD') #=> #<Money fractional:900 currency:CAD>
+```
+
+There is nothing stopping you from creating store objects which scrapes
 [XE](http://www.xe.com) for the current rates or just returns `rand(2)`:
 
 ``` ruby
-Money.default_bank = ExchangeBankWhichScrapesXeDotCom.new
+Money.default_bank = Money::Bank::VariableExchange.new(StoreWhichScrapesXeDotCom.new)
+```
+
+You can also implement your own Bank to calculate exchanges differently.
+Different banks can share Stores.
+
+```ruby
+Money.default_bank = MyCustomBank.new(Money::RatesStore::Memory.new)
 ```
 
 If you wish to disable automatic currency conversion to prevent arithmetic when
