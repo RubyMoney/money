@@ -238,7 +238,7 @@ Money.add_rate("USD", "EUR", 0.5)
 Money.new(1000, "EUR") + Money.new(1000, "USD") == Money.new(1500, "EUR")
 ```
 
-### Bank stores
+### Exchange rate stores
 
 The default bank is initialized with an in-memory store for exchange rates.
 
