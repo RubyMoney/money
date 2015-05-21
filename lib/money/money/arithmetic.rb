@@ -12,20 +12,23 @@ class Money
     end
 
     # Checks whether two money objects have the same currency and the same
-    # amount. Checks against money objects with a different currency and checks
-    # against objects that do not respond to #to_money will always return false.
+    # amount. If money objects have a different currency it will only be true
+    # if the amounts are both zero. Checks against objects that do not respond
+    # to #to_money, in which case, it will always return false.
     #
     # @param [Money] other_money Value to compare with.
     #
     # @return [Boolean]
     #
     # @example
-    #   Money.new(100) == Money.new(101) #=> false
-    #   Money.new(100) == Money.new(100) #=> true
+    #   Money.new(100) == Money.new(101)           #=> false
+    #   Money.new(100) == Money.new(100)           #=> true
+    #   Money.new(0, "USD") == Money.new(0, "EUR") #=> true
     def ==(other_money)
       if other_money.respond_to?(:to_money)
         other_money = other_money.to_money
-        fractional == other_money.fractional && currency == other_money.currency
+        (fractional == other_money.fractional && currency == other_money.currency) ||
+          (fractional == 0 && other_money.fractional == 0)
       else
         false
       end
