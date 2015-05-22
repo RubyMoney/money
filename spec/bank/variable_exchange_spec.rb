@@ -14,6 +14,22 @@ class Money
             end
           }
 
+          describe '#store' do
+            it 'defaults to Memory store' do
+              expect(bank.store).to be_a(Money::RatesStore::Memory)
+            end
+          end
+
+          describe 'custom store' do
+            let(:custom_store) { Object.new }
+
+            let(:bank) { VariableExchange.new(custom_store) }
+
+            it 'sets #store to be custom store' do
+              expect(bank.store).to eql(custom_store)
+            end
+          end
+
           describe "#exchange_with" do
             it "accepts str" do
               expect { bank.exchange_with(Money.new(100, 'USD'), 'EUR') }.to_not raise_exception
@@ -75,38 +91,38 @@ class Money
       end
 
       describe "#add_rate" do
-        it "adds rates correctly" do
-          subject.add_rate("USD", "EUR", 0.788332676)
-          subject.add_rate("EUR", "YEN", 122.631477)
+        it 'delegates to store#add_rate' do
+          expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 1.25).and_return 1.25
+          expect(subject.add_rate('USD', 'EUR', 1.25)).to eql 1.25
+        end
 
-          expect(subject.instance_variable_get(:@rates)['USD_TO_EUR']).to eq 0.788332676
-          expect(subject.instance_variable_get(:@rates)['EUR_TO_JPY']).to eq 122.631477
+        it "adds rates with correct ISO codes" do
+          expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 0.788332676)
+          subject.add_rate("USD", "EUR", 0.788332676)
+
+          expect(subject.store).to receive(:add_rate).with('EUR', 'JPY', 122.631477)
+          subject.add_rate("EUR", "YEN", 122.631477)
         end
 
         it "treats currency names case-insensitively" do
           subject.add_rate("usd", "eur", 1)
-          expect(subject.instance_variable_get(:@rates)['USD_TO_EUR']).to eq 1
+          expect(subject.get_rate('USD', 'EUR')).to eq 1
         end
       end
 
       describe "#set_rate" do
+        it 'delegates to store#add_rate' do
+          expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 1.25).and_return 1.25
+          expect(subject.set_rate('USD', 'EUR', 1.25)).to eql 1.25
+        end
+
         it "sets a rate" do
           subject.set_rate('USD', 'EUR', 1.25)
-          expect(subject.instance_variable_get(:@rates)['USD_TO_EUR']).to eq 1.25
+          expect(subject.store.get_rate('USD', 'EUR')).to eq 1.25
         end
 
         it "raises an UnknownCurrency exception when an unknown currency is passed" do
           expect { subject.set_rate('AAA', 'BBB', 1.25) }.to raise_exception(Currency::UnknownCurrency)
-        end
-
-        it "uses a mutex by default" do
-          expect(subject.instance_variable_get(:@mutex)).to receive(:synchronize)
-          subject.set_rate('USD', 'EUR', 1.25)
-        end
-
-        it "doesn't use mutex if requested not to" do
-          expect(subject.instance_variable_get(:@mutex)).not_to receive(:synchronize)
-          subject.set_rate('USD', 'EUR', 1.25, :without_mutex => true)
         end
       end
 
@@ -120,13 +136,8 @@ class Money
           expect { subject.get_rate('AAA', 'BBB') }.to raise_exception(Currency::UnknownCurrency)
         end
 
-        it "uses a mutex by default" do
-          expect(subject.instance_variable_get(:@mutex)).to receive(:synchronize)
-          subject.get_rate('USD', 'EUR')
-        end
-
-        it "doesn't use mutex if requested not to" do
-          expect(subject.instance_variable_get(:@mutex)).not_to receive(:synchronize)
+        it "delegates options to store, options are a no-op" do
+          expect(subject.store).to receive(:get_rate).with('USD', 'EUR')
           subject.get_rate('USD', 'EUR', :without_mutex => true)
         end
       end
@@ -175,15 +186,11 @@ class Money
           end
         end
 
-        it "uses a mutex by default" do
-          expect(subject.instance_variable_get(:@mutex)).to receive(:synchronize)
-          subject.export_rates(:yaml)
+        it "delegates execution to store, options are a no-op" do
+          expect(subject.store).to receive(:transaction)
+          subject.export_rates(:yaml, nil, :foo => 1)
         end
 
-        it "doesn't use mutex if requested not to" do
-          expect(subject.instance_variable_get(:@mutex)).not_to receive(:synchronize)
-          subject.export_rates(:yaml, nil, :without_mutex => true)
-        end
       end
 
       describe "#import_rates" do
@@ -220,46 +227,12 @@ class Money
           end
         end
 
-        it "uses a mutex by default" do
-          expect(subject.instance_variable_get(:@mutex)).to receive(:synchronize)
+        it "delegates execution to store#transaction" do
+          expect(subject.store).to receive(:transaction)
           s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
-          subject.import_rates(:yaml, s)
+          subject.import_rates(:yaml, s, :foo => 1)
         end
 
-        it "doesn't use mutex if requested not to" do
-          expect(subject.instance_variable_get(:@mutex)).not_to receive(:synchronize)
-          s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
-          subject.import_rates(:yaml, s, :without_mutex => true)
-        end
-      end
-
-      describe "#rate_key_for" do
-        it "accepts str/str" do
-          expect { subject.send(:rate_key_for, 'USD', 'EUR')}.to_not raise_exception
-        end
-
-        it "accepts currency/str" do
-          expect { subject.send(:rate_key_for, Currency.wrap('USD'), 'EUR')}.to_not raise_exception
-        end
-
-        it "accepts str/currency" do
-          expect { subject.send(:rate_key_for, 'USD', Currency.wrap('EUR'))}.to_not raise_exception
-        end
-
-        it "accepts currency/currency" do
-          expect { subject.send(:rate_key_for, Currency.wrap('USD'), Currency.wrap('EUR'))}.to_not raise_exception
-        end
-
-        it "returns a hashkey based on the passed arguments" do
-          expect(subject.send(:rate_key_for, 'USD', 'EUR')).to eq 'USD_TO_EUR'
-          expect(subject.send(:rate_key_for, Currency.wrap('USD'), 'EUR')).to eq 'USD_TO_EUR'
-          expect(subject.send(:rate_key_for, 'USD', Currency.wrap('EUR'))).to eq 'USD_TO_EUR'
-          expect(subject.send(:rate_key_for, Currency.wrap('USD'), Currency.wrap('EUR'))).to eq 'USD_TO_EUR'
-        end
-
-        it "raises a Money::Currency::UnknownCurrency exception when an unknown currency is passed" do
-          expect { subject.send(:rate_key_for, 'AAA', 'BBB')}.to raise_exception(Currency::UnknownCurrency)
-        end
       end
 
       describe "#marshal_dump" do
