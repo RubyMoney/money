@@ -67,10 +67,12 @@ class Money
         if @in_transaction || options[:without_mutex]
           block.call self
         else
-          @in_transaction = true
-          result = @mutex.synchronize(&block)
-          @in_transaction = false
-          result
+          @mutex.synchronize do
+            @in_transaction = true
+            result = block.call
+            @in_transaction = false
+            result
+          end
         end
       end
 
