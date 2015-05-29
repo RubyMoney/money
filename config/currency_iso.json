@@ -452,7 +452,7 @@
     "disambiguate_symbol": "CLP",
     "alternate_symbols": [],
     "subunit": "Peso",
-    "subunit_to_unit": 1,
+    "subunit_to_unit": 100,
     "symbol_first": true,
     "html_entity": "&#36;",
     "decimal_mark": ",",
