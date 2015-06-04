@@ -66,6 +66,11 @@ class Money
               proc = Proc.new { |n| n.ceil }
               expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc)).to eq Money.new(14, 'EUR')
             end
+
+            it 'works with big numbers' do
+              amount = 10**20
+              expect(bank.exchange_with(Money.usd(amount), :EUR)).to eq Money.eur(1.33 * amount)
+            end
           end
         end
 
