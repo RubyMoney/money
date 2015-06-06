@@ -297,7 +297,7 @@ def each_rate(&block); end
 def transaction(&block); end
 
 # Serialize store and its content to make Marshal.dump work.
-# 
+#
 # Returns an array with store class and any arguments needed to initialize the store in the current state.
 
 # @return [Array] [class, arg1, arg2]
@@ -364,6 +364,7 @@ implementations.
 
 - [eu_central_bank](http://github.com/RubyMoney/eu_central_bank)
 - [google_currency](http://github.com/RubyMoney/google_currency)
+- [money-json-rates](https://github.com/askuratovsky/money-json-rates)
 - [nordea](https://github.com/k33l0r/nordea)
 - [nbrb_currency](https://github.com/slbug/nbrb_currency)
 - [money-open-exchange-rates](https://github.com/spk/money-open-exchange-rates)
