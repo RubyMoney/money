@@ -1036,14 +1036,14 @@
     "name": "Jordanian Dinar",
     "symbol": "د.ا",
     "alternate_symbols": ["JD"],
-    "subunit": "Piastre",
-    "subunit_to_unit": 100,
+    "subunit": "Fils",
+    "subunit_to_unit": 1000,
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "400",
-    "smallest_denomination": 0.5
+    "smallest_denomination": 5
   },
   "jpy": {
     "priority": 6,
