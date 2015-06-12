@@ -87,6 +87,11 @@ Money.from_amount(5, "TND") == Money.new(5000, "TND") # 5 TND
 # Currency conversions
 some_code_to_setup_exchange_rates
 Money.new(1000, "USD").exchange_to("EUR") == Money.new(some_value, "EUR")
+
+# Formatting (see Formatting section for more options)
+Money.new(100, "USD").format #=> "$1.00"
+Money.new(100, "GBP").format #=> "£1.00"
+Money.new(100, "EUR").format #=> "€1.00"
 ```
 
 ## Currency
@@ -407,7 +412,9 @@ If you wish to disable this feature:
 Money.use_i18n = false
 ```
 
-*Note: There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module](https://github.com/RubyMoney/money/blob/master/lib/money/money/formatting.rb).*
+## Formatting
+
+There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module](https://github.com/RubyMoney/money/blob/master/lib/money/money/formatting.rb).*
 
 ## Migration Notes
 
