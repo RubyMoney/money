@@ -42,8 +42,6 @@ class Money
           val = val.exchange_to(currency)
         end
         fractional <=> val.fractional
-      else
-        raise ArgumentError, "Comparison of #{self.class} with #{val.inspect} failed"
       end
     end
 
