@@ -21,10 +21,10 @@ class Money
     # @return [Boolean]
     #
     # @example
-    #   Money.new(100) == Money.new(101)           #=> false
-    #   Money.new(100) == Money.new(100)           #=> true
-    #   Money.new(0, "USD") == Money.new(0, "EUR") #=> true
-    def ==(other_money)
+    #   Money.new(100).eql?(Money.new(101))           #=> false
+    #   Money.new(100).eql?(Money.new(100))           #=> true
+    #   Money.new(0, "USD").eql?(Money.new(0, "EUR")) #=> true
+    def eql?(other_money)
       if other_money.respond_to?(:to_money)
         other_money = other_money.to_money
         (fractional == other_money.fractional && currency == other_money.currency) ||
@@ -33,7 +33,6 @@ class Money
         false
       end
     end
-    alias_method :eql?, :==
 
     def <=>(val)
       if val.respond_to?(:to_money)
