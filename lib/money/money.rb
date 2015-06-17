@@ -15,7 +15,7 @@ require "money/money/formatting"
 #
 # @see http://en.wikipedia.org/wiki/Money
 class Money
-  include Money::Arithmetic, Money::Formatting, Comparable
+  include Comparable, Money::Arithmetic, Money::Formatting
   extend Constructors
 
   # Raised when smallest denomination of a currency is not defined

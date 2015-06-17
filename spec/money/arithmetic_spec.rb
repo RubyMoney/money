@@ -123,12 +123,11 @@ describe Money do
       expect(Money.new(1_00) <=> klass.new(Money.new(2_00))).to be < 0
     end
 
-    it "raises ArgumentError when used to compare with an object that doesn't respond to #to_money" do
-      expected_message = /Comparison .+ failed/
-      expect{ Money.new(1_00) <=> Object.new  }.to raise_error(ArgumentError, expected_message)
-      expect{ Money.new(1_00) <=> Class       }.to raise_error(ArgumentError, expected_message)
-      expect{ Money.new(1_00) <=> Kernel      }.to raise_error(ArgumentError, expected_message)
-      expect{ Money.new(1_00) <=> /foo/       }.to raise_error(ArgumentError, expected_message)
+    it "returns nil when used to compare with an object that doesn't respond to #to_money" do
+      expect(Money.new(1_00) <=> Object.new).to be_nil
+      expect(Money.new(1_00) <=> Class).to be_nil
+      expect(Money.new(1_00) <=> Kernel).to be_nil
+      expect(Money.new(1_00) <=> /foo/).to be_nil
     end
   end
 
