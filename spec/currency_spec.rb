@@ -31,10 +31,10 @@ class Money
 
       it "returns currency matching given id" do
         expected = Currency.new(:foo)
-        expect(Currency.find(:foo)).to eq  expected
-        expect(Currency.find(:FOO)).to eq  expected
-        expect(Currency.find("foo")).to eq expected
-        expect(Currency.find("FOO")).to eq expected
+        expect(Currency.find(:foo)).to equal  expected
+        expect(Currency.find(:FOO)).to equal  expected
+        expect(Currency.find("foo")).to equal expected
+        expect(Currency.find("FOO")).to equal expected
       end
 
       it "returns nil unless currency matching given id" do
@@ -85,6 +85,7 @@ class Money
       end
       it "raises a MissingAttributeError if any currency has no priority" do
         register_foo(:skip => :priority)
+
         expect{Money::Currency.all}.to \
           raise_error(Money::Currency::MissingAttributeError, /foo.*priority/)
         unregister_foo
@@ -185,6 +186,14 @@ class Money
 
       it "raises UnknownCurrency with unknown currency" do
         expect { Currency.new("xxx") }.to raise_error(Currency::UnknownCurrency, /xxx/)
+      end
+
+      it 'returns old object for the same :key' do
+        expect(Currency.new("USD").object_id).to eq(Currency.new("USD").object_id)
+      end
+
+      it 'returns new object for the different :key' do
+        expect(Currency.new("USD").object_id).to_not eq(Currency.new("EUR").object_id)
       end
     end
 
