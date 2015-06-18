@@ -40,11 +40,7 @@ class Money
           raise UnknownCurrency, "Unknown currency '#{id}'"
         end
 
-        instance(id.to_s.downcase) || super
-      end
-
-      def instance(id)
-        @instances[id]
+        instances[id] || super
       end
 
       def instances
