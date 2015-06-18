@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require "json"
+require 'thread_safe'
 require "money/currency/loader"
 require "money/currency/heuristics"
 
@@ -15,9 +16,6 @@ class Money
     extend Enumerable
     extend Money::Currency::Loader
     extend Money::Currency::Heuristics
-
-    @instances_mutex = Mutex.new
-    @instances ||= {}
 
     # Thrown when a Currency has been registered without all the attributes
     # which are required for the current action.
@@ -34,7 +32,7 @@ class Money
     class UnknownCurrency < ArgumentError; end
 
     class << self
-
+      alias_method :original_new, :new
       def new(id)
         id = id.to_s.downcase
         unless stringified_keys.include?(id)
@@ -45,11 +43,7 @@ class Money
       end
 
       def instances
-        @instances
-      end
-
-      def instances_mutex
-        @instances_mutex
+        @instances ||= ThreadSafe::Hash.new { |h, k| h[k] = original_new(k) }
       end
 
       # Lookup a currency with given +id+ an returns a +Currency+ instance on
@@ -266,9 +260,7 @@ class Money
     def initialize(id)
       @id = id.to_sym
       initialize_data!
-      self.class.instances_mutex.synchronize do
-        self.class.instances[id] = self
-      end
+      self.class.instances[id] = self
     end
 
     # Compares +self+ with +other_currency+ against the value of +priority+
