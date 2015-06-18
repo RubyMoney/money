@@ -170,6 +170,7 @@ class Money
 
 
     describe "#initialize" do
+      before { Currency.instances.clear }
       it "lookups data from loaded config" do
         currency = Currency.new("USD")
         expect(currency.id).to                    eq :usd
@@ -196,10 +197,7 @@ class Money
         expect(Currency.new("USD")).to be(Currency.new('Usd'))
 
         ids = []
-        [
-          Thread.new{ ids << Currency.new("USD").object_id },
-          Thread.new{ ids << Currency.new("USD").object_id }
-        ].each(&:join)
+        [ 2.times.map{ Thread.new{ ids << Currency.new("USD").object_id } } ].each(&:join)
 
         expect(ids.uniq.length).to eq(1)
         expect(ids.uniq[0]).to eq(Currency.new("USD").object_id)

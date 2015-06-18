@@ -16,6 +16,7 @@ class Money
     extend Money::Currency::Loader
     extend Money::Currency::Heuristics
 
+    @instances_mutex = Mutex.new
     @instances ||= {}
 
     # Thrown when a Currency has been registered without all the attributes
@@ -45,6 +46,10 @@ class Money
 
       def instances
         @instances
+      end
+
+      def instances_mutex
+        @instances_mutex
       end
 
       # Lookup a currency with given +id+ an returns a +Currency+ instance on
@@ -261,7 +266,9 @@ class Money
     def initialize(id)
       @id = id.to_sym
       initialize_data!
-      self.class.instances[id] = self
+      self.class.instances_mutex.synchronize do
+        self.class.instances[id] = self
+      end
     end
 
     # Compares +self+ with +other_currency+ against the value of +priority+
