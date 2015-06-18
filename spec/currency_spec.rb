@@ -190,6 +190,10 @@ class Money
 
       it 'returns old object for the same :key' do
         expect(Currency.new("USD").object_id).to eq(Currency.new("USD").object_id)
+        expect(Currency.new("USD").object_id).to eq(Currency.new(:usd).object_id)
+        expect(Currency.new("USD").object_id).to eq(Currency.new(:USD).object_id)
+        expect(Currency.new("USD").object_id).to eq(Currency.new('usd').object_id)
+        expect(Currency.new("USD").object_id).to eq(Currency.new('Usd').object_id)
       end
 
       it 'returns new object for the different :key' do
