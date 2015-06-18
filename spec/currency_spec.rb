@@ -189,11 +189,11 @@ class Money
       end
 
       it 'returns old object for the same :key' do
-        expect(Currency.new("USD").object_id).to be(Currency.new("USD").object_id)
-        expect(Currency.new("USD").object_id).to be(Currency.new(:usd).object_id)
-        expect(Currency.new("USD").object_id).to be(Currency.new(:USD).object_id)
-        expect(Currency.new("USD").object_id).to be(Currency.new('usd').object_id)
-        expect(Currency.new("USD").object_id).to be(Currency.new('Usd').object_id)
+        expect(Currency.new("USD")).to be(Currency.new("USD"))
+        expect(Currency.new("USD")).to be(Currency.new(:usd))
+        expect(Currency.new("USD")).to be(Currency.new(:USD))
+        expect(Currency.new("USD")).to be(Currency.new('usd'))
+        expect(Currency.new("USD")).to be(Currency.new('Usd'))
 
         ids = []
         [
@@ -206,7 +206,7 @@ class Money
       end
 
       it 'returns new object for the different :key' do
-        expect(Currency.new("USD").object_id).to_not eq(Currency.new("EUR").object_id)
+        expect(Currency.new("USD")).to_not be(Currency.new("EUR"))
       end
     end
 
