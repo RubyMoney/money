@@ -194,6 +194,15 @@ class Money
         expect(Currency.new("USD").object_id).to eq(Currency.new(:USD).object_id)
         expect(Currency.new("USD").object_id).to eq(Currency.new('usd').object_id)
         expect(Currency.new("USD").object_id).to eq(Currency.new('Usd').object_id)
+
+        ids = []
+        [
+          Thread.new{ ids << Currency.new("USD").object_id },
+          Thread.new{ ids << Currency.new("USD").object_id }
+        ].each(&:join)
+
+        expect(ids.uniq.length).to eq(1)
+        expect(ids.uniq[0]).to eq(Currency.new("USD").object_id)
       end
 
       it 'returns new object for the different :key' do

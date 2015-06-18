@@ -34,6 +34,23 @@ class Money
 
     class << self
 
+      def new(id)
+        id = id.to_s.downcase
+        unless stringified_keys.include?(id)
+          raise UnknownCurrency, "Unknown currency '#{id}'"
+        end
+
+        instance(id.to_s.downcase) || super
+      end
+
+      def instance(id)
+        @instances[id]
+      end
+
+      def instances
+        @instances
+      end
+
       # Lookup a currency with given +id+ an returns a +Currency+ instance on
       # success, +nil+ otherwise.
       #
@@ -249,23 +266,6 @@ class Money
       @id = id.to_sym
       initialize_data!
       self.class.instances[id] = self
-    end
-
-    def self.new(id)
-      id = id.to_s.downcase
-      unless self.stringified_keys.include?(id)
-        raise UnknownCurrency, "Unknown currency '#{id}'"
-      end
-
-      instance(id.to_s.downcase) || super
-    end
-
-    def self.instance(id)
-      @instances[id]
-    end
-
-    def self.instances
-      @instances
     end
 
     # Compares +self+ with +other_currency+ against the value of +priority+
