@@ -31,10 +31,10 @@ class Money
 
       it "returns currency matching given id" do
         expected = Currency.new(:foo)
-        expect(Currency.find(:foo)).to eq  expected
-        expect(Currency.find(:FOO)).to eq  expected
-        expect(Currency.find("foo")).to eq expected
-        expect(Currency.find("FOO")).to eq expected
+        expect(Currency.find(:foo)).to be  expected
+        expect(Currency.find(:FOO)).to be  expected
+        expect(Currency.find("foo")).to be expected
+        expect(Currency.find("FOO")).to be expected
       end
 
       it "returns nil unless currency matching given id" do
@@ -85,6 +85,7 @@ class Money
       end
       it "raises a MissingAttributeError if any currency has no priority" do
         register_foo(:skip => :priority)
+
         expect{Money::Currency.all}.to \
           raise_error(Money::Currency::MissingAttributeError, /foo.*priority/)
         unregister_foo
@@ -169,6 +170,7 @@ class Money
 
 
     describe "#initialize" do
+      before { Currency.instances.clear }
       it "lookups data from loaded config" do
         currency = Currency.new("USD")
         expect(currency.id).to                    eq :usd
@@ -185,6 +187,24 @@ class Money
 
       it "raises UnknownCurrency with unknown currency" do
         expect { Currency.new("xxx") }.to raise_error(Currency::UnknownCurrency, /xxx/)
+      end
+
+      it 'returns old object for the same :key' do
+        expect(Currency.new("USD")).to be(Currency.new("USD"))
+        expect(Currency.new("USD")).to be(Currency.new(:usd))
+        expect(Currency.new("USD")).to be(Currency.new(:USD))
+        expect(Currency.new("USD")).to be(Currency.new('usd'))
+        expect(Currency.new("USD")).to be(Currency.new('Usd'))
+      end
+
+      it 'returns new object for the different :key' do
+        expect(Currency.new("USD")).to_not be(Currency.new("EUR"))
+      end
+
+      it 'is thread safe' do
+        ids = []
+        2.times.map{ Thread.new{ ids << Currency.new("USD").object_id }}.each(&:join)
+        expect(ids.uniq.length).to eq(1)
       end
     end
 

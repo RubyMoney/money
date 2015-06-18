@@ -30,6 +30,7 @@
  - `Money#==` changed to acknowledge that 0 in one currency is equal to 0 in any currency.
  - Changed KRW subunit_to_unit from 100 to 1
  - Decouple exchange rates storage from bank objects and formalize storage public API. Default is `Money::RatesStore::Memory`.
+ - `Currency.new` now a singleton by its id
 
 ## 6.5.1
  - Fix format for BYR currency

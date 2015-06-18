@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require "json"
+require 'thread_safe'
 require "money/currency/loader"
 require "money/currency/heuristics"
 
@@ -31,6 +32,19 @@ class Money
     class UnknownCurrency < ArgumentError; end
 
     class << self
+      alias_method :original_new, :new
+      def new(id)
+        id = id.to_s.downcase
+        unless stringified_keys.include?(id)
+          raise UnknownCurrency, "Unknown currency '#{id}'"
+        end
+
+        instances[id] || super
+      end
+
+      def instances
+        @instances ||= ThreadSafe::Hash.new { |h, k| h[k] = original_new(k) }
+      end
 
       # Lookup a currency with given +id+ an returns a +Currency+ instance on
       # success, +nil+ otherwise.
@@ -152,6 +166,7 @@ class Money
       # @option delimiter [String] character between each thousands place
       def register(curr)
         key = curr.fetch(:iso_code).downcase.to_sym
+        instances.delete(key.to_s)
         @table[key] = curr
         @stringified_keys = stringify_keys
       end
@@ -188,40 +203,40 @@ class Money
       end
     end
 
-    # @!attribute [r] id 
+    # @!attribute [r] id
     #   @return [Symbol] The symbol used to identify the currency, usually THE
     #     lowercase +iso_code+ attribute.
-    # @!attribute [r] priority 
+    # @!attribute [r] priority
     #   @return [Integer] A numerical value you can use to sort/group the
     #     currency list.
-    # @!attribute [r] iso_code 
+    # @!attribute [r] iso_code
     #   @return [String] The international 3-letter code as defined by the ISO
     #     4217 standard.
-    # @!attribute [r] iso_numeric 
+    # @!attribute [r] iso_numeric
     #   @return [String] The international 3-numeric code as defined by the ISO
     #     4217 standard.
-    # @!attribute [r] name 
+    # @!attribute [r] name
     #   @return [String] The currency name.
-    # @!attribute [r] symbol 
+    # @!attribute [r] symbol
     #   @return [String] The currency symbol (UTF-8 encoded).
-    # @!attribute [r] disambiguate_symbol 
+    # @!attribute [r] disambiguate_symbol
     #   @return [String] Alternative currency used if symbol is ambiguous
-    # @!attribute [r] html_entity 
+    # @!attribute [r] html_entity
     #   @return [String] The html entity for the currency symbol
-    # @!attribute [r] subunit 
+    # @!attribute [r] subunit
     #   @return [String] The name of the fractional monetary unit.
-    # @!attribute [r] subunit_to_unit 
+    # @!attribute [r] subunit_to_unit
     #   @return [Integer] The proportion between the unit and the subunit
-    # @!attribute [r] decimal_mark 
+    # @!attribute [r] decimal_mark
     #   @return [String] The decimal mark, or character used to separate the
     #     whole unit from the subunit.
-    # @!attribute [r] The 
+    # @!attribute [r] The
     #   @return [String] character used to separate thousands grouping of the
     #     whole unit.
-    # @!attribute [r] symbol_first 
+    # @!attribute [r] symbol_first
     #   @return [Boolean] Should the currency symbol precede the amount, or
     #     should it come after?
-    # @!attribute [r] smallest_denomination 
+    # @!attribute [r] smallest_denomination
     #   @return [Integer] Smallest amount of cash possible (in the subunit of
     #     this currency)
 
@@ -243,12 +258,9 @@ class Money
     # @example
     #   Money::Currency.new(:usd) #=> #<Money::Currency id: usd ...>
     def initialize(id)
-      id = id.to_s.downcase
-      unless self.class.stringified_keys.include?(id)
-        raise UnknownCurrency, "Unknown currency '#{id}'"
-      end
       @id = id.to_sym
       initialize_data!
+      self.class.instances[id] = self
     end
 
     # Compares +self+ with +other_currency+ against the value of +priority+
