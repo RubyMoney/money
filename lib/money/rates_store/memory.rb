@@ -105,8 +105,8 @@ class Money
 
       # Return the rate hashkey for the given currencies.
       #
-      # @param [String] from The currency to exchange from.
-      # @param [String] to The currency to exchange to.
+      # @param [String] currency_iso_from The currency to exchange from.
+      # @param [String] currency_iso_to The currency to exchange to.
       #
       # @return [String]
       #
