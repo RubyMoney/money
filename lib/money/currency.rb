@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 require "json"
-require 'thread_safe'
 require "money/currency/loader"
 require "money/currency/heuristics"
 
@@ -16,6 +15,9 @@ class Money
     extend Enumerable
     extend Money::Currency::Loader
     extend Money::Currency::Heuristics
+
+    # Keeping cached instances in sync between threads
+    @@mutex = Mutex.new
 
     # Thrown when a Currency has been registered without all the attributes
     # which are required for the current action.
@@ -39,11 +41,11 @@ class Money
           raise UnknownCurrency, "Unknown currency '#{id}'"
         end
 
-        instances[id] || super
+        @@mutex.synchronize { instances[id] } || super
       end
 
       def instances
-        @instances ||= ThreadSafe::Hash.new { |h, k| h[k] = original_new(k) }
+        @instances ||= Hash.new { |h, k| h[k] = original_new(k) }
       end
 
       # Lookup a currency with given +id+ an returns a +Currency+ instance on
@@ -166,7 +168,7 @@ class Money
       # @option delimiter [String] character between each thousands place
       def register(curr)
         key = curr.fetch(:iso_code).downcase.to_sym
-        instances.delete(key.to_s)
+        @@mutex.synchronize { instances.delete(key.to_s) }
         @table[key] = curr
         @stringified_keys = stringify_keys
       end
@@ -260,7 +262,6 @@ class Money
     def initialize(id)
       @id = id.to_sym
       initialize_data!
-      self.class.instances[id] = self
     end
 
     # Compares +self+ with +other_currency+ against the value of +priority+
