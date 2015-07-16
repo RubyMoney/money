@@ -8,7 +8,7 @@ rvm:
   - rbx-2
 script: bundle exec rspec spec
 notifications:
-  recipients:
+  email:
     - semmons99@gmail.com
     - andreas@aloop.org
     - weppos@weppos.net
