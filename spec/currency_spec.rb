@@ -170,7 +170,8 @@ class Money
 
 
     describe "#initialize" do
-      before { Currency.instances.clear }
+      before { Currency._instances.clear }
+
       it "lookups data from loaded config" do
         currency = Currency.new("USD")
         expect(currency.id).to                    eq :usd
@@ -183,6 +184,13 @@ class Money
         expect(currency.thousands_separator).to   eq ","
         expect(currency.delimiter).to             eq ","
         expect(currency.smallest_denomination).to eq 1
+      end
+
+      it 'caches instances' do
+        currency = Currency.new("USD")
+
+        expect(Currency._instances.length).to           eq 1
+        expect(Currency._instances["usd"].object_id).to eq currency.object_id
       end
 
       it "raises UnknownCurrency with unknown currency" do

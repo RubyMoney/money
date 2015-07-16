@@ -18,6 +18,7 @@ class Money
 
     # Keeping cached instances in sync between threads
     @@mutex = Mutex.new
+    @@instances = {}
 
     # Thrown when a Currency has been registered without all the attributes
     # which are required for the current action.
@@ -34,18 +35,17 @@ class Money
     class UnknownCurrency < ArgumentError; end
 
     class << self
-      alias_method :original_new, :new
       def new(id)
         id = id.to_s.downcase
         unless stringified_keys.include?(id)
           raise UnknownCurrency, "Unknown currency '#{id}'"
         end
 
-        @@mutex.synchronize { instances[id] } || super
+        _instances[id] || @@mutex.synchronize { _instances[id] ||= super }
       end
 
-      def instances
-        @instances ||= Hash.new { |h, k| h[k] = original_new(k) }
+      def _instances
+        @@instances
       end
 
       # Lookup a currency with given +id+ an returns a +Currency+ instance on
@@ -168,7 +168,7 @@ class Money
       # @option delimiter [String] character between each thousands place
       def register(curr)
         key = curr.fetch(:iso_code).downcase.to_sym
-        @@mutex.synchronize { instances.delete(key.to_s) }
+        @@mutex.synchronize { _instances.delete(key.to_s) }
         @table[key] = curr
         @stringified_keys = stringify_keys
       end
