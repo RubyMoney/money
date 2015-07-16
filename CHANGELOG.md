@@ -2,6 +2,9 @@
 
 ## Next release
 
+TBD
+
+## 6.6.0
  - Fixed VariableExchange#exchange_with for big numbers.
  - Add Currency symbol translation support
  - `Currency.all` raises a more helpful error message
