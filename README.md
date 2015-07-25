@@ -1,12 +1,12 @@
 # RubyMoney - Money
 
-[![Gem Version](https://badge.fury.io/rb/money.png)](http://badge.fury.io/rb/money)
-[![Build Status](https://travis-ci.org/RubyMoney/money.png?branch=master)](https://travis-ci.org/RubyMoney/money)
-[![Code Climate](https://codeclimate.com/github/RubyMoney/money.png)](https://codeclimate.com/github/RubyMoney/money)
-[![Coverage Status](https://coveralls.io/repos/RubyMoney/money/badge.png?branch=master)](https://coveralls.io/r/RubyMoney/money?branch=master)
-[![Inline docs](http://inch-ci.org/github/RubyMoney/money.png)](http://inch-ci.org/github/RubyMoney/money)
-[![Dependency Status](https://gemnasium.com/RubyMoney/money.png)](https://gemnasium.com/RubyMoney/money)
-[![License](http://img.shields.io/license/MIT.png?color=green)](http://opensource.org/licenses/MIT)
+[![Gem Version](https://badge.fury.io/rb/money.svg)](http://badge.fury.io/rb/money)
+[![Build Status](https://travis-ci.org/RubyMoney/money.svg?branch=master)](https://travis-ci.org/RubyMoney/money)
+[![Code Climate](https://codeclimate.com/github/RubyMoney/money.svg)](https://codeclimate.com/github/RubyMoney/money)
+[![Coverage Status](https://coveralls.io/repos/RubyMoney/money/badge.svg?branch=master)](https://coveralls.io/r/RubyMoney/money?branch=master)
+[![Inline docs](http://inch-ci.org/github/RubyMoney/money.svg)](http://inch-ci.org/github/RubyMoney/money)
+[![Dependency Status](https://gemnasium.com/RubyMoney/money.svg)](https://gemnasium.com/RubyMoney/money)
+[![License](https://img.shields.io/github/license/RubyMoney/money.svg)](http://opensource.org/licenses/MIT)
 
 :warning: Please read the [migration notes](#migration-notes) before upgrading to a new major version.
 
