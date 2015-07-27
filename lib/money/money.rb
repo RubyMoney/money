@@ -497,7 +497,7 @@ class Money
       left_over.to_i.times { |i| amounts[i % amounts.length] += 1 }
     end
 
-    amounts.collect { |fractional| Money.new(fractional, currency) }
+    amounts.collect { |fractional| self.class.new(fractional, currency) }
   end
 
   # Split money amongst parties evenly without losing pennies.
@@ -535,7 +535,7 @@ class Money
   #
   def round(rounding_mode = self.class.rounding_mode)
     if self.class.infinite_precision
-      Money.new(fractional.round(0, rounding_mode), self.currency)
+      self.class.new(fractional.round(0, rounding_mode), self.currency)
     else
       self
     end
@@ -605,8 +605,8 @@ class Money
   end
 
   def split_flat(num)
-    low = Money.new(fractional / num, currency)
-    high = Money.new(low.fractional + 1, currency)
+    low = self.class.new(fractional / num, currency)
+    high = self.class.new(low.fractional + 1, currency)
 
     remainder = fractional % num
 
