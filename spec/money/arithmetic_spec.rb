@@ -9,6 +9,11 @@ describe Money do
       expect((- Money.new(1))).to  eq Money.new(-1)
       expect((- Money.new(-1))).to eq Money.new(1)
     end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(- special_money_class.new(10_00)).to be_a special_money_class
+    end
   end
 
   describe "#==" do
@@ -173,6 +178,11 @@ describe Money do
     it "adds Fixnum 0 to money and returns the same ammount" do
       expect(Money.new(10_00) + 0).to eq Money.new(10_00)
     end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00, "USD") + Money.new(90, "USD")).to be_a special_money_class
+    end
   end
 
   describe "#-" do
@@ -188,6 +198,11 @@ describe Money do
 
     it "subtract Fixnum 0 to money and returns the same ammount" do
       expect(Money.new(10_00) - 0).to eq Money.new(10_00)
+    end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00, "USD") - Money.new(90, "USD")).to be_a special_money_class
     end
   end
 
@@ -215,6 +230,11 @@ describe Money do
     it "does not multiply Money by an object which is NOT a number" do
       expect { Money.new( 10, :USD) *  'abc' }.to raise_error(ArgumentError)
     end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00, "USD") * 2).to be_a special_money_class
+    end
   end
 
   describe "#/" do
@@ -228,6 +248,11 @@ describe Money do
       ts.each do |t|
         expect(t[:a] / t[:b]).to eq t[:c]
       end
+    end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00, "USD") / 2).to be_a special_money_class
     end
 
     context 'rounding preference' do
@@ -412,6 +437,16 @@ describe Money do
         end
       end
     end
+
+    it "preserves the class in the result when dividing a subclass of Money by a fixnum" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00, "USD").divmod(4).last).to be_a special_money_class
+    end
+
+    it "preserves the class in the result when using a subclass of Money by a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00, "USD").divmod(special_money_class.new(4_00)).last).to be_a special_money_class
+    end
   end
 
   describe "#modulo" do
@@ -511,6 +546,11 @@ describe Money do
       n = Money.new(-1, :USD)
       expect(n.abs).to eq Money.new( 1, :USD)
       expect(n).to     eq Money.new(-1, :USD)
+    end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(-1).abs).to be_a special_money_class
     end
   end
 

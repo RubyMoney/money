@@ -71,6 +71,11 @@ class Money
               amount = 10**20
               expect(bank.exchange_with(Money.usd(amount), :EUR)).to eq Money.eur(1.33 * amount)
             end
+
+            it "preserves the class in the result when given a subclass of Money" do
+              special_money_class = Class.new(Money)
+              expect(bank.exchange_with(special_money_class.new(100, 'USD'), 'EUR')).to be_a special_money_class
+            end
           end
         end
 
