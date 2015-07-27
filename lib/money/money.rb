@@ -340,7 +340,7 @@ class Money
   #
   # @return [String]
   def inspect
-    "#<Money fractional:#{fractional} currency:#{currency}>"
+    "#<#{self.class.name} fractional:#{fractional} currency:#{currency}>"
   end
 
   # Returns the amount of money as a string.
