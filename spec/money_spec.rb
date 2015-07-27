@@ -590,6 +590,11 @@ YAML
       expect { Money.us_dollar(0.05).allocate([0.5, 0.6]) }.to raise_error(ArgumentError)
     end
 
+    it "keeps subclasses intact" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(005).allocate([1]).first).to be_a special_money_class
+    end
+
     context "with infinite_precision", :infinite_precision do
       it "allows for fractional cents allocation" do
         one_third = BigDecimal("1") / BigDecimal("3")
@@ -625,6 +630,11 @@ YAML
       expect(moneys[0].cents).to eq 34
       expect(moneys[1].cents).to eq 33
       expect(moneys[2].cents).to eq 33
+    end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00).split(1).first).to be_a special_money_class
     end
 
     context "with infinite_precision", :infinite_precision do
@@ -669,18 +679,23 @@ YAML
         rounded = money.round(BigDecimal::ROUND_DOWN)
         expect(rounded.cents).to eq 15
       end
+
+      context "when using a subclass of Money" do
+        let(:special_money_class) { Class.new(Money) }
+        let(:money) { special_money_class.new(15.75, 'NZD') }
+
+        it "preserves the class in the result" do
+          expect(rounded).to be_a special_money_class
+        end
+      end
     end
   end
 
-  describe "inheritance" do
-    it "allows inheritance" do
-      # TypeError:
-      #   wrong argument type nil (expected Fixnum)
-      # ./lib/money/money.rb:63:in `round'
-      # ./lib/money/money.rb:63:in `fractional'
-      # ./lib/money/money/arithmetic.rb:115:in `-'
-      MoneyChild = Class.new(Money)
-      expect(MoneyChild.new(1000) - Money.new(500)).to eq Money.new(500)
+  describe "#inspect" do
+    it "reports the class name properly when using inheritance" do
+      expect(Money.new(1).inspect).to start_with '#<Money'
+      Subclass = Class.new(Money)
+      expect(Subclass.new(1).inspect).to start_with '#<Subclass'
     end
   end
 

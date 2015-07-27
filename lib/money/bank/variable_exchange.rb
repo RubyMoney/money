@@ -108,7 +108,7 @@ class Money
         else
           if rate = get_rate(from.currency, to_currency)
             fractional = calculate_fractional(from, to_currency)
-            Money.new(
+            from.class.new(
               exchange(fractional, rate, &block), to_currency
             )
           else
