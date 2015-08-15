@@ -118,7 +118,7 @@ class Money
       # @example
       #   same_currency?("usd", "USD")                #=> true
       #   same_currency?("usd", "EUR")                #=> false
-      #   same_currency?("usd", Currency.new("USD")   #=> true
+      #   same_currency?("usd", Currency.new("USD"))   #=> true
       #   same_currency?("usd", "USD")                #=> true
       def same_currency?(currency1, currency2)
         Currency.wrap(currency1) == Currency.wrap(currency2)
