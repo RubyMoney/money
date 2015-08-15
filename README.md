@@ -414,7 +414,7 @@ Money.use_i18n = false
 
 ## Formatting
 
-There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module](https://github.com/RubyMoney/money/blob/master/lib/money/money/formatting.rb).*
+There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module](https://github.com/RubyMoney/money/blob/master/lib/money/money/formatting.rb).
 
 ## Migration Notes
 
