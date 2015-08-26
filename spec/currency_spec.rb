@@ -5,7 +5,7 @@ require "spec_helper"
 class Money
   describe Currency do
 
-    FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 450, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
+    FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 1000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
 
     def register_foo(opts={})
       foo_attrs = JSON.parse(FOO, :symbolize_names => true)
@@ -339,21 +339,21 @@ class Money
 
     describe "#exponent" do
       it "conforms to iso 4217" do
-        Currency.new(:jpy).exponent == 0
-        Currency.new(:usd).exponent == 2
-        Currency.new(:iqd).exponent == 3
+        expect(Currency.new(:jpy).exponent).to eq 0
+        expect(Currency.new(:usd).exponent).to eq 2
+        expect(Currency.new(:iqd).exponent).to eq 3
       end
     end
 
     describe "#decimal_places" do
       it "proper places for known currency" do
-        Currency.new(:mro).decimal_places == 1
-        Currency.new(:usd).decimal_places == 2
+        expect(Currency.new(:mro).decimal_places).to eq 1
+        expect(Currency.new(:usd).decimal_places).to eq 2
       end
 
       it "proper places for custom currency" do
         register_foo
-        Currency.new(:foo).decimal_places == 3
+        expect(Currency.new(:foo).decimal_places).to eq 3
         unregister_foo
       end
     end
