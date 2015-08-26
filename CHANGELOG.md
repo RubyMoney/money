@@ -1,8 +1,8 @@
 # Changelog
 
 ## Next release
-
-TBD
+ - Remove implicit conversion of values being compared. Only accept `Money` and
+   subclasses of `Money` for comparisons.
 
 ## 6.6.0
  - Fixed VariableExchange#exchange_with for big numbers.

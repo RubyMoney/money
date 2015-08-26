@@ -31,7 +31,7 @@ describe Money do
       expect(Money.new(0, "USD")).to eq Money.new(0, "JPY")
     end
 
-    it "returns false if used to compare with an object that doesn't respond to #to_money" do
+    it "returns false if used to compare with an object that doesn't inherit from Money" do
       expect(Money.new(1_00, "USD")).not_to eq Object.new
       expect(Money.new(1_00, "USD")).not_to eq Class
       expect(Money.new(1_00, "USD")).not_to eq Kernel
@@ -39,21 +39,13 @@ describe Money do
       expect(Money.new(1_00, "USD")).not_to eq nil
     end
 
-    it "can be used to compare with an object that responds to #to_money" do
-      klass = Class.new do
-        def initialize(money)
-          @money = money
-        end
+    it "can be used to compare with an object that inherits from Money" do
+      klass = Class.new(Money)
 
-        def to_money
-          @money
-        end
-      end
-
-      expect(Money.new(1_00, "USD")).to     eq klass.new(Money.new(1_00, "USD"))
-      expect(Money.new(2_50, "USD")).to     eq klass.new(Money.new(2_50, "USD"))
-      expect(Money.new(2_50, "USD")).not_to eq klass.new(Money.new(3_00, "USD"))
-      expect(Money.new(1_00, "GBP")).not_to eq klass.new(Money.new(1_00, "USD"))
+      expect(Money.new(1_00, "USD")).to     eq klass.new(1_00, "USD")
+      expect(Money.new(2_50, "USD")).to     eq klass.new(2_50, "USD")
+      expect(Money.new(2_50, "USD")).not_to eq klass.new(3_00, "USD")
+      expect(Money.new(1_00, "GBP")).not_to eq klass.new(1_00, "USD")
     end
   end
 
@@ -65,7 +57,7 @@ describe Money do
       expect(Money.new(1_00, "USD").eql?(Money.new(99_00, "EUR"))).to be false
     end
 
-    it "returns false if used to compare with an object that doesn't respond to #to_money" do
+    it "returns false if used to compare with an object that doesn't inherit from Money" do
       expect(Money.new(1_00, "USD").eql?(Object.new)).to  be false
       expect(Money.new(1_00, "USD").eql?(Class)).to       be false
       expect(Money.new(1_00, "USD").eql?(Kernel)).to      be false
@@ -73,21 +65,13 @@ describe Money do
       expect(Money.new(1_00, "USD").eql?(nil)).to         be false
     end
 
-    it "can be used to compare with an object that responds to #to_money" do
-      klass = Class.new do
-        def initialize(money)
-          @money = money
-        end
+    it "can be used to compare with an object that inherits from Money" do
+      klass = Class.new(Money)
 
-        def to_money
-          @money
-        end
-      end
-
-      expect(Money.new(1_00, "USD").eql?(klass.new(Money.new(1_00, "USD")))).to be true
-      expect(Money.new(2_50, "USD").eql?(klass.new(Money.new(2_50, "USD")))).to be true
-      expect(Money.new(2_50, "USD").eql?(klass.new(Money.new(3_00, "USD")))).to be false
-      expect(Money.new(1_00, "GBP").eql?(klass.new(Money.new(1_00, "USD")))).to be false
+      expect(Money.new(1_00, "USD").eql?(klass.new(1_00, "USD"))).to be true
+      expect(Money.new(2_50, "USD").eql?(klass.new(2_50, "USD"))).to be true
+      expect(Money.new(2_50, "USD").eql?(klass.new(3_00, "USD"))).to be false
+      expect(Money.new(1_00, "GBP").eql?(klass.new(1_00, "USD"))).to be false
     end
   end
 
@@ -112,23 +96,15 @@ describe Money do
       expect(Money.new(100_00, "USD") <=> target).to be > 0
     end
 
-    it "can be used to compare with an object that responds to #to_money" do
-      klass = Class.new do
-        def initialize(money)
-          @money = money
-        end
+    it "can be used to compare with an object that inherits from Money" do
+      klass = Class.new(Money)
 
-        def to_money
-          @money
-        end
-      end
-
-      expect(Money.new(1_00) <=> klass.new(Money.new(1_00))).to eq 0
-      expect(Money.new(1_00) <=> klass.new(Money.new(99))).to be > 0
-      expect(Money.new(1_00) <=> klass.new(Money.new(2_00))).to be < 0
+      expect(Money.new(1_00) <=> klass.new(1_00)).to eq 0
+      expect(Money.new(1_00) <=> klass.new(99)).to be > 0
+      expect(Money.new(1_00) <=> klass.new(2_00)).to be < 0
     end
 
-    it "returns nil when used to compare with an object that doesn't respond to #to_money" do
+    it "returns nil when used to compare with an object that doesn't inherit from Money" do
       expect(Money.new(1_00) <=> Object.new).to be_nil
       expect(Money.new(1_00) <=> Class).to be_nil
       expect(Money.new(1_00) <=> Kernel).to be_nil
