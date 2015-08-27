@@ -35,14 +35,23 @@ class Money
       end
     end
 
-    # Compares two Money objects
-    def <=>(val)
-      if val.is_a?(Money)
-        if fractional != 0 && val.fractional != 0 && currency != val.currency
-          val = val.exchange_to(currency)
+    # Compares two Money objects. If money objects have a different currency it
+    # will attempt to convert the currency.
+    #
+    # @param [Money] other_money Value to compare with.
+    #
+    # @return [Fixnum]
+    # @return [nil] when object is not comparable
+    #
+    def <=>(other_money)
+      if other_money.is_a?(Money)
+        if fractional != 0 && other_money.fractional != 0 && currency != other_money.currency
+          other_money = other_money.exchange_to(currency)
         end
-        fractional <=> val.fractional
+        fractional <=> other_money.fractional
       end
+    rescue Money::Bank::UnknownRate
+      nil
     end
 
     # Test if the amount is positive. Returns +true+ if the money amount is

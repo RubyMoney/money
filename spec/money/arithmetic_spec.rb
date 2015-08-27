@@ -96,6 +96,12 @@ describe Money do
       expect(Money.new(100_00, "USD") <=> target).to be > 0
     end
 
+    it "returns nil if currency conversion fails, and therefore cannot be compared" do
+      target = Money.new(200_00, "EUR")
+      expect(target).to receive(:exchange_to).with(Money::Currency.new("USD")).and_raise(Money::Bank::UnknownRate)
+      expect(Money.new(100_00, "USD") <=> target).to be_nil
+    end
+
     it "can be used to compare with an object that inherits from Money" do
       klass = Class.new(Money)
 
