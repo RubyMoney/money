@@ -6,6 +6,7 @@
  - When comparing fails due to `Money::Bank::UnknownRate` `Money#<=>` will now
    return `nil` as `Comparable#==` will not rescue exceptions in the next release.
  - Fix `Currency` specs for `#exponent` and `#decimal_places` not making assertions.
+ - Fix a couple of Ruby warnings found in specs.
 
 ## 6.6.0
  - Fixed VariableExchange#exchange_with for big numbers.

@@ -47,7 +47,7 @@ describe Money::RatesStore::Memory do
     context 'mutex' do
       it 'uses mutex' do
         expect(subject.instance_variable_get('@mutex')).to receive(:synchronize)
-        subject.transaction{ a = 1}
+        subject.transaction{ 1 + 1 }
       end
 
       it 'wraps block in mutex transaction only once' do
@@ -64,7 +64,7 @@ describe Money::RatesStore::Memory do
 
       it 'does not use mutex' do
         expect(subject.instance_variable_get('@mutex')).not_to receive(:synchronize)
-        subject.transaction{ a = 1}
+        subject.transaction{ 1 + 1 }
       end
     end
   end
