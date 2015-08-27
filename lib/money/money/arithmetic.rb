@@ -11,22 +11,23 @@ class Money
       self.class.new(-fractional, currency)
     end
 
-    # Checks whether two money objects have the same currency and the same
-    # amount. If money objects have a different currency it will only be true
-    # if the amounts are both zero. Checks against objects that do not respond
-    # to #to_money, in which case, it will always return false.
+    # Checks whether two Money objects have the same currency and the same
+    # amount. If Money objects have a different currency it will only be true
+    # if the amounts are both zero. Checks against objects that are not Money or
+    # a subclass will always return false.
     #
     # @param [Money] other_money Value to compare with.
     #
     # @return [Boolean]
     #
     # @example
-    #   Money.new(100).eql?(Money.new(101))           #=> false
-    #   Money.new(100).eql?(Money.new(100))           #=> true
-    #   Money.new(0, "USD").eql?(Money.new(0, "EUR")) #=> true
+    #   Money.new(100).eql?(Money.new(101))                #=> false
+    #   Money.new(100).eql?(Money.new(100))                #=> true
+    #   Money.new(100, "USD").eql?(Money.new(100, "GBP"))  #=> false
+    #   Money.new(0, "USD").eql?(Money.new(0, "EUR"))      #=> true
+    #   Money.new(100).eql?("1.00")                        #=> false
     def eql?(other_money)
-      if other_money.respond_to?(:to_money)
-        other_money = other_money.to_money
+      if other_money.is_a?(Money)
         (fractional == other_money.fractional && currency == other_money.currency) ||
           (fractional == 0 && other_money.fractional == 0)
       else
@@ -34,9 +35,9 @@ class Money
       end
     end
 
+    # Compares two Money objects
     def <=>(val)
-      if val.respond_to?(:to_money)
-        val = val.to_money unless val.respond_to?(:fractional)
+      if val.is_a?(Money)
         if fractional != 0 && val.fractional != 0 && currency != val.currency
           val = val.exchange_to(currency)
         end
