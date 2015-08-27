@@ -35,7 +35,7 @@ describe Money do
       expect(Money.new(1_00, "USD")).not_to eq Object.new
       expect(Money.new(1_00, "USD")).not_to eq Class
       expect(Money.new(1_00, "USD")).not_to eq Kernel
-      expect(Money.new(1_00, "USD")).not_to eq /foo/
+      expect(Money.new(1_00, "USD")).not_to eq(/foo/)
       expect(Money.new(1_00, "USD")).not_to eq nil
     end
 
