@@ -569,6 +569,33 @@ describe Money, "formatting" do
           expect(Money.new(BigDecimal.new('100012.5'), "EUR").format(:rounded_infinite_precision => true)).to eq "€1.000,13"
         end
       end
+
+      describe "with i18n = true" do
+        before do
+          Money.use_i18n = true
+          reset_i18n
+          I18n.locale = :de
+          I18n.backend.store_translations(
+              :de,
+              :number => { :currency => { :format => { :delimiter => ".", :separator => "," } } }
+          )
+        end
+
+        after do
+          reset_i18n
+          I18n.locale = :en
+        end
+
+        it 'does round fractional when set to true' do
+          expect(Money.new(BigDecimal.new('12.1'), "USD").format(:rounded_infinite_precision => true)).to eq "$0,12"
+          expect(Money.new(BigDecimal.new('12.5'), "USD").format(:rounded_infinite_precision => true)).to eq "$0,13"
+          expect(Money.new(BigDecimal.new('123.1'), "BHD").format(:rounded_infinite_precision => true)).to eq "ب.د0,123"
+          expect(Money.new(BigDecimal.new('123.5'), "BHD").format(:rounded_infinite_precision => true)).to eq "ب.د0,124"
+          expect(Money.new(BigDecimal.new('100.1'), "USD").format(:rounded_infinite_precision => true)).to eq "$1,00"
+          expect(Money.new(BigDecimal.new('109.5'), "USD").format(:rounded_infinite_precision => true)).to eq "$1,10"
+          expect(Money.new(BigDecimal.new('1'), "MGA").format(:rounded_infinite_precision => true)).to eq "Ar0,2"
+        end
+      end
     end
 
     context "when the monetary value is 0" do
