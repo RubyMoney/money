@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require "spec_helper"
-
 describe Money do
   describe "-@" do
     it "changes the sign of a number" do

@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require "spec_helper"
-
 describe Money do
   describe ".new" do
     let(:initializing_value) { 1 }

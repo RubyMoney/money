@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 class Money
   module Bank
     describe SingleCurrency do

@@ -1,5 +1,4 @@
 # encoding: utf-8
-require 'spec_helper'
 
 describe Money::Currency::Loader do
   class CurrencyLoader

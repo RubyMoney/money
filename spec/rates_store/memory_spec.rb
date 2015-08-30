@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Money::RatesStore::Memory do
   let(:subject) { described_class.new }
 

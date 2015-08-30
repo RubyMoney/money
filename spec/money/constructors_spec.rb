@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require "spec_helper"
-
 describe Money::Constructors do
 
   describe "::empty" do
