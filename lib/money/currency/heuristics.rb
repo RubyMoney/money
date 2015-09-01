@@ -53,7 +53,7 @@ class Money
       def currencies_by_name
         {}.tap do |r|
           table.each do |dummy,c|
-            name_parts = c[:name].downcase.split
+            name_parts = I18n.transliterate(c[:name]).downcase.split
             name_parts.each {|part| part.chomp!('.')}
 
             # construct one branch per word
