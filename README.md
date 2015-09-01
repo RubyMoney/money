@@ -372,6 +372,7 @@ implementations.
 - [money-json-rates](https://github.com/askuratovsky/money-json-rates)
 - [nordea](https://github.com/k33l0r/nordea)
 - [nbrb_currency](https://github.com/slbug/nbrb_currency)
+- [money-currencylayer-bank](https://github.com/phlegx/money-currencylayer-bank)
 - [money-open-exchange-rates](https://github.com/spk/money-open-exchange-rates)
 - [money-historical-bank](https://github.com/atwam/money-historical-bank)
 - [russian_central_bank](https://github.com/rmustafin/russian_central_bank)
