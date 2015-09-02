@@ -76,6 +76,10 @@ describe Money::Currency::Heuristics do
       expect(it.analyze("10EUR is less than 100:- but really, I want US$1")).to eq ['EUR', 'SEK', 'USD']
     end
 
+    it "find currencies with special characters in name using transliterate" do
+      expect(it.analyze("10 Nicaraguan Cordoba")).to eq ["NIO"]
+    end
+
     it "should function with unicode characters" do
       expect(it.analyze("10 դր.")).to eq ["AMD"]
     end
