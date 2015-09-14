@@ -101,8 +101,8 @@ The most part of `Money` APIs allows you to supply either a `String` or a
 `Money::Currency`.
 
 ``` ruby
-Money.new(1000, "USD") == Money.new(1000, Currency.new("USD"))
-Money.new(1000, "EUR").currency == Currency.new("EUR")
+Money.new(1000, "USD") == Money.new(1000, Money::Currency.new("USD"))
+Money.new(1000, "EUR").currency == Money::Currency.new("EUR")
 ```
 
 A `Money::Currency` instance holds all the information about the currency,
