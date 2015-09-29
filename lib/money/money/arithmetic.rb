@@ -1,4 +1,17 @@
 class Money
+  CoercedNumber = Struct.new(:value) do
+    include Comparable
+
+    def +(other) raise TypeError; end
+    def -(other) raise TypeError; end
+    def /(other) raise TypeError; end
+    def <=>(other) raise TypeError; end
+
+    def *(other)
+      other * value
+    end
+  end
+
   module Arithmetic
 
     # Returns a money object with changed polarity.
@@ -92,6 +105,7 @@ class Money
     #   Money.new(100) + Money.new(100) #=> #<Money @fractional=200>
     def +(other_money)
       return self if other_money == 0
+      raise TypeError unless other_money.is_a?(Money)
       other_money = other_money.exchange_to(currency)
       self.class.new(fractional + other_money.fractional, currency)
     end
@@ -109,6 +123,7 @@ class Money
     #   Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
     def -(other_money)
       return self if other_money == 0
+      raise TypeError unless other_money.is_a?(Money)
       other_money = other_money.exchange_to(currency)
       self.class.new(fractional - other_money.fractional, currency)
     end
@@ -289,7 +304,7 @@ class Money
     # @example
     #   2 * Money.new(10) #=> #<Money @fractional=20>
     def coerce(other)
-      [self, other]
+      [CoercedNumber.new(other), self]
     end
   end
 end
