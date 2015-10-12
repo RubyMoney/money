@@ -64,6 +64,7 @@ class Money
       end
       fractional <=> other_money.fractional
     rescue Money::Bank::UnknownRate
+      nil
     end
 
     # Test if the amount is positive. Returns +true+ if the money amount is
