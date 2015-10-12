@@ -108,11 +108,26 @@ describe Money do
       expect(Money.new(1_00) <=> klass.new(2_00)).to be < 0
     end
 
-    it "returns nil when used to compare with an object that doesn't inherit from Money" do
-      expect(Money.new(1_00) <=> Object.new).to be_nil
-      expect(Money.new(1_00) <=> Class).to be_nil
-      expect(Money.new(1_00) <=> Kernel).to be_nil
-      expect(Money.new(1_00) <=> /foo/).to be_nil
+    it "raises TypeError when used to compare with an object that doesn't inherit from Money" do
+      expect {
+        Money.new(1_00) <=> 100
+      }.to raise_exception(TypeError)
+
+      expect {
+        Money.new(1_00) <=> Object.new
+      }.to raise_exception(TypeError)
+
+      expect {
+        Money.new(1_00) <=> Class
+      }.to raise_exception(TypeError)
+
+      expect {
+        Money.new(1_00) <=> Kernel
+      }.to raise_exception(TypeError)
+
+      expect {
+        Money.new(1_00) <=> /foo/
+      }.to raise_exception(TypeError)
     end
   end
 
