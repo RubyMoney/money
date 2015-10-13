@@ -54,15 +54,15 @@ class Money
     # @param [Money] other_money Value to compare with.
     #
     # @return [Fixnum]
-    # @return [nil] when object is not comparable
+    #
+    # @raise [TypeError] when other object is not Money
     #
     def <=>(other_money)
-      if other_money.is_a?(Money)
-        if fractional != 0 && other_money.fractional != 0 && currency != other_money.currency
-          other_money = other_money.exchange_to(currency)
-        end
-        fractional <=> other_money.fractional
+      raise TypeError unless other_money.is_a?(Money)
+      if fractional != 0 && other_money.fractional != 0 && currency != other_money.currency
+        other_money = other_money.exchange_to(currency)
       end
+      fractional <=> other_money.fractional
     rescue Money::Bank::UnknownRate
       nil
     end

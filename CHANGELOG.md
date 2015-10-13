@@ -2,7 +2,7 @@
 
 ## Next release
  - Remove implicit conversion of values being compared. Only accept `Money` and
-   subclasses of `Money` for comparisons.
+   subclasses of `Money` for comparisons and raise TypeError otherwise.
  - When comparing fails due to `Money::Bank::UnknownRate` `Money#<=>` will now
    return `nil` as `Comparable#==` will not rescue exceptions in the next release.
  - Fix `Currency` specs for `#exponent` and `#decimal_places` not making assertions.
