@@ -306,5 +306,25 @@ class Money
     def coerce(other)
       [CoercedNumber.new(other), self]
     end
+
+    # Split money by a number n and return a n-array containing the money for each unity.
+    # @return [Array]
+    #
+    # @example
+    #   Money.new(1000).split(3) #=> [#<Money fractional:334>, #<Money fractional:333>, #<Money fractional:333>]
+    def split_by(val)
+      quotient = fractional / val
+      cents = fractional % val
+      array = []
+      val.times do
+        array << if cents.zero?
+          Money.new(quotient, self.currency)
+        else
+          cents -= 1
+          Money.new(quotient + 1, self.currency)
+        end
+      end
+      array
+    end
   end
 end

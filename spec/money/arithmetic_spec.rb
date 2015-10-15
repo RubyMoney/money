@@ -650,4 +650,17 @@ describe Money do
       }.to raise_exception(TypeError)
     end
   end
+
+  describe "#split" do
+    it "calculates division with Fixnum and splits the remainder" do
+      ts = [
+        {:a => Money.new(  999), :b =>  3, :c => [Money.new( 333), Money.new( 333), Money.new( 333)]},
+        {:a => Money.new( 1000), :b =>  3, :c => [Money.new( 334), Money.new( 333), Money.new( 333)]},
+        {:a => Money.new( 1001), :b =>  3, :c => [Money.new( 334), Money.new( 334), Money.new( 333)]},
+      ]
+      ts.each do |t|
+        expect(t[:a].split_by(t[:b])).to eq t[:c]
+      end
+    end
+  end
 end

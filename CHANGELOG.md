@@ -9,6 +9,7 @@
  - Fix a couple of Ruby warnings found in specs.
  - Use `Money#decimal_mark` when formatting with `rounded_infinite_precision` rule
    set to `true`.
+ - Add arithmetic method: `Money#split_by`.
 
 ## 6.6.0
  - Fixed VariableExchange#exchange_with for big numbers.
