@@ -11,6 +11,23 @@ describe Money, "extension" do
       expect(12343543.to_string('twd')).to eq "NT$123.44"
     end
 
+    it "converts number to round money with currency" do
+      expect(123456789.to_string('twd', round: true)).to eq "NT$1,235"
+      expect(123456789.to_string('usd', round: true)).to eq "$1,235"
+      expect(123423456.to_string('cny', round: true)).to eq "¥1,234"
+    end
+
+    it "converts number to ceil money with currency" do
+      expect(123456789.to_string('twd', ceil: true)).to eq "NT$1,235.00"
+      expect(123456789.to_string('twd', ceil: true, no_cents: true)).to eq "NT$1,235"
+
+      expect(123456789.to_string('usd', ceil: true)).to eq "$1,235.00"
+      expect(123456789.to_string('usd', ceil: true, no_cents: true)).to eq "$1,235"
+
+      expect(123423456.to_string('cny', ceil: true)).to eq "¥1,235.00"
+      expect(123423456.to_string('cny', ceil: true, no_cents: true)).to eq "¥1,235"
+    end
+
     it "converts number to floor money with currency" do
       expect(123456789.to_string('twd', floor: true)).to eq "NT$1,234.00"
       expect(123456789.to_string('twd', floor: true, no_cents: true)).to eq "NT$1,234"
