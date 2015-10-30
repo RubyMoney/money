@@ -39,6 +39,8 @@ class Integer
   # @example
   #   (123426845).to_integer('cny', ceil: true) => 1234270000
   #   (123426345).to_integer('twd', floor: true) => 1234260000
+  #
+  # @notes The :ceil and :floor approximate to the second decimal place.
 
   def to_integer(currency, opts = {})
     case currency.to_s
@@ -69,6 +71,9 @@ class Integer
   #   123456789.to_string('twd') => "NT$1,234.57"
   #   123456789.to_string('twd', ceil: true) => "NT$1,235.00"
   #   123456789.to_string('twd', round: true) => "NT$1,235"
+  #   123456789.to_string('twd', floor: true) => "NT$1,234.00"
+  #
+  # @notes The :round, :ceil and :floor approximate to digit in ones.
 
   def to_string(currency, opts = {})
     case currency.to_s
