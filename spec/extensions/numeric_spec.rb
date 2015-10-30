@@ -10,6 +10,17 @@ describe Money, "extension" do
       expect(12343543.to_string('usd')).to eq "$123.44"
       expect(12343543.to_string('twd')).to eq "NT$123.44"
     end
+
+    it "converts number to floor money with currency" do
+      expect(123456789.to_string('twd', floor: true)).to eq "NT$1,234.00"
+      expect(123456789.to_string('twd', floor: true, no_cents: true)).to eq "NT$1,234"
+
+      expect(123456789.to_string('usd', floor: true)).to eq "$1,234.00"
+      expect(123456789.to_string('usd', floor: true, no_cents: true)).to eq "$1,234"
+
+      expect(123423456.to_string('cny', floor: true)).to eq "¥1,234.00"
+      expect(123423456.to_string('cny', floor: true, no_cents: true)).to eq "¥1,234"
+    end
   end
 
   #describe "#to_round_money" do

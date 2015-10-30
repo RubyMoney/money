@@ -113,6 +113,10 @@ class Integer
       amount = (amount/delta).ceil * delta
     end
 
+    if opts[:floor]
+      amount = (amount/delta).floor * delta
+    end
+
     Money.new(amount, currency).format default_money_options.merge(opts)
   end
 
