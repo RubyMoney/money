@@ -202,7 +202,7 @@
     "priority": 100,
     "iso_code": "BGN",
     "name": "Bulgarian Lev",
-    "symbol": "лв",
+    "symbol": "лв.",
     "alternate_symbols": ["lev", "leva", "лев", "лева"],
     "subunit": "Stotinka",
     "subunit_to_unit": 100,
