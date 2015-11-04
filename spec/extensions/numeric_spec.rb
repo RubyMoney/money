@@ -9,6 +9,9 @@ describe Money, "extension" do
       expect(12343543.to_string('cny')).to eq "¥123.44"
       expect(12343543.to_string('usd')).to eq "$123.44"
       expect(12343543.to_string('twd')).to eq "NT$123.44"
+      expect(123.43543.to_string('cny')).to eq "¥123.44"
+      expect(123.43543.to_string('usd')).to eq "$123.44"
+      expect(123.43543.to_string('twd')).to eq "NT$123.44"
     end
 
     it "converts number to round money with currency" do
