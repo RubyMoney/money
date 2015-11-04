@@ -162,6 +162,18 @@ class Float
     end
   end
 
+  # Convert number from float value to string value.
+  #
+  # @param [String] currency
+  # @param [Hash] opts
+  #
+  # @return [String]
+  #
+  # @notes Equivalent to self.to_integer(currency).to_string(currency, opts)
+  def to_string(currency, opts = {})
+    self.to_integer(currency).to_string(currency, opts)
+  end
+
   private
 
   def unnormalize_coin(opts = {})
