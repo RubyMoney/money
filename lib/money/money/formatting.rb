@@ -215,6 +215,10 @@ class Money
     #   #         CAD: "CAD$"
     #   Money.new(10000, "CAD").format(:translate => true) #=> "CAD$100.00"
     #
+    # @example
+    #   Money.new(89000, :btc).format(:drop_trailing_zeros => true) #=> B⃦0.00089
+    #   Money.new(110, :usd).format(:drop_trailing_zeros => true)   #=> $1.1
+    #
     # Note that the default rules can be defined through +Money.default_formatting_rules+ hash.
     #
     # @see +Money.default_formatting_rules+ for more information.
@@ -252,6 +256,12 @@ class Money
 
       if rules[:no_cents] || (rules[:no_cents_if_whole] && cents % currency.subunit_to_unit == 0)
         formatted = "#{formatted.to_i}"
+      end
+
+      # Inspiration: https://github.com/rails/rails/blob/16214d1108c31174c94503caced3855b0f6bad95/activesupport/lib/active_support/number_helper/number_to_rounded_converter.rb#L72-L79
+      if rules[:drop_trailing_zeros]
+        escaped_decimal_mark = Regexp.escape(decimal_mark)
+        formatted = formatted.sub(/(#{escaped_decimal_mark})(\d*[1-9])?0+\z/, '\1\2').sub(/#{escaped_decimal_mark}\z/, '')
       end
 
       thousands_separator_value = thousands_separator
