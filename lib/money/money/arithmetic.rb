@@ -104,7 +104,7 @@ class Money
     # @example
     #   Money.new(100) + Money.new(100) #=> #<Money @fractional=200>
     def +(other_money)
-      return self if other_money == 0
+      return self if other_money.zero?
       raise TypeError unless other_money.is_a?(Money)
       other_money = other_money.exchange_to(currency)
       self.class.new(fractional + other_money.fractional, currency)
@@ -122,7 +122,7 @@ class Money
     # @example
     #   Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
     def -(other_money)
-      return self if other_money == 0
+      return self if other_money.zero?
       raise TypeError unless other_money.is_a?(Money)
       other_money = other_money.exchange_to(currency)
       self.class.new(fractional - other_money.fractional, currency)
