@@ -6,12 +6,12 @@ class Money
         [:thousands_separator, :delimiter, ","],
         [:decimal_mark, :separator, "."]
       ].each do |method, name, character|
-        define_i18n_method(method, name, character)
+        define_i18n_method(base, method, name, character)
       end
     end
 
-    def self.define_i18n_method(method, name, character)
-      define_method(method) do
+    def self.define_i18n_method(base, method, name, character)
+      base.send(:define_method, method, ->{
         if self.class.use_i18n
           begin
             I18n.t name, :scope => "number.currency.format", :raise => true
@@ -21,8 +21,9 @@ class Money
         else
           currency.send(method) || character
         end
-      end
-      alias_method name, method
+      })
+
+      base.send(:alias_method, name, method)
     end
 
     # Creates a formatted price string according to several rules.
