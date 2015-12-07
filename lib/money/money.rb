@@ -474,7 +474,7 @@ class Money
   # Allocates money between different parties without losing pennies.
   # After the mathmatically split has been performed, left over pennies will
   # be distributed round-robin amongst the parties. This means that parties
-  # listed first will likely recieve more pennies then ones that are listed later
+  # listed first will likely receive more pennies than ones that are listed later
   #
   # @param [Array<Numeric>] splits [0.50, 0.25, 0.25] to give 50% of the cash to party1, 25% to party2, and 25% to party3.
   #
