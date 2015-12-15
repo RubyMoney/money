@@ -1,30 +1,6 @@
 # encoding: UTF-8
 class Money
   module Formatting
-    def self.included(base)
-      [
-        [:thousands_separator, :delimiter, ","],
-        [:decimal_mark, :separator, "."]
-      ].each do |method, name, character|
-        define_i18n_method(method, name, character)
-      end
-    end
-
-    def self.define_i18n_method(method, name, character)
-      define_method(method) do
-        if self.class.use_i18n
-          begin
-            I18n.t name, :scope => "number.currency.format", :raise => true
-          rescue I18n::MissingTranslationData
-            I18n.t name, :scope =>"number.format", :default => (currency.send(method) || character)
-          end
-        else
-          currency.send(method) || character
-        end
-      end
-      alias_method name, method
-    end
-
     # Creates a formatted price string according to several rules.
     #
     # @param [Hash] rules The options used to format the string.
@@ -310,7 +286,30 @@ class Money
       formatted
     end
 
+    def thousands_separator
+      i18n_format_for(:thousands_separator, :delimiter, ",")
+    end
+
+    def decimal_mark
+      i18n_format_for(:decimal_mark, :separator, ".")
+    end
+
+    alias_method :delimiter, :thousands_separator
+    alias_method :separator, :decimal_mark
+
     private
+
+    def i18n_format_for(method, name, character)
+      if self.class.use_i18n
+        begin
+          I18n.t name, :scope => "number.currency.format", :raise => true
+        rescue I18n::MissingTranslationData
+          I18n.t name, :scope =>"number.format", :default => (currency.send(method) || character)
+        end
+      else
+        currency.send(method) || character
+      end
+    end
 
     # Cleans up formatting rules.
     #
