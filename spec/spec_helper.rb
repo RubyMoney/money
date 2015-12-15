@@ -9,6 +9,8 @@ I18n.enforce_available_locales = false
 
 RSpec.configure do |c|
   c.order = :random
+  c.filter_run :focus
+  c.run_all_when_everything_filtered = true
 end
 
 def reset_i18n
