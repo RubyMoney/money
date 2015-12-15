@@ -1,14 +1,17 @@
 # Changelog
 
 ## Next release
+ - Changed `Money#<=>` to return `nil` if the comparison is inappropriate. (#584)
  - Remove implicit conversion of values being compared. Only accept `Money` and
    subclasses of `Money` for comparisons and raise TypeError otherwise.
  - When comparing fails due to `Money::Bank::UnknownRate` `Money#<=>` will now
    return `nil` as `Comparable#==` will not rescue exceptions in the next release.
  - Fix `Currency` specs for `#exponent` and `#decimal_places` not making assertions.
  - Fix a couple of Ruby warnings found in specs.
+ - Fix `Money#-`,`Money#+` arithmetics for Ruby 2.3+ : check for zero value without using eql? with a Fixnum. (#577)
  - Use `Money#decimal_mark` when formatting with `rounded_infinite_precision` rule
    set to `true`.
+ - Replaced meta-defined `thousands_separator` and `decimal_mark` methods with regular methods. (#579)
 
 ## 6.6.0
  - Fixed VariableExchange#exchange_with for big numbers.
