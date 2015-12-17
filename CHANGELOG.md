@@ -1,6 +1,7 @@
 # Changelog
 
 ## Next release
+ - Drop support for Ruby 1.9.3
  - Changed `Money#<=>` to return `nil` if the comparison is inappropriate. (#584)
  - Remove implicit conversion of values being compared. Only accept `Money` and
    subclasses of `Money` for comparisons and raise TypeError otherwise.
