@@ -372,7 +372,7 @@ YAML
       expect(Money.new(1,     "CLP").amount).to eq 1
     end
 
-    it "does not loose precision" do
+    it "does not lose precision" do
       expect(Money.new(100_37).amount).to eq 100.37
     end
 
@@ -571,13 +571,13 @@ YAML
       expect(Money.ca_dollar(005).allocate([1])).to eq [Money.ca_dollar(5)]
     end
 
-    it "does not loose pennies" do
+    it "does not lose pennies" do
       moneys = Money.us_dollar(5).allocate([0.3, 0.7])
       expect(moneys[0]).to eq Money.us_dollar(2)
       expect(moneys[1]).to eq Money.us_dollar(3)
     end
 
-    it "does not loose pennies" do
+    it "does not lose pennies" do
       moneys = Money.us_dollar(100).allocate([0.333, 0.333, 0.333])
       expect(moneys[0].cents).to eq 34
       expect(moneys[1].cents).to eq 33
