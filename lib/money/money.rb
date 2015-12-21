@@ -472,7 +472,7 @@ class Money
   end
 
   # Allocates money between different parties without losing pennies.
-  # After the mathmatically split has been performed, left over pennies will
+  # After the mathematical split has been performed, leftover pennies will
   # be distributed round-robin amongst the parties. This means that parties
   # listed first will likely receive more pennies than ones that are listed later
   #
