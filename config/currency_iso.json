@@ -381,7 +381,7 @@
     "decimal_mark": ",",
     "thousands_separator": " ",
     "iso_numeric": "974",
-    "smallest_denomination": 50
+    "smallest_denomination": 100
   },
   "bzd": {
     "priority": 100,
