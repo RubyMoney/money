@@ -181,10 +181,10 @@ def all_currencies(hash)
 end
 
 major_currencies(Money::Currency.table)
-# => [ :usd, :eur, :bgp, :cad ]
+# => [:usd, :eur, :gbp, :aud, :cad, :jpy]
 
 all_currencies(Money::Currency.table)
-# => [ :aed, :afn, all, ... ]
+# => [:aed, :afn, :all, ...]
 ```
 
 ### Default Currency
