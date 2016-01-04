@@ -202,7 +202,7 @@ If you use Rails, then `environment.rb` is a very good place to put this.
 
 The exponent of a money value is the number of digits after the decimal
 separator (which separates the major unit from the minor unit). See e.g.
-[Wikipedia on ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) for more
+[ISO 4217](http://www.currency-iso.org/en/shared/amendments/iso-4217-amendment.html) for more
 information.  You can find the exponent (as a `Float`) by
 
 ``` ruby
