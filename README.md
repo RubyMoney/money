@@ -34,9 +34,9 @@ A Ruby Library for dealing with money and currency conversion.
 
 ### Resources
 
-- [Website](http://rubymoney.github.com/money)
-- [API Documentation](http://rubydoc.info/gems/money/frames)
-- [Git Repository](http://github.com/RubyMoney/money)
+- [Website](http://rubymoney.github.io/money/)
+- [API Documentation](http://www.rubydoc.info/gems/money/frames)
+- [Git Repository](https://github.com/RubyMoney/money)
 
 ### Notes
 
@@ -202,7 +202,7 @@ If you use Rails, then `environment.rb` is a very good place to put this.
 
 The exponent of a money value is the number of digits after the decimal
 separator (which separates the major unit from the minor unit). See e.g.
-[Wikipedia on ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) for more
+[ISO 4217](http://www.currency-iso.org/en/shared/amendments/iso-4217-amendment.html) for more
 information.  You can find the exponent (as a `Float`) by
 
 ``` ruby
@@ -367,10 +367,10 @@ Money.disallow_currency_conversion!
 The following is a list of Money.gem compatible currency exchange rate
 implementations.
 
-- [eu_central_bank](http://github.com/RubyMoney/eu_central_bank)
-- [google_currency](http://github.com/RubyMoney/google_currency)
+- [eu_central_bank](https://github.com/RubyMoney/eu_central_bank)
+- [google_currency](https://github.com/RubyMoney/google_currency)
 - [money-json-rates](https://github.com/askuratovsky/money-json-rates)
-- [nordea](https://github.com/k33l0r/nordea)
+- [nordea](https://github.com/matiaskorhonen/nordea)
 - [nbrb_currency](https://github.com/slbug/nbrb_currency)
 - [money-currencylayer-bank](https://github.com/phlegx/money-currencylayer-bank)
 - [money-open-exchange-rates](https://github.com/spk/money-open-exchange-rates)
@@ -379,7 +379,7 @@ implementations.
 
 ## Ruby on Rails
 
-To integrate money in a Rails application use [money-rails](http://github.com/RubyMoney/money-rails).
+To integrate money in a Rails application use [money-rails](https://github.com/RubyMoney/money-rails).
 
 For deprecated methods of integrating with Rails, check [the wiki](https://github.com/RubyMoney/money/wiki).
 
