@@ -232,9 +232,9 @@ class Money
     # @!attribute [r] decimal_mark
     #   @return [String] The decimal mark, or character used to separate the
     #     whole unit from the subunit.
-    # @!attribute [r] The
-    #   @return [String] character used to separate thousands grouping of the
-    #     whole unit.
+    # @!attribute [r] thousands_separator
+    #   @return [String] The character used to separate thousands grouping of
+    #     the whole unit.
     # @!attribute [r] symbol_first
     #   @return [Boolean] Should the currency symbol precede the amount, or
     #     should it come after?
