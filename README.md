@@ -413,6 +413,17 @@ If you wish to disable this feature:
 Money.use_i18n = false
 ```
 
+### Troubleshooting
+
+If you get a runtime error such as:
+
+    I18n::InvalidLocale: :en is not a valid locale
+
+Set the following:
+``` ruby
+I18n.enforce_available_locales = false
+```
+
 ## Formatting
 
 There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module](https://github.com/RubyMoney/money/blob/master/lib/money/money/formatting.rb).
