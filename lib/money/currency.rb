@@ -188,7 +188,7 @@ class Money
           key = curr.downcase.to_sym
         end
         existed = @table.delete(key)
-        @stringified_keys = stringify_keys
+        @stringified_keys = stringify_keys if existed
         existed ? true : false
       end
 
