@@ -11,7 +11,8 @@
     "html_entity": "",
     "decimal_mark": ".",
     "thousands_separator": ",",
-    "iso_numeric": ""
+    "iso_numeric": "",
+    "smallest_denomination": 1
   },
   "jep": {
     "priority": 100,
