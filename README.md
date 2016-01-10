@@ -426,7 +426,13 @@ I18n.enforce_available_locales = false
 
 ## Formatting
 
-There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module](https://github.com/RubyMoney/money/blob/master/lib/money/money/formatting.rb).
+There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module source](https://github.com/RubyMoney/money/blob/master/lib/money/money/formatting.rb), or read the latest release's [rdoc version](http://www.rubydoc.info/gems/money/Money/Formatting).
+
+If you wish to format money according to the EU's [Rules for expressing monetary units](http://publications.europa.eu/code/en/en-370303.htm#position) in either English, Irish, Latvian or Maltese:
+```ruby
+m = Money.new('123', :gbp) # => #<Money fractional:123 currency:GBP>
+m.format( symbol: m.currency.to_s + ' ') # => "GBP 1.23"
+```
 
 ## Migration Notes
 
