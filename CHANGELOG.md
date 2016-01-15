@@ -1,6 +1,6 @@
 # Changelog
 
-## Next release
+## 6.7.0
  - Changed `Money#<=>` to return `nil` if the comparison is inappropriate. (#584)
  - Remove implicit conversion of values being compared. Only accept `Money` and
    subclasses of `Money` for comparisons and raise TypeError otherwise.
