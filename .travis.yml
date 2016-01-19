@@ -7,6 +7,14 @@ rvm:
   - 2.2.4
   - 2.3.0
   - rbx-2
+  - jruby-9.0.4.0
+  - ruby-head
+  - jruby-head
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-head
+  fast_finish: true
 script: bundle exec rspec spec
 notifications:
   email:
