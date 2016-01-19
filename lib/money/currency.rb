@@ -394,9 +394,9 @@ class Money
 
     # Returns the number of digits after the decimal separator.
     #
-    # @return [Float]
+    # @return [Fixnum]
     def exponent
-      Math.log10(@subunit_to_unit)
+      Math.log10(@subunit_to_unit).round
     end
 
     # Cache decimal places for subunit_to_unit values.  Common ones pre-cached.
