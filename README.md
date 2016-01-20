@@ -203,12 +203,12 @@ If you use Rails, then `environment.rb` is a very good place to put this.
 The exponent of a money value is the number of digits after the decimal
 separator (which separates the major unit from the minor unit). See e.g.
 [ISO 4217](http://www.currency-iso.org/en/shared/amendments/iso-4217-amendment.html) for more
-information.  You can find the exponent (as a `Float`) by
+information.  You can find the exponent (as an `Integer`) by
 
 ``` ruby
-Money::Currency.new("USD").exponent  # => 2.0
-Money::Currency.new("JPY").exponent  # => 0.0
-Money::Currency.new("MGA").exponent  # => 0.6989700043360189
+Money::Currency.new("USD").exponent  # => 2
+Money::Currency.new("JPY").exponent  # => 0
+Money::Currency.new("MGA").exponent  # => 1
 ```
 
 ### Currency Lookup
