@@ -374,7 +374,7 @@ class Money
       id.to_s.upcase.to_sym
     end
 
-    # Conversation to +self+.
+    # Conversion to +self+.
     #
     # @return [self]
     def to_currency
@@ -402,7 +402,7 @@ class Money
       Math.log10(@subunit_to_unit).round
     end
 
-    # Cache decimal places for subunit_to_unit values.  Common ones pre-cached.
+    # Cache decimal places for subunit_to_unit values. Common ones pre-cached.
     def self.decimal_places_cache
       @decimal_places_cache ||= {1 => 0, 10 => 1, 100 => 2, 1000 => 3}
     end
