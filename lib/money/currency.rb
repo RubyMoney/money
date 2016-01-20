@@ -374,7 +374,7 @@ class Money
       id.to_s.upcase.to_sym
     end
 
-    # Conversation to +self+.
+    # Conversion to +self+.
     #
     # @return [self]
     def to_currency
@@ -392,14 +392,17 @@ class Money
       !!@symbol_first
     end
 
-    # Returns the number of digits after the decimal separator.
+    # Returns the relation between subunit and unit as a base 10 exponent.
+    #
+    # Note that MGA and MRO are exceptions and are rounded to 1
+    # @see https://en.wikipedia.org/wiki/ISO_4217#Active_codes
     #
     # @return [Fixnum]
     def exponent
       Math.log10(@subunit_to_unit).round
     end
 
-    # Cache decimal places for subunit_to_unit values.  Common ones pre-cached.
+    # Cache decimal places for subunit_to_unit values. Common ones pre-cached.
     def self.decimal_places_cache
       @decimal_places_cache ||= {1 => 0, 10 => 1, 100 => 2, 1000 => 3}
     end
