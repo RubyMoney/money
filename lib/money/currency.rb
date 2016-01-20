@@ -392,7 +392,10 @@ class Money
       !!@symbol_first
     end
 
-    # Returns the number of digits after the decimal separator.
+    # Returns the relation between subunit and unit as a base 10 exponent.
+    #
+    # Note that MGA and MRO are exceptions and are rounded to 1
+    # @see https://en.wikipedia.org/wiki/ISO_4217#Active_codes
     #
     # @return [Fixnum]
     def exponent
