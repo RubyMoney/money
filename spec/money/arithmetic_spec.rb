@@ -607,23 +607,21 @@ describe Money do
     it "correctly handles <=>" do
       expect {
         2 < Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_exception(ArgumentError)
 
       expect {
         2 > Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_exception(ArgumentError)
 
       expect {
         2 <= Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_exception(ArgumentError)
 
       expect {
         2 >= Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_exception(ArgumentError)
 
-      expect {
-        2 <=> Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      expect(2 <=> Money.new(2, 'USD')).to be_nil
     end
 
     it "raises exceptions for all numeric types, not just Integer" do
