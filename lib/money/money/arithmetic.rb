@@ -2,13 +2,23 @@ class Money
   CoercedNumber = Struct.new(:value) do
     include Comparable
 
-    def +(other) raise TypeError; end
-    def -(other) raise TypeError; end
+    def +(other)
+      return other if value.zero?
+      raise TypeError
+    end
+
+    def -(other)
+      return -other if value.zero?
+      raise TypeError
+    end
+
     def /(other) raise TypeError; end
-    def <=>(other) raise TypeError; end
 
     def *(other)
       other * value
+    end
+
+    def <=>(other)
     end
   end
 
