@@ -205,15 +205,15 @@ describe Money do
     end
 
     it "does not multiply Money by Money (same currency)" do
-      expect { Money.new( 10, :USD) * Money.new( 4, :USD) }.to raise_error(ArgumentError)
+      expect { Money.new(10, :USD) * Money.new(4, :USD) }.to raise_error(TypeError)
     end
 
     it "does not multiply Money by Money (different currency)" do
-      expect { Money.new( 10, :USD) * Money.new( 4, :EUR) }.to raise_error(ArgumentError)
+      expect { Money.new(10, :USD) * Money.new(4, :EUR) }.to raise_error(TypeError)
     end
 
     it "does not multiply Money by an object which is NOT a number" do
-      expect { Money.new( 10, :USD) *  'abc' }.to raise_error(ArgumentError)
+      expect { Money.new(10, :USD) *  'abc' }.to raise_error(TypeError)
     end
 
     it "preserves the class in the result when using a subclass of Money" do
@@ -607,23 +607,21 @@ describe Money do
     it "correctly handles <=>" do
       expect {
         2 < Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_exception(ArgumentError)
 
       expect {
         2 > Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_exception(ArgumentError)
 
       expect {
         2 <= Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_exception(ArgumentError)
 
       expect {
         2 >= Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_exception(ArgumentError)
 
-      expect {
-        2 <=> Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      expect(2 <=> Money.new(2, 'USD')).to be_nil
     end
 
     it "raises exceptions for all numeric types, not just Integer" do

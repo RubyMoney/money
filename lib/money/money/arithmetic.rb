@@ -1,18 +1,13 @@
 class Money
-  CoercedNumber = Struct.new(:value) do
-    include Comparable
-
-    def +(other) raise TypeError; end
-    def -(other) raise TypeError; end
-    def /(other) raise TypeError; end
-    def <=>(other) raise TypeError; end
-
-    def *(other)
-      other * value
-    end
-  end
-
   module Arithmetic
+    # Wrapper for coerced numeric values to distinguish
+    # when numeric was on the 1st place in operation.
+    CoercedNumeric = Struct.new(:value) do
+      # Proxy #zero? method to skip unnecessary typecasts. See #- and #+.
+      def zero?
+        value.zero?
+      end
+    end
 
     # Returns a money object with changed polarity.
     #
@@ -137,16 +132,17 @@ class Money
     #
     # @return [Money] The resulting money.
     #
-    # @raise [ArgumentError] If +value+ is NOT a number.
+    # @raise [TypeError] If +value+ is NOT a number.
     #
     # @example
     #   Money.new(100) * 2 #=> #<Money @fractional=200>
     #
     def *(value)
+      value = value.value if value.is_a?(CoercedNumeric)
       if value.is_a? Numeric
         self.class.new(fractional * value, currency)
       else
-        raise ArgumentError, "Can't multiply a #{self.class.name} by a #{value.class.name}'s value"
+        raise TypeError, "Can't multiply a #{self.class.name} by a #{value.class.name}'s value"
       end
     end
 
@@ -169,6 +165,7 @@ class Money
       if value.is_a?(self.class)
         fractional / as_d(value.exchange_to(currency).fractional).to_f
       else
+        raise TypeError, 'Can not divide by Money' if value.is_a?(CoercedNumeric)
         self.class.new(fractional / as_d(value), currency)
       end
     end
@@ -304,7 +301,7 @@ class Money
     # @example
     #   2 * Money.new(10) #=> #<Money @fractional=20>
     def coerce(other)
-      [CoercedNumber.new(other), self]
+      [self, CoercedNumeric.new(other)]
     end
   end
 end
