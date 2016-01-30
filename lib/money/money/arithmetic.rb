@@ -58,6 +58,9 @@ class Money
     # @raise [TypeError] when other object is not Money
     #
     def <=>(other_money)
+      if other_money.is_a? Numeric
+        other_money = Money.new(other_money, currency)
+      end
       return nil unless other_money.is_a?(Money)
       if fractional != 0 && other_money.fractional != 0 && currency != other_money.currency
         other_money = other_money.exchange_to(currency)

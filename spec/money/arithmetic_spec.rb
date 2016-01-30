@@ -74,6 +74,12 @@ describe Money do
   end
 
   describe "#<=>" do
+
+    it "compares to numeric" do
+      expect(Money.new(1)).to be > 0
+      expect(Money.new(1)).to be < 2
+    end
+
     it "compares the two object amounts (same currency)" do
       expect((Money.new(1_00, "USD") <=> Money.new(1_00, "USD"))).to eq 0
       expect((Money.new(1_00, "USD") <=> Money.new(99, "USD"))).to be > 0
@@ -109,8 +115,6 @@ describe Money do
     end
 
     it "raises TypeError when used to compare with an object that doesn't inherit from Money" do
-      expect(Money.new(1_00) <=> 100).to be_nil
-
       expect(Money.new(1_00) <=> Object.new).to be_nil
 
       expect(Money.new(1_00) <=> Class).to be_nil
