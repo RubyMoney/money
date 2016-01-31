@@ -108,16 +108,18 @@ describe Money do
       expect(Money.new(1_00) <=> klass.new(2_00)).to be < 0
     end
 
-    it "raises TypeError when used to compare with an object that doesn't inherit from Money" do
+    it "returns nill when comparing with an object that doesn't inherit from Money" do
       expect(Money.new(1_00) <=> 100).to be_nil
-
       expect(Money.new(1_00) <=> Object.new).to be_nil
-
       expect(Money.new(1_00) <=> Class).to be_nil
-
       expect(Money.new(1_00) <=> Kernel).to be_nil
-
       expect(Money.new(1_00) <=> /foo/).to be_nil
+    end
+
+    it 'compares with numeric 0' do
+      expect(Money.usd(1) < 0).to eq false
+      expect(Money.usd(1) > 0.0).to eq true
+      expect(Money.usd(0) >= 0.0).to eq true
     end
   end
 
@@ -622,6 +624,12 @@ describe Money do
       }.to raise_exception(ArgumentError)
 
       expect(2 <=> Money.new(2, 'USD')).to be_nil
+    end
+
+    it 'compares with numeric 0' do
+      expect(0 < Money.usd(1)).to eq true
+      expect(0.0 > Money.usd(1)).to eq false
+      expect(0.0 >= Money.usd(0)).to eq true
     end
 
     it "raises exceptions for all numeric types, not just Integer" do

@@ -52,14 +52,14 @@ class Money
     #
     # @raise [TypeError] when other object is not Money
     #
-    def <=>(other_money)
-      return nil unless other_money.is_a?(Money)
-      if fractional != 0 && other_money.fractional != 0 && currency != other_money.currency
-        other_money = other_money.exchange_to(currency)
+    def <=>(other)
+      if other.respond_to?(:zero?) && other.zero?
+        return other.is_a?(CoercedNumeric) ? 0 <=> fractional : fractional <=> 0
       end
-      fractional <=> other_money.fractional
+      return unless other.is_a?(Money)
+      other = other.exchange_to(currency) if nonzero? && currency != other.currency
+      fractional <=> other.fractional
     rescue Money::Bank::UnknownRate
-      nil
     end
 
     # Test if the amount is positive. Returns +true+ if the money amount is
