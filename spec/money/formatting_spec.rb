@@ -435,7 +435,7 @@ describe Money, "formatting" do
 
       specify "should fallback to symbol if entity is not available" do
         string = Money.new(570, 'DKK').format(:html => true)
-        expect(string).to eq "5,70 kr"
+        expect(string).to eq "5,70 kr."
       end
     end
 
@@ -662,7 +662,7 @@ describe Money, "formatting" do
     it "returns ambiguous signs when disambiguate is not set" do
       expect(Money.new(1999_98, "USD").format).to eq("$1,999.98")
       expect(Money.new(1999_98, "CAD").format).to eq("$1,999.98")
-      expect(Money.new(1999_98, "DKK").format).to eq("1.999,98 kr")
+      expect(Money.new(1999_98, "DKK").format).to eq("1.999,98 kr.")
       expect(Money.new(1999_98, "NOK").format).to eq("1.999,98 kr")
       expect(Money.new(1999_98, "SEK").format).to eq("1 999,98 kr")
     end
@@ -670,7 +670,7 @@ describe Money, "formatting" do
     it "returns ambiguous signs when disambiguate is false" do
       expect(Money.new(1999_98, "USD").format(disambiguate: false)).to eq("$1,999.98")
       expect(Money.new(1999_98, "CAD").format(disambiguate: false)).to eq("$1,999.98")
-      expect(Money.new(1999_98, "DKK").format(disambiguate: false)).to eq("1.999,98 kr")
+      expect(Money.new(1999_98, "DKK").format(disambiguate: false)).to eq("1.999,98 kr.")
       expect(Money.new(1999_98, "NOK").format(disambiguate: false)).to eq("1.999,98 kr")
       expect(Money.new(1999_98, "SEK").format(disambiguate: false)).to eq("1 999,98 kr")
     end
