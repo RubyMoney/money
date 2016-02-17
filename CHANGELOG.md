@@ -1,5 +1,8 @@
 # Changelog
 
+## Next release
+- Changed DKK symbol from 'kr' to 'kr.'
+
 ## 6.7.0
  - Changed `Money#<=>` to return `nil` if the comparison is inappropriate. (#584)
  - Remove implicit conversion of values being compared. Only accept `Money` and

@@ -604,7 +604,7 @@
     "priority": 100,
     "iso_code": "DKK",
     "name": "Danish Krone",
-    "symbol": "kr",
+    "symbol": "kr.",
     "disambiguate_symbol": "DKK",
     "alternate_symbols": [",-"],
     "subunit": "Øre",
