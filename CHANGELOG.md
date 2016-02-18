@@ -2,6 +2,7 @@
 
 ## Next release
 - Changed DKK symbol from 'kr' to 'kr.'
+- Improved Money::Formatting#format docs
 
 ## 6.7.0
  - Changed `Money#<=>` to return `nil` if the comparison is inappropriate. (#584)
