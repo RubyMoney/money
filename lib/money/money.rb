@@ -44,7 +44,7 @@ class Money
   # 1000.
   #
   # @return [Integer] when infinite_precision is false
-  # @return [BigDecimal] when infintie_precision is true
+  # @return [BigDecimal] when infinite_precision is true
   #
   # @see infinite_precision
   def fractional
@@ -78,7 +78,7 @@ class Money
 
   # @!attribute [r] currency
   #   @return [Currency] The money's currency.
-  # @!attribute [r] bank 
+  # @!attribute [r] bank
   #   @return [Money::Bank::Base] The +Money::Bank+-based object which currency
   #     exchanges are performed with.
 
@@ -95,7 +95,7 @@ class Money
     #     one to specify custom exchange rates.
     #
     # @!attribute default_formatting_rules
-    #   @return [Hash] Use this to define a default hash of rules for everytime
+    #   @return [Hash] Use this to define a default hash of rules for every time
     #     +Money#format+ is called.  Rules provided on method call will be
     #     merged with the default ones.  To overwrite a rule, just provide the
     #     intended value while calling +format+.
@@ -166,7 +166,7 @@ class Money
   setup_defaults
 
   # Use this to return the rounding mode.  You may also pass a
-  # rounding mode and a block to temporatly change it.  It will
+  # rounding mode and a block to temporarily change it.  It will
   # then return the results of the block instead.
   #
   # @param [BigDecimal::ROUND_MODE] mode
@@ -436,7 +436,7 @@ class Money
   end
 
   # Receive a money object with the same amount as the current Money object
-  # in american dollars.
+  # in American dollars.
   #
   # @return [Money]
   #
@@ -448,7 +448,7 @@ class Money
   end
 
   # Receive a money object with the same amount as the current Money object
-  # in canadian dollar.
+  # in Canadian dollar.
   #
   # @return [Money]
   #
