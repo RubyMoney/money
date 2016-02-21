@@ -34,13 +34,13 @@ class Money
   # The value of the monetary amount represented in the fractional or subunit
   # of the currency.
   #
-  # For example, in the US Dollar currency the fractional unit is cents, and
-  # there are 100 cents in one US Dollar. So given the Money representation of
+  # For example, in the US dollar currency the fractional unit is cents, and
+  # there are 100 cents in one US dollar. So given the Money representation of
   # one US dollar, the fractional interpretation is 100.
   #
-  # Another example is that of the Kuwaiti Dinar. In this case the fractional
-  # unit is the Fils and there 1000 Fils to one Kuwaiti Dinar. So given the
-  # Money representation of one Kuwaiti Dinar, the fractional interpretation is
+  # Another example is that of the Kuwaiti dinar. In this case the fractional
+  # unit is the fils and there 1000 fils to one Kuwaiti dinar. So given the
+  # Money representation of one Kuwaiti dinar, the fractional interpretation is
   # 1000.
   #
   # @return [Integer] when infinite_precision is false
@@ -56,7 +56,7 @@ class Money
   end
 
   # Round a given amount of money to the nearest possible amount in cash value. For
-  # example, in Swiss francs (CHF), the smallest possible amount of cash value is
+  # example, in Swiss franc (CHF), the smallest possible amount of cash value is
   # CHF 0.05. Therefore, this method rounds CHF 0.07 to CHF 0.05, and CHF 0.08 to
   # CHF 0.10.
   #
@@ -436,7 +436,7 @@ class Money
   end
 
   # Receive a money object with the same amount as the current Money object
-  # in American dollars.
+  # in United States dollar.
   #
   # @return [Money]
   #
