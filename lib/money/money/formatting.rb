@@ -205,6 +205,7 @@ class Money
       rules = default_formatting_rules.merge(rules)
       rules = localize_formatting_rules(rules)
       rules = translate_formatting_rules(rules) if rules[:translate]
+      escaped_decimal_mark = Regexp.escape(decimal_mark)
 
       if fractional == 0
         if rules[:display_free].respond_to?(:to_str)
@@ -236,9 +237,9 @@ class Money
 
       # Inspiration: https://github.com/rails/rails/blob/16214d1108c31174c94503caced3855b0f6bad95/activesupport/lib/active_support/number_helper/number_to_rounded_converter.rb#L72-L79
       if rules[:drop_trailing_zeros]
-        escaped_decimal_mark = Regexp.escape(decimal_mark)
         formatted = formatted.sub(/(#{escaped_decimal_mark})(\d*[1-9])?0+\z/, '\1\2').sub(/#{escaped_decimal_mark}\z/, '')
       end
+      has_decimal_value = !!(formatted =~ /#{escaped_decimal_mark}/)
 
       thousands_separator_value = thousands_separator
       # Determine thousands_separator
@@ -275,7 +276,7 @@ class Money
         formatted="#{sign_before}#{sign}#{formatted}"
       end
 
-      apply_decimal_mark_from_rules(formatted, rules)
+      apply_decimal_mark_from_rules(formatted, rules) if has_decimal_value
 
       if rules[:with_currency]
         formatted << " "
