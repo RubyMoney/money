@@ -110,6 +110,16 @@ describe Money, "formatting" do
         expect(money.format(:translate => true)).to eq("CAD$0.00")
       end
     end
+
+    context "with overridden i18n settings" do
+      it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
+        expect(Money.new(300_000, 'ISK').format(:thousands_separator => ".", decimal_mark: ',')).to eq "kr300.000"
+      end
+
+      it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
+        expect(Money.new(300_000, 'USD').format(:thousands_separator => ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
+      end
+    end
   end
 
   describe "#format" do
@@ -417,6 +427,20 @@ describe Money, "formatting" do
 
       it "defaults to ',' if currency isn't recognized" do
         expect(Money.new(100000, "ZWD").format).to eq "$1,000.00"
+      end
+
+      context "without i18n" do
+        before { Money.use_i18n = false }
+
+        it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
+          expect(Money.new(300_000, 'ISK').format(:thousands_separator => ",", decimal_mark: '.')).to eq "kr300,000"
+        end
+
+        it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
+          expect(Money.new(300_000, 'USD').format(:thousands_separator => ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
+        end
+
+        after { Money.use_i18n = true}
       end
     end
 
