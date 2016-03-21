@@ -28,7 +28,7 @@ A Ruby Library for dealing with money and currency conversion.
   a monetary unit.
 - Represents monetary values as integers, in cents. This avoids floating point
   rounding errors.
-- Represents currency as `Money::Currency` instances providing an high level of
+- Represents currency as `Money::Currency` instances providing a high level of
   flexibility.
 - Provides APIs for exchanging money from one currency to another.
 
