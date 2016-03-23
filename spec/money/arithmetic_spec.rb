@@ -45,6 +45,19 @@ describe Money do
       expect(Money.new(2_50, "USD")).not_to eq klass.new(3_00, "USD")
       expect(Money.new(1_00, "GBP")).not_to eq klass.new(1_00, "USD")
     end
+
+    it 'allows comparison with zero' do
+      expect(Money.new(0, :usd)).to eq 0
+      expect(Money.new(0, :usd)).to eq 0.0
+      expect(Money.new(0, :usd)).to eq BigDecimal.new(0)
+      expect(Money.new(1, :usd)).to_not eq 0
+    end
+
+    it 'raises error for non-zero numerics' do
+      expect { Money.new(1_00, :usd) == 1 }.to raise_error ArgumentError
+      expect { Money.new(1_00, :usd) == -2.0 }.to raise_error ArgumentError
+      expect { Money.new(1_00, :usd) == Float::INFINITY }.to raise_error ArgumentError
+    end
   end
 
   describe "#eql?" do

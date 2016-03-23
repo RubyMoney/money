@@ -62,6 +62,15 @@ class Money
     rescue Money::Bank::UnknownRate
     end
 
+    # Uses Comparable's implementation but raises ArgumentError if non-zero
+    # numeric value is given.
+    def ==(other)
+      if other.is_a?(Numeric) && !other.zero?
+        raise ArgumentError, 'Money#== supports only zero numerics'
+      end
+      super
+    end
+
     # Test if the amount is positive. Returns +true+ if the money amount is
     # greater than 0, +false+ otherwise.
     #
