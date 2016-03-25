@@ -135,6 +135,17 @@ describe Money, "formatting" do
       after  { I18n.locale = @_locale }
     end
 
+    context "Locale fr-CA" do
+      before { @_locale = I18n.locale; I18n.locale = :"fr-CA" }
+
+      it "formats French Canadian currency properly" do
+        money = Money.new(1000, "CAD")
+        expect(money.format).to eq "10.00$"
+      end
+
+      after  { I18n.locale = @_locale }
+    end
+
     it "returns the monetary value as a string" do
       expect(Money.ca_dollar(100).format).to eq "$1.00"
       expect(Money.new(40008).format).to eq "$400.08"
