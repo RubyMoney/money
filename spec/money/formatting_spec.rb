@@ -124,26 +124,22 @@ describe Money, "formatting" do
 
   describe "#format" do
     context "Locale :ja" do
-      before { @_locale = I18n.locale; I18n.locale = :ja }
+      around { |ex| I18n.with_locale(:ja) { ex.run } }
 
       it "formats Japanese currency in Japanese properly" do
         money = Money.new(1000, "JPY")
         expect(money.format).to eq "1,000円"
         expect(money.format(:symbol => false)).to eq "1,000"
       end
-
-      after  { I18n.locale = @_locale }
     end
 
     context "Locale fr-CA" do
-      before { @_locale = I18n.locale; I18n.locale = :"fr-CA" }
+      around { |ex| I18n.with_locale(:"fr-CA") { ex.run } }
 
       it "formats French Canadian currency properly" do
         money = Money.new(1000, "CAD")
         expect(money.format).to eq "10.00$"
       end
-
-      after  { I18n.locale = @_locale }
     end
 
     it "returns the monetary value as a string" do
