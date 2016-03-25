@@ -136,9 +136,12 @@ describe Money, "formatting" do
     context "Locale fr-CA" do
       around { |ex| I18n.with_locale(:"fr-CA") { ex.run } }
 
-      it "formats French Canadian currency properly" do
+      it "formats the currencies properly" do
         money = Money.new(1000, "CAD")
-        expect(money.format).to eq "10.00$"
+        expect(money.format).to eq "10,00 $"
+
+        money = Money.new(1_000_000_00, "EUR")
+        expect(money.format).to eq "1 000 000,00 €"
       end
     end
 
