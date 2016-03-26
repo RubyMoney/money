@@ -3,6 +3,7 @@ Coveralls.wear!
 
 $LOAD_PATH.unshift File.dirname(__FILE__)
 require "rspec"
+require "rspec/its"
 require "money"
 
 I18n.enforce_available_locales = false
