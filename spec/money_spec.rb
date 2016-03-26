@@ -87,6 +87,40 @@ describe Money do
     end
   end
 
+  describe ".empty" do
+    it "creates a new Money object of 0 cents" do
+      expect(Money.empty).to eq Money.new(0)
+    end
+
+    it "memoizes the result" do
+      expect(Money.empty.object_id).to eq Money.empty.object_id
+    end
+
+    it "memoizes a result for each currency" do
+      expect(Money.empty(:cad).object_id).to eq Money.empty(:cad).object_id
+    end
+
+    it "doesn't allow money to be modified for a currency" do
+      expect(Money.empty).to be_frozen
+    end
+
+    it "instantiates a subclass when inheritance is used" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.empty).to be_a special_money_class
+    end
+  end
+
+
+  describe ".zero" do
+    subject { Money.zero }
+    it { is_expected.to eq Money.empty }
+
+    it "instantiates a subclass when inheritance is used" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.zero).to be_a special_money_class
+    end
+  end
+
   describe ".add_rate" do
     before do
       @default_bank = Money.default_bank
@@ -171,17 +205,6 @@ describe Money do
     end
   end
 
-  %w[cents pence].each do |units|
-    describe "##{units}" do
-      it "is a synonym of #fractional" do
-        expectation = Money.new(0)
-        def expectation.fractional
-          "expectation"
-        end
-        expect(expectation.cents).to eq "expectation"
-      end
-    end
-  end
 
   describe "#fractional" do
     it "returns the amount in fractional unit" do
@@ -381,19 +404,6 @@ YAML
     end
   end
 
-  describe "#dollars" do
-    it "is synonym of #amount" do
-      m = Money.new(0)
-
-      # Make a small expectation
-      def m.amount
-        5
-      end
-
-      expect(m.dollars).to eq 5
-    end
-  end
-
   describe "#currency" do
     it "returns the currency object" do
       expect(Money.new(1_00, "USD").currency).to eq Money::Currency.new("USD")
@@ -570,34 +580,6 @@ YAML
       expect(Money.new(1).inspect).to start_with '#<Money'
       Subclass = Class.new(Money)
       expect(Subclass.new(1).inspect).to start_with '#<Subclass'
-    end
-  end
-
-  describe "#as_*" do
-    before do
-      Money.default_bank = Money::Bank::VariableExchange.new
-      Money.add_rate("EUR", "USD", 1)
-      Money.add_rate("EUR", "CAD", 1)
-      Money.add_rate("USD", "EUR", 1)
-    end
-
-    after do
-      Money.default_bank = Money::Bank::VariableExchange.instance
-    end
-
-    specify "as_us_dollar converts Money object to USD" do
-      obj = Money.new(1, "EUR")
-      expect(obj.as_us_dollar).to eq Money.new(1, "USD")
-    end
-
-    specify "as_ca_dollar converts Money object to CAD" do
-      obj = Money.new(1, "EUR")
-      expect(obj.as_ca_dollar).to eq Money.new(1, "CAD")
-    end
-
-    specify "as_euro converts Money object to EUR" do
-      obj = Money.new(1, "USD")
-      expect(obj.as_euro).to eq Money.new(1, "EUR")
     end
   end
 
