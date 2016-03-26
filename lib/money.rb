@@ -41,9 +41,9 @@ class Money
     def default_currency=(val)
       block =
         if val.respond_to?(:call)
-          -> { Money::Currency.new(val.call) }
+          val
         else
-          val = Money::Currency.new(val)
+          val = Currency.new(val)
           -> { val }
         end
       define_singleton_method(:default_currency, &block)
