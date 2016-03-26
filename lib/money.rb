@@ -23,12 +23,14 @@ class Money
   require "money/allocate"
   require "money/arithmetic"
   require "money/formatting"
+  require "money/to_string"
 
   extend Constructors
   include Comparable
   include Allocate
   include Arithmetic
   include Formatting
+  include ToString
 
   # Raised when smallest denomination of a currency is not defined
   class UndefinedSmallestDenomination < StandardError; end
@@ -355,28 +357,6 @@ class Money
     "#<#{self.class.name} fractional:#{fractional} currency:#{currency}>"
   end
 
-  # Returns the amount of money as a string.
-  #
-  # @return [String]
-  #
-  # @example
-  #   Money.ca_dollar(100).to_s #=> "1.00"
-  def to_s
-    unit, subunit, fraction = strings_from_fractional
-
-    str = if currency.decimal_places == 0
-            if fraction == ""
-              unit
-            else
-              "#{unit}#{decimal_mark}#{fraction}"
-            end
-          else
-            "#{unit}#{decimal_mark}#{pad_subunit(subunit)}#{fraction}"
-          end
-
-    fractional < 0 ? "-#{str}" : str
-  end
-
   # Return the amount of money as a BigDecimal.
   #
   # @return [BigDecimal]
@@ -514,34 +494,6 @@ class Money
     else
       BigDecimal.new(num.to_s)
     end
-  end
-
-  def strings_from_fractional
-    unit, subunit = fractional().abs.divmod(currency.subunit_to_unit)
-
-    if self.class.infinite_precision
-      strings_for_infinite_precision(unit, subunit)
-    else
-      strings_for_base_precision(unit, subunit)
-    end
-  end
-
-  def strings_for_infinite_precision(unit, subunit)
-    subunit, fraction = subunit.divmod(BigDecimal("1"))
-    fraction = fraction.to_s("F")[2..-1] # want fractional part "0.xxx"
-    fraction = "" if fraction =~ /^0+$/
-
-    [unit.to_i.to_s, subunit.to_i.to_s, fraction]
-  end
-
-  def strings_for_base_precision(unit, subunit)
-    [unit.to_s, subunit.to_s, ""]
-  end
-
-  def pad_subunit(subunit)
-    cnt = currency.decimal_places
-    padding = "0" * cnt
-    "#{padding}#{subunit}"[-1 * cnt, cnt]
   end
 
   def return_value(value)
