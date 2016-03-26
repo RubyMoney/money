@@ -608,17 +608,19 @@ YAML
   end
 
   describe ".default_currency" do
-    before do
-      @default_currency = Money.default_currency
-    end
-
-    after do
-      Money.default_currency = @default_currency
+    around do |ex|
+      begin
+        old_val = Money.default_currency
+        ex.run
+      ensure
+        Money.default_currency = old_val
+      end
     end
 
     it "accepts a lambda" do
       Money.default_currency = lambda { :eur }
-      expect(Money.default_currency).to eq Money::Currency.new(:eur)
+      expect(Money.default_currency).to eq :eur
+      expect(Money.new(1).currency).to eq Money::Currency.new(:eur)
     end
 
     it "accepts a symbol" do
