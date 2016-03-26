@@ -22,6 +22,10 @@ class Money
       fractional < 0 ? "-#{str}" : str
     end
 
+    def decimal_mark
+      self.class.formatter.new(self).decimal_mark
+    end
+
     private
 
     def strings_from_fractional

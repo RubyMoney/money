@@ -23,7 +23,7 @@ class Money
   require "money/currency_methods"
   require "money/allocate"
   require "money/arithmetic"
-  require "money/formatting"
+  require "money/formatter"
   require "money/to_string"
 
   extend ClassAttribute
@@ -31,7 +31,6 @@ class Money
   include Comparable
   include Allocate
   include Arithmetic
-  include Formatting
   include ToString
 
   # Raised when smallest denomination of a currency is not defined
@@ -179,26 +178,10 @@ class Money
   class_attribute :conversion_precision
   self.conversion_precision = 16
 
-  # @!attribute [rw] use_i18n
-  #   @return [Boolean] Use this to disable i18n even if it's used by other
-  #     objects in your app.
-  class_attribute :use_i18n
-  self.use_i18n = true
-
-  # @!attribute default_formatting_rules
-  #   @return [Hash] Use this to define a default hash of rules for every time
-  #     +Money#format+ is called.  Rules provided on method call will be
-  #     merged with the default ones.  To overwrite a rule, just provide the
-  #     intended value while calling +format+.
-  #
-  #   @see +#format+ for more details.
-  #
-  #   @example
-  #     Money.formatter.default_formatting_rules = { :display_free => true }
-  #     Money.new(0, "USD").format                          # => "free"
-  #     Money.new(0, "USD").format(:display_free => false)  # => "$0.00"
-  class_attribute :default_formatting_rules
-  self.default_formatting_rules = {}
+  # @!attribute [rw] conversion_precision
+  # Default formatter to use in #fromat. By default +Money::Formatter+ is used.
+  class_attribute :formatter
+  self.formatter = Money::Formatter
 
   # Creates a new Money object of value given in the
   # +fractional unit+ of the given +currency+.
@@ -435,6 +418,12 @@ class Money
     else
       self
     end
+  end
+
+  # Formats value using formatter. Default formatter is +Money.formatter+ which is
+  # +Money::Formatter+ by default.
+  def format(formatter = self.class.formatter, **options)
+    formatter.format(self, options)
   end
 
   private

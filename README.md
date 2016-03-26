@@ -88,7 +88,7 @@ Money.from_amount(5, "TND") == Money.new(5000, "TND") # 5 TND
 some_code_to_setup_exchange_rates
 Money.new(1000, "USD").exchange_to("EUR") == Money.new(some_value, "EUR")
 
-# Formatting (see Formatting section for more options)
+# Formatting (see Formatter section for more options)
 Money.new(100, "USD").format #=> "$1.00"
 Money.new(100, "GBP").format #=> "£1.00"
 Money.new(100, "EUR").format #=> "€1.00"
@@ -410,7 +410,7 @@ kr` which otherwise will return `1 234 567,89 kr`.
 
 If you wish to disable this feature:
 ``` ruby
-Money.use_i18n = false
+Money.formatter.use_i18n = false
 ```
 
 ### Troubleshooting
@@ -426,7 +426,7 @@ I18n.enforce_available_locales = false
 
 ## Formatting
 
-There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module source](https://github.com/RubyMoney/money/blob/master/lib/money/money/formatting.rb), or read the latest release's [rdoc version](http://www.rubydoc.info/gems/money/Money/Formatting).
+There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module source](https://github.com/RubyMoney/money/blob/master/lib/money/formatting.rb), or read the latest release's [rdoc version](http://www.rubydoc.info/gems/money/Money/Formatting).
 
 If you wish to format money according to the EU's [Rules for expressing monetary units](http://publications.europa.eu/code/en/en-370303.htm#position) in either English, Irish, Latvian or Maltese:
 ```ruby
