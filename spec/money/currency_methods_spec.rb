@@ -1,43 +1,37 @@
 # encoding: utf-8
 
-describe Money::Constructors do
-
-  describe "::empty" do
-    it "creates a new Money object of 0 cents" do
-      expect(Money.empty).to eq Money.new(0)
+describe Money::CurrencyMethods do
+  describe "#as_*" do
+    before do
+      Money.default_bank = Money::Bank::VariableExchange.new
+      Money.add_rate("EUR", "USD", 1)
+      Money.add_rate("EUR", "CAD", 1)
+      Money.add_rate("USD", "EUR", 1)
     end
 
-    it "memoizes the result" do
-      expect(Money.empty.object_id).to eq Money.empty.object_id
+    after do
+      Money.default_bank = Money::Bank::VariableExchange.instance
     end
 
-    it "memoizes a result for each currency" do
-      expect(Money.empty(:cad).object_id).to eq Money.empty(:cad).object_id
+    specify "as_us_dollar converts Money object to USD" do
+      obj = Money.new(1, "EUR")
+      expect(obj.as_us_dollar).to eq Money.new(1, "USD")
     end
 
-    it "doesn't allow money to be modified for a currency" do
-      expect(Money.empty).to be_frozen
+    specify "as_ca_dollar converts Money object to CAD" do
+      obj = Money.new(1, "EUR")
+      expect(obj.as_ca_dollar).to eq Money.new(1, "CAD")
     end
 
-    it "instantiates a subclass when inheritance is used" do
-      special_money_class = Class.new(Money)
-      expect(special_money_class.empty).to be_a special_money_class
-    end
-  end
-
-
-  describe "::zero" do
-    subject { Money.zero }
-    it { is_expected.to eq Money.empty }
-
-    it "instantiates a subclass when inheritance is used" do
-      special_money_class = Class.new(Money)
-      expect(special_money_class.zero).to be_a special_money_class
+    specify "as_euro converts Money object to EUR" do
+      obj = Money.new(1, "USD")
+      expect(obj.as_euro).to eq Money.new(1, "EUR")
     end
   end
+end
 
-
-  describe "::ca_dollar" do
+describe Money::CurrencyMethods::ClassMethods do
+  describe ".ca_dollar" do
     it "creates a new Money object of the given value in CAD" do
       expect(Money.ca_dollar(50)).to eq Money.new(50, "CAD")
     end
@@ -53,7 +47,7 @@ describe Money::Constructors do
   end
 
 
-  describe "::us_dollar" do
+  describe ".us_dollar" do
     it "creates a new Money object of the given value in USD" do
       expect(Money.us_dollar(50)).to eq Money.new(50, "USD")
     end
@@ -69,7 +63,7 @@ describe Money::Constructors do
   end
 
 
-  describe "::euro" do
+  describe ".euro" do
     it "creates a new Money object of the given value in EUR" do
       expect(Money.euro(50)).to eq Money.new(50, "EUR")
     end
@@ -85,7 +79,7 @@ describe Money::Constructors do
   end
 
 
-  describe "::pound_sterling" do
+  describe ".pound_sterling" do
     it "creates a new Money object of the given value in GBP" do
       expect(Money.pound_sterling(50)).to eq Money.new(50, "GBP")
     end
@@ -99,5 +93,4 @@ describe Money::Constructors do
       expect(special_money_class.pound_sterling(0)).to be_a special_money_class
     end
   end
-
 end

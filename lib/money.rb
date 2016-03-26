@@ -16,16 +16,16 @@ require "money/unaccent"
 #
 # @see http://en.wikipedia.org/wiki/Money
 class Money
-  require "money/constructors"
   require "money/currency"
   require "money/bank/variable_exchange"
   require "money/bank/single_currency"
+  require "money/currency_methods"
   require "money/allocate"
   require "money/arithmetic"
   require "money/formatting"
   require "money/to_string"
 
-  extend Constructors
+  include CurrencyMethods
   include Comparable
   include Allocate
   include Arithmetic
@@ -225,6 +225,20 @@ class Money
     self.default_bank = Bank::SingleCurrency.instance
   end
 
+  # Create a new money object with value 0.
+  #
+  # @param [Currency, String, Symbol] currency The currency to use.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.empty #=> #<Money @fractional=0>
+  def self.empty(currency = default_currency)
+    @empty ||= {}
+    @empty[currency] ||= new(0, currency).freeze
+  end
+  singleton_class.send :alias_method, :zero, :empty
+
   # Creates a new Money object of value given in the +unit+ of the given
   # +currency+.
   #
@@ -272,25 +286,6 @@ class Money
     @currency   = obj.respond_to?(:currency) ? obj.currency : Currency.wrap(currency)
     @currency ||= Money.default_currency
     @bank       = obj.respond_to?(:bank) ? obj.bank : bank
-  end
-
-  # Assuming using a currency using dollars:
-  # Returns the value of the money in dollars,
-  # instead of in the fractional unit cents.
-  #
-  # Synonym of #amount
-  #
-  # @return [BigDecimal]
-  #
-  # @example
-  #   Money.new(1_00, "USD").dollars   # => BigDecimal.new("1.00")
-  #
-  # @see #amount
-  # @see #to_d
-  # @see #cents
-  #
-  def dollars
-    amount
   end
 
   # Returns the numerical value of the money
@@ -425,42 +420,6 @@ class Money
     else
       @bank.exchange_with(self, other_currency, &rounding_method)
     end
-  end
-
-  # Receive a money object with the same amount as the current Money object
-  # in United States dollar.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   n = Money.new(100, "CAD").as_us_dollar
-  #   n.currency #=> #<Money::Currency id: usd>
-  def as_us_dollar
-    exchange_to("USD")
-  end
-
-  # Receive a money object with the same amount as the current Money object
-  # in Canadian dollar.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   n = Money.new(100, "USD").as_ca_dollar
-  #   n.currency #=> #<Money::Currency id: cad>
-  def as_ca_dollar
-    exchange_to("CAD")
-  end
-
-  # Receive a money object with the same amount as the current Money object
-  # in euro.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   n = Money.new(100, "USD").as_euro
-  #   n.currency #=> #<Money::Currency id: eur>
-  def as_euro
-    exchange_to("EUR")
   end
 
   # Round the monetary amount to smallest unit of coinage.
