@@ -173,7 +173,6 @@ class Money
         @stringified_keys = stringify_keys
       end
 
-
       # Unregister a currency.
       #
       # @param [Object] curr A Hash with the key `:iso_code`, or the ISO code
@@ -192,11 +191,14 @@ class Money
         existed ? true : false
       end
 
-
       def each
         all.each { |c| yield(c) }
       end
 
+      # Cache decimal places for subunit_to_unit values. Common ones pre-cached.
+      def decimal_places_cache
+        @decimal_places_cache ||= {1 => 0, 10 => 1, 100 => 2, 1000 => 3}
+      end
 
       private
 
@@ -400,11 +402,6 @@ class Money
     # @return [Fixnum]
     def exponent
       Math.log10(@subunit_to_unit).round
-    end
-
-    # Cache decimal places for subunit_to_unit values. Common ones pre-cached.
-    def self.decimal_places_cache
-      @decimal_places_cache ||= {1 => 0, 10 => 1, 100 => 2, 1000 => 3}
     end
 
     # The number of decimal places needed.
