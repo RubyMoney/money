@@ -64,8 +64,8 @@ require 'money'
 
 # 10.00 USD
 money = Money.new(1000, "USD")
-money.cents     #=> 1000
-money.currency  #=> Currency.new("USD")
+money.fractional  #=> 1000
+money.currency    #=> Currency.new("USD")
 
 # Comparisons
 Money.new(1000, "USD") == Money.new(1000, "USD")   #=> true

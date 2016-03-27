@@ -211,8 +211,8 @@ class Money
     end
 
     def divmod_money(val)
-      cents = val.exchange_to(currency).cents
-      quotient, remainder = fractional.divmod(cents)
+      delimiter = val.exchange_to(currency).fractional
+      quotient, remainder = fractional.divmod(delimiter)
       [quotient, self.class.new(remainder, currency)]
     end
     private :divmod_money

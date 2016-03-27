@@ -90,6 +90,16 @@ class Money
       amount
     end
 
+    # Convenience method for fractional part of the amount. Synonym of #fractional
+    #
+    # @return [Integer] when infinite_precision is false
+    # @return [BigDecimal] when infinite_precision is true
+    #
+    # @see infinite_precision
+    def cents
+      fractional
+    end
+
     # Receive a money object with the same amount as the current Money object
     # in United States dollar.
     #

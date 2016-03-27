@@ -9,11 +9,8 @@ describe Money do
       expect(money.bank).to be Money::Bank::VariableExchange.instance
     end
 
-    context 'given the initializing value is an integer' do
-      let(:initializing_value) { Integer(1) }
-      it 'stores the integer as the number of cents' do
-        expect(money.cents).to eq initializing_value
-      end
+    it 'stores the integer as the number of cents' do
+      expect(money.fractional).to be initializing_value
     end
 
     context 'given the initializing value is a float' do
@@ -81,7 +78,7 @@ describe Money do
         let(:initializing_value) { 1.50 }
 
         it "should have the correct cents" do
-          expect(money.cents).to eq BigDecimal('1.50')
+          expect(money.fractional).to eq BigDecimal('1.50')
         end
       end
     end
@@ -212,7 +209,7 @@ describe Money do
         def expectation.fractional
           "expectation"
         end
-        expect(expectation.cents).to eq "expectation"
+        expect(expectation.fractional).to eq "expectation"
       end
     end
   end
@@ -566,7 +563,7 @@ YAML
       it "returns self (as it is already rounded)" do
         rounded = money.round
         expect(rounded).to be money
-        expect(rounded.cents).to eq 16
+        expect(rounded.fractional).to eq 16
       end
     end
 
@@ -576,7 +573,7 @@ YAML
       end
 
       it "rounds the cents" do
-        expect(rounded.cents).to eq 16
+        expect(rounded.fractional).to eq 16
       end
 
       it "maintains the currency" do
@@ -585,7 +582,7 @@ YAML
 
       it "uses a provided rounding strategy" do
         rounded = money.round(BigDecimal::ROUND_DOWN)
-        expect(rounded.cents).to eq 15
+        expect(rounded.fractional).to eq 15
       end
 
       context "when using a subclass of Money" do

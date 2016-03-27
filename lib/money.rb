@@ -210,16 +210,6 @@ class Money
     @bank       = obj.respond_to?(:bank) ? obj.bank : bank
   end
 
-  # Convenience method for fractional part of the amount. Synonym of #fractional
-  #
-  # @return [Integer] when infinite_precision is false
-  # @return [BigDecimal] when infinite_precision is true
-  #
-  # @see infinite_precision
-  def cents
-    fractional
-  end
-
   # The value of the monetary amount represented in the fractional or subunit
   # of the currency.
   #
