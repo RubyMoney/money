@@ -9,29 +9,7 @@ describe Money::Formatter do
   INDIAN_BAR = '{ "priority": 1, "iso_code": "INDIAN_BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "south_asian_number_formatting": true, "smallest_denomination": 1}'
   EU4 = '{ "priority": 1, "iso_code": "EU4", "iso_numeric": "841", "name": "Euro with 4 decimal places", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "€", "decimal_mark": ",", "thousands_separator": ".", "smallest_denomination": 1 }'
 
-  class << self
-    def with_locale(locale, translations = nil, use_i18n = true)
-      around do |ex|
-        begin
-          reset_i18n
-          described_class.use_i18n = use_i18n
-          I18n.backend.store_translations(locale, translations) if translations
-          I18n.with_locale(locale) { ex.run }
-        ensure
-          reset_i18n
-          described_class.use_i18n = true
-        end
-      end
-    end
-  end
-
   context "without i18n" do
-    its(:thousands_separator) { should eq ',' }
-    its(:decimal_mark) { should eq '.' }
-  end
-
-  context "with i18n but use_i18n = false" do
-    with_locale :de, {number: {currency: {format: {delimiter: ".", separator: ","}}}}, false
     its(:thousands_separator) { should eq ',' }
     its(:decimal_mark) { should eq '.' }
   end
@@ -41,6 +19,12 @@ describe Money::Formatter do
       with_locale :de, number: {format: {delimiter: ".", separator: ","}}
       its(:thousands_separator) { should eq '.' }
       its(:decimal_mark) { should eq ',' }
+
+      context "but use_i18n = false" do
+        use_i18n false
+        its(:thousands_separator) { should eq ',' }
+        its(:decimal_mark) { should eq '.' }
+      end
     end
 
     context "with number.currency.format.*" do
@@ -71,7 +55,7 @@ describe Money::Formatter do
 
   describe "#format" do
     context "Locale :ja" do
-      around { |ex| I18n.with_locale(:ja) { ex.run } }
+      with_locale :ja
 
       it "formats Japanese currency in Japanese properly" do
         money = Money.new(1000, "JPY")
@@ -372,7 +356,7 @@ describe Money::Formatter do
       end
 
       context "without i18n" do
-        before { described_class.use_i18n = false }
+        use_i18n false
 
         it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
           expect(Money.new(300_000, 'ISK').format(:thousands_separator => ",", decimal_mark: '.')).to eq "kr300,000"
@@ -381,8 +365,6 @@ describe Money::Formatter do
         it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
           expect(Money.new(300_000, 'USD').format(:thousands_separator => ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
         end
-
-        after { described_class.use_i18n = true}
       end
     end
 
@@ -515,13 +497,7 @@ describe Money::Formatter do
       end
 
       describe "with i18n = false" do
-        before do
-          described_class.use_i18n = false
-        end
-
-        after do
-          described_class.use_i18n = true
-        end
+        use_i18n false
 
         it 'does round fractional when set to true' do
           expect(Money.new(BigDecimal.new('12.1'), "EUR").format(:rounded_infinite_precision => true)).to eq "€0,12"
@@ -535,20 +511,7 @@ describe Money::Formatter do
       end
 
       describe "with i18n = true" do
-        before do
-          described_class.use_i18n = true
-          reset_i18n
-          I18n.locale = :de
-          I18n.backend.store_translations(
-              :de,
-              :number => { :currency => { :format => { :delimiter => ".", :separator => "," } } }
-          )
-        end
-
-        after do
-          reset_i18n
-          I18n.locale = :en
-        end
+        with_locale :de, number: {currency: {format: {delimiter: ".", separator: ","}}}
 
         it 'does round fractional when set to true' do
           expect(Money.new(BigDecimal.new('12.1'), "USD").format(:rounded_infinite_precision => true)).to eq "$0,12"

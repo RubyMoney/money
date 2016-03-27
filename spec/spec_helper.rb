@@ -1,29 +1,21 @@
-require "coveralls"
+require 'coveralls'
 Coveralls.wear!
 
-$LOAD_PATH.unshift File.dirname(__FILE__)
-require "rspec"
-require "rspec/its"
-require "money"
+spec_path = File.dirname(__FILE__)
+$LOAD_PATH.unshift(spec_path)
+
+require 'rspec'
+require 'rspec/its'
+require 'pry'
+Dir[Pathname(spec_path).join('support/**/*.rb')].each { |f| require f }
+
+require 'money'
 
 I18n.enforce_available_locales = false
 
-RSpec.configure do |c|
-  c.order = :random
-  c.filter_run :focus
-  c.run_all_when_everything_filtered = true
-end
-
-def reset_i18n
-  I18n.backend = I18n::Backend::Simple.new
-end
-
-RSpec.shared_context "with infinite precision", :infinite_precision do
-  before do
-    Money.infinite_precision = true
-  end
-
-  after do
-    Money.infinite_precision = false
-  end
+RSpec.configure do |config|
+  config.order = :random
+  config.filter_run :focus
+  config.run_all_when_everything_filtered = true
+  config.include MoneySpecHelpers
 end
