@@ -119,14 +119,7 @@ describe Money do
   end
 
   describe ".add_rate" do
-    before do
-      @default_bank = Money.default_bank
-      Money.default_bank = Money::Bank::VariableExchange.new
-    end
-
-    after do
-      Money.default_bank = @default_bank
-    end
+    with_default_bank { Money::Bank::VariableExchange.new }
 
     it "saves rate into current bank" do
       Money.add_rate("EUR", "USD", 10)
@@ -135,13 +128,7 @@ describe Money do
   end
 
   describe ".disallow_currency_conversions!" do
-    before do
-      @default_bank = Money.default_bank
-    end
-
-    after do
-      Money.default_bank = @default_bank
-    end
+    with_default_bank
 
     it "disallows conversions when doing money arithmetic" do
       Money.disallow_currency_conversion!
@@ -252,9 +239,7 @@ YAML
     end
 
     context "user changes rounding_mode" do
-      after do
-        Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
-      end
+      with_rounding_mode BigDecimal::ROUND_HALF_EVEN
 
       context "with the setter" do
         it "respects the rounding_mode" do

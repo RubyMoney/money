@@ -255,37 +255,29 @@ describe Money do
     end
 
     context 'rounding preference' do
-      before do
-        allow(Money).to receive(:rounding_mode).and_return(rounding_mode)
-      end
-
-      after do
-        allow(Money).to receive(:rounding_mode).and_call_original
-      end
-
       context 'ceiling rounding' do
-        let(:rounding_mode) { BigDecimal::ROUND_CEILING }
+        with_rounding_mode BigDecimal::ROUND_CEILING
         it "obeys the rounding preference" do
           expect(Money.new(10) / 3).to eq Money.new(4)
         end
       end
 
       context 'floor rounding' do
-        let(:rounding_mode) { BigDecimal::ROUND_FLOOR }
+        with_rounding_mode BigDecimal::ROUND_FLOOR
         it "obeys the rounding preference" do
           expect(Money.new(10) / 6).to eq Money.new(1)
         end
       end
 
       context 'half up rounding' do
-        let(:rounding_mode) { BigDecimal::ROUND_HALF_UP }
+        with_rounding_mode BigDecimal::ROUND_HALF_UP
         it "obeys the rounding preference" do
           expect(Money.new(10) / 4).to eq Money.new(3)
         end
       end
 
       context 'half down rounding' do
-        let(:rounding_mode) { BigDecimal::ROUND_HALF_DOWN }
+        with_rounding_mode BigDecimal::ROUND_HALF_DOWN
         it "obeys the rounding preference" do
           expect(Money.new(10) / 4).to eq Money.new(2)
         end

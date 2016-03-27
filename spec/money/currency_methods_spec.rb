@@ -2,15 +2,11 @@
 
 describe Money::CurrencyMethods do
   describe "#as_*" do
+    with_default_bank { Money::Bank::VariableExchange.new }
     before do
-      Money.default_bank = Money::Bank::VariableExchange.new
       Money.add_rate("EUR", "USD", 1)
       Money.add_rate("EUR", "CAD", 1)
       Money.add_rate("USD", "EUR", 1)
-    end
-
-    after do
-      Money.default_bank = Money::Bank::VariableExchange.instance
     end
 
     specify "as_us_dollar converts Money object to USD" do
