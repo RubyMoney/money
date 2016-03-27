@@ -16,9 +16,9 @@ describe Money do
 
     it "does not lose pennies" do
       moneys = Money.us_dollar(100).allocate([0.333, 0.333, 0.333])
-      expect(moneys[0].cents).to eq 34
-      expect(moneys[1].cents).to eq 33
-      expect(moneys[2].cents).to eq 33
+      expect(moneys[0].fractional).to eq 34
+      expect(moneys[1].fractional).to eq 33
+      expect(moneys[2].fractional).to eq 33
     end
 
     it "requires total to be less then 1" do
@@ -62,9 +62,9 @@ describe Money do
 
     it "splits a dollar" do
       moneys = Money.us_dollar(100).split(3)
-      expect(moneys[0].cents).to eq 34
-      expect(moneys[1].cents).to eq 33
-      expect(moneys[2].cents).to eq 33
+      expect(moneys[0].fractional).to eq 34
+      expect(moneys[1].fractional).to eq 33
+      expect(moneys[2].fractional).to eq 33
     end
 
     it "preserves the class in the result when using a subclass of Money" do
@@ -77,9 +77,9 @@ describe Money do
         thirty_three_and_one_third = BigDecimal("100") / BigDecimal("3")
 
         moneys = Money.new(100).split(3)
-        expect(moneys[0].cents).to eq thirty_three_and_one_third
-        expect(moneys[1].cents).to eq thirty_three_and_one_third
-        expect(moneys[2].cents).to eq thirty_three_and_one_third
+        expect(moneys[0].fractional).to eq thirty_three_and_one_third
+        expect(moneys[1].fractional).to eq thirty_three_and_one_third
+        expect(moneys[2].fractional).to eq thirty_three_and_one_third
       end
     end
   end

@@ -314,7 +314,8 @@ describe Money do
         {:a => Money.new(-13, :USD), :b => Money.new(-4, :EUR), :c =>  1.625},
       ]
       ts.each do |t|
-        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        expect(t[:b]).to receive(:exchange_to).
+          with(t[:a].currency) { Money.new(t[:b].fractional * 2, :USD) }
         expect(t[:a] / t[:b]).to eq t[:c]
       end
     end
@@ -367,7 +368,8 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => Money.new(-4, :EUR), :c =>  1.625},
       ]
       ts.each do |t|
-        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        expect(t[:b]).to receive(:exchange_to).
+          with(t[:a].currency) { Money.new(t[:b].cents * 2, :USD) }
         expect(t[:a].div(t[:b])).to eq t[:c]
       end
     end
@@ -420,7 +422,8 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => Money.new(-4, :EUR), :c => [ 1, Money.new(-5, :USD)]},
       ]
       ts.each do |t|
-        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        expect(t[:b]).to receive(:exchange_to).
+          with(t[:a].currency) { Money.new(t[:b].fractional * 2, :USD) }
         expect(t[:a].divmod(t[:b])).to eq t[:c]
       end
     end
@@ -483,7 +486,8 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => Money.new(-4, :EUR), :c => Money.new(-5, :USD)},
       ]
       ts.each do |t|
-        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        expect(t[:b]).to receive(:exchange_to).
+          with(t[:a].currency) { Money.new(t[:b].fractional * 2, :USD) }
         expect(t[:a].modulo(t[:b])).to eq t[:c]
       end
     end
@@ -522,7 +526,8 @@ describe Money do
           {:a => Money.new(-13, :USD), :b => Money.new(-4, :EUR), :c => Money.new(-5, :USD)},
       ]
       ts.each do |t|
-        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        expect(t[:b]).to receive(:exchange_to).
+          with(t[:a].currency) { Money.new(t[:b].fractional * 2, :USD) }
         expect(t[:a] % t[:b]).to eq t[:c]
       end
     end

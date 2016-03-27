@@ -266,7 +266,7 @@ class Money
 
       sign = money.negative? ? '-' : ''
 
-      if rules[:no_cents] || (rules[:no_cents_if_whole] && money.cents % currency.subunit_to_unit == 0)
+      if rules[:no_cents] || (rules[:no_cents_if_whole] && money.fractional % currency.subunit_to_unit == 0)
         formatted = "#{formatted.to_i}"
       end
 
