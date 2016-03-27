@@ -277,28 +277,6 @@ class Money
     to_d
   end
 
-  # Return string representation of currency object
-  #
-  # @return [String]
-  #
-  # @example
-  #   Money.new(100, :USD).currency_as_string #=> "USD"
-  def currency_as_string
-    currency.to_s
-  end
-
-  # Set currency object using a string
-  #
-  # @param [String] val The currency string.
-  #
-  # @return [Money::Currency]
-  #
-  # @example
-  #   Money.new(100).currency_as_string("CAD") #=> #<Money::Currency id: cad>
-  def currency_as_string=(val)
-    @currency = Currency.wrap(val)
-  end
-
   # Returns a Fixnum hash value based on the +fractional+ and +currency+ attributes
   # in order to use functions like & (intersection), group_by, etc.
   #
