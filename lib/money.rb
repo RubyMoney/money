@@ -25,6 +25,7 @@ class Money
   require "money/arithmetic"
   require "money/formatter"
   require "money/to_string"
+  autoload :V6Compatibility, "money/v6_compatibility"
 
   extend ClassAttribute
   include CurrencyMethods
@@ -157,7 +158,7 @@ class Money
   #     default value is Currency.new("USD"). The value must be a valid
   #     +Money::Currency+ instance.
   # Set the default currency for creating new +Money+ object.
-  self.default_currency = Currency.new('USD')
+  self.default_currency = -> { Currency.new(:USD) }
 
   # @!attribute [rw] infinite_precision
   #   @return [Boolean] Use this to enable infinite precision cents
