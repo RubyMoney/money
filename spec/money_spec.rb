@@ -202,13 +202,13 @@ describe Money do
 
     context "loading a serialized Money via YAML" do
 
-      let(:serialized) { <<YAML
+      let(:serialized) { <<-YAML
 !ruby/object:Money
   fractional: 249.5
   currency: !ruby/object:Money::Currency
     id: :eur
     priority: 2
-    iso_code: EUR
+    code: EUR
     name: Euro
     symbol: €
     alternate_symbols: []
@@ -221,7 +221,7 @@ describe Money do
     iso_numeric: '978'
     mutex: !ruby/object:Mutex {}
     last_updated: 2012-11-23 20:41:47.454438399 +02:00
-YAML
+        YAML
       }
 
       it "uses BigDecimal when rounding" do
@@ -548,17 +548,10 @@ YAML
   end
 
   describe ".default_currency" do
-    around do |ex|
-      begin
-        old_val = Money.default_currency
-        ex.run
-      ensure
-        Money.default_currency = old_val
-      end
-    end
+    with_default_currency Money.default_currency
 
     it "accepts a lambda" do
-      Money.default_currency = lambda { :eur }
+      Money.default_currency = lambda { Money::Currency.new(:eur) }
       expect(Money.default_currency).to eq :eur
       expect(Money.new(1).currency).to eq Money::Currency.new(:eur)
     end

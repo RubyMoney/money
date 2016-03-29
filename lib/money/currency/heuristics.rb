@@ -12,23 +12,28 @@ class Money
       #
       # Returns: Array (matched results)
       def analyze(str)
-        return Analyzer.new(str, search_tree).process
+        Analyzer.new(str, SearchTree.cache[self]).process
       end
 
-      private
+      class SearchTree
+        class << self
+          def cache
+            @cache ||= Hash.new { |h, k| h[k] = new(k) }
+          end
+        end
 
-      # Build a search tree from the currency database
-      def search_tree
-        @_search_tree ||= {
-          :by_symbol => currencies_by_symbol,
-          :by_iso_code => currencies_by_iso_code,
-          :by_name => currencies_by_name
-        }
-      end
+        attr_reader :currency_class
 
-      def currencies_by_symbol
-        {}.tap do |r|
-          table.each do |dummy, c|
+        def initialize(currency_class)
+          @currency_class = currency_class
+        end
+
+        def table
+          currency_class.table
+        end
+
+        def by_symbol
+          @by_symbol ||= table.each_with_object({}) do |(_, c), r|
             symbol = (c[:symbol]||"").downcase
             symbol.chomp!('.')
             (r[symbol] ||= []) << c
@@ -40,19 +45,15 @@ class Money
             end
           end
         end
-      end
 
-      def currencies_by_iso_code
-        {}.tap do |r|
-          table.each do |dummy,c|
-            (r[c[:iso_code].downcase] ||= []) << c
+        def by_code
+          @by_code ||= table.each_with_object({}) do |(k, c), r|
+            (r[k.downcase] ||= []) << c
           end
         end
-      end
 
-      def currencies_by_name
-        {}.tap do |r|
-          table.each do |dummy,c|
+        def by_name
+          @by_name ||= table.each_with_object({}) do |(_, c), r|
             name_parts = c[:name].unaccent.downcase.split
             name_parts.each {|part| part.chomp!('.')}
 
@@ -72,21 +73,21 @@ class Money
         attr_reader :search_tree, :words
         attr_accessor :str, :currencies
 
-        def initialize str, search_tree
-          @str = (str||'').dup
+        def initialize(str, search_tree)
+          @str = (str || '').dup
           @search_tree = search_tree
-          @currencies = []
         end
 
         def process
           format
           return [] if str.empty?
 
+          @currencies = []
           search_by_symbol
-          search_by_iso_code
+          search_by_code
           search_by_name
 
-          prepare_reply
+          currencies.map { |x| x[:code] }.tap(&:uniq!).tap(&:sort!)
         end
 
         def format
@@ -100,15 +101,15 @@ class Money
 
         def search_by_symbol
           words.each do |word|
-            if found = search_tree[:by_symbol][word]
+            if found = search_tree.by_symbol[word]
               currencies.concat(found)
             end
           end
         end
 
-        def search_by_iso_code
+        def search_by_code
           words.each do |word|
-            if found = search_tree[:by_iso_code][word]
+            if found = search_tree.by_code[word]
               currencies.concat(found)
             end
           end
@@ -123,7 +124,7 @@ class Money
           search_words = words.dup
 
           while search_words.length > 0
-            root = search_tree[:by_name]
+            root = search_tree.by_name
 
             search_words.each do |word|
               if root = root[word]
@@ -137,15 +138,6 @@ class Money
 
             search_words.delete_at(0)
           end
-        end
-
-        def prepare_reply
-          codes = currencies.map do |currency|
-            currency[:iso_code]
-          end
-          codes.uniq!
-          codes.sort!
-          codes
         end
       end
     end

@@ -1,7 +1,7 @@
-{
-  "btc": {
+[
+  {
     "priority": 100,
-    "iso_code": "BTC",
+    "code": "BTC",
     "name": "Bitcoin",
     "symbol": "B⃦",
     "alternate_symbols": [],
@@ -14,9 +14,9 @@
     "iso_numeric": "",
     "smallest_denomination": 1
   },
-  "jep": {
+  {
     "priority": 100,
-    "iso_code": "JEP",
+    "code": "JEP",
     "name": "Jersey Pound",
     "symbol": "£",
     "disambiguate_symbol": "JEP",
@@ -30,9 +30,9 @@
     "iso_numeric": "",
     "smallest_denomination": 1
   },
-  "ggp": {
+  {
     "priority": 100,
-    "iso_code": "GGP",
+    "code": "GGP",
     "name": "Guernsey Pound",
     "symbol": "£",
     "disambiguate_symbol": "GGP",
@@ -46,9 +46,9 @@
     "iso_numeric": "",
     "smallest_denomination": 1
   },
-  "imp": {
+  {
     "priority": 100,
-    "iso_code": "IMP",
+    "code": "IMP",
     "name": "Isle of Man Pound",
     "symbol": "£",
     "disambiguate_symbol": "IMP",
@@ -62,4 +62,4 @@
     "iso_numeric": "",
     "smallest_denomination": 1
   }
-}
+]

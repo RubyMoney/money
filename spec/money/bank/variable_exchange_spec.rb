@@ -56,9 +56,9 @@ class Money
 
             #it "rounds the exchanged result down" do
             #  bank.add_rate("USD", "EUR", 0.788332676)
-            #  bank.add_rate("EUR", "YEN", 122.631477)
+            #  bank.add_rate("EUR", "JPY", 122.631477)
             #  expect(bank.exchange_with(Money.new(10_00,  "USD"), "EUR")).to eq Money.new(788, "EUR")
-            #  expect(bank.exchange_with(Money.new(500_00, "EUR"), "YEN")).to eq Money.new(6131573, "YEN")
+            #  expect(bank.exchange_with(Money.new(500_00, "EUR"), "JPY")).to eq Money.new(6131573, "JPY")
             #end
 
             it "accepts a custom truncation method" do
@@ -110,7 +110,7 @@ class Money
           subject.add_rate("USD", "EUR", 0.788332676)
 
           expect(subject.store).to receive(:add_rate).with('EUR', 'JPY', 122.631477)
-          subject.add_rate("EUR", "YEN", 122.631477)
+          subject.add_rate("EUR", "JPY", 122.631477)
         end
 
         it "treats currency names case-insensitively" do

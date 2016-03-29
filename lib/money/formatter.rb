@@ -405,14 +405,14 @@ class Money
 
     def translate_formatting_rules
       begin
-        rules[:symbol] = I18n.t currency.iso_code, :scope => "number.currency.symbol", :raise => true
+        rules[:symbol] = I18n.t currency.code, scope: 'number.currency.symbol', raise: true
       rescue I18n::MissingTranslationData
         # Do nothing
       end
     end
 
     def localize_formatting_rules
-      if currency.iso_code == "JPY" && I18n.locale == :ja
+      if currency.code == "JPY" && I18n.locale == :ja
         rules[:symbol] = "円" unless rules[:symbol] == false
         rules[:symbol_position] = :after
         rules[:symbol_after_without_space] = true

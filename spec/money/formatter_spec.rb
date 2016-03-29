@@ -5,9 +5,55 @@ describe Money::Formatter do
   let(:money) { Money.empty('USD') }
   let(:rules) { {} }
 
-  BAR = '{ "priority": 1, "iso_code": "BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
-  INDIAN_BAR = '{ "priority": 1, "iso_code": "INDIAN_BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "south_asian_number_formatting": true, "smallest_denomination": 1}'
-  EU4 = '{ "priority": 1, "iso_code": "EU4", "iso_numeric": "841", "name": "Euro with 4 decimal places", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "€", "decimal_mark": ",", "thousands_separator": ".", "smallest_denomination": 1 }'
+  let(:bar_attrs) do
+    {
+      priority: 1,
+      code: 'BAR',
+      iso_numeric: '840',
+      name: 'Dollar with 4 decimal places',
+      symbol: '$',
+      subunit: 'Cent',
+      subunit_to_unit: 10000,
+      symbol_first: true,
+      html_entity: '$',
+      decimal_mark: '.',
+      thousands_separator: ',',
+      smallest_denomination: 1,
+    }
+  end
+  let(:indian_bar_attrs) do
+    {
+      priority: 1,
+      code: 'INDIAN_BAR',
+      iso_numeric: '840',
+      name: 'Dollar with 4 decimal places',
+      symbol: '$',
+      subunit: 'Cent',
+      subunit_to_unit: 10000,
+      symbol_first: true,
+      html_entity: '$',
+      decimal_mark: '.',
+      thousands_separator: ',',
+      south_asian_number_formatting: true,
+      smallest_denomination: 1,
+    }
+  end
+  let(:eu4_attrs) do
+    {
+      priority: 1,
+      code: 'EU4',
+      iso_numeric: '841',
+      name: 'Euro with 4 decimal places',
+      symbol: '€',
+      subunit: 'Cent',
+      subunit_to_unit: 10000,
+      symbol_first: true,
+      html_entity: '€',
+      decimal_mark: ',',
+      thousands_separator: '.',
+      smallest_denomination: 1,
+    }
+  end
 
   context "without i18n" do
     its(:thousands_separator) { should eq ',' }
@@ -110,7 +156,7 @@ describe Money::Formatter do
 
       # Other
       expect(one_thousand["SEK"]).to eq "1 000,00 kr"
-      expect(one_thousand["GHC"]).to eq "₵1,000.00"
+      expect(one_thousand["GHS"]).to eq "₵1,000.00"
     end
 
     it "inserts commas into the result if the amount is sufficiently large" do
@@ -252,7 +298,7 @@ describe Money::Formatter do
 
         # Other
         expect(one["SEK"]).to eq "1,00 kr"
-        expect(one["GHC"]).to eq "₵1.00"
+        expect(one["GHS"]).to eq "₵1.00"
       end
 
       specify "(:symbol => true) returns $ when currency code is not recognized" do
@@ -315,13 +361,7 @@ describe Money::Formatter do
     end
 
     describe ":south_asian_number_formatting delimiter" do
-      before(:each) do
-        Money::Currency.register(JSON.parse(INDIAN_BAR, :symbolize_names => true))
-      end
-
-      after(:each) do
-        Money::Currency.unregister(JSON.parse(INDIAN_BAR, :symbolize_names => true))
-      end
+      around { |ex| with_currency(indian_bar_attrs) { ex.run } }
 
       specify "(:south_asian_number_formatting => true) works as documented" do
         expect(Money.new(10000000, 'INR').format(:south_asian_number_formatting => true, :symbol => false)).to eq "1,00,000.00"
@@ -545,15 +585,8 @@ describe Money::Formatter do
   end
 
   context "custom currencies with 4 decimal places" do
-    before :each do
-      Money::Currency.register(JSON.parse(BAR, :symbolize_names => true))
-      Money::Currency.register(JSON.parse(EU4, :symbolize_names => true))
-    end
-
-    after :each do
-      Money::Currency.unregister(JSON.parse(BAR, :symbolize_names => true))
-      Money::Currency.unregister(JSON.parse(EU4, :symbolize_names => true))
-    end
+    around { |ex| with_currency(bar_attrs) { ex.run } }
+    around { |ex| with_currency(eu4_attrs) { ex.run } }
 
     it "respects custom subunit to unit, decimal and thousands separator" do
       expect(Money.new(4, "BAR").format).to eq "$0.0004"

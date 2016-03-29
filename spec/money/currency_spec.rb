@@ -2,19 +2,22 @@
 
 class Money
   describe Currency do
-
-    FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 1000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
-
-    def register_foo(opts={})
-      foo_attrs = JSON.parse(FOO, :symbolize_names => true)
-      # Pass an array of attribute names to 'skip' to remove them from the 'FOO'
-      # json before registering foo as a currency.
-      Array(opts[:skip]).each { |attr| foo_attrs.delete(attr) }
-      Money::Currency.register(foo_attrs)
-    end
-
-    def unregister_foo
-      Currency.unregister(JSON.parse(FOO, :symbolize_names => true))
+    flush_currencies
+    let(:foo_attrs) do
+      {
+        priority: 1,
+        code: 'FOO',
+        iso_numeric: '840',
+        name: 'United States Dollar',
+        symbol: '$',
+        subunit: 'Cent',
+        subunit_to_unit: 1000,
+        symbol_first: true,
+        html_entity: '$',
+        decimal_mark: '.',
+        thousands_separator: ',',
+        smallest_denomination: 1,
+      }
     end
 
     describe "UnknownCurrency" do
@@ -24,8 +27,7 @@ class Money
     end
 
     describe ".find" do
-      before { register_foo }
-      after  { unregister_foo }
+      around { |ex| with_currency(foo_attrs) { ex.run } }
 
       it "returns currency matching given id" do
         expected = Currency.new(:foo)
@@ -74,29 +76,25 @@ class Money
         expect(Currency.all).to include Currency.new(:usd)
       end
       it "includes registered currencies" do
-        register_foo
-        expect(Currency.all).to include Currency.new(:foo)
-        unregister_foo
+        with_currency(foo_attrs) do
+          expect(Currency.all).to include Currency.new(:foo)
+        end
       end
       it 'is sorted by priority' do
         expect(Currency.all.first.priority).to eq 1
       end
-      it "raises a MissingAttributeError if any currency has no priority" do
-        register_foo(:skip => :priority)
-
-        expect{Money::Currency.all}.to \
-          raise_error(Money::Currency::MissingAttributeError, /foo.*priority/)
-        unregister_foo
+      it "raises a error if any currency has no priority" do
+        with_currency(foo_attrs.except(:priority)) do
+          expect{Money::Currency.all}.to raise_error(/FOO.*priority/)
+        end
       end
     end
 
 
     describe ".register" do
-      after { Currency.unregister(iso_code: "XXX") if Currency.find("XXX") }
-
       it "registers a new currency" do
         Currency.register(
-          iso_code: "XXX",
+          code: "XXX",
           name: "Golden Doubloon",
           symbol: "%",
           subunit_to_unit: 100
@@ -107,40 +105,36 @@ class Money
         expect(new_currency.symbol).to eq "%"
       end
 
-      specify ":iso_code must be present" do
+      specify ":code must be present" do
         expect {
           Currency.register(name: "New Currency")
         }.to raise_error(KeyError)
       end
     end
 
-
-    describe ".unregister" do
-      it "unregisters a currency" do
-        Currency.register(iso_code: "XXX")
-        expect(Currency.find("XXX")).not_to be_nil # Sanity check
-        Currency.unregister(iso_code: "XXX")
-        expect(Currency.find("XXX")).to be_nil
+    describe '.unregister' do
+      it 'unregisters a currency' do
+        attrs = {code: 'XXX'}
+        Currency.register(attrs)
+        expect { Currency.unregister(attrs) }.
+          to change { Currency.find('XXX') }.to nil
       end
 
-      it "returns true iff the currency existed" do
-        Currency.register(iso_code: "XXX")
-        expect(Currency.unregister(iso_code: "XXX")).to be_truthy
-        expect(Currency.unregister(iso_code: "XXX")).to be_falsey
+      it 'returns true iff the currency existed' do
+        Currency.register(code: 'XXX')
+        expect(Currency.unregister(code: 'XXX')).to be_truthy
+        expect(Currency.unregister(code: 'XXX')).to be_falsey
       end
 
-      it "can be passed an ISO code" do
-        Currency.register(iso_code: "XXX")
-        Currency.register(iso_code: "YYZ")
+      it 'can be passed an ISO code' do
+        Currency.register(code: 'XXX')
+        Currency.register(code: 'YYZ')
         # Test with string:
-        Currency.unregister("XXX")
-        expect(Currency.find("XXX")).to be_nil
+        expect { Currency.unregister('XXX') }.to change { Currency.find('XXX') }.to nil
         # Test with symbol:
-        Currency.unregister(:yyz)
-        expect(Currency.find(:yyz)).to be_nil
+        expect { Currency.unregister(:yyz) }.to change { Currency.find(:yyz) }.to nil
       end
     end
-
 
     describe ".each" do
       it "yields each currency to the block" do
@@ -168,13 +162,13 @@ class Money
 
 
     describe "#initialize" do
-      before { Currency._instances.clear }
+      before { Currency.instances.clear }
 
       it "lookups data from loaded config" do
         currency = Currency.new("USD")
         expect(currency.id).to                    eq :usd
         expect(currency.priority).to              eq 1
-        expect(currency.iso_code).to              eq "USD"
+        expect(currency.code).to                  eq "USD"
         expect(currency.iso_numeric).to           eq "840"
         expect(currency.name).to                  eq "United States Dollar"
         expect(currency.decimal_mark).to          eq "."
@@ -185,14 +179,14 @@ class Money
       end
 
       it 'caches instances' do
-        currency = Currency.new("USD")
+        currency = Currency.new('USD')
 
-        expect(Currency._instances.length).to           eq 1
-        expect(Currency._instances["usd"].object_id).to eq currency.object_id
+        expect(Currency.instances.length).to           eq 1
+        expect(Currency.instances['USD'].object_id).to eq currency.object_id
       end
 
       it "raises UnknownCurrency with unknown currency" do
-        expect { Currency.new("xxx") }.to raise_error(Currency::UnknownCurrency, /xxx/)
+        expect { Currency.new("xxx") }.to raise_error(Currency::UnknownCurrency, /XXX/)
       end
 
       it 'returns old object for the same :key' do
@@ -221,26 +215,22 @@ class Money
       end
 
       it "compares by id when priority is the same" do
-        Currency.register(iso_code: "ABD", priority: 15)
-        Currency.register(iso_code: "ABC", priority: 15)
-        Currency.register(iso_code: "ABE", priority: 15)
+        Currency.register(code: "ABD", priority: 15)
+        Currency.register(code: "ABC", priority: 15)
+        Currency.register(code: "ABE", priority: 15)
         abd = Currency.find("ABD")
         abc = Currency.find("ABC")
         abe = Currency.find("ABE")
         expect(abd).to be > abc
         expect(abe).to be > abd
-        Currency.unregister("ABD")
-        Currency.unregister("ABC")
-        Currency.unregister("ABE")
       end
 
       context "when one of the currencies has no 'priority' set" do
         it "compares by id" do
-          Currency.register(iso_code: "ABD") # No priority
+          Currency.register(code: "ABD") # No priority
           abd = Currency.find(:abd)
           usd = Currency.find(:usd)
           expect(abd).to be < usd
-          Currency.unregister(iso_code: "ABD")
         end
       end
     end
@@ -291,7 +281,12 @@ class Money
 
     describe "#inspect" do
       it "works as documented" do
-        expect(Currency.new(:usd).inspect).to eq %Q{#<Money::Currency id: usd, priority: 1, symbol_first: true, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, exponent: 2, iso_code: USD, iso_numeric: 840, subunit: Cent, smallest_denomination: 1>}
+        expect(Currency.new(:usd).inspect).
+          to eq '#<Money::Currency id: :usd, alternate_symbols: ["US$"], ' \
+            'code: "USD", decimal_mark: ".", disambiguate_symbol: nil, ' \
+            'html_entity: "$", iso_numeric: "840", name: "United States Dollar", ' \
+            'priority: 1, smallest_denomination: 1, subunit: "Cent", subunit_to_unit: 100, ' \
+            'symbol: "$", symbol_first: true, thousands_separator: ",">'
       end
     end
 
@@ -328,10 +323,10 @@ class Money
       end
     end
 
-    describe "#code" do
+    describe "#symbol_or_code" do
       it "works as documented" do
-        expect(Currency.new(:usd).code).to eq "$"
-        expect(Currency.new(:azn).code).to eq "\u20BC"
+        expect(Currency.new(:usd).symbol_or_code).to eq "$"
+        expect(Currency.new(:azn).symbol_or_code).to eq "\u20BC"
       end
     end
 
@@ -350,9 +345,9 @@ class Money
       end
 
       it "proper places for custom currency" do
-        register_foo
-        expect(Currency.new(:foo).decimal_places).to eq 3
-        unregister_foo
+        with_currency foo_attrs do
+          expect(Currency.new(:foo).decimal_places).to eq 3
+        end
       end
     end
   end

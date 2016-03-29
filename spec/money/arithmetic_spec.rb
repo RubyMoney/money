@@ -537,7 +537,7 @@ describe Money do
       expect(Money.new(0, "USD")).to be_zero
       expect(Money.new(0, "EUR")).to be_zero
       expect(Money.new(1, "USD")).not_to be_zero
-      expect(Money.new(10, "YEN")).not_to be_zero
+      expect(Money.new(10, "JPY")).not_to be_zero
       expect(Money.new(-1, "EUR")).not_to be_zero
     end
   end
@@ -547,7 +547,7 @@ describe Money do
       expect(Money.new(0, "USD")).not_to be_nonzero
       expect(Money.new(0, "EUR")).not_to be_nonzero
       expect(Money.new(1, "USD")).to be_nonzero
-      expect(Money.new(10, "YEN")).to be_nonzero
+      expect(Money.new(10, "JPY")).to be_nonzero
       expect(Money.new(-1, "EUR")).to be_nonzero
     end
 

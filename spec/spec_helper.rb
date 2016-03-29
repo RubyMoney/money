@@ -6,6 +6,7 @@ $LOAD_PATH.unshift(spec_path)
 
 require 'rspec'
 require 'rspec/its'
+require 'i18n/core_ext/hash'
 require 'pry'
 Dir[Pathname(spec_path).join('support/**/*.rb')].each { |f| require f }
 

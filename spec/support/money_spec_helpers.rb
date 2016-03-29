@@ -8,12 +8,23 @@ module MoneySpecHelpers
       around { |ex| with_locale(locale, translations) { ex.run } }
     end
 
-    def use_i18n(val = nil, &block)
-      around { |ex| use_i18n(block && instance_exec(&block) || val) { ex.run } }
+    %w(
+      use_i18n
+      flush_currencies
+    ).each do |method|
+      define_method method do |val = nil, &block|
+        around { |ex| send(method, block && instance_exec(&block) || val) { ex.run } }
+      end
     end
 
-    %w(default_bank infinite_precision rounding_mode).each do |field|
-      method = "with_#{field}"
+    %w(
+      currency
+      default_bank
+      default_currency
+      infinite_precision
+      rounding_mode
+    ).each do |suffix|
+      method = "with_#{suffix}"
       define_method method do |val = nil, &block|
         around { |ex| send(method, block && instance_exec(&block) || val) { ex.run } }
       end
@@ -40,7 +51,27 @@ module MoneySpecHelpers
     Money.formatter.use_i18n = old
   end
 
-  %w(default_bank infinite_precision rounding_mode).each do |field|
+  def with_currency(attrs)
+    Money::Currency.register(attrs)
+    yield
+  ensure
+    Money::Currency.unregister(attrs)
+  end
+
+  def flush_currencies(*)
+    old = Money::Currency.codes
+    yield
+  ensure
+    created = Money::Currency.codes - old
+    created.each { |x| Money::Currency.unregister(x) }
+  end
+
+  %w(
+    default_bank
+    default_currency
+    infinite_precision
+    rounding_mode
+  ).each do |field|
     define_method "with_#{field}" do |val, &block|
       begin
         old = Money.send(field)

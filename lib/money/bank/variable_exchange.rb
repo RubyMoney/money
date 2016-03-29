@@ -112,7 +112,7 @@ class Money
               exchange(fractional, rate, &block), to_currency
             )
           else
-            raise UnknownRate, "No conversion rate known for '#{from.currency.iso_code}' -> '#{to_currency}'"
+            raise UnknownRate, "No conversion rate known for '#{from.currency.code}' -> '#{to_currency}'"
           end
         end
       end
@@ -168,7 +168,7 @@ class Money
       #   bank.set_rate("USD", "CAD", 1.24515)
       #   bank.set_rate("CAD", "USD", 0.803115)
       def set_rate(from, to, rate, opts = {})
-        store.add_rate(Currency.wrap(from).iso_code, Currency.wrap(to).iso_code, rate)
+        store.add_rate(Currency.wrap(from).code, Currency.wrap(to).code, rate)
       end
 
       # Retrieve the rate for the given currencies.
@@ -189,7 +189,7 @@ class Money
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
       def get_rate(from, to, opts = {})
-        store.get_rate(Currency.wrap(from).iso_code, Currency.wrap(to).iso_code)
+        store.get_rate(Currency.wrap(from).code, Currency.wrap(to).code)
       end
 
       # Return the known rates as a string in the format specified. If +file+

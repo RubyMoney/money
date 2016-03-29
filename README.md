@@ -110,8 +110,8 @@ including the currency symbol, name and much more.
 
 ``` ruby
 currency = Money.new(1000, "USD").currency
-currency.iso_code #=> "USD"
-currency.name     #=> "United States Dollar"
+currency.code #=> "USD"
+currency.name #=> "United States Dollar"
 ```
 
 To define a new `Money::Currency` use `Money::Currency.register` as shown
@@ -119,15 +119,15 @@ below.
 
 ``` ruby
 curr = {
-  :priority        => 1,
-  :iso_code        => "USD",
-  :iso_numeric     => "840",
-  :name            => "United States Dollar",
-  :symbol          => "$",
-  :subunit         => "Cent",
-  :subunit_to_unit => 100,
-  :separator       => ".",
-  :delimiter       => ","
+  priority:         1,
+  code:             'USD',
+  iso_numeric:      840,
+  name:             'United States Dollar',
+  symbol:           '$',
+  subunit:          'Cent',
+  subunit_to_unit:  100,
+  separator:        '.',
+  delimiter:        ',',
 }
 
 Money::Currency.register(curr)
@@ -136,7 +136,8 @@ Money::Currency.register(curr)
 The pre-defined set of attributes includes:
 
 - `:priority` a numerical value you can use to sort/group the currency list
-- `:iso_code` the international 3-letter code as defined by the ISO 4217 standard
+- `:code` the international 3-letter code as defined by the ISO 4217 standard or
+  other code for non-ISO currencies.
 - `:iso_numeric` the international 3-digit code as defined by the ISO 4217 standard
 - `:name` the currency name
 - `:symbol` the currency symbol (UTF-8 encoded)
@@ -145,7 +146,7 @@ The pre-defined set of attributes includes:
 - `:separator` character between the whole and fraction amounts
 - `:delimiter` character between each thousands place
 
-All attributes except `:iso_code` are optional. Some attributes, such as
+All attributes except `:code` are optional. Some attributes, such as
 `:symbol`, are used by the Money class to print out a representation of the
 object. Other attributes, such as `:name` or `:priority`, exist to provide a
 basic API you can take advantage of to build your application.
@@ -315,13 +316,13 @@ The following example implements an `ActiveRecord` store to save exchange rates 
 # DB columns :from[String], :to[String], :rate[Float]
 
 class ExchangeRate < ActiveRecord::Base
-  def self.get_rate(from_iso_code, to_iso_code)
-    rate = find_by_from_and_to(from_iso_code, to_iso_code)
+  def self.get_rate(from_code, to_code)
+    rate = find_by_from_and_to(from_code, to_code)
     rate.present? ? rate.rate : nil
   end
 
-  def self.add_rate(from_iso_code, to_iso_code, rate)
-    exrate = find_or_initialize_by_from_and_to(from_iso_code, to_iso_code)
+  def self.add_rate(from_code, to_code, rate)
+    exrate = find_or_initialize_by_from_and_to(from_code, to_code)
     exrate.rate = rate
     exrate.save!
   end
