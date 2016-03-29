@@ -344,5 +344,12 @@ class Money
         end
       end
     end
+
+    describe '#iso?' do
+      it 'returns true when iso_numeric is present' do
+        expect(Currency.new(:usd).iso?).to eq true
+        expect(Currency.new(:btc).iso?).to eq false
+      end
+    end
   end
 end

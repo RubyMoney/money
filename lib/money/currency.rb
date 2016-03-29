@@ -362,6 +362,10 @@ class Money
       symbol || code
     end
 
+    def iso?
+      !!iso_numeric
+    end
+
     # Returns the relation between subunit and unit as a base 10 exponent.
     #
     # Note that MGA and MRO are exceptions and are rounded to 1
