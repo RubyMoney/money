@@ -11,7 +11,7 @@
     "html_entity": "",
     "decimal_mark": ".",
     "thousands_separator": ",",
-    "iso_numeric": "",
+    "iso_numeric": null,
     "smallest_denomination": 1
   },
   {
@@ -27,7 +27,7 @@
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
     "thousands_separator": ",",
-    "iso_numeric": "",
+    "iso_numeric": null,
     "smallest_denomination": 1
   },
   {
@@ -43,7 +43,7 @@
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
     "thousands_separator": ",",
-    "iso_numeric": "",
+    "iso_numeric": null,
     "smallest_denomination": 1
   },
   {
@@ -59,7 +59,7 @@
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
     "thousands_separator": ",",
-    "iso_numeric": "",
+    "iso_numeric": null,
     "smallest_denomination": 1
   }
 ]

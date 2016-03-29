@@ -44,17 +44,11 @@ class Money
 
     describe ".find_by_iso_numeric" do
       it "returns currency matching given numeric code" do
-        expect(Currency.find_by_iso_numeric(978)).to eq     Currency.new(:eur)
-        expect(Currency.find_by_iso_numeric(208)).not_to eq Currency.new(:eur)
-        expect(Currency.find_by_iso_numeric('840')).to eq   Currency.new(:usd)
-
-        class Mock
-          def to_s
-            '208'
-          end
-        end
-        expect(Currency.find_by_iso_numeric(Mock.new)).to eq     Currency.new(:dkk)
-        expect(Currency.find_by_iso_numeric(Mock.new)).not_to eq Currency.new(:usd)
+        expect(Currency.find_by_iso_numeric(978)).to eq   Currency.new(:eur)
+        expect(Currency.find_by_iso_numeric(208)).to eq   Currency.new(:dkk)
+        expect(Currency.find_by_iso_numeric('008')).to eq Currency.new(:all)
+        expect(Currency.find_by_iso_numeric('840')).to eq Currency.new(:usd)
+        expect(Currency.find_by_iso_numeric(double(to_i: 208))).to eq Currency.new(:dkk)
       end
 
       it "returns nil if no currency has the given numeric code" do
@@ -169,7 +163,7 @@ class Money
         expect(currency.id).to                    eq :usd
         expect(currency.priority).to              eq 1
         expect(currency.code).to                  eq "USD"
-        expect(currency.iso_numeric).to           eq "840"
+        expect(currency.iso_numeric).to           eq 840
         expect(currency.name).to                  eq "United States Dollar"
         expect(currency.decimal_mark).to          eq "."
         expect(currency.separator).to             eq "."
@@ -284,7 +278,7 @@ class Money
         expect(Currency.new(:usd).inspect).
           to eq '#<Money::Currency id: :usd, alternate_symbols: ["US$"], ' \
             'code: "USD", decimal_mark: ".", disambiguate_symbol: nil, ' \
-            'html_entity: "$", iso_numeric: "840", name: "United States Dollar", ' \
+            'html_entity: "$", iso_numeric: 840, name: "United States Dollar", ' \
             'priority: 1, smallest_denomination: 1, subunit: "Cent", subunit_to_unit: 100, ' \
             'symbol: "$", symbol_first: true, thousands_separator: ",">'
       end
