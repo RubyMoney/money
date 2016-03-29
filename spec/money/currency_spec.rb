@@ -160,7 +160,7 @@ class Money
 
       it "lookups data from loaded config" do
         currency = Currency.new("USD")
-        expect(currency.id).to                    eq :usd
+        expect(currency.id).to                    eq :USD
         expect(currency.priority).to              eq 1
         expect(currency.code).to                  eq "USD"
         expect(currency.iso_numeric).to           eq 840
@@ -276,7 +276,7 @@ class Money
     describe "#inspect" do
       it "works as documented" do
         expect(Currency.new(:usd).inspect).
-          to eq '#<Money::Currency id: :usd, alternate_symbols: ["US$"], ' \
+          to eq '#<Money::Currency id: :USD, alternate_symbols: ["US$"], ' \
             'code: "USD", decimal_mark: ".", disambiguate_symbol: nil, ' \
             'html_entity: "$", iso_numeric: 840, name: "United States Dollar", ' \
             'priority: 1, smallest_denomination: 1, subunit: "Cent", subunit_to_unit: 100, ' \

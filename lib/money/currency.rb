@@ -246,6 +246,7 @@ class Money
 
     attr_reader(*ATTRS)
 
+    alias_method :to_sym, :id
     alias_method :to_s, :code
     alias_method :to_str, :code
     alias_method :symbol_first?, :symbol_first
@@ -265,7 +266,7 @@ class Money
     def initialize(code)
       data = self.class.table[code]
       raise UnknownCurrency, "Unknown currency '#{code}'" unless data
-      @id = code.downcase.to_sym
+      @id = code.to_sym
       (ATTRS - [:id]).each do |attr|
         instance_variable_set("@#{attr}", data[attr])
       end
@@ -341,18 +342,6 @@ class Money
     # @return [self]
     def to_currency
       self
-    end
-
-    # Returns a symbol representation corresponding to the upcase +id+
-    # attribute.
-    #
-    # @return [Symbol]
-    #
-    # @example
-    #   Money::Currency.new(:usd).to_sym #=> :USD
-    #   Money::Currency.new(:eur).to_sym #=> :EUR
-    def to_sym
-      id.to_s.upcase.to_sym
     end
 
     # Returns currency symbol or code for currencies with no symbol.
