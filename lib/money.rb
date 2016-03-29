@@ -24,7 +24,7 @@ class Money
   require "money/allocate"
   require "money/arithmetic"
   require "money/formatter"
-  require "money/to_string"
+  require "money/formatter/to_string"
   autoload :V6Compatibility, "money/v6_compatibility"
 
   extend ClassAttribute
@@ -32,7 +32,6 @@ class Money
   include Comparable
   include Allocate
   include Arithmetic
-  include ToString
 
   # Raised when smallest denomination of a currency is not defined
   class UndefinedSmallestDenomination < StandardError; end
@@ -403,6 +402,16 @@ class Money
   # +Money::Formatter+ by default.
   def format(formatter = self.class.formatter, **options)
     formatter.format(self, options)
+  end
+
+  # Returns the amount of money as a string.
+  #
+  # @return [String]
+  #
+  # @example
+  #   Money.ca_dollar(100).to_s #=> "1.00"
+  def to_s
+    Formatter::ToString.format(self)
   end
 
   private

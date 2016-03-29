@@ -28,6 +28,18 @@ class Money
       def format(*args)
         new(*args).format
       end
+
+      def decimal_str(money, decimal_places = money.currency.decimal_places)
+        str = money.to_d.to_s('F')
+        units, fractional = str.split('.')
+        if decimal_places == 0 && fractional == '0'
+          units
+        else
+          pad = decimal_places - fractional.size
+          str << '0' * pad if pad > 0
+          str
+        end
+      end
     end
 
     attr_reader :money, :currency, :rules

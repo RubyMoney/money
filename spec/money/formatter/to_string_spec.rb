@@ -16,7 +16,7 @@ describe Money do
     end
 
     it "does not work when :subunit_to_unit == 5" do
-      expect(Money.new(10_00, "MGA").to_s).to eq "200.0"
+      expect(Money.new(100_0, "MGA").to_s).to eq "100.0"
     end
 
     it "respects :decimal_mark" do
