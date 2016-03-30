@@ -263,7 +263,7 @@ class Money
     # @see Money.default_rules Money.default_rules for more information.
     def format
       prepare_rules
-      return display_free if money.fractional == 0 && rules[:display_free]
+      return display_free if money.to_d == 0 && rules[:display_free]
       str = format_number(money.to_d)
       str = add_symbol_and_sign(str)
       add_currency(str)

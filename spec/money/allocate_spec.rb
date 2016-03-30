@@ -32,12 +32,8 @@ describe Money do
 
     context "with infinite_precision", :infinite_precision do
       it "allows for fractional cents allocation" do
-        one_third = BigDecimal("1") / BigDecimal("3")
-
-        moneys = Money.new(100).allocate([one_third, one_third, one_third])
-        expect(moneys[0].cents).to eq one_third * BigDecimal("100")
-        expect(moneys[1].cents).to eq one_third * BigDecimal("100")
-        expect(moneys[2].cents).to eq one_third * BigDecimal("100")
+        moneys = Money.new(100).allocate([1.to_d / 3] * 3)
+        expect(moneys.map(&:to_d)).to eq([1.to_d / 3] * 3)
       end
     end
   end
@@ -74,12 +70,8 @@ describe Money do
 
     context "with infinite_precision", :infinite_precision do
       it "allows for splitting by fractional cents" do
-        thirty_three_and_one_third = BigDecimal("100") / BigDecimal("3")
-
         moneys = Money.new(100).split(3)
-        expect(moneys[0].fractional).to eq thirty_three_and_one_third
-        expect(moneys[1].fractional).to eq thirty_three_and_one_third
-        expect(moneys[2].fractional).to eq thirty_three_and_one_third
+        expect(moneys.map(&:to_d)).to eq([1.to_d / 3] * 3)
       end
     end
   end

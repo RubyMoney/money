@@ -14,9 +14,9 @@ class Money
     #   Money.new(100, "USD").allocate([0.33, 0.33, 0.33]) #=> [Money.new(34), Money.new(33), Money.new(33)]
     #
     def allocate(splits)
-      allocations = allocations_from_splits(splits)
+      allocations = splits.inject(0.to_d) { |sum, n| sum + n }
 
-      if (allocations - BigDecimal("1")) > Float::EPSILON
+      if (allocations - 1) > Float::EPSILON
         raise ArgumentError, "splits add to more then 100%"
       end
 
@@ -26,7 +26,8 @@ class Money
         left_over.to_i.times { |i| amounts[i % amounts.length] += 1 }
       end
 
-      amounts.collect { |fractional| self.class.new(fractional, currency) }
+      subunit_to_unit = currency.subunit_to_unit
+      amounts.collect { |x| build_new(x.to_d / subunit_to_unit, currency) }
     end
 
     # Split money amongst parties evenly without losing pennies.
@@ -49,11 +50,8 @@ class Money
 
     private
 
-    def allocations_from_splits(splits)
-      splits.inject(0) { |sum, n| sum + as_d(n) }
-    end
-
     def amounts_from_splits(allocations, splits)
+      fractional = self.fractional
       left_over = fractional
 
       amounts = splits.map do |ratio|
@@ -70,19 +68,17 @@ class Money
     end
 
     def split_infinite(num)
-      amt = div(as_d(num))
-      1.upto(num).map{amt}
+      part = div(num)
+      Array.new(num) { part }
     end
 
     def split_flat(num)
-      low = self.class.new(fractional / num, currency)
-      high = self.class.new(low.fractional + 1, currency)
-
+      subunit_to_unit = currency.subunit_to_unit
+      fractional = self.fractional
+      low = build_new((fractional / num).to_d / subunit_to_unit, currency)
+      high = build_new(low.to_d + 1.to_d / subunit_to_unit, currency)
       remainder = fractional % num
-
-      Array.new(num).each_with_index.map do |_, index|
-        index < remainder ? high : low
-      end
+      Array.new(num) { |index| index < remainder ? high : low }
     end
   end
 end

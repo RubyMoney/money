@@ -11,6 +11,7 @@ require 'pry'
 Dir[Pathname(spec_path).join('support/**/*.rb')].each { |f| require f }
 
 require 'money'
+Money::V6Compatibility.fractional
 
 I18n.enforce_available_locales = false
 
@@ -19,4 +20,10 @@ RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
   config.include MoneySpecHelpers
+end
+
+BigDecimal.class_eval do
+  def inspect
+    "#<BigDecimal #{to_s('F')}>"
+  end
 end

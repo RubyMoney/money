@@ -346,7 +346,7 @@ describe Money do
         [Money.new(-13, :USD), Money.new(-4, :EUR),  1.625],
       ].each do |(a, b, result)|
         expect(b).to receive(:exchange_to).
-          with(a.currency) { Money.new(b.cents * 2, :USD) }
+          with(a.currency) { Money.new(b.fractional * 2, :USD) }
         expect(a.div(b)).to eq result
       end
     end

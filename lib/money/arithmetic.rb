@@ -7,7 +7,7 @@ class Money
     # @example
     #    - Money.new(100) #=> #<Money @fractional=-100>
     def -@
-      self.class.new(-fractional, currency)
+      build_new(-to_d, currency)
     end
 
     # Checks whether two Money objects have the same currency and the same
@@ -26,8 +26,8 @@ class Money
     #   Money.new(0, "USD").eql?(Money.new(0, "EUR"))      #=> true
     #   Money.new(100).eql?("1.00")                        #=> false
     def eql?(other)
-      other.is_a?(Money) && (fractional == other.fractional) &&
-        (currency == other.currency || fractional == 0)
+      other.is_a?(Money) && (to_d == other.to_d) &&
+        (currency == other.currency || to_d == 0)
     end
 
     # Compares two Money objects. If money objects have a different currency it
@@ -42,7 +42,7 @@ class Money
     def <=>(other)
       return unless other.is_a?(Money)
       other = other.exchange_to(currency)
-      fractional <=> other.fractional
+      to_d <=> other.to_d
     rescue Money::Bank::UnknownRate
     end
 
@@ -56,7 +56,7 @@ class Money
     #   Money.new(0).positive?  #=> false
     #   Money.new(-1).positive? #=> false
     def positive?
-      fractional > 0
+      to_d > 0
     end
 
     # Test if the amount is negative. Returns +true+ if the money amount is
@@ -69,7 +69,7 @@ class Money
     #   Money.new(0).negative?  #=> false
     #   Money.new(1).negative?  #=> false
     def negative?
-      fractional < 0
+      to_d < 0
     end
 
     # Returns a new Money object containing the sum of the two operands' monetary
@@ -81,11 +81,11 @@ class Money
     # @return [Money]
     #
     # @example
-    #   Money.new(100) + Money.new(100) #=> #<Money @fractional=200>
+    #   Money.new(100) + Money.new(100) #=> #<Money @amount=200>
     def +(other)
       raise TypeError unless other.is_a?(Money)
       other = other.exchange_to(currency)
-      self.class.new(fractional + other.fractional, currency)
+      build_new(to_d + other.to_d, currency)
     end
 
     # Returns a new Money object containing the difference between the two
@@ -98,11 +98,11 @@ class Money
     # @return [Money]
     #
     # @example
-    #   Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
+    #   Money.new(100) - Money.new(99) #=> #<Money @amount=1>
     def -(other)
       raise TypeError unless other.is_a?(Money)
       other = other.exchange_to(currency)
-      self.class.new(fractional - other.fractional, currency)
+      build_new(to_d - other.to_d, currency)
     end
 
     # Multiplies the monetary value with the given number and returns a new
@@ -117,11 +117,11 @@ class Money
     # @raise [TypeError] If +other+ is NOT a number.
     #
     # @example
-    #   Money.new(100) * 2 #=> #<Money @fractional=200>
+    #   Money.new(100) * 2 #=> #<Money @amount=200>
     #
     def *(other)
       raise TypeError unless other.is_a?(Numeric)
-      self.class.new(fractional * other, currency)
+      build_new(to_d * other, currency)
     end
 
     # Divides the monetary value with the given number and returns a new +Money+
@@ -136,14 +136,14 @@ class Money
     # @return [Float] The resulting number if you divide Money by a Money.
     #
     # @example
-    #   Money.new(100) / 10            #=> #<Money @fractional=10>
+    #   Money.new(100) / 10            #=> #<Money @amount=10>
     #   Money.new(100) / Money.new(10) #=> 10.0
     #
     def /(other)
       if other.is_a?(Money)
-        fractional / as_d(other.exchange_to(currency).fractional).to_d
+        to_d / other.exchange_to(currency).to_d
       else
-        self.class.new(fractional / as_d(other), currency)
+        build_new(to_d / other.to_d, currency)
       end
     end
     alias_method :div, :/
@@ -156,15 +156,16 @@ class Money
     # @return [Array<Money,Money>,Array<Fixnum,Money>]
     #
     # @example
-    #   Money.new(100).divmod(9)            #=> [#<Money @fractional=11>, #<Money @fractional=1>]
-    #   Money.new(100).divmod(Money.new(9)) #=> [11, #<Money @fractional=1>]
+    #   Money.new(100).divmod(9)            #=> [#<Money @amount=11>, #<Money @amount=1>]
+    #   Money.new(100).divmod(Money.new(9)) #=> [11, #<Money @amount=1>]
     def divmod(other)
       if other.is_a?(Money)
-        delimiter = other.exchange_to(currency).fractional
-        quotient, remainder = fractional.divmod(delimiter)
-        [quotient, self.class.new(remainder, currency)]
+        delimiter = other.exchange_to(currency).to_d
+        quotient, remainder = to_d.divmod(delimiter)
+        [quotient, build_new(remainder, currency)]
       else
-        fractional.divmod(other).map { |x| self.class.new(x, currency) }
+        subunit_to_unit = currency.subunit_to_unit
+        fractional.divmod(other).map { |x| build_new(x.to_d / subunit_to_unit, currency) }
       end
     end
 
@@ -175,11 +176,11 @@ class Money
     # @return [Money]
     #
     # @example
-    #   Money.new(100).modulo(9)            #=> #<Money @fractional=1>
-    #   Money.new(100).modulo(Money.new(9)) #=> #<Money @fractional=1>
+    #   Money.new(100).modulo(9)            #=> #<Money @amount=1>
+    #   Money.new(100).modulo(Money.new(9)) #=> #<Money @amount=1>
     def %(other)
-      other = other.exchange_to(currency).fractional if other.is_a?(Money)
-      self.class.new(fractional.modulo(other), currency)
+      other = other.exchange_to(currency).to_d if other.is_a?(Money)
+      build_new(to_d.modulo(other), currency)
     end
     alias_method :modulo, :%
 
@@ -190,10 +191,10 @@ class Money
     # @return [Money]
     #
     # @example
-    #   Money.new(100).remainder(9) #=> #<Money @fractional=1>
+    #   Money.new(100).remainder(9) #=> #<Money @amount=1>
     def remainder(other)
-      other = other.exchange_to(currency).fractional if other.is_a?(Money)
-      self.class.new(fractional.remainder(other), currency)
+      other = other.exchange_to(currency).to_d if other.is_a?(Money)
+      build_new(to_d.remainder(other), currency)
     end
 
     # Return absolute value of self as a new Money object.
@@ -201,9 +202,9 @@ class Money
     # @return [Money]
     #
     # @example
-    #   Money.new(-100).abs #=> #<Money @fractional=100>
+    #   Money.new(-100).abs #=> #<Money @amount=100>
     def abs
-      fractional >= 0 ? self : self.class.new(fractional.abs, currency)
+      to_d >= 0 ? self : build_new(to_d.abs, currency)
     end
 
     # Test if the money amount is zero.
@@ -214,7 +215,7 @@ class Money
     #   Money.new(100).zero? #=> false
     #   Money.new(0).zero?   #=> true
     def zero?
-      fractional == 0
+      to_d == 0
     end
 
     # Test if the money amount is non-zero. Returns this money object if it is
@@ -223,10 +224,10 @@ class Money
     # @return [Money, nil]
     #
     # @example
-    #   Money.new(100).nonzero? #=> #<Money @fractional=100>
+    #   Money.new(100).nonzero? #=> #<Money @amount=100>
     #   Money.new(0).nonzero?   #=> nil
     def nonzero?
-      fractional != 0 ? self : nil
+      to_d != 0 ? self : nil
     end
   end
 end
