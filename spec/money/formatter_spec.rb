@@ -34,7 +34,7 @@ describe Money::Formatter do
       html_entity: '$',
       decimal_mark: '.',
       thousands_separator: ',',
-      south_asian_number_formatting: true,
+      south_asian: true,
       smallest_denomination: 1,
     }
   end
@@ -65,61 +65,57 @@ describe Money::Formatter do
     end
   end
 
-  context "without i18n" do
-    its(:thousands_separator) { should eq ',' }
-    its(:decimal_mark) { should eq '.' }
+  context 'without i18n' do
+    its(:delimiter) { should eq ',' }
+    its(:separator) { should eq '.' }
   end
 
-  context "with i18n" do
-    context "with number.format.*" do
-      with_locale :de, number: {format: {delimiter: ".", separator: ","}}
-      its(:thousands_separator) { should eq '.' }
-      its(:decimal_mark) { should eq ',' }
+  context 'with i18n' do
+    context 'with number.format.*' do
+      with_locale :de, number: {format: {delimiter: '.', separator: ','}}
+      its(:delimiter) { should eq '.' }
+      its(:separator) { should eq ',' }
 
-      context "but use_i18n = false" do
+      context 'but use_i18n = false' do
         use_i18n false
-        its(:thousands_separator) { should eq ',' }
-        its(:decimal_mark) { should eq '.' }
+        its(:delimiter) { should eq ',' }
+        its(:separator) { should eq '.' }
       end
     end
 
-    context "with number.currency.format.*" do
-      with_locale :de, number: {currency: {format: {delimiter: ".", separator: ","}}}
-      its(:thousands_separator) { should eq '.' }
-      its(:decimal_mark) { should eq ',' }
+    context 'with number.currency.format.*' do
+      with_locale :de, number: {currency: {format: {delimiter: '.', separator: ','}}}
+      its(:delimiter) { should eq '.' }
+      its(:separator) { should eq ',' }
     end
 
-    context "with number.currency.symbol.*" do
-      with_locale :de, number: {currency: {symbol: {CAD: "CAD$"}}}
-      let(:money) { Money.empty("CAD") }
+    context 'with number.currency.symbol.*' do
+      with_locale :de, number: {currency: {symbol: {CAD: 'CAD$'}}}
+      let(:money) { Money.empty('CAD') }
 
-      it "should use 'CAD$' as the currency symbol" do
-        expect(money.format(translate: true)).to eq("CAD$0.00")
+      it 'should use CAD$ as the currency symbol' do
+        expect(money.format(translate_symbol: true)).to eq('CAD$0.00')
       end
     end
 
-    context "with overridden i18n settings" do
-      it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
-        expect(Money.new(300_000, 'ISK').format(:thousands_separator => ".", decimal_mark: ',')).to eq "kr300.000"
+    context 'with overridden i18n settings' do
+      it 'should respect explicit overriding of delimiter when separator ' \
+        'collide and there’s no decimal component for currencies that have no subunit' do
+        expect(Money.new(300_000, 'ISK').format(delimiter: '.', separator: ',')).to eq 'kr300.000'
       end
 
-      it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
-        expect(Money.new(300_000, 'USD').format(:thousands_separator => ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
+      it 'should respect explicit overriding of delimiter when separator ' \
+        'collide and there’s no decimal component for currencies with ' \
+        'subunits that drop_trailing_zeros' do
+        expect(
+          Money.new(300_000, 'USD').
+            format(delimiter: '.', separator: ',', drop_trailing_zeros: true)
+        ).to eq '$3.000'
       end
     end
   end
 
   describe "#format" do
-    context "Locale :ja" do
-      with_locale :ja
-
-      it "formats Japanese currency in Japanese properly" do
-        money = Money.new(1000, "JPY")
-        expect(money.format).to eq "1,000円"
-        expect(money.format(:symbol => false)).to eq "1,000"
-      end
-    end
-
     it "returns the monetary value as a string" do
       expect(Money.ca_dollar(100).format).to eq "$1.00"
       expect(Money.new(40008).format).to eq "$400.08"
@@ -133,7 +129,7 @@ describe Money::Formatter do
       expect(Money.new(10_00, "VUV").format).to eq "Vt1,000"
     end
 
-    it "respects the thousands_separator and decimal_mark defaults" do
+    it "respects the delimiter and separator defaults" do
       one_thousand = Proc.new do |currency|
         Money.new(1000_00, currency).format
       end
@@ -174,7 +170,8 @@ describe Money::Formatter do
       expect(Money.us_dollar(1_000_000_000_12).format(:no_cents => true)).to eq "$1,000,000,000"
     end
 
-    it "inserts thousands separator into the result if the amount is sufficiently large and the currency symbol is at the end" do
+    it "inserts thousands separator into the result if the amount is sufficiently large " \
+      "and the currency symbol is at the end" do
       expect(Money.euro(1_234_567_12).format).to eq "€1.234.567,12"
       expect(Money.euro(1_234_567_12).format(:no_cents => true)).to eq "€1.234.567"
     end
@@ -317,7 +314,8 @@ describe Money::Formatter do
         expect(Money.new(100, currency).format(:symbol => true)).to eq "¤1,00"
       end
 
-      specify "(:symbol => some non-Boolean value that evaluates to true) returns symbol based on the given currency code" do
+      specify "(:symbol => some non-Boolean value that evaluates to true) returns " \
+        "symbol based on the given currency code" do
         expect(Money.new(100, "GBP").format(:symbol => true)).to eq "£1.00"
         expect(Money.new(100, "EUR").format(:symbol => true)).to eq "€1,00"
         expect(Money.new(100, "SEK").format(:symbol => true)).to eq "1,00 kr"
@@ -354,9 +352,9 @@ describe Money::Formatter do
       end
     end
 
-    describe ":decimal_mark option" do
-      specify "(:decimal_mark => a decimal_mark string) works as documented" do
-        expect(Money.us_dollar(100).format(:decimal_mark => ",")).to eq "$1,00"
+    describe ':separator option' do
+      specify '(:separator => a separator string) works as documented' do
+        expect(Money.us_dollar(100).format(:separator => ',')).to eq '$1,00'
       end
 
       it "defaults to '.' if currency isn't recognized" do
@@ -370,25 +368,27 @@ describe Money::Formatter do
       end
     end
 
-    describe ":south_asian_number_formatting delimiter" do
+    describe ':south_asian delimiter' do
       around { |ex| with_currency(indian_bar_attrs) { ex.run } }
 
-      specify "(:south_asian_number_formatting => true) works as documented" do
-        expect(Money.new(10000000, 'INR').format(:south_asian_number_formatting => true, :symbol => false)).to eq "1,00,000.00"
-        expect(Money.new(1000000000, 'INDIAN_BAR').format(:south_asian_number_formatting => true, :symbol => false)).to eq "1,00,000.0000"
-        expect(Money.new(10000000).format(:south_asian_number_formatting => true)).to eq "$1,00,000.00"
+      specify '(:south_asian => true) works as documented' do
+        expect(Money.new(10000000, 'INR').format(south_asian: true, symbol: false)).
+          to eq '1,00,000.00'
+        expect(Money.new(1000000000, 'INDIAN_BAR').format(south_asian: true, symbol: false)).
+          to eq '1,00,000.0000'
+        expect(Money.new(10000000).format(south_asian: true)).to eq '$1,00,000.00'
       end
     end
 
-    describe ":thousands_separator option" do
-      specify "(:thousands_separator => a thousands_separator string) works as documented" do
-        expect(Money.us_dollar(100000).format(:thousands_separator => ".")).to eq "$1.000.00"
-        expect(Money.us_dollar(200000).format(:thousands_separator => "")).to eq "$2000.00"
+    describe ":delimiter option" do
+      specify "(:delimiter => a delimiter string) works as documented" do
+        expect(Money.us_dollar(100000).format(:delimiter => ".")).to eq "$1.000.00"
+        expect(Money.us_dollar(200000).format(:delimiter => "")).to eq "$2000.00"
       end
 
-      specify "(:thousands_separator => false or nil) works as documented" do
-        expect(Money.us_dollar(100000).format(:thousands_separator => false)).to eq "$1000.00"
-        expect(Money.us_dollar(200000).format(:thousands_separator => nil)).to eq "$2000.00"
+      specify "(:delimiter => false or nil) works as documented" do
+        expect(Money.us_dollar(100000).format(:delimiter => false)).to eq "$1000.00"
+        expect(Money.us_dollar(200000).format(:delimiter => nil)).to eq "$2000.00"
       end
 
       specify "(:delimiter => a delimiter string) works as documented" do
@@ -408,20 +408,25 @@ describe Money::Formatter do
       context "without i18n" do
         use_i18n false
 
-        it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
-          expect(Money.new(300_000, 'ISK').format(:thousands_separator => ",", decimal_mark: '.')).to eq "kr300,000"
+        it 'should respect explicit overriding of delimiter when separator collide and ' \
+          'there’s no decimal component for currencies that have no subunit' do
+          expect(Money.new(300_000, 'ISK').format(delimiter: ',', separator: '.')).to eq 'kr300,000'
         end
 
-        it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
-          expect(Money.new(300_000, 'USD').format(:thousands_separator => ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
+        it 'should respect explicit overriding of delimiter when separator collide and ' \
+          'there’s no decimal component for currencies with subunits that drop_trailing_zeros' do
+          expect(
+            Money.new(300_000, 'USD').
+              format(delimiter: '.', separator: ',', drop_trailing_zeros: true)
+          ).to eq '$3.000'
         end
       end
     end
 
-    describe ":thousands_separator and :decimal_mark option" do
-      specify "(:thousands_separator => a thousands_separator string, :decimal_mark => a decimal_mark string) works as documented" do
-        expect(Money.new(123_456_789, "USD").format(thousands_separator: ".", decimal_mark: ",")).to eq("$1.234.567,89")
-        expect(Money.new(987_654_321, "USD").format(thousands_separator: " ", decimal_mark: ".")).to eq("$9 876 543.21")
+    describe ':delimiter and :separator option' do
+      specify '(:delimiter => a delimiter string, :separator => a separator string) works as documented' do
+        expect(Money.usd(123_456_789).format(delimiter: '.', separator: ',')).to eq('$1.234.567,89')
+        expect(Money.usd(987_654_321).format(delimiter: ' ', separator: '.')).to eq('$9 876 543.21')
       end
     end
 
@@ -469,31 +474,35 @@ describe Money::Formatter do
       end
     end
 
-    describe ":symbol_before_without_space option" do
-      it "does not insert space between currency symbol and amount when set to true" do
-        expect(Money.euro(1_234_567_12).format(:symbol_position => :before, :symbol_before_without_space => true)).to eq "€1.234.567,12"
+    describe ':symbol_space option' do
+      it 'does not insert space between currency symbol and amount when set to false' do
+        expect(Money.euro(1_234_567_12).format(symbol_position: :before, symbol_space: false)).
+          to eq '€1.234.567,12'
       end
 
-      it "inserts space between currency symbol and amount when set to false" do
-        expect(Money.euro(1_234_567_12).format(:symbol_position => :before, :symbol_before_without_space => false)).to eq "€ 1.234.567,12"
+      it 'inserts space between currency symbol and amount when set to true' do
+        expect(Money.euro(1_234_567_12).format(symbol_position: :before, symbol_space: true)).
+          to eq '€ 1.234.567,12'
       end
 
-      it "defaults to true" do
-        expect(Money.euro(1_234_567_12).format(:symbol_position => :before)).to eq "€1.234.567,12"
+      it 'defaults to false' do
+        expect(Money.euro(1_234_567_12).format(symbol_position: :before)).to eq '€1.234.567,12'
       end
     end
 
-    describe ":symbol_after_without_space option" do
-      it "does not insert space between amount and currency symbol when set to true" do
-        expect(Money.euro(1_234_567_12).format(:symbol_position => :after, :symbol_after_without_space => true)).to eq "1.234.567,12€"
+    describe ':symbol_space option' do
+      it 'does not insert space between amount and currency symbol when set to false' do
+        expect(Money.euro(1_234_567_12).format(symbol_position: :after, symbol_space: false)).
+          to eq '1.234.567,12€'
       end
 
-      it "inserts space between amount and currency symbol when set to false" do
-        expect(Money.euro(1_234_567_12).format(:symbol_position => :after, :symbol_after_without_space => false)).to eq "1.234.567,12 €"
+      it 'inserts space between amount and currency symbol when set to true' do
+        expect(Money.euro(1_234_567_12).format(symbol_position: :after, symbol_space: true)).
+          to eq '1.234.567,12 €'
       end
 
-      it "defaults to false" do
-        expect(Money.euro(1_234_567_12).format(:symbol_position => :after)).to eq "1.234.567,12 €"
+      it 'defaults to true' do
+        expect(Money.euro(1_234_567_12).format(symbol_position: :after)).to eq '1.234.567,12 €'
       end
     end
 
@@ -525,52 +534,52 @@ describe Money::Formatter do
       end
     end
 
-    describe ":rounded_infinite_precision option", :infinite_precision do
-      it "does round fractional when set to true" do
-        expect(Money.new(BigDecimal.new('12.1'), "USD").format(:rounded_infinite_precision => true)).to eq "$0.12"
-        expect(Money.new(BigDecimal.new('12.5'), "USD").format(:rounded_infinite_precision => true)).to eq "$0.13"
-        expect(Money.new(BigDecimal.new('123.1'), "BHD").format(:rounded_infinite_precision => true)).to eq "ب.د0.123"
-        expect(Money.new(BigDecimal.new('123.5'), "BHD").format(:rounded_infinite_precision => true)).to eq "ب.د0.124"
-        expect(Money.new(BigDecimal.new('100.1'), "USD").format(:rounded_infinite_precision => true)).to eq "$1.00"
-        expect(Money.new(BigDecimal.new('109.5'), "USD").format(:rounded_infinite_precision => true)).to eq "$1.10"
-        expect(Money.new(BigDecimal.new('1'), "MGA").format(:rounded_infinite_precision => true)).to eq "Ar0.2"
+    describe ':round option', :infinite_precision do
+      it 'does round fractional when set to true' do
+        expect(Money.new('12.1', 'USD').format(round: true)).to eq '$0.12'
+        expect(Money.new('12.5', 'USD').format(round: true)).to eq '$0.13'
+        expect(Money.new('123.1', 'BHD').format(round: true)).to eq 'ب.د0.123'
+        expect(Money.new('123.5', 'BHD').format(round: true)).to eq 'ب.د0.124'
+        expect(Money.new('100.1', 'USD').format(round: true)).to eq '$1.00'
+        expect(Money.new('109.5', 'USD').format(round: true)).to eq '$1.10'
+        expect(Money.new('1', 'MGA').format(round: true)).to eq 'Ar0.2'
       end
 
-      it "does not round fractional when set to false" do
-        expect(Money.new(BigDecimal.new('12.1'), "USD").format(:rounded_infinite_precision => false)).to eq "$0.121"
-        expect(Money.new(BigDecimal.new('12.5'), "USD").format(:rounded_infinite_precision => false)).to eq "$0.125"
-        expect(Money.new(BigDecimal.new('123.1'), "BHD").format(:rounded_infinite_precision => false)).to eq "ب.د0.1231"
-        expect(Money.new(BigDecimal.new('123.5'), "BHD").format(:rounded_infinite_precision => false)).to eq "ب.د0.1235"
-        expect(Money.new(BigDecimal.new('100.1'), "USD").format(:rounded_infinite_precision => false)).to eq "$1.001"
-        expect(Money.new(BigDecimal.new('109.5'), "USD").format(:rounded_infinite_precision => false)).to eq "$1.095"
-        expect(Money.new(BigDecimal.new('1'), "MGA").format(:rounded_infinite_precision => false)).to eq "Ar0.1"
+      it 'does not round fractional when set to false' do
+        expect(Money.new('12.1', 'USD').format(round: false)).to eq '$0.121'
+        expect(Money.new('12.5', 'USD').format(round: false)).to eq '$0.125'
+        expect(Money.new('123.1', 'BHD').format(round: false)).to eq 'ب.د0.1231'
+        expect(Money.new('123.5', 'BHD').format(round: false)).to eq 'ب.د0.1235'
+        expect(Money.new('100.1', 'USD').format(round: false)).to eq '$1.001'
+        expect(Money.new('109.5', 'USD').format(round: false)).to eq '$1.095'
+        expect(Money.new('1', 'MGA').format(round: false)).to eq 'Ar0.2'
       end
 
-      describe "with i18n = false" do
+      describe 'with i18n = false' do
         use_i18n false
 
         it 'does round fractional when set to true' do
-          expect(Money.new(BigDecimal.new('12.1'), "EUR").format(:rounded_infinite_precision => true)).to eq "€0,12"
-          expect(Money.new(BigDecimal.new('12.5'), "EUR").format(:rounded_infinite_precision => true)).to eq "€0,13"
-          expect(Money.new(BigDecimal.new('100.1'), "EUR").format(:rounded_infinite_precision => true)).to eq "€1,00"
-          expect(Money.new(BigDecimal.new('109.5'), "EUR").format(:rounded_infinite_precision => true)).to eq "€1,10"
+          expect(Money.new('12.1', 'EUR').format(round: true)).to eq '€0,12'
+          expect(Money.new('12.5', 'EUR').format(round: true)).to eq '€0,13'
+          expect(Money.new('100.1', 'EUR').format(round: true)).to eq '€1,00'
+          expect(Money.new('109.5', 'EUR').format(round: true)).to eq '€1,10'
 
-          expect(Money.new(BigDecimal.new('100012.1'), "EUR").format(:rounded_infinite_precision => true)).to eq "€1.000,12"
-          expect(Money.new(BigDecimal.new('100012.5'), "EUR").format(:rounded_infinite_precision => true)).to eq "€1.000,13"
+          expect(Money.new('100012.1', 'EUR').format(round: true)).to eq '€1.000,12'
+          expect(Money.new('100012.5', 'EUR').format(round: true)).to eq '€1.000,13'
         end
       end
 
-      describe "with i18n = true" do
-        with_locale :de, number: {currency: {format: {delimiter: ".", separator: ","}}}
+      describe 'with i18n = true' do
+        with_locale :de, number: {currency: {format: {delimiter: '.', separator: ','}}}
 
         it 'does round fractional when set to true' do
-          expect(Money.new(BigDecimal.new('12.1'), "USD").format(:rounded_infinite_precision => true)).to eq "$0,12"
-          expect(Money.new(BigDecimal.new('12.5'), "USD").format(:rounded_infinite_precision => true)).to eq "$0,13"
-          expect(Money.new(BigDecimal.new('123.1'), "BHD").format(:rounded_infinite_precision => true)).to eq "ب.د0,123"
-          expect(Money.new(BigDecimal.new('123.5'), "BHD").format(:rounded_infinite_precision => true)).to eq "ب.د0,124"
-          expect(Money.new(BigDecimal.new('100.1'), "USD").format(:rounded_infinite_precision => true)).to eq "$1,00"
-          expect(Money.new(BigDecimal.new('109.5'), "USD").format(:rounded_infinite_precision => true)).to eq "$1,10"
-          expect(Money.new(BigDecimal.new('1'), "MGA").format(:rounded_infinite_precision => true)).to eq "Ar0,2"
+          expect(Money.new('12.1', 'USD').format(round: true)).to eq '$0,12'
+          expect(Money.new('12.5', 'USD').format(round: true)).to eq '$0,13'
+          expect(Money.new('123.1', 'BHD').format(round: true)).to eq 'ب.د0,123'
+          expect(Money.new('123.5', 'BHD').format(round: true)).to eq 'ب.د0,124'
+          expect(Money.new('100.1', 'USD').format(round: true)).to eq '$1,00'
+          expect(Money.new('109.5', 'USD').format(round: true)).to eq '$1,10'
+          expect(Money.new('1', 'MGA').format(round: true)).to eq 'Ar0,2'
         end
       end
     end
@@ -662,7 +671,8 @@ describe Money::Formatter do
       # all different values
       Money::Currency.all.each do |currency|
         format = Money.new(1999_98, currency).format(disambiguate: true)
-        expect(formatted_results.keys).not_to include(format), "Format '#{format}' for #{currency} is ambiguous with currency #{formatted_results[format]}."
+        expect(formatted_results.keys).not_to include(format),
+          "Format '#{format}' for #{currency} is ambiguous with currency #{formatted_results[format]}."
         formatted_results[format] = currency
       end
     end

@@ -110,4 +110,18 @@ RSpec.describe Money, 'compatibility' do
     its(:iso_code) { should eq 'USD' }
     its(:code) { should eq '$' }
   end
+
+  describe '#format' do
+    let(:formatter) { Money::V6Compatibility::Formatter }
+
+    context 'Locale :ja' do
+      with_locale :ja
+
+      it 'formats Japanese currency in Japanese properly' do
+        money = Money.new(1000, 'JPY')
+        expect(formatter.format(money)).to eq '1,000円'
+        expect(formatter.format(money, symbol: false)).to eq '1,000'
+      end
+    end
+  end
 end
