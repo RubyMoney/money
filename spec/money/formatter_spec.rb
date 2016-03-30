@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 describe Money::Formatter do
-  subject { described_class.new(money, rules) }
+  subject { Money.formatter.new(money, rules) }
   let(:money) { Money.empty('USD') }
   let(:rules) { {} }
 
@@ -53,6 +53,16 @@ describe Money::Formatter do
       thousands_separator: '.',
       smallest_denomination: 1,
     }
+  end
+
+  describe '#rsplit_str_by' do
+    subject { ->(*args) { described_class.rsplit_str_by(*args) } }
+    it 'splits string' do
+      expect(subject.call '12', 3).to eq %w(12)
+      expect(subject.call '1234', 2).to eq %w(12 34)
+      expect(subject.call '1234', 3).to eq %w(1 234)
+      expect(subject.call '1234567890', 3).to eq %w(1 234 567 890)
+    end
   end
 
   context "without i18n" do

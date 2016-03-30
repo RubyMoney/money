@@ -8,7 +8,7 @@
     "subunit": "Satoshi",
     "subunit_to_unit": 100000000,
     "symbol_first": true,
-    "html_entity": "",
+    "html_entity": null,
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": null,

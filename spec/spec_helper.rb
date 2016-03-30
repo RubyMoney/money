@@ -13,6 +13,7 @@ Dir[Pathname(spec_path).join('support/**/*.rb')].each { |f| require f }
 require 'money'
 
 I18n.enforce_available_locales = false
+Money::V6Compatibility.format
 
 RSpec.configure do |config|
   config.order = :random
