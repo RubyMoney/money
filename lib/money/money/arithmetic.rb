@@ -53,11 +53,11 @@ class Money
     # @raise [TypeError] when other object is not Money
     #
     def <=>(other)
-      if other.respond_to?(:zero?) && other.zero?
+      unless other.is_a?(Money)
+        return unless other.respond_to?(:zero?) && other.zero?
         return other.is_a?(CoercedNumeric) ? 0 <=> fractional : fractional <=> 0
       end
-      return unless other.is_a?(Money)
-      other = other.exchange_to(currency) if nonzero? && currency != other.currency
+      other = other.exchange_to(currency)
       fractional <=> other.fractional
     rescue Money::Bank::UnknownRate
     end
@@ -108,8 +108,10 @@ class Money
     # @example
     #   Money.new(100) + Money.new(100) #=> #<Money @fractional=200>
     def +(other_money)
-      return self if other_money.zero?
-      raise TypeError unless other_money.is_a?(Money)
+      unless other_money.is_a?(Money)
+        return self if other_money.zero?
+        raise TypeError
+      end
       other_money = other_money.exchange_to(currency)
       self.class.new(fractional + other_money.fractional, currency)
     end
@@ -126,8 +128,10 @@ class Money
     # @example
     #   Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
     def -(other_money)
-      return self if other_money.zero?
-      raise TypeError unless other_money.is_a?(Money)
+      unless other_money.is_a?(Money)
+        return self if other_money.zero?
+        raise TypeError
+      end
       other_money = other_money.exchange_to(currency)
       self.class.new(fractional - other_money.fractional, currency)
     end

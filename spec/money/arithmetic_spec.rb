@@ -23,6 +23,7 @@ describe Money do
     end
 
     it "returns true if both amounts are zero, even if currency differs" do
+      allow_any_instance_of(Money).to receive(:exchange_to) { Money.usd(0) }
       expect(Money.new(0, "USD")).to eq Money.new(0, "USD")
       expect(Money.new(0, "USD")).to eq Money.new(0, "EUR")
       expect(Money.new(0, "USD")).to eq Money.new(0, "AUD")
@@ -657,6 +658,36 @@ describe Money do
       expect {
         BigDecimal(2) / Money.new(2, 'USD')
       }.to raise_exception(TypeError)
+    end
+  end
+
+  %w(+ - / <=> divmod remainder).each do |op|
+    describe "##{op}" do
+      subject { ->(other = self.other) { instance.send(op, other) } }
+      let(:instance) { Money.usd(1) }
+
+      context 'when conversions disallowed' do
+        around do |ex|
+          begin
+            old = Money.default_bank
+            Money.disallow_currency_conversion!
+            ex.run
+          ensure
+            Money.default_bank = old
+          end
+        end
+
+        context 'and other is money with different currency' do
+          let(:other) { Money.gbp(1) }
+          it { should raise_error Money::Bank::DifferentCurrencyError }
+
+          context 'even for zero' do
+            let(:instance) { Money.usd(0) }
+            let(:other) { Money.gbp(0) }
+            it { should raise_error Money::Bank::DifferentCurrencyError }
+          end
+        end
+      end
     end
   end
 end
