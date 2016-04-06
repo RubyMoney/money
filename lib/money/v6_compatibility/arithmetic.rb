@@ -21,7 +21,7 @@ class Money
       end
 
       def <=>(other)
-        if other.respond_to?(:zero?) && other.zero?
+        if !other.is_a?(Money) && other.respond_to?(:zero?) && other.zero?
           return other.is_a?(CoercedNumeric) ? 0 <=> fractional : fractional <=> 0
         end
         super
@@ -37,12 +37,12 @@ class Money
       end
 
       def +(other)
-        return self if other.zero?
+        return self if !other.is_a?(Money) && other.zero?
         super
       end
 
       def -(other)
-        return self if other.zero?
+        return self if !other.is_a?(Money) && other.zero?
         super
       end
 
