@@ -1,14 +1,5 @@
 class Money
   module Arithmetic
-    # Wrapper for coerced numeric values to distinguish
-    # when numeric was on the 1st place in operation.
-    CoercedNumeric = Struct.new(:value) do
-      # Proxy #zero? method to skip unnecessary typecasts. See #- and #+.
-      def zero?
-        value.zero?
-      end
-    end
-
     # Returns a money object with changed polarity.
     #
     # @return [Money]
@@ -24,7 +15,7 @@ class Money
     # if the amounts are both zero. Checks against objects that are not Money or
     # a subclass will always return false.
     #
-    # @param [Money] other_money Value to compare with.
+    # @param [Money] other Value to compare with.
     #
     # @return [Boolean]
     #
@@ -34,41 +25,25 @@ class Money
     #   Money.new(100, "USD").eql?(Money.new(100, "GBP"))  #=> false
     #   Money.new(0, "USD").eql?(Money.new(0, "EUR"))      #=> true
     #   Money.new(100).eql?("1.00")                        #=> false
-    def eql?(other_money)
-      if other_money.is_a?(Money)
-        (fractional == other_money.fractional && currency == other_money.currency) ||
-          (fractional == 0 && other_money.fractional == 0)
-      else
-        false
-      end
+    def eql?(other)
+      other.is_a?(Money) && (fractional == other.fractional) &&
+        (currency == other.currency || fractional == 0)
     end
 
     # Compares two Money objects. If money objects have a different currency it
     # will attempt to convert the currency.
     #
-    # @param [Money] other_money Value to compare with.
+    # @param [Money] other Value to compare with.
     #
     # @return [Fixnum]
     #
     # @raise [TypeError] when other object is not Money
     #
     def <=>(other)
-      unless other.is_a?(Money)
-        return unless other.respond_to?(:zero?) && other.zero?
-        return other.is_a?(CoercedNumeric) ? 0 <=> fractional : fractional <=> 0
-      end
+      return unless other.is_a?(Money)
       other = other.exchange_to(currency)
       fractional <=> other.fractional
     rescue Money::Bank::UnknownRate
-    end
-
-    # Uses Comparable's implementation but raises ArgumentError if non-zero
-    # numeric value is given.
-    def ==(other)
-      if other.is_a?(Numeric) && !other.zero?
-        raise ArgumentError, 'Money#== supports only zero numerics'
-      end
-      super
     end
 
     # Test if the amount is positive. Returns +true+ if the money amount is
@@ -98,42 +73,36 @@ class Money
     end
 
     # Returns a new Money object containing the sum of the two operands' monetary
-    # values. If +other_money+ has a different currency then its monetary value
+    # values. If +other+ has a different currency then its monetary value
     # is automatically exchanged to this object's currency using +exchange_to+.
     #
-    # @param [Money] other_money Other +Money+ object to add.
+    # @param [Money] other Other +Money+ object to add.
     #
     # @return [Money]
     #
     # @example
     #   Money.new(100) + Money.new(100) #=> #<Money @fractional=200>
-    def +(other_money)
-      unless other_money.is_a?(Money)
-        return self if other_money.zero?
-        raise TypeError
-      end
-      other_money = other_money.exchange_to(currency)
-      self.class.new(fractional + other_money.fractional, currency)
+    def +(other)
+      raise TypeError unless other.is_a?(Money)
+      other = other.exchange_to(currency)
+      self.class.new(fractional + other.fractional, currency)
     end
 
     # Returns a new Money object containing the difference between the two
-    # operands' monetary values. If +other_money+ has a different currency then
+    # operands' monetary values. If +other+ has a different currency then
     # its monetary value is automatically exchanged to this object's currency
     # using +exchange_to+.
     #
-    # @param [Money] other_money Other +Money+ object to subtract.
+    # @param [Money] other Other +Money+ object to subtract.
     #
     # @return [Money]
     #
     # @example
     #   Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
-    def -(other_money)
-      unless other_money.is_a?(Money)
-        return self if other_money.zero?
-        raise TypeError
-      end
-      other_money = other_money.exchange_to(currency)
-      self.class.new(fractional - other_money.fractional, currency)
+    def -(other)
+      raise TypeError unless other.is_a?(Money)
+      other = other.exchange_to(currency)
+      self.class.new(fractional - other.fractional, currency)
     end
 
     # Multiplies the monetary value with the given number and returns a new
@@ -141,22 +110,18 @@ class Money
     #
     # Note that you can't multiply a Money object by an other +Money+ object.
     #
-    # @param [Numeric] value Number to multiply by.
+    # @param [Numeric] other Number to multiply by.
     #
     # @return [Money] The resulting money.
     #
-    # @raise [TypeError] If +value+ is NOT a number.
+    # @raise [TypeError] If +other+ is NOT a number.
     #
     # @example
     #   Money.new(100) * 2 #=> #<Money @fractional=200>
     #
-    def *(value)
-      value = value.value if value.is_a?(CoercedNumeric)
-      if value.is_a? Numeric
-        self.class.new(fractional * value, currency)
-      else
-        raise TypeError, "Can't multiply a #{self.class.name} by a #{value.class.name}'s value"
-      end
+    def *(other)
+      raise TypeError unless other.is_a?(Numeric)
+      self.class.new(fractional * other, currency)
     end
 
     # Divides the monetary value with the given number and returns a new +Money+
@@ -165,7 +130,7 @@ class Money
     #
     # +Money/Numeric+ returns +Money+. +Money/Money+ returns +Float+.
     #
-    # @param [Money, Numeric] value Number to divide by.
+    # @param [Money, Numeric] other Number to divide by.
     #
     # @return [Money] The resulting money if you divide Money by a number.
     # @return [Float] The resulting number if you divide Money by a Money.
@@ -174,101 +139,61 @@ class Money
     #   Money.new(100) / 10            #=> #<Money @fractional=10>
     #   Money.new(100) / Money.new(10) #=> 10.0
     #
-    def /(value)
-      if value.is_a?(self.class)
-        fractional / as_d(value.exchange_to(currency).fractional).to_f
+    def /(other)
+      if other.is_a?(Money)
+        fractional / as_d(other.exchange_to(currency).fractional).to_d
       else
-        raise TypeError, 'Can not divide by Money' if value.is_a?(CoercedNumeric)
-        self.class.new(fractional / as_d(value), currency)
+        self.class.new(fractional / as_d(other), currency)
       end
     end
-
-    # Synonym for +#/+.
-    #
-    # @param [Money, Numeric] value Number to divide by.
-    #
-    # @return [Money] The resulting money if you divide Money by a number.
-    # @return [Float] The resulting number if you divide Money by a Money.
-    #
-    # @see #/
-    #
-    def div(value)
-      self / value
-    end
+    alias_method :div, :/
 
     # Divide money by money or fixnum and return array containing quotient and
     # modulus.
     #
-    # @param [Money, Fixnum] val Number to divmod by.
+    # @param [Money, Fixnum] other Number to divmod by.
     #
     # @return [Array<Money,Money>,Array<Fixnum,Money>]
     #
     # @example
     #   Money.new(100).divmod(9)            #=> [#<Money @fractional=11>, #<Money @fractional=1>]
     #   Money.new(100).divmod(Money.new(9)) #=> [11, #<Money @fractional=1>]
-    def divmod(val)
-      if val.is_a?(Money)
-        divmod_money(val)
+    def divmod(other)
+      if other.is_a?(Money)
+        delimiter = other.exchange_to(currency).fractional
+        quotient, remainder = fractional.divmod(delimiter)
+        [quotient, self.class.new(remainder, currency)]
       else
-        divmod_other(val)
+        fractional.divmod(other).map { |x| self.class.new(x, currency) }
       end
     end
 
-    def divmod_money(val)
-      delimiter = val.exchange_to(currency).fractional
-      quotient, remainder = fractional.divmod(delimiter)
-      [quotient, self.class.new(remainder, currency)]
-    end
-    private :divmod_money
-
-    def divmod_other(val)
-      quotient, remainder = fractional.divmod(as_d(val))
-      [self.class.new(quotient, currency), self.class.new(remainder, currency)]
-    end
-    private :divmod_other
-
-    # Equivalent to +self.divmod(val)[1]+
+    # Equivalent to +divmod(other)[1]+
     #
-    # @param [Money, Fixnum] val Number take modulo with.
+    # @param [Money, Fixnum] other Number take modulo with.
     #
     # @return [Money]
     #
     # @example
     #   Money.new(100).modulo(9)            #=> #<Money @fractional=1>
     #   Money.new(100).modulo(Money.new(9)) #=> #<Money @fractional=1>
-    def modulo(val)
-      divmod(val)[1]
+    def %(other)
+      other = other.exchange_to(currency).fractional if other.is_a?(Money)
+      self.class.new(fractional.modulo(other), currency)
     end
+    alias_method :modulo, :%
 
-    # Synonym for +#modulo+.
+    # If different signs +modulo(other) - other+ otherwise +modulo(other)+
     #
-    # @param [Money, Fixnum] val Number take modulo with.
-    #
-    # @return [Money]
-    #
-    # @see #modulo
-    def %(val)
-      modulo(val)
-    end
-
-    # If different signs +self.modulo(val) - val+ otherwise +self.modulo(val)+
-    #
-    # @param [Money, Fixnum] val Number to rake remainder with.
+    # @param [Money, Fixnum] other Number to rake remainder with.
     #
     # @return [Money]
     #
     # @example
     #   Money.new(100).remainder(9) #=> #<Money @fractional=1>
-    def remainder(val)
-      if val.is_a?(Money) && currency != val.currency
-        val = val.exchange_to(currency)
-      end
-
-      if (fractional < 0 && val < 0) || (fractional > 0 && val > 0)
-        self.modulo(val)
-      else
-        self.modulo(val) - (val.is_a?(Money) ? val : self.class.new(val, currency))
-      end
+    def remainder(other)
+      other = other.exchange_to(currency).fractional if other.is_a?(Money)
+      self.class.new(fractional.remainder(other), currency)
     end
 
     # Return absolute value of self as a new Money object.
@@ -278,7 +203,7 @@ class Money
     # @example
     #   Money.new(-100).abs #=> #<Money @fractional=100>
     def abs
-      self.class.new(fractional.abs, currency)
+      fractional >= 0 ? self : self.class.new(fractional.abs, currency)
     end
 
     # Test if the money amount is zero.
@@ -302,15 +227,6 @@ class Money
     #   Money.new(0).nonzero?   #=> nil
     def nonzero?
       fractional != 0 ? self : nil
-    end
-
-    # Used to make Money instance handle the operations when arguments order is reversed
-    # @return [Array]
-    #
-    # @example
-    #   2 * Money.new(10) #=> #<Money @fractional=20>
-    def coerce(other)
-      [self, CoercedNumeric.new(other)]
     end
   end
 end
