@@ -43,7 +43,7 @@ class Money
             end
 
             it "truncates extra digits" do
-              expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR')).to eq Money.new(13, 'EUR')
+              expect(bank.exchange_with(Money.new(0.1, 'USD'), 'EUR')).to eq Money.new(0.13, 'EUR')
             end
 
             it "raises an UnknownCurrency exception when an unknown currency is requested" do
@@ -63,7 +63,7 @@ class Money
 
             it "accepts a custom truncation method" do
               proc = Proc.new { |n| n.ceil }
-              expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc)).to eq Money.new(14, 'EUR')
+              expect(bank.exchange_with(Money.new(0.1, 'USD'), 'EUR', &proc)).to eq Money.new(0.14, 'EUR')
             end
 
             it 'works with big numbers' do
@@ -88,12 +88,12 @@ class Money
 
           describe "#exchange_with" do
             it "uses the stored truncation method" do
-              expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR')).to eq Money.new(14, 'EUR')
+              expect(bank.exchange_with(Money.new(0.1, 'USD'), 'EUR')).to eq Money.new(0.14, 'EUR')
             end
 
             it "accepts a custom truncation method" do
               proc = Proc.new { |n| n.ceil + 1 }
-              expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc)).to eq Money.new(15, 'EUR')
+              expect(bank.exchange_with(Money.new(0.1, 'USD'), 'EUR', &proc)).to eq Money.new(0.15, 'EUR')
             end
           end
         end

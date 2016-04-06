@@ -10,7 +10,7 @@ describe Money do
     end
 
     it 'stores the integer as the number of cents' do
-      expect(money.fractional).to be initializing_value
+      expect(money.to_d).to eq initializing_value
     end
 
     context 'given the initializing value is a float' do
@@ -20,13 +20,13 @@ describe Money do
       end
 
       context 'and the value is 1.01' do
-        let(:initializing_value) { 1.01 }
-        it { is_expected.to eq Money.new(1) }
+        let(:initializing_value) { 0.0101 }
+        it { is_expected.to eq Money.new(0.01) }
       end
 
       context 'and the value is 1.50' do
-        let(:initializing_value) { 1.50 }
-        it { is_expected.to eq Money.new(2) }
+        let(:initializing_value) { 0.015 }
+        it { is_expected.to eq Money.new(0.02) }
       end
     end
 
@@ -78,7 +78,7 @@ describe Money do
         let(:initializing_value) { 1.50 }
 
         it "should have the correct cents" do
-          expect(money.fractional).to eq BigDecimal('1.50')
+          expect(money.to_d).to eq '1.50'.to_d
         end
       end
     end
@@ -132,70 +132,72 @@ describe Money do
 
     it "disallows conversions when doing money arithmetic" do
       Money.disallow_currency_conversion!
-      expect { Money.new(100, "USD") + Money.new(100, "EUR") }.to raise_exception(Money::Bank::DifferentCurrencyError)
+      expect { Money.new(100, "USD") + Money.new(100, "EUR") }.
+        to raise_exception(Money::Bank::DifferentCurrencyError)
     end
   end
 
-  describe ".from_amount" do
-    it "accepts numeric values" do
-      expect(Money.from_amount(1, "USD")).to eq Money.new(1_00, "USD")
-      expect(Money.from_amount(1.0, "USD")).to eq Money.new(1_00, "USD")
-      expect(Money.from_amount("1".to_d, "USD")).to eq Money.new(1_00, "USD")
+  describe '.from_subunits' do
+    subject { ->(*args) { described_class.from_subunits(*args) } }
+    it 'accepts numeric values' do
+      expect(subject.call(1, 'USD')).to eq Money.usd(0.01)
+      expect(subject.call(1.0, 'USD')).to eq Money.usd(0.01)
+      expect(subject.call('1'.to_d, 'USD')).to eq Money.usd(0.01)
     end
 
-    it "raises ArgumentError with unsupported argument" do
-      expect { Money.from_amount("1") }.to raise_error(ArgumentError)
-      expect { Money.from_amount(Object.new) }.to raise_error(ArgumentError)
+    it 'raises ArgumentError with unsupported argument' do
+      # expect { subject.call('asd') }.to raise_error(ArgumentError)
+      expect { subject.call(Object.new) }.to raise_error(ArgumentError)
     end
 
-    it "converts given amount to subunits according to currency" do
-      expect(Money.from_amount(1, "USD")).to eq Money.new(1_00, "USD")
-      expect(Money.from_amount(1, "TND")).to eq Money.new(1_000, "TND")
-      expect(Money.from_amount(1, "JPY")).to eq Money.new(1, "JPY")
+    it 'converts given amount to subunits according to currency' do
+      expect(subject.call(1, 'USD')).to eq Money.new(0.01, 'USD')
+      expect(subject.call(1, 'TND')).to eq Money.new(0.001, 'TND')
+      expect(subject.call(1, 'JPY')).to eq Money.new(1, 'JPY')
     end
 
-    it "rounds the given amount to subunits" do
-      expect(Money.from_amount(4.444, "USD").amount).to eq "4.44".to_d
-      expect(Money.from_amount(5.555, "USD").amount).to eq "5.56".to_d
-      expect(Money.from_amount(444.4, "JPY").amount).to eq "444".to_d
-      expect(Money.from_amount(555.5, "JPY").amount).to eq "556".to_d
+    it 'rounds given' do
+      expect(subject.call(44.4, 'USD').amount).to eq '0.44'.to_d
+      expect(subject.call(55.5, 'USD').amount).to eq '0.56'.to_d
+      expect(subject.call(444.4, 'JPY').amount).to eq '444'.to_d
+      expect(subject.call(555.5, 'JPY').amount).to eq '556'.to_d
     end
 
-    it "does not round the given amount when infinite_precision is set", :infinite_precision do
-      expect(Money.from_amount(4.444, "USD").amount).to eq "4.444".to_d
-      expect(Money.from_amount(5.555, "USD").amount).to eq "5.555".to_d
-      expect(Money.from_amount(444.4, "JPY").amount).to eq "444.4".to_d
-      expect(Money.from_amount(555.5, "JPY").amount).to eq "555.5".to_d
+    it 'does not round the given amount when infinite_precision is set', :infinite_precision do
+      expect(subject.call(4.444, 'USD').amount).to eq '0.04444'.to_d
+      expect(subject.call(5.555, 'USD').amount).to eq '0.05555'.to_d
+      expect(subject.call(444.4, 'JPY').amount).to eq '444.4'.to_d
+      expect(subject.call(555.5, 'JPY').amount).to eq '555.5'.to_d
     end
 
-    it "accepts an optional currency" do
-      expect(Money.from_amount(1).currency).to eq Money.default_currency
-      jpy = Money::Currency.wrap("JPY")
-      expect(Money.from_amount(1, jpy).currency).to eq jpy
-      expect(Money.from_amount(1, "JPY").currency).to eq jpy
+    it 'accepts an optional currency' do
+      expect(subject.call(1).currency).to eq Money.default_currency
+      jpy = Money::Currency.wrap('JPY')
+      expect(subject.call(1, jpy).currency).to eq jpy
+      expect(subject.call(1, 'JPY').currency).to eq jpy
     end
 
-    it "accepts an optional bank" do
-      expect(Money.from_amount(1).bank).to eq Money.default_bank
-      bank = double "bank"
-      expect(Money.from_amount(1, "USD", bank).bank).to eq bank
+    it 'accepts an optional bank' do
+      expect(subject.call(1).bank).to eq Money.default_bank
+      bank = double(:bank)
+      expect(subject.call(1, 'USD', bank).bank).to eq bank
     end
 
     it 'rounds using rounding_mode' do
-      expect(Money.from_amount(1.999).to_d).to eq 2
-      expect(Money.rounding_mode(BigDecimal::ROUND_DOWN) do
-        Money.from_amount(1.999).to_d
-      end).to eq 1.99
+      expect(subject.call(199.9, 'USD').to_d).to eq 2
+      Money.rounding_mode(BigDecimal::ROUND_DOWN) do
+        expect(subject.call(199.9).to_d).to eq 1.99
+      end
     end
   end
 
   describe "#fractional" do
     it "returns the amount in fractional unit" do
-      expect(Money.new(1_00).fractional).to eq 1_00
+      expect(Money.new(1).fractional).to eq 1_00
     end
 
     it "stores fractional as an integer regardless of what is passed into the constructor" do
-      m = Money.new(100)
+      m = Money.new(1)
       expect(m.fractional).to eq 100
       expect(m.fractional).to be_a(Fixnum)
     end
@@ -204,7 +206,7 @@ describe Money do
 
       let(:serialized) { <<-YAML
 !ruby/object:Money
-  fractional: 249.5
+  amount: 2.495
   currency: !ruby/object:Money::Currency
     id: :eur
     priority: 2
@@ -244,21 +246,21 @@ describe Money do
       context "with the setter" do
         it "respects the rounding_mode" do
           Money.rounding_mode = BigDecimal::ROUND_DOWN
-          expect(Money.new(1.9).fractional).to eq 1
+          expect(Money.new(0.019).fractional).to eq 1
 
           Money.rounding_mode = BigDecimal::ROUND_UP
-          expect(Money.new(1.1).fractional).to eq 2
+          expect(Money.new(0.011).fractional).to eq 2
         end
       end
 
       context "with a block" do
         it "respects the rounding_mode" do
           expect(Money.rounding_mode(BigDecimal::ROUND_DOWN) do
-            Money.new(1.9).fractional
+            Money.new(0.019).fractional
           end).to eq 1
 
           expect(Money.rounding_mode(BigDecimal::ROUND_UP) do
-            Money.new(1.1).fractional
+            Money.new(0.011).fractional
           end).to eq 2
 
           expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_EVEN
@@ -266,11 +268,11 @@ describe Money do
 
         it "works for multiplication within a block" do
           Money.rounding_mode(BigDecimal::ROUND_DOWN) do
-            expect((Money.new(1_00) * "0.019".to_d).fractional).to eq 1
+            expect((Money.new(1) * '0.019'.to_d).fractional).to eq 1
           end
 
           Money.rounding_mode(BigDecimal::ROUND_UP) do
-            expect((Money.new(1_00) * "0.011".to_d).fractional).to eq 2
+            expect((Money.new(1) * '0.011'.to_d).fractional).to eq 2
           end
 
           expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_EVEN
@@ -280,108 +282,69 @@ describe Money do
 
     context "with infinite_precision", :infinite_precision do
       it "returns the amount in fractional unit" do
-        expect(Money.new(1_00).fractional).to eq BigDecimal("100")
+        expect(Money.new(1).fractional).to eq 100.to_d
       end
 
       it "stores in fractional unit as an integer regardless of what is passed into the constructor" do
-        m = Money.new(100)
-        expect(m.fractional).to eq BigDecimal("100")
+        m = Money.new(1)
+        expect(m.fractional).to eq 100.to_d
         expect(m.fractional).to be_a(BigDecimal)
       end
     end
   end
 
-  describe "#round_to_nearest_cash_value" do
-    it "rounds to the nearest possible cash value" do
-      money = Money.new(2350, "AED")
-      expect(money.round_to_nearest_cash_value).to eq 2350
+  describe '#round_to_nearest_cash_value' do
+    subject { ->(x) { x.round_to_nearest_cash_value } }
 
-      money = Money.new(-2350, "AED")
-      expect(money.round_to_nearest_cash_value).to eq(-2350)
-
-      money = Money.new(2213, "AED")
-      expect(money.round_to_nearest_cash_value).to eq 2225
-
-      money = Money.new(-2213, "AED")
-      expect(money.round_to_nearest_cash_value).to eq(-2225)
-
-      money = Money.new(2212, "AED")
-      expect(money.round_to_nearest_cash_value).to eq 2200
-
-      money = Money.new(-2212, "AED")
-      expect(money.round_to_nearest_cash_value).to eq(-2200)
-
-      money = Money.new(178, "CHF")
-      expect(money.round_to_nearest_cash_value).to eq 180
-
-      money = Money.new(-178, "CHF")
-      expect(money.round_to_nearest_cash_value).to eq(-180)
-
-      money = Money.new(177, "CHF")
-      expect(money.round_to_nearest_cash_value).to eq 175
-
-      money = Money.new(-177, "CHF")
-      expect(money.round_to_nearest_cash_value).to eq(-175)
-
-      money = Money.new(175, "CHF")
-      expect(money.round_to_nearest_cash_value).to eq 175
-
-      money = Money.new(-175, "CHF")
-      expect(money.round_to_nearest_cash_value).to eq(-175)
-
-      money = Money.new(299, "USD")
-      expect(money.round_to_nearest_cash_value).to eq 299
-
-      money = Money.new(-299, "USD")
-      expect(money.round_to_nearest_cash_value).to eq(-299)
-
-      money = Money.new(300, "USD")
-      expect(money.round_to_nearest_cash_value).to eq 300
-
-      money = Money.new(-300, "USD")
-      expect(money.round_to_nearest_cash_value).to eq(-300)
-
-      money = Money.new(301, "USD")
-      expect(money.round_to_nearest_cash_value).to eq 301
-
-      money = Money.new(-301, "USD")
-      expect(money.round_to_nearest_cash_value).to eq(-301)
+    it 'rounds to the nearest possible cash value' do
+      expect(subject.call Money.new(  23.50, 'AED')).to eq( 23.50)
+      expect(subject.call Money.new( -23.50, 'AED')).to eq(-23.50)
+      expect(subject.call Money.new(  22.13, 'AED')).to eq( 22.25)
+      expect(subject.call Money.new( -22.13, 'AED')).to eq(-22.25)
+      expect(subject.call Money.new(  22.12, 'AED')).to eq( 22.00)
+      expect(subject.call Money.new( -22.12, 'AED')).to eq(-22.00)
+      expect(subject.call Money.new(   1.78, 'CHF')).to eq( 1.80)
+      expect(subject.call Money.new(  -1.78, 'CHF')).to eq(-1.80)
+      expect(subject.call Money.new(   1.77, 'CHF')).to eq( 1.75)
+      expect(subject.call Money.new(  -1.77, 'CHF')).to eq(-1.75)
+      expect(subject.call Money.new(   1.75, 'CHF')).to eq( 1.75)
+      expect(subject.call Money.new(  -1.75, 'CHF')).to eq(-1.75)
+      expect(subject.call Money.new(   2.99, 'USD')).to eq( 2.99)
+      expect(subject.call Money.new(  -2.99, 'USD')).to eq(-2.99)
+      expect(subject.call Money.new(   3.00, 'USD')).to eq( 3.00)
+      expect(subject.call Money.new(  -3.00, 'USD')).to eq(-3.00)
+      expect(subject.call Money.new(   3.01, 'USD')).to eq( 3.01)
+      expect(subject.call Money.new(  -3.01, 'USD')).to eq(-3.01)
     end
 
-    it "raises an exception if smallest denomination is not defined" do
-      money = Money.new(100, "XAG")
-      expect {money.round_to_nearest_cash_value}.to raise_error(Money::UndefinedSmallestDenomination)
+    it 'raises an exception if smallest denomination is not defined' do
+      expect { subject.call Money.new(100, 'XAG') }.
+        to raise_error(Money::UndefinedSmallestDenomination)
     end
 
-    it "returns a Fixnum when infinite_precision is not set" do
-      money = Money.new(100, "USD")
-      expect(money.round_to_nearest_cash_value).to be_a Fixnum
-    end
-
-    it "returns a BigDecimal when infinite_precision is set", :infinite_precision do
-      money = Money.new(100, "EUR")
-      expect(money.round_to_nearest_cash_value).to be_a BigDecimal
+    it 'returns a BigDecimal' do
+      expect(subject.call Money.new(100, 'USD')).to be_a BigDecimal
     end
   end
 
-  describe "#amount" do
-    it "returns the amount of cents as dollars" do
-      expect(Money.new(1_00).amount).to eq 1
+  describe '#amount' do
+    it 'returns the amount of cents as dollars' do
+      expect(Money.new(1).amount).to eq 1
     end
 
-    it "respects :subunit_to_unit currency property" do
-      expect(Money.new(1_00,  "USD").amount).to eq 1
-      expect(Money.new(1_000, "TND").amount).to eq 1
-      expect(Money.new(1,     "VUV").amount).to eq 1
-      expect(Money.new(1,     "CLP").amount).to eq 1
+    it 'respects :subunit_to_unit currency property' do
+      expect(Money.new(1, 'USD').amount).to eq 1
+      expect(Money.new(1, 'TND').amount).to eq 1
+      expect(Money.new(1, 'VUV').amount).to eq 1
+      expect(Money.new(1, 'CLP').amount).to eq 1
     end
 
-    it "does not lose precision" do
-      expect(Money.new(100_37).amount).to eq 100.37
+    it 'does not lose precision' do
+      expect(Money.new(100.37).amount).to eq 100.37
     end
 
     it 'produces a BigDecimal' do
-      expect(Money.new(1_00).amount).to be_a BigDecimal
+      expect(Money.new(1).amount).to be_a BigDecimal
     end
   end
 
@@ -420,86 +383,69 @@ describe Money do
 
   describe "#to_d" do
     it "works as documented" do
-      decimal = Money.new(10_00).to_d
+      decimal = Money.new(10).to_d
       expect(decimal).to be_a(BigDecimal)
       expect(decimal).to eq 10.0
     end
 
     it "respects :subunit_to_unit currency property" do
-      decimal = Money.new(10_00, "BHD").to_d
+      decimal = Money.new(1, "BHD").to_d
       expect(decimal).to be_a(BigDecimal)
       expect(decimal).to eq 1.0
-    end
-
-    it "works with float :subunit_to_unit currency property" do
-      money = Money.new(10_00, "BHD")
-      allow(money.currency).to receive(:subunit_to_unit).and_return(1000.0)
-
-      decimal = money.to_d
-      expect(decimal).to be_a(BigDecimal)
-      expect(decimal).to eq 1.0
-    end
-  end
-
-  describe "#to_f" do
-    it "works as documented" do
-      expect(Money.new(10_00).to_f).to eq 10.0
-    end
-
-    it "respects :subunit_to_unit currency property" do
-      expect(Money.new(10_00, "BHD").to_f).to eq 1.0
     end
   end
 
   describe "#to_i" do
     it "works as documented" do
-      expect(Money.new(10_00).to_i).to eq 10
+      expect(Money.usd(10).to_i).to eq 10
     end
 
     it "respects :subunit_to_unit currency property" do
-      expect(Money.new(10_00, "BHD").to_i).to eq 1
+      expect(Money.new(1, 'BHD').to_i).to eq 1
     end
   end
 
-  describe "#to_money" do
-    it "works as documented" do
-      money = Money.new(10_00, "DKK")
+  describe '#to_money' do
+    it 'works as documented' do
+      money = Money.new(10_00, 'DKK')
       expect(money).to eq money.to_money
-      expect(money).to eq money.to_money("DKK")
-      expect(money.bank).to receive(:exchange_with).with(Money.new(10_00, Money::Currency.new("DKK")), Money::Currency.new("EUR")).and_return(Money.new(200_00, Money::Currency.new('EUR')))
-      expect(money.to_money("EUR")).to eq Money.new(200_00, "EUR")
+      expect(money).to eq money.to_money('DKK')
+      expect(money.bank).to receive(:exchange_with).
+        with(money, Money::Currency.new('EUR')) { Money.new(200_00, 'EUR') }
+      expect(money.to_money('EUR')).to eq Money.new(200_00, 'EUR')
     end
   end
 
-  describe "#exchange_to" do
-    it "exchanges the amount via its exchange bank" do
-      money = Money.new(100_00, "USD")
-      expect(money.bank).to receive(:exchange_with).with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR")).and_return(Money.new(200_00, Money::Currency.new('EUR')))
-      money.exchange_to("EUR")
+  describe '#exchange_to' do
+    it 'exchanges the amount via its exchange bank' do
+      money = Money.new(100_00, 'USD')
+      expect(money.bank).to receive(:exchange_with).
+        with(money, Money::Currency.new('EUR')) { Money.new(200_00, 'EUR') }
+      money.exchange_to('EUR')
     end
 
-    it "exchanges the amount properly" do
-      money = Money.new(100_00, "USD")
-      expect(money.bank).to receive(:exchange_with).with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR")).and_return(Money.new(200_00, Money::Currency.new('EUR')))
-      expect(money.exchange_to("EUR")).to eq Money.new(200_00, "EUR")
+    it 'exchanges the amount properly' do
+      money = Money.new(100_00, 'USD')
+      expect(money.bank).to receive(:exchange_with).
+        with(money, Money::Currency.new('EUR')) { Money.new(200_00, 'EUR') }
+      expect(money.exchange_to('EUR')).to eq Money.new(200_00, 'EUR')
     end
 
     it 'uses the block given as rounding method' do
       money = Money.new(100_00, 'USD')
       expect(money.bank).to receive(:exchange_with).and_yield(300_00)
-      expect { |block| money.exchange_to(Money::Currency.new('EUR'), &block) }.to yield_successive_args(300_00)
+      expect { |block| money.exchange_to('EUR', &block) }.to yield_successive_args(300_00)
     end
 
-    it "does no exchange when the currencies are the same" do
-      money = Money.new(100_00, "USD")
+    it 'does no exchange when the currencies are the same' do
+      money = Money.new(100_00, 'USD')
       expect(money.bank).to_not receive(:exchange_with)
-      expect(money.exchange_to("USD")).to eq money
+      expect(money.exchange_to('USD')).to eq money
     end
   end
 
   describe "#round" do
-
-    let(:money) { Money.new(15.75, 'NZD') }
+    let(:money) { Money.new(0.1575, 'NZD') }
     subject(:rounded) { money.round }
 
     context "without infinite_precision" do

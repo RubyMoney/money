@@ -11,7 +11,6 @@ require 'pry'
 Dir[Pathname(spec_path).join('support/**/*.rb')].each { |f| require f }
 
 require 'money'
-Money::V6Compatibility.fractional
 
 I18n.enforce_available_locales = false
 

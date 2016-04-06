@@ -233,10 +233,10 @@ describe Money do
   describe "#/" do
     it "divides Money by Fixnum and returns Money" do
       [
-        [Money.new( 13, :USD),  4, Money.new( 3, :USD)],
-        [Money.new( 13, :USD), -4, Money.new(-3, :USD)],
-        [Money.new(-13, :USD),  4, Money.new(-3, :USD)],
-        [Money.new(-13, :USD), -4, Money.new( 3, :USD)],
+        [Money.usd( 0.13),  4, Money.usd( 0.03)],
+        [Money.usd( 0.13), -4, Money.usd(-0.03)],
+        [Money.usd(-0.13),  4, Money.usd(-0.03)],
+        [Money.usd(-0.13), -4, Money.usd( 0.03)],
       ].each do |(a, b, result)|
         expect(a / b).to eq result
       end
@@ -251,28 +251,28 @@ describe Money do
       context 'ceiling rounding' do
         with_rounding_mode BigDecimal::ROUND_CEILING
         it "obeys the rounding preference" do
-          expect(Money.new(10) / 3).to eq Money.new(4)
+          expect(Money.usd(0.1) / 3).to eq Money.usd(0.04)
         end
       end
 
       context 'floor rounding' do
         with_rounding_mode BigDecimal::ROUND_FLOOR
         it "obeys the rounding preference" do
-          expect(Money.new(10) / 6).to eq Money.new(1)
+          expect(Money.usd(0.1) / 6).to eq Money.usd(0.01)
         end
       end
 
       context 'half up rounding' do
         with_rounding_mode BigDecimal::ROUND_HALF_UP
         it "obeys the rounding preference" do
-          expect(Money.new(10) / 4).to eq Money.new(3)
+          expect(Money.usd(0.1) / 4).to eq Money.usd(0.03)
         end
       end
 
       context 'half down rounding' do
         with_rounding_mode BigDecimal::ROUND_HALF_DOWN
         it "obeys the rounding preference" do
-          expect(Money.new(10) / 4).to eq Money.new(2)
+          expect(Money.usd(0.1) / 4).to eq Money.usd(0.02)
         end
       end
     end
@@ -296,7 +296,7 @@ describe Money do
         [Money.new(-13, :USD), Money.new(-4, :EUR),  1.625],
       ].each do |(a, b, result)|
         expect(b).to receive(:exchange_to).
-          with(a.currency) { Money.new(b.fractional * 2, a.currency) }
+          with(a.currency) { Money.new(b.to_d * 2, a.currency) }
         expect(a / b).to eq result
       end
     end
@@ -318,10 +318,10 @@ describe Money do
   describe "#div" do
     it "divides Money by Fixnum and returns Money" do
       [
-        [Money.new( 13, :USD),  4, Money.new( 3, :USD)],
-        [Money.new( 13, :USD), -4, Money.new(-3, :USD)],
-        [Money.new(-13, :USD),  4, Money.new(-3, :USD)],
-        [Money.new(-13, :USD), -4, Money.new( 3, :USD)],
+        [Money.usd( 0.13),  4, Money.usd( 0.03)],
+        [Money.usd( 0.13), -4, Money.usd(-0.03)],
+        [Money.usd(-0.13),  4, Money.usd(-0.03)],
+        [Money.usd(-0.13), -4, Money.usd( 0.03)],
       ].each do |(a, b, result)|
         expect(a.div(b)).to eq result
       end
@@ -346,7 +346,7 @@ describe Money do
         [Money.new(-13, :USD), Money.new(-4, :EUR),  1.625],
       ].each do |(a, b, result)|
         expect(b).to receive(:exchange_to).
-          with(a.currency) { Money.new(b.fractional * 2, :USD) }
+          with(a.currency) { Money.new(b.to_d * 2, :USD) }
         expect(a.div(b)).to eq result
       end
     end
@@ -368,10 +368,10 @@ describe Money do
   describe "#divmod" do
     it "calculates division and modulo with Fixnum" do
       [
-        [Money.new( 13, :USD),  4, [Money.new( 3, :USD), Money.new( 1, :USD)]],
-        [Money.new( 13, :USD), -4, [Money.new(-4, :USD), Money.new(-3, :USD)]],
-        [Money.new(-13, :USD),  4, [Money.new(-4, :USD), Money.new( 3, :USD)]],
-        [Money.new(-13, :USD), -4, [Money.new( 3, :USD), Money.new(-1, :USD)]],
+        [Money.new( 0.13, :USD),  4, [Money.new( 0.03, :USD), Money.new( 0.01, :USD)]],
+        [Money.new( 0.13, :USD), -4, [Money.new(-0.04, :USD), Money.new(-0.03, :USD)]],
+        [Money.new(-0.13, :USD),  4, [Money.new(-0.04, :USD), Money.new( 0.03, :USD)]],
+        [Money.new(-0.13, :USD), -4, [Money.new( 0.03, :USD), Money.new(-0.01, :USD)]],
       ].each do |(a, b, result)|
         expect(a.divmod(b)).to eq result
       end
@@ -396,7 +396,7 @@ describe Money do
         [Money.new(-13, :USD), Money.new(-4, :EUR), [ 1, Money.new(-5, :USD)]],
       ].each do |(a, b, result)|
         expect(b).to receive(:exchange_to).
-          with(a.currency) { Money.new(b.fractional * 2, a.currency) }
+          with(a.currency) { Money.new(b.to_d * 2, a.currency) }
         expect(a.divmod(b)).to eq result
       end
     end
@@ -404,10 +404,10 @@ describe Money do
     context "with infinite_precision", :infinite_precision do
       it "uses BigDecimal division" do
         [
-            [Money.new( 13, :USD),  4, [Money.new( 3, :USD), Money.new( 1, :USD)]],
-            [Money.new( 13, :USD), -4, [Money.new(-4, :USD), Money.new(-3, :USD)]],
-            [Money.new(-13, :USD),  4, [Money.new(-4, :USD), Money.new( 3, :USD)]],
-            [Money.new(-13, :USD), -4, [Money.new( 3, :USD), Money.new(-1, :USD)]],
+            [Money.new( 0.13, :USD),  4, [Money.new( 0.03, :USD), Money.new( 0.01, :USD)]],
+            [Money.new( 0.13, :USD), -4, [Money.new(-0.04, :USD), Money.new(-0.03, :USD)]],
+            [Money.new(-0.13, :USD),  4, [Money.new(-0.04, :USD), Money.new( 0.03, :USD)]],
+            [Money.new(-0.13, :USD), -4, [Money.new( 0.03, :USD), Money.new(-0.01, :USD)]],
         ].each do |(a, b, result)|
           expect(a.divmod(b)).to eq result
         end
@@ -456,7 +456,7 @@ describe Money do
         [Money.new(-13, :USD), Money.new(-4, :EUR), Money.new(-5, :USD)],
       ].each do |(a, b, result)|
         expect(b).to receive(:exchange_to).
-          with(a.currency) { Money.new(b.fractional * 2, a.currency) }
+          with(a.currency) { Money.new(b.to_d * 2, a.currency) }
         expect(a.modulo(b)).to eq result
       end
     end
@@ -493,7 +493,7 @@ describe Money do
         [Money.new(-13, :USD), Money.new(-4, :EUR), Money.new(-5, :USD)],
       ].each do |(a, b, result)|
         expect(b).to receive(:exchange_to).
-          with(a.currency) { Money.new(b.fractional * 2, a.currency) }
+          with(a.currency) { Money.new(b.to_d * 2, a.currency) }
         expect(a % b).to eq result
       end
     end

@@ -106,32 +106,25 @@ class Money
         if from.currency == to_currency
           from
         else
-          if rate = get_rate(from.currency, to_currency)
-            fractional = calculate_fractional(from, to_currency)
-            from.class.new(
-              exchange(fractional, rate, &block), to_currency
-            )
-          else
-            raise UnknownRate, "No conversion rate known for '#{from.currency.code}' -> '#{to_currency}'"
+          rate = get_rate(from.currency, to_currency)
+          unless rate
+            raise UnknownRate, "No conversion rate known for " \
+              "'#{from.currency.code}' -> '#{to_currency}'"
           end
+          new_fractional = exchange(from.fractional, rate, &block).to_d
+          from.send(:build_new, new_fractional / to_currency.subunit_to_unit, to_currency)
         end
       end
 
-      def calculate_fractional(from, to_currency)
-        BigDecimal.new(from.fractional.to_s) / (
-          BigDecimal.new(from.currency.subunit_to_unit.to_s) /
-          BigDecimal.new(to_currency.subunit_to_unit.to_s)
-        )
-      end
-
-      def exchange(fractional, rate, &block)
-        ex = (fractional * BigDecimal.new(rate.to_s)).to_f
+      def exchange(value, rate, &block)
+        rate = BigDecimal.new(rate.to_s) unless rate.is_a?(BigDecimal)
+        ex = rate * value
         if block_given?
           yield ex
-        elsif @rounding_method
-          @rounding_method.call(ex)
+        elsif rounding_method
+          rounding_method.call(ex)
         else
-          ex.to_s.to_d
+          ex
         end
       end
 
