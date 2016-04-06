@@ -222,12 +222,8 @@ class Money
     private :divmod_money
 
     def divmod_other(val)
-      if self.class.infinite_precision
-        quotient, remainder = fractional.divmod(as_d(val))
-        [self.class.new(quotient, currency), self.class.new(remainder, currency)]
-      else
-        [div(val), self.class.new(fractional.modulo(val), currency)]
-      end
+      quotient, remainder = fractional.divmod(as_d(val))
+      [self.class.new(quotient, currency), self.class.new(remainder, currency)]
     end
     private :divmod_other
 
