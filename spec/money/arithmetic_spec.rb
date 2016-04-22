@@ -390,8 +390,8 @@ describe Money do
     it "calculates division and modulo with Fixnum" do
       ts = [
           {:a => Money.new( 13, :USD), :b =>  4, :c => [Money.new( 3, :USD), Money.new( 1, :USD)]},
-          {:a => Money.new( 13, :USD), :b => -4, :c => [Money.new(-3, :USD), Money.new(-3, :USD)]},
-          {:a => Money.new(-13, :USD), :b =>  4, :c => [Money.new(-3, :USD), Money.new( 3, :USD)]},
+          {:a => Money.new( 13, :USD), :b => -4, :c => [Money.new(-4, :USD), Money.new(-3, :USD)]},
+          {:a => Money.new(-13, :USD), :b =>  4, :c => [Money.new(-4, :USD), Money.new( 3, :USD)]},
           {:a => Money.new(-13, :USD), :b => -4, :c => [Money.new( 3, :USD), Money.new(-1, :USD)]},
       ]
       ts.each do |t|
