@@ -351,6 +351,22 @@
     "iso_numeric": "072",
     "smallest_denomination": 5
   },
+  "byn": {
+    "priority": 100,
+    "iso_code": "BYN",
+    "name": "Belarusian Ruble",
+    "symbol": "Br",
+    "disambiguate_symbol": "BYN",
+    "alternate_symbols": ["бел. руб.", "б.р.", "руб.", "р."],
+    "subunit": "Kapeyka",
+    "subunit_to_unit": 100,
+    "symbol_first": false,
+    "html_entity": "",
+    "decimal_mark": ",",
+    "thousands_separator": " ",
+    "iso_numeric": "933",
+    "smallest_denomination": 1
+  },
   "byr": {
     "priority": 100,
     "iso_code": "BYR",
