@@ -12,13 +12,41 @@ class Money
   # @see http://iso4217.net/
   class Currency
     include Comparable
+    extend Enumerable
     extend Money::Currency::Loader
     extend Money::Currency::Heuristics
+
+    # Keeping cached instances in sync between threads
+    @@mutex = Mutex.new
+    @@instances = {}
+
+    # Thrown when a Currency has been registered without all the attributes
+    # which are required for the current action.
+    class MissingAttributeError < StandardError
+      def initialize(method, currency, attribute)
+        super(
+          "Can't call Currency.#{method} - currency '#{currency}' is missing "\
+          "the attribute '#{attribute}'"
+        )
+      end
+    end
 
     # Thrown when an unknown currency is requested.
     class UnknownCurrency < ArgumentError; end
 
     class << self
+      def new(id)
+        id = id.to_s.downcase
+        unless stringified_keys.include?(id)
+          raise UnknownCurrency, "Unknown currency '#{id}'"
+        end
+
+        _instances[id] || @@mutex.synchronize { _instances[id] ||= super }
+      end
+
+      def _instances
+        @@instances
+      end
 
       # Lookup a currency with given +id+ an returns a +Currency+ instance on
       # success, +nil+ otherwise.
@@ -102,12 +130,21 @@ class Money
       #   Money::Currency.iso_codes()
       #   [#<Currency ..USD>, 'CAD', 'EUR']...
       def all
-        table.keys.map {|curr| Currency.new(curr)}.sort_by(&:priority)
+        table.keys.map do |curr|
+          c = Currency.new(curr)
+          if c.priority.nil?
+            raise MissingAttributeError.new(:all, c.id, :priority)
+          end
+          c
+        end.sort_by(&:priority)
       end
 
-      # We need a string-based validator before creating an unbounded number of symbols.
+      # We need a string-based validator before creating an unbounded number of
+      # symbols.
       # http://www.randomhacks.net/articles/2007/01/20/13-ways-of-looking-at-a-ruby-symbol#11
       # https://github.com/RubyMoney/money/issues/132
+      #
+      # @return [Set]
       def stringified_keys
         @stringified_keys ||= stringify_keys
       end
@@ -131,15 +168,35 @@ class Money
       # @option delimiter [String] character between each thousands place
       def register(curr)
         key = curr.fetch(:iso_code).downcase.to_sym
+        @@mutex.synchronize { _instances.delete(key.to_s) }
         @table[key] = curr
         @stringified_keys = stringify_keys
       end
 
+
+      # Unregister a currency.
+      #
+      # @param [Object] curr A Hash with the key `:iso_code`, or the ISO code
+      #   as a String or Symbol.
+      #
+      # @return [Boolean] true if the currency previously existed, false
+      #   if it didn't.
       def unregister(curr)
-        key = curr.fetch(:iso_code).downcase.to_sym
-        @table.delete(key)
-        @stringified_keys = stringify_keys
+        if curr.is_a?(Hash)
+          key = curr.fetch(:iso_code).downcase.to_sym
+        else
+          key = curr.downcase.to_sym
+        end
+        existed = @table.delete(key)
+        @stringified_keys = stringify_keys if existed
+        existed ? true : false
       end
+
+
+      def each
+        all.each { |c| yield(c) }
+      end
+
 
       private
 
@@ -148,29 +205,42 @@ class Money
       end
     end
 
-    # @attr_reader [Symbol] id The symbol used to identify the currency,
-    # usually the lowercase +iso_code+ attribute.
-    # @attr_reader [Integer] priority A numerical value you can use to
-    # sort/group the currency list.
-    # @attr_reader [String] iso_code The international 3-letter code as defined
-    # by the ISO 4217 standard.
-    # @attr_reader [String] iso_numeric The international 3-numeric code as
-    # defined by the ISO 4217 standard.
-    # @attr_reader [String] name The currency name.
-    # @attr_reader [String] symbol The currency symbol (UTF-8 encoded).
-    # @attr_reader [String] disambiguate_symbol Alternative currency used if symbol is ambiguous
-    # @attr_reader [String] html_entity The html entity for the currency symbol
-    # @attr_reader [String] subunit The name of the fractional monetary unit.
-    # @attr_reader [Integer] subunit_to_unit The proportion between the unit
-    # and the subunit
-    # @attr_reader [String] decimal_mark The decimal mark, or character used to
-    # separate the whole unit from the subunit.
-    # @attr_reader [String] The character used to separate thousands grouping
-    # of the whole unit.
-    # @attr_reader [Boolean] symbol_first Should the currency symbol precede
-    # the amount, or should it come after?
-    # @attr_reader [Integer] smallest_denomination Smallest amount of cash 
-    # possible (in the subunit of this currency)
+    # @!attribute [r] id
+    #   @return [Symbol] The symbol used to identify the currency, usually THE
+    #     lowercase +iso_code+ attribute.
+    # @!attribute [r] priority
+    #   @return [Integer] A numerical value you can use to sort/group the
+    #     currency list.
+    # @!attribute [r] iso_code
+    #   @return [String] The international 3-letter code as defined by the ISO
+    #     4217 standard.
+    # @!attribute [r] iso_numeric
+    #   @return [String] The international 3-numeric code as defined by the ISO
+    #     4217 standard.
+    # @!attribute [r] name
+    #   @return [String] The currency name.
+    # @!attribute [r] symbol
+    #   @return [String] The currency symbol (UTF-8 encoded).
+    # @!attribute [r] disambiguate_symbol
+    #   @return [String] Alternative currency used if symbol is ambiguous
+    # @!attribute [r] html_entity
+    #   @return [String] The html entity for the currency symbol
+    # @!attribute [r] subunit
+    #   @return [String] The name of the fractional monetary unit.
+    # @!attribute [r] subunit_to_unit
+    #   @return [Integer] The proportion between the unit and the subunit
+    # @!attribute [r] decimal_mark
+    #   @return [String] The decimal mark, or character used to separate the
+    #     whole unit from the subunit.
+    # @!attribute [r] thousands_separator
+    #   @return [String] The character used to separate thousands grouping of
+    #     the whole unit.
+    # @!attribute [r] symbol_first
+    #   @return [Boolean] Should the currency symbol precede the amount, or
+    #     should it come after?
+    # @!attribute [r] smallest_denomination
+    #   @return [Integer] Smallest amount of cash possible (in the subunit of
+    #     this currency)
 
     attr_reader :id, :priority, :iso_code, :iso_numeric, :name, :symbol,
       :disambiguate_symbol, :html_entity, :subunit, :subunit_to_unit, :decimal_mark,
@@ -178,6 +248,7 @@ class Money
 
     alias_method :separator, :decimal_mark
     alias_method :delimiter, :thousands_separator
+    alias_method :eql?, :==
 
     # Create a new +Currency+ object.
     #
@@ -189,10 +260,6 @@ class Money
     # @example
     #   Money::Currency.new(:usd) #=> #<Money::Currency id: usd ...>
     def initialize(id)
-      id = id.to_s.downcase
-      unless self.class.stringified_keys.include?(id)
-        raise UnknownCurrency, "Unknown currency '#{id}'"
-      end
       @id = id.to_sym
       initialize_data!
     end
@@ -211,7 +278,14 @@ class Money
     #   c2 <=> c1 #=> -1
     #   c1 <=> c1 #=> 0
     def <=>(other_currency)
-      self.priority <=> other_currency.priority
+      # <=> returns nil when one of the values is nil
+      comparison = self.priority <=> other_currency.priority || 0
+
+      if comparison == 0
+        self.id <=> other_currency.id
+      else
+        comparison
+      end
     end
 
     # Compares +self+ with +other_currency+ and returns +true+ if the are the
@@ -239,22 +313,6 @@ class Money
       self.id.to_s.downcase == other_currency_id
     end
     private :compare_ids
-
-    # Compares +self+ with +other_currency+ and returns +true+ if the are the
-    # same or if their +id+ attributes match.
-    #
-    # @param [Money::Currency] other_currency The currency to compare to.
-    #
-    # @return [Boolean]
-    #
-    # @example
-    #   c1 = Money::Currency.new(:usd)
-    #   c2 = Money::Currency.new(:jpy)
-    #   c1.eql? c1 #=> true
-    #   c1.eql? c2 #=> false
-    def eql?(other_currency)
-      self == other_currency
-    end
 
     # Returns a Fixnum hash value based on the +id+ attribute in order to use
     # functions like & (intersection), group_by, etc.
@@ -316,7 +374,7 @@ class Money
       id.to_s.upcase.to_sym
     end
 
-    # Conversation to +self+.
+    # Conversion to +self+.
     #
     # @return [self]
     def to_currency
@@ -334,14 +392,17 @@ class Money
       !!@symbol_first
     end
 
-    # Returns the number of digits after the decimal separator.
+    # Returns the relation between subunit and unit as a base 10 exponent.
     #
-    # @return [Float]
+    # Note that MGA and MRO are exceptions and are rounded to 1
+    # @see https://en.wikipedia.org/wiki/ISO_4217#Active_codes
+    #
+    # @return [Fixnum]
     def exponent
-      Math.log10(@subunit_to_unit)
+      Math.log10(@subunit_to_unit).round
     end
 
-    # Cache decimal places for subunit_to_unit values.  Common ones pre-cached.
+    # Cache decimal places for subunit_to_unit values. Common ones pre-cached.
     def self.decimal_places_cache
       @decimal_places_cache ||= {1 => 0, 10 => 1, 100 => 2, 1000 => 3}
     end

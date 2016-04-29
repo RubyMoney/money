@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require "spec_helper"
-
 describe Money, "formatting" do
 
   BAR = '{ "priority": 1, "iso_code": "BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
@@ -93,6 +91,33 @@ describe Money, "formatting" do
 
       it "should use ',' as the decimal mark" do
         expect(money.decimal_mark).to eq ','
+      end
+    end
+
+    context "with number.currency.symbol.*" do
+      before :each do
+        reset_i18n
+        I18n.locale = :de
+        I18n.backend.store_translations(
+            :de,
+            :number => { :currency => { :symbol => { :CAD => "CAD$" } } }
+        )
+      end
+
+      subject(:money) { Money.empty("CAD") }
+
+      it "should use 'CAD$' as the currency symbol" do
+        expect(money.format(:translate => true)).to eq("CAD$0.00")
+      end
+    end
+
+    context "with overridden i18n settings" do
+      it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
+        expect(Money.new(300_000, 'ISK').format(:thousands_separator => ".", decimal_mark: ',')).to eq "kr300.000"
+      end
+
+      it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
+        expect(Money.new(300_000, 'USD').format(:thousands_separator => ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
       end
     end
   end
@@ -403,6 +428,20 @@ describe Money, "formatting" do
       it "defaults to ',' if currency isn't recognized" do
         expect(Money.new(100000, "ZWD").format).to eq "$1,000.00"
       end
+
+      context "without i18n" do
+        before { Money.use_i18n = false }
+
+        it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
+          expect(Money.new(300_000, 'ISK').format(:thousands_separator => ",", decimal_mark: '.')).to eq "kr300,000"
+        end
+
+        it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
+          expect(Money.new(300_000, 'USD').format(:thousands_separator => ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
+        end
+
+        after { Money.use_i18n = true}
+      end
     end
 
     describe ":thousands_separator and :decimal_mark option" do
@@ -420,7 +459,7 @@ describe Money, "formatting" do
 
       specify "should fallback to symbol if entity is not available" do
         string = Money.new(570, 'DKK').format(:html => true)
-        expect(string).to eq "5,70 kr"
+        expect(string).to eq "5,70 kr."
       end
     end
 
@@ -512,15 +551,7 @@ describe Money, "formatting" do
       end
     end
 
-    describe ":rounded_infinite_precision option" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
+    describe ":rounded_infinite_precision option", :infinite_precision do
       it "does round fractional when set to true" do
         expect(Money.new(BigDecimal.new('12.1'), "USD").format(:rounded_infinite_precision => true)).to eq "$0.12"
         expect(Money.new(BigDecimal.new('12.5'), "USD").format(:rounded_infinite_precision => true)).to eq "$0.13"
@@ -541,15 +572,13 @@ describe Money, "formatting" do
         expect(Money.new(BigDecimal.new('1'), "MGA").format(:rounded_infinite_precision => false)).to eq "Ar0.1"
       end
 
-      describe ":rounded_infinite_precision option with i18n = false" do
+      describe "with i18n = false" do
         before do
           Money.use_i18n = false
-          Money.infinite_precision = true
         end
 
         after do
           Money.use_i18n = true
-          Money.infinite_precision = false
         end
 
         it 'does round fractional when set to true' do
@@ -560,6 +589,33 @@ describe Money, "formatting" do
 
           expect(Money.new(BigDecimal.new('100012.1'), "EUR").format(:rounded_infinite_precision => true)).to eq "€1.000,12"
           expect(Money.new(BigDecimal.new('100012.5'), "EUR").format(:rounded_infinite_precision => true)).to eq "€1.000,13"
+        end
+      end
+
+      describe "with i18n = true" do
+        before do
+          Money.use_i18n = true
+          reset_i18n
+          I18n.locale = :de
+          I18n.backend.store_translations(
+              :de,
+              :number => { :currency => { :format => { :delimiter => ".", :separator => "," } } }
+          )
+        end
+
+        after do
+          reset_i18n
+          I18n.locale = :en
+        end
+
+        it 'does round fractional when set to true' do
+          expect(Money.new(BigDecimal.new('12.1'), "USD").format(:rounded_infinite_precision => true)).to eq "$0,12"
+          expect(Money.new(BigDecimal.new('12.5'), "USD").format(:rounded_infinite_precision => true)).to eq "$0,13"
+          expect(Money.new(BigDecimal.new('123.1'), "BHD").format(:rounded_infinite_precision => true)).to eq "ب.د0,123"
+          expect(Money.new(BigDecimal.new('123.5'), "BHD").format(:rounded_infinite_precision => true)).to eq "ب.د0,124"
+          expect(Money.new(BigDecimal.new('100.1'), "USD").format(:rounded_infinite_precision => true)).to eq "$1,00"
+          expect(Money.new(BigDecimal.new('109.5'), "USD").format(:rounded_infinite_precision => true)).to eq "$1,10"
+          expect(Money.new(BigDecimal.new('1'), "MGA").format(:rounded_infinite_precision => true)).to eq "Ar0,2"
         end
       end
     end
@@ -630,7 +686,7 @@ describe Money, "formatting" do
     it "returns ambiguous signs when disambiguate is not set" do
       expect(Money.new(1999_98, "USD").format).to eq("$1,999.98")
       expect(Money.new(1999_98, "CAD").format).to eq("$1,999.98")
-      expect(Money.new(1999_98, "DKK").format).to eq("1.999,98 kr")
+      expect(Money.new(1999_98, "DKK").format).to eq("1.999,98 kr.")
       expect(Money.new(1999_98, "NOK").format).to eq("1.999,98 kr")
       expect(Money.new(1999_98, "SEK").format).to eq("1 999,98 kr")
     end
@@ -638,7 +694,7 @@ describe Money, "formatting" do
     it "returns ambiguous signs when disambiguate is false" do
       expect(Money.new(1999_98, "USD").format(disambiguate: false)).to eq("$1,999.98")
       expect(Money.new(1999_98, "CAD").format(disambiguate: false)).to eq("$1,999.98")
-      expect(Money.new(1999_98, "DKK").format(disambiguate: false)).to eq("1.999,98 kr")
+      expect(Money.new(1999_98, "DKK").format(disambiguate: false)).to eq("1.999,98 kr.")
       expect(Money.new(1999_98, "NOK").format(disambiguate: false)).to eq("1.999,98 kr")
       expect(Money.new(1999_98, "SEK").format(disambiguate: false)).to eq("1 999,98 kr")
     end
@@ -663,5 +719,20 @@ describe Money, "formatting" do
       end
     end
 
+    describe ":drop_trailing_zeros option" do
+      specify "(:drop_trailing_zeros => true) works as documented" do
+        expect(Money.new(89000, "BTC").format(:drop_trailing_zeros => true, :symbol => false)).to eq "0.00089"
+        expect(Money.new(100089000, "BTC").format(:drop_trailing_zeros => true, :symbol => false)).to eq "1.00089"
+        expect(Money.new(100000000, "BTC").format(:drop_trailing_zeros => true, :symbol => false)).to eq "1"
+        expect(Money.new(110, "AUD").format(:drop_trailing_zeros => true, :symbol => false)).to eq "1.1"
+      end
+
+      specify "(:drop_trailing_zeros => false) works as documented" do
+        expect(Money.new(89000, "BTC").format(:drop_trailing_zeros => false, :symbol => false)).to eq "0.00089000"
+        expect(Money.new(100089000, "BTC").format(:drop_trailing_zeros => false, :symbol => false)).to eq "1.00089000"
+        expect(Money.new(100000000, "BTC").format(:drop_trailing_zeros => false, :symbol => false)).to eq "1.00000000"
+        expect(Money.new(110, "AUD").format(:drop_trailing_zeros => false, :symbol => false)).to eq "1.10"
+      end
+    end
   end
 end

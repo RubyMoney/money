@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require "spec_helper"
-
 describe Money do
   describe "-@" do
     it "changes the sign of a number" do
@@ -9,39 +7,56 @@ describe Money do
       expect((- Money.new(1))).to  eq Money.new(-1)
       expect((- Money.new(-1))).to eq Money.new(1)
     end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(- special_money_class.new(10_00)).to be_a special_money_class
+    end
   end
 
   describe "#==" do
-    it "returns true if and only if their amount and currency are equal" do
+    it "returns true if both the amounts and currencies are equal" do
       expect(Money.new(1_00, "USD")).to     eq Money.new(1_00, "USD")
       expect(Money.new(1_00, "USD")).not_to eq Money.new(1_00, "EUR")
       expect(Money.new(1_00, "USD")).not_to eq Money.new(2_00, "USD")
       expect(Money.new(1_00, "USD")).not_to eq Money.new(99_00, "EUR")
     end
 
-    it "returns false if used to compare with an object that doesn't respond to #to_money" do
+    it "returns true if both amounts are zero, even if currency differs" do
+      expect(Money.new(0, "USD")).to eq Money.new(0, "USD")
+      expect(Money.new(0, "USD")).to eq Money.new(0, "EUR")
+      expect(Money.new(0, "USD")).to eq Money.new(0, "AUD")
+      expect(Money.new(0, "USD")).to eq Money.new(0, "JPY")
+    end
+
+    it "returns false if used to compare with an object that doesn't inherit from Money" do
       expect(Money.new(1_00, "USD")).not_to eq Object.new
       expect(Money.new(1_00, "USD")).not_to eq Class
       expect(Money.new(1_00, "USD")).not_to eq Kernel
-      expect(Money.new(1_00, "USD")).not_to eq /foo/
+      expect(Money.new(1_00, "USD")).not_to eq(/foo/)
       expect(Money.new(1_00, "USD")).not_to eq nil
     end
 
-    it "can be used to compare with an object that responds to #to_money" do
-      klass = Class.new do
-        def initialize(money)
-          @money = money
-        end
+    it "can be used to compare with an object that inherits from Money" do
+      klass = Class.new(Money)
 
-        def to_money
-          @money
-        end
-      end
+      expect(Money.new(1_00, "USD")).to     eq klass.new(1_00, "USD")
+      expect(Money.new(2_50, "USD")).to     eq klass.new(2_50, "USD")
+      expect(Money.new(2_50, "USD")).not_to eq klass.new(3_00, "USD")
+      expect(Money.new(1_00, "GBP")).not_to eq klass.new(1_00, "USD")
+    end
 
-      expect(Money.new(1_00, "USD")).to     eq klass.new(Money.new(1_00, "USD"))
-      expect(Money.new(2_50, "USD")).to     eq klass.new(Money.new(2_50, "USD"))
-      expect(Money.new(2_50, "USD")).not_to eq klass.new(Money.new(3_00, "USD"))
-      expect(Money.new(1_00, "GBP")).not_to eq klass.new(Money.new(1_00, "USD"))
+    it 'allows comparison with zero' do
+      expect(Money.new(0, :usd)).to eq 0
+      expect(Money.new(0, :usd)).to eq 0.0
+      expect(Money.new(0, :usd)).to eq BigDecimal.new(0)
+      expect(Money.new(1, :usd)).to_not eq 0
+    end
+
+    it 'raises error for non-zero numerics' do
+      expect { Money.new(1_00, :usd) == 1 }.to raise_error ArgumentError
+      expect { Money.new(1_00, :usd) == -2.0 }.to raise_error ArgumentError
+      expect { Money.new(1_00, :usd) == Float::INFINITY }.to raise_error ArgumentError
     end
   end
 
@@ -53,7 +68,7 @@ describe Money do
       expect(Money.new(1_00, "USD").eql?(Money.new(99_00, "EUR"))).to be false
     end
 
-    it "returns false if used to compare with an object that doesn't respond to #to_money" do
+    it "returns false if used to compare with an object that doesn't inherit from Money" do
       expect(Money.new(1_00, "USD").eql?(Object.new)).to  be false
       expect(Money.new(1_00, "USD").eql?(Class)).to       be false
       expect(Money.new(1_00, "USD").eql?(Kernel)).to      be false
@@ -61,21 +76,13 @@ describe Money do
       expect(Money.new(1_00, "USD").eql?(nil)).to         be false
     end
 
-    it "can be used to compare with an object that responds to #to_money" do
-      klass = Class.new do
-        def initialize(money)
-          @money = money
-        end
+    it "can be used to compare with an object that inherits from Money" do
+      klass = Class.new(Money)
 
-        def to_money
-          @money
-        end
-      end
-
-      expect(Money.new(1_00, "USD").eql?(klass.new(Money.new(1_00, "USD")))).to be true
-      expect(Money.new(2_50, "USD").eql?(klass.new(Money.new(2_50, "USD")))).to be true
-      expect(Money.new(2_50, "USD").eql?(klass.new(Money.new(3_00, "USD")))).to be false
-      expect(Money.new(1_00, "GBP").eql?(klass.new(Money.new(1_00, "USD")))).to be false
+      expect(Money.new(1_00, "USD").eql?(klass.new(1_00, "USD"))).to be true
+      expect(Money.new(2_50, "USD").eql?(klass.new(2_50, "USD"))).to be true
+      expect(Money.new(2_50, "USD").eql?(klass.new(3_00, "USD"))).to be false
+      expect(Money.new(1_00, "GBP").eql?(klass.new(1_00, "USD"))).to be false
     end
   end
 
@@ -100,28 +107,32 @@ describe Money do
       expect(Money.new(100_00, "USD") <=> target).to be > 0
     end
 
-    it "can be used to compare with an object that responds to #to_money" do
-      klass = Class.new do
-        def initialize(money)
-          @money = money
-        end
-
-        def to_money
-          @money
-        end
-      end
-
-      expect(Money.new(1_00) <=> klass.new(Money.new(1_00))).to eq 0
-      expect(Money.new(1_00) <=> klass.new(Money.new(99))).to be > 0
-      expect(Money.new(1_00) <=> klass.new(Money.new(2_00))).to be < 0
+    it "returns nil if currency conversion fails, and therefore cannot be compared" do
+      target = Money.new(200_00, "EUR")
+      expect(target).to receive(:exchange_to).with(Money::Currency.new("USD")).and_raise(Money::Bank::UnknownRate)
+      expect(Money.new(100_00, "USD") <=> target).to be_nil
     end
 
-    it "raises ArgumentError when used to compare with an object that doesn't respond to #to_money" do
-      expected_message = /Comparison .+ failed/
-      expect{ Money.new(1_00) <=> Object.new  }.to raise_error(ArgumentError, expected_message)
-      expect{ Money.new(1_00) <=> Class       }.to raise_error(ArgumentError, expected_message)
-      expect{ Money.new(1_00) <=> Kernel      }.to raise_error(ArgumentError, expected_message)
-      expect{ Money.new(1_00) <=> /foo/       }.to raise_error(ArgumentError, expected_message)
+    it "can be used to compare with an object that inherits from Money" do
+      klass = Class.new(Money)
+
+      expect(Money.new(1_00) <=> klass.new(1_00)).to eq 0
+      expect(Money.new(1_00) <=> klass.new(99)).to be > 0
+      expect(Money.new(1_00) <=> klass.new(2_00)).to be < 0
+    end
+
+    it "returns nill when comparing with an object that doesn't inherit from Money" do
+      expect(Money.new(1_00) <=> 100).to be_nil
+      expect(Money.new(1_00) <=> Object.new).to be_nil
+      expect(Money.new(1_00) <=> Class).to be_nil
+      expect(Money.new(1_00) <=> Kernel).to be_nil
+      expect(Money.new(1_00) <=> /foo/).to be_nil
+    end
+
+    it 'compares with numeric 0' do
+      expect(Money.usd(1) < 0).to eq false
+      expect(Money.usd(1) > 0.0).to eq true
+      expect(Money.usd(0) >= 0.0).to eq true
     end
   end
 
@@ -167,6 +178,11 @@ describe Money do
     it "adds Fixnum 0 to money and returns the same ammount" do
       expect(Money.new(10_00) + 0).to eq Money.new(10_00)
     end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00, "USD") + Money.new(90, "USD")).to be_a special_money_class
+    end
   end
 
   describe "#-" do
@@ -182,6 +198,11 @@ describe Money do
 
     it "subtract Fixnum 0 to money and returns the same ammount" do
       expect(Money.new(10_00) - 0).to eq Money.new(10_00)
+    end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00, "USD") - Money.new(90, "USD")).to be_a special_money_class
     end
   end
 
@@ -199,15 +220,20 @@ describe Money do
     end
 
     it "does not multiply Money by Money (same currency)" do
-      expect { Money.new( 10, :USD) * Money.new( 4, :USD) }.to raise_error(ArgumentError)
+      expect { Money.new(10, :USD) * Money.new(4, :USD) }.to raise_error(TypeError)
     end
 
     it "does not multiply Money by Money (different currency)" do
-      expect { Money.new( 10, :USD) * Money.new( 4, :EUR) }.to raise_error(ArgumentError)
+      expect { Money.new(10, :USD) * Money.new(4, :EUR) }.to raise_error(TypeError)
     end
 
     it "does not multiply Money by an object which is NOT a number" do
-      expect { Money.new( 10, :USD) *  'abc' }.to raise_error(ArgumentError)
+      expect { Money.new(10, :USD) *  'abc' }.to raise_error(TypeError)
+    end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00, "USD") * 2).to be_a special_money_class
     end
   end
 
@@ -222,6 +248,11 @@ describe Money do
       ts.each do |t|
         expect(t[:a] / t[:b]).to eq t[:c]
       end
+    end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00, "USD") / 2).to be_a special_money_class
     end
 
     context 'rounding preference' do
@@ -287,15 +318,7 @@ describe Money do
       end
     end
 
-    context "infinite_precision = true" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
+    context "with infinite_precision", :infinite_precision do
       it "uses BigDecimal division" do
         ts = [
           {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3.25, :USD)},
@@ -348,15 +371,7 @@ describe Money do
       end
     end
 
-    context "infinite_precision = true" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
+    context "with infinite_precision", :infinite_precision do
       it "uses BigDecimal division" do
         ts = [
           {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3.25, :USD)},
@@ -375,8 +390,8 @@ describe Money do
     it "calculates division and modulo with Fixnum" do
       ts = [
           {:a => Money.new( 13, :USD), :b =>  4, :c => [Money.new( 3, :USD), Money.new( 1, :USD)]},
-          {:a => Money.new( 13, :USD), :b => -4, :c => [Money.new(-3, :USD), Money.new(-3, :USD)]},
-          {:a => Money.new(-13, :USD), :b =>  4, :c => [Money.new(-3, :USD), Money.new( 3, :USD)]},
+          {:a => Money.new( 13, :USD), :b => -4, :c => [Money.new(-4, :USD), Money.new(-3, :USD)]},
+          {:a => Money.new(-13, :USD), :b =>  4, :c => [Money.new(-4, :USD), Money.new( 3, :USD)]},
           {:a => Money.new(-13, :USD), :b => -4, :c => [Money.new( 3, :USD), Money.new(-1, :USD)]},
       ]
       ts.each do |t|
@@ -409,15 +424,7 @@ describe Money do
       end
     end
 
-    context "infinite_precision = true" do
-      before do
-        Money.infinite_precision = true
-      end
-
-      after do
-        Money.infinite_precision = false
-      end
-
+    context "with infinite_precision", :infinite_precision do
       it "uses BigDecimal division" do
         ts = [
             {:a => Money.new( 13, :USD), :b =>  4, :c => [Money.new( 3, :USD), Money.new( 1, :USD)]},
@@ -429,6 +436,16 @@ describe Money do
           expect(t[:a].divmod(t[:b])).to eq t[:c]
         end
       end
+    end
+
+    it "preserves the class in the result when dividing a subclass of Money by a fixnum" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00, "USD").divmod(4).last).to be_a special_money_class
+    end
+
+    it "preserves the class in the result when using a subclass of Money by a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00, "USD").divmod(special_money_class.new(4_00)).last).to be_a special_money_class
     end
   end
 
@@ -530,6 +547,11 @@ describe Money do
       expect(n.abs).to eq Money.new( 1, :USD)
       expect(n).to     eq Money.new(-1, :USD)
     end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(-1).abs).to be_a special_money_class
+    end
   end
 
   describe "#zero?" do
@@ -563,6 +585,78 @@ describe Money do
     it "allows mathematical operations by coercing arguments" do
       result = 2 * Money.new(4, 'USD')
       expect(result).to eq Money.new(8, 'USD')
+    end
+
+    it "raises TypeError dividing by a Money (unless other is a Money)" do
+      expect {
+        2 / Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+    end
+
+    it "raises TypeError subtracting by a Money (unless other is a Money)" do
+      expect {
+        2 - Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+    end
+
+    it "raises TypeError adding by a Money (unless other is a Money)" do
+      expect {
+        2 + Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+    end
+
+    it "treats multiplication as commutative" do
+      expect {
+        2 * Money.new(2, 'USD')
+      }.to_not raise_exception
+      result = 2 * Money.new(2, 'USD')
+      expect(result).to eq(Money.new(4, 'USD'))
+    end
+
+    it "doesn't work with non-numerics" do
+      expect {
+        "2" * Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+    end
+
+    it "correctly handles <=>" do
+      expect {
+        2 < Money.new(2, 'USD')
+      }.to raise_exception(ArgumentError)
+
+      expect {
+        2 > Money.new(2, 'USD')
+      }.to raise_exception(ArgumentError)
+
+      expect {
+        2 <= Money.new(2, 'USD')
+      }.to raise_exception(ArgumentError)
+
+      expect {
+        2 >= Money.new(2, 'USD')
+      }.to raise_exception(ArgumentError)
+
+      expect(2 <=> Money.new(2, 'USD')).to be_nil
+    end
+
+    it 'compares with numeric 0' do
+      expect(0 < Money.usd(1)).to eq true
+      expect(0.0 > Money.usd(1)).to eq false
+      expect(0.0 >= Money.usd(0)).to eq true
+    end
+
+    it "raises exceptions for all numeric types, not just Integer" do
+      expect {
+        2.0 / Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+
+      expect {
+        Rational(2,3) / Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
+
+      expect {
+        BigDecimal(2) / Money.new(2, 'USD')
+      }.to raise_exception(TypeError)
     end
   end
 end

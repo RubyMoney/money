@@ -53,7 +53,7 @@ class Money
       def currencies_by_name
         {}.tap do |r|
           table.each do |dummy,c|
-            name_parts = c[:name].downcase.split
+            name_parts = c[:name].unaccent.downcase.split
             name_parts.each {|part| part.chomp!('.')}
 
             # construct one branch per word
@@ -94,7 +94,7 @@ class Money
           str.gsub!(/[0-9][\.,:0-9]*[0-9]/,'')
           str.gsub!(/[0-9]/, '')
           str.downcase!
-          @words = str.split
+          @words = str.unaccent.split
           @words.each {|word| word.chomp!('.'); word.chomp!(',') }
         end
 
@@ -151,3 +151,4 @@ class Money
     end
   end
 end
+

@@ -11,7 +11,8 @@
     "html_entity": "",
     "decimal_mark": ".",
     "thousands_separator": ",",
-    "iso_numeric": ""
+    "iso_numeric": "",
+    "smallest_denomination": 1
   },
   "jep": {
     "priority": 100,
@@ -20,6 +21,38 @@
     "symbol": "£",
     "disambiguate_symbol": "JEP",
     "alternate_symbols": [],
+    "subunit": "Penny",
+    "subunit_to_unit": 100,
+    "symbol_first": true,
+    "html_entity": "&#x00A3;",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "",
+    "smallest_denomination": 1
+  },
+  "ggp": {
+    "priority": 100,
+    "iso_code": "GGP",
+    "name": "Guernsey Pound",
+    "symbol": "£",
+    "disambiguate_symbol": "GGP",
+    "alternate_symbols": [],
+    "subunit": "Penny",
+    "subunit_to_unit": 100,
+    "symbol_first": true,
+    "html_entity": "&#x00A3;",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "",
+    "smallest_denomination": 1
+  },
+  "imp": {
+    "priority": 100,
+    "iso_code": "IMP",
+    "name": "Isle of Man Pound",
+    "symbol": "£",
+    "disambiguate_symbol": "IMP",
+    "alternate_symbols": ["M£"],
     "subunit": "Penny",
     "subunit_to_unit": 100,
     "symbol_first": true,

@@ -17,6 +17,7 @@ doc/
 .rbx
 .rvmrc
 .ruby-version
+.ruby-gemset
 
 # Spec artifacts
 /coverage
