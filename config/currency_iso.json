@@ -2259,6 +2259,7 @@
     "iso_code": "USD",
     "name": "United States Dollar",
     "symbol": "$",
+    "disambiguate_symbol": "US$",
     "alternate_symbols": ["US$"],
     "subunit": "Cent",
     "subunit_to_unit": 100,

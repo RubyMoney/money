@@ -700,7 +700,7 @@ describe Money, "formatting" do
     end
 
     it "returns disambiguate signs when disambiguate: true" do
-      expect(Money.new(1999_98, "USD").format(disambiguate: true)).to eq("$1,999.98")
+      expect(Money.new(1999_98, "USD").format(disambiguate: true)).to eq("US$1,999.98")
       expect(Money.new(1999_98, "CAD").format(disambiguate: true)).to eq("C$1,999.98")
       expect(Money.new(1999_98, "DKK").format(disambiguate: true)).to eq("1.999,98 DKK")
       expect(Money.new(1999_98, "NOK").format(disambiguate: true)).to eq("1.999,98 NOK")
