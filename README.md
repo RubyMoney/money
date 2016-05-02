@@ -369,7 +369,7 @@ implementations.
 
 - [eu_central_bank](https://github.com/RubyMoney/eu_central_bank)
 - [google_currency](https://github.com/RubyMoney/google_currency)
-- [money-json-rates](https://github.com/askuratovsky/money-json-rates)
+- [currencylayer](https://github.com/askuratovsky/currencylayer)
 - [nordea](https://github.com/matiaskorhonen/nordea)
 - [nbrb_currency](https://github.com/slbug/nbrb_currency)
 - [money-currencylayer-bank](https://github.com/phlegx/money-currencylayer-bank)
