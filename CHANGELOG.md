@@ -1,8 +1,15 @@
 # Changelog
 
-## Next release
+## 6.7.1
 - Changed DKK symbol from 'kr' to 'kr.'
 - Improved Money::Formatting#format docs
+- Updated VEF symbol from 'Bs F' to 'Bs'
+- `Currency#exponent` now returns Fixnum
+- Fixed coercion issues
+- Fixed edge case with explicit override of thousands separator and decimal mark
+- `Money#==` will now raise error for non-zero numeric values
+- Fixed divmod
+- Added disambiguation symbol to USD Dollar
 
 ## 6.7.0
  - Changed `Money#<=>` to return `nil` if the comparison is inappropriate. (#584)
