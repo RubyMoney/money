@@ -53,11 +53,11 @@ class Money
     # @raise [TypeError] when other object is not Money
     #
     def <=>(other)
-      if other.respond_to?(:zero?) && other.zero?
+      unless other.is_a?(Money)
+        return unless other.respond_to?(:zero?) && other.zero?
         return other.is_a?(CoercedNumeric) ? 0 <=> fractional : fractional <=> 0
       end
-      return unless other.is_a?(Money)
-      other = other.exchange_to(currency) if nonzero? && currency != other.currency
+      other = other.exchange_to(currency)
       fractional <=> other.fractional
     rescue Money::Bank::UnknownRate
     end
@@ -97,6 +97,7 @@ class Money
       fractional < 0
     end
 
+    # @method +(other)
     # Returns a new Money object containing the sum of the two operands' monetary
     # values. If +other_money+ has a different currency then its monetary value
     # is automatically exchanged to this object's currency using +exchange_to+.
@@ -107,13 +108,8 @@ class Money
     #
     # @example
     #   Money.new(100) + Money.new(100) #=> #<Money @fractional=200>
-    def +(other_money)
-      return self if other_money.zero?
-      raise TypeError unless other_money.is_a?(Money)
-      other_money = other_money.exchange_to(currency)
-      self.class.new(fractional + other_money.fractional, currency)
-    end
-
+    #
+    # @method -(other)
     # Returns a new Money object containing the difference between the two
     # operands' monetary values. If +other_money+ has a different currency then
     # its monetary value is automatically exchanged to this object's currency
@@ -125,11 +121,15 @@ class Money
     #
     # @example
     #   Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
-    def -(other_money)
-      return self if other_money.zero?
-      raise TypeError unless other_money.is_a?(Money)
-      other_money = other_money.exchange_to(currency)
-      self.class.new(fractional - other_money.fractional, currency)
+    [:+, :-].each do |op|
+      define_method(op) do |other|
+        unless other.is_a?(Money)
+          return self if other.zero?
+          raise TypeError
+        end
+        other = other.exchange_to(currency)
+        self.class.new(fractional.public_send(op, other.fractional), currency)
+      end
     end
 
     # Multiplies the monetary value with the given number and returns a new
