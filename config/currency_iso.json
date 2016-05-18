@@ -2288,9 +2288,9 @@
   "uzs": {
     "priority": 100,
     "iso_code": "UZS",
-    "name": "Uzbekistani Som",
+    "name": "Uzbekistan Som",
     "symbol": null,
-    "alternate_symbols": [],
+    "alternate_symbols": ["so‘m", "сўм", "сум", "s", "с"],
     "subunit": "Tiyin",
     "subunit_to_unit": 100,
     "symbol_first": false,
