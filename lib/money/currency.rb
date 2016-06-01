@@ -19,6 +19,7 @@ class Money
     # Keeping cached instances in sync between threads
     @@mutex = Mutex.new
     @@instances = {}
+    @@currencies = {}
 
     # Thrown when a Currency has been registered without all the attributes
     # which are required for the current action.
@@ -61,7 +62,7 @@ class Money
       #   Money::Currency.find(:foo) #=> nil
       def find(id)
         id = id.to_s.downcase.to_sym
-        new(id)
+        @@currencies[id] || @@currencies[id] = new(id)
       rescue UnknownCurrency
         nil
       end
@@ -169,6 +170,7 @@ class Money
       def register(curr)
         key = curr.fetch(:iso_code).downcase.to_sym
         @@mutex.synchronize { _instances.delete(key.to_s) }
+        @@currencies.delete(key)
         @table[key] = curr
         @stringified_keys = stringify_keys
       end
@@ -188,6 +190,7 @@ class Money
           key = curr.downcase.to_sym
         end
         existed = @table.delete(key)
+        @@currencies.delete(key)
         @stringified_keys = stringify_keys if existed
         existed ? true : false
       end
