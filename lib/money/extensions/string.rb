@@ -11,7 +11,7 @@ class String
 
   def to_name
     case self.to_s
-    when 'btc', 'ltc'
+    when 'btc', 'eth'
       Money::Currency.new(self).to_s
     else
     #when 'cny', 'twd', 'usd'

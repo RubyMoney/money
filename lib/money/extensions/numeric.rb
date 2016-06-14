@@ -17,7 +17,7 @@ class Integer
 
   def to_float(currency, opts = {})
     case currency.to_s
-    when 'btc', 'ltc'
+    when 'btc', 'eth'
       normalize_coin(currency, opts)
     when 'cny', 'twd', 'usd'
       normalize_money(currency, opts)
@@ -44,7 +44,7 @@ class Integer
 
   def to_integer(currency, opts = {})
     case currency.to_s
-    when 'btc', 'ltc'
+    when 'btc', 'eth'
       self
     else
     #when 'cny', 'twd', 'usd'
@@ -77,7 +77,7 @@ class Integer
 
   def to_string(currency, opts = {})
     case currency.to_s
-    when 'btc', 'ltc'
+    when 'btc', 'eth'
       stringify_coin(currency, opts)
     when 'cny', 'twd', 'usd'
       stringify_money(currency, opts)
@@ -151,7 +151,7 @@ class Float
 
   def to_integer(currency, opts = {})
     case currency.to_s
-    when 'btc', 'ltc'
+    when 'btc', 'eth'
       unnormalize_coin(opts)
     when 'cny', 'twd', 'usd'
       unnormalize_money(opts)
