@@ -376,6 +376,7 @@ implementations.
 - [money-open-exchange-rates](https://github.com/spk/money-open-exchange-rates)
 - [money-historical-bank](https://github.com/atwam/money-historical-bank)
 - [russian_central_bank](https://github.com/rmustafin/russian_central_bank)
+- [money-uphold-bank](https://github.com/subvisual/money-uphold-bank)
 
 ## Ruby on Rails
 
