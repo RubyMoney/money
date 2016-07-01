@@ -61,5 +61,21 @@
     "thousands_separator": ",",
     "iso_numeric": "",
     "smallest_denomination": 1
+  },
+  "xfu": {
+    "priority": 100,
+    "iso_code": "XFU",
+    "name": "UIC Franc",
+    "symbol": "",
+    "disambiguate_symbol": "",
+    "alternate_symbols": [],
+    "subunit": "",
+    "subunit_to_unit": 100,
+    "symbol_first": true,
+    "html_entity": "",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "",
+    "smallest_denomination": ""
   }
 }
