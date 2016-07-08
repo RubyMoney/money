@@ -501,7 +501,7 @@
     "subunit": "Centavo",
     "subunit_to_unit": 100,
     "symbol_first": true,
-    "html_entity": "&#x20B1;",
+    "html_entity": "&#36;",
     "decimal_mark": ",",
     "thousands_separator": ".",
     "iso_numeric": "170",
