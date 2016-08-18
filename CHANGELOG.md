@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.7.2
+- Remove `localize_formatting_rules`
+
 ## 6.7.1
 - Changed DKK symbol from 'kr' to 'kr.'
 - Improved Money::Formatting#format docs
