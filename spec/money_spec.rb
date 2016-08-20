@@ -408,12 +408,16 @@ YAML
   end
 
   describe "#currency_as_string=" do
-    it "sets the currency object using the provided string" do
+    it "sets the currency object using the provided string leaving cents intact" do
       money = Money.new(100_00, "USD")
+
       money.currency_as_string = "EUR"
       expect(money.currency).to eq Money::Currency.new("EUR")
+      expect(money.cents).to eq 100_00
+
       money.currency_as_string = "YEN"
       expect(money.currency).to eq Money::Currency.new("YEN")
+      expect(money.cents).to eq 100_00
     end
   end
 
