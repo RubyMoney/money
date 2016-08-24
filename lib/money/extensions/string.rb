@@ -14,6 +14,21 @@ class String
     Money::Currency.new(self).name
   end
 
+  # Get the code of currency
+  #
+  # @param [String] currency
+  #
+  # @return [String]
+  #
+  # @example
+  #   'btc'.to_currency_code => 'BTC'
+  #   'eth'.to_currency_code => 'ETH'
+  #   'twd'.to_currency_code => 'TWD'
+  #   'usd'.to_currency_code => 'USD'
+  def to_currency_code
+    Money::Currency.new(self).to_s
+  end
+
   # Get the symbol of currency
   #
   # @param
