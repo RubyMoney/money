@@ -6,17 +6,12 @@ class String
   # @return [String]
   #
   # @example
-  #   'btc'.to_name => 'BTC'
+  #   'btc'.to_name => 'Bitcoin'
+  #   'eth'.to_name => 'Ether'
+  #   'twd'.to_name => 'New Taiwan Dollar'
+  #   'usd'.to_name => 'United States Dollar'
   def to_name
-    case self.to_s
-    when 'btc', 'eth'
-      Money::Currency.new(self).to_s
-    else
-    #when 'cny', 'twd', 'usd'
-      Money::Currency.new(self).name
-    #else
-    #  raise Money::Currency::UnknownCurrency, currency.inspect
-    end
+    Money::Currency.new(self).name
   end
 
   # Get the symbol of currency

@@ -6,7 +6,8 @@ describe Money, "extension" do
 
   describe "#to_coin_name" do
     it "converts string to coin name" do
-      expect('btc'.to_name).to eq 'BTC'
+      expect('btc'.to_name).to eq 'Bitcoin'
+      expect('eth'.to_name).to eq 'Ether'
       expect { 'ltc'.to_name } .to raise_error Money::Currency::UnknownCurrency
     end
   end
