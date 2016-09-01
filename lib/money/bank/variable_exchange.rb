@@ -126,13 +126,13 @@ class Money
       end
 
       def exchange(fractional, rate, &block)
-        ex = (fractional * BigDecimal.new(rate.to_s)).to_f
+        ex = fractional * BigDecimal.new(rate.to_s)
         if block_given?
           yield ex
         elsif @rounding_method
           @rounding_method.call(ex)
         else
-          ex.to_s.to_d
+          ex
         end
       end
 
