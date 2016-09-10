@@ -1,6 +1,7 @@
 # Changelog
 
 ## 6.7.1
+- Added `Money#installments` utils method
 - Changed DKK symbol from 'kr' to 'kr.'
 - Improved Money::Formatting#format docs
 - Updated VEF symbol from 'Bs F' to 'Bs'
