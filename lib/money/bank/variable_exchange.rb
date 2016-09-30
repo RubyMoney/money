@@ -117,7 +117,7 @@ class Money
             rate = get_rate(from.currency, to_currency)
           end
 
-          if
+          if rate
             fractional = calculate_fractional(from, to_currency)
             from.class.new(
               exchange(fractional, rate, &block), to_currency
