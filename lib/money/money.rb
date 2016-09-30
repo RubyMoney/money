@@ -433,7 +433,13 @@ class Money
     if self.currency == other_currency
       self
     else
-      @bank.exchange_with(self, other_currency, exchanged_at: exchanged_at, &rounding_method)
+      arity = @bank.method(:exchange_with)
+
+      if exchanged_at && arity != 2
+        @bank.exchange_with(self, other_currency, exchanged_at: exchanged_at, &rounding_method)
+      else
+        @bank.exchange_with(self, other_currency, &rounding_method)
+      end
     end
   end
 
