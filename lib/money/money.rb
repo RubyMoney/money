@@ -433,9 +433,11 @@ class Money
     if self.currency == other_currency
       self
     else
-      @bank.exchange_with(self, other_currency, &rounding_method)
+      @bank.exchange_with(self, other_currency, exchanged_at: exchanged_at, &rounding_method)
     end
   end
+
+  attr_accessor :exchanged_at
 
   # Receive a money object with the same amount as the current Money object
   # in United States dollar.

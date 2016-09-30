@@ -102,12 +102,22 @@ class Money
       #
       #   # Exchange 100 CAD to USD:
       #   bank.exchange_with(c2, "USD") #=> #<Money fractional:8031 currency:USD>
-      def exchange_with(from, to_currency, &block)
+      def exchange_with(from, to_currency, args = {}, &block)
         to_currency = Currency.wrap(to_currency)
         if from.currency == to_currency
           from
         else
-          if rate = get_rate(from.currency, to_currency)
+          arity = method(:get_rate).arity
+
+          if args[:exchanged_at] && arity != 2
+            puts "USE NEW METHOD"
+            rate = get_rate(from.currency, to_currency, exchanged_at: args.fetch(:exchanged_at))
+          else
+            puts "USE OLD METHOD"
+            rate = get_rate(from.currency, to_currency)
+          end
+
+          if
             fractional = calculate_fractional(from, to_currency)
             from.class.new(
               exchange(fractional, rate, &block), to_currency
