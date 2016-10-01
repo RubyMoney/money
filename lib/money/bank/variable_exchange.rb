@@ -110,10 +110,8 @@ class Money
           arity = method(:get_rate).arity
 
           if args[:exchanged_at] && arity != 2
-            puts "USE NEW METHOD"
             rate = get_rate(from.currency, to_currency, exchanged_at: args.fetch(:exchanged_at))
           else
-            puts "USE OLD METHOD"
             rate = get_rate(from.currency, to_currency)
           end
 
