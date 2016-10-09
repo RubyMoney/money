@@ -7,8 +7,10 @@ gem 'pry', :require => false
 if defined?(JRUBY_VERSION)
   gem 'json'
 elsif RUBY_VERSION =~ /^1/
-  gem 'json', '~> 1.8.3'
-  gem 'tins', '~> 1.6.0'
+  # Legacy gem locks for ruby 1.9.x
+  gem 'json',           '~> 1.8.3'
+  gem 'tins',           '~> 1.6.0'
+  gem 'term-ansicolor', '< 1.4'
 end
 
 gemspec
