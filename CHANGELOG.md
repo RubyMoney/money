@@ -10,6 +10,7 @@
 - `Money#==` will now raise error for non-zero numeric values
 - Fixed divmod
 - Added disambiguation symbol to USD Dollar
+- Use disambiguation symbol when both disambiguate and symbol are true in `format` method
 
 ## 6.7.0
  - Changed `Money#<=>` to return `nil` if the comparison is inappropriate. (#584)
