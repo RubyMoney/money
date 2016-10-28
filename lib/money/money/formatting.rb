@@ -387,7 +387,11 @@ class Money
   def symbol_value_from(rules)
     if rules.has_key?(:symbol)
       if rules[:symbol] === true
-        symbol
+        if rules[:disambiguate] && currency.disambiguate_symbol
+          currency.disambiguate_symbol
+        else
+          symbol
+        end
       elsif rules[:symbol]
         rules[:symbol]
       else
@@ -395,7 +399,7 @@ class Money
       end
     elsif rules[:html]
       currency.html_entity == '' ? currency.symbol : currency.html_entity
-    elsif rules[:disambiguate] and currency.disambiguate_symbol
+    elsif rules[:disambiguate] && currency.disambiguate_symbol
       currency.disambiguate_symbol
     else
       symbol
