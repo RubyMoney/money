@@ -15,10 +15,6 @@ describe Money::Constructors do
       expect(Money.empty(:cad).object_id).to eq Money.empty(:cad).object_id
     end
 
-    it "doesn't allow money to be modified for a currency" do
-      expect(Money.empty).to be_frozen
-    end
-
     it "instantiates a subclass when inheritance is used" do
       special_money_class = Class.new(Money)
       expect(special_money_class.empty).to be_a special_money_class

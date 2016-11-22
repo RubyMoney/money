@@ -288,11 +288,11 @@ class Money
     end
 
     def thousands_separator
-      i18n_format_for(:thousands_separator, :delimiter, ",")
+      @thousands_separator ||= i18n_format_for(:thousands_separator, :delimiter, ",")
     end
 
     def decimal_mark
-      i18n_format_for(:decimal_mark, :separator, ".")
+      @decimal_mark ||= i18n_format_for(:decimal_mark, :separator, ".")
     end
 
     alias_method :delimiter, :thousands_separator
