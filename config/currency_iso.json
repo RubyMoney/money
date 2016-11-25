@@ -581,7 +581,7 @@
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ",",
-    "thousands_separator": ".",
+    "thousands_separator": " ",
     "iso_numeric": "203",
     "smallest_denomination": 100
   },
