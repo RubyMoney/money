@@ -174,6 +174,17 @@ class Float
     self.to_integer(currency).to_string(currency, opts)
   end
 
+  # Round this number to the last digit of the subunit of the given currency.
+  #
+  # @param [String] currency
+  #
+  # @example
+  #   3.141592653589793238462643.round_by_currency('btc') # => 3.14159265
+  #   3.141592653589793238462643.round_by_currency('twd') # => 3.14159
+  def round_by_currency(currency)
+    to_integer(currency).to_float(currency)
+  end
+
   private
 
   def unnormalize_coin(opts = {})
