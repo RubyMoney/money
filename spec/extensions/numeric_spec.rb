@@ -110,4 +110,10 @@ describe Money, "extension" do
     end
   end
 
+  describe "Float#round_by_currency" do
+    it "rounds number to the last digit of subunit" do
+      expect(3.141592653589793238462643.round_by_currency('btc')).to eq 3.14159265
+      expect(3.141592653589793238462643.round_by_currency('twd')).to eq 3.14159
+    end
+  end
 end
