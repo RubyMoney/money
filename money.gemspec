@@ -14,17 +14,6 @@ Gem::Specification.new do |s|
   s.description = "A Ruby Library for dealing with money and currency conversion."
   s.license     = "MIT"
 
-  s.post_install_message = <<MSG
-Please note the following API changes in Money version 6
-
- - Money#amount, Money#dollars methods now return instances of BigDecimal (rather than Float).
-
-Please read the migration notes at https://github.com/RubyMoney/money#migration-notes
-and choose the migration that best suits your application.
-
-Test responsibly :-)
-MSG
-
   s.add_dependency 'i18n', ['>= 0.6.4', '<= 0.7.0']
   s.add_dependency 'sixarm_ruby_unaccent', ['>= 1.1.1', '< 2']
 
