@@ -103,29 +103,15 @@ class Money
       #   bank.exchange_with(c2, "USD") #=> #<Money fractional:8031 currency:USD>
       def exchange_with(from, to_currency, &block)
         to_currency = Currency.wrap(to_currency)
-        if from.currency == to_currency
-          from
-        else
-          rate = get_rate(from.currency, to_currency)
-          unless rate
-            raise UnknownRate, "No conversion rate known for " \
-              "'#{from.currency.code}' -> '#{to_currency}'"
-          end
-          new_fractional = exchange(from.fractional, rate, &block).to_d
-          from.send(:build_new, new_fractional / to_currency.subunit_to_unit, to_currency)
+        return from if from.currency == to_currency
+        rate = get_rate(from.currency, to_currency)
+        unless rate
+          raise UnknownRate, "No conversion rate known for " \
+            "'#{from.currency}' -> '#{to_currency}'"
         end
-      end
-
-      def exchange(value, rate, &block)
         rate = BigDecimal.new(rate.to_s) unless rate.is_a?(BigDecimal)
-        ex = rate * value
-        if block_given?
-          yield ex
-        elsif rounding_method
-          rounding_method.call(ex)
-        else
-          ex
-        end
+        new_amount = round(from.to_d * rate, to_currency, &block)
+        from.send(:build_new, new_amount, to_currency)
       end
 
       # Registers a conversion rate and returns it (uses +#set_rate+).

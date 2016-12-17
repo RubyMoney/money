@@ -123,6 +123,17 @@ class Money
       def same_currency?(currency1, currency2)
         Currency.wrap(currency1) == Currency.wrap(currency2)
       end
+
+      # Rounds value with a given block or rounding_method.
+      def round(value, currency)
+        if block_given?
+          yield value, currency
+        elsif rounding_method
+          rounding_method.call(value, currency)
+        else
+          value
+        end
+      end
     end
   end
 end

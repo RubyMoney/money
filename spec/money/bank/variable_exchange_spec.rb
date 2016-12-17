@@ -1,6 +1,8 @@
 require 'json'
 require 'yaml'
 
+Money::V6Compatibility.bank_rounding_block
+
 class Money
   module Bank
     describe VariableExchange do
