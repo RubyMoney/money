@@ -1,8 +1,6 @@
 require 'json'
 require 'yaml'
 
-Money::V6Compatibility.bank_rounding_block
-
 class Money
   module Bank
     describe VariableExchange do
@@ -64,7 +62,7 @@ class Money
             #end
 
             it "accepts a custom truncation method" do
-              proc = Proc.new { |n| n.ceil }
+              proc = Proc.new { |n, currency| n.round(currency.decimal_places, :ceil) }
               expect(bank.exchange_with(Money.new(0.1, 'USD'), 'EUR', &proc)).to eq Money.new(0.14, 'EUR')
             end
 
@@ -82,7 +80,7 @@ class Money
 
         context "with &block" do
           let(:bank) {
-            proc = Proc.new { |n| n.ceil }
+            proc = Proc.new { |n, currency| n.round(currency.decimal_places, :ceil) }
             VariableExchange.new(&proc).tap do |bank|
               bank.add_rate('USD', 'EUR', 1.33)
             end
@@ -94,8 +92,10 @@ class Money
             end
 
             it "accepts a custom truncation method" do
-              proc = Proc.new { |n| n.ceil + 1 }
-              expect(bank.exchange_with(Money.new(0.1, 'USD'), 'EUR', &proc)).to eq Money.new(0.15, 'EUR')
+              result = bank.exchange_with(Money.new(0.1, 'USD'), 'EUR') do |n, currency|
+                n.round(currency.decimal_places, :ceil) + 1.0 / currency.subunit_to_unit
+              end
+              expect(result).to eq Money.new(0.15, 'EUR')
             end
           end
         end
