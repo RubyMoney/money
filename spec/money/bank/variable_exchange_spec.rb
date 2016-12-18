@@ -66,6 +66,11 @@ class Money
               expect(bank.exchange_with(Money.new(0.1, 'USD'), 'EUR', &proc)).to eq Money.new(0.14, 'EUR')
             end
 
+            it "accepts a custom truncation method as symbol" do
+              expect(bank.exchange_with(Money.new(0.1, 'USD'), 'EUR', :ceil)).
+                to eq Money.new(0.14, 'EUR')
+            end
+
             it 'works with big numbers' do
               amount = 10**20
               expect(bank.exchange_with(Money.usd(amount), :EUR)).to eq Money.eur(1.33 * amount)
@@ -82,7 +87,7 @@ class Money
           let(:bank) {
             proc = Proc.new { |n, currency| n.round(currency.decimal_places, :ceil) }
             VariableExchange.new(&proc).tap do |bank|
-              bank.add_rate('USD', 'EUR', 1.33)
+              bank.add_rate('USD', 'EUR', 1.335)
             end
           }
 
@@ -96,6 +101,18 @@ class Money
                 n.round(currency.decimal_places, :ceil) + 1.0 / currency.subunit_to_unit
               end
               expect(result).to eq Money.new(0.15, 'EUR')
+            end
+
+            it "accepts a custom truncation method as symbol" do
+              expect(bank.exchange_with(Money.new(0.1, 'USD'), 'EUR', :floor)).
+                to eq Money.new(0.13, 'EUR')
+            end
+          end
+
+          describe '#rounding_method=' do
+            it 'overrides initial block' do
+              bank.rounding_method = :half_down
+              expect(bank.exchange_with(Money.usd(0.1), :eur)).to eq Money.eur(0.13)
             end
           end
         end

@@ -47,9 +47,7 @@ class Money
       end
 
       # The rounding method to use when exchanging rates.
-      #
-      # @return [Proc]
-      attr_reader :rounding_method
+      attr_accessor :rounding_method
 
       # Initializes a new +Money::Bank::Base+ object. An optional block can be
       # passed to dictate the rounding method that +#exchange_with+ can use.
@@ -125,13 +123,13 @@ class Money
       end
 
       # Rounds value with a given block or rounding_method.
-      def round(value, currency)
-        if block_given?
-          yield value, currency
-        elsif rounding_method
-          rounding_method.call(value, currency)
+      def round(value, currency, mode = nil, &block)
+        method = block || mode || rounding_method
+        return value unless method
+        if method.is_a?(Symbol)
+          value.round(currency.decimal_places, method)
         else
-          value
+          method.call(value, currency)
         end
       end
     end

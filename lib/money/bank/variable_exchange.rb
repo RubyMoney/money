@@ -101,7 +101,7 @@ class Money
       #
       #   # Exchange 100 CAD to USD:
       #   bank.exchange_with(c2, "USD") #=> #<Money fractional:8031 currency:USD>
-      def exchange_with(from, to_currency, &block)
+      def exchange_with(from, to_currency, round_mode = nil, &block)
         to_currency = Currency.wrap(to_currency)
         return from if from.currency == to_currency
         rate = get_rate(from.currency, to_currency)
@@ -110,7 +110,7 @@ class Money
             "'#{from.currency}' -> '#{to_currency}'"
         end
         rate = BigDecimal.new(rate.to_s) unless rate.is_a?(BigDecimal)
-        new_amount = round(from.to_d * rate, to_currency, &block)
+        new_amount = round(from.to_d * rate, to_currency, round_mode, &block)
         from.send(:build_new, new_amount, to_currency)
       end
 
