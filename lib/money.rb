@@ -3,8 +3,6 @@ require "bigdecimal"
 require "bigdecimal/util"
 require "set"
 require "i18n"
-require "sixarm_ruby_unaccent"
-require "money/unaccent"
 
 # "Money is any object or record that is generally accepted as payment for
 # goods and services and repayment of debts in a given socio-economic context

@@ -2,7 +2,6 @@
 
 require "json"
 require "money/currency/loader"
-require "money/currency/heuristics"
 
 class Money
 
@@ -13,7 +12,8 @@ class Money
   class Currency
     include Comparable
     extend Enumerable
-    extend Heuristics
+
+    autoload :Heuristics, 'money/currency/heuristics'
 
     # Keeping cached instances in sync between threads
     @@monitor = Monitor.new
@@ -50,6 +50,11 @@ class Money
         new(code)
       rescue UnknownCurrency
         nil
+      end
+
+      # Bypasses call to Heuristics module, so it can be lazily loaded.
+      def analyze(str)
+        Heuristics.analyze(str, self)
       end
 
       # Lookup a currency with given +num+ as an ISO 4217 numeric and returns an

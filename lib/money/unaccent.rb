@@ -1,3 +1,10 @@
+begin
+  require 'sixarm_ruby_unaccent'
+rescue LoadError
+  raise 'Money gem doesnt install sixarm_ruby_unaccent by default. ' \
+    'Add it to your gemfile if you use Currency.analyze'
+end
+
 # Overwrites unaccent method of sixarm_ruby_unaccent.
 class String
   def unaccent

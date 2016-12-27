@@ -1,8 +1,12 @@
 # encoding: utf-8
+require 'money/unaccent'
 
 class Money
   class Currency
+    # Using this module requires `sixarm_ruby_unaccent` gem.
+    # Add it to your Gemfile manually.
     module Heuristics
+      module_function
 
       # An robust and efficient algorithm for finding currencies in
       # text. Using several algorithms it can find symbols, iso codes and
@@ -11,8 +15,8 @@ class Money
       # currency in an entire sentence
       #
       # Returns: Array (matched results)
-      def analyze(str)
-        Analyzer.new(str, SearchTree.cache[self]).process
+      def analyze(str, klass)
+        Analyzer.new(str, SearchTree.cache[klass]).process
       end
 
       class SearchTree
