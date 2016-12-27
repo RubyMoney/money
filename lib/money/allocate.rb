@@ -23,7 +23,9 @@ class Money
       amounts, left_over = amounts_from_splits(allocations, splits)
 
       unless self.class.infinite_precision
-        left_over.to_i.times { |i| amounts[i % amounts.length] += 1 }
+        delta = left_over > 0 ? 1 : -1
+        # Distribute left over pennies amongst allocations
+        left_over.to_i.abs.times { |i| amounts[i % amounts.length] += delta }
       end
 
       subunit_to_unit = currency.subunit_to_unit
@@ -58,7 +60,7 @@ class Money
         if self.class.infinite_precision
           fractional * ratio
         else
-          (fractional * ratio / allocations).floor.tap do |frac|
+          (fractional * ratio / allocations).truncate.tap do |frac|
             left_over -= frac
           end
         end

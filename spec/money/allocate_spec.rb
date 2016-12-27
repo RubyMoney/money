@@ -18,6 +18,23 @@ describe Money do
       expect(moneys.map(&:to_d)).to eq [0.34, 0.33, 0.33]
     end
 
+    context "negative amount" do
+      it "does not lose pennies" do
+        moneys = Money.us_dollar(-1).allocate([0.333, 0.333, 0.333])
+
+        expect(moneys[0].cents).to eq -34
+        expect(moneys[1].cents).to eq -33
+        expect(moneys[2].cents).to eq -33
+      end
+
+      it "allocates the same way as positive amounts" do
+        ratios = [0.6667, 0.3333]
+
+        expect(Money.us_dollar(10).allocate(ratios).map(&:fractional)).to eq([6_67, 3_33])
+        expect(Money.us_dollar(-10).allocate(ratios).map(&:fractional)).to eq([-6_67, -3_33])
+      end
+    end
+
     it "requires total to be less then 1" do
       expect { Money.usd(0.05).allocate([0.5, 0.6]) }.to raise_error(ArgumentError)
     end

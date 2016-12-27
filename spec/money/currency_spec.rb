@@ -277,7 +277,7 @@ class Money
       it "works as documented" do
         expect(Currency.new(:usd).inspect).
           to eq '#<Money::Currency id: :USD, alternate_symbols: ["US$"], ' \
-            'code: "USD", decimal_mark: ".", disambiguate_symbol: nil, ' \
+            'code: "USD", decimal_mark: ".", disambiguate_symbol: "US$", ' \
             'html_entity: "$", iso_numeric: 840, name: "United States Dollar", ' \
             'priority: 1, smallest_denomination: 1, subunit: "Cent", subunit_to_unit: 100, ' \
             'symbol: "$", symbol_first: true, thousands_separator: ",">'

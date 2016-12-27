@@ -649,11 +649,27 @@ describe Money::Formatter do
     end
 
     it 'returns disambiguate signs when disambiguate: true' do
-      expect(Money.new(1999.98, 'USD').format(disambiguate: true)).to eq('$1,999.98')
+      expect(Money.new(1999.98, 'USD').format(disambiguate: true)).to eq('US$1,999.98')
       expect(Money.new(1999.98, 'CAD').format(disambiguate: true)).to eq('C$1,999.98')
       expect(Money.new(1999.98, 'DKK').format(disambiguate: true)).to eq('1.999,98 DKK')
       expect(Money.new(1999.98, 'NOK').format(disambiguate: true)).to eq('1.999,98 NOK')
       expect(Money.new(1999.98, 'SEK').format(disambiguate: true)).to eq('1 999,98 SEK')
+    end
+
+    it 'returns disambiguate signs when disambiguate: true and symbol: true' do
+      expect(Money.new(1999.98, 'USD').format(disambiguate: true, symbol: true)).to eq('US$1,999.98')
+      expect(Money.new(1999.98, 'CAD').format(disambiguate: true, symbol: true)).to eq('C$1,999.98')
+      expect(Money.new(1999.98, 'DKK').format(disambiguate: true, symbol: true)).to eq('1.999,98 DKK')
+      expect(Money.new(1999.98, 'NOK').format(disambiguate: true, symbol: true)).to eq('1.999,98 NOK')
+      expect(Money.new(1999.98, 'SEK').format(disambiguate: true, symbol: true)).to eq('1 999,98 SEK')
+    end
+
+    it 'returns no signs when disambiguate: true and symbol: false' do
+      expect(Money.new(1999.98, 'USD').format(disambiguate: true, symbol: false)).to eq('1,999.98')
+      expect(Money.new(1999.98, 'CAD').format(disambiguate: true, symbol: false)).to eq('1,999.98')
+      expect(Money.new(1999.98, 'DKK').format(disambiguate: true, symbol: false)).to eq('1.999,98')
+      expect(Money.new(1999.98, 'NOK').format(disambiguate: true, symbol: false)).to eq('1.999,98')
+      expect(Money.new(1999.98, 'SEK').format(disambiguate: true, symbol: false)).to eq('1 999,98')
     end
 
     it "should never return an ambiguous format with disambiguate: true" do

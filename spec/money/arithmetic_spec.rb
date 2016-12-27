@@ -598,4 +598,34 @@ describe Money do
       end
     end
   end
+
+  %w(+ - / <=> divmod remainder).each do |op|
+    describe "##{op}" do
+      subject { ->(other = self.other) { instance.send(op, other) } }
+      let(:instance) { Money.usd(1) }
+
+      context 'when conversions disallowed' do
+        around do |ex|
+          begin
+            old = Money.default_bank
+            Money.disallow_currency_conversion!
+            ex.run
+          ensure
+            Money.default_bank = old
+          end
+        end
+
+        context 'and other is money with different currency' do
+          let(:other) { Money.gbp(1) }
+          it { should raise_error Money::Bank::DifferentCurrencyError }
+
+          context 'even for zero' do
+            let(:instance) { Money.usd(0) }
+            let(:other) { Money.gbp(0) }
+            it { should raise_error Money::Bank::DifferentCurrencyError }
+          end
+        end
+      end
+    end
+  end
 end

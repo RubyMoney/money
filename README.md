@@ -317,12 +317,12 @@ The following example implements an `ActiveRecord` store to save exchange rates 
 
 class ExchangeRate < ActiveRecord::Base
   def self.get_rate(from_code, to_code)
-    rate = find_by_from_and_to(from_code, to_code)
+    rate = find_by(:from => from_code, :to => to_code)
     rate.present? ? rate.rate : nil
   end
 
   def self.add_rate(from_code, to_code, rate)
-    exrate = find_or_initialize_by_from_and_to(from_code, to_code)
+    exrate = find_or_initialize_by(:from => from_code, :to => to_code)
     exrate.rate = rate
     exrate.save!
   end
@@ -370,13 +370,14 @@ implementations.
 
 - [eu_central_bank](https://github.com/RubyMoney/eu_central_bank)
 - [google_currency](https://github.com/RubyMoney/google_currency)
-- [money-json-rates](https://github.com/askuratovsky/money-json-rates)
+- [currencylayer](https://github.com/askuratovsky/currencylayer)
 - [nordea](https://github.com/matiaskorhonen/nordea)
 - [nbrb_currency](https://github.com/slbug/nbrb_currency)
 - [money-currencylayer-bank](https://github.com/phlegx/money-currencylayer-bank)
 - [money-open-exchange-rates](https://github.com/spk/money-open-exchange-rates)
 - [money-historical-bank](https://github.com/atwam/money-historical-bank)
 - [russian_central_bank](https://github.com/rmustafin/russian_central_bank)
+- [money-uphold-bank](https://github.com/subvisual/money-uphold-bank)
 
 ## Ruby on Rails
 

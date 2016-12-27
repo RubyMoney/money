@@ -351,7 +351,11 @@ class Money
       end
       if rules.key?(:symbol)
         symbol = rules[:symbol]
-        symbol == true ? money.symbol : symbol
+        if symbol == true
+          rules[:disambiguate] && currency.disambiguate_symbol || money.symbol
+        else
+          symbol
+        end
       elsif rules[:html]
         currency.html_entity || currency.symbol
       else
