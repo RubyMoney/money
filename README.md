@@ -8,7 +8,8 @@
 [![Dependency Status](https://gemnasium.com/RubyMoney/money.svg)](https://gemnasium.com/RubyMoney/money)
 [![License](https://img.shields.io/github/license/RubyMoney/money.svg)](http://opensource.org/licenses/MIT)
 
-:warning: Please read the [migration notes](#migration-notes) before upgrading to a new major version.
+:warning: Please read about the [difference](https://github.com/printercu/money/wiki)
+between this version and original `money` gem.
 
 If you miss String parsing, check out the new [monetize gem](https://github.com/RubyMoney/monetize).
 
@@ -435,19 +436,3 @@ If you wish to format money according to the EU's [Rules for expressing monetary
 m = Money.new('123', :gbp) # => #<Money fractional:123 currency:GBP>
 m.format( symbol: m.currency.to_s + ' ') # => "GBP 1.23"
 ```
-
-## Migration Notes
-
-#### Version 6.0.0
-
-- The `Money#dollars` and `Money#amount` methods now return instances of
-  `BigDecimal` rather than `Float`. We should avoid representing monetary
-  values with floating point types so to avoid a whole class of errors relating
-  to lack of precision. There are two migration options for this change:
-  * The first is to test your application and where applicable update the
-    application to accept a `BigDecimal` return value. This is the recommended
-    path.
-  * The second is to migrate from the `#amount` and `#dollars` methods to use
-    the `#to_f` method instead. This option should only be used where `Float`
-    is the desired type and nothing else will do for your application's
-    requirements.

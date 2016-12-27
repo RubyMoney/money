@@ -1,5 +1,30 @@
 # Changelog
 
+## 7.0.0.rc1
+
+- Moved `lib/money/money/* -> lib/money`.
+- Formatting specific methods moved to Formatter.
+  - `default_formatting_rules` & `use_i18n` moved to Formatter.
+  - `Formatter.default_rules=` doesn't support nil (hash must be given).
+- Remove `#currency_as_string`.
+- Lambda passed to `.default_currency` must return currency object (not symbol).
+- Rename `Currency#iso_code -> #code`
+- Set `Currency#code` same as id (YEN to get JPY, and GHC for GHS will not be supported)
+- Improved and cleaned up default formatter (2x faster) & `#to_s`.
+  - changed empty `Currency.html_entity` to nil
+  - renamed options, dropped fallbacks:
+    - `south_asian_number_formatting => south_asian`
+    - `translate => translate_symbol`
+    - `thousands_separator => delimiter`
+    - `decimal_mark => separator`
+    - `symbol_after_without_space, symbol_before_without_space => symbol_space`
+- Simplify arithmetics (encourage using to_d).
+- Use whole amounts (not cents) as main value.
+  - Rounding block to `Bank#exchange_with` receives decimal amount and currency so
+  it must be changed to ` ->(value, currency) { value.round(currency.decimal_places) }`.
+- Don't depend on `sixarm_ruby_unaccent`. Add it to your Gemfile if you use `Currency.analyze`.
+- `Currency.keep_only` to cleanup currencies.
+
 ## 6.7.1
 - Changed DKK symbol from 'kr' to 'kr.'
 - Improved Money::Formatting#format docs

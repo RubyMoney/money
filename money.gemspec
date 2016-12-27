@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'money/version'
 
 Gem::Specification.new do |s|
-  s.name        = 'money'
+  s.name        = 'money2'
   s.version     = Money::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Shane Emmons']
