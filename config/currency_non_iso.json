@@ -4,14 +4,11 @@
     "code": "BTC",
     "name": "Bitcoin",
     "symbol": "B⃦",
-    "alternate_symbols": [],
     "subunit": "Satoshi",
     "subunit_to_unit": 100000000,
     "symbol_first": true,
-    "html_entity": null,
     "decimal_mark": ".",
     "thousands_separator": ",",
-    "iso_numeric": null,
     "smallest_denomination": 1
   },
   {
@@ -20,14 +17,12 @@
     "name": "Jersey Pound",
     "symbol": "£",
     "disambiguate_symbol": "JEP",
-    "alternate_symbols": [],
     "subunit": "Penny",
     "subunit_to_unit": 100,
     "symbol_first": true,
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
     "thousands_separator": ",",
-    "iso_numeric": null,
     "smallest_denomination": 1
   },
   {
@@ -36,14 +31,12 @@
     "name": "Guernsey Pound",
     "symbol": "£",
     "disambiguate_symbol": "GGP",
-    "alternate_symbols": [],
     "subunit": "Penny",
     "subunit_to_unit": 100,
     "symbol_first": true,
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
     "thousands_separator": ",",
-    "iso_numeric": null,
     "smallest_denomination": 1
   },
   {
@@ -59,23 +52,15 @@
     "html_entity": "&#x00A3;",
     "decimal_mark": ".",
     "thousands_separator": ",",
-    "iso_numeric": null,
     "smallest_denomination": 1
   },
   {
     "priority": 100,
     "code": "XFU",
     "name": "UIC Franc",
-    "symbol": "",
-    "disambiguate_symbol": "",
-    "alternate_symbols": [],
-    "subunit": "",
     "subunit_to_unit": 100,
     "symbol_first": true,
-    "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ",",
-    "iso_numeric": "",
-    "smallest_denomination": ""
+    "thousands_separator": ","
   }
 ]

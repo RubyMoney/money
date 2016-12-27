@@ -275,6 +275,7 @@ class Money
       (ATTRS - [:id]).each do |attr|
         instance_variable_set("@#{attr}", data[attr])
       end
+      @alternate_symbols ||= []
     end
 
     # Compares +self+ with +other_currency+ against the value of +priority+
