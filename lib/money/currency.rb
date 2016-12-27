@@ -180,6 +180,27 @@ class Money
         !!existed
       end
 
+      # Reset all preloaded data, so it will be loaded from config files again.
+      def reset
+        synchronize do
+          @table = nil
+          @instances = nil
+          @codes = nil
+        end
+      end
+
+      # Keeps only given currencies, and clears any data about others.
+      def keep_only(*codes)
+        to_remove = table.keys - codes.map { |x| prepare_code(x) }
+        synchronize do
+          @codes = nil
+          to_remove.each do |code|
+            instances.delete(code)
+            table.delete(code)
+          end
+        end
+      end
+
       def each(&block)
         all.each(&block)
       end

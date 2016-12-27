@@ -351,5 +351,19 @@ class Money
         expect(Currency.new(:btc).iso?).to eq false
       end
     end
+
+    describe '.keep_only' do
+      subject { -> { klass.keep_only(:usd, 'CAD', :EUR) } }
+      let(:klass) { Class.new(described_class) }
+      it { should change(klass, :codes).to(%w(CAD EUR USD)) }
+      it { should_not change(described_class, :codes) }
+    end
+
+    describe '.reset' do
+      subject { -> { klass.reset } }
+      let(:klass) { Class.new(described_class) }
+      before { klass.keep_only(:usd, 'CAD', :EUR) }
+      it { should change { klass.codes.include?('AUD') }.to(true) }
+    end
   end
 end
