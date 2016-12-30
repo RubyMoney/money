@@ -176,7 +176,7 @@ describe Money do
       expect(Money.new(10_00, "USD") + other).to eq Money.new(19_00, "USD")
     end
 
-    it "adds Fixnum 0 to money and returns the same ammount" do
+    it "adds Integer 0 to money and returns the same ammount" do
       expect(Money.new(10_00) + 0).to eq Money.new(10_00)
     end
 
@@ -197,7 +197,7 @@ describe Money do
       expect(Money.new(10_00, "USD") - other).to eq Money.new(1_00, "USD")
     end
 
-    it "subtract Fixnum 0 to money and returns the same ammount" do
+    it "subtract Integer 0 to money and returns the same ammount" do
       expect(Money.new(10_00) - 0).to eq Money.new(10_00)
     end
 
@@ -208,7 +208,7 @@ describe Money do
   end
 
   describe "#*" do
-    it "multiplies Money by Fixnum and returns Money" do
+    it "multiplies Money by Integer and returns Money" do
       ts = [
         {:a => Money.new( 10, :USD), :b =>  4, :c => Money.new( 40, :USD)},
         {:a => Money.new( 10, :USD), :b => -4, :c => Money.new(-40, :USD)},
@@ -239,7 +239,7 @@ describe Money do
   end
 
   describe "#/" do
-    it "divides Money by Fixnum and returns Money" do
+    it "divides Money by Integer and returns Money" do
       ts = [
         {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3, :USD)},
         {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-3, :USD)},
@@ -335,7 +335,7 @@ describe Money do
   end
 
   describe "#div" do
-    it "divides Money by Fixnum and returns Money" do
+    it "divides Money by Integer and returns Money" do
       ts = [
           {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 3, :USD)},
           {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-3, :USD)},
@@ -388,7 +388,7 @@ describe Money do
   end
 
   describe "#divmod" do
-    it "calculates division and modulo with Fixnum" do
+    it "calculates division and modulo with Integer" do
       ts = [
           {:a => Money.new( 13, :USD), :b =>  4, :c => [Money.new( 3, :USD), Money.new( 1, :USD)]},
           {:a => Money.new( 13, :USD), :b => -4, :c => [Money.new(-4, :USD), Money.new(-3, :USD)]},
@@ -451,7 +451,7 @@ describe Money do
   end
 
   describe "#modulo" do
-    it "calculates modulo with Fixnum" do
+    it "calculates modulo with Integer" do
       ts = [
           {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 1, :USD)},
           {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-3, :USD)},
@@ -490,7 +490,7 @@ describe Money do
   end
 
   describe "#%" do
-    it "calculates modulo with Fixnum" do
+    it "calculates modulo with Integer" do
       ts = [
           {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 1, :USD)},
           {:a => Money.new( 13, :USD), :b => -4, :c => Money.new(-3, :USD)},
@@ -529,7 +529,7 @@ describe Money do
   end
 
   describe "#remainder" do
-    it "calculates remainder with Fixnum" do
+    it "calculates remainder with Integer" do
       ts = [
           {:a => Money.new( 13, :USD), :b =>  4, :c => Money.new( 1, :USD)},
           {:a => Money.new( 13, :USD), :b => -4, :c => Money.new( 1, :USD)},

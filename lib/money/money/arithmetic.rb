@@ -48,7 +48,7 @@ class Money
     #
     # @param [Money] other_money Value to compare with.
     #
-    # @return [Fixnum]
+    # @return [Integer]
     #
     # @raise [TypeError] when other object is not Money
     #
@@ -195,9 +195,9 @@ class Money
     # Divide money by money or fixnum and return array containing quotient and
     # modulus.
     #
-    # @param [Money, Fixnum] val Number to divmod by.
+    # @param [Money, Integer] val Number to divmod by.
     #
-    # @return [Array<Money,Money>,Array<Fixnum,Money>]
+    # @return [Array<Money,Money>,Array<Integer,Money>]
     #
     # @example
     #   Money.new(100).divmod(9)            #=> [#<Money @fractional=11>, #<Money @fractional=1>]
@@ -225,7 +225,7 @@ class Money
 
     # Equivalent to +self.divmod(val)[1]+
     #
-    # @param [Money, Fixnum] val Number take modulo with.
+    # @param [Money, Integer] val Number take modulo with.
     #
     # @return [Money]
     #
@@ -238,7 +238,7 @@ class Money
 
     # Synonym for +#modulo+.
     #
-    # @param [Money, Fixnum] val Number take modulo with.
+    # @param [Money, Integer] val Number take modulo with.
     #
     # @return [Money]
     #
@@ -249,7 +249,7 @@ class Money
 
     # If different signs +self.modulo(val) - val+ otherwise +self.modulo(val)+
     #
-    # @param [Money, Fixnum] val Number to rake remainder with.
+    # @param [Money, Integer] val Number to rake remainder with.
     #
     # @return [Money]
     #

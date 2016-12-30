@@ -349,7 +349,7 @@ YAML
       expect {money.round_to_nearest_cash_value}.to raise_error(Money::UndefinedSmallestDenomination)
     end
 
-    it "returns a Fixnum when infinite_precision is not set" do
+    it "returns a Integer when infinite_precision is not set" do
       money = Money.new(100, "USD")
       expect(money.round_to_nearest_cash_value).to be_a Integer
     end
