@@ -117,7 +117,7 @@ class Money
     #   @return [Boolean] Use this to enable infinite precision cents
     #
     # @!attribute [rw] conversion_precision
-    #   @return [Fixnum] Use this to specify precision for converting Rational
+    #   @return [Integer] Use this to specify precision for converting Rational
     #     to BigDecimal
     attr_accessor :default_bank, :default_formatting_rules,
       :use_i18n, :infinite_precision, :conversion_precision
@@ -317,10 +317,10 @@ class Money
     @currency = Currency.wrap(val)
   end
 
-  # Returns a Fixnum hash value based on the +fractional+ and +currency+ attributes
+  # Returns a Integer hash value based on the +fractional+ and +currency+ attributes
   # in order to use functions like & (intersection), group_by, etc.
   #
-  # @return [Fixnum]
+  # @return [Integer]
   #
   # @example
   #   Money.new(100).hash #=> 908351
@@ -551,7 +551,7 @@ class Money
     if num.respond_to?(:to_d)
       num.is_a?(Rational) ? num.to_d(self.class.conversion_precision) : num.to_d
     else
-      BigDecimal.new(num.to_s)
+      BigDecimal.new(num.to_s.empty? ? 0 : num.to_s)
     end
   end
 
