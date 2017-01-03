@@ -1,5 +1,18 @@
 # Changelog
 
+## 6.8.0
+- Ruby 2.4.0 support
+- Fixed UZS syntax
+- Fixed HUF smallest denomination
+- Fixed ruby 1.9 issues
+- Fixed html entity for COP
+- Updated all currency decimals to ISO-4217
+- Fixed money allocation for negative amounts
+- Fixed symbol_first for RON
+- Fixed disambiguate option when symbol is set to true
+- Fixed thousands separator for CZK
+- Improved formatter performance by precaching I18n calls
+
 ## 6.7.1
 - Changed DKK symbol from 'kr' to 'kr.'
 - Improved Money::Formatting#format docs
