@@ -205,6 +205,10 @@ class Money
       rules = default_formatting_rules.merge(rules)
       rules = localize_formatting_rules(rules)
       rules = translate_formatting_rules(rules) if rules[:translate]
+
+      thousands_separator = self.thousands_separator
+      decimal_mark = self.decimal_mark
+
       escaped_decimal_mark = Regexp.escape(decimal_mark)
 
       if fractional == 0
@@ -288,11 +292,11 @@ class Money
     end
 
     def thousands_separator
-      @thousands_separator ||= i18n_format_for(:thousands_separator, :delimiter, ",")
+      i18n_format_for(:thousands_separator, :delimiter, ",")
     end
 
     def decimal_mark
-      @decimal_mark ||= i18n_format_for(:decimal_mark, :separator, ".")
+      i18n_format_for(:decimal_mark, :separator, ".")
     end
 
     alias_method :delimiter, :thousands_separator
