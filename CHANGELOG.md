@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.8.1
+- Fixed issue with calling `format` on a frozen `Money` object
+
 ## 6.8.0
 - Ruby 2.4.0 support
 - Fixed UZS syntax
