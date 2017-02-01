@@ -169,6 +169,16 @@ describe Money do
         Money.from_amount(1.999).to_d
       end).to eq 1.99
     end
+
+    context 'given a currency is provided' do
+      context 'and the currency is nil' do
+        let(:currency) { nil }
+
+        it "should have the default currency" do
+          expect(Money.from_amount(1, currency).currency).to eq Money.default_currency
+        end
+      end
+    end
   end
 
   %w[cents pence].each do |units|
