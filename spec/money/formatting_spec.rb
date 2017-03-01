@@ -324,6 +324,9 @@ describe Money, "formatting" do
         # Brazilian Real
         expect(one["BRL"]).to eq "R$1,00"
 
+        # Vietnamese Dong
+        expect(one["VND"]).to eq "100 ₫"
+
         # Other
         expect(one["SEK"]).to eq "1,00 kr"
         expect(one["GHC"]).to eq "₵1.00"
