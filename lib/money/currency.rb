@@ -8,7 +8,7 @@ class Money
 
   # Represents a specific currency unit.
   #
-  # @see http://en.wikipedia.org/wiki/Currency
+  # @see https://en.wikipedia.org/wiki/Currency
   # @see http://iso4217.net/
   class Currency
     include Comparable
@@ -112,12 +112,12 @@ class Money
       #
       # == monetary unit
       # The standard unit of value of a currency, as the dollar in the United States or the peso in Mexico.
-      # http://www.answers.com/topic/monetary-unit
+      # https://www.answers.com/topic/monetary-unit
       # == fractional monetary unit, subunit
       # A monetary unit that is valued at a fraction (usually one hundredth) of the basic monetary unit
-      # http://www.answers.com/topic/fractional-monetary-unit-subunit
+      # https://www.answers.com/topic/fractional-monetary-unit-subunit
       #
-      # See http://en.wikipedia.org/wiki/List_of_circulating_currencies and
+      # See https://en.wikipedia.org/wiki/List_of_circulating_currencies and
       # http://search.cpan.org/~tnguyen/Locale-Currency-Format-1.28/Format.pm
       def table
         @table ||= load_currencies

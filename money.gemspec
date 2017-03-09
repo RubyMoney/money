@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Shane Emmons"]
   s.email       = ["shane@emmons.io"]
-  s.homepage    = "http://rubymoney.github.io/money"
+  s.homepage    = "https://rubymoney.github.io/money"
   s.summary     = "A Ruby Library for dealing with money and currency conversion."
   s.description = "A Ruby Library for dealing with money and currency conversion."
   s.license     = "MIT"
