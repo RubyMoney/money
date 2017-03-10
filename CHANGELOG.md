@@ -1,5 +1,14 @@
 # Changelog
 
+## 6.8.2
+- Removed subunits for HUF
+- Fixed `#from_amount` accepting `nil` as currency_code
+- Relaxed i18n version (< 0.9)
+- Set symbol for UZS
+- Added disambiguate_symbol for XFU
+- Fixed Peruvian Sol name
+- Fixed symbol_first for VND (now `false`)
+
 ## 6.8.1
 - Fixed issue with calling `format` on a frozen `Money` object
 
