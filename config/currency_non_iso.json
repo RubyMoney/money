@@ -77,5 +77,21 @@
     "thousands_separator": ",",
     "iso_numeric": "",
     "smallest_denomination": ""
+  },
+  "gbx": {
+    "priority": 100,
+    "iso_code": "GBX",
+    "name": "British Penny",
+    "symbol": "",
+    "disambiguate_symbol": "GBX",
+    "alternate_symbols": [],
+    "subunit": "",
+    "subunit_to_unit": 1,
+    "symbol_first": true,
+    "html_entity": "",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "",
+    "smallest_denomination": 1
   }
 }
