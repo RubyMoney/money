@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.8.3
+- Added support for the British Penny (GBX)
+- Fixed LKR currency html_entity symbol
+
 ## 6.8.2
 - Removed subunits for HUF
 - Fixed `#from_amount` accepting `nil` as currency_code
