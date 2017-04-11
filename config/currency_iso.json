@@ -1584,6 +1584,7 @@
     "iso_code": "NIO",
     "name": "Nicaraguan Córdoba",
     "symbol": "C$",
+    "disambiguate_symbol": "NIO$",
     "alternate_symbols": [],
     "subunit": "Centavo",
     "subunit_to_unit": 100,
