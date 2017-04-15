@@ -366,6 +366,7 @@ class Money
 
     fractional < 0 ? "-#{str}" : str
   end
+  alias_method :to_liquid, :to_s
 
   # Return the amount of money as a BigDecimal.
   #

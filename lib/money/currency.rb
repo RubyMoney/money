@@ -349,6 +349,7 @@ class Money
     def to_s
       id.to_s.upcase
     end
+    alias_method :to_liquid, :to_s
 
     # Returns a string representation corresponding to the upcase +id+
     # attribute. Useful in cases where only implicit conversions are made.
