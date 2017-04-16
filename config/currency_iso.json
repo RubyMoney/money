@@ -413,7 +413,7 @@
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "124",
-    "smallest_denomination": 5
+    "smallest_denomination": 1
   },
   "cdf": {
     "priority": 100,
