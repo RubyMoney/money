@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.8.4
+- Resolving NIO ambiguity with CAD
+- Display the BBD $ symbol before digits
+- Symbol first for NIO and PAB currencies
+
 ## 6.8.3
 - Added support for the British Penny (GBX)
 - Fixed LKR currency html_entity symbol
