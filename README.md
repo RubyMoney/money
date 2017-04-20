@@ -435,6 +435,10 @@ m = Money.new('123', :gbp) # => #<Money fractional:123 currency:GBP>
 m.format( symbol: m.currency.to_s + ' ') # => "GBP 1.23"
 ```
 
+## Heuristics
+
+Prior to v6.9.0 heuristic analysis of string input was part of this gem. Since then it was extracted in to [money-heuristics gem](https://github.com/RubyMoney/money-heuristics).
+
 ## Migration Notes
 
 #### Version 6.0.0
