@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.9.0
+- Extracted heuristics into money-heuristics gem
+
 ## 6.8.4
 - Resolving NIO ambiguity with CAD
 - Display the BBD $ symbol before digits
