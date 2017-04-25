@@ -66,4 +66,15 @@ describe Money::RatesStore::Memory do
       end
     end
   end
+
+  describe '#marshal_dump' do
+    let(:subject) { Money::RatesStore::Memory.new(:optional => true) }
+
+    it 'can reload' do
+      bank = Money::Bank::VariableExchange.new(subject)
+      bank = Marshal.load(Marshal.dump(bank))
+      expect(bank.store.instance_variable_get(:@options)).to eq subject.instance_variable_get(:@options)
+      expect(bank.store.instance_variable_get(:@index)).to eq subject.instance_variable_get(:@index)
+    end
+  end
 end
