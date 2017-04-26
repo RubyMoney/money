@@ -58,9 +58,8 @@ class Money
       end
 
       def marshal_dump
-        [self.class, index, options]
+        [self.class, options, index]
       end
-
 
       # Wraps block execution in a thread-safe transaction
       def transaction(&block)
