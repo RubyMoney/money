@@ -148,6 +148,7 @@ class Float
   # @example
   #   (1.23456789).to_integer('btc') => 123456789
   #   (1.23456789).to_integer('twd') => 123457
+  #   (1.23456789).to_integer('twd', floor: true) => 123456
 
   def to_integer(currency, opts = {})
     case currency.to_s
@@ -188,11 +189,23 @@ class Float
   private
 
   def unnormalize_coin(opts = {})
-    (self * COIN_I2F).round
+    if opts[:ceil]
+      (self * COIN_I2F).ceil
+    elsif opts[:floor]
+      (self * COIN_I2F).floor
+    else
+      (self * COIN_I2F).round
+    end
   end
 
   def unnormalize_money(opts = {})
-    (self * MONEY_I2F).round
+    if opts[:ceil]
+      (self * MONEY_I2F).ceil
+    elsif opts[:floor]
+      (self * MONEY_I2F).floor
+    else
+      (self * MONEY_I2F).round
+    end
   end
 
 end

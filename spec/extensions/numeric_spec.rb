@@ -92,6 +92,26 @@ describe Money, "extension" do
         expect(0.123451.to_integer('usd')).to eq 12345
         expect(0.123455.to_integer('usd')).to eq 12346
       end
+
+      it "converts float to rounded big integer" do
+        # Surprise? Don't be. That's due to imprecision of floating-point numbers.
+        # 4853.453215 will be converted to 485345321.49999994 before being rounded.
+        expect(4853.453215.to_integer('twd')).to eq 485345321
+        expect(4853.453214.to_integer('twd')).to eq 485345321
+
+        expect(35433.141592655.to_integer('btc')).to eq 3543314159266
+        expect(35433.141592654.to_integer('btc')).to eq 3543314159265
+      end
+
+      it "converts float to least succeeding big integer" do
+        expect(35433.141592655.to_integer('btc', ceil: true)).to eq 3543314159266
+        expect(35433.141592654.to_integer('btc', ceil: true)).to eq 3543314159266
+      end
+
+      it "converts float to greatest preceding big integer" do
+        expect(35433.141592655.to_integer('btc', floor: true)).to eq 3543314159265
+        expect(35433.141592654.to_integer('btc', floor: true)).to eq 3543314159265
+      end
     end
 
     describe "#round_by_currency" do
