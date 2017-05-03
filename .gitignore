@@ -1,6 +1,5 @@
 # Bundler
 .bundle
-Gemfile.lock
 pkg/*
 bin/
 vendor/
