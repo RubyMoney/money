@@ -4,6 +4,7 @@ Coveralls.wear!
 $LOAD_PATH.unshift File.dirname(__FILE__)
 require "rspec"
 require "money"
+require "byebug"
 
 I18n.enforce_available_locales = false
 
