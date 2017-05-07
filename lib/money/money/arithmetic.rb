@@ -57,6 +57,7 @@ class Money
         return unless other.respond_to?(:zero?) && other.zero?
         return other.is_a?(CoercedNumeric) ? 0 <=> fractional : fractional <=> 0
       end
+      return 0 if zero? && other.zero?
       other = other.exchange_to(currency)
       fractional <=> other.fractional
     rescue Money::Bank::UnknownRate
