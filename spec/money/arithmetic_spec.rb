@@ -68,6 +68,12 @@ describe Money do
       expect(Money.new(1_00, "USD").eql?(Money.new(99_00, "EUR"))).to be false
     end
 
+    it "returns true when their amounts are zero and currencies differ" do
+      expect(Money.new(0, "USD").eql?(Money.new(0, "EUR"))).to be true
+      expect(Money.new(0, "USD").eql?(Money.new(0, "USD"))).to be true
+      expect(Money.new(0, "AUD").eql?(Money.new(0, "EUR"))).to be true
+    end
+
     it "returns false if used to compare with an object that doesn't inherit from Money" do
       expect(Money.new(1_00, "USD").eql?(Object.new)).to  be false
       expect(Money.new(1_00, "USD").eql?(Class)).to       be false
