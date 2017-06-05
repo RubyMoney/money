@@ -23,7 +23,6 @@ describe Money do
     end
 
     it "returns true if both amounts are zero, even if currency differs" do
-      allow_any_instance_of(Money).to receive(:exchange_to) { Money.usd(0) }
       expect(Money.new(0, "USD")).to eq Money.new(0, "USD")
       expect(Money.new(0, "USD")).to eq Money.new(0, "EUR")
       expect(Money.new(0, "USD")).to eq Money.new(0, "AUD")
@@ -67,6 +66,12 @@ describe Money do
       expect(Money.new(1_00, "USD").eql?(Money.new(1_00, "EUR"))).to  be false
       expect(Money.new(1_00, "USD").eql?(Money.new(2_00, "USD"))).to  be false
       expect(Money.new(1_00, "USD").eql?(Money.new(99_00, "EUR"))).to be false
+    end
+
+    it "returns true when their amounts are zero and currencies differ" do
+      expect(Money.new(0, "USD").eql?(Money.new(0, "EUR"))).to be true
+      expect(Money.new(0, "USD").eql?(Money.new(0, "USD"))).to be true
+      expect(Money.new(0, "AUD").eql?(Money.new(0, "EUR"))).to be true
     end
 
     it "returns false if used to compare with an object that doesn't inherit from Money" do
@@ -128,6 +133,32 @@ describe Money do
       expect(Money.new(1_00) <=> Class).to be_nil
       expect(Money.new(1_00) <=> Kernel).to be_nil
       expect(Money.new(1_00) <=> /foo/).to be_nil
+    end
+
+    context 'when conversions disallowed' do
+      around do |example|
+        begin
+          old_default_bank = Money.default_bank
+          Money.disallow_currency_conversion!
+          example.run
+        ensure
+          Money.default_bank = old_default_bank
+        end
+      end
+
+      context 'when currencies differ' do
+        context 'when both values are 1_00' do
+          it 'raises currency error' do
+            expect { Money.usd(1_00) <=> Money.gbp(1_00) }.to raise_error Money::Bank::DifferentCurrencyError
+          end
+        end
+
+        context 'when both values are 0' do
+          it 'considers them equal' do
+            expect(Money.usd(0) <=> Money.gbp(0)).to eq(0)
+          end
+        end
+      end
     end
 
     it 'compares with numeric 0' do
@@ -661,7 +692,7 @@ describe Money do
     end
   end
 
-  %w(+ - / <=> divmod remainder).each do |op|
+  %w(+ - / divmod remainder).each do |op|
     describe "##{op}" do
       subject { ->(other = self.other) { instance.send(op, other) } }
       let(:instance) { Money.usd(1) }
