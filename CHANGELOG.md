@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+- #eql? returns false when comparing Moneys with
+  fractional value of 0 and differing currencies.
+  This change aligns #eql? with #hash.
+
 ## 6.9.0
 - Extracted heuristics into money-heuristics gem
 

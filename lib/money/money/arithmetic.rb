@@ -20,11 +20,10 @@ class Money
     end
 
     # Checks whether two Money objects have the same currency and the same
-    # amount. If Money objects have a different currency it will only be true
-    # if the amounts are both zero. Checks against objects that are not Money or
-    # a subclass will always return false.
+    # amount. Checks against objects that are not Money will always return
+    # false.
     #
-    # @param [Money] other_money Value to compare with.
+    # @param [Money] other Value to compare with.
     #
     # @return [Boolean]
     #
@@ -32,15 +31,12 @@ class Money
     #   Money.new(100).eql?(Money.new(101))                #=> false
     #   Money.new(100).eql?(Money.new(100))                #=> true
     #   Money.new(100, "USD").eql?(Money.new(100, "GBP"))  #=> false
-    #   Money.new(0, "USD").eql?(Money.new(0, "EUR"))      #=> true
+    #   Money.new(0, "USD").eql?(Money.new(0, "EUR"))      #=> false
     #   Money.new(100).eql?("1.00")                        #=> false
-    def eql?(other_money)
-      if other_money.is_a?(Money)
-        (fractional == other_money.fractional && currency == other_money.currency) ||
-          (fractional == 0 && other_money.fractional == 0)
-      else
-        false
-      end
+    def eql?(other)
+      other.is_a?(Money) &&
+        fractional == other.fractional &&
+        currency == other.currency
     end
 
     # Compares two Money objects. If money objects have a different currency it
