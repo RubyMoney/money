@@ -2561,7 +2561,7 @@
   },
   "xts": {
     "priority": 100,
-    "iso_code": "xts",
+    "iso_code": "XTS",
     "name": "Codes specifically reserved for testing purposes",
     "symbol": "",
     "alternate_symbols": [],
