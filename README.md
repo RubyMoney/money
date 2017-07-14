@@ -119,15 +119,15 @@ below.
 
 ``` ruby
 curr = {
-  :priority        => 1,
-  :iso_code        => "USD",
-  :iso_numeric     => "840",
-  :name            => "United States Dollar",
-  :symbol          => "$",
-  :subunit         => "Cent",
-  :subunit_to_unit => 100,
-  :separator       => ".",
-  :delimiter       => ","
+  :priority            => 1,
+  :iso_code            => "USD",
+  :iso_numeric         => "840",
+  :name                => "United States Dollar",
+  :symbol              => "$",
+  :subunit             => "Cent",
+  :subunit_to_unit     => 100,
+  :decimal_mark        => ".",
+  :thousands_separator => ","
 }
 
 Money::Currency.register(curr)
@@ -142,8 +142,8 @@ The pre-defined set of attributes includes:
 - `:symbol` the currency symbol (UTF-8 encoded)
 - `:subunit` the name of the fractional monetary unit
 - `:subunit_to_unit` the proportion between the unit and the subunit
-- `:separator` character between the whole and fraction amounts
-- `:delimiter` character between each thousands place
+- `:decimal_mark` character between the whole and fraction amounts
+- `:thousands_separator` character between each thousands place
 
 All attributes except `:iso_code` are optional. Some attributes, such as
 `:symbol`, are used by the Money class to print out a representation of the
