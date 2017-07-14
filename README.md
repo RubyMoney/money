@@ -119,15 +119,15 @@ below.
 
 ``` ruby
 curr = {
-  :priority        => 1,
-  :iso_code        => "USD",
-  :iso_numeric     => "840",
-  :name            => "United States Dollar",
-  :symbol          => "$",
-  :subunit         => "Cent",
-  :subunit_to_unit => 100,
-  :separator       => ".",
-  :delimiter       => ","
+  :priority            => 1,
+  :iso_code            => "USD",
+  :iso_numeric         => "840",
+  :name                => "United States Dollar",
+  :symbol              => "$",
+  :subunit             => "Cent",
+  :subunit_to_unit     => 100,
+  :thousands_separator => ".",
+  :decimal_mark        => ","
 }
 
 Money::Currency.register(curr)
