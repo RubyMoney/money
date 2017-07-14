@@ -126,8 +126,8 @@ curr = {
   :symbol              => "$",
   :subunit             => "Cent",
   :subunit_to_unit     => 100,
-  :thousands_separator => ".",
-  :decimal_mark        => ","
+  :thousands_separator => ",",
+  :decimal_mark        => "."
 }
 
 Money::Currency.register(curr)
