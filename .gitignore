@@ -1,8 +1,8 @@
 # Bundler
 .bundle
-Gemfile.lock
 pkg/*
 bin/
+vendor/
 
 # Rubinius
 *.rbc
@@ -21,3 +21,7 @@ doc/
 
 # Spec artifacts
 /coverage
+
+# Rubymine
+.idea
+

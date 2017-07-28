@@ -14,3 +14,7 @@ elsif RUBY_VERSION =~ /^1/
 end
 
 gemspec
+
+group :development, :test do
+  gem 'byebug', '~> 9.0'
+end

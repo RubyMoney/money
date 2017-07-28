@@ -14,6 +14,20 @@
     "iso_numeric": "",
     "smallest_denomination": 1
   },
+  "eth": {
+    "priority": 100,
+    "iso_code": "ETH",
+    "name": "Ether",
+    "symbol": "Æ",
+    "alternate_symbols": [ "Ë", "ε", "∄" ],
+    "subunit": "N/A",
+    "subunit_to_unit": 100000000,
+    "symbol_first": true,
+    "html_entity": "",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": ""
+  },
   "jep": {
     "priority": 100,
     "iso_code": "JEP",
