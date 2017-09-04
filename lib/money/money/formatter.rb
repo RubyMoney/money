@@ -350,77 +350,77 @@ class Money
                        "\\1#{rules[:decimal_mark]}\\3")
       end
     end
-  end
 
-  def default_formatting_rules
-    self.class.default_formatting_rules || {}
-  end
+    def default_formatting_rules
+      self.class.default_formatting_rules || {}
+    end
 
-  def regexp_format(formatted, rules, decimal_mark, symbol_value)
-    regexp_decimal = Regexp.escape(decimal_mark)
-    if rules[:south_asian_number_formatting]
-      /(\d+?)(?=(\d\d)+(\d)(?:\.))/
-    else
-      # Symbols may contain decimal marks (E.g "դր.")
-      if formatted.sub(symbol_value.to_s, "") =~ /#{regexp_decimal}/
-        /(\d)(?=(?:\d{3})+(?:#{regexp_decimal}))/
+    def regexp_format(formatted, rules, decimal_mark, symbol_value)
+      regexp_decimal = Regexp.escape(decimal_mark)
+      if rules[:south_asian_number_formatting]
+        /(\d+?)(?=(\d\d)+(\d)(?:\.))/
       else
-        /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
-      end
-    end
-  end
-
-  def translate_formatting_rules(rules)
-    begin
-      rules[:symbol] = I18n.t currency.iso_code, :scope => "number.currency.symbol", :raise => true
-    rescue I18n::MissingTranslationData
-      # Do nothing
-    end
-    rules
-  end
-
-  def localize_formatting_rules(rules)
-    if currency.iso_code == "JPY" && I18n.locale == :ja
-      rules[:symbol] = "円" unless rules[:symbol] == false
-      rules[:symbol_position] = :after
-      rules[:symbol_after_without_space] = true
-    end
-    rules
-  end
-
-  def symbol_value_from(rules)
-    if rules.has_key?(:symbol)
-      if rules[:symbol] === true
-        if rules[:disambiguate] && currency.disambiguate_symbol
-          currency.disambiguate_symbol
+        # Symbols may contain decimal marks (E.g "դր.")
+        if formatted.sub(symbol_value.to_s, "") =~ /#{regexp_decimal}/
+          /(\d)(?=(?:\d{3})+(?:#{regexp_decimal}))/
         else
-          symbol
+          /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
         end
-      elsif rules[:symbol]
-        rules[:symbol]
-      else
-        ""
       end
-    elsif rules[:html]
-      currency.html_entity == '' ? currency.symbol : currency.html_entity
-    elsif rules[:disambiguate] && currency.disambiguate_symbol
-      currency.disambiguate_symbol
-    else
-      symbol
     end
-  end
 
-  def symbol_position_from(rules)
-    if rules.has_key?(:symbol_position)
-      if [:before, :after].include?(rules[:symbol_position])
-        return rules[:symbol_position]
-      else
-        raise ArgumentError, ":symbol_position must be ':before' or ':after'"
+    def translate_formatting_rules(rules)
+      begin
+        rules[:symbol] = I18n.t currency.iso_code, :scope => "number.currency.symbol", :raise => true
+      rescue I18n::MissingTranslationData
+        # Do nothing
       end
-    elsif currency.symbol_first?
-      :before
-    else
-      :after
+      rules
+    end
+
+    def localize_formatting_rules(rules)
+      if currency.iso_code == "JPY" && I18n.locale == :ja
+        rules[:symbol] = "円" unless rules[:symbol] == false
+        rules[:symbol_position] = :after
+        rules[:symbol_after_without_space] = true
+      end
+      rules
+    end
+
+    def symbol_value_from(rules)
+      if rules.has_key?(:symbol)
+        if rules[:symbol] === true
+          if rules[:disambiguate] && currency.disambiguate_symbol
+            currency.disambiguate_symbol
+          else
+            symbol
+          end
+        elsif rules[:symbol]
+          rules[:symbol]
+        else
+          ""
+        end
+      elsif rules[:html]
+        currency.html_entity == '' ? currency.symbol : currency.html_entity
+      elsif rules[:disambiguate] && currency.disambiguate_symbol
+        currency.disambiguate_symbol
+      else
+        symbol
+      end
+    end
+
+    def symbol_position_from(rules)
+      if rules.has_key?(:symbol_position)
+        if [:before, :after].include?(rules[:symbol_position])
+          return rules[:symbol_position]
+        else
+          raise ArgumentError, ":symbol_position must be ':before' or ':after'"
+        end
+      elsif currency.symbol_first?
+        :before
+      else
+        :after
+      end
     end
   end
 end
