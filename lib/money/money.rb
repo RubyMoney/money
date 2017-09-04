@@ -3,7 +3,7 @@ require "money/bank/variable_exchange"
 require "money/bank/single_currency"
 require "money/money/arithmetic"
 require "money/money/constructors"
-require "money/money/formatting"
+require "money/money/formatter"
 
 # "Money is any object or record that is generally accepted as payment for
 # goods and services and repayment of debts in a given socio-economic context
@@ -17,7 +17,7 @@ require "money/money/formatting"
 class Money
   include Comparable
   include Money::Arithmetic
-  include Money::Formatting
+  include Money::Formatter
   extend Constructors
 
   # Raised when smallest denomination of a currency is not defined

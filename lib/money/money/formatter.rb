@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class Money
-  module Formatting
+  module Formatter
     # Creates a formatted price string according to several rules.
     #
     # @param [Hash] rules The options used to format the string.
