@@ -358,10 +358,10 @@ class Money
             if fraction == ""
               unit
             else
-              "#{unit}#{decimal_mark}#{fraction}"
+              "#{unit}#{currency.decimal_mark}#{fraction}"
             end
           else
-            "#{unit}#{decimal_mark}#{pad_subunit(subunit)}#{fraction}"
+            "#{unit}#{currency.decimal_mark}#{pad_subunit(subunit)}#{fraction}"
           end
 
     fractional < 0 ? "-#{str}" : str
