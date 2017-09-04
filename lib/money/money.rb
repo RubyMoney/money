@@ -17,7 +17,6 @@ require "money/money/formatter"
 class Money
   include Comparable
   include Money::Arithmetic
-  include Money::Formatter
   extend Constructors
 
   # Raised when smallest denomination of a currency is not defined
@@ -543,6 +542,32 @@ class Money
     else
       self
     end
+  end
+
+  # Creates a formatted price string according to several rules.
+  #
+  # @param [Hash] See Money::Formatter for the list of formatting options
+  #
+  # @return [String]
+  #
+  def format(*rules)
+    Money::Formatter.new(self, *rules).to_s
+  end
+
+  # Returns a thousands separator according to the locale
+  #
+  # @return [String]
+  #
+  def thousands_separator
+    Money::Formatter.new(self, {}).thousands_separator
+  end
+
+  # Returns a decimal mark according to the locale
+  #
+  # @return [String]
+  #
+  def decimal_mark
+    Money::Formatter.new(self, {}).decimal_mark
   end
 
   private

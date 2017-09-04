@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class Money
-  module Formatter
+  class Formatter
     # Creates a formatted price string according to several rules.
     #
     # @param [Hash] rules The options used to format the string.
@@ -198,9 +198,14 @@ class Money
     # Note that the default rules can be defined through {Money.default_formatting_rules} hash.
     #
     # @see Money.default_formatting_rules Money.default_formatting_rules for more information.
-    def format(*rules)
+    def initialize(money, *rules)
+      @money = money
+      @raw_rules = rules
+    end
+
+    def to_s
       # support for old format parameters
-      rules = normalize_formatting_rules(rules)
+      rules = normalize_formatting_rules(raw_rules)
 
       rules = default_formatting_rules.merge(rules)
       rules = localize_formatting_rules(rules)
@@ -211,7 +216,7 @@ class Money
 
       escaped_decimal_mark = Regexp.escape(decimal_mark)
 
-      if fractional == 0
+      if money.fractional == 0
         if rules[:display_free].respond_to?(:to_str)
           return rules[:display_free]
         elsif rules[:display_free]
@@ -221,7 +226,7 @@ class Money
 
       symbol_value = symbol_value_from(rules)
 
-      formatted = self.abs.to_s
+      formatted = money.abs.to_s
 
       if rules[:rounded_infinite_precision]
         formatted.gsub!(/#{decimal_mark}/, '.') unless '.' == decimal_mark
@@ -233,9 +238,9 @@ class Money
         formatted.gsub!(/\./, decimal_mark) unless '.' == decimal_mark
       end
 
-      sign = self.negative? ? '-' : ''
+      sign = money.negative? ? '-' : ''
 
-      if rules[:no_cents] || (rules[:no_cents_if_whole] && cents % currency.subunit_to_unit == 0)
+      if rules[:no_cents] || (rules[:no_cents_if_whole] && money.cents % currency.subunit_to_unit == 0)
         formatted = "#{formatted.to_i}"
       end
 
@@ -257,7 +262,7 @@ class Money
 
       symbol_position = symbol_position_from(rules)
 
-      if rules[:sign_positive] == true && self.positive?
+      if rules[:sign_positive] == true && money.positive?
         sign = '+'
       end
 
@@ -304,8 +309,14 @@ class Money
 
     private
 
+    attr_reader :money, :raw_rules
+
+    def currency
+      money.currency
+    end
+
     def i18n_format_for(method, name, character)
-      if self.class.use_i18n
+      if Money.use_i18n
         begin
           I18n.t name, :scope => "number.currency.format", :raise => true
         rescue I18n::MissingTranslationData
@@ -352,7 +363,7 @@ class Money
     end
 
     def default_formatting_rules
-      self.class.default_formatting_rules || {}
+      Money.default_formatting_rules || {}
     end
 
     def regexp_format(formatted, rules, decimal_mark, symbol_value)
@@ -393,7 +404,7 @@ class Money
           if rules[:disambiguate] && currency.disambiguate_symbol
             currency.disambiguate_symbol
           else
-            symbol
+            money.symbol
           end
         elsif rules[:symbol]
           rules[:symbol]
@@ -405,7 +416,7 @@ class Money
       elsif rules[:disambiguate] && currency.disambiguate_symbol
         currency.disambiguate_symbol
       else
-        symbol
+        money.symbol
       end
     end
 
