@@ -1,4 +1,6 @@
 # encoding: UTF-8
+require 'money/money/formatting_rules'
+
 class Money
   class Formatter
     # Creates a formatted price string according to several rules.
@@ -200,17 +202,11 @@ class Money
     # @see Money.default_formatting_rules Money.default_formatting_rules for more information.
     def initialize(money, *rules)
       @money = money
-      @raw_rules = rules
+      @currency = money.currency
+      @rules = FormattingRules.new(@currency, *rules)
     end
 
     def to_s
-      # support for old format parameters
-      rules = normalize_formatting_rules(raw_rules)
-
-      rules = default_formatting_rules.merge(rules)
-      rules = localize_formatting_rules(rules)
-      rules = translate_formatting_rules(rules) if rules[:translate]
-
       thousands_separator = self.thousands_separator
       decimal_mark = self.decimal_mark
 
@@ -309,11 +305,7 @@ class Money
 
     private
 
-    attr_reader :money, :raw_rules
-
-    def currency
-      money.currency
-    end
+    attr_reader :money, :currency, :rules
 
     def i18n_format_for(method, name, character)
       if Money.use_i18n
@@ -325,27 +317,6 @@ class Money
       else
         currency.send(method) || character
       end
-    end
-
-    # Cleans up formatting rules.
-    #
-    # @param [Hash] rules
-    #
-    # @return [Hash]
-    def normalize_formatting_rules(rules)
-      if rules.size == 0
-        rules = {}
-      elsif rules.size == 1
-        rules = rules.pop
-        rules = { rules => true } if rules.is_a?(Symbol)
-      end
-      if !rules.include?(:decimal_mark) && rules.include?(:separator)
-        rules[:decimal_mark] = rules[:separator]
-      end
-      if !rules.include?(:thousands_separator) && rules.include?(:delimiter)
-        rules[:thousands_separator] = rules[:delimiter]
-      end
-      rules
     end
 
     # Applies decimal mark from rules to formatted
@@ -362,10 +333,6 @@ class Money
       end
     end
 
-    def default_formatting_rules
-      Money.default_formatting_rules || {}
-    end
-
     def regexp_format(formatted, rules, decimal_mark, symbol_value)
       regexp_decimal = Regexp.escape(decimal_mark)
       if rules[:south_asian_number_formatting]
@@ -378,24 +345,6 @@ class Money
           /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
         end
       end
-    end
-
-    def translate_formatting_rules(rules)
-      begin
-        rules[:symbol] = I18n.t currency.iso_code, :scope => "number.currency.symbol", :raise => true
-      rescue I18n::MissingTranslationData
-        # Do nothing
-      end
-      rules
-    end
-
-    def localize_formatting_rules(rules)
-      if currency.iso_code == "JPY" && I18n.locale == :ja
-        rules[:symbol] = "円" unless rules[:symbol] == false
-        rules[:symbol_position] = :after
-        rules[:symbol_after_without_space] = true
-      end
-      rules
     end
 
     def symbol_value_from(rules)
