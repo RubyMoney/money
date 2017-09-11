@@ -584,7 +584,7 @@ class Money
   end
 
   def allocations_from_splits(splits)
-    splits.inject(0) { |sum, n| sum + as_d(n) }
+    splits.inject(0) { |sum, n| sum + n }
   end
 
   def amounts_from_splits(allocations, splits)

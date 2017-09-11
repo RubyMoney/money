@@ -598,6 +598,22 @@ YAML
       expect(moneys[2].cents).to eq 33
     end
 
+    it "does not round rationals" do
+      splits = 7.times.map { Rational(950, 6650) }
+      moneys = Money.us_dollar(6650).allocate(splits)
+      moneys.each do |money|
+        expect(money.cents).to eq 950
+      end
+    end
+
+    it "handles mixed split types" do
+      splits = [Rational(1, 4), 0.25, 0.25, BigDecimal.new('0.25')]
+      moneys = Money.us_dollar(100).allocate(splits)
+      moneys.each do |money|
+        expect(money.cents).to eq 25
+      end
+    end
+
     context "negative amount" do
       it "does not lose pennies" do
         moneys = Money.us_dollar(-100).allocate([0.333, 0.333, 0.333])
