@@ -379,7 +379,7 @@ YAML
       expect(Money.new(1_00,  "USD").amount).to eq 1
       expect(Money.new(1_000, "TND").amount).to eq 1
       expect(Money.new(1,     "VUV").amount).to eq 1
-      expect(Money.new(1,     "CLP").amount).to eq 1
+      expect(Money.new(1_00,     "CLP").amount).to eq 1
     end
 
     it "does not lose precision" do
