@@ -538,11 +538,8 @@ class Money
   #   Money.infinite_precision
   #
   def round(rounding_mode = self.class.rounding_mode)
-    if self.class.infinite_precision
-      self.class.new(fractional.round(0, rounding_mode), self.currency)
-    else
-      self
-    end
+    return self unless self.class.infinite_precision
+    self.class.new(fractional.round(0, rounding_mode), self.currency)
   end
 
   private
