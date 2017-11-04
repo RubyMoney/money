@@ -1,5 +1,15 @@
 # Changelog
 
+## 6.10.0
+- Added support for i18n version 0.9
+- Disabled rounding when verifying allocation splits
+- Added Chinese Yuan Offshore (CNH)
+- Fixed html_entity for ARS
+- Fixed KZT symbol
+- Allowed comparing cross currency when both are zero
+- Fixed memory rate store
+- Corrected HUF subunit and thousands separator config
+
 ## 6.9.0
 - Extracted heuristics into money-heuristics gem
 
