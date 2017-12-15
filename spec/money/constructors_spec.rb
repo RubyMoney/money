@@ -19,6 +19,14 @@ describe Money::Constructors do
       expect(Money.empty).to be_frozen
     end
 
+    it "always use Currency object to memoize Money objects" do
+      Money.instance_variable_set(:@empty, {})
+      expect {
+        Money.zero(:usd)
+        Money.zero
+      }.to_not raise_error
+    end
+
     it "instantiates a subclass when inheritance is used" do
       special_money_class = Class.new(Money)
       expect(special_money_class.empty).to be_a special_money_class
