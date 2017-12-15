@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.10.1
+- Fix an issue with Money.empty memoization
+
 ## 6.10.0
 - Added support for i18n version 0.9
 - Disabled rounding when verifying allocation splits
