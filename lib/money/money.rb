@@ -177,7 +177,7 @@ class Money
   #
   # @example
   #   fee = Money.rounding_mode(BigDecimal::ROUND_HALF_UP) do
-  #     Money.new(1200) * BigDecimal.new('0.029')
+  #     Money.new(1200) * BigDecimal('0.029')
   #   end
   def self.rounding_mode(mode=nil)
     if mode.nil?
@@ -271,7 +271,7 @@ class Money
   # @return [BigDecimal]
   #
   # @example
-  #   Money.new(1_00, "USD").dollars   # => BigDecimal.new("1.00")
+  #   Money.new(1_00, "USD").dollars   # => BigDecimal("1.00")
   #
   # @see #amount
   # @see #to_d
@@ -286,7 +286,7 @@ class Money
   # @return [BigDecimal]
   #
   # @example
-  #   Money.new(1_00, "USD").amount    # => BigDecimal.new("1.00")
+  #   Money.new(1_00, "USD").amount    # => BigDecimal("1.00")
   #
   # @see #to_d
   # @see #fractional
@@ -372,7 +372,7 @@ class Money
   # @return [BigDecimal]
   #
   # @example
-  #   Money.us_dollar(1_00).to_d #=> BigDecimal.new("1.00")
+  #   Money.us_dollar(1_00).to_d #=> BigDecimal("1.00")
   def to_d
     as_d(fractional) / as_d(currency.subunit_to_unit)
   end
@@ -551,7 +551,7 @@ class Money
     if num.respond_to?(:to_d)
       num.is_a?(Rational) ? num.to_d(self.class.conversion_precision) : num.to_d
     else
-      BigDecimal.new(num.to_s.empty? ? 0 : num.to_s)
+      BigDecimal(num.to_s.empty? ? 0 : num.to_s)
     end
   end
 

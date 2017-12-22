@@ -119,14 +119,14 @@ class Money
       end
 
       def calculate_fractional(from, to_currency)
-        BigDecimal.new(from.fractional.to_s) / (
-          BigDecimal.new(from.currency.subunit_to_unit.to_s) /
-          BigDecimal.new(to_currency.subunit_to_unit.to_s)
+        BigDecimal(from.fractional.to_s) / (
+          BigDecimal(from.currency.subunit_to_unit.to_s) /
+          BigDecimal(to_currency.subunit_to_unit.to_s)
         )
       end
 
       def exchange(fractional, rate, &block)
-        ex = fractional * BigDecimal.new(rate.to_s)
+        ex = fractional * BigDecimal(rate.to_s)
         if block_given?
           yield ex
         elsif @rounding_method
