@@ -49,7 +49,7 @@ describe Money do
     it 'allows comparison with zero' do
       expect(Money.new(0, :usd)).to eq 0
       expect(Money.new(0, :usd)).to eq 0.0
-      expect(Money.new(0, :usd)).to eq BigDecimal.new(0)
+      expect(Money.new(0, :usd)).to eq BigDecimal(0)
       expect(Money.new(1, :usd)).to_not eq 0
     end
 

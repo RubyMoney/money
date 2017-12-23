@@ -607,7 +607,7 @@ YAML
     end
 
     it "handles mixed split types" do
-      splits = [Rational(1, 4), 0.25, 0.25, BigDecimal.new('0.25')]
+      splits = [Rational(1, 4), 0.25, 0.25, BigDecimal('0.25')]
       moneys = Money.us_dollar(100).allocate(splits)
       moneys.each do |money|
         expect(money.cents).to eq 25
@@ -618,9 +618,9 @@ YAML
       it "does not lose pennies" do
         moneys = Money.us_dollar(-100).allocate([0.333, 0.333, 0.333])
 
-        expect(moneys[0].cents).to eq -34
-        expect(moneys[1].cents).to eq -33
-        expect(moneys[2].cents).to eq -33
+        expect(moneys[0].cents).to eq(-34)
+        expect(moneys[1].cents).to eq(-33)
+        expect(moneys[2].cents).to eq(-33)
       end
 
       it "allocates the same way as positive amounts" do
