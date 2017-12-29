@@ -1,3 +1,5 @@
+require 'money'
+
 class Money
   class Collection
     include Enumerable
