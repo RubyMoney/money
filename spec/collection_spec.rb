@@ -167,6 +167,7 @@ RSpec.describe Money::Collection do
       c = Money::Collection.new
       c.concat ary
 
+      expect(c.size).to eq(2)
       expect(c.sum('foo')).to eq(Money.new(22,:foo))
     end
 
@@ -180,6 +181,7 @@ RSpec.describe Money::Collection do
       c.concat ary
       c.concat ary
 
+      expect(c.size).to eq(4)
       expect(c.sum('foo')).to eq(Money.new(44,:foo))
     end
   end

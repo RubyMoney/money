@@ -90,6 +90,10 @@ class Money
       self
     end
 
+    def size
+      @collection.size
+    end
+
     private
 
     # Sums up Money objects using built-in :+ method.
