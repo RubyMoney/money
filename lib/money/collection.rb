@@ -80,11 +80,11 @@ class Money
 
     def concat(other_ary)
       @collection.concat(other_ary)
-      other_ary.each do |obj|
-        if @group_by_currency[obj.currency].nil?
-          @group_by_currency[obj.currency] = [obj]
+      other_ary.group_by(&:currency).each do |currency, ary|
+        if @group_by_currency[currency].nil?
+          @group_by_currency[currency] = ary
         else
-          @group_by_currency[obj.currency] << obj
+          @group_by_currency[currency].concat(ary)
         end
       end
       self
