@@ -20,29 +20,26 @@ class Money
 
       if @group_by_currency.size == 1
         sum = self.class.sum_single_currency(@collection)
+        if target_currency
+          sum = sum.exchange_to(target_currency)
+        end
       else
         sums_per_currency = @group_by_currency.values.map{|moneys|
           self.class.sum_single_currency(moneys)
         }
 
-        # If target_currency is specified, and is in collection,
-        # move it to the front so it has precedence over other currencies.
+        # Convert to target_currency if specified
         if target_currency
           target_currency = Money::Currency.wrap(target_currency)
-          if index = sums_per_currency.find_index{|money| money.currency == target_currency}
-            money = sums_per_currency.delete_at(index)
-            sums_per_currency.unshift money
-          end
+          sums_per_currency.map!{|s|
+            s.exchange_to(target_currency)
+          }
         end
 
         sum = self.class.sum_basic(sums_per_currency)
       end
 
-      if target_currency.nil?
-        sum
-      else
-        sum.exchange_to(target_currency)
-      end
+      sum
     end
 
     def max

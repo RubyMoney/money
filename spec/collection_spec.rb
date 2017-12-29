@@ -16,10 +16,21 @@ RSpec.describe Money::Collection do
 
     Money.add_rate("FOO", "USD", 0.5)
     Money.add_rate("USD", "FOO", 2)
+
+
+    bar = {
+      :iso_code        => "BAR",
+      :subunit_to_unit => 100,
+    }
+    Money::Currency.register(bar)
+
+    Money.add_rate("BAR", "FOO", 1)
+    Money.add_rate("FOO", "BAR", nil) # Disallow conversion
   end
 
   after :all do
     Money::Currency.unregister("FOO")
+    Money::Currency.unregister("BAR")
   end
 
   describe '#sum' do
@@ -90,6 +101,17 @@ RSpec.describe Money::Collection do
 
       expect(c.sum('foo')).to eq(Money.new(22,:foo))
       expect(c.sum('usd')).to eq(Money.new(11,:usd))
+    end
+
+    it 'returns sum in the specified currency and without unnecessary intermediate conversion' do
+      ary = [
+        Money.new(10,:usd),
+        Money.new(1,:bar),
+      ]
+
+      c = Money::Collection.new(ary)
+
+      expect(c.sum('foo')).to eq(Money.new(21,:foo))
     end
 
     it 'sums large number of Money' do
