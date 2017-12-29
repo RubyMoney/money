@@ -45,6 +45,18 @@ class Money
       end
     end
 
+    def max
+      @group_by_currency.values.map{|moneys|
+        moneys.max_by{|money| money.fractional}
+      }.max
+    end
+
+    def min
+      @group_by_currency.values.map{|moneys|
+        moneys.min_by{|money| money.fractional}
+      }.min
+    end
+
     #### delegations
 
     def each
