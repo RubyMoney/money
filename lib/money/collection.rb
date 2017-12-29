@@ -24,16 +24,16 @@ class Money
           sum = sum.exchange_to(target_currency)
         end
       else
-        sums_per_currency = @group_by_currency.values.map{|moneys|
+        sums_per_currency = @group_by_currency.values.map do |moneys|
           self.class.sum_single_currency(moneys)
-        }
+        end
 
         # Convert to target_currency if specified
         if target_currency
           target_currency = Money::Currency.wrap(target_currency)
-          sums_per_currency.map!{|s|
+          sums_per_currency.map! do |s|
             s.exchange_to(target_currency)
-          }
+          end
         end
 
         sum = self.class.sum_basic(sums_per_currency)
@@ -43,15 +43,15 @@ class Money
     end
 
     def max
-      @group_by_currency.values.map{|moneys|
+      @group_by_currency.values.map do |moneys|
         moneys.max_by{|money| money.fractional}
-      }.max
+      end.max
     end
 
     def min
-      @group_by_currency.values.map{|moneys|
+      @group_by_currency.values.map do |moneys|
         moneys.min_by{|money| money.fractional}
-      }.min
+      end.min
     end
 
     #### delegations
