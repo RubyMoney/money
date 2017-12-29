@@ -21,11 +21,21 @@ class Money
       if @group_by_currency.size == 1
         sum = self.class.sum_single_currency(@collection)
       else
-        sum = self.class.sum_basic(
-          @group_by_currency.values.map{|moneys|
-            self.class.sum_single_currency(moneys)
-          }
-        )
+        sums_per_currency = @group_by_currency.values.map{|moneys|
+          self.class.sum_single_currency(moneys)
+        }
+
+        # If target_currency is specified, and is in collection,
+        # move it to the front so it has precedence over other currencies.
+        if target_currency
+          target_currency = self.class.convert_to_currency_object(target_currency)
+          if index = sums_per_currency.find_index{|money| money.currency == target_currency}
+            money = sums_per_currency.delete_at(index)
+            sums_per_currency.unshift money
+          end
+        end
+
+        sum = self.class.sum_basic(sums_per_currency)
       end
 
       if target_currency.nil?
@@ -84,6 +94,15 @@ class Money
     def self.sum_single_currency(moneys)
       total_fractional = moneys.reduce(0){|fractional, money| fractional += money.fractional }
       Money.new(total_fractional, moneys[0].currency)
+    end
+
+    def self.convert_to_currency_object(currency)
+      case currency
+      when String, Symbol
+        ::Money::Currency.new(currency)
+      when ::Money::Currency
+        currency
+      end
     end
   end
 end

@@ -69,6 +69,17 @@ RSpec.describe Money::Collection do
       expect(c.sum).to eq(Money.new(11,:usd))
     end
 
+    it 'sums correctly, avoiding rounding twice if possible' do
+      ary = [
+        Money.new(10,:usd),
+        Money.new(1,:foo),
+      ]
+
+      c = Money::Collection.new(ary)
+
+      expect(c.sum(:foo)).to eq(Money.new(21,:foo))
+    end
+
     it 'returns sum in the specified currency' do
       ary = [
         Money.new(10,:usd),
