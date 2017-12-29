@@ -94,6 +94,30 @@ RSpec.describe Money::Collection do
 
       expect(c.sum('foo')).to eq(Money.new(22,:foo))
     end
+
+    it 'concats Money objects to collection multiple times' do
+      ary = [
+        Money.new(10,:usd),
+        Money.new(2,:foo),
+      ]
+
+      c = Money::Collection.new
+      c.concat ary
+      c.concat ary
+
+      expect(c.sum('foo')).to eq(Money.new(44,:foo))
+    end
+  end
+
+  describe '#<<' do
+    it 'concats Money object to collection multiple times' do
+      c = Money::Collection.new
+      c << Money.new(10,:usd)
+      c << Money.new(10,:foo)
+      c << Money.new(10,:usd)
+
+      expect(c.sum).to eq(Money.new(25,:usd))
+    end
   end
 
   describe 'no side effect' do
