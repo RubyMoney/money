@@ -91,6 +91,24 @@ RSpec.describe Money::Collection do
       expect(c.sum('foo')).to eq(Money.new(22,:foo))
       expect(c.sum('usd')).to eq(Money.new(11,:usd))
     end
+
+    it 'sums large number of Money' do
+      10.times do
+        # force first bunch to be FOO, the a bunch of USD,
+        # so there won't be currency conversion error even for native sum method
+        ary = 1000.times.map do
+          Money.new(Random.rand(100000), :foo)
+        end
+        ary.concat(
+          1000.times.map do
+            Money.new(Random.rand(100000), :usd)
+          end
+        )
+
+        c = Money::Collection.new(ary)
+        expect(c.sum('foo')).to eq(normal_sum(ary))
+      end
+    end
   end
 
   describe '#concat' do
