@@ -4,7 +4,7 @@ class Money
 
     # @parma array [#to_a] collection of Money objects
     def initialize(array = nil)
-      @collection = array.to_a
+      @collection = array.to_a.dup
     end
 
     # Sums up Money objects in collection.

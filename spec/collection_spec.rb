@@ -95,4 +95,17 @@ RSpec.describe Money::Collection do
       expect(c.sum('foo')).to eq(Money.new(22,:foo))
     end
   end
+
+  describe 'no side effect' do
+    it 'does not change original array that is passed in the initialize method' do
+      m1 = Money.new(10,:usd)
+      ary = [m1]
+
+      c = Money::Collection.new(ary)
+      c << Money.new(1,:usd)
+
+      expect(ary.size).to eq(1)
+      expect(ary[0]).to eq(m1)
+    end
+  end
 end
