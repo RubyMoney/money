@@ -932,13 +932,13 @@
     "symbol": "Ft",
     "alternate_symbols": [],
     "subunit": "",
-    "subunit_to_unit": 1,
+    "subunit_to_unit": 100,
     "symbol_first": false,
     "html_entity": "",
     "decimal_mark": ",",
     "thousands_separator": " ",
     "iso_numeric": "348",
-    "smallest_denomination": 5
+    "smallest_denomination": 500
   },
   "idr": {
     "priority": 100,

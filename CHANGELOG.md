@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.0.0
+- Set HUF subunit config according to ISO
+
 ## 6.10.1
 - Fix an issue with Money.empty memoization
 
