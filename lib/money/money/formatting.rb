@@ -384,6 +384,11 @@ class Money
       rules[:symbol] = "円" unless rules[:symbol] == false
       rules[:symbol_position] = :after
       rules[:symbol_after_without_space] = true
+    elsif I18n.locale == :"fr-CA"
+      rules[:symbol_position] = :after
+      rules[:decimal_mark] = ","
+      rules[:thousands_separator] = " "
+      rules[:symbol_after_without_space] = false
     end
     rules
   end
