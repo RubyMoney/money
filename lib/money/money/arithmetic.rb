@@ -16,7 +16,7 @@ class Money
     # @example
     #    - Money.new(100) #=> #<Money @fractional=-100>
     def -@
-      self.class.new(-fractional, currency)
+      self.class.new(-fractional, currency, bank)
     end
 
     # Checks whether two Money objects have the same currency and the same
@@ -129,7 +129,7 @@ class Money
           raise TypeError
         end
         other = other.exchange_to(currency)
-        self.class.new(fractional.public_send(op, other.fractional), currency)
+        self.class.new(fractional.public_send(op, other.fractional), currency, bank)
       end
     end
 
@@ -150,7 +150,7 @@ class Money
     def *(value)
       value = value.value if value.is_a?(CoercedNumeric)
       if value.is_a? Numeric
-        self.class.new(fractional * value, currency)
+        self.class.new(fractional * value, currency, bank)
       else
         raise TypeError, "Can't multiply a #{self.class.name} by a #{value.class.name}'s value"
       end
@@ -176,7 +176,7 @@ class Money
         fractional / as_d(value.exchange_to(currency).fractional).to_f
       else
         raise TypeError, 'Can not divide by Money' if value.is_a?(CoercedNumeric)
-        self.class.new(fractional / as_d(value), currency)
+        self.class.new(fractional / as_d(value), currency, bank)
       end
     end
 
@@ -214,13 +214,13 @@ class Money
     def divmod_money(val)
       cents = val.exchange_to(currency).cents
       quotient, remainder = fractional.divmod(cents)
-      [quotient, self.class.new(remainder, currency)]
+      [quotient, self.class.new(remainder, currency, bank)]
     end
     private :divmod_money
 
     def divmod_other(val)
       quotient, remainder = fractional.divmod(as_d(val))
-      [self.class.new(quotient, currency), self.class.new(remainder, currency)]
+      [self.class.new(quotient, currency, bank), self.class.new(remainder, currency, bank)]
     end
     private :divmod_other
 
@@ -264,7 +264,7 @@ class Money
       if (fractional < 0 && val < 0) || (fractional > 0 && val > 0)
         self.modulo(val)
       else
-        self.modulo(val) - (val.is_a?(Money) ? val : self.class.new(val, currency))
+        self.modulo(val) - (val.is_a?(Money) ? val : self.class.new(val, currency, bank))
       end
     end
 
@@ -275,7 +275,7 @@ class Money
     # @example
     #   Money.new(-100).abs #=> #<Money @fractional=100>
     def abs
-      self.class.new(fractional.abs, currency)
+      self.class.new(fractional.abs, currency, bank)
     end
 
     # Test if the money amount is zero.

@@ -12,6 +12,8 @@ describe Money do
       special_money_class = Class.new(Money)
       expect(- special_money_class.new(10_00)).to be_a special_money_class
     end
+
+    it_behaves_like 'instance with custom bank', :-@
   end
 
   describe "#==" do
@@ -215,6 +217,8 @@ describe Money do
       special_money_class = Class.new(Money)
       expect(special_money_class.new(10_00, "USD") + Money.new(90, "USD")).to be_a special_money_class
     end
+
+    it_behaves_like 'instance with custom bank', :+, Money.new(1)
   end
 
   describe "#-" do
@@ -236,6 +240,8 @@ describe Money do
       special_money_class = Class.new(Money)
       expect(special_money_class.new(10_00, "USD") - Money.new(90, "USD")).to be_a special_money_class
     end
+
+    it_behaves_like 'instance with custom bank', :-, Money.new(1)
   end
 
   describe "#*" do
@@ -267,6 +273,8 @@ describe Money do
       special_money_class = Class.new(Money)
       expect(special_money_class.new(10_00, "USD") * 2).to be_a special_money_class
     end
+
+    it_behaves_like 'instance with custom bank', :*, 1
   end
 
   describe "#/" do
@@ -363,6 +371,8 @@ describe Money do
         end
       end
     end
+
+    it_behaves_like 'instance with custom bank', :/, 1
   end
 
   describe "#div" do
@@ -479,6 +489,9 @@ describe Money do
       special_money_class = Class.new(Money)
       expect(special_money_class.new(10_00, "USD").divmod(special_money_class.new(4_00)).last).to be_a special_money_class
     end
+
+    it_behaves_like 'instance with custom bank', :divmod, Money.new(1)
+    it_behaves_like 'instance with custom bank', :divmod, 1
   end
 
   describe "#modulo" do
@@ -571,6 +584,8 @@ describe Money do
         expect(t[:a].remainder(t[:b])).to eq t[:c]
       end
     end
+
+    it_behaves_like 'instance with custom bank', :remainder, -1
   end
 
   describe "#abs" do
@@ -584,6 +599,8 @@ describe Money do
       special_money_class = Class.new(Money)
       expect(special_money_class.new(-1).abs).to be_a special_money_class
     end
+
+    it_behaves_like 'instance with custom bank', :abs
   end
 
   describe "#zero?" do
