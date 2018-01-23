@@ -659,6 +659,11 @@ describe Money do
       expect(result).to eq Money.new(-4, 'USD')
     end
 
+    it "allows addition from numeric zero" do
+      result = 0 + Money.new(4, 'USD')
+      expect(result).to eq Money.new(4, 'USD')
+    end
+
     it "treats multiplication as commutative" do
       expect {
         2 * Money.new(2, 'USD')
