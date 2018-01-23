@@ -125,7 +125,9 @@ class Money
     [:+, :-].each do |op|
       define_method(op) do |other|
         unless other.is_a?(Money)
-          return self if other.zero?
+          if other.zero?
+            return other.is_a?(CoercedNumeric) ? Money.empty.public_send(op, self) : self
+          end
           raise TypeError
         end
         other = other.exchange_to(currency)
