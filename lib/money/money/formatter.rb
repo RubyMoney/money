@@ -336,7 +336,8 @@ class Money
     def regexp_format(formatted, rules, decimal_mark, symbol_value)
       regexp_decimal = Regexp.escape(decimal_mark)
       if rules[:south_asian_number_formatting]
-        /(\d+?)(?=(\d\d)+(\d)(?:\.))/
+        # from http://blog.revathskumar.com/2014/11/regex-comma-seperated-indian-currency-format.html
+        /(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/
       else
         # Symbols may contain decimal marks (E.g "դր.")
         if formatted.sub(symbol_value.to_s, "") =~ /#{regexp_decimal}/
