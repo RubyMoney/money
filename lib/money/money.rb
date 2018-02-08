@@ -603,9 +603,7 @@ class Money
   end
 
   def pad_subunit(subunit)
-    cnt = currency.decimal_places
-    padding = "0" * cnt
-    "#{padding}#{subunit}"[-1 * cnt, cnt]
+    subunit.rjust(currency.decimal_places, '0')
   end
 
   def allocations_from_splits(splits)
