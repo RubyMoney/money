@@ -399,37 +399,11 @@ class Money
     #
     # @return [Integer]
     def exponent
-      Math.log10(@subunit_to_unit).round
+      Math.log10(subunit_to_unit).round
     end
-
-    # Cache decimal places for subunit_to_unit values. Common ones pre-cached.
-    def self.decimal_places_cache
-      @decimal_places_cache ||= {1 => 0, 10 => 1, 100 => 2, 1000 => 3}
-    end
-
-    # The number of decimal places needed.
-    #
-    # @return [Integer]
-    def decimal_places
-      cache[subunit_to_unit] ||= calculate_decimal_places(subunit_to_unit)
-    end
+    alias decimal_places exponent
 
     private
-
-    def cache
-      self.class.decimal_places_cache
-    end
-
-    # If we need to figure out how many decimal places we need we
-    # use repeated integer division.
-    def calculate_decimal_places(num)
-      i = 1
-      while num >= 10
-        num /= 10
-        i += 1 if num >= 10
-      end
-      i
-    end
 
     def initialize_data!
       data = self.class.table[@id]
