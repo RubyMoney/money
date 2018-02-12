@@ -207,18 +207,12 @@ class Money
     end
 
     def to_s
+      return free_text if show_free_text?
+
       thousands_separator = self.thousands_separator
       decimal_mark = self.decimal_mark
 
       escaped_decimal_mark = Regexp.escape(decimal_mark)
-
-      if money.fractional == 0
-        if rules[:display_free].respond_to?(:to_str)
-          return rules[:display_free]
-        elsif rules[:display_free]
-          return "free"
-        end
-      end
 
       symbol_value = symbol_value_from(rules)
 
@@ -313,6 +307,14 @@ class Money
     private
 
     attr_reader :money, :currency, :rules
+
+    def show_free_text?
+      money.zero? && rules[:display_free]
+    end
+
+    def free_text
+      rules[:display_free].respond_to?(:to_str) ? rules[:display_free] : 'free'
+    end
 
     def i18n_format_for(method, name, character)
       if Money.use_i18n
