@@ -209,55 +209,16 @@ class Money
     def to_s
       return free_text if show_free_text?
 
-      thousands_separator = self.thousands_separator
-      decimal_mark = self.decimal_mark
+      whole_part, decimal_part = extract_whole_and_decimal_parts
 
-      escaped_decimal_mark = Regexp.escape(decimal_mark)
+      # Format whole and decimal parts separately
+      decimal_part = format_decimal_part(decimal_part)
+      whole_part = format_whole_part(whole_part)
 
-      symbol_value = symbol_value_from(rules)
-
-      formatted = money.abs.to_s
-
-      if rules[:rounded_infinite_precision]
-        formatted.gsub!(/#{decimal_mark}/, '.') unless '.' == decimal_mark
-        formatted = ((BigDecimal(formatted) * currency.subunit_to_unit).round / BigDecimal(currency.subunit_to_unit.to_s)).to_s("F")
-        formatted.gsub!(/\..*/) do |decimal_part|
-          decimal_part << '0' while decimal_part.length < (currency.decimal_places + 1)
-          decimal_part
-        end
-        formatted.gsub!(/\./, decimal_mark) unless '.' == decimal_mark
-      end
-
-      sign = money.negative? ? '-' : ''
-
-      if rules[:no_cents] || (rules[:no_cents_if_whole] && money.cents % currency.subunit_to_unit == 0)
-        formatted = "#{formatted.to_i}"
-      end
-
-      # Inspiration: https://github.com/rails/rails/blob/16214d1108c31174c94503caced3855b0f6bad95/activesupport/lib/active_support/number_helper/number_to_rounded_converter.rb#L72-L79
-      if rules[:drop_trailing_zeros]
-        formatted = formatted.sub(/(#{escaped_decimal_mark})(\d*[1-9])?0+\z/, '\1\2').sub(/#{escaped_decimal_mark}\z/, '')
-      end
-      has_decimal_value = !!(formatted =~ /#{escaped_decimal_mark}/)
-
-      thousands_separator_value = thousands_separator
-      # Determine thousands_separator
-      if rules.has_key?(:thousands_separator)
-        thousands_separator_value = rules[:thousands_separator] || ''
-      end
-
-      # FIXME: This is a temporary solution for south asian number formatting and INDIAN_BAR
-      #        currency, because the regexp we use cannot handle > 3 digits after decimal mark
-      whole_part, decimal_part = formatted.split(decimal_mark, 2)
-
-      # Apply thousands_separator
-      regexp = regexp_format(whole_part, rules, decimal_mark, symbol_value)
-      whole_part.gsub!(regexp, "\\1#{thousands_separator_value}")
-
-      # FIXME: Re-assemble the result after applying the regexp
+      # Assemble the final formatted amount
       formatted = [whole_part, decimal_part].compact.join(decimal_mark)
 
-      symbol_position = symbol_position_from(rules)
+      sign = money.negative? ? '-' : ''
 
       if rules[:sign_positive] == true && money.positive?
         sign = '+'
@@ -268,8 +229,11 @@ class Money
         sign = ''
       end
 
+      symbol_value = symbol_value_from(rules)
+
       if symbol_value && !symbol_value.empty?
         symbol_value = "<span class=\"currency_symbol\">#{symbol_value}</span>" if rules[:html_wrap_symbol]
+        symbol_position = symbol_position_from(rules)
 
         formatted = if symbol_position == :before
           symbol_space = rules[:symbol_before_without_space] === false ? " " : ""
@@ -282,8 +246,6 @@ class Money
         formatted="#{sign_before}#{sign}#{formatted}"
       end
 
-      apply_decimal_mark_from_rules(formatted, rules) if has_decimal_value
-
       if rules[:with_currency]
         formatted << " "
         formatted << '<span class="currency">' if rules[:html]
@@ -294,11 +256,19 @@ class Money
     end
 
     def thousands_separator
-      i18n_format_for(:thousands_separator, :delimiter, ",")
+      if rules.has_key?(:thousands_separator)
+        rules[:thousands_separator] || ''
+      else
+        i18n_format_for(:thousands_separator, :delimiter, ',')
+      end
     end
 
     def decimal_mark
-      i18n_format_for(:decimal_mark, :separator, ".")
+      if rules.has_key?(:decimal_mark)
+        rules[:decimal_mark] || '.'
+      else
+        i18n_format_for(:decimal_mark, :separator, '.')
+      end
     end
 
     alias_method :delimiter, :thousands_separator
@@ -316,6 +286,45 @@ class Money
       rules[:display_free].respond_to?(:to_str) ? rules[:display_free] : 'free'
     end
 
+    def format_whole_part(value)
+      # Determine thousands_separator
+      thousands_separator_value = if rules.has_key?(:thousands_separator)
+                                    rules[:thousands_separator] || ''
+                                  else
+                                    thousands_separator
+                                  end
+
+      # Apply thousands_separator
+      value.gsub regexp_format, "\\1#{thousands_separator_value}"
+    end
+
+    def extract_whole_and_decimal_parts
+      fractional = money.fractional.abs
+
+      # Round the infinite precision part if needed
+      fractional = fractional.round if rules[:rounded_infinite_precision]
+
+      # Translate subunits into units
+      fractional_units = BigDecimal(fractional) / currency.subunit_to_unit
+
+      # Split the result and return whole and decimal parts separately
+      fractional_units.to_s('F').split('.')
+    end
+
+    def format_decimal_part(value)
+      return nil if currency.decimal_places == 0
+      return nil if rules[:no_cents]
+      return nil if rules[:no_cents_if_whole] && value.to_i == 0
+
+      # Pad value, making up for missing zeroes at the end
+      value = value.ljust(currency.decimal_places, '0')
+
+      # Drop trailing zeros if needed
+      value.gsub!(/0*$/, '') if rules[:drop_trailing_zeros]
+
+      value.empty? ? nil : value
+    end
+
     def i18n_format_for(method, name, character)
       if Money.use_i18n
         begin
@@ -328,32 +337,12 @@ class Money
       end
     end
 
-    # Applies decimal mark from rules to formatted
-    #
-    # @param [String] formatted
-    # @param [Hash]   rules
-    def apply_decimal_mark_from_rules(formatted, rules)
-      if rules.has_key?(:decimal_mark) && rules[:decimal_mark] &&
-        rules[:decimal_mark] != decimal_mark
-
-        regexp_decimal = Regexp.escape(decimal_mark)
-        formatted.sub!(/(.*)(#{regexp_decimal})(.*)\Z/,
-                       "\\1#{rules[:decimal_mark]}\\3")
-      end
-    end
-
-    def regexp_format(formatted, rules, decimal_mark, symbol_value)
-      regexp_decimal = Regexp.escape(decimal_mark)
+    def regexp_format
       if rules[:south_asian_number_formatting]
         # from http://blog.revathskumar.com/2014/11/regex-comma-seperated-indian-currency-format.html
         /(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/
       else
-        # Symbols may contain decimal marks (E.g "դր.")
-        if formatted.sub(symbol_value.to_s, "") =~ /#{regexp_decimal}/
-          /(\d)(?=(?:\d{3})+(?:#{regexp_decimal}))/
-        else
-          /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
-        end
+        /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
       end
     end
 
