@@ -405,6 +405,11 @@ describe Money, "formatting" do
         expect(Money.new(1000000000, 'INDIAN_BAR').format(:south_asian_number_formatting => true, :symbol => false)).to eq "1,00,000.0000"
         expect(Money.new(10000000).format(:south_asian_number_formatting => true)).to eq "$1,00,000.00"
       end
+
+      specify "(:south_asian_number_formatting => true and no_cents_if_whole => true) works as documented" do
+        expect(Money.new(10000000, 'INR').format(:south_asian_number_formatting => true, :symbol => false, :no_cents_if_whole => true)).to eq "1,00,000"
+        expect(Money.new(1000000000, 'INDIAN_BAR').format(:south_asian_number_formatting => true, :symbol => false, :no_cents_if_whole => true)).to eq "1,00,000"
+      end
     end
 
     describe ":thousands_separator option" do

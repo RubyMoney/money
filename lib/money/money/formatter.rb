@@ -252,9 +252,16 @@ class Money
         thousands_separator_value = rules[:thousands_separator] || ''
       end
 
+      # FIXME: This is a temporary solution for south asian number formatting and INDIAN_BAR
+      #        currency, because the regexp we use cannot handle > 3 digits after decimal mark
+      whole_part, decimal_part = formatted.split(decimal_mark, 2)
+
       # Apply thousands_separator
-      formatted.gsub!(regexp_format(formatted, rules, decimal_mark, symbol_value),
-                      "\\1#{thousands_separator_value}")
+      regexp = regexp_format(whole_part, rules, decimal_mark, symbol_value)
+      whole_part.gsub!(regexp, "\\1#{thousands_separator_value}")
+
+      # FIXME: Re-assemble the result after applying the regexp
+      formatted = [whole_part, decimal_part].compact.join(decimal_mark)
 
       symbol_position = symbol_position_from(rules)
 
@@ -336,7 +343,8 @@ class Money
     def regexp_format(formatted, rules, decimal_mark, symbol_value)
       regexp_decimal = Regexp.escape(decimal_mark)
       if rules[:south_asian_number_formatting]
-        /(\d+?)(?=(\d\d)+(\d)(?:\.))/
+        # from http://blog.revathskumar.com/2014/11/regex-comma-seperated-indian-currency-format.html
+        /(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/
       else
         # Symbols may contain decimal marks (E.g "դր.")
         if formatted.sub(symbol_value.to_s, "") =~ /#{regexp_decimal}/
