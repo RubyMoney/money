@@ -265,7 +265,7 @@ describe Money, "formatting" do
         expect(Money.new(10000, "VUV").format(:no_cents_if_whole => true, :symbol => false)).to eq "10,000"
         expect(Money.new(10034, "VUV").format(:no_cents_if_whole => true, :symbol => false)).to eq "10,034"
         expect(Money.new(10000, "MGA").format(:no_cents_if_whole => true, :symbol => false)).to eq "2,000"
-        expect(Money.new(10034, "MGA").format(:no_cents_if_whole => true, :symbol => false)).to eq "2,006.4"
+        expect(Money.new(10034, "MGA").format(:no_cents_if_whole => true, :symbol => false)).to eq "2,006.8"
         expect(Money.new(10000, "VND").format(:no_cents_if_whole => true, :symbol => false)).to eq "10.000"
         expect(Money.new(10034, "VND").format(:no_cents_if_whole => true, :symbol => false)).to eq "10.034"
         expect(Money.new(10000, "USD").format(:no_cents_if_whole => true, :symbol => false)).to eq "100"
@@ -278,7 +278,7 @@ describe Money, "formatting" do
         expect(Money.new(10000, "VUV").format(:no_cents_if_whole => false, :symbol => false)).to eq "10,000"
         expect(Money.new(10034, "VUV").format(:no_cents_if_whole => false, :symbol => false)).to eq "10,034"
         expect(Money.new(10000, "MGA").format(:no_cents_if_whole => false, :symbol => false)).to eq "2,000.0"
-        expect(Money.new(10034, "MGA").format(:no_cents_if_whole => false, :symbol => false)).to eq "2,006.4"
+        expect(Money.new(10034, "MGA").format(:no_cents_if_whole => false, :symbol => false)).to eq "2,006.8"
         expect(Money.new(10000, "VND").format(:no_cents_if_whole => false, :symbol => false)).to eq "10.000"
         expect(Money.new(10034, "VND").format(:no_cents_if_whole => false, :symbol => false)).to eq "10.034"
         expect(Money.new(10000, "USD").format(:no_cents_if_whole => false, :symbol => false)).to eq "100.00"
@@ -567,7 +567,7 @@ describe Money, "formatting" do
         expect(Money.new(BigDecimal('123.5'), "BHD").format(:rounded_infinite_precision => true)).to eq "ب.د0.124"
         expect(Money.new(BigDecimal('100.1'), "USD").format(:rounded_infinite_precision => true)).to eq "$1.00"
         expect(Money.new(BigDecimal('109.5'), "USD").format(:rounded_infinite_precision => true)).to eq "$1.10"
-        expect(Money.new(BigDecimal('1'), "MGA").format(:rounded_infinite_precision => true)).to eq "Ar0.2"
+        expect(Money.new(BigDecimal('1.7'), "MGA").format(:rounded_infinite_precision => true)).to eq "Ar0.4"
       end
 
       it "does not round fractional when set to false" do
@@ -577,7 +577,7 @@ describe Money, "formatting" do
         expect(Money.new(BigDecimal('123.5'), "BHD").format(:rounded_infinite_precision => false)).to eq "ب.د0.1235"
         expect(Money.new(BigDecimal('100.1'), "USD").format(:rounded_infinite_precision => false)).to eq "$1.001"
         expect(Money.new(BigDecimal('109.5'), "USD").format(:rounded_infinite_precision => false)).to eq "$1.095"
-        expect(Money.new(BigDecimal('1'), "MGA").format(:rounded_infinite_precision => false)).to eq "Ar0.1"
+        expect(Money.new(BigDecimal('1.7'), "MGA").format(:rounded_infinite_precision => false)).to eq "Ar0.34"
       end
 
       describe "with i18n = false" do
