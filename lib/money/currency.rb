@@ -173,6 +173,29 @@ class Money
         @stringified_keys = stringify_keys
       end
 
+      # Inherit a new currency from existing one
+      #
+      # @param parent_iso_code [String] the international 3-letter code as defined
+      # @param curr [Hash] information about the new currency
+      # @option priority [Numeric] a numerical value you can use to sort/group
+      #   the currency list
+      # @option iso_code [String] the international 3-letter code as defined
+      #   by the ISO 4217 standard
+      # @option iso_numeric [Integer] the international 3-digit code as
+      #   defined by the ISO 4217 standard
+      # @option name [String] the currency name
+      # @option symbol [String] the currency symbol (UTF-8 encoded)
+      # @option subunit [String] the name of the fractional monetary unit
+      # @option subunit_to_unit [Numeric] the proportion between the unit and
+      #   the subunit
+      # @option separator [String] character between the whole and fraction
+      #   amounts
+      # @option delimiter [String] character between each thousands place
+      def inherit(parent_iso_code, curr)
+        parent_iso_code = parent_iso_code.downcase.to_sym
+        curr = @table.fetch(parent_iso_code, {}).dup.merge(curr)
+        register(curr)
+      end
 
       # Unregister a currency.
       #
