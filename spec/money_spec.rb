@@ -733,6 +733,15 @@ YAML
           expect(rounded).to be_a special_money_class
         end
       end
+
+      context "when using a specific rounding precision" do
+        let(:money) { Money.new(15.7526, 'NZD') }
+
+        it "uses the provided rounding precision" do
+          rounded = money.round(BigDecimal::ROUND_DOWN, 3)
+          expect(rounded.fractional).to eq 15.752
+        end
+      end
     end
   end
 
