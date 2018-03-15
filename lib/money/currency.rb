@@ -173,6 +173,15 @@ class Money
         @stringified_keys = stringify_keys
       end
 
+      # Inherit a new currency from existing one
+      #
+      # @param parent_iso_code [String] the international 3-letter code as defined
+      # @param curr [Hash] See {register} method for hash structure 
+      def inherit(parent_iso_code, curr)
+        parent_iso_code = parent_iso_code.downcase.to_sym
+        curr = @table.fetch(parent_iso_code, {}).merge(curr)
+        register(curr)
+      end
 
       # Unregister a currency.
       #

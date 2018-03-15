@@ -115,6 +115,32 @@ class Money
     end
 
 
+    describe ".inherit" do
+      after do
+        Currency.unregister(iso_code: "XXX") if Currency.find("XXX")
+        Currency.unregister(iso_code: "YYY") if Currency.find("YYY")
+      end
+
+      it "inherit a new currency" do
+        Currency.register(
+          iso_code: "XXX",
+          name: "Golden Doubloon",
+          symbol: "%",
+          subunit_to_unit: 100
+        )
+        Currency.inherit("XXX",
+          iso_code: "YYY",
+          symbol: "@"
+        )
+        new_currency = Currency.find("YYY")
+        expect(new_currency).not_to be_nil
+        expect(new_currency.name).to eq "Golden Doubloon"
+        expect(new_currency.symbol).to eq "@"
+        expect(new_currency.subunit_to_unit).to eq 100
+      end
+    end
+
+
     describe ".unregister" do
       it "unregisters a currency" do
         Currency.register(iso_code: "XXX")
