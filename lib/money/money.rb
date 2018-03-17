@@ -477,22 +477,17 @@ class Money
   # be distributed round-robin amongst the parties. This means that parties
   # listed first will likely receive more pennies than ones that are listed later
   #
-  # @param [Array<Numeric>] splits [0.50, 0.25, 0.25] to give 50% of the cash to party1, 25% to party2, and 25% to party3.
+  # @param [Array<Numeric>] splits [2, 1, 1] to give twice as much to party1 as party2 or party3
+  #   which results in 50% of the cash to party1, 25% to party2, and 25% to party3.
   #
   # @return [Array<Money>]
   #
   # @example
   #   Money.new(5,   "USD").allocate([0.3, 0.7])         #=> [Money.new(2), Money.new(3)]
-  #   Money.new(100, "USD").allocate([0.33, 0.33, 0.33]) #=> [Money.new(34), Money.new(33), Money.new(33)]
+  #   Money.new(100, "USD").allocate([1, 1, 1]) #=> [Money.new(34), Money.new(33), Money.new(33)]
   #
   def allocate(splits)
-    allocations = allocations_from_splits(splits)
-
-    if (allocations - BigDecimal("1")) > Float::EPSILON
-      raise ArgumentError, "splits add to more then 100%"
-    end
-
-    amounts, left_over = amounts_from_splits(allocations, splits)
+    amounts, left_over = amounts_from_splits(splits)
 
     unless self.class.infinite_precision
       delta = left_over > 0 ? 1 : -1
@@ -606,11 +601,8 @@ class Money
     subunit.rjust(currency.decimal_places, '0')
   end
 
-  def allocations_from_splits(splits)
-    splits.inject(0) { |sum, n| sum + n }
-  end
-
-  def amounts_from_splits(allocations, splits)
+  def amounts_from_splits(splits)
+    allocations = splits.inject(0, :+)
     left_over = fractional
 
     amounts = splits.map do |ratio|
