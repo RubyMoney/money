@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = "A Ruby Library for dealing with money and currency conversion."
   s.license     = "MIT"
 
-  s.add_dependency 'i18n', [">= 0.6.4", '< 1.0']
+  s.add_dependency 'i18n', [">= 0.6.4", '< 1.1']
 
   s.add_development_dependency "bundler", "~> 1.3"
   s.add_development_dependency "rake"
