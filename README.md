@@ -312,8 +312,9 @@ def marshal_dump; end
 The following example implements an `ActiveRecord` store to save exchange rates to a database.
 
 ```ruby
-# DB columns :from[String], :to[String], :rate[Float]
+# rails g model exchange_rate from:string to:string rate:float
 
+# for Rails 5 replace ActiveRecord::Base with ApplicationRecord
 class ExchangeRate < ActiveRecord::Base
   def self.get_rate(from_iso_code, to_iso_code)
     rate = find_by(:from => from_iso_code, :to => to_iso_code)
