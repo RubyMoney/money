@@ -144,8 +144,18 @@ describe Money, "formatting" do
       expect(Money.new(10_00, "BHD").format).to eq "ب.د1.000"
     end
 
-    it "does not display a decimal when :subunit_to_unit is 1" do
-      expect(Money.new(10_00, "VUV").format).to eq "Vt1,000"
+    context "when :subunit_to_unit is 1" do
+      it "does not display a decimal part" do
+        expect(Money.new(10_00, "VUV").format).to eq "Vt1,000"
+      end
+
+      it "does not displays a decimal part when infinite_precision is false" do
+        expect(Money.new(10_00.1, "VUV").format).to eq "Vt1,000"
+      end
+
+      it "displays a decimal part when infinite_precision is true", :infinite_precision do
+        expect(Money.new(10_00.1, "VUV").format).to eq "Vt1,000.1"
+      end
     end
 
     it "respects the thousands_separator and decimal_mark defaults" do
