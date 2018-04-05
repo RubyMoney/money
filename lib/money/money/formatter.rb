@@ -236,10 +236,10 @@ class Money
         symbol_position = symbol_position_from(rules)
 
         formatted = if symbol_position == :before
-          symbol_space = rules[:symbol_before_without_space] === false ? " " : ""
+          symbol_space = rules[:symbol_before_without_space] === false ? " " : ""
           "#{sign_before}#{symbol_value}#{symbol_space}#{sign}#{formatted}"
         else
-          symbol_space = rules[:symbol_after_without_space] ? "" : " "
+          symbol_space = rules[:symbol_after_without_space] ? "" : " "
           "#{sign_before}#{sign}#{formatted}#{symbol_space}#{symbol_value}"
         end
       else
