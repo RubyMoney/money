@@ -1,5 +1,18 @@
 # Changelog
 
+## 6.11.0
+- Support i18n 1.0
+- Update yard dependency to 0.9.11
+- Support for ruby 2.5.0
+- Add inheritance for currency definitions
+- Added new symbol for bitcoin denomination
+- Specify custom rounding precision when using `infinite_precision`
+- Allow splits with sums greater than 1
+- Prevent arithmetic methods from loosing reference to the bank
+- Fix coerced zero numeric subtraction
+- Fix south asian formatting to support whole numbers
+- Refactor formatting logic
+
 ## 6.10.1
 - Fix an issue with Money.empty memoization
 
