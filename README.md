@@ -415,6 +415,11 @@ If you wish to disable this feature:
 Money.use_i18n = false
 ```
 
+## Collection
+
+In case you're working with collections of `Money` instances, have a look at [money-collection](https://github.com/RubyMoney/money-collection)
+for improved performance and accuracy.
+
 ### Troubleshooting
 
 If you get a runtime error such as:
