@@ -312,7 +312,7 @@ class Money
     end
 
     def format_decimal_part(value)
-      return nil if currency.decimal_places == 0
+      return nil if currency.decimal_places == 0 && !Money.infinite_precision
       return nil if rules[:no_cents]
       return nil if rules[:no_cents_if_whole] && value.to_i == 0
 
