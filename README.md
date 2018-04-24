@@ -119,15 +119,15 @@ below.
 
 ``` ruby
 curr = {
-  :priority            => 1,
-  :iso_code            => "USD",
-  :iso_numeric         => "840",
-  :name                => "United States Dollar",
-  :symbol              => "$",
-  :subunit             => "Cent",
-  :subunit_to_unit     => 100,
-  :decimal_mark        => ".",
-  :thousands_separator => ","
+  priority:            1,
+  iso_code:            "USD",
+  iso_numeric:         "840",
+  name:                "United States Dollar",
+  symbol:              "$",
+  subunit:             "Cent",
+  subunit_to_unit:     100,
+  decimal_mark:        ".",
+  thousands_separator: ","
 }
 
 Money::Currency.register(curr)
@@ -317,12 +317,12 @@ The following example implements an `ActiveRecord` store to save exchange rates 
 # for Rails 5 replace ActiveRecord::Base with ApplicationRecord
 class ExchangeRate < ActiveRecord::Base
   def self.get_rate(from_iso_code, to_iso_code)
-    rate = find_by(:from => from_iso_code, :to => to_iso_code)
+    rate = find_by(from: from_iso_code, to: to_iso_code)
     rate.present? ? rate.rate : nil
   end
 
   def self.add_rate(from_iso_code, to_iso_code, rate)
-    exrate = find_or_initialize_by(:from => from_iso_code, :to => to_iso_code)
+    exrate = find_or_initialize_by(from: from_iso_code, to: to_iso_code)
     exrate.rate = rate
     exrate.save!
   end

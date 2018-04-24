@@ -52,7 +52,7 @@ class Money
 
     def translate_formatting_rules(rules)
       begin
-        rules[:symbol] = I18n.t currency.iso_code, :scope => "number.currency.symbol", :raise => true
+        rules[:symbol] = I18n.t currency.iso_code, scope: "number.currency.symbol", raise: true
       rescue I18n::MissingTranslationData
         # Do nothing
       end
