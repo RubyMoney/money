@@ -174,7 +174,7 @@
 - Works on Ruby 1.8.7
 - Update deps
 - Depreciate Money.parse
-- Passing :symbol => false when formatting 'JPY' currency in :ja locale
+- Passing symbol: false when formatting 'JPY' currency in :ja locale
   will work as expected
 - Divide now obeys the specified rounding mode
 - Add Money#round method. This is helpful when working in infinite_precision mode and would like to perform rounding at specific points in your work flow.
@@ -357,7 +357,7 @@ Features
 
 Bugfixes
 --------
- - Fixed issue with #format(:no_cents => true) (thanks Romain & Julien)
+ - Fixed issue with #format(no_cents: true) (thanks Romain & Julien)
 
 Money 3.5.5
 ===========
@@ -444,7 +444,7 @@ Features
  - Deprecated `Money#format` with separate params instead of Hash. Deprecation
    target set to Money 3.5.0.
    ([#issue/31](http://github.com/RubyMoney/money/issues/31))
- - Deprecated `Money#new(0, :currency => "EUR")` in favor of
+ - Deprecated `Money#new(0, currency: "EUR")` in favor of
    `Money#new(0, "EUR")`. Deprecation target set to Money 3.5.0.
    ([#issue/31](http://github.com/RubyMoney/money/issues/31))
  - Throw ArgumentError when trying to multiply two Money objects together.

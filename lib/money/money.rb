@@ -104,9 +104,9 @@ class Money
     #   @see +Money::Formatting#format+ for more details.
     #
     #   @example
-    #     Money.default_formatting_rules = { :display_free => true }
+    #     Money.default_formatting_rules = { display_free: true }
     #     Money.new(0, "USD").format                          # => "free"
-    #     Money.new(0, "USD").format(:display_free => false)  # => "$0.00"
+    #     Money.new(0, "USD").format(display_free: false)  # => "$0.00"
     #
     # @!attribute [rw] use_i18n
     #   @return [Boolean] Use this to disable i18n even if it's used by other

@@ -47,7 +47,7 @@ class Money
       # Available formats for importing/exporting rates.
       RATE_FORMATS = [:json, :ruby, :yaml].freeze
       SERIALIZER_SEPARATOR = '_TO_'.freeze
-      FORMAT_SERIALIZERS = {:json => JSON, :ruby => Marshal, :yaml => YAML}.freeze
+      FORMAT_SERIALIZERS = {json: JSON, ruby: Marshal, yaml: YAML}.freeze
 
       # Initializes a new +Money::Bank::VariableExchange+ object.
       # It defaults to using an in-memory, thread safe store instance for

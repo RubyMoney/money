@@ -151,7 +151,7 @@ class Money
 
         it "delegates options to store, options are a no-op" do
           expect(subject.store).to receive(:get_rate).with('USD', 'EUR')
-          subject.get_rate('USD', 'EUR', :without_mutex => true)
+          subject.get_rate('USD', 'EUR', without_mutex: true)
         end
       end
 
@@ -201,7 +201,7 @@ class Money
 
         it "delegates execution to store, options are a no-op" do
           expect(subject.store).to receive(:transaction)
-          subject.export_rates(:yaml, nil, :foo => 1)
+          subject.export_rates(:yaml, nil, foo: 1)
         end
 
       end
@@ -243,7 +243,7 @@ class Money
         it "delegates execution to store#transaction" do
           expect(subject.store).to receive(:transaction)
           s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
-          subject.import_rates(:yaml, s, :foo => 1)
+          subject.import_rates(:yaml, s, foo: 1)
         end
 
       end
