@@ -631,6 +631,11 @@ describe Money do
   end
 
   describe "#coerce" do
+    it 'allows non-default currency money objects to be summed' do
+      result = 0 + Money.new(4, 'EUR') + Money.new(5, 'EUR')
+      expect(result).to eq Money.new(9, 'EUR')
+    end
+
     it "allows mathematical operations by coercing arguments" do
       result = 2 * Money.new(4, 'USD')
       expect(result).to eq Money.new(8, 'USD')
