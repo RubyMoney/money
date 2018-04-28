@@ -126,7 +126,7 @@ class Money
       define_method(op) do |other|
         unless other.is_a?(Money)
           if other.zero?
-            return other.is_a?(CoercedNumeric) ? Money.empty.public_send(op, self) : self
+            return other.is_a?(CoercedNumeric) ? Money.empty(currency).public_send(op, self) : self
           end
           raise TypeError
         end
