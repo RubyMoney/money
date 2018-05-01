@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.11.1
+- Fix issue with adding non-USD money to zero (used when calling `.sum` on an array)
+
 ## 6.11.0
 - Support i18n 1.0
 - Update yard dependency to 0.9.11
