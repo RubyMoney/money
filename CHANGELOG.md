@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.11.2
+- Fix regression: ignore formatting defaults for Money#to_s
+
 ## 6.11.1
 - Fix issue with adding non-USD money to zero (used when calling `.sum` on an array)
 
