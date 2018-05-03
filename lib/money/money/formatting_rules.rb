@@ -8,7 +8,7 @@ class Money
       # support for old format parameters
       @rules = normalize_formatting_rules(raw_rules)
 
-      @rules = default_formatting_rules.merge(@rules)
+      @rules = default_formatting_rules.merge(@rules) unless @rules[:ignore_defaults]
       @rules = localize_formatting_rules(@rules)
       @rules = translate_formatting_rules(@rules) if @rules[:translate]
     end
