@@ -482,6 +482,15 @@ YAML
       expect(Money.new(10_00, "BRL").to_s).to eq "10,00"
     end
 
+    context "with defaults set" do
+      before { Money.default_formatting_rules = { with_currency: true } }
+      after { Money.default_formatting_rules = nil }
+
+      it "ignores defaults" do
+        expect(Money.new(10_00, 'USD').to_s).to eq '10.00'
+      end
+    end
+
     context "with infinite_precision", :infinite_precision do
       it "shows fractional cents" do
         expect(Money.new(1.05, "USD").to_s).to eq "0.0105"

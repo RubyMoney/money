@@ -354,7 +354,8 @@ class Money
     format decimal_mark: currency.decimal_mark,
            thousands_separator: '',
            no_cents_if_whole: currency.decimal_places == 0,
-           symbol: false
+           symbol: false,
+           ignore_defaults: true
   end
 
   # Return the amount of money as a BigDecimal.
