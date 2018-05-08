@@ -351,8 +351,7 @@ class Money
   # @example
   #   Money.ca_dollar(100).to_s #=> "1.00"
   def to_s
-    format decimal_mark: currency.decimal_mark,
-           thousands_separator: '',
+    format thousands_separator: '',
            no_cents_if_whole: currency.decimal_places == 0,
            symbol: false,
            ignore_defaults: true
