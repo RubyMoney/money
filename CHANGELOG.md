@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.11.3
+- Fix regression: if enabled use i18n locales in Money#to_s
+
 ## 6.11.2
 - Fix regression: ignore formatting defaults for Money#to_s
 
