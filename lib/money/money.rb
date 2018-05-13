@@ -4,6 +4,7 @@ require "money/bank/single_currency"
 require "money/money/arithmetic"
 require "money/money/constructors"
 require "money/money/formatter"
+require "money/money/allocation"
 
 # "Money is any object or record that is generally accepted as payment for
 # goods and services and repayment of debts in a given socio-economic context
@@ -463,49 +464,27 @@ class Money
     exchange_to("EUR")
   end
 
-  # Allocates money between different parties without losing pennies.
-  # After the mathematical split has been performed, leftover pennies will
-  # be distributed round-robin amongst the parties. This means that parties
-  # listed first will likely receive more pennies than ones that are listed later
+  # Splits a given amount in parts without loosing pennies. The left-over pennies will be
+  # distributed round-robin amongst the parties. This means that parties listed first will likely
+  # receive more pennies than ones that are listed later.
   #
-  # @param [Array<Numeric>] splits [2, 1, 1] to give twice as much to party1 as party2 or party3
-  #   which results in 50% of the cash to party1, 25% to party2, and 25% to party3.
+  # @param [Array<Numeric>, Numeric] pass [2, 1, 1] to give twice as much to party1 as party2 or
+  # party3 which results in 50% of the cash to party1, 25% to party2, and 25% to party3. Passing a
+  # number instead of an array will split the amount evenly (without loosing pennies when rounding).
   #
   # @return [Array<Money>]
   #
   # @example
-  #   Money.new(5,   "USD").allocate([0.3, 0.7])         #=> [Money.new(2), Money.new(3)]
+  #   Money.new(5,   "USD").allocate([0.3, 0.7]) #=> [Money.new(2), Money.new(3)]
   #   Money.new(100, "USD").allocate([1, 1, 1]) #=> [Money.new(34), Money.new(33), Money.new(33)]
+  #   Money.new(100, "USD").allocate(2) #=> [Money.new(50), Money.new(50)]
+  #   Money.new(100, "USD").allocate(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
   #
-  def allocate(splits)
-    amounts, left_over = amounts_from_splits(splits)
-
-    unless self.class.infinite_precision
-      delta = left_over > 0 ? 1 : -1
-      # Distribute left over pennies amongst allocations
-      left_over.to_i.abs.times { |i| amounts[i % amounts.length] += delta }
-    end
-
-    amounts.collect { |fractional| self.class.new(fractional, currency) }
+  def allocate(parts)
+    amounts = Money::Allocation.new(fractional, parts, !Money.infinite_precision).generate
+    amounts.map { |amount| self.class.new(amount, currency) }
   end
-
-  # Split money amongst parties evenly without losing pennies.
-  #
-  # @param [Numeric] num number of parties.
-  #
-  # @return [Array<Money>]
-  #
-  # @example
-  #   Money.new(100, "USD").split(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
-  def split(num)
-    raise ArgumentError, "need at least one party" if num < 1
-
-    if self.class.infinite_precision
-      split_infinite(num)
-    else
-      split_flat(num)
-    end
-  end
+  alias_method :split, :allocate
 
   # Round the monetary amount to smallest unit of coinage.
   #
@@ -563,39 +542,6 @@ class Money
       num.is_a?(Rational) ? num.to_d(self.class.conversion_precision) : num.to_d
     else
       BigDecimal(num.to_s.empty? ? 0 : num.to_s)
-    end
-  end
-
-  def amounts_from_splits(splits)
-    allocations = splits.inject(0, :+)
-    left_over = fractional
-
-    amounts = splits.map do |ratio|
-      if self.class.infinite_precision
-        fractional * ratio
-      else
-        (fractional * ratio / allocations).truncate.tap do |frac|
-          left_over -= frac
-        end
-      end
-    end
-
-    [amounts, left_over]
-  end
-
-  def split_infinite(num)
-    amt = div(as_d(num))
-    1.upto(num).map{amt}
-  end
-
-  def split_flat(num)
-    low = self.class.new(fractional / num, currency)
-    high = self.class.new(low.fractional + 1, currency)
-
-    remainder = fractional % num
-
-    Array.new(num).each_with_index.map do |_, index|
-      index < remainder ? high : low
     end
   end
 
