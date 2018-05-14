@@ -14,7 +14,7 @@ class Money
     #
     def initialize(amount, parts, whole_amounts = true)
       @amount = amount
-      @parts = parse_parts(parts)
+      @parts = parts.is_a?(Numeric) ? Array.new(parts, 1) : parts
       @whole_amounts = whole_amounts
 
       raise ArgumentError, 'need at least one party' if @parts.empty?
@@ -25,7 +25,7 @@ class Money
       remaining_amount = amount
       remaining_parts = parts.reverse
 
-      while !remaining_parts.empty? do
+      while remaining_parts.any? do
         parts_sum = remaining_parts.inject(0, :+)
         part = remaining_parts.shift
 
@@ -42,13 +42,5 @@ class Money
     private
 
     attr_reader :amount, :parts, :whole_amounts
-
-    def parse_parts(parts_or_number)
-      if parts_or_number.is_a?(Numeric)
-        Array.new(parts_or_number, 1)
-      else
-        parts_or_number
-      end
-    end
   end
 end

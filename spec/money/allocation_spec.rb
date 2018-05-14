@@ -46,10 +46,13 @@ describe Money::Allocation do
         amount = BigDecimal(100)
         parts = described_class.new(amount, 3, false).generate
 
-        expect(parts).to eq([
-          BigDecimal('33.3333333333333333335'),
-          BigDecimal('33.3333333333333333335'),
-          BigDecimal('33.333333333333333333')
+        # Rounding due to inconsistent BigDecimal size in ruby compared to jruby. In reality the
+        # first 2 elements will look like the last one with a '5' at the end, compensating for a
+        # missing fraction
+        expect(parts.map { |x| x.round(10) }).to eq([
+          BigDecimal('33.3333333333'),
+          BigDecimal('33.3333333333'),
+          BigDecimal('33.3333333333')
         ])
         expect(parts.inject(0, :+)).to eq(amount)
       end
@@ -77,6 +80,7 @@ describe Money::Allocation do
         expect(described_class.new(100, [1.0, 1.0]).generate).to eq([50, 50])
         expect(described_class.new(100, [0.1, 0.1, 0.2]).generate).to eq([25, 25, 50])
         expect(described_class.new(100, [0.07, 0.03]).generate).to eq([70, 30])
+        expect(described_class.new(10, [0.1, 0.2, 0.1]).generate).to eq([3, 5, 2])
       end
 
       it 'does not loose pennies' do
@@ -106,10 +110,13 @@ describe Money::Allocation do
         amount = BigDecimal(100)
         parts = described_class.new(amount, [1, 1, 1], false).generate
 
-        expect(parts).to eq([
-          BigDecimal('33.3333333333333333335'),
-          BigDecimal('33.3333333333333333335'),
-          BigDecimal('33.333333333333333333')
+        # Rounding due to inconsistent BigDecimal size in ruby compared to jruby. In reality the
+        # first 2 elements will look like the last one with a '5' at the end, compensating for a
+        # missing fraction
+        expect(parts.map { |x| x.round(10) }).to eq([
+          BigDecimal('33.3333333333'),
+          BigDecimal('33.3333333333'),
+          BigDecimal('33.3333333333')
         ])
         expect(parts.inject(0, :+)).to eq(amount)
       end
