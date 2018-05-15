@@ -481,7 +481,7 @@ class Money
   #   Money.new(100, "USD").allocate(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
   #
   def allocate(parts)
-    amounts = Money::Allocation.new(fractional, parts, !Money.infinite_precision).generate
+    amounts = Money::Allocation.generate(fractional, parts, !Money.infinite_precision)
     amounts.map { |amount| self.class.new(amount, currency) }
   end
   alias_method :split, :allocate

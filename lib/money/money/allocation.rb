@@ -12,35 +12,26 @@ class Money
     #   Numeric — performs the split between a given number of parties evenely
     #   Array<Numeric> — allocates the amounts proportionally to the given array
     #
-    def initialize(amount, parts, whole_amounts = true)
-      @amount = amount
-      @parts = parts.is_a?(Numeric) ? Array.new(parts, 1) : parts
-      @whole_amounts = whole_amounts
+    def self.generate(amount, parts, whole_amounts = true)
+      parts = parts.is_a?(Numeric) ? Array.new(parts, 1) : parts.dup
 
-      raise ArgumentError, 'need at least one party' if @parts.empty?
-    end
+      raise ArgumentError, 'need at least one party' if parts.empty?
 
-    def generate
       result = []
       remaining_amount = amount
-      remaining_parts = parts.reverse
 
-      while remaining_parts.any? do
-        parts_sum = remaining_parts.inject(0, :+)
-        part = remaining_parts.shift
+      while !parts.empty? do
+        parts_sum = parts.inject(0, :+)
+        part = parts.pop
 
         current_split = remaining_amount * part / parts_sum
         current_split = current_split.truncate if whole_amounts
 
-        result << current_split
+        result.unshift current_split
         remaining_amount -= current_split
       end
 
-      result.reverse
+      result
     end
-
-    private
-
-    attr_reader :amount, :parts, :whole_amounts
   end
 end
