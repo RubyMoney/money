@@ -1,3 +1,13 @@
+# A lightweight constructor allowing to instantiate Money without .new:
+#  - Money(10_00)
+#  - Money(10_00, 'USD')
+#
+#  The signature and return value are the same as .new
+#
+def Money(*args)
+  Money.new(*args)
+end
+
 class Money
   module Constructors
 
