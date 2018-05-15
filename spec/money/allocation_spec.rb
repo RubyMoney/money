@@ -107,6 +107,11 @@ describe Money::Allocation do
         expect(described_class.generate(BigDecimal(7), [1, 1], false)).to eq([3.5, 3.5])
       end
 
+      it 'keeps the class of the splits the same as given amount' do
+        # Note that whole_amount is false but result is whole values
+        expect(described_class.generate(10, [1, 1, 2], false)).to eq([3, 2, 5])
+      end
+
       it 'handles splits into repeating decimals' do
         amount = BigDecimal(100)
         parts = described_class.generate(amount, [1, 1, 1], false)
