@@ -1,6 +1,10 @@
 # encoding: utf-8
 
 describe Money::Constructors do
+  it 'adds a lightweight constructur' do
+    expect(Money(1_00)).to eq(Money.new(1_00))
+    expect(Money(1_00, 'EUR')).to eq(Money.new(1_00, 'EUR'))
+  end
 
   describe "::empty" do
     it "creates a new Money object of 0 cents" do
