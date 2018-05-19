@@ -99,7 +99,6 @@ describe Money::Allocation do
         expect(described_class.generate(BigDecimal(100), [1, 1], false)).to eq([50, 50])
         expect(described_class.generate(BigDecimal(100), [1, 1, 2], false)).to eq([25, 25, 50])
         expect(described_class.generate(BigDecimal(100), [7, 3], false)).to eq([70, 30])
-        expect(described_class.generate(BigDecimal(100), [0.1, 0.2, 0.1], false)).to eq([25, 50, 25])
       end
 
       it 'splits the amount proportionally to the given parts' do

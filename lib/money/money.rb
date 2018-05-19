@@ -475,7 +475,7 @@ class Money
   # @return [Array<Money>]
   #
   # @example
-  #   Money.new(5,   "USD").allocate([0.3, 0.7]) #=> [Money.new(2), Money.new(3)]
+  #   Money.new(5,   "USD").allocate([3, 7]) #=> [Money.new(2), Money.new(3)]
   #   Money.new(100, "USD").allocate([1, 1, 1]) #=> [Money.new(34), Money.new(33), Money.new(33)]
   #   Money.new(100, "USD").allocate(2) #=> [Money.new(50), Money.new(50)]
   #   Money.new(100, "USD").allocate(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
