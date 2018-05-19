@@ -668,12 +668,8 @@ YAML
 
     context "with infinite_precision", :infinite_precision do
       it "allows for fractional cents allocation" do
-        one_third = BigDecimal("1") / BigDecimal("3")
-
-        moneys = Money.new(100).allocate([one_third, one_third, one_third])
-        expect(moneys[0].cents).to eq one_third * BigDecimal("100")
-        expect(moneys[1].cents).to eq one_third * BigDecimal("100")
-        expect(moneys[2].cents).to eq one_third * BigDecimal("100")
+        moneys = Money.new(100).allocate([1, 1, 1])
+        expect(moneys.inject(0, :+)).to eq(Money.new(100))
       end
     end
   end
@@ -710,12 +706,8 @@ YAML
 
     context "with infinite_precision", :infinite_precision do
       it "allows for splitting by fractional cents" do
-        thirty_three_and_one_third = BigDecimal("100") / BigDecimal("3")
-
         moneys = Money.new(100).split(3)
-        expect(moneys[0].cents).to eq thirty_three_and_one_third
-        expect(moneys[1].cents).to eq thirty_three_and_one_third
-        expect(moneys[2].cents).to eq thirty_three_and_one_third
+        expect(moneys.inject(0, :+)).to eq(Money.new(100))
       end
     end
   end
