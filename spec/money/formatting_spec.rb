@@ -488,6 +488,13 @@ describe Money, "formatting" do
       end
     end
 
+    describe ":html_wrap_decimal option" do
+      specify "(html_wrap_decimal: true) works as documented" do
+        string = Money.ca_dollar(570).format(html_wrap_decimal: true)
+        expect(string).to eq "$5<span class=\"decimal\">.70</span>"
+      end
+    end
+
     describe ":symbol_position option" do
       it "inserts currency symbol before the amount when set to :before" do
         expect(Money.euro(1_234_567_12).format(symbol_position: :before)).to eq "€1.234.567,12"
