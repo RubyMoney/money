@@ -88,6 +88,9 @@ Money.from_amount(5, "TND") == Money.new(5000, "TND") # 5 TND
 some_code_to_setup_exchange_rates
 Money.new(1000, "USD").exchange_to("EUR") == Money.new(some_value, "EUR")
 
+# Swap currency
+Money.new(1000, "USD").with_currency("EUR") == Money.new(1000, "EUR")
+
 # Formatting (see Formatting section for more options)
 Money.new(100, "USD").format #=> "$1.00"
 Money.new(100, "GBP").format #=> "£1.00"

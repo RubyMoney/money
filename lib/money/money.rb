@@ -391,7 +391,22 @@ class Money
     to_d.to_f
   end
 
-  # Conversation to +self+.
+  # Returns a new Money instance in a given currency leaving the amount intact
+  # and not performing currency conversion.
+  #
+  # @param [Currency, String, Symbol] new_currency Currency of the new object.
+  #
+  # @return [self]
+  def with_currency(new_currency)
+    new_currency = Currency.wrap(new_currency)
+    if !new_currency || currency == new_currency
+      self
+    else
+      self.class.new(fractional, new_currency, bank)
+    end
+  end
+
+  # Conversion to +self+.
   #
   # @return [self]
   def to_money(given_currency = nil)
