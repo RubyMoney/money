@@ -228,7 +228,8 @@ class Money
   #
   # @see #initialize
   def self.from_amount(amount, currency = default_currency, bank = default_bank)
-    Numeric === amount or raise ArgumentError, "'amount' must be numeric"
+    raise ArgumentError, "'amount' must be numeric" unless Numeric === amount
+
     currency = Currency.wrap(currency) || Money.default_currency
     value = amount.to_d * currency.subunit_to_unit
     value = value.round(0, rounding_mode) unless infinite_precision
@@ -302,6 +303,7 @@ class Money
   # @example
   #   Money.new(100, :USD).currency_as_string #=> "USD"
   def currency_as_string
+    warn "[DEPRECATION] `currency_as_string` is deprecated. Please use `.currency.to_s` instead."
     currency.to_s
   end
 
@@ -314,6 +316,8 @@ class Money
   # @example
   #   Money.new(100).currency_as_string("CAD") #=> #<Money::Currency id: cad>
   def currency_as_string=(val)
+    warn "[DEPRECATION] `currency_as_string=` is deprecated - Money instances are immutable." \
+      " Please use `with_currency` instead."
     @currency = Currency.wrap(val)
   end
 
