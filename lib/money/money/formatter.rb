@@ -170,6 +170,9 @@ class Money
     # @option rules [Boolean] :html_wrap_symbol (false) Wraps the currency symbol
     #  in a html <span> tag.
     #
+    # @option rules [Boolean] :html_wrap_decimal (false) Wraps the decimal in a
+    #  html <span> tag.
+    #
     # @example
     #   Money.new(10000, "USD").format(disambiguate: false)
     #   #=> "<span class=\"currency_symbol\">$100.00</span>
@@ -216,7 +219,11 @@ class Money
       whole_part = format_whole_part(whole_part)
 
       # Assemble the final formatted amount
-      formatted = [whole_part, decimal_part].compact.join(decimal_mark)
+      formatted = if rules[:html_wrap_decimal]
+        ["#{whole_part}<span class=\"decimal\">", "#{decimal_part}</span>"].compact.join(decimal_mark)
+      else
+        [whole_part, decimal_part].compact.join(decimal_mark)
+      end
 
       sign = money.negative? ? '-' : ''
 
