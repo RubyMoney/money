@@ -568,6 +568,25 @@ YAML
     end
   end
 
+  describe "#with_currency" do
+    it 'returns self if currency is the same' do
+      money = Money.new(10_00, 'USD')
+
+      expect(money.with_currency('USD')).to eq(money)
+      expect(money.with_currency('USD').object_id).to eq(money.object_id)
+    end
+
+    it 'returns a new instance in a given currency' do
+      money = Money.new(10_00, 'USD')
+      new_money = money.with_currency('EUR')
+
+      expect(new_money).to eq(Money.new(10_00, 'EUR'))
+      expect(money.fractional).to eq(new_money.fractional)
+      expect(money.bank).to eq(new_money.bank)
+      expect(money.object_id).not_to eq(new_money.object_id)
+    end
+  end
+
   describe "#exchange_to" do
     it "exchanges the amount via its exchange bank" do
       money = Money.new(100_00, "USD")
