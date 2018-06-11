@@ -132,11 +132,11 @@ class Money
     #   Money.new(100000, "FOO").format #=> "$1,000.00"
     #
     # @option rules [Boolean] :html (false) Whether the currency should be
-    #  HTML-formatted. Only useful in combination with +:with_currency+.
+    #  HTML-formatted.
     #
     # @example
     #   Money.ca_dollar(570).format(html: true, with_currency: true)
-    #   #=> "$5.70 <span class=\"currency\">CAD</span>"
+    #   #=> "<span class\"money-currency\">$</span><span class=\"money-whole\">5</span><span class=\"money-decimal-mark\">.</span><span class=\"money-decimal\">70</span> <span class=\"currency\">CAD</span>"
     #
     # @option rules [Boolean] :sign_before_symbol (false) Whether the sign should be
     #  before the currency symbol.
@@ -209,6 +209,10 @@ class Money
     def to_s
       return free_text if show_free_text?
 
+      if rules[:html_wrap_symbol]
+        warn "[DEPRECATION] `html_wrap_symbol` is deprecated. Symbol will always be wrapped if `html: true` option is present."
+      end
+
       whole_part, decimal_part = extract_whole_and_decimal_parts
 
       # Format whole and decimal parts separately
@@ -216,7 +220,15 @@ class Money
       whole_part = format_whole_part(whole_part)
 
       # Assemble the final formatted amount
-      formatted = [whole_part, decimal_part].compact.join(decimal_mark)
+      formatted = if rules[:html]
+        if decimal_part.nil?
+          "<span class=\"money-whole\">#{whole_part}</span>"
+        else
+          "<span class=\"money-whole\">#{whole_part}</span><span class=\"money-decimal-mark\">#{decimal_mark}</span><span class=\"money-decimal\">#{decimal_part}</span>"
+        end
+      else
+        [whole_part, decimal_part].compact.join(decimal_mark)
+      end
 
       sign = money.negative? ? '-' : ''
 
@@ -232,7 +244,7 @@ class Money
       symbol_value = symbol_value_from(rules)
 
       if symbol_value && !symbol_value.empty?
-        symbol_value = "<span class=\"currency_symbol\">#{symbol_value}</span>" if rules[:html_wrap_symbol]
+        symbol_value = "<span class=\"money-currency-symbol\">#{symbol_value}</span>" if rules[:html]
         symbol_position = symbol_position_from(rules)
 
         formatted = if symbol_position == :before
@@ -248,7 +260,7 @@ class Money
 
       if rules[:with_currency]
         formatted << " "
-        formatted << '<span class="currency">' if rules[:html]
+        formatted << '<span class="money-currency">' if rules[:html]
         formatted << currency.to_s
         formatted << '</span>' if rules[:html]
       end
