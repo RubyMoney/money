@@ -266,6 +266,12 @@ describe Money, "formatting" do
       it "doesn't incorrectly format HTML" do
         money = ::Money.new(1999, "RUB")
         output = money.format(html: true, no_cents: true)
+        expect(output).to eq "19 &#x20BD;"
+      end
+
+      it "doesn't incorrectly format HTML (html_wrap)" do
+        money = ::Money.new(1999, "RUB")
+        output = money.format(html_wrap: true, no_cents: true)
         expect(output).to eq "<span class=\"money-whole\">19</span> <span class=\"money-currency-symbol\">&#x20BD;</span>"
       end
     end
@@ -471,17 +477,36 @@ describe Money, "formatting" do
 
     describe ":html option" do
       specify "(html: true) works as documented" do
-        string = Money.ca_dollar(570).format(html: true)
-        expect(string).to eq "<span class=\"money-currency-symbol\">$</span><span class=\"money-whole\">5</span><span class=\"money-decimal-mark\">.</span><span class=\"money-decimal\">70</span>"
-      end
-
-      specify "(html: true, with_currency: true)" do
         string = Money.ca_dollar(570).format(html: true, with_currency: true)
-        expect(string).to eq "<span class=\"money-currency-symbol\">$</span><span class=\"money-whole\">5</span><span class=\"money-decimal-mark\">.</span><span class=\"money-decimal\">70</span> <span class=\"money-currency\">CAD</span>"
+        expect(string).to eq "$5.70 <span class=\"currency\">CAD</span>"
       end
 
       specify "should fallback to symbol if entity is not available" do
         string = Money.new(570, 'DKK').format(html: true)
+        expect(string).to eq "5,70 kr."
+      end
+    end
+
+    describe ":html_wrap_symbol option" do
+      specify "(html_wrap_symbol: true) works as documented" do
+        string = Money.ca_dollar(570).format(html_wrap_symbol: true)
+        expect(string).to eq "<span class=\"currency_symbol\">$</span>5.70"
+      end
+    end
+
+    describe ":html_wrap option" do
+      specify "(html_wrap: true) works as documented" do
+        string = Money.ca_dollar(570).format(html_wrap: true)
+        expect(string).to eq "<span class=\"money-currency-symbol\">$</span><span class=\"money-whole\">5</span><span class=\"money-decimal-mark\">.</span><span class=\"money-decimal\">70</span>"
+      end
+
+      specify "(html_wrap: true, with_currency: true)" do
+        string = Money.ca_dollar(570).format(html_wrap: true, with_currency: true)
+        expect(string).to eq "<span class=\"money-currency-symbol\">$</span><span class=\"money-whole\">5</span><span class=\"money-decimal-mark\">.</span><span class=\"money-decimal\">70</span> <span class=\"money-currency\">CAD</span>"
+      end
+
+      specify "should fallback to symbol if entity is not available" do
+        string = Money.new(570, 'DKK').format(html_wrap: true)
         expect(string).to eq "<span class=\"money-whole\">5</span><span class=\"money-decimal-mark\">,</span><span class=\"money-decimal\">70</span> <span class=\"money-currency-symbol\">kr.</span>"
       end
     end
