@@ -138,6 +138,12 @@ class Money
     #   Money.ca_dollar(570).format(html: true, with_currency: true)
     #   #=> "$5.70 <span class=\"currency\">CAD</span>"
     #
+    # @option rules [Boolean] :html_wrap (false) Whether all currency parts should be HTML-formatted.
+    #
+    # @example
+    #   Money.ca_dollar(570).format(html_wrap: true, with_currency: true)
+    #   #=> "<span class=\"money-currency-symbol\">$</span><span class=\"money-whole\">5</span><span class=\"money-decimal-mark\">.</span><span class=\"money-decimal\">70</span> <span class=\"money-currency\">CAD</span>"
+    #
     # @option rules [Boolean] :sign_before_symbol (false) Whether the sign should be
     #  before the currency symbol.
     #
@@ -209,6 +215,14 @@ class Money
     def to_s
       return free_text if show_free_text?
 
+      if rules[:html]
+        warn "[DEPRECATION] `html` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency and if you use `with_currency` option, currency element class changes from `currency` to `money-currency`."
+      end
+
+      if rules[:html_wrap_symbol]
+        warn "[DEPRECATION] `html_wrap_symbol` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency."
+      end
+
       whole_part, decimal_part = extract_whole_and_decimal_parts
 
       # Format whole and decimal parts separately
@@ -216,7 +230,15 @@ class Money
       whole_part = format_whole_part(whole_part)
 
       # Assemble the final formatted amount
-      formatted = [whole_part, decimal_part].compact.join(decimal_mark)
+      formatted = if rules[:html_wrap]
+        if decimal_part.nil?
+          html_wrap(whole_part, "whole")
+        else
+          [html_wrap(whole_part, "whole"), html_wrap(decimal_mark, "decimal-mark"), html_wrap(decimal_part, "decimal")].join
+        end
+      else
+        [whole_part, decimal_part].compact.join(decimal_mark)
+      end
 
       sign = money.negative? ? '-' : ''
 
@@ -232,7 +254,11 @@ class Money
       symbol_value = symbol_value_from(rules)
 
       if symbol_value && !symbol_value.empty?
-        symbol_value = "<span class=\"currency_symbol\">#{symbol_value}</span>" if rules[:html_wrap_symbol]
+        if rules[:html_wrap_symbol]
+          symbol_value = "<span class=\"currency_symbol\">#{symbol_value}</span>"
+        elsif rules[:html_wrap]
+          symbol_value = html_wrap(symbol_value, "currency-symbol")
+        end
         symbol_position = symbol_position_from(rules)
 
         formatted = if symbol_position == :before
@@ -248,9 +274,14 @@ class Money
 
       if rules[:with_currency]
         formatted << " "
-        formatted << '<span class="currency">' if rules[:html]
-        formatted << currency.to_s
-        formatted << '</span>' if rules[:html]
+
+        if rules[:html]
+          formatted << "<span class=\"currency\">#{currency.to_s}</span>"
+        elsif rules[:html_wrap]
+          formatted << html_wrap(currency.to_s, "currency")
+        else
+          formatted << currency.to_s
+        end
       end
       formatted
     end
@@ -280,6 +311,10 @@ class Money
 
     def show_free_text?
       money.zero? && rules[:display_free]
+    end
+
+    def html_wrap(string, class_name)
+      "<span class=\"money-#{class_name}\">#{string}</span>"
     end
 
     def free_text
@@ -359,7 +394,7 @@ class Money
         else
           ""
         end
-      elsif rules[:html]
+      elsif rules[:html] || rules[:html_wrap]
         currency.html_entity == '' ? currency.symbol : currency.html_entity
       elsif rules[:disambiguate] && currency.disambiguate_symbol
         currency.disambiguate_symbol
