@@ -789,6 +789,13 @@ YAML
       end
     end
 
+    it 'preserves assigned bank' do
+      bank = Money::Bank::VariableExchange.new
+      rounded = Money.new(1_00, 'USD', bank).round
+
+      expect(rounded.bank).to eq(bank)
+    end
+
     context "when using a subclass of Money" do
       let(:special_money_class) { Class.new(Money) }
       let(:money) { special_money_class.new(15.75, 'NZD') }

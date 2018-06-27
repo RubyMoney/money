@@ -522,7 +522,7 @@ class Money
   #
   def round(rounding_mode = self.class.rounding_mode, rounding_precision = 0)
     rounded_amount = as_d(@fractional).round(rounding_precision, rounding_mode)
-    self.class.new(rounded_amount, self.currency)
+    self.class.new(rounded_amount, currency, bank)
   end
 
   # Creates a formatted price string according to several rules.
