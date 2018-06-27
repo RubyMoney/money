@@ -521,11 +521,8 @@ class Money
   #   Money.infinite_precision
   #
   def round(rounding_mode = self.class.rounding_mode, rounding_precision = 0)
-    if self.class.infinite_precision
-      self.class.new(fractional.round(rounding_precision, rounding_mode), self.currency)
-    else
-      self
-    end
+    rounded_amount = as_d(@fractional).round(rounding_precision, rounding_mode)
+    self.class.new(rounded_amount, self.currency)
   end
 
   # Creates a formatted price string according to several rules.

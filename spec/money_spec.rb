@@ -732,15 +732,32 @@ YAML
   end
 
   describe "#round" do
-
     let(:money) { Money.new(15.75, 'NZD') }
     subject(:rounded) { money.round }
 
     context "without infinite_precision" do
-      it "returns self (as it is already rounded)" do
-        rounded = money.round
-        expect(rounded).to be money
+      it "returns a different money" do
+        expect(rounded).not_to be money
+      end
+
+      it "rounds the cents" do
         expect(rounded.cents).to eq 16
+      end
+
+      it "maintains the currency" do
+        expect(rounded.currency).to eq Money::Currency.new('NZD')
+      end
+
+      it "uses a provided rounding strategy" do
+        rounded = money.round(BigDecimal::ROUND_DOWN)
+        expect(rounded.cents).to eq 15
+      end
+
+      it "does not accumulate rounding error" do
+        money_1 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
+        money_2 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
+
+        expect(money_1 + money_2).to eq(Money.new(20))
       end
     end
 
@@ -762,15 +779,6 @@ YAML
         expect(rounded.cents).to eq 15
       end
 
-      context "when using a subclass of Money" do
-        let(:special_money_class) { Class.new(Money) }
-        let(:money) { special_money_class.new(15.75, 'NZD') }
-
-        it "preserves the class in the result" do
-          expect(rounded).to be_a special_money_class
-        end
-      end
-
       context "when using a specific rounding precision" do
         let(:money) { Money.new(15.7526, 'NZD') }
 
@@ -778,6 +786,15 @@ YAML
           rounded = money.round(BigDecimal::ROUND_DOWN, 3)
           expect(rounded.fractional).to eq 15.752
         end
+      end
+    end
+
+    context "when using a subclass of Money" do
+      let(:special_money_class) { Class.new(Money) }
+      let(:money) { special_money_class.new(15.75, 'NZD') }
+
+      it "preserves the class in the result" do
+        expect(rounded).to be_a special_money_class
       end
     end
   end
