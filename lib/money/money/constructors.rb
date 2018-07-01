@@ -10,9 +10,7 @@ class Money
     # @example
     #   Money.empty #=> #<Money @fractional=0>
     def empty(currency = default_currency)
-      @empty ||= {}
-      currency = Currency.new(currency)
-      @empty[currency] ||= new(0, currency).freeze
+      new(0, currency)
     end
     alias_method :zero, :empty
 
