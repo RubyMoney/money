@@ -234,7 +234,11 @@ class Money
         if decimal_part.nil?
           html_wrap(whole_part, "whole")
         else
-          [html_wrap(whole_part, "whole"), html_wrap(decimal_mark, "decimal-mark"), html_wrap(decimal_part, "decimal")].join
+          [
+            html_wrap(whole_part, "whole"),
+            html_wrap(decimal_mark, "decimal-mark"),
+            html_wrap(decimal_part, "decimal")
+          ].join
         end
       else
         [whole_part, decimal_part].compact.join(decimal_mark)
@@ -322,15 +326,8 @@ class Money
     end
 
     def format_whole_part(value)
-      # Determine thousands_separator
-      thousands_separator_value = if rules.has_key?(:thousands_separator)
-                                    rules[:thousands_separator] || ''
-                                  else
-                                    thousands_separator
-                                  end
-
       # Apply thousands_separator
-      value.gsub regexp_format, "\\1#{thousands_separator_value}"
+      value.gsub regexp_format, "\\1#{thousands_separator}"
     end
 
     def extract_whole_and_decimal_parts

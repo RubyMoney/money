@@ -179,7 +179,7 @@ class Money
   #   fee = Money.rounding_mode(BigDecimal::ROUND_HALF_UP) do
   #     Money.new(1200) * BigDecimal('0.029')
   #   end
-  def self.rounding_mode(mode=nil)
+  def self.rounding_mode(mode = nil)
     if mode.nil?
       Thread.current[:money_rounding_mode] || @rounding_mode
     else
