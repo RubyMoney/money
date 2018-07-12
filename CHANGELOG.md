@@ -1,5 +1,14 @@
 # Changelog
 
+## 6.12.0
+- Remove caching of `.empty`/`.zero`
+- Preserve assigned bank when rounding
+- Always round the fractional part when calling `#round`
+- Wrap all amount parts when `:html_wrap` option is used
+- Deprecate `#currency_as_string` and `#currency_as_string=` (in favour of `#with_currency`)
+- Add `#with_currency` for swapping the currency
+- Rewrite allocate/split (fixing some penny loosing issues)
+
 ## 6.11.3
 - Fix regression: if enabled use i18n locales in Money#to_s
 
