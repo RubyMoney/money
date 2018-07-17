@@ -410,7 +410,7 @@ class Money
         else
           raise ArgumentError, ":symbol_position must be ':before' or ':after'"
         end
-      elsif currency.symbol_first?
+      elsif i18n_format_for(:symbol_first, :symbol_first, false)
         :before
       else
         :after
