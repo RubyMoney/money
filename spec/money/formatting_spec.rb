@@ -661,6 +661,42 @@ describe Money, "formatting" do
       end
     end
 
+    describe ':format option' do
+      let(:money) { Money.new(99_99, 'USD') }
+
+      it 'uses provided format as a template' do
+        expect(money.format(format: '%n')).to eq('99.99')
+        expect(money.format(format: '%u')).to eq('$')
+        expect(money.format(format: '%u%n')).to eq('$99.99')
+        expect(money.format(format: '%n%u')).to eq('99.99$')
+        expect(money.format(format: '%u %n')).to eq('$ 99.99')
+        expect(money.format(format: 'Your balance is: %u%n')).to eq('Your balance is: $99.99')
+      end
+
+      it 'ignores :symbol_position in favour of format' do
+        expect(money.format(format: '%u%n', symbol_position: :after)).to eq('$99.99')
+        expect(money.format(format: '%n%u', symbol_position: :before)).to eq('99.99$')
+      end
+
+      it 'ignores :symbol_before_without_space in favour of format' do
+        expect(money.format(format: '%u %n', symbol_position: :before, symbol_before_without_space: true)).to eq('$ 99.99')
+        expect(money.format(format: '%u%n', symbol_position: :before, symbol_before_without_space: false)).to eq('$99.99')
+      end
+
+      it 'ignores :symbol_after_without_space in favour of format' do
+        expect(money.format(format: '%n %u', symbol_position: :after, symbol_after_without_space: true)).to eq('99.99 $')
+        expect(money.format(format: '%n%u', symbol_position: :after, symbol_after_without_space: false)).to eq('99.99$')
+      end
+
+      it 'works with sign' do
+        money = Money.new(-99_99, 'USD')
+
+        expect(money.format(format: '%n%u', sign_before_symbol: false)).to eq('-99.99$')
+        expect(money.format(format: '%u%n', sign_before_symbol: false)).to eq('$-99.99')
+        expect(money.format(format: '%u%n', sign_before_symbol: true)).to eq('-$99.99')
+      end
+    end
+
     context "when the monetary value is 0" do
       let(:money) { Money.us_dollar(0) }
 

@@ -203,6 +203,13 @@ class Money
     #   Money.new(89000, :btc).format(drop_trailing_zeros: true) #=> B⃦0.00089
     #   Money.new(110, :usd).format(drop_trailing_zeros: true)   #=> $1.1
     #
+    # @option rules [String] :format (nil) Provide a template for formatting. `%u` will be replaced
+    # with the symbol (if present) and `%n` will be replaced with the number.
+    #
+    # @example
+    #   Money.new(10000, "USD").format(format: '%u %n') #=> "$ 100.00"
+    #   Money.new(10000, "USD").format(format: '<span>%u%n</span>')  #=> "<span>$100.00</span>"
+    #
     # Note that the default rules can be defined through {Money.default_formatting_rules} hash.
     #
     # @see Money.default_formatting_rules Money.default_formatting_rules for more information.
@@ -234,7 +241,11 @@ class Money
         if decimal_part.nil?
           html_wrap(whole_part, "whole")
         else
-          [html_wrap(whole_part, "whole"), html_wrap(decimal_mark, "decimal-mark"), html_wrap(decimal_part, "decimal")].join
+          [
+            html_wrap(whole_part, "whole"),
+            html_wrap(decimal_mark, "decimal-mark"),
+            html_wrap(decimal_part, "decimal")
+          ].join
         end
       else
         [whole_part, decimal_part].compact.join(decimal_mark)
@@ -259,17 +270,12 @@ class Money
         elsif rules[:html_wrap]
           symbol_value = html_wrap(symbol_value, "currency-symbol")
         end
-        symbol_position = symbol_position_from(rules)
 
-        formatted = if symbol_position == :before
-          symbol_space = rules[:symbol_before_without_space] === false ? " " : ""
-          "#{sign_before}#{symbol_value}#{symbol_space}#{sign}#{formatted}"
-        else
-          symbol_space = rules[:symbol_after_without_space] ? "" : " "
-          "#{sign_before}#{sign}#{formatted}#{symbol_space}#{symbol_value}"
-        end
+        formatted = rules[:format]
+                      .gsub('%u', [sign_before, symbol_value].join)
+                      .gsub('%n', [sign, formatted].join)
       else
-        formatted="#{sign_before}#{sign}#{formatted}"
+        formatted = "#{sign_before}#{sign}#{formatted}"
       end
 
       if rules[:with_currency]
@@ -322,15 +328,8 @@ class Money
     end
 
     def format_whole_part(value)
-      # Determine thousands_separator
-      thousands_separator_value = if rules.has_key?(:thousands_separator)
-                                    rules[:thousands_separator] || ''
-                                  else
-                                    thousands_separator
-                                  end
-
       # Apply thousands_separator
-      value.gsub regexp_format, "\\1#{thousands_separator_value}"
+      value.gsub regexp_format, "\\1#{thousands_separator}"
     end
 
     def extract_whole_and_decimal_parts
@@ -400,20 +399,6 @@ class Money
         currency.disambiguate_symbol
       else
         money.symbol
-      end
-    end
-
-    def symbol_position_from(rules)
-      if rules.has_key?(:symbol_position)
-        if [:before, :after].include?(rules[:symbol_position])
-          return rules[:symbol_position]
-        else
-          raise ArgumentError, ":symbol_position must be ':before' or ':after'"
-        end
-      elsif currency.symbol_first?
-        :before
-      else
-        :after
       end
     end
   end
