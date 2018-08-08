@@ -436,7 +436,7 @@ for improved performance and accuracy.
 
 ### Troubleshooting
 
-If you get a runtime error such as:
+If you don't have some locale and don't want to get a runtime error such as:
 
     I18n::InvalidLocale: :en is not a valid locale
 
