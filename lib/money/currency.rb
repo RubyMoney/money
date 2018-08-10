@@ -201,7 +201,6 @@ class Money
         existed ? true : false
       end
 
-
       def each
         all.each { |c| yield(c) }
       end
@@ -399,6 +398,17 @@ class Money
 
     def symbol_first?
       !!@symbol_first
+    end
+
+    # Returns if a code currency is ISO.
+    #
+    # @return [Boolean]
+    #
+    # @example
+    #   Money::Currency.new(:usd).iso?
+    #
+    def iso?
+      iso_numeric && iso_numeric != ''
     end
 
     # Returns the relation between subunit and unit as a base 10 exponent.
