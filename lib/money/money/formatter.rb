@@ -3,6 +3,11 @@ require 'money/money/formatting_rules'
 
 class Money
   class Formatter
+    DEFAULTS = {
+      thousands_separator: '',
+      decimal_mark: '.'
+    }.freeze
+
     # Creates a formatted price string according to several rules.
     #
     # @param [Hash] rules The options used to format the string.
@@ -304,11 +309,6 @@ class Money
     alias_method :separator, :decimal_mark
 
     private
-
-    DEFAULTS = {
-      thousands_separator: '',
-      decimal_mark: '.'
-    }.freeze
 
     attr_reader :money, :currency, :rules
 

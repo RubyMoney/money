@@ -18,6 +18,19 @@ describe Money, "formatting" do
     end
   end
 
+  context 'without locale_backend' do
+    before { Money.locale_backend = nil }
+    after { Money.locale_backend = :legacy }
+
+    subject(:money) { Money.new(1099_99, 'USD') }
+
+    it 'falls back to using defaults' do
+      expect(money.thousands_separator).to eq('')
+      expect(money.decimal_mark).to eq('.')
+      expect(money.format).to eq('$1099.99')
+    end
+  end
+
   context "with i18n but use_i18n = false" do
     before :each do
       reset_i18n

@@ -1,6 +1,22 @@
 # encoding: utf-8
 
 describe Money do
+  describe '.locale_backend' do
+    after { Money.locale_backend = :legacy }
+
+    it 'sets the locale_backend' do
+      Money.locale_backend = :i18n
+
+      expect(Money.locale_backend).to be_a(Money::LocaleBackend::I18n)
+    end
+
+    it 'sets the locale_backend to nil' do
+      Money.locale_backend = nil
+
+      expect(Money.locale_backend).to eq(nil)
+    end
+  end
+
   describe ".new" do
     let(:initializing_value) { 1 }
     subject(:money) { Money.new(initializing_value) }

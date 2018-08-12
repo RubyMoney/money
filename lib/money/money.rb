@@ -144,7 +144,7 @@ class Money
   end
 
   def self.locale_backend=(value)
-    @locale_backend = LocaleBackend.find(value)
+    @locale_backend = value ? LocaleBackend.find(value) : nil
   end
 
   def self.setup_defaults
@@ -549,7 +549,8 @@ class Money
   # @return [String]
   #
   def thousands_separator
-    self.class.locale_backend.lookup(:thousands_separator, currency)
+    (locale_backend && locale_backend.lookup(:thousands_separator, currency)) ||
+      Money::Formatter::DEFAULTS[:thousands_separator]
   end
 
   # Returns a decimal mark according to the locale
@@ -557,7 +558,8 @@ class Money
   # @return [String]
   #
   def decimal_mark
-    self.class.locale_backend.lookup(:decimal_mark, currency)
+    (locale_backend && locale_backend.lookup(:decimal_mark, currency)) ||
+      Money::Formatter::DEFAULTS[:decimal_mark]
   end
 
   private
@@ -576,5 +578,9 @@ class Money
     else
       value.round(0, self.class.rounding_mode).to_i
     end
+  end
+
+  def locale_backend
+    self.class.locale_backend
   end
 end
