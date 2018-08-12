@@ -147,6 +147,14 @@ class Money
     @locale_backend = value ? LocaleBackend.find(value) : nil
   end
 
+  def self.use_i18n=(value)
+    if value
+      warn '[DEPRECATION] `use_i18n` is deprecated - use `Money.locale_backend = :i18n` instead'
+    end
+
+    @use_i18n = value
+  end
+
   def self.setup_defaults
     # Set the default bank for creating new +Money+ objects.
     self.default_bank = Bank::VariableExchange.instance
@@ -155,7 +163,7 @@ class Money
     self.default_currency = Currency.new("USD")
 
     # Default to using i18n
-    self.use_i18n = true
+    @use_i18n = true
 
     # Default to using legacy locale backend
     self.locale_backend = :legacy

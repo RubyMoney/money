@@ -10,6 +10,8 @@ class Money
 
       def lookup(key, currency)
         if Money.use_i18n
+          warn '[DEPRECATION] `use_i18n` is deprecated - use `Money.locale_backend = :i18n` instead'
+
           i18n_backend.lookup(key, nil) || currency.public_send(key)
         else
           currency.public_send(key)
