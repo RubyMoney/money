@@ -5,6 +5,7 @@ require "money/money/arithmetic"
 require "money/money/constructors"
 require "money/money/formatter"
 require "money/money/allocation"
+require "money/money/locale_backend"
 
 # "Money is any object or record that is generally accepted as payment for
 # goods and services and repayment of debts in a given socio-economic context
@@ -120,7 +121,8 @@ class Money
     #   @return [Integer] Use this to specify precision for converting Rational
     #     to BigDecimal
     attr_accessor :default_bank, :default_formatting_rules,
-      :use_i18n, :infinite_precision, :conversion_precision
+      :use_i18n, :infinite_precision, :conversion_precision,
+      :locale_backend
 
     # @attr_writer rounding_mode Use this to specify the rounding mode
     #
@@ -141,6 +143,10 @@ class Money
     end
   end
 
+  def self.locale_backend=(value)
+    @locale_backend = LocaleBackend.find(value)
+  end
+
   def self.setup_defaults
     # Set the default bank for creating new +Money+ objects.
     self.default_bank = Bank::VariableExchange.instance
@@ -150,6 +156,9 @@ class Money
 
     # Default to using i18n
     self.use_i18n = true
+
+    # Default to using legacy locale backend
+    self.locale_backend = :legacy
 
     # Default to not using infinite precision cents
     self.infinite_precision = false
@@ -540,7 +549,7 @@ class Money
   # @return [String]
   #
   def thousands_separator
-    Money::Formatter.new(self, {}).thousands_separator
+    self.class.locale_backend.lookup(:thousands_separator, currency)
   end
 
   # Returns a decimal mark according to the locale
@@ -548,7 +557,7 @@ class Money
   # @return [String]
   #
   def decimal_mark
-    Money::Formatter.new(self, {}).decimal_mark
+    self.class.locale_backend.lookup(:decimal_mark, currency)
   end
 
   private
