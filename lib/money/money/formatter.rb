@@ -3,6 +3,11 @@ require 'money/money/formatting_rules'
 
 class Money
   class Formatter
+    DEFAULTS = {
+      thousands_separator: '',
+      decimal_mark: '.'
+    }.freeze
+
     # Creates a formatted price string according to several rules.
     #
     # @param [Hash] rules The options used to format the string.
@@ -293,19 +298,11 @@ class Money
     end
 
     def thousands_separator
-      if rules.has_key?(:thousands_separator)
-        rules[:thousands_separator] || ''
-      else
-        i18n_format_for(:thousands_separator, :delimiter, ',')
-      end
+      lookup :thousands_separator
     end
 
     def decimal_mark
-      if rules.has_key?(:decimal_mark)
-        rules[:decimal_mark] || '.'
-      else
-        i18n_format_for(:decimal_mark, :separator, '.')
-      end
+      lookup :decimal_mark
     end
 
     alias_method :delimiter, :thousands_separator
@@ -359,16 +356,10 @@ class Money
       value.empty? ? nil : value
     end
 
-    def i18n_format_for(method, name, character)
-      if Money.use_i18n
-        begin
-          I18n.t name, scope: "number.currency.format", raise: true
-        rescue I18n::MissingTranslationData
-          I18n.t name, scope: "number.format", default: (currency.send(method) || character)
-        end
-      else
-        currency.send(method) || character
-      end
+    def lookup(key)
+      return rules[key] || DEFAULTS[key] if rules.has_key?(key)
+
+      (Money.locale_backend && Money.locale_backend.lookup(key, currency)) || DEFAULTS[key]
     end
 
     def regexp_format
