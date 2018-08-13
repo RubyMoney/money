@@ -26,4 +26,10 @@ Gem::Specification.new do |s|
   s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths = ["lib"]
+
+  if s.respond_to?(:metadata)
+    s.metadata['changelog_uri'] = 'https://github.com/RubyMoney/money/blob/master/CHANGELOG.md'
+    s.metadata['source_code_uri'] = 'https://github.com/RubyMoney/money/'
+    s.metadata['bug_tracker_uri'] = 'https://github.com/RubyMoney/money/issues'
+  end
 end
