@@ -30,6 +30,36 @@
     "iso_numeric": "288",
     "smallest_denomination": 1
   },
+  "ltl": {
+    "priority": 100,
+    "iso_code": "LTL",
+    "name": "Lithuanian Litas",
+    "symbol": "Lt",
+    "alternate_symbols": [],
+    "subunit": "Centas",
+    "subunit_to_unit": 100,
+    "symbol_first": false,
+    "html_entity": "",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "440",
+    "smallest_denomination": 1
+  },
+  "lvl": {
+    "priority": 100,
+    "iso_code": "LVL",
+    "name": "Latvian Lats",
+    "symbol": "Ls",
+    "alternate_symbols": [],
+    "subunit": "Santīms",
+    "subunit_to_unit": 100,
+    "symbol_first": true,
+    "html_entity": "",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "428",
+    "smallest_denomination": 1
+  },
   "mtl": {
     "priority": 100,
     "iso_code": "MTL",
