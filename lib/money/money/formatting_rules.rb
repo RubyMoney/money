@@ -12,6 +12,8 @@ class Money
       @rules = localize_formatting_rules(@rules)
       @rules = translate_formatting_rules(@rules) if @rules[:translate]
       @rules[:format] ||= determine_format_from_formatting_rules(@rules)
+
+      warn_about_deprecated_rules(@rules)
     end
 
     def [](key)
@@ -63,8 +65,7 @@ class Money
     def localize_formatting_rules(rules)
       if currency.iso_code == "JPY" && I18n.locale == :ja
         rules[:symbol] = "円" unless rules[:symbol] == false
-        rules[:symbol_position] = :after
-        rules[:symbol_after_without_space] = true
+        rules[:format] = '%n%u'
       end
       rules
     end
@@ -90,6 +91,20 @@ class Money
         :before
       else
         :after
+      end
+    end
+
+    def warn_about_deprecated_rules(rules)
+      if rules.has_key?(:symbol_position)
+        warn '[DEPRECATION] `symbol_position:` option is deprecated - use `format` to specify the formatting template.'
+      end
+
+      if rules.has_key?(:symbol_before_without_space)
+        warn '[DEPRECATION] `symbol_before_without_space:` option is deprecated - use `format` to specify the formatting template.'
+      end
+
+      if rules.has_key?(:symbol_after_without_space)
+        warn '[DEPRECATION] `symbol_after_without_space:` option is deprecated - use `format` to specify the formatting template.'
       end
     end
   end
