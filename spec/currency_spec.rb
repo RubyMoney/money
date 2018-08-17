@@ -321,6 +321,16 @@ class Money
       end
     end
 
+    describe "#iso?" do
+      it "returns true for iso currency" do
+        expect(Money::Currency.new(:eur).iso?).to be true
+      end
+
+      it "returns false if the currency is not iso" do
+        expect(Money::Currency.new(:btc).iso?).to be false
+      end
+    end
+
     describe "#to_s" do
       it "works as documented" do
         expect(Currency.new(:usd).to_s).to eq("USD")
