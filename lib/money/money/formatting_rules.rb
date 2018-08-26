@@ -106,6 +106,15 @@ class Money
       if rules.has_key?(:symbol_after_without_space)
         warn '[DEPRECATION] `symbol_after_without_space:` option is deprecated - use `format` to specify the formatting template.'
       end
+
+      if rules.has_key?(:html)
+        warn "[DEPRECATION] `html` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency and if you use `with_currency` option, currency element class changes from `currency` to `money-currency`."
+      end
+
+      if rules.has_key?(:html_wrap_symbol)
+        warn "[DEPRECATION] `html_wrap_symbol` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency."
+      end
+
     end
   end
 end
