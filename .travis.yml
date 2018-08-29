@@ -3,10 +3,6 @@ language: ruby
 sudo: false
 dist: trusty
 rvm:
-  - 1.9.3
-  - 2.0
-  - 2.1.10
-  - 2.2.10
   - 2.3.8
   - 2.4.10
   - 2.5.8
