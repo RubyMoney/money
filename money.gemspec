@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'i18n', [">= 0.6.4", '<= 2']
 
   s.add_development_dependency "bundler", "~> 1.3"
+  s.add_development_dependency "r18n-core", "~> 3.0"
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec", "~> 3.4"
   s.add_development_dependency "yard", "~> 0.9.11"

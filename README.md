@@ -434,6 +434,14 @@ If you wish to disable this feature and use defaults instead:
 Money.locale_backend = nil
 ```
 
+### R18n
+
+If you want to use thousands separator and decimal mark from [R18n gem](https://github.com/ai/r18n):
+
+```ruby
+Money.locale_backend = :r18n
+```
+
 ### Deprecation
 
 The current default behaviour always checks the I18n locale first, falling back to "per currency"
