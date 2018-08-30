@@ -434,6 +434,14 @@ If you wish to disable this feature and use defaults instead:
 Money.locale_backend = nil
 ```
 
+## R18n
+
+If you want to use thousands separator and decimal mark from `R18n`:
+
+```ruby
+Money.locale_backend = :r18n
+```
+
 ## Collection
 
 In case you're working with collections of `Money` instances, have a look at [money-collection](https://github.com/RubyMoney/money-collection)

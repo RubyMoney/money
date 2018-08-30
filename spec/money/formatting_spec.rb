@@ -135,6 +135,73 @@ describe Money, "formatting" do
     end
   end
 
+  context "with r18n" do
+    before :each do
+      Money.locale_backend = :r18n
+
+      R18n.reset!
+
+      R18n.default_loader = Class.new do
+        def available
+          %i[de].map { |locale| R18n.locale locale }
+        end
+
+        def load(_locale)
+          {}
+        end
+      end
+    end
+
+    after :each do
+      R18n.reset!
+      R18n.set :en
+
+      Money.locale_backend = :legacy
+    end
+
+    context "with available locale" do
+      before :each do
+        R18n.set :de
+      end
+
+      subject(:money) { Money.empty("USD") }
+
+      it "should use '.' as the thousands separator" do
+        expect(money.thousands_separator).to eq '.'
+      end
+
+      it "should use ',' as the decimal mark" do
+        expect(money.decimal_mark).to eq ','
+      end
+    end
+
+    context "with unavailable locale" do
+      before :each do
+        R18n.set :unavailable
+      end
+
+      subject(:money) { Money.empty("USD") }
+
+      it "should use ',' as the thousands separator" do
+        expect(money.thousands_separator).to eq ','
+      end
+
+      it "should use '.' as the decimal mark" do
+        expect(money.decimal_mark).to eq '.'
+      end
+    end
+
+    context "with overridden r18n settings" do
+      it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
+        expect(Money.new(300_000, 'ISK').format(thousands_separator: ".", decimal_mark: ',')).to eq "kr300.000"
+      end
+
+      it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
+        expect(Money.new(300_000, 'USD').format(thousands_separator: ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
+      end
+    end
+  end
+
   describe "#format" do
     context "Locale :ja" do
       before { @_locale = I18n.locale; I18n.locale = :ja }
