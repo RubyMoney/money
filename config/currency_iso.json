@@ -2172,7 +2172,7 @@
     "disambiguate_symbol": "NT$",
     "alternate_symbols": ["NT$"],
     "subunit": "Cent",
-    "subunit_to_unit": 100,
+    "subunit_to_unit": 1,
     "symbol_first": true,
     "html_entity": "$",
     "decimal_mark": ".",
