@@ -5,7 +5,6 @@
 [![Code Climate](https://codeclimate.com/github/RubyMoney/money.svg)](https://codeclimate.com/github/RubyMoney/money)
 [![Coverage Status](https://coveralls.io/repos/RubyMoney/money/badge.svg?branch=master)](https://coveralls.io/r/RubyMoney/money?branch=master)
 [![Inline docs](https://inch-ci.org/github/RubyMoney/money.svg)](https://inch-ci.org/github/RubyMoney/money)
-[![Dependency Status](https://gemnasium.com/RubyMoney/money.svg)](https://gemnasium.com/RubyMoney/money)
 [![License](https://img.shields.io/github/license/RubyMoney/money.svg)](https://opensource.org/licenses/MIT)
 
 :warning: Please read the [migration notes](#migration-notes) before upgrading to a new major version.
