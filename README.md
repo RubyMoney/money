@@ -199,7 +199,7 @@ using:
 Money.default_currency = Money::Currency.new("CAD")
 ```
 
-If you use Rails, then `environment.rb` is a very good place to put this.
+If you use [Rails](https://github.com/RubyMoney/money/tree/master#ruby-on-rails), then `config/initializers/money.rb` is a very good place to put this.
 
 ### Currency Exponent
 
