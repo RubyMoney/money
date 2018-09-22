@@ -779,6 +779,7 @@ describe Money, "formatting" do
       expect(Money.new(1999_98, "DKK").format).to eq("1.999,98 kr.")
       expect(Money.new(1999_98, "NOK").format).to eq("1.999,98 kr")
       expect(Money.new(1999_98, "SEK").format).to eq("1 999,98 kr")
+      expect(Money.new(1999_98, "BCH").format).to eq("0.00199998 ₿")
     end
 
     it "returns ambiguous signs when disambiguate is false" do
@@ -787,6 +788,7 @@ describe Money, "formatting" do
       expect(Money.new(1999_98, "DKK").format(disambiguate: false)).to eq("1.999,98 kr.")
       expect(Money.new(1999_98, "NOK").format(disambiguate: false)).to eq("1.999,98 kr")
       expect(Money.new(1999_98, "SEK").format(disambiguate: false)).to eq("1 999,98 kr")
+      expect(Money.new(1999_98, "BCH").format(disambiguate: false)).to eq("0.00199998 ₿")
     end
 
     it "returns disambiguate signs when disambiguate: true" do
@@ -795,6 +797,7 @@ describe Money, "formatting" do
       expect(Money.new(1999_98, "DKK").format(disambiguate: true)).to eq("1.999,98 DKK")
       expect(Money.new(1999_98, "NOK").format(disambiguate: true)).to eq("1.999,98 NOK")
       expect(Money.new(1999_98, "SEK").format(disambiguate: true)).to eq("1 999,98 SEK")
+      expect(Money.new(1999_98, "BCH").format(disambiguate: true)).to eq("0.00199998 ₿CH")
     end
 
     it "returns disambiguate signs when disambiguate: true and symbol: true" do
@@ -803,6 +806,7 @@ describe Money, "formatting" do
       expect(Money.new(1999_98, "DKK").format(disambiguate: true, symbol: true)).to eq("1.999,98 DKK")
       expect(Money.new(1999_98, "NOK").format(disambiguate: true, symbol: true)).to eq("1.999,98 NOK")
       expect(Money.new(1999_98, "SEK").format(disambiguate: true, symbol: true)).to eq("1 999,98 SEK")
+      expect(Money.new(1999_98, "BCH").format(disambiguate: true, symbol: true)).to eq("0.00199998 ₿CH")
     end
 
     it "returns no signs when disambiguate: true and symbol: false" do
@@ -811,6 +815,7 @@ describe Money, "formatting" do
       expect(Money.new(1999_98, "DKK").format(disambiguate: true, symbol: false)).to eq("1.999,98")
       expect(Money.new(1999_98, "NOK").format(disambiguate: true, symbol: false)).to eq("1.999,98")
       expect(Money.new(1999_98, "SEK").format(disambiguate: true, symbol: false)).to eq("1 999,98")
+      expect(Money.new(1999_98, "BCH").format(disambiguate: true, symbol: false)).to eq("0.00199998")
     end
 
     it "should never return an ambiguous format with disambiguate: true" do
@@ -828,15 +833,21 @@ describe Money, "formatting" do
     describe ":drop_trailing_zeros option" do
       specify "(drop_trailing_zeros: true) works as documented" do
         expect(Money.new(89000, "BTC").format(drop_trailing_zeros: true, symbol: false)).to eq "0.00089"
+        expect(Money.new(89000, "BCH").format(drop_trailing_zeros: true, symbol: false)).to eq "0.00089"
         expect(Money.new(100089000, "BTC").format(drop_trailing_zeros: true, symbol: false)).to eq "1.00089"
+        expect(Money.new(100089000, "BCH").format(drop_trailing_zeros: true, symbol: false)).to eq "1.00089"
         expect(Money.new(100000000, "BTC").format(drop_trailing_zeros: true, symbol: false)).to eq "1"
+        expect(Money.new(100000000, "BCH").format(drop_trailing_zeros: true, symbol: false)).to eq "1"
         expect(Money.new(110, "AUD").format(drop_trailing_zeros: true, symbol: false)).to eq "1.1"
       end
 
       specify "(drop_trailing_zeros: false) works as documented" do
         expect(Money.new(89000, "BTC").format(drop_trailing_zeros: false, symbol: false)).to eq "0.00089000"
+        expect(Money.new(89000, "BCH").format(drop_trailing_zeros: false, symbol: false)).to eq "0.00089000"
         expect(Money.new(100089000, "BTC").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00089000"
+        expect(Money.new(100089000, "BCH").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00089000"
         expect(Money.new(100000000, "BTC").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00000000"
+        expect(Money.new(100000000, "BCH").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00000000"
         expect(Money.new(110, "AUD").format(drop_trailing_zeros: false, symbol: false)).to eq "1.10"
       end
     end

@@ -1,4 +1,20 @@
 {
+  "bch": {
+    "priority": 100,
+    "iso_code": "BCH",
+    "name": "Bitcoin Cash",
+    "symbol": "₿",
+    "disambiguate_symbol": "₿CH",
+    "alternate_symbols": ["BCH"],
+    "subunit": "Satoshi",
+    "subunit_to_unit": 100000000,
+    "symbol_first": false,
+    "html_entity": "&#x20bf;",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "",
+    "smallest_denomination": 1
+  },
   "btc": {
     "priority": 100,
     "iso_code": "BTC",
