@@ -226,15 +226,27 @@ class Money
 
     def to_s
       return free_text if show_free_text?
+      result = format_number
+      formatted = append_sign(result)
+      append_currency_symbol(formatted)
+    end
 
-      if rules[:html]
-        warn "[DEPRECATION] `html` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency and if you use `with_currency` option, currency element class changes from `currency` to `money-currency`."
-      end
+    def thousands_separator
+      lookup :thousands_separator
+    end
 
-      if rules[:html_wrap_symbol]
-        warn "[DEPRECATION] `html_wrap_symbol` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency."
-      end
+    def decimal_mark
+      lookup :decimal_mark
+    end
 
+    alias_method :delimiter, :thousands_separator
+    alias_method :separator, :decimal_mark
+
+    private
+
+    attr_reader :money, :currency, :rules
+
+    def format_number
       whole_part, decimal_part = extract_whole_and_decimal_parts
 
       # Format whole and decimal parts separately
@@ -242,7 +254,7 @@ class Money
       whole_part = format_whole_part(whole_part)
 
       # Assemble the final formatted amount
-      formatted = if rules[:html_wrap]
+      if rules[:html_wrap]
         if decimal_part.nil?
           html_wrap(whole_part, "whole")
         else
@@ -255,7 +267,9 @@ class Money
       else
         [whole_part, decimal_part].compact.join(decimal_mark)
       end
+    end
 
+    def append_sign(formatted_number)
       sign = money.negative? ? '-' : ''
 
       if rules[:sign_positive] == true && money.positive?
@@ -276,41 +290,28 @@ class Money
           symbol_value = html_wrap(symbol_value, "currency-symbol")
         end
 
-        formatted = rules[:format]
-                      .gsub('%u', [sign_before, symbol_value].join)
-                      .gsub('%n', [sign, formatted].join)
+        rules[:format]
+          .gsub('%u', [sign_before, symbol_value].join)
+          .gsub('%n', [sign, formatted_number].join)
       else
-        formatted = "#{sign_before}#{sign}#{formatted}"
+        formatted_number = "#{sign_before}#{sign}#{formatted_number}"
       end
+    end
 
+    def append_currency_symbol(formatted_number)
       if rules[:with_currency]
-        formatted << " "
+        formatted_number << " "
 
         if rules[:html]
-          formatted << "<span class=\"currency\">#{currency.to_s}</span>"
+          formatted_number << "<span class=\"currency\">#{currency.to_s}</span>"
         elsif rules[:html_wrap]
-          formatted << html_wrap(currency.to_s, "currency")
+          formatted_number << html_wrap(currency.to_s, "currency")
         else
-          formatted << currency.to_s
+          formatted_number << currency.to_s
         end
       end
-      formatted
+      formatted_number
     end
-
-    def thousands_separator
-      lookup :thousands_separator
-    end
-
-    def decimal_mark
-      lookup :decimal_mark
-    end
-
-    alias_method :delimiter, :thousands_separator
-    alias_method :separator, :decimal_mark
-
-    private
-
-    attr_reader :money, :currency, :rules
 
     def show_free_text?
       money.zero? && rules[:display_free]
