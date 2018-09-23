@@ -426,27 +426,6 @@ YAML
     end
   end
 
-  describe "#currency_as_string" do
-    it "returns the iso_code of the currency object" do
-      expect(Money.new(1_00, "USD").currency_as_string).to eq "USD"
-      expect(Money.new(1_00, "EUR").currency_as_string).to eq "EUR"
-    end
-  end
-
-  describe "#currency_as_string=" do
-    it "sets the currency object using the provided string leaving cents intact" do
-      money = Money.new(100_00, "USD")
-
-      money.currency_as_string = "EUR"
-      expect(money.currency).to eq Money::Currency.new("EUR")
-      expect(money.cents).to eq 100_00
-
-      money.currency_as_string = "YEN"
-      expect(money.currency).to eq Money::Currency.new("YEN")
-      expect(money.cents).to eq 100_00
-    end
-  end
-
   describe "#hash=" do
     it "returns the same value for equal objects" do
       expect(Money.new(1_00, "EUR").hash).to eq Money.new(1_00, "EUR").hash

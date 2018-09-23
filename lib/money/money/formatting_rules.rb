@@ -12,8 +12,6 @@ class Money
       @rules = localize_formatting_rules(@rules)
       @rules = translate_formatting_rules(@rules) if @rules[:translate]
       @rules[:format] ||= determine_format_from_formatting_rules(@rules)
-
-      warn_about_deprecated_rules(@rules)
     end
 
     def [](key)
@@ -71,50 +69,7 @@ class Money
     end
 
     def determine_format_from_formatting_rules(rules)
-      symbol_position = symbol_position_from(rules)
-
-      if symbol_position == :before
-        rules.fetch(:symbol_before_without_space, true) ? '%u%n' : '%u %n'
-      else
-        rules[:symbol_after_without_space] ? '%n%u' : '%n %u'
-      end
-    end
-
-    def symbol_position_from(rules)
-      if rules.has_key?(:symbol_position)
-        if [:before, :after].include?(rules[:symbol_position])
-          return rules[:symbol_position]
-        else
-          raise ArgumentError, ":symbol_position must be ':before' or ':after'"
-        end
-      elsif currency.symbol_first?
-        :before
-      else
-        :after
-      end
-    end
-
-    def warn_about_deprecated_rules(rules)
-      if rules.has_key?(:symbol_position)
-        warn '[DEPRECATION] `symbol_position:` option is deprecated - use `format` to specify the formatting template.'
-      end
-
-      if rules.has_key?(:symbol_before_without_space)
-        warn '[DEPRECATION] `symbol_before_without_space:` option is deprecated - use `format` to specify the formatting template.'
-      end
-
-      if rules.has_key?(:symbol_after_without_space)
-        warn '[DEPRECATION] `symbol_after_without_space:` option is deprecated - use `format` to specify the formatting template.'
-      end
-
-      if rules.has_key?(:html)
-        warn "[DEPRECATION] `html` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency and if you use `with_currency` option, currency element class changes from `currency` to `money-currency`."
-      end
-
-      if rules.has_key?(:html_wrap_symbol)
-        warn "[DEPRECATION] `html_wrap_symbol` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency."
-      end
-
+      currency.symbol_first? ? '%u%n' : '%n %u'
     end
   end
 end
