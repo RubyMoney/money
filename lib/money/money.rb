@@ -313,31 +313,6 @@ class Money
     to_d
   end
 
-  # Return string representation of currency object
-  #
-  # @return [String]
-  #
-  # @example
-  #   Money.new(100, :USD).currency_as_string #=> "USD"
-  def currency_as_string
-    warn "[DEPRECATION] `currency_as_string` is deprecated. Please use `.currency.to_s` instead."
-    currency.to_s
-  end
-
-  # Set currency object using a string
-  #
-  # @param [String] val The currency string.
-  #
-  # @return [Money::Currency]
-  #
-  # @example
-  #   Money.new(100).currency_as_string("CAD") #=> #<Money::Currency id: cad>
-  def currency_as_string=(val)
-    warn "[DEPRECATION] `currency_as_string=` is deprecated - Money instances are immutable." \
-      " Please use `with_currency` instead."
-    @currency = Currency.wrap(val)
-  end
-
   # Returns a Integer hash value based on the +fractional+ and +currency+ attributes
   # in order to use functions like & (intersection), group_by, etc.
   #
