@@ -78,37 +78,10 @@ class Money
     end
 
     def determine_format_from_formatting_rules(rules)
-      symbol_position = symbol_position_from(rules)
-
-      if symbol_position == :before
-        '%u%n'
-      else
-        '%n %u'
-      end
-    end
-
-    def symbol_position_from(rules)
-      if rules.has_key?(:symbol_position)
-        if [:before, :after].include?(rules[:symbol_position])
-          return rules[:symbol_position]
-        else
-          raise ArgumentError, ":symbol_position must be ':before' or ':after'"
-        end
-      elsif currency.symbol_first?
-        :before
-      else
-        :after
-      end
+      currency.symbol_first? ? '%u%n' : '%n %u'
     end
 
     def warn_about_deprecated_rules(rules)
-      if rules.has_key?(:symbol_position)
-        position = rules[:symbol_position]
-        template = position == :before ? '%u %n' : '%n %u'
-
-        warn "[DEPRECATION] `symbol_position: :#{position}` is deprecated - you can replace it with `format: #{template}`"
-      end
-
       if rules.has_key?(:html)
         warn "[DEPRECATION] `html` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency and if you use `with_currency` option, currency element class changes from `currency` to `money-currency`."
       end
