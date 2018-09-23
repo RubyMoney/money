@@ -158,13 +158,6 @@ class Money
     #   Money.new(10000, "USD").format(disambiguate: false)
     #   #=> "<span class=\"currency_symbol\">$100.00</span>
     #
-    # @option rules [Symbol] :symbol_position (:before) `:before` if the currency
-    #   symbol goes before the amount, `:after` if it goes after.
-    #
-    # @example
-    #   Money.new(10000, "USD").format(symbol_position: :before) #=> "$100.00"
-    #   Money.new(10000, "USD").format(symbol_position: :after)  #=> "100.00 $"
-    #
     # @option rules [Boolean] :translate (true) `true` Checks for custom
     #   symbol definitions using I18n.
     #
