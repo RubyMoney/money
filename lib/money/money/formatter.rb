@@ -82,21 +82,6 @@ class Money
     #   Money.new(10000000, "INR").format(south_asian_number_formatting: true) #=> "1,00,000.00"
     #   Money.new(10000000).format(south_asian_number_formatting: true) #=> "$1,00,000.00"
     #
-    # @option rules [Boolean, nil] :symbol_before_without_space (true) Whether
-    #   a space between the money symbol and the amount should be inserted when
-    #   +:symbol_position+ is +:before+. The default is true (meaning no space). Ignored
-    #   if +:symbol+ is false or +:symbol_position+ is not +:before+.
-    #
-    # @example
-    #   # Default is to not insert a space.
-    #   Money.new(100, "USD").format #=> "$1.00"
-    #
-    #   # Same thing.
-    #   Money.new(100, "USD").format(symbol_before_without_space: true) #=> "$1.00"
-    #
-    #   # If set to false, will insert a space.
-    #   Money.new(100, "USD").format(symbol_before_without_space: false) #=> "$ 1.00"
-    #
     # @option rules [Boolean, nil] :symbol_after_without_space (false) Whether
     #   a space between the amount and the money symbol should be inserted when
     #   +:symbol_position+ is +:after+. The default is false (meaning space). Ignored
