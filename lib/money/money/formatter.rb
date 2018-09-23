@@ -109,13 +109,6 @@ class Money
     #   # default to "," as thousands_separator.
     #   Money.new(100000, "FOO").format #=> "$1,000.00"
     #
-    # @option rules [Boolean] :html (false) Whether the currency should be
-    #  HTML-formatted. Only useful in combination with +:with_currency+.
-    #
-    # @example
-    #   Money.ca_dollar(570).format(html: true, with_currency: true)
-    #   #=> "$5.70 <span class=\"currency\">CAD</span>"
-    #
     # @option rules [Boolean] :html_wrap (false) Whether all currency parts should be HTML-formatted.
     #
     # @example
@@ -150,13 +143,6 @@ class Money
     #   Money.new(10000, "CAD").format(disambiguate: false)   #=> "$100.00"
     #   Money.new(10000, "USD").format(disambiguate: true)    #=> "$100.00"
     #   Money.new(10000, "CAD").format(disambiguate: true)    #=> "C$100.00"
-    #
-    # @option rules [Boolean] :html_wrap_symbol (false) Wraps the currency symbol
-    #  in a html <span> tag.
-    #
-    # @example
-    #   Money.new(10000, "USD").format(disambiguate: false)
-    #   #=> "<span class=\"currency_symbol\">$100.00</span>
     #
     # @option rules [Boolean] :translate (true) `true` Checks for custom
     #   symbol definitions using I18n.
@@ -250,9 +236,7 @@ class Money
       symbol_value = symbol_value_from(rules)
 
       if symbol_value && !symbol_value.empty?
-        if rules[:html_wrap_symbol]
-          symbol_value = "<span class=\"currency_symbol\">#{symbol_value}</span>"
-        elsif rules[:html_wrap]
+        if rules[:html_wrap]
           symbol_value = html_wrap(symbol_value, "currency-symbol")
         end
 
@@ -268,9 +252,7 @@ class Money
       if rules[:with_currency]
         formatted_number << " "
 
-        if rules[:html]
-          formatted_number << "<span class=\"currency\">#{currency.to_s}</span>"
-        elsif rules[:html_wrap]
+        if rules[:html_wrap]
           formatted_number << html_wrap(currency.to_s, "currency")
         else
           formatted_number << currency.to_s
@@ -351,7 +333,7 @@ class Money
         else
           ""
         end
-      elsif rules[:html] || rules[:html_wrap]
+      elsif rules[:html_wrap]
         currency.html_entity == '' ? currency.symbol : currency.html_entity
       elsif rules[:disambiguate] && currency.disambiguate_symbol
         currency.disambiguate_symbol

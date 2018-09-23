@@ -12,8 +12,6 @@ class Money
       @rules = localize_formatting_rules(@rules)
       @rules = translate_formatting_rules(@rules) if @rules[:translate]
       @rules[:format] ||= determine_format_from_formatting_rules(@rules)
-
-      warn_about_deprecated_rules(@rules)
     end
 
     def [](key)
@@ -72,17 +70,6 @@ class Money
 
     def determine_format_from_formatting_rules(rules)
       currency.symbol_first? ? '%u%n' : '%n %u'
-    end
-
-    def warn_about_deprecated_rules(rules)
-      if rules.has_key?(:html)
-        warn "[DEPRECATION] `html` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency and if you use `with_currency` option, currency element class changes from `currency` to `money-currency`."
-      end
-
-      if rules.has_key?(:html_wrap_symbol)
-        warn "[DEPRECATION] `html_wrap_symbol` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency."
-      end
-
     end
   end
 end
