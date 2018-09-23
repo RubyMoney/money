@@ -83,7 +83,7 @@ class Money
       if symbol_position == :before
         '%u%n'
       else
-        rules[:symbol_after_without_space] ? '%n%u' : '%n %u'
+        '%n %u'
       end
     end
 
@@ -104,10 +104,6 @@ class Money
     def warn_about_deprecated_rules(rules)
       if rules.has_key?(:symbol_position)
         warn '[DEPRECATION] `symbol_position:` option is deprecated - use `format` to specify the formatting template.'
-      end
-
-      if rules.has_key?(:symbol_after_without_space)
-        warn '[DEPRECATION] `symbol_after_without_space:` option is deprecated - use `format` to specify the formatting template.'
       end
 
       if rules.has_key?(:html)
