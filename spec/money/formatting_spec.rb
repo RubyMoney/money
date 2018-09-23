@@ -616,20 +616,6 @@ describe Money, "formatting" do
       end
     end
 
-    describe ":symbol_after_without_space option" do
-      it "does not insert space between amount and currency symbol when set to true" do
-        expect(Money.euro(1_234_567_12).format(symbol_position: :after, symbol_after_without_space: true)).to eq "1.234.567,12€"
-      end
-
-      it "inserts space between amount and currency symbol when set to false" do
-        expect(Money.euro(1_234_567_12).format(symbol_position: :after, symbol_after_without_space: false)).to eq "1.234.567,12 €"
-      end
-
-      it "defaults to false" do
-        expect(Money.euro(1_234_567_12).format(symbol_position: :after)).to eq "1.234.567,12 €"
-      end
-    end
-
     describe ":sign_positive option" do
       specify "(sign_positive: true, sign_before_symbol: true) works as documented" do
         expect(Money.us_dollar(      0).format(sign_positive: true, sign_before_symbol: true)).to eq "$0.00"
@@ -742,11 +728,6 @@ describe Money, "formatting" do
       it 'ignores :symbol_position in favour of format' do
         expect(money.format(format: '%u%n', symbol_position: :after)).to eq('$99.99')
         expect(money.format(format: '%n%u', symbol_position: :before)).to eq('99.99$')
-      end
-
-      it 'ignores :symbol_after_without_space in favour of format' do
-        expect(money.format(format: '%n %u', symbol_position: :after, symbol_after_without_space: true)).to eq('99.99 $')
-        expect(money.format(format: '%n%u', symbol_position: :after, symbol_after_without_space: false)).to eq('99.99$')
       end
 
       it 'works with sign' do
