@@ -59,6 +59,11 @@ class Money
         expect(Currency.find_by_iso_numeric('non iso 4217 numeric code')).to be_nil
         expect(Currency.find_by_iso_numeric(0)).to be_nil
       end
+
+      it "returns nil when given empty input" do
+        expect(Currency.find_by_iso_numeric('')).to be_nil
+        expect(Currency.find_by_iso_numeric(nil)).to be_nil
+      end
     end
 
     describe ".wrap" do
