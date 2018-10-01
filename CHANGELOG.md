@@ -1,5 +1,18 @@
 # Changelog
 
+## 6.13.0
+- Add :format option to the Formatter
+- Add ruby 2.6.0 support
+- Performance improvement (lazy stringify currency keys)
+- Add `Money.locale_backend` for translation lookups
+- Deprecate `use_i18n` flag in favour of `locale_backend = :i18n`
+- Deprecate old formatting rules in favour of `:format`
+- LVL and LTL are no longer used
+- Add `Currency#iso?` for checking if currency is iso or not
+- Relax versions-lock of `i18n` and `rspec` dependencies
+- Add Bitcoin Cash
+- Fix incorrect behaviour of `Currency#find_by_currency_iso` when given empty input
+
 ## 6.12.0
 - Remove caching of `.empty`/`.zero`
 - Preserve assigned bank when rounding
