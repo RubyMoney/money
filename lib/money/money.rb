@@ -132,6 +132,7 @@ class Money
     #     default value is Currency.new("USD"). The value must be a valid
     #     +Money::Currency+ instance.
     attr_writer :rounding_mode, :default_currency
+    alias configure tap
 
   end
 

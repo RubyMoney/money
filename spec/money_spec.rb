@@ -877,4 +877,19 @@ YAML
       expect(Money.default_currency).to eq Money::Currency.new(:eur)
     end
   end
+
+  describe "#configure" do
+    after(:all) do
+      Money.setup_defaults
+    end
+    it "makes configurations in a block" do
+      expect do
+        Money.configure do |config|
+          config.default_currency = Money::Currency.new(:eur)
+          config.default_bank = Money::Bank::VariableExchange.instance
+          config.disallow_currency_conversion!
+        end
+      end.to_not raise_error
+    end
+  end
 end
