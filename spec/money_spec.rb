@@ -477,9 +477,8 @@ YAML
       expect(Money.new(10_00, "BRL").to_s).to eq "10,00"
     end
 
-    context "using i18n" do
+    context "using i18n", :i18n do
       before { I18n.backend.store_translations(:en, number: { format: { separator: "." } }) }
-      after { reset_i18n }
 
       it "respects decimal mark" do
         expect(Money.new(10_00, "BRL").to_s).to eq "10.00"

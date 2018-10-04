@@ -31,48 +31,11 @@ describe Money, "formatting" do
     end
   end
 
-  context "with i18n but use_i18n = false" do
-    before :each do
-      reset_i18n
-      I18n.locale = :de
-      I18n.backend.store_translations(
-          :de,
-          number: { currency: { format: { delimiter: ".", separator: "," } } }
-      )
-      Money.use_i18n = false
-    end
-
-    after :each do
-      reset_i18n
-      I18n.locale = :en
-      Money.use_i18n = true
-    end
-
-    subject(:money) { Money.empty("USD") }
-
-    it "should use ',' as the thousands separator" do
-      expect(money.thousands_separator).to eq ','
-    end
-
-    it "should use '.' as the decimal mark" do
-      expect(money.decimal_mark).to eq '.'
-    end
-  end
-
-  context "with i18n" do
-    after :each do
-      reset_i18n
-      I18n.locale = :en
-    end
-
+  context "with i18n", :i18n do
     context "with number.format.*" do
-      before :each do
-        reset_i18n
+      before do
         I18n.locale = :de
-        I18n.backend.store_translations(
-            :de,
-            number: { format: { delimiter: ".", separator: "," } }
-        )
+        I18n.backend.store_translations(:de, number: { format: { delimiter: ".", separator: "," } })
       end
 
       subject(:money) { Money.empty("USD") }
@@ -87,13 +50,9 @@ describe Money, "formatting" do
     end
 
     context "with number.currency.format.*" do
-      before :each do
-        reset_i18n
+      before do
         I18n.locale = :de
-        I18n.backend.store_translations(
-            :de,
-            number: { currency: { format: { delimiter: ".", separator: "," } } }
-        )
+        I18n.backend.store_translations(:de, number: { currency: { format: { delimiter: ".", separator: "," } } })
       end
 
       subject(:money) { Money.empty("USD") }
@@ -107,14 +66,10 @@ describe Money, "formatting" do
       end
     end
 
-    context "with number.currency.symbol.*" do
-      before :each do
-        reset_i18n
+    context "with number.currency.symbol.*", :i18n do
+      before do
         I18n.locale = :de
-        I18n.backend.store_translations(
-            :de,
-            number: { currency: { symbol: { CAD: "CAD$" } } }
-        )
+        I18n.backend.store_translations(:de, number: { currency: { symbol: { CAD: "CAD$" } } })
       end
 
       subject(:money) { Money.empty("CAD") }
@@ -527,18 +482,12 @@ describe Money, "formatting" do
         expect(Money.new(100000, "ZWD").format).to eq "$1,000.00"
       end
 
-      context "without i18n" do
-        before { Money.use_i18n = false }
+      it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
+        expect(Money.new(300_000, 'ISK').format(thousands_separator: ",", decimal_mark: '.')).to eq "kr300,000"
+      end
 
-        it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
-          expect(Money.new(300_000, 'ISK').format(thousands_separator: ",", decimal_mark: '.')).to eq "kr300,000"
-        end
-
-        it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
-          expect(Money.new(300_000, 'USD').format(thousands_separator: ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
-        end
-
-        after { Money.use_i18n = true}
+      it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
+        expect(Money.new(300_000, 'USD').format(thousands_separator: ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
       end
     end
 
@@ -614,6 +563,13 @@ describe Money, "formatting" do
         expect(Money.new(BigDecimal('100.1'), "USD").format(rounded_infinite_precision: true)).to eq "$1.00"
         expect(Money.new(BigDecimal('109.5'), "USD").format(rounded_infinite_precision: true)).to eq "$1.10"
         expect(Money.new(BigDecimal('1.7'), "MGA").format(rounded_infinite_precision: true)).to eq "Ar0.4"
+
+        expect(Money.new(BigDecimal('12.1'), "EUR").format(rounded_infinite_precision: true)).to eq "€0,12"
+        expect(Money.new(BigDecimal('12.5'), "EUR").format(rounded_infinite_precision: true)).to eq "€0,13"
+        expect(Money.new(BigDecimal('100.1'), "EUR").format(rounded_infinite_precision: true)).to eq "€1,00"
+        expect(Money.new(BigDecimal('109.5'), "EUR").format(rounded_infinite_precision: true)).to eq "€1,10"
+        expect(Money.new(BigDecimal('100012.1'), "EUR").format(rounded_infinite_precision: true)).to eq "€1.000,12"
+        expect(Money.new(BigDecimal('100012.5'), "EUR").format(rounded_infinite_precision: true)).to eq "€1.000,13"
       end
 
       it "does not round fractional when set to false" do
@@ -626,40 +582,10 @@ describe Money, "formatting" do
         expect(Money.new(BigDecimal('1.7'), "MGA").format(rounded_infinite_precision: false)).to eq "Ar0.34"
       end
 
-      describe "with i18n = false" do
+      describe "with i18n = true", :i18n do
         before do
-          Money.use_i18n = false
-        end
-
-        after do
-          Money.use_i18n = true
-        end
-
-        it 'does round fractional when set to true' do
-          expect(Money.new(BigDecimal('12.1'), "EUR").format(rounded_infinite_precision: true)).to eq "€0,12"
-          expect(Money.new(BigDecimal('12.5'), "EUR").format(rounded_infinite_precision: true)).to eq "€0,13"
-          expect(Money.new(BigDecimal('100.1'), "EUR").format(rounded_infinite_precision: true)).to eq "€1,00"
-          expect(Money.new(BigDecimal('109.5'), "EUR").format(rounded_infinite_precision: true)).to eq "€1,10"
-
-          expect(Money.new(BigDecimal('100012.1'), "EUR").format(rounded_infinite_precision: true)).to eq "€1.000,12"
-          expect(Money.new(BigDecimal('100012.5'), "EUR").format(rounded_infinite_precision: true)).to eq "€1.000,13"
-        end
-      end
-
-      describe "with i18n = true" do
-        before do
-          Money.use_i18n = true
-          reset_i18n
           I18n.locale = :de
-          I18n.backend.store_translations(
-              :de,
-              number: { currency: { format: { delimiter: ".", separator: "," } } }
-          )
-        end
-
-        after do
-          reset_i18n
-          I18n.locale = :en
+          I18n.backend.store_translations(:de, number: { currency: { format: { delimiter: ".", separator: "," } } })
         end
 
         it 'does round fractional when set to true' do
