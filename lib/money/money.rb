@@ -116,11 +116,6 @@ class Money
     #
     #   @return [Hash]
     #
-    # @!attribute [rw] use_i18n
-    #   Used to disable i18n even if it's used by other components of your app.
-    #
-    #   @return [Boolean]
-    #
     # @!attribute [rw] infinite_precision
     #   Used to enable infinite precision cents
     #
@@ -133,7 +128,7 @@ class Money
     attr_accessor :default_bank, :default_formatting_rules,
       :infinite_precision, :conversion_precision
 
-    attr_reader :use_i18n, :locale_backend
+    attr_reader :locale_backend
   end
 
   # @!attribute default_currency
@@ -170,16 +165,6 @@ class Money
     @rounding_mode = new_rounding_mode
   end
 
-  def self.use_i18n=(value)
-    if value
-      warn '[DEPRECATION] `use_i18n` is deprecated - use `Money.locale_backend = :i18n` instead for locale based formatting'
-    else
-      warn '[DEPRECATION] `use_i18n` is deprecated - use `Money.locale_backend = :currency` instead for currency based formatting'
-    end
-
-    @use_i18n = value
-  end
-
   def self.setup_defaults
     # Set the default bank for creating new +Money+ objects.
     self.default_bank = Bank::VariableExchange.instance
@@ -187,9 +172,6 @@ class Money
     # Set the default currency for creating new +Money+ object.
     self.default_currency = Currency.new("USD")
     @using_deprecated_default_currency = true
-
-    # Default to using i18n
-    @use_i18n = true
 
     # Default to using legacy locale backend
     self.locale_backend = :legacy
