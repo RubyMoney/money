@@ -9,12 +9,7 @@ describe Money::LocaleBackend::I18n do
     end
   end
 
-  describe '#lookup' do
-    after do
-      reset_i18n
-      I18n.locale = :en
-    end
-
+  describe '#lookup', :i18n do
     subject { described_class.new }
 
     context 'with number.currency.format defined' do
