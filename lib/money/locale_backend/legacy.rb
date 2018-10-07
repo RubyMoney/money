@@ -9,9 +9,9 @@ class Money
       end
 
       def lookup(key, currency)
-        if Money.use_i18n
-          warn '[DEPRECATION] `use_i18n` is deprecated - use `Money.locale_backend = :i18n` instead'
+        warn '[DEPRECATION] You are using the default localization behaviour that will change in the next major release. Find out more - https://github.com/RubyMoney/money#deprecation'
 
+        if Money.use_i18n
           i18n_backend.lookup(key, nil) || currency.public_send(key)
         else
           currency.public_send(key)
