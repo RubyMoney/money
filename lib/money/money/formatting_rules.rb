@@ -38,14 +38,21 @@ class Money
         rules = {}
       elsif rules.size == 1
         rules = rules.pop
-        rules = { rules => true } if rules.is_a?(Symbol)
+
+        if rules.is_a?(Symbol)
+          warn '[DEPRECATION] Use Hash when passing rules to Money#format.'
+          rules = { rules => true }
+        end
       end
+
       if !rules.include?(:decimal_mark) && rules.include?(:separator)
         rules[:decimal_mark] = rules[:separator]
       end
+
       if !rules.include?(:thousands_separator) && rules.include?(:delimiter)
         rules[:thousands_separator] = rules[:delimiter]
       end
+
       rules
     end
 
