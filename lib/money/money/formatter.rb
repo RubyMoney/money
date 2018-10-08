@@ -204,6 +204,9 @@ class Money
     #   #         CAD: "CAD$"
     #   Money.new(10000, "CAD").format(translate: true) #=> "CAD$100.00"
     #
+    # @option rules [Boolean] :drop_trailing_zeros (false) Ignore trailing zeros after
+    #   the decimal mark
+    #
     # @example
     #   Money.new(89000, :btc).format(drop_trailing_zeros: true) #=> B⃦0.00089
     #   Money.new(110, :usd).format(drop_trailing_zeros: true)   #=> $1.1
