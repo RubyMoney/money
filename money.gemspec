@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   s.name        = "money"
   s.version     = Money::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Shane Emmons"]
-  s.email       = ["shane@emmons.io"]
+  s.authors     = ["Shane Emmons", "Anthony Dmitriyev"]
+  s.email       = ["shane@emmons.io", "anthony.dmitriyev@gmail.com"]
   s.homepage    = "https://rubymoney.github.io/money"
   s.summary     = "A Ruby Library for dealing with money and currency conversion."
   s.description = "A Ruby Library for dealing with money and currency conversion."
