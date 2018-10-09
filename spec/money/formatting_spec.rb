@@ -158,10 +158,6 @@ describe Money, "formatting" do
   end
 
   describe "#format" do
-    it 'supports the old formatting options' do
-      expect(Money.zero.format(:display_free)).to eq('free')
-    end
-
     context "Locale :ja" do
       before { @_locale = I18n.locale; I18n.locale = :ja }
 
