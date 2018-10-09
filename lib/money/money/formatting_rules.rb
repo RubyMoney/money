@@ -2,11 +2,11 @@
 
 class Money
   class FormattingRules
-    def initialize(currency, *raw_rules)
+    def initialize(currency, raw_rules = {})
       @currency = currency
 
       # support for old format parameters
-      @rules = normalize_formatting_rules(raw_rules)
+      @rules = normalize_formatting_rules(raw_rules.dup)
 
       @rules = default_formatting_rules.merge(@rules) unless @rules[:ignore_defaults]
       @rules = localize_formatting_rules(@rules)
@@ -32,18 +32,6 @@ class Money
     #
     # @return [Hash]
     def normalize_formatting_rules(rules)
-      if rules.size == 0
-        rules = {}
-      elsif rules.size == 1
-        rules = rules.pop
-        rules = rules.dup if rules.is_a?(Hash)
-
-        if rules.is_a?(Symbol)
-          warn '[DEPRECATION] Use Hash when passing rules to Money#format.'
-          rules = { rules => true }
-        end
-      end
-
       if !rules.include?(:decimal_mark) && rules.include?(:separator)
         rules[:decimal_mark] = rules[:separator]
       end
