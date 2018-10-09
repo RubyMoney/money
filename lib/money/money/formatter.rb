@@ -173,10 +173,10 @@ class Money
     # Note that the default rules can be defined through {Money.default_formatting_rules} hash.
     #
     # @see Money.default_formatting_rules Money.default_formatting_rules for more information.
-    def initialize(money, *rules)
+    def initialize(money, rules = {})
       @money = money
       @currency = money.currency
-      @rules = FormattingRules.new(@currency, *rules)
+      @rules = FormattingRules.new(@currency, rules)
     end
 
     def to_s

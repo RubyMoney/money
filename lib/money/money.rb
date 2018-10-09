@@ -536,8 +536,8 @@ class Money
   #
   # @return [String]
   #
-  def format(*rules)
-    Money::Formatter.new(self, *rules).to_s
+  def format(**rules)
+    Money::Formatter.new(self, rules).to_s
   end
 
   # Returns a thousands separator according to the locale
