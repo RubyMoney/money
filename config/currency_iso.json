@@ -2271,19 +2271,19 @@
     "iso_numeric": "860",
     "smallest_denomination": 100
   },
-  "vef": {
+  "ves": {
     "priority": 100,
-    "iso_code": "VEF",
-    "name": "Venezuelan Bolívar",
+    "iso_code": "VES",
+    "name": "Venezuelan Bolívar Soberano",
     "symbol": "Bs",
-    "alternate_symbols": ["Bs.F"],
+    "alternate_symbols": ["Bs.S"],
     "subunit": "Céntimo",
     "subunit_to_unit": 100,
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ",",
     "thousands_separator": ".",
-    "iso_numeric": "937",
+    "iso_numeric": "928",
     "smallest_denomination": 1
   },
   "vnd": {
