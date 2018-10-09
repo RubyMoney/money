@@ -15,6 +15,8 @@ class Money
       end
 
       def lookup(key, _currency)
+        return unless KEY_MAP.key?(key)
+
         ::R18n.get.locale.public_send KEY_MAP[key]
       end
     end
