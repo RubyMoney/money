@@ -23,7 +23,7 @@ RSpec.shared_context 'with i18n locale backend', :i18n do
 
     example.run
 
-    Money.locale_backend = :legacy
+    Money.locale_backend = Money::LocaleBackend::DEFAULT
     I18n.backend = I18n::Backend::Simple.new
     I18n.locale = :en
   end
