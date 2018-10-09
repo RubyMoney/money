@@ -125,20 +125,5 @@
     "thousands_separator": ",",
     "iso_numeric": "",
     "smallest_denomination": 1
-  },
-  "vef": {
-    "priority": 100,
-    "iso_code": "VEF",
-    "name": "Venezuelan Bolívar",
-    "symbol": "Bs",
-    "alternate_symbols": ["Bs.F"],
-    "subunit": "Céntimo",
-    "subunit_to_unit": 100,
-    "symbol_first": true,
-    "html_entity": "",
-    "decimal_mark": ",",
-    "thousands_separator": ".",
-    "iso_numeric": "937",
-    "smallest_denomination": 1
   }
 }
