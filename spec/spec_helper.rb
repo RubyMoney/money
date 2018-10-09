@@ -5,6 +5,7 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 require "rspec"
 require "money"
 
+require "i18n"
 require "r18n-core"
 
 Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
