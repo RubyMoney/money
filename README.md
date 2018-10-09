@@ -434,6 +434,48 @@ If you wish to disable this feature and use defaults instead:
 Money.locale_backend = nil
 ```
 
+### Deprecation
+
+The current default behaviour always checks the I18n locale first, falling back to "per currency"
+localization. This is now deprecated and will be removed in favour of explicitly defined behaviour
+in the next major release.
+
+If you would like to use I18n localization (formatting depends on the locale):
+
+```ruby
+Money.locale_backend = :i18n
+
+# example (using default localization from rails-i18n):
+I18n.locale = :en
+Money.new(10_000_00, 'USD').format # => $10,000.00
+Money.new(10_000_00, 'EUR').format # => €10,000.00
+
+I18n.locale = :es
+Money.new(10_000_00, 'USD').format # => $10.000,00
+Money.new(10_000_00, 'EUR').format # => €10.000,00
+```
+
+For the legacy behaviour of "per currency" localization (formatting depends only on currency):
+
+```ruby
+Money.locale_backend = :currency
+
+# example:
+Money.new(10_000_00, 'USD').format # => $10,000.00
+Money.new(10_000_00, 'EUR').format # => €10.000,00
+```
+
+In case you don't need localization and would like to use default values (can be redefined using
+`Money.default_formatting_rules`):
+
+```ruby
+Money.locale_backend = nil
+
+# example:
+Money.new(10_000_00, 'USD').format # => $10000.00
+Money.new(10_000_00, 'EUR').format # => €10000.00
+```
+
 ## Collection
 
 In case you're working with collections of `Money` instances, have a look at [money-collection](https://github.com/RubyMoney/money-collection)
