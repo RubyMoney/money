@@ -2,7 +2,7 @@
 
 describe Money do
   describe '.locale_backend' do
-    after { Money.locale_backend = :legacy }
+    after { Money.locale_backend = Money::LocaleBackend::DEFAULT }
 
     it 'sets the locale_backend' do
       Money.locale_backend = :i18n
