@@ -149,8 +149,8 @@ class Money
     # Set the default currency for creating new +Money+ object.
     self.default_currency = Currency.new("USD")
 
-    # Default to using legacy locale backend
-    self.locale_backend = :legacy
+    # Set the default locale backend
+    self.locale_backend = LocaleBackend::DEFAULT
 
     # Default to not using infinite precision cents
     self.infinite_precision = false
