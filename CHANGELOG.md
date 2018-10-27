@@ -1,5 +1,12 @@
 # Changelog
 
+## 6.13.1
+- Add bolívar soberano (VES)
+- Deprecate bolívar fuerte (VEF)
+- Deprecate old `#format` rules passed as a symbol
+- Clarify `use_i18n` deprecation
+- Add `:currency` locale_backend for explicit per-currency localization
+
 ## 6.13.0
 - Add :format option to the Formatter
 - Add ruby 2.6.0 support
