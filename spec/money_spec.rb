@@ -92,6 +92,20 @@ describe Money do
       end
     end
 
+    context 'non-finite value is given' do
+      let(:error) { 'must be initialized with a finite value' }
+
+      it 'raises an error when trying to initialize with Infinity' do
+        expect { Money.new('Infinity') }.to raise_error(ArgumentError, error)
+        expect { Money.new(BigDecimal('Infinity')) }.to raise_error(ArgumentError, error)
+      end
+
+      it 'raises an error when trying to initialize with NaN' do
+        expect { Money.new('NaN') }.to raise_error(ArgumentError, error)
+        expect { Money.new(BigDecimal('NaN')) }.to raise_error(ArgumentError, error)
+      end
+    end
+
     context "with infinite_precision", :infinite_precision do
       context 'given the initializing value is 1.50' do
         let(:initializing_value) { 1.50 }

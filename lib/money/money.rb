@@ -280,6 +280,9 @@ class Money
     @currency   = obj.respond_to?(:currency) ? obj.currency : Currency.wrap(currency)
     @currency ||= Money.default_currency
     @bank       = obj.respond_to?(:bank) ? obj.bank : bank
+
+    # BigDecimal can be Infinity and NaN, money of that amount does not make sense
+    raise ArgumentError, 'must be initialized with a finite value' unless @fractional.finite?
   end
 
   # Assuming using a currency using dollars:
