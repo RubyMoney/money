@@ -5,7 +5,8 @@ class Money
   class Formatter
     DEFAULTS = {
       thousands_separator: '',
-      decimal_mark: '.'
+      decimal_mark: '.',
+      format: '%u%n'
     }.freeze
 
     # Creates a formatted price string according to several rules.
@@ -243,7 +244,7 @@ class Money
           symbol_value = html_wrap(symbol_value, "currency-symbol")
         end
 
-        rules[:format]
+        lookup(:format)
           .gsub('%u', [sign_before, symbol_value].join)
           .gsub('%n', [sign, formatted_number].join)
       else

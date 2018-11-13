@@ -41,6 +41,10 @@ describe Money::LocaleBackend::R18n do
       it 'returns decimal_mark based on the current locale' do
         expect(subject.lookup(:decimal_mark, nil)).to eq(',')
       end
+
+      it 'returns nil for unsupported keys' do
+        expect(subject.lookup(:format, nil)).to eq(nil)
+      end
     end
 
     context 'with unavailable locale' do
@@ -54,6 +58,10 @@ describe Money::LocaleBackend::R18n do
 
       it 'returns decimal_mark based on the current locale' do
         expect(subject.lookup(:decimal_mark, nil)).to eq('.')
+      end
+
+      it 'returns nil for unsupported keys' do
+        expect(subject.lookup(:format, nil)).to eq(nil)
       end
     end
   end

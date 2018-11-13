@@ -11,7 +11,6 @@ class Money
       @rules = default_formatting_rules.merge(@rules) unless @rules[:ignore_defaults]
       @rules = localize_formatting_rules(@rules)
       @rules = translate_formatting_rules(@rules) if @rules[:translate]
-      @rules[:format] ||= determine_format_from_formatting_rules(@rules)
     end
 
     def [](key)
@@ -62,10 +61,6 @@ class Money
         rules[:format] = '%n%u'
       end
       rules
-    end
-
-    def determine_format_from_formatting_rules(rules)
-      currency.symbol_first? ? '%u%n' : '%n %u'
     end
   end
 end
