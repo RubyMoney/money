@@ -585,17 +585,25 @@ describe Money, "formatting" do
       describe "with i18n = true", :i18n do
         before do
           I18n.locale = :de
-          I18n.backend.store_translations(:de, number: { currency: { format: { delimiter: ".", separator: "," } } })
+          I18n.backend.store_translations(:de, number: {
+            currency: {
+              format: {
+                delimiter: '.',
+                separator: ',',
+                format: '%u %n'
+              }
+            }
+          })
         end
 
         it 'does round fractional when set to true' do
-          expect(Money.new(BigDecimal('12.1'), "USD").format(rounded_infinite_precision: true)).to eq "$0,12"
-          expect(Money.new(BigDecimal('12.5'), "USD").format(rounded_infinite_precision: true)).to eq "$0,13"
-          expect(Money.new(BigDecimal('123.1'), "BHD").format(rounded_infinite_precision: true)).to eq "ب.د0,123"
-          expect(Money.new(BigDecimal('123.5'), "BHD").format(rounded_infinite_precision: true)).to eq "ب.د0,124"
-          expect(Money.new(BigDecimal('100.1'), "USD").format(rounded_infinite_precision: true)).to eq "$1,00"
-          expect(Money.new(BigDecimal('109.5'), "USD").format(rounded_infinite_precision: true)).to eq "$1,10"
-          expect(Money.new(BigDecimal('1'), "MGA").format(rounded_infinite_precision: true)).to eq "Ar0,2"
+          expect(Money.new(BigDecimal('12.1'), "USD").format(rounded_infinite_precision: true)).to eq "$ 0,12"
+          expect(Money.new(BigDecimal('12.5'), "USD").format(rounded_infinite_precision: true)).to eq "$ 0,13"
+          expect(Money.new(BigDecimal('123.1'), "BHD").format(rounded_infinite_precision: true)).to eq "ب.د 0,123"
+          expect(Money.new(BigDecimal('123.5'), "BHD").format(rounded_infinite_precision: true)).to eq "ب.د 0,124"
+          expect(Money.new(BigDecimal('100.1'), "USD").format(rounded_infinite_precision: true)).to eq "$ 1,00"
+          expect(Money.new(BigDecimal('109.5'), "USD").format(rounded_infinite_precision: true)).to eq "$ 1,10"
+          expect(Money.new(BigDecimal('1'), "MGA").format(rounded_infinite_precision: true)).to eq "Ar 0,2"
         end
       end
     end
