@@ -6,7 +6,8 @@ class Money
       KEY_MAP = {
         thousands_separator: :delimiter,
         decimal_mark: :separator,
-        symbol: :unit
+        symbol: :unit,
+        format: :format
       }.freeze
 
       def initialize
@@ -14,6 +15,8 @@ class Money
       end
 
       def lookup(key, _)
+        return unless KEY_MAP.key?(key)
+
         i18n_key = KEY_MAP[key]
 
         ::I18n.t i18n_key, scope: 'number.currency.format', raise: true
