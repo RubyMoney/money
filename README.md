@@ -392,6 +392,14 @@ m = Money.new('123', :gbp) # => #<Money fractional:123 currency:GBP>
 m.format(symbol: m.currency.to_s + ' ') # => "GBP 1.23"
 ```
 
+## Rounding
+
+The default rounding mode is `BigDecimal::ROUND_HALF_EVEN`, which rounds towards the nearest neighbor, unless both neighbors are equidistant, in which case round towards the even neighbor (Banker’s rounding). If you want to adjust the rounding mode:
+
+```ruby
+Money.rounding_mode = BigDecimal::ROUND_HALF_UP
+```
+
 ## Ruby on Rails
 
 To integrate money in a Rails application use [money-rails](https://github.com/RubyMoney/money-rails).
