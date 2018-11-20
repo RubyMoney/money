@@ -394,10 +394,31 @@ m.format(symbol: m.currency.to_s + ' ') # => "GBP 1.23"
 
 ## Rounding
 
-The default rounding mode is `BigDecimal::ROUND_HALF_EVEN`, which rounds towards the nearest neighbor, unless both neighbors are equidistant, in which case round towards the even neighbor (Banker’s rounding). If you want to adjust the rounding mode:
+By default, `Money` objects are rounded to the nearest cent and the additional precision is not preserved:
 
 ```ruby
-Money.rounding_mode = BigDecimal::ROUND_HALF_UP
+Money.from_amount(2.34567).format #=> "$2.35"
+```
+
+To retain the additional precision, you will also need to set `infinite_precision` to `true`.
+
+```ruby
+Money.infinite_precision = true
+Money.from_amount(2.34567).format #=> "$2.34567"
+```
+
+To round to the nearest cent (or anything more precise), you can use the `round` method. However, note that the `round` method on a `Money` object does not work the same way as a normal Ruby `Float` object. Money's `round` method accepts different arguments. The first argument to the round method is the rounding mode, while the second argument is the level of precision relative to the cent.
+
+```
+# Float
+2.34567.round     #=> 2
+2.34567.round(2)  #=> 2.35
+
+# Money
+Money.infinite_precision = true
+Money.new(2.34567).format       #=> "$0.0234567"
+Money.new(2.34567).round.format #=> "$0.02"
+Money.new(2.34567).round(BigDecimal::ROUND_HALF_UP, 2).format #=> "$0.0235"
 ```
 
 ## Ruby on Rails
