@@ -3,6 +3,7 @@
 require 'money/locale_backend/errors'
 require 'money/locale_backend/legacy'
 require 'money/locale_backend/i18n'
+require 'money/locale_backend/r18n'
 require 'money/locale_backend/currency'
 
 class Money
@@ -10,6 +11,7 @@ class Money
     BACKENDS = {
       legacy: Money::LocaleBackend::Legacy,
       i18n: Money::LocaleBackend::I18n,
+      r18n: Money::LocaleBackend::R18n,
       currency: Money::LocaleBackend::Currency
     }.freeze
 

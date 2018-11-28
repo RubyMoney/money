@@ -429,7 +429,9 @@ For deprecated methods of integrating with Rails, check [the wiki](https://githu
 
 ## Localization
 
-In order to localize formatting you can use `I18n` gem:
+In order to localize formatting you can use different gems:
+
+### I18n
 
 ```ruby
 Money.locale_backend = :i18n
@@ -456,6 +458,21 @@ For this example `Money.new(123456789, "SEK").format` will return `1,234,567.89
 kr` which otherwise would have returned `1 234 567,89 kr`.
 
 This will work seamlessly with [rails-i18n](https://github.com/svenfuchs/rails-i18n) gem that already has a lot of locales defined.
+
+### R18n
+
+```ruby
+Money.locale_backend = :r18n
+```
+
+With this enabled a thousands seperator and a decimal mark will get looked up in locales, including bundled.
+
+For example `Money.new(123456789, "SEK").format` in English will return
+`1,234,567.89 kr` which otherwise would have returned `1 234 567,89 kr`.
+
+This will work seamlessly with [different R18n adapters](https://github.com/r18n/r18n) that already have a lot of locales defined.
+
+### Disable
 
 If you wish to disable this feature and use defaults instead:
 
