@@ -24,8 +24,11 @@ class Money
         parts_sum = parts.inject(0, :+)
         part = parts.pop
 
-        current_split = remaining_amount * part / parts_sum
-        current_split = current_split.truncate if whole_amounts
+        current_split = 0
+        if parts_sum > 0
+          current_split = remaining_amount * part / parts_sum
+          current_split = current_split.truncate if whole_amounts
+        end
 
         result.unshift current_split
         remaining_amount -= current_split
