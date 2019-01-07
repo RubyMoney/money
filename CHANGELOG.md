@@ -1,5 +1,13 @@
 # Changelog
 
+## 6.13.2
+- Prevent Money initialization with non-finite amounts
+- Convert the fractional value of a Money object to BigDecimal when initializing
+- Offer replacements for currency position deprecations
+- Fix Peruvian Sol symbol
+- Lock i18n to <= 1.2.0 for older (< 2.3) rubies
+- Prevent Divide By Zero in `Money#allocate`
+
 ## 6.13.1
 - Add bolívar soberano (VES)
 - Deprecate bolívar fuerte (VEF)
