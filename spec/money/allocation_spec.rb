@@ -87,6 +87,11 @@ describe Money::Allocation do
         expect(described_class.generate(10, [1, 1, 2])).to eq([3, 2, 5])
         expect(described_class.generate(100, [1, 1, 1])).to eq([34, 33, 33])
       end
+
+      it 'handles zero arguments' do
+        expect(described_class.generate(100, [1, 1, 0])).to eq([50, 50, 0])
+        expect(described_class.generate(100, [0, 1, 1])).to eq([0, 50, 50])
+      end
     end
 
     context 'fractional amounts' do
