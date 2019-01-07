@@ -21,7 +21,7 @@ describe Money::LocaleBackend::I18n do
       before do
         I18n.locale = :de
         I18n.backend.store_translations(:de, number: {
-          currency: { format: { delimiter: '.', separator: ',' } }
+          currency: { format: { delimiter: '.', separator: ',', unit: '$' } }
         })
       end
 
@@ -31,6 +31,10 @@ describe Money::LocaleBackend::I18n do
 
       it 'returns decimal_mark based on the current locale' do
         expect(subject.lookup(:decimal_mark, nil)).to eq(',')
+      end
+
+      it 'returns symbol based on the current locale' do
+        expect(subject.lookup(:symbol, nil)).to eq('$')
       end
     end
 
@@ -56,6 +60,10 @@ describe Money::LocaleBackend::I18n do
 
       it 'returns decimal_mark based on the current locale' do
         expect(subject.lookup(:decimal_mark, nil)).to eq(nil)
+      end
+
+      it 'returns symbol based on the current locale' do
+        expect(subject.lookup(:symbol, nil)).to eq(nil)
       end
     end
   end

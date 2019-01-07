@@ -5,7 +5,8 @@ class Money
     class I18n < Base
       KEY_MAP = {
         thousands_separator: :delimiter,
-        decimal_mark: :separator
+        decimal_mark: :separator,
+        symbol: :unit
       }.freeze
 
       def initialize
