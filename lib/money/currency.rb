@@ -13,7 +13,6 @@ class Money
   class Currency
     include Comparable
     extend Enumerable
-    extend Money::Currency::Loader
     extend Money::Currency::Heuristics
 
     # Keeping cached instances in sync between threads
@@ -121,7 +120,7 @@ class Money
       # See https://en.wikipedia.org/wiki/List_of_circulating_currencies and
       # http://search.cpan.org/~tnguyen/Locale-Currency-Format-1.28/Format.pm
       def table
-        @table ||= load_currencies
+        @table ||= Loader.load_currencies
       end
 
       # List the currencies imported and registered
