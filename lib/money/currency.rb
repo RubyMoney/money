@@ -2,7 +2,6 @@
 
 require "json"
 require "money/currency/loader"
-require "money/currency/heuristics"
 
 class Money
 
@@ -13,7 +12,7 @@ class Money
   class Currency
     include Comparable
     extend Enumerable
-    extend Money::Currency::Heuristics
+    extend Money::Currency::Loader
 
     # Keeping cached instances in sync between threads
     @@mutex = Mutex.new
