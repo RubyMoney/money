@@ -548,10 +548,6 @@ Set the following:
 I18n.enforce_available_locales = false
 ```
 
-## Heuristics
-
-Prior to v6.9.0 heuristic analysis of string input was part of this gem. Since then it was extracted in to [money-heuristics gem](https://github.com/RubyMoney/money-heuristics).
-
 ## Migration Notes
 
 #### Version 6.0.0
