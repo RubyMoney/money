@@ -193,9 +193,17 @@ describe Money do
       expect(Money.from_amount(1, "USD", bank).bank).to eq bank
     end
 
-    it 'rounds using rounding_mode' do
+    it 'warns about rounding_mode deprecation' do
+      expect(Money).to receive(:warn)
       expect(Money.from_amount(1.999).to_d).to eq 2
       expect(Money.rounding_mode(BigDecimal::ROUND_DOWN) do
+        Money.from_amount(1.999).to_d
+      end).to eq 1.99
+    end
+
+    it 'rounds using with_rounding_mode' do
+      expect(Money.from_amount(1.999).to_d).to eq 2
+      expect(Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
         Money.from_amount(1.999).to_d
       end).to eq 1.99
     end
