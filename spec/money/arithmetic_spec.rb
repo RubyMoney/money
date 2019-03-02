@@ -218,6 +218,14 @@ describe Money do
       expect(special_money_class.new(10_00, "USD") + Money.new(90, "USD")).to be_a special_money_class
     end
 
+    it "raises TypeError when adding non-zero Numeric" do
+      expect { Money.new(10_00) + 1.0 }.to raise_error(TypeError, "Can't add or subtract a non-zero Float value")
+    end
+
+    it "raises TypeError when adding a non-Numeric value" do
+      expect { Money.new(10_00) + nil }.to raise_error(TypeError, "Unsupported argument type: NilClass")
+    end
+
     it_behaves_like 'instance with custom bank', :+, Money.new(1)
   end
 
@@ -239,6 +247,14 @@ describe Money do
     it "preserves the class in the result when using a subclass of Money" do
       special_money_class = Class.new(Money)
       expect(special_money_class.new(10_00, "USD") - Money.new(90, "USD")).to be_a special_money_class
+    end
+
+    it "raises TypeError when adding non-zero Numeric" do
+      expect { Money.new(10_00) - 1.0 }.to raise_error(TypeError, "Can't add or subtract a non-zero Float value")
+    end
+
+    it "raises TypeError when adding a non-Numeric value" do
+      expect { Money.new(10_00) - nil }.to raise_error(TypeError, "Unsupported argument type: NilClass")
     end
 
     it_behaves_like 'instance with custom bank', :-, Money.new(1)
