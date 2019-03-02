@@ -186,31 +186,35 @@ class Money
 
   setup_defaults
 
-  # Use this to return the rounding mode.  You may also pass a
-  # rounding mode and a block to temporarily change it.  It will
-  # then return the results of the block instead.
+  # Use this to return the rounding mode.
   #
   # @param [BigDecimal::ROUND_MODE] mode
   #
-  # @return [BigDecimal::ROUND_MODE,Yield] rounding mode or block results
-  #
-  # @example
-  #   fee = Money.rounding_mode(BigDecimal::ROUND_HALF_UP) do
-  #     Money.new(1200) * BigDecimal('0.029')
-  #   end
+  # @return [BigDecimal::ROUND_MODE] rounding mode
   def self.rounding_mode(mode = nil)
-    if mode.nil?
-      Thread.current[:money_rounding_mode] || @rounding_mode
-    else
-      begin
-        Thread.current[:money_rounding_mode] = mode
-        yield
-      ensure
-        Thread.current[:money_rounding_mode] = nil
-      end
-    end
+    return Thread.current[:money_rounding_mode] || @rounding_mode unless mode
+
+    warn "[DEPRECATION] calling `rounding_mode` with a block is deprecated. Please use `.with_rounding_mode` instead."
+    with_rounding_mode(mode) { yield }
   end
 
+  # This method temporarily changes the rounding mode. It will then return the
+  # results of the block instead.
+  #
+  # @param [BigDecimal::ROUND_MODE] mode
+  #
+  # @return [BigDecimal::ROUND_MODE,Yield] block results
+  #
+  # @example
+  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_UP) do
+  #     Money.new(1200) * BigDecimal('0.029')
+  #   end
+  def self.with_rounding_mode(mode)
+    Thread.current[:money_rounding_mode] = mode
+    yield
+  ensure
+    Thread.current[:money_rounding_mode] = nil
+  end
 
   # Adds a new exchange rate to the default bank and return the rate.
   #
