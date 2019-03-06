@@ -1427,6 +1427,21 @@
     "iso_numeric": "478",
     "smallest_denomination": 1
   },
+  "mru": {
+    "priority": 100,
+    "iso_code": "MRU",
+    "name": "Mauritanian Ouguiya",
+    "symbol": "UM",
+    "alternate_symbols": [],
+    "subunit": "Khoums",
+    "subunit_to_unit": 5,
+    "symbol_first": false,
+    "html_entity": "",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "929",
+    "smallest_denomination": 1
+  },
   "mur": {
     "priority": 100,
     "iso_code": "MUR",
