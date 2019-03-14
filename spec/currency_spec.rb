@@ -45,6 +45,7 @@ class Money
         expect(Currency.find_by_iso_numeric(978)).to eq     Currency.new(:eur)
         expect(Currency.find_by_iso_numeric(208)).not_to eq Currency.new(:eur)
         expect(Currency.find_by_iso_numeric('840')).to eq   Currency.new(:usd)
+        expect(Currency.find_by_iso_numeric(51)).to eq Currency.new(:amd)
 
         class Mock
           def to_s
