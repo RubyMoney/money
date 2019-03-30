@@ -123,15 +123,25 @@ class Money
     # @example
     #   Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
     [:+, :-].each do |op|
+      non_zero_message = lambda do |value|
+        "Can't add or subtract a non-zero #{value.class.name} value"
+      end
+
       define_method(op) do |other|
-        unless other.is_a?(Money)
-          if other.zero?
-            return other.is_a?(CoercedNumeric) ? Money.empty(currency).public_send(op, self) : self
-          end
-          raise TypeError
+        case other
+        when Money
+          other = other.exchange_to(currency)
+          new_fractional = fractional.public_send(op, other.fractional)
+          self.class.new(new_fractional, currency, bank)
+        when CoercedNumeric
+          raise TypeError, non_zero_message.call(other.value) unless other.zero?
+          self.class.new(other.value.public_send(op, fractional), currency)
+        when Numeric
+          raise TypeError, non_zero_message.call(other) unless other.zero?
+          self
+        else
+          raise TypeError, "Unsupported argument type: #{other.class.name}"
         end
-        other = other.exchange_to(currency)
-        self.class.new(fractional.public_send(op, other.fractional), currency, bank)
       end
     end
 
