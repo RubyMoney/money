@@ -1977,8 +1977,8 @@
     "subunit_to_unit": 100,
     "symbol_first": false,
     "html_entity": "",
-    "decimal_mark": ".",
-    "thousands_separator": ",",
+    "decimal_mark": ",",
+    "thousands_separator": ".",
     "iso_numeric": "968",
     "smallest_denomination": 1
   },
