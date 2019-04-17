@@ -3,7 +3,7 @@
 ## 6.13.3
 - Remove specs from the packaged gem
 - Use Currency::Loader directly without extending
-- Add Money.with_rounding_mode as a replacement for calling Money.roudning_mode with a block
+- Add Money.with_rounding_mode as a replacement for calling Money.rounding_mode with a block
 - Fix currency search for two digit ISO numbers
 - Add description to TypeError raised by +/- operations
 
