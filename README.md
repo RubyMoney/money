@@ -418,7 +418,7 @@ To round to the nearest cent (or anything more precise), you can use the `round`
 Money.infinite_precision = true
 Money.new(2.34567).format       #=> "$0.0234567"
 Money.new(2.34567).round.format #=> "$0.02"
-Money.new(2.34567).round(BigDecimal::ROUND_HALF_UP, 2).format #=> "$0.0235"
+Money.new(2.34567).round(BigDecimal::ROUND_DOWN, 2).format #=> "$0.0234"
 ```
 
 ## Ruby on Rails
