@@ -129,7 +129,7 @@ describe Money do
       expect(Money.new(1_00) <=> klass.new(2_00)).to be < 0
     end
 
-    it "returns nill when comparing with an object that doesn't inherit from Money" do
+    it "returns nil when comparing with an object that doesn't inherit from Money" do
       expect(Money.new(1_00) <=> 100).to be_nil
       expect(Money.new(1_00) <=> Object.new).to be_nil
       expect(Money.new(1_00) <=> Class).to be_nil
