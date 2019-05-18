@@ -253,7 +253,7 @@ The default bank is initialized with an in-memory store for exchange rates.
 Money.default_bank = Money::Bank::VariableExchange.new(Money::RatesStore::Memory.new)
 ```
 
-You can pass you own store implementation, ie. for storing and retrieving rates off a database, file, cache, etc.
+You can pass your own store implementation, i.e. for storing and retrieving rates off a database, file, cache, etc.
 
 ```ruby
 Money.default_bank = Money::Bank::VariableExchange.new(MyCustomStore.new)
@@ -270,7 +270,7 @@ Stores must implement the following interface:
 # @return [Numeric] rate.
 def add_rate(iso_from, iso_to, rate); end
 
-# Get rate. Must be idempotent. ie. adding the same rate must not produce duplicates.
+# Get rate. Must be idempotent. i.e. adding the same rate must not produce duplicates.
 # @param [String] iso_from Currency ISO code. ex. 'USD'
 # @param [String] iso_to Currency ISO code. ex. 'CAD'
 #
