@@ -2594,16 +2594,16 @@
     "priority": 100,
     "iso_code": "ZMW",
     "name": "Zambian Kwacha",
-    "symbol": "ZK",
+    "symbol": "K",
     "disambiguate_symbol": "ZMW",
     "alternate_symbols": [],
     "subunit": "Ngwee",
     "subunit_to_unit": 100,
-    "symbol_first": false,
+    "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "967",
-    "smallest_denomination": 5
+    "smallest_denomination": 2
   }
 }
