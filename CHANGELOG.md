@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.0.0
+- Force developer(s) to set the default currency instead of having it set to USD by default.
+
 ## 6.13.2
 - Prevent Money initialization with non-finite amounts
 - Convert the fractional value of a Money object to BigDecimal when initializing

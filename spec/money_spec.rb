@@ -65,10 +65,21 @@ describe Money do
     end
 
     context 'given a currency is not provided' do
-      subject(:money) { Money.new(initializing_value) }
+      context 'and the default currency is nil' do
+        let(:error) { 'Money.default_currency is nil' }
 
-      it "should have the default currency" do
-        expect(money.currency).to eq Money.default_currency
+        before { Money.default_currency = nil }
+        after { Money.default_currency = :usd }
+
+        it "should raise NilDefaultCurrency error" do
+          expect { money }.to raise_error(Money::NilDefaultCurrency, error)
+        end
+      end
+
+      context 'and the default currency is USD' do
+        it 'should have the default currency' do
+          expect(money.currency).to eq Money.default_currency
+        end
       end
     end
 

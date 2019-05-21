@@ -9,6 +9,7 @@ describe Money::Constructors do
 
     it "instantiates a subclass when inheritance is used" do
       special_money_class = Class.new(Money)
+      special_money_class.default_currency = :usd
       expect(special_money_class.empty).to be_a special_money_class
     end
   end
@@ -20,6 +21,7 @@ describe Money::Constructors do
 
     it "instantiates a subclass when inheritance is used" do
       special_money_class = Class.new(Money)
+      special_money_class.default_currency = :usd
       expect(special_money_class.zero).to be_a special_money_class
     end
   end

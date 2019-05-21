@@ -24,6 +24,9 @@ class Money
   # Raised when smallest denomination of a currency is not defined
   class UndefinedSmallestDenomination < StandardError; end
 
+  # Raised when Money.default_currency is nil
+  class NilDefaultCurrency < StandardError; end
+
   # Convenience method for fractional part of the amount. Synonym of #fractional
   #
   # @return [Integer] when infinite_precision is false
@@ -124,13 +127,15 @@ class Money
     # @!attribute default_currency
     #   @return [Money::Currency] The default currency, which is used when
     #     +Money.new+ is called without an explicit currency argument. The
-    #     default value is Currency.new("USD"). The value must be a valid
+    #     default value is nil. The value must be a valid
     #     +Money::Currency+ instance.
     attr_writer :rounding_mode, :default_currency
 
   end
 
   def self.default_currency
+    raise NilDefaultCurrency, 'Money.default_currency is nil' if @default_currency.nil?
+
     if @default_currency.respond_to?(:call)
       Money::Currency.new(@default_currency.call)
     else
@@ -147,7 +152,9 @@ class Money
     self.default_bank = Bank::VariableExchange.instance
 
     # Set the default currency for creating new +Money+ object.
-    self.default_currency = Currency.new("USD")
+    # Setting it to nil forces the developer(s) to set their own
+    # default currency.
+    self.default_currency = nil
 
     # Set the default locale backend
     self.locale_backend = LocaleBackend::DEFAULT
