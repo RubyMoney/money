@@ -38,6 +38,7 @@ class Money
         rules = {}
       elsif rules.size == 1
         rules = rules.pop
+        rules = rules.dup if rules.is_a?(Hash)
 
         if rules.is_a?(Symbol)
           warn '[DEPRECATION] Use Hash when passing rules to Money#format.'
