@@ -79,9 +79,8 @@ class Money
         num = num.to_s
         return if num.empty?
         id, _ = self.table.find { |key, currency| currency[:iso_numeric] == num }
+        return nil unless id
         new(id)
-      rescue UnknownCurrency
-        nil
       end
 
       # Wraps the object in a +Currency+ unless it's already a +Currency+
@@ -425,20 +424,22 @@ class Money
 
     def initialize_data!
       data = self.class.table[@id]
-      @alternate_symbols     = data[:alternate_symbols]
-      @decimal_mark          = data[:decimal_mark]
-      @disambiguate_symbol   = data[:disambiguate_symbol]
-      @html_entity           = data[:html_entity]
-      @iso_code              = data[:iso_code]
-      @iso_numeric           = data[:iso_numeric]
-      @name                  = data[:name]
-      @priority              = data[:priority]
-      @smallest_denomination = data[:smallest_denomination]
-      @subunit               = data[:subunit]
-      @subunit_to_unit       = data[:subunit_to_unit]
-      @symbol                = data[:symbol]
-      @symbol_first          = data[:symbol_first]
-      @thousands_separator   = data[:thousands_separator]
+      if data
+        @alternate_symbols     = data[:alternate_symbols]
+        @decimal_mark          = data[:decimal_mark]
+        @disambiguate_symbol   = data[:disambiguate_symbol]
+        @html_entity           = data[:html_entity]
+        @iso_code              = data[:iso_code]
+        @iso_numeric           = data[:iso_numeric]
+        @name                  = data[:name]
+        @priority              = data[:priority]
+        @smallest_denomination = data[:smallest_denomination]
+        @subunit               = data[:subunit]
+        @subunit_to_unit       = data[:subunit_to_unit]
+        @symbol                = data[:symbol]
+        @symbol_first          = data[:symbol_first]
+        @thousands_separator   = data[:thousands_separator]
+      end
     end
   end
 end
