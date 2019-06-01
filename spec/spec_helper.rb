@@ -34,3 +34,8 @@ RSpec.shared_context 'with infinite precision', :infinite_precision do
   before { Money.infinite_precision = true }
   after { Money.infinite_precision = false }
 end
+
+RSpec.shared_context 'with default currency', :default_currency do
+  before { Money.default_currency = :usd }
+  after { Money.default_currency = nil }
+end
