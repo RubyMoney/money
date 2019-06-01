@@ -118,29 +118,21 @@ class Money
     #     to BigDecimal
     attr_accessor :default_bank, :default_formatting_rules,
       :infinite_precision, :conversion_precision, :locale_backend
+
+    attr_writer :default_currency
   end
 
   # @!attribute default_currency
   #   @return [Money::Currency] The default currency, which is used when
   #     +Money.new+ is called without an explicit currency argument. The
-  #     default value is Currency.new("USD"). The value must be a valid
-  #     +Money::Currency+ instance.
+  #     default value is +nil+. The value must be +nil+ or
+  #     a valid +Money::Currency+ instance.
   def self.default_currency
-    if @using_deprecated_default_currency
-      warn '[WARNING] The default currency will change to `nil` in the next major release. Make ' \
-           'sure to set it explicitly using `Money.default_currency=` to avoid potential issues'
-    end
-
     if @default_currency.respond_to?(:call)
       Money::Currency.new(@default_currency.call)
-    else
+    elsif @default_currency
       Money::Currency.new(@default_currency)
     end
-  end
-
-  def self.default_currency=(currency)
-    @using_deprecated_default_currency = false
-    @default_currency = currency
   end
 
   def self.locale_backend=(value)
@@ -158,8 +150,7 @@ class Money
     self.default_bank = Bank::VariableExchange.instance
 
     # Set the default currency for creating new +Money+ object.
-    self.default_currency = Currency.new("USD")
-    @using_deprecated_default_currency = true
+    self.default_currency = nil
 
     # Set the default locale backend
     self.locale_backend = LocaleBackend::DEFAULT
