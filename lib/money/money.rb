@@ -124,8 +124,8 @@ class Money
     # @!attribute default_currency
     #   @return [Money::Currency] The default currency, which is used when
     #     +Money.new+ is called without an explicit currency argument. The
-    #     default value is Currency.new("USD"). The value must be a valid
-    #     +Money::Currency+ instance.
+    #     default value is +nil+. The value must be +nil+ or
+    #     a valid +Money::Currency+ instance.
     attr_writer :rounding_mode, :default_currency
 
   end
@@ -133,7 +133,7 @@ class Money
   def self.default_currency
     if @default_currency.respond_to?(:call)
       Money::Currency.new(@default_currency.call)
-    else
+    elsif @default_currency
       Money::Currency.new(@default_currency)
     end
   end
@@ -147,7 +147,7 @@ class Money
     self.default_bank = Bank::VariableExchange.instance
 
     # Set the default currency for creating new +Money+ object.
-    self.default_currency = Currency.new("USD")
+    self.default_currency = nil
 
     # Set the default locale backend
     self.locale_backend = LocaleBackend::DEFAULT

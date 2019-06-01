@@ -172,7 +172,7 @@ describe Money, "formatting" do
 
     it "returns the monetary value as a string" do
       expect(Money.ca_dollar(100).format).to eq "$1.00"
-      expect(Money.new(40008).format).to eq "$400.08"
+      expect(Money.new(40008, "USD").format).to eq "$400.08"
     end
 
     it "respects :subunit_to_unit currency property" do
@@ -400,7 +400,7 @@ describe Money, "formatting" do
       end
 
       it "defaults :symbol to true" do
-        money = Money.new(100)
+        money = Money.new(100, "USD")
         expect(money.format).to eq "$1.00"
 
         money = Money.new(100, "GBP")
@@ -448,7 +448,7 @@ describe Money, "formatting" do
       specify "(south_asian_number_formatting: true) works as documented" do
         expect(Money.new(10000000, 'INR').format(south_asian_number_formatting: true, symbol: false)).to eq "1,00,000.00"
         expect(Money.new(1000000000, 'INDIAN_BAR').format(south_asian_number_formatting: true, symbol: false)).to eq "1,00,000.0000"
-        expect(Money.new(10000000).format(south_asian_number_formatting: true)).to eq "$1,00,000.00"
+        expect(Money.new(10000000, "USD").format(south_asian_number_formatting: true)).to eq "$1,00,000.00"
       end
 
       specify "(south_asian_number_formatting: true and no_cents_if_whole => true) works as documented" do
