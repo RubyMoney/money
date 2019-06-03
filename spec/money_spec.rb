@@ -350,7 +350,7 @@ YAML
             Money.new(1.1).fractional
           end).to eq 2
 
-          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_EVEN
+          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_UP
         end
 
         it "works for multiplication within a block" do
@@ -362,7 +362,7 @@ YAML
             expect((Money.new(1_00) * "0.011".to_d).fractional).to eq 2
           end
 
-          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_EVEN
+          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_UP
         end
       end
     end
@@ -914,26 +914,6 @@ YAML
     it "accepts a symbol" do
       Money.default_currency = :eur
       expect(Money.default_currency).to eq Money::Currency.new(:eur)
-    end
-  end
-
-  describe ".rounding_mode" do
-    after { Money.setup_defaults }
-
-    it 'warns about changing default rounding_mode value' do
-      expect(Money)
-        .to receive(:warn)
-        .with('[WARNING] The default rounding mode will change to `ROUND_HALF_UP` in the next major ' \
-              'release. Set it explicitly using `Money.rounding_mode=` to avoid potential problems.')
-
-      Money.rounding_mode
-    end
-
-    it 'does not warn if the default rounding_mode has been changed' do
-      Money.rounding_mode = BigDecimal::ROUND_HALF_UP
-
-      expect(Money).not_to receive(:warn)
-      Money.rounding_mode
     end
   end
 end
