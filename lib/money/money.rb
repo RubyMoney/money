@@ -155,8 +155,8 @@ class Money
     # Default to not using infinite precision cents
     self.infinite_precision = false
 
-    # Default to bankers rounding
-    self.rounding_mode = BigDecimal::ROUND_HALF_EVEN
+    # Same default as BigDecimal
+    self.rounding_mode = BigDecimal::ROUND_HALF_UP
 
     # Default the conversion of Rationals precision to 16
     self.conversion_precision = 16
@@ -188,7 +188,7 @@ class Money
   # @return [BigDecimal::ROUND_MODE,Yield] block results
   #
   # @example
-  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_UP) do
+  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_DOWN) do
   #     Money.new(1200) * BigDecimal('0.029')
   #   end
   def self.with_rounding_mode(mode)

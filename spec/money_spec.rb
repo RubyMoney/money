@@ -323,8 +323,10 @@ YAML
     end
 
     context "user changes rounding_mode" do
-      after do
-        Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
+      around do |example|
+        previous_mode = Money.rounding_mode
+        example.run
+        Money.rounding_mode = previous_mode
       end
 
       context "with the setter" do
@@ -347,7 +349,7 @@ YAML
             Money.new(1.1).fractional
           end).to eq 2
 
-          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_EVEN
+          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_UP
         end
 
         it "works for multiplication within a block" do
@@ -359,7 +361,7 @@ YAML
             expect((Money.new(1_00) * "0.011".to_d).fractional).to eq 2
           end
 
-          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_EVEN
+          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_UP
         end
       end
     end
