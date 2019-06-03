@@ -129,7 +129,8 @@ class Money
       :infinite_precision, :conversion_precision
 
     attr_reader :locale_backend
-    attr_writer :default_currency
+    # @attr_writer rounding_mode Use this to specify the rounding mode
+    attr_writer :default_currency, :rounding_mode
   end
 
   # @!attribute default_currency
@@ -149,12 +150,6 @@ class Money
     @locale_backend = value ? LocaleBackend.find(value) : nil
   end
 
-  # @attr_writer rounding_mode Use this to specify the rounding mode
-  def self.rounding_mode=(new_rounding_mode)
-    @using_deprecated_default_rounding_mode = false
-    @rounding_mode = new_rounding_mode
-  end
-
   def self.setup_defaults
     # Set the default bank for creating new +Money+ objects.
     self.default_bank = Bank::VariableExchange.instance
@@ -168,9 +163,8 @@ class Money
     # Default to not using infinite precision cents
     self.infinite_precision = false
 
-    # Default to bankers rounding
-    self.rounding_mode = BigDecimal::ROUND_HALF_EVEN
-    @using_deprecated_default_rounding_mode = true
+    # Same default as BigDecimal
+    self.rounding_mode = BigDecimal::ROUND_HALF_UP
 
     # Default the conversion of Rationals precision to 16
     self.conversion_precision = 16
@@ -193,15 +187,7 @@ class Money
       return with_rounding_mode(mode) { yield }
     end
 
-    return Thread.current[:money_rounding_mode] if Thread.current[:money_rounding_mode]
-
-    if @using_deprecated_default_rounding_mode
-      warn '[WARNING] The default rounding mode will change from `ROUND_HALF_EVEN` to `ROUND_HALF_UP` in the ' \
-           'next major release. Set it explicitly using `Money.rounding_mode=` to avoid potential problems.'
-      @using_deprecated_default_rounding_mode = false
-    end
-
-    @rounding_mode
+    Thread.current[:money_rounding_mode] || @rounding_mode
   end
 
   # Temporarily changes the rounding mode in a given block.
@@ -214,7 +200,7 @@ class Money
   # @return [Object] block results
   #
   # @example
-  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_UP) do
+  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_DOWN) do
   #     Money.new(1200) * BigDecimal('0.029')
   #   end
   def self.with_rounding_mode(mode)
