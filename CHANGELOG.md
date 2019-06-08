@@ -1,4 +1,5 @@
 # Changelog
+- Update currency config for Zambian Kwacha (ZMW)
 
 ## 6.13.3
 - Remove specs from the packaged gem
