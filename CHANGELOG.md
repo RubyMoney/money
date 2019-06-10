@@ -1,5 +1,8 @@
 # Changelog
+
+## 6.13.4
 - Update currency config for Zambian Kwacha (ZMW)
+- Do not modify options passed to FormattingRules
 
 ## 6.13.3
 - Remove specs from the packaged gem
