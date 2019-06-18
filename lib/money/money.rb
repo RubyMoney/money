@@ -173,11 +173,8 @@ class Money
   # @param [BigDecimal::ROUND_MODE] mode
   #
   # @return [BigDecimal::ROUND_MODE] rounding mode
-  def self.rounding_mode(mode = nil)
-    return Thread.current[:money_rounding_mode] || @rounding_mode unless mode
-
-    warn "[DEPRECATION] calling `rounding_mode` with a block is deprecated. Please use `.with_rounding_mode` instead."
-    with_rounding_mode(mode) { yield }
+  def self.rounding_mode
+    Thread.current[:money_rounding_mode] || @rounding_mode
   end
 
   # This method temporarily changes the rounding mode. It will then return the
