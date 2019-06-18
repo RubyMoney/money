@@ -180,13 +180,6 @@ describe Money do
         bank = double "bank"
         expect(Money.from_amount(1, "USD", bank).bank).to eq bank
       end
-
-      it 'rounds using rounding_mode' do
-        expect(Money.from_amount(1.999).to_d).to eq 2
-        expect(Money.rounding_mode(BigDecimal::ROUND_DOWN) do
-          Money.from_amount(1.999).to_d
-        end).to eq 1.99
-      end
     end
 
     context 'without default currency' do
@@ -226,13 +219,6 @@ describe Money do
         bank = double "bank"
         expect(Money.from_amount(1, "USD", bank).bank).to eq bank
       end
-
-      it 'rounds using rounding_mode' do
-        expect(Money.from_amount(1.999, "USD").to_d).to eq 2
-        expect(Money.rounding_mode(BigDecimal::ROUND_DOWN) do
-          Money.from_amount(1.999, "USD").to_d
-        end).to eq 1.99
-      end
     end
 
     context 'given a currency is provided', :default_currency do
@@ -243,19 +229,6 @@ describe Money do
           expect(Money.from_amount(1, currency).currency).to eq Money.default_currency
         end
       end
-    end
-
-    it 'warns about rounding_mode deprecation' do
-      allow(Money).to receive(:warn)
-
-      expect(Money.from_amount(1.999, 'USD').to_d).to eq 2
-      expect(Money.rounding_mode(BigDecimal::ROUND_DOWN) do
-        Money.from_amount(1.999, 'USD').to_d
-      end).to eq 1.99
-      expect(Money)
-        .to have_received(:warn)
-        .with('[DEPRECATION] calling `rounding_mode` with a block is deprecated. ' \
-              'Please use `.with_rounding_mode` instead.')
     end
 
     it 'rounds using with_rounding_mode' do
@@ -330,40 +303,12 @@ YAML
     context "user changes rounding_mode" do
       after { Money.setup_defaults }
 
-      context "with the setter" do
-        it "respects the rounding_mode" do
-          Money.rounding_mode = BigDecimal::ROUND_DOWN
-          expect(Money.new(1.9).fractional).to eq 1
+      it "respects the rounding_mode" do
+        Money.rounding_mode = BigDecimal::ROUND_DOWN
+        expect(Money.new(1.9).fractional).to eq 1
 
-          Money.rounding_mode = BigDecimal::ROUND_UP
-          expect(Money.new(1.1).fractional).to eq 2
-        end
-      end
-
-      context "with a block" do
-        it "respects the rounding_mode" do
-          expect(Money.rounding_mode(BigDecimal::ROUND_DOWN) do
-            Money.new(1.9).fractional
-          end).to eq 1
-
-          expect(Money.rounding_mode(BigDecimal::ROUND_UP) do
-            Money.new(1.1).fractional
-          end).to eq 2
-
-          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_UP
-        end
-
-        it "works for multiplication within a block" do
-          Money.rounding_mode(BigDecimal::ROUND_DOWN) do
-            expect((Money.new(1_00) * "0.019".to_d).fractional).to eq 1
-          end
-
-          Money.rounding_mode(BigDecimal::ROUND_UP) do
-            expect((Money.new(1_00) * "0.011".to_d).fractional).to eq 2
-          end
-
-          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_UP
-        end
+        Money.rounding_mode = BigDecimal::ROUND_UP
+        expect(Money.new(1.1).fractional).to eq 2
       end
     end
 
@@ -922,6 +867,42 @@ YAML
     it "accepts a symbol" do
       Money.default_currency = :eur
       expect(Money.default_currency).to eq Money::Currency.new(:eur)
+    end
+  end
+
+  describe '#with_rounding_mode' do
+    it "respects the rounding_mode" do
+      expect(
+        Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
+          Money.new(1.9).fractional
+        end
+      ).to eq(1)
+
+      expect(
+        Money.with_rounding_mode(BigDecimal::ROUND_UP) do
+          Money.new(1.1).fractional
+        end
+      ).to eq(2)
+
+      expect(Money.rounding_mode).to eq(BigDecimal::ROUND_HALF_UP)
+    end
+
+    it "works for multiplication within a block" do
+      Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
+        expect((Money.new(1_00) * "0.019".to_d).fractional).to eq(1)
+      end
+
+      Money.with_rounding_mode(BigDecimal::ROUND_UP) do
+        expect((Money.new(1_00) * "0.011".to_d).fractional).to eq(2)
+      end
+
+      expect(Money.rounding_mode).to eq(BigDecimal::ROUND_HALF_UP)
+    end
+
+    it 'returns temporary rounding_mode' do
+      Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
+        expect(Money.rounding_mode).to eq(BigDecimal::ROUND_DOWN)
+      end
     end
   end
 end
