@@ -7,7 +7,6 @@ rvm:
   - 2.5.5
   - 2.6.3
   - rbx-3
-  - jruby-9.0.5.0
   - jruby-9.1.17.0
   - jruby-9.2.7.0
   - ruby-head
@@ -19,7 +18,7 @@ matrix:
     - rvm: rbx-3
   fast_finish: true
 before_install:
-  - gem install bundler --version '~> 1.17'
+  - gem install bundler
 script: bundle exec rspec spec
 notifications:
   email:
