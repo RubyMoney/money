@@ -47,19 +47,25 @@ class Money
     end
 
     def translate_formatting_rules(rules)
+      return rules unless defined?(::I18n)
+
       begin
-        rules[:symbol] = I18n.t currency.iso_code, scope: "number.currency.symbol", raise: true
+        rules[:symbol] = ::I18n.t currency.iso_code, scope: "number.currency.symbol", raise: true
       rescue I18n::MissingTranslationData
         # Do nothing
       end
+
       rules
     end
 
     def localize_formatting_rules(rules)
-      if currency.iso_code == "JPY" && I18n.locale == :ja
+      return rules unless defined?(::I18n)
+
+      if currency.iso_code == "JPY" && ::I18n.locale == :ja
         rules[:symbol] = "円" unless rules[:symbol] == false
         rules[:format] = '%n%u'
       end
+
       rules
     end
   end
