@@ -13,6 +13,7 @@ RSpec.configure do |c|
   c.order = :random
   c.filter_run :focus
   c.run_all_when_everything_filtered = true
+  c.filter_run_excluding :i18n if ENV['I18N'] == 'false'
 end
 
 RSpec.shared_context 'with i18n locale backend', :i18n do
