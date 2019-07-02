@@ -5,12 +5,9 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 require "rspec"
 require "money"
 
-require "i18n"
 require "r18n-core"
 
 Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
-
-I18n.enforce_available_locales = false
 
 RSpec.configure do |c|
   c.order = :random
@@ -20,6 +17,8 @@ end
 
 RSpec.shared_context 'with i18n locale backend', :i18n do
   around do |example|
+    require 'i18n'
+    I18n.enforce_available_locales = false
     Money.locale_backend = :i18n
 
     example.run
