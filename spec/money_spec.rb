@@ -4,7 +4,7 @@ describe Money do
   describe '.locale_backend' do
     after { Money.locale_backend = Money::LocaleBackend::DEFAULT }
 
-    it 'sets the locale_backend' do
+    it 'sets the locale_backend', :i18n do
       Money.locale_backend = :i18n
 
       expect(Money.locale_backend).to be_a(Money::LocaleBackend::I18n)
