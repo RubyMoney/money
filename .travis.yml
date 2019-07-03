@@ -9,8 +9,10 @@ rvm:
   - rbx-3
   - jruby-9.1.17.0
   - jruby-9.2.7.0
+
   - ruby-head
   - jruby-head
+  - rbx-head
 env:
   - I18N=true
   - I18N=false
@@ -37,7 +39,7 @@ matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
-    - rvm: rbx-3
+    - rvm: rbx-head
   fast_finish: true
 before_install:
   - gem install bundler
