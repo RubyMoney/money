@@ -11,13 +11,37 @@ rvm:
   - rbx-3
   - jruby-9.1.17.0
   - jruby-9.2.7.0
+
   - ruby-head
   - jruby-head
+  - rbx-head
+env:
+  - I18N=true
+  - I18N=false
 matrix:
+  exclude:
+    - rvm: 2.3.8
+      env: I18N=false
+    - rvm: 2.4.6
+      env: I18N=false
+    - rvm: 2.5.5
+      env: I18N=false
+    - rvm: 2.6.3
+      env: I18N=false
+    - rvm: rbx-3
+      env: I18N=true
+    - rvm: jruby-9.1.17.0
+      env: I18N=false
+    - rvm: jruby-9.2.7.0
+      env: I18N=false
+    - rvm: ruby-head
+      env: I18N=false
+    - rvm: jruby-head
+      env: I18N=false
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
-    - rvm: rbx-3
+    - rvm: rbx-head
   fast_finish: true
 before_install:
   - gem install bundler
