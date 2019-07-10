@@ -531,6 +531,28 @@ I18n.enforce_available_locales = false
 
 ## Migration Notes
 
+When migrating to any major version it's highly recommend to first updating to the latest
+release of the previous major version and paying attention to all the `[DEPRECATION]`
+messages as these indicate features that will get removed/changed in the next major version.
+Getting rid of those warnings will ensure a smoother migration.
+
+#### Version 7.0.0
+
+- Support for older rubies (< 2.3) has been dropped, please use version 6.x in case you're working
+  with an EOL ruby
+- The new default rounding method is ROUND_HALF_UP, which is the most popular way of rounding
+  numbers. Previously a ROUND_HALF_EVEN (also known as "Bankers rounding") was used which might help
+  to reduce the rounding error when aggregating big amounts of data. Set it explicitly in case the
+  new default doesn't suit you (`Money.rounding_mode`)
+- The default currency has been changed to from USD to `nil`, forcing you to explicitly specify the
+  currency when initializing your Money objects, which is a better default option for
+  multi-currency applications. Set it to a specific currency if you only work with one currency
+  (`Money.default_currency`)
+- `Money#eql?` will now check for an exact match (amount and currency) in all cases. Use `==` if you
+  expect zero amounts in different currencies to be equal
+- Money gem no longer depends on I18n, so if you are using :i18n locale backend make sure to include
+  `i18n` in your Gemfile
+
 #### Version 6.0.0
 
 - The `Money#dollars` and `Money#amount` methods now return instances of
