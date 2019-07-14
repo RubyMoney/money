@@ -125,22 +125,31 @@ class Money
       :locale_backend
 
     # @attr_writer rounding_mode Use this to specify the rounding mode
-    #
-    # @!attribute default_currency
-    #   @return [Money::Currency] The default currency, which is used when
-    #     +Money.new+ is called without an explicit currency argument. The
-    #     default value is Currency.new("USD"). The value must be a valid
-    #     +Money::Currency+ instance.
-    attr_writer :rounding_mode, :default_currency
+    attr_writer :rounding_mode
 
   end
 
+  # @!attribute default_currency
+  #   @return [Money::Currency] The default currency, which is used when
+  #     +Money.new+ is called without an explicit currency argument. The
+  #     default value is Currency.new("USD"). The value must be a valid
+  #     +Money::Currency+ instance.
   def self.default_currency
+    if @using_deprecated_default_currency
+      warn '[WARNING] The default currency will change to `nil` in the next major release. Make ' \
+           'sure to set it explicitly using `Money.default_currency=` to avoid potential issues'
+    end
+
     if @default_currency.respond_to?(:call)
       Money::Currency.new(@default_currency.call)
     else
       Money::Currency.new(@default_currency)
     end
+  end
+
+  def self.default_currency=(currency)
+    @using_deprecated_default_currency = false
+    @default_currency = currency
   end
 
   def self.locale_backend=(value)
@@ -163,6 +172,7 @@ class Money
 
     # Set the default currency for creating new +Money+ object.
     self.default_currency = Currency.new("USD")
+    @using_deprecated_default_currency = true
 
     # Default to using i18n
     @use_i18n = true
