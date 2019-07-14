@@ -286,9 +286,7 @@ YAML
     end
 
     context "user changes rounding_mode" do
-      after do
-        Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
-      end
+      after { Money.setup_defaults }
 
       context "with the setter" do
         it "respects the rounding_mode" do
@@ -912,6 +910,26 @@ YAML
 
       expect(Money).not_to receive(:warn)
       Money.default_currency
+    end
+  end
+
+  describe ".rounding_mode" do
+    after { Money.setup_defaults }
+
+    it 'warns about changing default rounding_mode value' do
+      expect(Money)
+        .to receive(:warn)
+        .with('[WARNING] The default rounding mode will change to `ROUND_HALF_UP` in the next major ' \
+              'release. Set it explicitly using `Money.rounding_mode=` to avoid potential problems.')
+
+      Money.rounding_mode
+    end
+
+    it 'does not warn if the default rounding_mode has been changed' do
+      Money.rounding_mode = BigDecimal::ROUND_HALF_UP
+
+      expect(Money).not_to receive(:warn)
+      Money.rounding_mode
     end
   end
 end

@@ -123,10 +123,6 @@ class Money
     attr_accessor :default_bank, :default_formatting_rules,
       :use_i18n, :infinite_precision, :conversion_precision,
       :locale_backend
-
-    # @attr_writer rounding_mode Use this to specify the rounding mode
-    attr_writer :rounding_mode
-
   end
 
   # @!attribute default_currency
@@ -154,6 +150,12 @@ class Money
 
   def self.locale_backend=(value)
     @locale_backend = value ? LocaleBackend.find(value) : nil
+  end
+
+  # @attr_writer rounding_mode Use this to specify the rounding mode
+  def self.rounding_mode=(new_rounding_mode)
+    @using_deprecated_default_rounding_mode = false
+    @rounding_mode = new_rounding_mode
   end
 
   def self.use_i18n=(value)
@@ -185,6 +187,7 @@ class Money
 
     # Default to bankers rounding
     self.rounding_mode = BigDecimal::ROUND_HALF_EVEN
+    @using_deprecated_default_rounding_mode = true
 
     # Default the conversion of Rationals precision to 16
     self.conversion_precision = 16
@@ -202,10 +205,19 @@ class Money
   #
   # @return [BigDecimal::ROUND_MODE] rounding mode
   def self.rounding_mode(mode = nil)
-    return Thread.current[:money_rounding_mode] || @rounding_mode unless mode
+    if mode
+      warn "[DEPRECATION] calling `rounding_mode` with a block is deprecated. Please use `.with_rounding_mode` instead."
+      return with_rounding_mode(mode) { yield }
+    end
 
-    warn "[DEPRECATION] calling `rounding_mode` with a block is deprecated. Please use `.with_rounding_mode` instead."
-    with_rounding_mode(mode) { yield }
+    return Thread.current[:money_rounding_mode] if Thread.current[:money_rounding_mode]
+
+    if @using_deprecated_default_rounding_mode
+      warn '[WARNING] The default rounding mode will change to `ROUND_HALF_UP` in the next major ' \
+           'release. Set it explicitly using `Money.rounding_mode=` to avoid potential problems.'
+    end
+
+    @rounding_mode
   end
 
   # This method temporarily changes the rounding mode. It will then return the
