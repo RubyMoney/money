@@ -7,13 +7,9 @@
 [![Inline docs](https://inch-ci.org/github/RubyMoney/money.svg)](https://inch-ci.org/github/RubyMoney/money)
 [![License](https://img.shields.io/github/license/RubyMoney/money.svg)](https://opensource.org/licenses/MIT)
 
-:warning: Please read the [migration notes](#migration-notes) before upgrading to a new major version.
+:warning: Please read the [migration notes](#migration-notes) before upgrading to a new major version. :warning:
 
-If you miss String parsing, check out the new [monetize gem](https://github.com/RubyMoney/monetize).
-
-## Contributing
-
-See the [Contribution Guidelines](https://github.com/RubyMoney/money/blob/master/CONTRIBUTING.md)
+For String parsing check out the [monetize gem](https://github.com/RubyMoney/monetize).
 
 ## Introduction
 
@@ -33,7 +29,6 @@ A Ruby Library for dealing with money and currency conversion.
 
 ### Resources
 
-- [Website](https://rubymoney.github.io/money/)
 - [API Documentation](http://www.rubydoc.info/gems/money/frames)
 - [Git Repository](https://github.com/RubyMoney/money)
 
@@ -44,17 +39,13 @@ A Ruby Library for dealing with money and currency conversion.
 - This app requires JSON. If you're using JRuby < 1.7.0
   you'll need to add `gem "json"` to your Gemfile or similar.
 
-## Downloading
+## Install
 
-Install stable releases with the following command:
+To use the gem add it to your `Gemfile`:
 
-    gem install money
-
-The development version (hosted on Github) can be installed with:
-
-    git clone git://github.com/RubyMoney/money.git
-    cd money
-    rake install
+```ruby
+gem 'money'
+```
 
 ## Usage
 
@@ -191,14 +182,16 @@ all_currencies(Money::Currency.table)
 
 ### Default Currency
 
-By default `Money` defaults to USD as its currency. This can be overwritten
-using:
+By default `Money` does not have a default currency. This is the recommended setting for
+multi-currency apps as it forces you to explicitly specify a currency. In case you only support one
+currency, this can be overwritten using:
 
 ``` ruby
-Money.default_currency = Money::Currency.new("CAD")
+Money.default_currency = Money::Currency.new('USD')
 ```
 
-If you use [Rails](https://github.com/RubyMoney/money/tree/master#ruby-on-rails), then `config/initializers/money.rb` is a very good place to put this.
+If you use [Rails](https://github.com/RubyMoney/money/tree/master#ruby-on-rails), then
+`config/initializers/money.rb` is a very good place to put this.
 
 ### Currency Exponent
 
@@ -429,13 +422,14 @@ For deprecated methods of integrating with Rails, check [the wiki](https://githu
 
 ## Localization
 
-In order to localize formatting you can use `I18n` gem:
+In order to localize formatting you can use `I18n` gem (you need to include it separately):
 
 ```ruby
 Money.locale_backend = :i18n
 ```
 
-With this enabled a thousands seperator and a decimal mark will get looked up in your `I18n` translation files. In a Rails application this may look like:
+With this enabled a thousands seperator and a decimal mark will get looked up in your `I18n`
+translation files. In a Rails application this may look like:
 
 ```yml
 # config/locale/en.yml
@@ -452,8 +446,8 @@ en:
       separator: "."
 ```
 
-For this example `Money.new(123456789, "SEK").format` will return `1,234,567.89
-kr` which otherwise would have returned `1 234 567,89 kr`.
+For this example `Money.new(123456789, "SEK").format` will return `1,234,567.89 kr` which otherwise
+would have returned `1 234 567,89 kr`.
 
 This will work seamlessly with [rails-i18n](https://github.com/svenfuchs/rails-i18n) gem that already has a lot of locales defined.
 
@@ -518,17 +512,6 @@ Money.new(10_000_00, 'EUR').format # => €10000.00
 In case you're working with collections of `Money` instances, have a look at [money-collection](https://github.com/RubyMoney/money-collection)
 for improved performance and accuracy.
 
-### Troubleshooting
-
-If you don't have some locale and don't want to get a runtime error such as:
-
-    I18n::InvalidLocale: :en is not a valid locale
-
-Set the following:
-``` ruby
-I18n.enforce_available_locales = false
-```
-
 ## Migration Notes
 
 When migrating to any major version it's highly recommend to first updating to the latest
@@ -566,3 +549,7 @@ Getting rid of those warnings will ensure a smoother migration.
     the `#to_f` method instead. This option should only be used where `Float`
     is the desired type and nothing else will do for your application's
     requirements.
+
+## Contributing
+
+See the [Contribution Guidelines](https://github.com/RubyMoney/money/blob/master/CONTRIBUTING.md)
