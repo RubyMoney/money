@@ -194,11 +194,16 @@ describe Money do
     end
 
     it 'warns about rounding_mode deprecation' do
-      expect(Money).to receive(:warn)
+      allow(Money).to receive(:warn)
+
       expect(Money.from_amount(1.999).to_d).to eq 2
       expect(Money.rounding_mode(BigDecimal::ROUND_DOWN) do
         Money.from_amount(1.999).to_d
       end).to eq 1.99
+      expect(Money)
+        .to have_received(:warn)
+        .with('[DEPRECATION] calling `rounding_mode` with a block is deprecated. ' \
+              'Please use `.with_rounding_mode` instead.')
     end
 
     it 'rounds using with_rounding_mode' do
@@ -281,9 +286,7 @@ YAML
     end
 
     context "user changes rounding_mode" do
-      after do
-        Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
-      end
+      after { Money.setup_defaults }
 
       context "with the setter" do
         it "respects the rounding_mode" do
@@ -881,13 +884,7 @@ YAML
   end
 
   describe ".default_currency" do
-    before do
-      @default_currency = Money.default_currency
-    end
-
-    after do
-      Money.default_currency = @default_currency
-    end
+    after { Money.setup_defaults }
 
     it "accepts a lambda" do
       Money.default_currency = lambda { :eur }
@@ -897,6 +894,42 @@ YAML
     it "accepts a symbol" do
       Money.default_currency = :eur
       expect(Money.default_currency).to eq Money::Currency.new(:eur)
+    end
+
+    it 'warns about changing default_currency value' do
+      expect(Money)
+        .to receive(:warn)
+        .with('[WARNING] The default currency will change to `nil` in the next major release. Make ' \
+              'sure to set it explicitly using `Money.default_currency=` to avoid potential issues')
+
+      Money.default_currency
+    end
+
+    it 'does not warn if the default_currency has been changed' do
+      Money.default_currency = Money::Currency.new(:usd)
+
+      expect(Money).not_to receive(:warn)
+      Money.default_currency
+    end
+  end
+
+  describe ".rounding_mode" do
+    after { Money.setup_defaults }
+
+    it 'warns about changing default rounding_mode value' do
+      expect(Money)
+        .to receive(:warn)
+        .with('[WARNING] The default rounding mode will change to `ROUND_HALF_UP` in the next major ' \
+              'release. Set it explicitly using `Money.rounding_mode=` to avoid potential problems.')
+
+      Money.rounding_mode
+    end
+
+    it 'does not warn if the default rounding_mode has been changed' do
+      Money.rounding_mode = BigDecimal::ROUND_HALF_UP
+
+      expect(Money).not_to receive(:warn)
+      Money.rounding_mode
     end
   end
 end
