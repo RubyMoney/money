@@ -385,8 +385,8 @@ describe Money::Currency do
 
   describe "#decimal_places" do
     it "proper places for known currency" do
-      expect(Currency.new(:mru).decimal_places).to eq 1
-      expect(Currency.new(:usd).decimal_places).to eq 2
+      expect(described_class.new(:mru).decimal_places).to eq 1
+      expect(described_class.new(:usd).decimal_places).to eq 2
     end
 
     it "proper places for custom currency" do
