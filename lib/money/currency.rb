@@ -414,7 +414,7 @@ class Money
 
     # Returns the relation between subunit and unit as a base 10 exponent.
     #
-    # Note that MGA and MRO are exceptions and are rounded to 1
+    # Note that MGA and MRU are exceptions and are rounded to 1
     # @see https://en.wikipedia.org/wiki/ISO_4217#Active_codes
     #
     # @return [Integer]

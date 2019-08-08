@@ -1412,9 +1412,9 @@
     "iso_numeric": "446",
     "smallest_denomination": 10
   },
-  "mro": {
+  "mru": {
     "priority": 100,
-    "iso_code": "MRO",
+    "iso_code": "MRU",
     "name": "Mauritanian Ouguiya",
     "symbol": "UM",
     "alternate_symbols": [],
@@ -1424,7 +1424,7 @@
     "html_entity": "",
     "decimal_mark": ".",
     "thousands_separator": ",",
-    "iso_numeric": "478",
+    "iso_numeric": "929",
     "smallest_denomination": 1
   },
   "mur": {

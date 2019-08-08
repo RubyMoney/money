@@ -60,6 +60,22 @@
     "iso_numeric": "428",
     "smallest_denomination": 1
   },
+  "mro": {
+    "priority": 100,
+    "iso_code": "MRO",
+    "name": "Mauritanian Ouguiya",
+    "symbol": "UM",
+    "disambiguate_symbol": "A-UM",
+    "alternate_symbols": [],
+    "subunit": "Khoums",
+    "subunit_to_unit": 5,
+    "symbol_first": false,
+    "html_entity": "",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "478",
+    "smallest_denomination": 1
+  },
   "mtl": {
     "priority": 100,
     "iso_code": "MTL",
