@@ -16,7 +16,7 @@ class Money
     # @example
     #    - Money.new(100) #=> #<Money @fractional=-100>
     def -@
-      self.class.new(-fractional, currency, bank)
+      dup_with_new_fractional(-fractional)
     end
 
     # Checks whether two Money objects have the same currency and the same
@@ -132,10 +132,10 @@ class Money
         when Money
           other = other.exchange_to(currency)
           new_fractional = fractional.public_send(op, other.fractional)
-          self.class.new(new_fractional, currency, bank)
+          dup_with_new_fractional(new_fractional)
         when CoercedNumeric
           raise TypeError, non_zero_message.call(other.value) unless other.zero?
-          self.class.new(other.value.public_send(op, fractional), currency)
+          dup_with_new_fractional(other.value.public_send(op, fractional))
         when Numeric
           raise TypeError, non_zero_message.call(other) unless other.zero?
           self
@@ -162,7 +162,7 @@ class Money
     def *(value)
       value = value.value if value.is_a?(CoercedNumeric)
       if value.is_a? Numeric
-        self.class.new(fractional * value, currency, bank)
+        dup_with_new_fractional(fractional * value)
       else
         raise TypeError, "Can't multiply a #{self.class.name} by a #{value.class.name}'s value"
       end
@@ -188,7 +188,7 @@ class Money
         fractional / as_d(value.exchange_to(currency).fractional).to_f
       else
         raise TypeError, 'Can not divide by Money' if value.is_a?(CoercedNumeric)
-        self.class.new(fractional / as_d(value), currency, bank)
+        dup_with_new_fractional(fractional / as_d(value))
       end
     end
 
@@ -226,13 +226,13 @@ class Money
     def divmod_money(val)
       cents = val.exchange_to(currency).cents
       quotient, remainder = fractional.divmod(cents)
-      [quotient, self.class.new(remainder, currency, bank)]
+      [quotient, dup_with_new_fractional(remainder)]
     end
     private :divmod_money
 
     def divmod_other(val)
       quotient, remainder = fractional.divmod(as_d(val))
-      [self.class.new(quotient, currency, bank), self.class.new(remainder, currency, bank)]
+      [dup_with_new_fractional(quotient), dup_with_new_fractional(remainder)]
     end
     private :divmod_other
 
@@ -276,7 +276,7 @@ class Money
       if (fractional < 0 && val < 0) || (fractional > 0 && val > 0)
         self.modulo(val)
       else
-        self.modulo(val) - (val.is_a?(Money) ? val : self.class.new(val, currency, bank))
+        self.modulo(val) - (val.is_a?(Money) ? val : dup_with_new_fractional(val))
       end
     end
 
@@ -287,7 +287,7 @@ class Money
     # @example
     #   Money.new(-100).abs #=> #<Money @fractional=100>
     def abs
-      self.class.new(fractional.abs, currency, bank)
+      dup_with_new_fractional(fractional.abs)
     end
 
     # Test if the money amount is zero.

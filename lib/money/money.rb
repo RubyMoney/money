@@ -272,13 +272,12 @@ class Money
   # @return [Money]
   #
   # @see #initialize
-  def self.from_amount(amount, currency = default_currency, bank = default_bank)
+  def self.from_amount(amount, currency = default_currency, *other)
     raise ArgumentError, "'amount' must be numeric" unless Numeric === amount
 
     currency = Currency.wrap(currency) || Money.default_currency
     value = amount.to_d * currency.subunit_to_unit
-    value = value.round(0, rounding_mode) unless infinite_precision
-    new(value, currency, bank)
+    new(value, currency, *other)
   end
 
   # Creates a new Money object of value given in the
@@ -301,7 +300,19 @@ class Money
   #   Money.new(100, "USD") #=> #<Money @fractional=100 @currency="USD">
   #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
   #
-  def initialize(obj, currency = Money.default_currency, bank = Money.default_bank)
+  def initialize(
+    obj, currency = Money.default_currency, bank = Money.default_bank,
+    infinite_precision = nil
+  )
+    @infinite_precision =
+      if infinite_precision.nil?
+        if obj.respond_to?(:infinite_precision?) then obj.infinite_precision?
+        else self.class.infinite_precision
+        end
+      else
+        infinite_precision
+      end
+
     @fractional = as_d(obj.respond_to?(:fractional) ? obj.fractional : obj)
     @currency   = obj.respond_to?(:currency) ? obj.currency : Currency.wrap(currency)
     @currency ||= Money.default_currency
@@ -390,11 +401,28 @@ class Money
     currency.symbol || "¤"
   end
 
+  def infinite_precision?
+    !!@infinite_precision
+  end
+
   # Common inspect function
   #
   # @return [String]
   def inspect
-    "#<#{self.class.name} fractional:#{fractional} currency:#{currency}>"
+    "#<#{self.class.name} fractional:#{fractional} currency:#{currency}" \
+    "#{' with_infinite_precision' if infinite_precision?}>"
+  end
+
+  def to_precise
+    return self if infinite_precision?
+
+    self.class.new(fractional, currency, bank, true)
+  end
+
+  def to_rounding
+    return self unless infinite_precision?
+
+    self.class.new(fractional, currency, bank, false)
   end
 
   # Returns the amount of money as a string.
@@ -454,7 +482,7 @@ class Money
     if !new_currency || currency == new_currency
       self
     else
-      self.class.new(fractional, new_currency, bank)
+      self.class.new(fractional, new_currency, bank, infinite_precision?)
     end
   end
 
@@ -548,8 +576,8 @@ class Money
   #   Money.new(100, "USD").allocate(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
   #
   def allocate(parts)
-    amounts = Money::Allocation.generate(fractional, parts, !Money.infinite_precision)
-    amounts.map { |amount| self.class.new(amount, currency) }
+    amounts = Money::Allocation.generate(fractional, parts, !infinite_precision?)
+    amounts.map { |amount| dup_with_new_fractional(amount) }
   end
   alias_method :split, :allocate
 
@@ -570,7 +598,7 @@ class Money
   #
   def round(rounding_mode = self.class.rounding_mode, rounding_precision = 0)
     rounded_amount = as_d(@fractional).round(rounding_precision, rounding_mode)
-    self.class.new(rounded_amount, currency, bank)
+    dup_with_new_fractional(rounded_amount)
   end
 
   # Creates a formatted price string according to several rules.
@@ -603,6 +631,10 @@ class Money
 
   private
 
+  def dup_with_new_fractional(new_fractional)
+    self.class.new(new_fractional, currency, bank, infinite_precision?)
+  end
+
   def as_d(num)
     if num.respond_to?(:to_d)
       num.is_a?(Rational) ? num.to_d(self.class.conversion_precision) : num.to_d
@@ -612,7 +644,7 @@ class Money
   end
 
   def return_value(value)
-    if self.class.infinite_precision
+    if infinite_precision?
       value
     else
       value.round(0, self.class.rounding_mode).to_i

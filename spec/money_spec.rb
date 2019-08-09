@@ -252,6 +252,7 @@ describe Money do
       let(:serialized) { <<YAML
 !ruby/object:Money
   fractional: 249.5
+  infinite_precision: false
   currency: !ruby/object:Money::Currency
     id: :eur
     priority: 2
@@ -280,7 +281,9 @@ YAML
       end
 
       it "is a BigDecimal when using infinite_precision", :infinite_precision do
-        money = YAML::load serialized
+        money = YAML::load serialized.sub(
+          'infinite_precision: false', 'infinite_precision: true'
+        )
         expect(money.fractional).to be_a BigDecimal
       end
     end
@@ -772,33 +775,16 @@ YAML
     end
   end
 
-  describe "#round" do
+  shared_examples "rounding" do
     let(:money) { Money.new(15.75, 'NZD') }
-    subject(:rounded) { money.round }
 
     context "without infinite_precision" do
-      it "returns a different money" do
-        expect(rounded).not_to be money
-      end
-
       it "rounds the cents" do
         expect(rounded.cents).to eq 16
       end
 
       it "maintains the currency" do
         expect(rounded.currency).to eq Money::Currency.new('NZD')
-      end
-
-      it "uses a provided rounding strategy" do
-        rounded = money.round(BigDecimal::ROUND_DOWN)
-        expect(rounded.cents).to eq 15
-      end
-
-      it "does not accumulate rounding error" do
-        money_1 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
-        money_2 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
-
-        expect(money_1 + money_2).to eq(Money.new(20))
       end
     end
 
@@ -814,27 +800,6 @@ YAML
       it "maintains the currency" do
         expect(rounded.currency).to eq Money::Currency.new('NZD')
       end
-
-      it "uses a provided rounding strategy" do
-        rounded = money.round(BigDecimal::ROUND_DOWN)
-        expect(rounded.cents).to eq 15
-      end
-
-      context "when using a specific rounding precision" do
-        let(:money) { Money.new(15.7526, 'NZD') }
-
-        it "uses the provided rounding precision" do
-          rounded = money.round(BigDecimal::ROUND_DOWN, 3)
-          expect(rounded.fractional).to eq 15.752
-        end
-      end
-    end
-
-    it 'preserves assigned bank' do
-      bank = Money::Bank::VariableExchange.new
-      rounded = Money.new(1_00, 'USD', bank).round
-
-      expect(rounded.bank).to eq(bank)
     end
 
     context "when using a subclass of Money" do
@@ -847,11 +812,148 @@ YAML
     end
   end
 
+  describe "#round" do
+    it_behaves_like "rounding" do
+      subject(:rounded) { money.round }
+
+      it 'preserves assigned bank' do
+        bank = Money::Bank::VariableExchange.new
+        rounded = Money.new(1_00, 'USD', bank).round
+
+        expect(rounded.bank).to eq(bank)
+      end
+
+      context "without infinite_precision" do
+        it "returns a different money" do
+          expect(rounded).not_to be money
+        end
+
+        it "uses a provided rounding strategy" do
+          rounded = money.round(BigDecimal::ROUND_DOWN)
+          expect(rounded.cents).to eq 15
+        end
+
+        it "does not accumulate rounding error" do
+          money_1 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
+          money_2 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
+
+          expect(money_1 + money_2).to eq(Money.new(20))
+        end
+      end
+
+      context "with infinite_precision", :infinite_precision do
+        it "uses a provided rounding strategy" do
+          rounded = money.round(BigDecimal::ROUND_DOWN)
+          expect(rounded.cents).to eq 15
+        end
+
+        context "when using a specific rounding precision" do
+          let(:money) { Money.new(15.7526, 'NZD') }
+
+          it "uses the provided rounding precision" do
+            rounded = money.round(BigDecimal::ROUND_DOWN, 3)
+            expect(rounded.fractional).to eq 15.752
+          end
+        end
+      end
+    end
+  end
+
+  describe "#to_rounding" do
+    it_behaves_like "rounding" do
+      subject(:rounded) { money.to_rounding }
+
+      context "without infinite_precision" do
+        it "returns the same money (self)" do
+          expect(rounded).to be money
+        end
+
+        it 'returns "non-precise" money' do
+          expect(rounded.infinite_precision?).to be false
+        end
+      end
+
+      context "with infinite_precision", :infinite_precision do
+        it "returns a different money" do
+          expect(rounded).not_to be money
+        end
+
+        it 'returns "non-precise" money' do
+          expect(money.infinite_precision?).to be true
+          expect(rounded.infinite_precision?).to be false
+        end
+      end
+    end
+  end
+
+  describe "#to_precise" do
+    subject(:converted) { money.to_precise }
+    let(:money) { Money.new(15.75, 'NZD') }
+
+    it "allows to avoid rounding loss errors" do
+      expect(Money.new(100, 'NZD') / 3 * 100).to eq(Money.new(3300, 'NZD'))
+
+      result = (Money.new(100, 'NZD').to_precise / 3 * 100).to_rounding
+      expect(result).to eq(Money.new(3333, 'NZD'))
+    end
+
+    context "without infinite_precision" do
+      it "returns a different money" do
+        expect(converted).not_to be money
+      end
+
+      it "keeps the cents rounded" do
+        expect(converted.cents).to eq 16
+        expect(converted.cents).to be_a(BigDecimal)
+      end
+
+      it 'returns "precise" money' do
+        expect(money.infinite_precision?).to be false
+        expect(converted.infinite_precision?).to be true
+      end
+
+      it "maintains the currency" do
+        expect(converted.currency).to eq Money::Currency.new('NZD')
+      end
+    end
+
+    context "with infinite_precision", :infinite_precision do
+      it "returns the same money (self)" do
+        expect(converted).to be money
+      end
+
+      it "keeps the cents non-rounded" do
+        expect(converted.cents).to eq 15.75
+        expect(converted.cents).to be_a(BigDecimal)
+      end
+
+      it 'returns "precise" money' do
+        expect(converted.infinite_precision?).to be true
+      end
+
+      it "maintains the currency" do
+        expect(converted.currency).to eq Money::Currency.new('NZD')
+      end
+    end
+  end
+
   describe "#inspect" do
     it "reports the class name properly when using inheritance" do
       expect(Money.new(1).inspect).to start_with '#<Money'
       Subclass = Class.new(Money)
       expect(Subclass.new(1).inspect).to start_with '#<Subclass'
+    end
+
+    context "without infinite_precision" do
+      it "does not mention precision" do
+        expect(Money.new(1).inspect).not_to include "precision"
+      end
+    end
+
+    context "with infinite_precision", :infinite_precision do
+      it "reports `with_infinite_precision`" do
+        expect(Money.new(1).inspect).to end_with "with_infinite_precision>"
+      end
     end
   end
 
