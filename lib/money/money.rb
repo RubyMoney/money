@@ -34,6 +34,41 @@ class Money
     fractional
   end
 
+  # Convenience method for fractional part of the amount
+  # designed for use cases in which subunit to unit ratio
+  # is assumed to be 100 for all currencies.
+  #
+  # @return [Integer] when infinite_precision is false
+  # @return [BigDecimal] when infinite_precision is true
+  #
+  # @see infinite_precision
+  #
+  # @example Behavior when subunit to unit ratio is 100
+  #   Money.new(100, 'EUR').currency.subunit_to_unit
+  #   => 100
+  #   Money.new(100, 'EUR').format
+  #   => "€1,00"
+  #   Money.new(100, 'EUR').cents
+  #   => 100
+  #   Money.new(100, 'EUR').hundredth_parts
+  #   => 100
+  #
+  # @example Behavior when subunit to unit ratio is 1
+  #   Money.new(100, 'JPY').currency.subunit_to_unit
+  #   => 1
+  #   Money.new(100, 'JPY').format
+  #   => "¥100"
+  #   Money.new(100, 'JPY').cents
+  #   => 100
+  #   Money.new(100, 'JPY').hundredth_parts
+  #   => 10000
+  #
+  def hundredth_parts
+    return cents if currency.subunit_to_unit == 100
+
+    (self * 100 / currency.subunit_to_unit).cents
+  end
+
   # The value of the monetary amount represented in the fractional or subunit
   # of the currency.
   #

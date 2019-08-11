@@ -236,6 +236,26 @@ describe Money do
     end
   end
 
+  describe "#hundredth_parts" do
+    context "when subunit_to_unit ratio is 100" do
+      it "returns the same value as #cents" do
+        expect(Money.new(100, "EUR").hundredth_parts).to be 100
+      end
+    end
+
+    context "when subunit_to_unit ratio is 1000" do
+      it "returns a tenth of the value of #cents" do
+        expect(Money.new(100, "BHD").hundredth_parts).to be 10
+      end
+    end
+
+    context "when subunit_to_unit ratio is 1" do
+      it "returns 100 times the value of #cents" do
+        expect(Money.new(100, "JPY").hundredth_parts).to be 10_000
+      end
+    end
+  end
+
   describe "#fractional" do
     it "returns the amount in fractional unit" do
       expect(Money.new(1_00).fractional).to eq 1_00
