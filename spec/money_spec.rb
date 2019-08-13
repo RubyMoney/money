@@ -106,13 +106,22 @@ describe Money do
       end
     end
 
-    context "with infinite_precision", :infinite_precision do
+    context "with infinite_precision", :default_infinite_precision_true do
       context 'given the initializing value is 1.50' do
         let(:initializing_value) { 1.50 }
 
         it "should have the correct cents" do
           expect(money.cents).to eq BigDecimal('1.50')
         end
+      end
+    end
+
+    context "with infinite_precision on the instance only" do
+      let(:initializing_value) { 1.50 }
+      subject(:money) { Money.new(initializing_value, nil, nil, true) }
+
+      it "should have the correct cents" do
+        expect(money.cents).to eq BigDecimal('1.50')
       end
     end
   end
@@ -173,11 +182,18 @@ describe Money do
       expect(Money.from_amount(555.5, "JPY").amount).to eq "556".to_d
     end
 
-    it "does not round the given amount when infinite_precision is set", :infinite_precision do
+    it "does not round the given amount when infinite_precision is set", :default_infinite_precision_true do
       expect(Money.from_amount(4.444, "USD").amount).to eq "4.444".to_d
       expect(Money.from_amount(5.555, "USD").amount).to eq "5.555".to_d
       expect(Money.from_amount(444.4, "JPY").amount).to eq "444.4".to_d
       expect(Money.from_amount(555.5, "JPY").amount).to eq "555.5".to_d
+    end
+
+    it "does not round the given amount when infinite_precision is set on the instance" do
+      expect(Money.from_amount(4.444, "USD", nil, true).amount).to eq "4.444".to_d
+      expect(Money.from_amount(5.555, "USD", nil, true).amount).to eq "5.555".to_d
+      expect(Money.from_amount(444.4, "JPY", nil, true).amount).to eq "444.4".to_d
+      expect(Money.from_amount(555.5, "JPY", nil, true).amount).to eq "555.5".to_d
     end
 
     it "accepts an optional currency" do
@@ -268,19 +284,23 @@ describe Money do
     iso_numeric: '978'
     mutex: !ruby/object:Mutex {}
     last_updated: 2012-11-23 20:41:47.454438399 +02:00
+  infinite_precision: false
 YAML
       }
 
       it "uses BigDecimal when rounding" do
         m = YAML::load serialized
         expect(m).to be_a(Money)
-        expect(m.class.infinite_precision).to be false
+        expect(m.class.default_infinite_precision).to be false
+        expect(m.infinite_precision).to be_falsy
         expect(m.fractional).to eq 250 # 249.5 rounded up
         expect(m.fractional).to be_a(Integer)
       end
 
-      it "is a BigDecimal when using infinite_precision", :infinite_precision do
-        money = YAML::load serialized
+      it "it respects the object's infinite_precision setting" do
+        yaml = serialized.sub('infinite_precision: false', 'infinite_precision: true')
+        money = YAML::load(yaml)
+        expect(money.infinite_precision).to be_truthy
         expect(money.fractional).to be_a BigDecimal
       end
     end
@@ -325,7 +345,7 @@ YAML
       end
     end
 
-    context "with infinite_precision", :infinite_precision do
+    context "with infinite_precision", :default_infinite_precision_true do
       it "returns the amount in fractional unit" do
         expect(Money.new(1_00).fractional).to eq BigDecimal("100")
       end
@@ -400,14 +420,28 @@ YAML
       expect {money.round_to_nearest_cash_value}.to raise_error(Money::UndefinedSmallestDenomination)
     end
 
-    it "returns a Integer when infinite_precision is not set" do
-      money = Money.new(100, "USD")
-      expect(money.round_to_nearest_cash_value).to be_a Integer
+    context "when infinite_precision is not set globally", :default_infinite_precision_false do
+      it "returns an Integer" do
+        money = Money.new(100, "USD")
+        expect(money.round_to_nearest_cash_value).to be_a Integer
+      end
+
+      it "returns a BigDecimal when infinite_precision is set on instance" do
+        money = Money.new(100, "EUR", nil, true)
+        expect(money.round_to_nearest_cash_value).to be_a BigDecimal
+      end
     end
 
-    it "returns a BigDecimal when infinite_precision is set", :infinite_precision do
-      money = Money.new(100, "EUR")
-      expect(money.round_to_nearest_cash_value).to be_a BigDecimal
+    context "when infinite_precision is set globally", :default_infinite_precision_true do
+      it "returns a BigDecimal"do
+        money = Money.new(100, "EUR")
+        expect(money.round_to_nearest_cash_value).to be_a BigDecimal
+      end
+
+      it "returns an Integer when infinite_precision is set to false on instance" do
+        money = Money.new(100, "EUR", nil, false)
+        expect(money.round_to_nearest_cash_value).to be_a Integer
+      end
     end
   end
 
@@ -541,7 +575,7 @@ YAML
       end
     end
 
-    context "with infinite_precision", :infinite_precision do
+    context "with infinite_precision", :default_infinite_precision_true do
       it "shows fractional cents" do
         expect(Money.new(1.05, "USD").to_s).to eq "0.0105"
       end
@@ -726,7 +760,7 @@ YAML
       expect(special_money_class.new(005).allocate([1]).first).to be_a special_money_class
     end
 
-    context "with infinite_precision", :infinite_precision do
+    context "with infinite_precision", :default_infinite_precision_true do
       it "allows for fractional cents allocation" do
         moneys = Money.new(100).allocate([1, 1, 1])
         expect(moneys.inject(0, :+)).to eq(Money.new(100))
@@ -764,7 +798,7 @@ YAML
       expect(special_money_class.new(10_00).split(1).first).to be_a special_money_class
     end
 
-    context "with infinite_precision", :infinite_precision do
+    context "with infinite_precision", :default_infinite_precision_true do
       it "allows for splitting by fractional cents" do
         moneys = Money.new(100).split(3)
         expect(moneys.inject(0, :+)).to eq(Money.new(100))
@@ -776,7 +810,7 @@ YAML
     let(:money) { Money.new(15.75, 'NZD') }
     subject(:rounded) { money.round }
 
-    context "without infinite_precision" do
+    context "without infinite_precision", :default_infinite_precision_false do
       it "returns a different money" do
         expect(rounded).not_to be money
       end
@@ -802,7 +836,7 @@ YAML
       end
     end
 
-    context "with infinite_precision", :infinite_precision do
+    context "with infinite_precision", :default_infinite_precision_true do
       it "returns a different money" do
         expect(rounded).not_to be money
       end

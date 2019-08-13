@@ -84,8 +84,10 @@ class Money
   # @!attribute [r] bank
   #   @return [Money::Bank::Base] The +Money::Bank+-based object which currency
   #     exchanges are performed with.
+  # @!attribute [r] infinite_precision 
+  #   @return [Boolean] Whether infinite precision is enabled for this instance
 
-  attr_reader :currency, :bank
+  attr_reader :currency, :bank, :infinite_precision
 
   # Class Methods
   class << self
@@ -114,14 +116,14 @@ class Money
     #   @return [Boolean] Use this to disable i18n even if it's used by other
     #     objects in your app.
     #
-    # @!attribute [rw] infinite_precision
-    #   @return [Boolean] Use this to enable infinite precision cents
+    # @!attribute [rw] default_infinite_precision
+    #   @return [Boolean] Use this to enable infinite precision cents as the global default
     #
     # @!attribute [rw] conversion_precision
     #   @return [Integer] Use this to specify precision for converting Rational
     #     to BigDecimal
     attr_accessor :default_bank, :default_formatting_rules,
-      :use_i18n, :infinite_precision, :conversion_precision,
+      :use_i18n, :default_infinite_precision, :conversion_precision,
       :locale_backend
   end
 
@@ -183,7 +185,7 @@ class Money
     self.locale_backend = :legacy
 
     # Default to not using infinite precision cents
-    self.infinite_precision = false
+    self.default_infinite_precision = false
 
     # Default to bankers rounding
     self.rounding_mode = BigDecimal::ROUND_HALF_EVEN
@@ -264,6 +266,7 @@ class Money
   # @param [Numeric] amount The numerical value of the money.
   # @param [Currency, String, Symbol] currency The currency format.
   # @param [Money::Bank::*] bank The exchange bank to use.
+  # @param [Boolean] infinite_precision Whether to enable infinite precision for the instance.
   #
   # @example
   #   Money.from_amount(23.45, "USD") # => #<Money fractional:2345 currency:USD>
@@ -272,13 +275,13 @@ class Money
   # @return [Money]
   #
   # @see #initialize
-  def self.from_amount(amount, currency = default_currency, bank = default_bank)
+  def self.from_amount(amount, currency = default_currency, bank = default_bank, infinite_precision = Money.default_infinite_precision)
     raise ArgumentError, "'amount' must be numeric" unless Numeric === amount
 
     currency = Currency.wrap(currency) || Money.default_currency
     value = amount.to_d * currency.subunit_to_unit
     value = value.round(0, rounding_mode) unless infinite_precision
-    new(value, currency, bank)
+    new(value, currency, bank, infinite_precision)
   end
 
   # Creates a new Money object of value given in the
@@ -293,6 +296,7 @@ class Money
   #   = 0.
   # @param [Currency, String, Symbol] currency The currency format.
   # @param [Money::Bank::*] bank The exchange bank to use.
+  # @param [Boolean] infinite_precision Whether to enable infinite precision for the instance.
   #
   # @return [Money]
   #
@@ -301,11 +305,12 @@ class Money
   #   Money.new(100, "USD") #=> #<Money @fractional=100 @currency="USD">
   #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
   #
-  def initialize(obj, currency = Money.default_currency, bank = Money.default_bank)
+  def initialize(obj, currency = Money.default_currency, bank = Money.default_bank, infinite_precision = Money.default_infinite_precision)
     @fractional = as_d(obj.respond_to?(:fractional) ? obj.fractional : obj)
     @currency   = obj.respond_to?(:currency) ? obj.currency : Currency.wrap(currency)
     @currency ||= Money.default_currency
     @bank       = obj.respond_to?(:bank) ? obj.bank : bank
+    @infinite_precision = obj.respond_to?(:infinite_precision) ? obj.infinite_precision : infinite_precision
 
     # BigDecimal can be Infinity and NaN, money of that amount does not make sense
     raise ArgumentError, 'must be initialized with a finite value' unless @fractional.finite?
@@ -548,7 +553,7 @@ class Money
   #   Money.new(100, "USD").allocate(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
   #
   def allocate(parts)
-    amounts = Money::Allocation.generate(fractional, parts, !Money.infinite_precision)
+    amounts = Money::Allocation.generate(fractional, parts, !infinite_precision)
     amounts.map { |amount| self.class.new(amount, currency) }
   end
   alias_method :split, :allocate
@@ -612,7 +617,7 @@ class Money
   end
 
   def return_value(value)
-    if self.class.infinite_precision
+    if self.infinite_precision
       value
     else
       value.round(0, self.class.rounding_mode).to_i
