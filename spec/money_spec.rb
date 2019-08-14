@@ -943,18 +943,6 @@ YAML
       Subclass = Class.new(Money)
       expect(Subclass.new(1).inspect).to start_with '#<Subclass'
     end
-
-    context "without infinite_precision" do
-      it "does not mention precision" do
-        expect(Money.new(1).inspect).not_to include "precision"
-      end
-    end
-
-    context "with infinite_precision", :infinite_precision do
-      it "reports `with_infinite_precision`" do
-        expect(Money.new(1).inspect).to end_with "with_infinite_precision>"
-      end
-    end
   end
 
   describe "#as_*" do

@@ -409,8 +409,7 @@ class Money
   #
   # @return [String]
   def inspect
-    "#<#{self.class.name} fractional:#{fractional} currency:#{currency}" \
-    "#{' with_infinite_precision' if infinite_precision?}>"
+    "#<#{self.class.name} fractional:#{fractional} currency:#{currency}"
   end
 
   def to_precise
