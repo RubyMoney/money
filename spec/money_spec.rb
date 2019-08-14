@@ -299,7 +299,7 @@ YAML
         expect(m.fractional).to be_a(Integer)
       end
 
-      it "it respects the object's infinite_precision setting" do
+      it "respects the object's infinite_precision setting" do
         money = YAML::load serialized.sub(
           'infinite_precision: false', 'infinite_precision: true'
         )
