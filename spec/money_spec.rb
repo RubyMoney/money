@@ -813,75 +813,77 @@ YAML
   end
 
   describe "#round" do
-    it_behaves_like "rounding" do
-      subject(:rounded) { money.round }
+    let(:money) { Money.new(15.75, 'NZD') }
+    subject(:rounded) { money.round }
 
-      it 'preserves assigned bank' do
-        bank = Money::Bank::VariableExchange.new
-        rounded = Money.new(1_00, 'USD', bank).round
+    it_behaves_like "rounding"
 
-        expect(rounded.bank).to eq(bank)
+    it 'preserves assigned bank' do
+      bank = Money::Bank::VariableExchange.new
+      rounded = Money.new(1_00, 'USD', bank).round
+
+      expect(rounded.bank).to eq(bank)
+    end
+
+    context "without infinite_precision" do
+      it "returns a different money" do
+        expect(rounded).not_to be money
       end
 
-      context "without infinite_precision" do
-        it "returns a different money" do
-          expect(rounded).not_to be money
-        end
-
-        it "uses a provided rounding strategy" do
-          rounded = money.round(BigDecimal::ROUND_DOWN)
-          expect(rounded.cents).to eq 15
-        end
-
-        it "does not accumulate rounding error" do
-          money_1 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
-          money_2 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
-
-          expect(money_1 + money_2).to eq(Money.new(20))
-        end
+      it "uses a provided rounding strategy" do
+        rounded = money.round(BigDecimal::ROUND_DOWN)
+        expect(rounded.cents).to eq 15
       end
 
-      context "with infinite_precision", :infinite_precision do
-        it "uses a provided rounding strategy" do
-          rounded = money.round(BigDecimal::ROUND_DOWN)
-          expect(rounded.cents).to eq 15
-        end
+      it "does not accumulate rounding error" do
+        money_1 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
+        money_2 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
 
-        context "when using a specific rounding precision" do
-          let(:money) { Money.new(15.7526, 'NZD') }
+        expect(money_1 + money_2).to eq(Money.new(20))
+      end
+    end
 
-          it "uses the provided rounding precision" do
-            rounded = money.round(BigDecimal::ROUND_DOWN, 3)
-            expect(rounded.fractional).to eq 15.752
-          end
+    context "with infinite_precision", :infinite_precision do
+      it "uses a provided rounding strategy" do
+        rounded = money.round(BigDecimal::ROUND_DOWN)
+        expect(rounded.cents).to eq 15
+      end
+
+      context "when using a specific rounding precision" do
+        let(:money) { Money.new(15.7526, 'NZD') }
+
+        it "uses the provided rounding precision" do
+          rounded = money.round(BigDecimal::ROUND_DOWN, 3)
+          expect(rounded.fractional).to eq 15.752
         end
       end
     end
   end
 
   describe "#to_rounding" do
-    it_behaves_like "rounding" do
-      subject(:rounded) { money.to_rounding }
+    let(:money) { Money.new(15.75, 'NZD') }
+    subject(:rounded) { money.to_rounding }
 
-      context "without infinite_precision" do
-        it "returns the same money (self)" do
-          expect(rounded).to be money
-        end
+    it_behaves_like "rounding"
 
-        it 'returns "non-precise" money' do
-          expect(rounded.infinite_precision?).to be false
-        end
+    context "without infinite_precision" do
+      it "returns the same money (self)" do
+        expect(rounded).to be money
       end
 
-      context "with infinite_precision", :infinite_precision do
-        it "returns a different money" do
-          expect(rounded).not_to be money
-        end
+      it 'returns "non-precise" money' do
+        expect(rounded.infinite_precision?).to be false
+      end
+    end
 
-        it 'returns "non-precise" money' do
-          expect(money.infinite_precision?).to be true
-          expect(rounded.infinite_precision?).to be false
-        end
+    context "with infinite_precision", :infinite_precision do
+      it "returns a different money" do
+        expect(rounded).not_to be money
+      end
+
+      it 'returns "non-precise" money' do
+        expect(money.infinite_precision?).to be true
+        expect(rounded.infinite_precision?).to be false
       end
     end
   end
