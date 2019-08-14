@@ -166,12 +166,26 @@ describe Money, "formatting" do
         expect(Money.new(10_00, "VUV").format).to eq "Vt1,000"
       end
 
-      it "does not displays a decimal part when infinite_precision is false" do
-        expect(Money.new(10_00.1, "VUV").format).to eq "Vt1,000"
+      context "when infinite_precision is not set globally",
+              :default_infinite_precision_false do
+        it "does not display a decimal part" do
+          expect(Money.new(10_00.1, "VUV").format).to eq "Vt1,000"
+        end
+
+        it "displays a decimal part when infinite_precision is true on the instance" do
+          expect(Money.new(10_00.1, "VUV", nil, true).format).to eq "Vt1,000.1"
+        end
       end
 
-      it "displays a decimal part when infinite_precision is true", :infinite_precision do
-        expect(Money.new(10_00.1, "VUV").format).to eq "Vt1,000.1"
+      context "when infinite_precision is set globally",
+              :default_infinite_precision_true do
+        it "does display a decimal part" do
+          expect(Money.new(10_00.1, "VUV").format).to eq "Vt1,000.1"
+        end
+
+        it "does not display a decimal part when infinite_precision is false on the instance" do
+          expect(Money.new(10_00.1, "VUV", nil, false).format).to eq "Vt1,000"
+        end
       end
     end
 
@@ -609,7 +623,7 @@ describe Money, "formatting" do
       end
     end
 
-    describe ":rounded_infinite_precision option", :infinite_precision do
+    describe ":rounded_infinite_precision option", :default_infinite_precision_true do
       it "does round fractional when set to true" do
         expect(Money.new(BigDecimal('12.1'), "USD").format(rounded_infinite_precision: true)).to eq "$0.12"
         expect(Money.new(BigDecimal('12.5'), "USD").format(rounded_infinite_precision: true)).to eq "$0.13"

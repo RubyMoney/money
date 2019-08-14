@@ -114,14 +114,15 @@ class Money
     #   @return [Boolean] Use this to disable i18n even if it's used by other
     #     objects in your app.
     #
-    # @!attribute [rw] infinite_precision
-    #   @return [Boolean] Use this to enable infinite precision cents
+    # @!attribute [rw] default_infinite_precision
+    #   @return [Boolean] Use this to enable infinite precision cents as the
+    #     global default
     #
     # @!attribute [rw] conversion_precision
     #   @return [Integer] Use this to specify precision for converting Rational
     #     to BigDecimal
     attr_accessor :default_bank, :default_formatting_rules,
-      :use_i18n, :infinite_precision, :conversion_precision,
+      :use_i18n, :default_infinite_precision, :conversion_precision,
       :locale_backend
   end
 
@@ -183,7 +184,7 @@ class Money
     self.locale_backend = :legacy
 
     # Default to not using infinite precision cents
-    self.infinite_precision = false
+    self.default_infinite_precision = false
 
     # Default to bankers rounding
     self.rounding_mode = BigDecimal::ROUND_HALF_EVEN
@@ -264,6 +265,8 @@ class Money
   # @param [Numeric] amount The numerical value of the money.
   # @param [Currency, String, Symbol] currency The currency format.
   # @param [Money::Bank::*] bank The exchange bank to use.
+  # @param [Boolean] infinite_precision Whether to enable infinite precision for
+  #   the instance.
   #
   # @example
   #   Money.from_amount(23.45, "USD") # => #<Money fractional:2345 currency:USD>
@@ -292,6 +295,8 @@ class Money
   #   = 0.
   # @param [Currency, String, Symbol] currency The currency format.
   # @param [Money::Bank::*] bank The exchange bank to use.
+  # @param [Boolean] infinite_precision Whether to enable infinite precision for
+  #   the instance.
   #
   # @return [Money]
   #
@@ -307,7 +312,7 @@ class Money
     @infinite_precision =
       if infinite_precision.nil?
         if obj.respond_to?(:infinite_precision?) then obj.infinite_precision?
-        else self.class.infinite_precision
+        else self.class.default_infinite_precision
         end
       else
         infinite_precision

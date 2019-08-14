@@ -19,12 +19,26 @@ def reset_i18n
   I18n.backend = I18n::Backend::Simple.new
 end
 
-RSpec.shared_context "with infinite precision", :infinite_precision do
+RSpec.shared_context  "with infinite precision set as default",
+                      :default_infinite_precision_true do
   before do
-    Money.infinite_precision = true
+    @previous_infinite_precision = Money.default_infinite_precision
+    Money.default_infinite_precision = true
   end
 
   after do
-    Money.infinite_precision = false
+    Money.default_infinite_precision = @previous_infinite_precision
+  end
+end
+
+RSpec.shared_context  "with infinite precision not set as default",
+                      :default_infinite_precision_false do
+  before do
+    @previous_infinite_precision = Money.default_infinite_precision
+    Money.default_infinite_precision = false
+  end
+
+  after do
+    Money.default_infinite_precision = @previous_infinite_precision
   end
 end
