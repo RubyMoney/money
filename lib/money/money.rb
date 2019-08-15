@@ -264,8 +264,9 @@ class Money
   #
   # @param [Numeric] amount The numerical value of the money.
   # @param [Currency, String, Symbol] currency The currency format.
-  # @param [Money::Bank::*] bank The exchange bank to use.
-  # @param [Boolean] infinite_precision Whether to enable infinite precision for
+  # @param [Hash] options Optional settings for the new Money instance
+  # @option [Money::Bank::*] :bank The exchange bank to use.
+  # @option [Boolean] :infinite_precision Whether to enable infinite precision for
   #   the instance.
   #
   # @example
@@ -275,12 +276,12 @@ class Money
   # @return [Money]
   #
   # @see #initialize
-  def self.from_amount(amount, currency = default_currency, *other)
+  def self.from_amount(amount, currency = default_currency, options = {})
     raise ArgumentError, "'amount' must be numeric" unless Numeric === amount
 
     currency = Currency.wrap(currency) || Money.default_currency
     value = amount.to_d * currency.subunit_to_unit
-    new(value, currency, *other)
+    new(value, currency, options)
   end
 
   # Creates a new Money object of value given in the
@@ -294,8 +295,9 @@ class Money
   #   argument, a Money will be created in that currency with fractional value
   #   = 0.
   # @param [Currency, String, Symbol] currency The currency format.
-  # @param [Money::Bank::*] bank The exchange bank to use.
-  # @param [Boolean] infinite_precision Whether to enable infinite precision for
+  # @param [Hash] options Optional settings for the new Money instance
+  # @option [Money::Bank::*] :bank The exchange bank to use.
+  # @option [Boolean] :infinite_precision Whether to enable infinite precision for
   #   the instance.
   #
   # @return [Money]
@@ -305,23 +307,19 @@ class Money
   #   Money.new(100, "USD") #=> #<Money @fractional=100 @currency="USD">
   #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
   #
-  def initialize(
-    obj, currency = Money.default_currency, bank = Money.default_bank,
-    infinite_precision = nil
-  )
-    @infinite_precision =
-      if infinite_precision.nil?
-        if obj.respond_to?(:infinite_precision?) then obj.infinite_precision?
-        else self.class.default_infinite_precision
-        end
-      else
-        infinite_precision
-      end
+  def initialize( obj, currency = Money.default_currency, options = {})
+    # For backwards compatability, if options is not a Hash, treat it as a bank parameter
+    unless options.is_a?(Hash)
+      options = { bank: options }
+    end
 
     @fractional = as_d(obj.respond_to?(:fractional) ? obj.fractional : obj)
     @currency   = obj.respond_to?(:currency) ? obj.currency : Currency.wrap(currency)
     @currency ||= Money.default_currency
-    @bank       = obj.respond_to?(:bank) ? obj.bank : bank
+    @bank       = obj.respond_to?(:bank) ? obj.bank : options[:bank]
+    @bank     ||= Money.default_bank
+    @infinite_precision = obj.respond_to?(:infinite_precision?) ? obj.infinite_precision? : options[:infinite_precision]
+    @infinite_precision = self.class.default_infinite_precision if @infinite_precision.nil?
 
     # BigDecimal can be Infinity and NaN, money of that amount does not make sense
     raise ArgumentError, 'must be initialized with a finite value' unless @fractional.finite?
@@ -420,13 +418,13 @@ class Money
   def to_precise
     return self if infinite_precision?
 
-    self.class.new(fractional, currency, bank, true)
+    self.class.new(fractional, currency, { bank: bank, infinite_precision: true })
   end
 
   def to_rounding
     return self unless infinite_precision?
 
-    self.class.new(fractional, currency, bank, false)
+    self.class.new(fractional, currency, { bank: bank, infinite_precision: false })
   end
 
   # Returns the amount of money as a string.
@@ -486,7 +484,7 @@ class Money
     if !new_currency || currency == new_currency
       self
     else
-      self.class.new(fractional, new_currency, bank, infinite_precision?)
+      self.class.new(fractional, new_currency, { bank: bank, infinite_precision: infinite_precision? })
     end
   end
 
@@ -636,7 +634,7 @@ class Money
   private
 
   def dup_with_new_fractional(new_fractional)
-    self.class.new(new_fractional, currency, bank, infinite_precision?)
+    self.class.new(new_fractional, currency, { bank: bank, infinite_precision: infinite_precision? })
   end
 
   def as_d(num)
