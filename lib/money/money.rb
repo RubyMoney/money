@@ -644,8 +644,9 @@ class Money
 
   private
 
-  def dup_with_new_fractional(new_fractional)
-    self.class.new(new_fractional, currency, { bank: bank, infinite_precision: infinite_precision? })
+  def dup_with_new_fractional(new_fractional, infinite_precision = nil)
+    infinite_precision = self.infinite_precision? if infinite_precision.nil?
+    self.class.new(new_fractional, currency, { bank: bank, infinite_precision: infinite_precision })
   end
 
   def as_d(num)
