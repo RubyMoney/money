@@ -320,6 +320,7 @@ class Money
     @bank     ||= Money.default_bank
     @infinite_precision = obj.respond_to?(:infinite_precision?) ? obj.infinite_precision? : options[:infinite_precision]
     @infinite_precision = self.class.default_infinite_precision if @infinite_precision.nil?
+    @infinite_precision = !!@infinite_precision # ensure we have a boolean
 
     # BigDecimal can be Infinity and NaN, money of that amount does not make sense
     raise ArgumentError, 'must be initialized with a finite value' unless @fractional.finite?
@@ -405,7 +406,7 @@ class Money
   end
 
   def infinite_precision?
-    !!@infinite_precision
+    @infinite_precision
   end
 
   # Common inspect function
