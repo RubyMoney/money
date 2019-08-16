@@ -213,6 +213,18 @@ describe Money::Arithmetic do
       expect(Money.new(10_00) + 0).to eq Money.new(10_00)
     end
 
+    it "preserves the highest precision of the operands" do
+      high_precision_money = Money.new(10.7654, "USD", { infinite_precision: true })
+      low_precision_money = Money.new(10, "USD", { infinite_precision: false })
+      answer_money = Money.new(20.7654, "USD", { infinite_precision: true })
+      expect((high_precision_money + low_precision_money).infinite_precision?).to eq true
+      expect(high_precision_money + low_precision_money).to eq answer_money
+      expect((low_precision_money + high_precision_money).infinite_precision?).to eq true
+      expect(low_precision_money + high_precision_money).to eq answer_money
+      expect((low_precision_money + low_precision_money).infinite_precision?).to eq false
+      expect(low_precision_money + low_precision_money).to eq Money.new(20, "USD", { infinite_precision: false })
+    end
+
     it "preserves the class in the result when using a subclass of Money" do
       special_money_class = Class.new(Money)
       expect(special_money_class.new(10_00, "USD") + Money.new(90, "USD")).to be_a special_money_class
@@ -242,6 +254,17 @@ describe Money::Arithmetic do
 
     it "subtract Integer 0 to money and returns the same ammount" do
       expect(Money.new(10_00) - 0).to eq Money.new(10_00)
+    end
+
+    it "preserves the highest precision of the operands" do
+      high_precision_money = Money.new(10.7654, "USD", { infinite_precision: true })
+      low_precision_money = Money.new(10, "USD", { infinite_precision: false })
+      expect((high_precision_money - low_precision_money).infinite_precision?).to eq true
+      expect(high_precision_money - low_precision_money).to eq Money.new(0.7654, "USD", { infinite_precision: true })
+      expect((low_precision_money - high_precision_money).infinite_precision?).to eq true
+      expect(low_precision_money - high_precision_money).to eq Money.new(-0.7654, "USD", { infinite_precision: true })
+      expect((low_precision_money - low_precision_money).infinite_precision?).to eq false
+      expect(low_precision_money - low_precision_money).to eq Money.new(0, "USD", { infinite_precision: false })
     end
 
     it "preserves the class in the result when using a subclass of Money" do
@@ -374,7 +397,7 @@ describe Money::Arithmetic do
       end
     end
 
-    context "with infinite_precision", :infinite_precision do
+    context "with infinite_precision", :default_infinite_precision_true do
       it "uses BigDecimal division" do
         ts = [
           {a: Money.new( 13, :USD), b: 4, c: Money.new( 3.25, :USD)},
@@ -429,7 +452,7 @@ describe Money::Arithmetic do
       end
     end
 
-    context "with infinite_precision", :infinite_precision do
+    context "with infinite_precision", :default_infinite_precision_true do
       it "uses BigDecimal division" do
         ts = [
           {a: Money.new( 13, :USD), b: 4, c: Money.new( 3.25, :USD)},
@@ -482,13 +505,25 @@ describe Money::Arithmetic do
       end
     end
 
-    context "with infinite_precision", :infinite_precision do
+    context "with infinite_precision", :default_infinite_precision_true do
       it "uses BigDecimal division" do
         ts = [
             {a: Money.new( 13, :USD), b: 4, c: [Money.new( 3, :USD), Money.new( 1, :USD)]},
             {a: Money.new( 13, :USD), b: -4, c: [Money.new(-4, :USD), Money.new(-3, :USD)]},
             {a: Money.new(-13, :USD), b: 4, c: [Money.new(-4, :USD), Money.new( 3, :USD)]},
             {a: Money.new(-13, :USD), b: -4, c: [Money.new( 3, :USD), Money.new(-1, :USD)]},
+        ]
+        ts.each do |t|
+          expect(t[:a].divmod(t[:b])).to eq t[:c]
+        end
+      end
+    end
+
+    context "with mixed precision" do
+      it "it maintains infinite precision" do
+        ts = [
+          {a: Money.new( 12.99, :USD, {infinite_precision: true}), b: Money.new( 3, :USD), c: [ BigDecimal(4), Money.new( 0.99, :USD, {infinite_precision: true})]},
+          {a: Money.new( 13, :USD), b: Money.new(3.5, :USD, {infinite_precision: true}), c: [ BigDecimal(3), Money.new(2.5, :USD, {infinite_precision: true})]},
         ]
         ts.each do |t|
           expect(t[:a].divmod(t[:b])).to eq t[:c]

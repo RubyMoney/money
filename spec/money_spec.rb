@@ -118,7 +118,7 @@ describe Money do
 
     context "with infinite_precision on the instance only" do
       let(:initializing_value) { 1.50 }
-      subject(:money) { Money.new(initializing_value, nil, nil, true) }
+      subject(:money) { Money.new(initializing_value, nil, { infinite_precision: true }) }
 
       it "should have the correct cents" do
         expect(money.cents).to eq BigDecimal('1.50')
@@ -192,10 +192,10 @@ describe Money do
 
     it  "does not round the given amount when infinite_precision is set " \
         "on the instance" do
-      expect(Money.from_amount(4.444, "USD", nil, true).amount).to eq "4.444".to_d
-      expect(Money.from_amount(5.555, "USD", nil, true).amount).to eq "5.555".to_d
-      expect(Money.from_amount(444.4, "JPY", nil, true).amount).to eq "444.4".to_d
-      expect(Money.from_amount(555.5, "JPY", nil, true).amount).to eq "555.5".to_d
+      expect(Money.from_amount(4.444, "USD", { infinite_precision: true }).amount).to eq "4.444".to_d
+      expect(Money.from_amount(5.555, "USD", { infinite_precision: true }).amount).to eq "5.555".to_d
+      expect(Money.from_amount(444.4, "JPY", { infinite_precision: true }).amount).to eq "444.4".to_d
+      expect(Money.from_amount(555.5, "JPY", { infinite_precision: true }).amount).to eq "555.5".to_d
     end
 
     it "accepts an optional currency" do
@@ -431,7 +431,7 @@ YAML
       end
 
       it "returns a BigDecimal when infinite_precision is set on instance" do
-        money = Money.new(100, "EUR", nil, true)
+        money = Money.new(100, "EUR", { infinite_precision: true })
         expect(money.round_to_nearest_cash_value).to be_a BigDecimal
       end
     end
@@ -444,7 +444,7 @@ YAML
       end
 
       it "returns an Integer when infinite_precision is set to false on instance" do
-        money = Money.new(100, "EUR", nil, false)
+        money = Money.new(100, "EUR", { infinite_precision: false })
         expect(money.round_to_nearest_cash_value).to be_a Integer
       end
     end

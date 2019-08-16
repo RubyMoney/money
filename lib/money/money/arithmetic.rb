@@ -132,7 +132,8 @@ class Money
         when Money
           other = other.exchange_to(currency)
           new_fractional = fractional.public_send(op, other.fractional)
-          dup_with_new_fractional(new_fractional)
+          infinite_precision = self.infinite_precision? || other.infinite_precision?
+          dup_with_new_fractional(new_fractional, infinite_precision )
         when CoercedNumeric
           raise TypeError, non_zero_message.call(other.value) unless other.zero?
           dup_with_new_fractional(other.value.public_send(op, fractional))
@@ -226,7 +227,8 @@ class Money
     def divmod_money(val)
       cents = val.exchange_to(currency).cents
       quotient, remainder = fractional.divmod(cents)
-      [quotient, dup_with_new_fractional(remainder)]
+      infinite_precision = self.infinite_precision? || val.infinite_precision?
+      [quotient, dup_with_new_fractional(remainder, infinite_precision)]
     end
     private :divmod_money
 

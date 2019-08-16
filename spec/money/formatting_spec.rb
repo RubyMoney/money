@@ -173,7 +173,7 @@ describe Money, "formatting" do
         end
 
         it "displays a decimal part when infinite_precision is true on the instance" do
-          expect(Money.new(10_00.1, "VUV", nil, true).format).to eq "Vt1,000.1"
+          expect(Money.new(10_00.1, "VUV", { infinite_precision: true }).format).to eq "Vt1,000.1"
         end
       end
 
@@ -184,7 +184,7 @@ describe Money, "formatting" do
         end
 
         it "does not display a decimal part when infinite_precision is false on the instance" do
-          expect(Money.new(10_00.1, "VUV", nil, false).format).to eq "Vt1,000"
+          expect(Money.new(10_00.1, "VUV", { infinite_precision: false }).format).to eq "Vt1,000"
         end
       end
     end
