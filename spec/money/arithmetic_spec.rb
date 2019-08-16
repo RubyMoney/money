@@ -512,10 +512,6 @@ describe Money::Arithmetic do
             {a: Money.new( 13, :USD), b: -4, c: [Money.new(-4, :USD), Money.new(-3, :USD)]},
             {a: Money.new(-13, :USD), b: 4, c: [Money.new(-4, :USD), Money.new( 3, :USD)]},
             {a: Money.new(-13, :USD), b: -4, c: [Money.new( 3, :USD), Money.new(-1, :USD)]},
-            # {a: Money.new( 10, :USD), b: 3.1, c: [Money.new( 3, :USD), Money.new( 0.7, :USD)]},
-            # {a: Money.new( 10, :USD), b: -3.1 , c: [Money.new( -4, :USD), Money.new( -2.4, :USD)]},
-            # {a: Money.new( -10, :USD), b: 3.1 , c: [Money.new( -4, :USD), Money.new( 2.4, :USD)]},
-            # {a: Money.new( -10, :USD), b: -3.1 , c: [Money.new( 3, :USD), Money.new( -0.7, :USD)]},
         ]
         ts.each do |t|
           expect(t[:a].divmod(t[:b])).to eq t[:c]
