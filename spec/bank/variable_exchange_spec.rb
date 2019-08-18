@@ -20,10 +20,14 @@ describe Money::Bank::VariableExchange do
       describe 'custom store' do
         let(:custom_store) { Object.new }
 
-        let(:bank) { described_class.new(custom_store) }
-
         it 'sets #store to be custom store' do
+          bank = described_class.new(custom_store)
           expect(bank.store).to eql(custom_store)
+        end
+
+        it 'allows passing custom store as a string' do
+          bank = described_class.new('Object')
+          expect(bank.store).to eql(Object)
         end
       end
 
