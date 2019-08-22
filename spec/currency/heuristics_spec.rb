@@ -1,4 +1,4 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 describe Money::Currency::Heuristics do
   describe "#analyze_string" do

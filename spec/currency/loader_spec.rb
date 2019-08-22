@@ -1,4 +1,4 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 describe Money::Currency::Loader do
   it "returns a currency table hash" do

@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.0.0
+- Add `frozen_string_literal: true` pragma comment.
+
 ## 6.13.4
 - Update currency config for Zambian Kwacha (ZMW)
 - Do not modify options passed to FormattingRules

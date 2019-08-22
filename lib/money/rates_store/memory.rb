@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Money
   module RatesStore
 
@@ -91,7 +93,7 @@ class Money
         enum = Enumerator.new do |yielder|
           index.each do |key, rate|
             iso_from, iso_to = key.split(INDEX_KEY_SEPARATOR)
-            yielder.yield iso_from, iso_to, rate                  
+            yielder.yield iso_from, iso_to, rate
           end
         end
 
