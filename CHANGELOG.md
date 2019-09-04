@@ -4,13 +4,14 @@
 - Drop support of older rubies (< 2.3)
 - Add R18n locale backend
 - Remove deprecated formatting options
-- `eql?` only returns true when boths amounts and currencies match
+- `eql?` only returns true when both amounts and currencies match
 - Remove Money#use_i18n option
 - Loose i18n dependency
 - Change Money.default_currency to nil
 - Switch default rounding mode from ROUND_HALF_EVEN to ROUND_HALF_UP
 - Remove ability to call Money#rounding_mode with a block
 - Rubinius support
+- Add `frozen_string_literal: true` pragma comment.
 
 ## 6.13.4
 - Update currency config for Zambian Kwacha (ZMW)
