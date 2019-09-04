@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'money/bank/base'
 require 'money/rates_store/memory'
 require 'json'

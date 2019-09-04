@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'money/locale_backend/base'
 
 class Money

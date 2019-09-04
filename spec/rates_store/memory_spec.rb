@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Money::RatesStore::Memory do
   let(:subject) { described_class.new }
 
