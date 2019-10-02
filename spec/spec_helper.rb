@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require "coveralls"
+require 'coveralls'
 Coveralls.wear!
 
 $LOAD_PATH.unshift File.dirname(__FILE__)
-require "rspec"
-require "money"
+require 'rspec'
+require 'money'
 
-require "r18n-core"
+require 'r18n-core'
 
 Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
 

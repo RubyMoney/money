@@ -50,10 +50,10 @@ describe Money::Allocation do
         # first 2 elements will look like the last one with a '5' at the end, compensating for a
         # missing fraction
         expect(parts.map { |x| x.round(10) }).to eq([
-          BigDecimal('33.3333333333'),
-          BigDecimal('33.3333333333'),
-          BigDecimal('33.3333333333')
-        ])
+                                                      BigDecimal('33.3333333333'),
+                                                      BigDecimal('33.3333333333'),
+                                                      BigDecimal('33.3333333333')
+                                                    ])
         expect(parts.inject(0, :+)).to eq(amount)
       end
     end
@@ -124,10 +124,10 @@ describe Money::Allocation do
         # first 2 elements will look like the last one with a '5' at the end, compensating for a
         # missing fraction
         expect(parts.map { |x| x.round(10) }).to eq([
-          BigDecimal('33.3333333333'),
-          BigDecimal('33.3333333333'),
-          BigDecimal('33.3333333333')
-        ])
+                                                      BigDecimal('33.3333333333'),
+                                                      BigDecimal('33.3333333333'),
+                                                      BigDecimal('33.3333333333')
+                                                    ])
         expect(parts.inject(0, :+)).to eq(amount)
       end
     end

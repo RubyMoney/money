@@ -20,7 +20,7 @@ class Money
       result = []
       remaining_amount = amount
 
-      until parts.empty? do
+      until parts.empty?
         parts_sum = parts.inject(0, :+)
         part = parts.pop
 

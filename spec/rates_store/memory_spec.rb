@@ -11,7 +11,7 @@ describe Money::RatesStore::Memory do
   end
 
   describe 'add_rate' do
-    it "uses a mutex by default" do
+    it 'uses a mutex by default' do
       expect(subject.instance_variable_get(:@mutex)).to receive(:synchronize)
       subject.add_rate('USD', 'EUR', 1.25)
     end
@@ -33,13 +33,13 @@ describe Money::RatesStore::Memory do
     end
 
     it 'iterates over rates' do
-      expect{|b| subject.each_rate(&b)}.to yield_successive_args(['USD', 'CAD', 0.9], ['CAD', 'USD', 1.1])
+      expect { |b| subject.each_rate(&b) }.to yield_successive_args(['USD', 'CAD', 0.9], ['CAD', 'USD', 1.1])
     end
 
     it 'is an Enumeator' do
       expect(subject.each_rate).to be_kind_of(Enumerator)
-      result = subject.each_rate.each_with_object({}){|(from, to, rate),m| m[[from,to].join] = rate}
-      expect(result).to match({'USDCAD' => 0.9, 'CADUSD' => 1.1})
+      result = subject.each_rate.each_with_object({}) { |(from, to, rate), m| m[[from, to].join] = rate }
+      expect(result).to match('USDCAD' => 0.9, 'CADUSD' => 1.1)
     end
   end
 
@@ -47,15 +47,15 @@ describe Money::RatesStore::Memory do
     context 'mutex' do
       it 'uses mutex' do
         expect(subject.instance_variable_get('@mutex')).to receive(:synchronize)
-        subject.transaction{ 1 + 1 }
+        subject.transaction { 1 + 1 }
       end
 
       it 'wraps block in mutex transaction only once' do
-        expect{
+        expect do
           subject.transaction do
             subject.add_rate('USD', 'CAD', 1)
           end
-        }.not_to raise_error
+        end.not_to raise_error
       end
     end
 
@@ -64,7 +64,7 @@ describe Money::RatesStore::Memory do
 
       it 'does not use mutex' do
         expect(subject.instance_variable_get('@mutex')).not_to receive(:synchronize)
-        subject.transaction{ 1 + 1 }
+        subject.transaction { 1 + 1 }
       end
     end
   end

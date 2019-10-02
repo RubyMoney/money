@@ -2,7 +2,6 @@
 
 class Money
   module RatesStore
-
     # Class for thread-safe storage of exchange rate pairs.
     # Used by instances of +Money::Bank::VariableExchange+.
     #
@@ -13,15 +12,16 @@ class Money
     #   # iterates rates
     #   store.each_rate {|iso_from, iso_to, rate| puts "#{from} -> #{to}: #{rate}" }
     class Memory
-      INDEX_KEY_SEPARATOR = '_TO_'.freeze
+      INDEX_KEY_SEPARATOR = '_TO_'
 
       # Initializes a new +Money::RatesStore::Memory+ object.
       #
       # @param [Hash] opts Optional store options.
       # @option opts [Boolean] :without_mutex disables the usage of a mutex
       # @param [Hash] rt Optional initial exchange rate data.
-      def initialize(opts = {}, rt = {})
-        @options, @index = opts, rt
+      def initialize(opts = {}, rate = {})
+        @options = opts
+        @index = rate
         @mutex = Mutex.new
         @in_transaction = false
       end

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require "money/bank/variable_exchange"
-require "money/bank/single_currency"
-require "money/money/arithmetic"
-require "money/money/constructors"
-require "money/money/formatter"
-require "money/money/allocation"
-require "money/money/locale_backend"
+require 'money/bank/variable_exchange'
+require 'money/bank/single_currency'
+require 'money/money/arithmetic'
+require 'money/money/constructors'
+require 'money/money/formatter'
+require 'money/money/allocation'
+require 'money/money/locale_backend'
 
 # "Money is any object or record that is generally accepted as payment for
 # goods and services and repayment of debts in a given socio-economic context
@@ -69,12 +69,12 @@ class Money
   #
   # @see infinite_precision
   def round_to_nearest_cash_value
-    unless self.currency.smallest_denomination
+    unless currency.smallest_denomination
       raise UndefinedSmallestDenomination, 'Smallest denomination of this currency is not defined'
     end
 
     fractional = as_d(@fractional)
-    smallest_denomination = as_d(self.currency.smallest_denomination)
+    smallest_denomination = as_d(currency.smallest_denomination)
     rounded_value = (fractional / smallest_denomination).round(0, self.class.rounding_mode) * smallest_denomination
 
     return_value(rounded_value)
@@ -90,7 +90,6 @@ class Money
 
   # Class Methods
   class << self
-
     # @!attribute [rw] default_bank
     #   @return [Money::Bank::Base] Each Money object is associated to a bank
     #     object, which is responsible for currency exchange. This property
@@ -118,7 +117,9 @@ class Money
     #   @return [Integer] Use this to specify precision for converting Rational
     #     to BigDecimal
     attr_accessor :default_bank, :default_formatting_rules,
-      :infinite_precision, :conversion_precision, :locale_backend
+                  :infinite_precision, :conversion_precision
+
+    attr_reader :locale_backend
 
     # @attr_writer rounding_mode Use this to specify the rounding mode
     attr_writer :default_currency, :rounding_mode
@@ -229,7 +230,7 @@ class Money
   #
   # @see #initialize
   def self.from_amount(amount, currency = default_currency, bank = default_bank)
-    raise ArgumentError, "'amount' must be numeric" unless Numeric === amount
+    raise ArgumentError, "'amount' must be numeric" unless amount.is_a?(Numeric)
 
     currency = Currency.wrap(currency) || Money.default_currency
     value = amount.to_d * currency.subunit_to_unit
@@ -318,7 +319,7 @@ class Money
   # @example
   #   Money.new(100, "USD").symbol #=> "$"
   def symbol
-    currency.symbol || "¤"
+    currency.symbol || "¤" # rubocop:disable Style/StringLiterals
   end
 
   # Common inspect function
@@ -394,7 +395,7 @@ class Money
   # @return [self]
   def to_money(given_currency = nil)
     given_currency = Currency.wrap(given_currency)
-    if given_currency.nil? || self.currency == given_currency
+    if given_currency.nil? || currency == given_currency
       self
     else
       exchange_to(given_currency)
@@ -419,7 +420,7 @@ class Money
   #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
   def exchange_to(other_currency, &rounding_method)
     other_currency = Currency.wrap(other_currency)
-    if self.currency == other_currency
+    if currency == other_currency
       self
     else
       @bank.exchange_with(self, other_currency, &rounding_method)
@@ -435,7 +436,7 @@ class Money
   #   n = Money.new(100, "CAD").as_us_dollar
   #   n.currency #=> #<Money::Currency id: usd>
   def as_us_dollar
-    exchange_to("USD")
+    exchange_to('USD')
   end
 
   # Receive a money object with the same amount as the current Money object
@@ -447,7 +448,7 @@ class Money
   #   n = Money.new(100, "USD").as_ca_dollar
   #   n.currency #=> #<Money::Currency id: cad>
   def as_ca_dollar
-    exchange_to("CAD")
+    exchange_to('CAD')
   end
 
   # Receive a money object with the same amount as the current Money object
@@ -459,7 +460,7 @@ class Money
   #   n = Money.new(100, "USD").as_euro
   #   n.currency #=> #<Money::Currency id: eur>
   def as_euro
-    exchange_to("EUR")
+    exchange_to('EUR')
   end
 
   # Splits a given amount in parts without loosing pennies. The left-over pennies will be
@@ -482,7 +483,7 @@ class Money
     amounts = Money::Allocation.generate(fractional, parts, !Money.infinite_precision)
     amounts.map { |amount| self.class.new(amount, currency) }
   end
-  alias_method :split, :allocate
+  alias split allocate
 
   # Round the monetary amount to smallest unit of coinage.
   #

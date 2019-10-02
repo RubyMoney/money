@@ -3,16 +3,16 @@
 class Money
   class Currency
     module Loader
-      DATA_PATH = File.expand_path("../../../../config", __FILE__)
+      DATA_PATH = File.expand_path('../../../../config', __FILE__)
 
       class << self
         # Loads and returns the currencies stored in JSON files in the config directory.
         #
         # @return [Hash]
         def load_currencies
-          currencies = parse_currency_file("currency_iso.json")
-          currencies.merge! parse_currency_file("currency_non_iso.json")
-          currencies.merge! parse_currency_file("currency_backwards_compatible.json")
+          currencies = parse_currency_file('currency_iso.json')
+          currencies.merge! parse_currency_file('currency_non_iso.json')
+          currencies.merge! parse_currency_file('currency_backwards_compatible.json')
         end
 
         private

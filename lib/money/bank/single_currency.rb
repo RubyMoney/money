@@ -15,10 +15,9 @@ class Money
     # where exchanges happen are erroneous. Using this as the default bank
     # means that that these mistakes don't silently do the wrong thing.
     class SingleCurrency < Base
-
       # Raises a DifferentCurrencyError to remove possibility of accidentally
       # exchanging currencies
-      def exchange_with(from, to_currency, &block)
+      def exchange_with(from, to_currency)
         raise DifferentCurrencyError, "No exchanging of currencies allowed: #{from} #{from.currency} to #{to_currency}"
       end
     end

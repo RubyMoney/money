@@ -4,7 +4,6 @@ class Money
   # Provides classes that aid in the ability of exchange one currency with
   # another.
   module Bank
-
     # The lowest Money::Bank error class.
     # All Money::Bank errors should inherit from it.
     class Error < StandardError
@@ -14,7 +13,6 @@ class Money
     # for specified currencies.
     class UnknownRate < Error
     end
-
 
     # Money::Bank::Base is the basic interface for creating a money exchange
     # object, also called Bank.
@@ -40,12 +38,11 @@ class Money
     #  +Money::Bank+ class. You can also override +#setup+ instead of
     #  +#initialize+ to setup initial variables, etc.
     class Base
-
       # Returns the singleton instance of the Base bank.
       #
       # @return [Money::Bank::Base]
       def self.instance
-        @singleton ||= self.new
+        @instance ||= new
       end
 
       # The rounding method to use when exchanging rates.
@@ -81,8 +78,7 @@ class Money
       #  +Money::Bank+ class.
       #
       # @return [self]
-      def setup
-      end
+      def setup; end
 
       # Exchanges the given +Money+ object to a new +Money+ object in
       # +to_currency+.
@@ -102,8 +98,8 @@ class Money
       # @yieldreturn [Integer]
       #
       # @return [Money]
-      def exchange_with(from, to_currency, &block)
-        raise NotImplementedError, "#exchange_with must be implemented"
+      def exchange_with(_from, _to_currency)
+        raise NotImplementedError, '#exchange_with must be implemented'
       end
 
       # Given two currency strings or object, checks whether they're both the

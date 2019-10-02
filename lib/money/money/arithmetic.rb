@@ -53,9 +53,11 @@ class Money
     def <=>(other)
       unless other.is_a?(Money)
         return unless other.respond_to?(:zero?) && other.zero?
+
         return other.is_a?(CoercedNumeric) ? 0 <=> fractional : fractional <=> 0
       end
       return 0 if zero? && other.zero?
+
       other = other.exchange_to(currency)
       fractional <=> other.fractional
     rescue Money::Bank::UnknownRate
@@ -67,6 +69,7 @@ class Money
       if other.is_a?(Numeric) && !other.zero?
         raise ArgumentError, 'Money#== supports only zero numerics'
       end
+
       super
     end
 
@@ -120,7 +123,7 @@ class Money
     #
     # @example
     #   Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
-    [:+, :-].each do |op|
+    %i[+ -].each do |op|
       non_zero_message = lambda do |value|
         "Can't add or subtract a non-zero #{value.class.name} value"
       end
@@ -133,9 +136,11 @@ class Money
           self.class.new(new_fractional, currency, bank)
         when CoercedNumeric
           raise TypeError, non_zero_message.call(other.value) unless other.zero?
+
           self.class.new(other.value.public_send(op, fractional), currency)
         when Numeric
           raise TypeError, non_zero_message.call(other) unless other.zero?
+
           self
         else
           raise TypeError, "Unsupported argument type: #{other.class.name}"
@@ -157,12 +162,12 @@ class Money
     # @example
     #   Money.new(100) * 2 #=> #<Money @fractional=200>
     #
-    def *(value)
-      value = value.value if value.is_a?(CoercedNumeric)
-      if value.is_a? Numeric
-        self.class.new(fractional * value, currency, bank)
+    def *(other)
+      other = other.value if other.is_a?(CoercedNumeric)
+      if other.is_a? Numeric
+        self.class.new(fractional * other, currency, bank)
       else
-        raise TypeError, "Can't multiply a #{self.class.name} by a #{value.class.name}'s value"
+        raise TypeError, "Can't multiply a #{self.class.name} by a #{other.class.name}'s value"
       end
     end
 
@@ -181,12 +186,13 @@ class Money
     #   Money.new(100) / 10            #=> #<Money @fractional=10>
     #   Money.new(100) / Money.new(10) #=> 10.0
     #
-    def /(value)
-      if value.is_a?(self.class)
-        fractional / as_d(value.exchange_to(currency).fractional).to_f
+    def /(other)
+      if other.is_a?(self.class)
+        fractional / as_d(other.exchange_to(currency).fractional).to_f
       else
-        raise TypeError, 'Can not divide by Money' if value.is_a?(CoercedNumeric)
-        self.class.new(fractional / as_d(value), currency, bank)
+        raise TypeError, 'Can not divide by Money' if other.is_a?(CoercedNumeric)
+
+        self.class.new(fractional / as_d(other), currency, bank)
       end
     end
 
@@ -221,19 +227,6 @@ class Money
       end
     end
 
-    def divmod_money(val)
-      cents = val.exchange_to(currency).cents
-      quotient, remainder = fractional.divmod(cents)
-      [quotient, self.class.new(remainder, currency, bank)]
-    end
-    private :divmod_money
-
-    def divmod_other(val)
-      quotient, remainder = fractional.divmod(as_d(val))
-      [self.class.new(quotient, currency, bank), self.class.new(remainder, currency, bank)]
-    end
-    private :divmod_other
-
     # Equivalent to +self.divmod(val)[1]+
     #
     # @param [Money, Integer] val Number take modulo with.
@@ -254,8 +247,8 @@ class Money
     # @return [Money]
     #
     # @see #modulo
-    def %(val)
-      modulo(val)
+    def %(other)
+      modulo(other)
     end
 
     # If different signs +self.modulo(val) - val+ otherwise +self.modulo(val)+
@@ -272,9 +265,9 @@ class Money
       end
 
       if (fractional < 0 && val < 0) || (fractional > 0 && val > 0)
-        self.modulo(val)
+        modulo(val)
       else
-        self.modulo(val) - (val.is_a?(Money) ? val : self.class.new(val, currency, bank))
+        modulo(val) - (val.is_a?(Money) ? val : self.class.new(val, currency, bank))
       end
     end
 
@@ -318,6 +311,19 @@ class Money
     #   2 * Money.new(10) #=> #<Money @fractional=20>
     def coerce(other)
       [self, CoercedNumeric.new(other)]
+    end
+
+    private
+
+    def divmod_money(val)
+      cents = val.exchange_to(currency).cents
+      quotient, remainder = fractional.divmod(cents)
+      [quotient, self.class.new(remainder, currency, bank)]
+    end
+
+    def divmod_other(val)
+      quotient, remainder = fractional.divmod(as_d(val))
+      [self.class.new(quotient, currency, bank), self.class.new(remainder, currency, bank)]
     end
   end
 end

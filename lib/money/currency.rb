@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-require "json"
-require "money/currency/loader"
+require 'json'
+require 'money/currency/loader'
 
 class Money
-
   # Represents a specific currency unit.
   #
   # @see https://en.wikipedia.org/wiki/Currency
@@ -79,8 +78,10 @@ class Money
       def find_by_iso_numeric(num)
         num = num.to_s.rjust(3, '0')
         return if num.empty?
-        id, _ = self.table.find { |key, currency| currency[:iso_numeric] == num }
+
+        id, = table.find { |_, currency| currency[:iso_numeric] == num }
         return nil unless id
+
         new(id)
       end
 
@@ -134,6 +135,7 @@ class Money
           if c.priority.nil?
             raise MissingAttributeError.new(:all, c.id, :priority)
           end
+
           c
         end.sort_by(&:priority)
       end
@@ -190,11 +192,11 @@ class Money
       # @return [Boolean] true if the currency previously existed, false
       #   if it didn't.
       def unregister(curr)
-        if curr.is_a?(Hash)
-          key = curr.fetch(:iso_code).downcase.to_sym
-        else
-          key = curr.downcase.to_sym
-        end
+        key = if curr.is_a?(Hash)
+                curr.fetch(:iso_code).downcase.to_sym
+              else
+                curr.downcase.to_sym
+              end
         existed = @table.delete(key)
         @stringified_keys = nil if existed
         existed ? true : false
@@ -203,7 +205,6 @@ class Money
       def each
         all.each { |c| yield(c) }
       end
-
 
       private
 
@@ -250,12 +251,12 @@ class Money
     #     this currency)
 
     attr_reader :id, :priority, :iso_code, :iso_numeric, :name, :symbol,
-      :disambiguate_symbol, :html_entity, :subunit, :subunit_to_unit, :decimal_mark,
-      :thousands_separator, :symbol_first, :smallest_denomination
+                :disambiguate_symbol, :html_entity, :subunit, :subunit_to_unit, :decimal_mark,
+                :thousands_separator, :symbol_first, :smallest_denomination
 
-    alias_method :separator, :decimal_mark
-    alias_method :delimiter, :thousands_separator
-    alias_method :eql?, :==
+    alias separator decimal_mark
+    alias delimiter thousands_separator
+    alias eql? ==
 
     # Create a new +Currency+ object.
     #
@@ -284,12 +285,12 @@ class Money
     #   c1 <=> c2 #=> 1
     #   c2 <=> c1 #=> -1
     #   c1 <=> c1 #=> 0
-    def <=>(other_currency)
+    def <=>(other)
       # <=> returns nil when one of the values is nil
-      comparison = self.priority <=> other_currency.priority || 0
+      comparison = priority <=> other.priority || 0
 
       if comparison == 0
-        self.id <=> other_currency.id
+        id <=> other.id
       else
         comparison
       end
@@ -307,19 +308,9 @@ class Money
     #   c2 = Money::Currency.new(:jpy)
     #   c1 == c1 #=> true
     #   c1 == c2 #=> false
-    def ==(other_currency)
-      self.equal?(other_currency) || compare_ids(other_currency)
+    def ==(other)
+      equal?(other) || compare_ids(other)
     end
-
-    def compare_ids(other_currency)
-      other_currency_id = if other_currency.is_a?(Currency)
-                            other_currency.id.to_s.downcase
-                          else
-                            other_currency.to_s.downcase
-                          end
-      self.id.to_s.downcase == other_currency_id
-    end
-    private :compare_ids
 
     # Returns a Integer hash value based on the +id+ attribute in order to use
     # functions like & (intersection), group_by, etc.
@@ -422,6 +413,15 @@ class Money
     alias decimal_places exponent
 
     private
+
+    def compare_ids(other_currency)
+      other_currency_id = if other_currency.is_a?(Currency)
+                            other_currency.id.to_s.downcase
+                          else
+                            other_currency.to_s.downcase
+                          end
+      id.to_s.downcase == other_currency_id
+    end
 
     def initialize_data!
       data = self.class.table[@id]

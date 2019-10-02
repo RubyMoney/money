@@ -17,9 +17,10 @@ class Money
       @rules[key]
     end
 
-    def has_key?(key)
-      @rules.has_key? key
+    def key?(key)
+      @rules.key? key
     end
+    alias has_key? key?
 
     private
 
@@ -50,7 +51,7 @@ class Money
       return rules unless defined?(::I18n)
 
       begin
-        rules[:symbol] = ::I18n.t currency.iso_code, scope: "number.currency.symbol", raise: true
+        rules[:symbol] = ::I18n.t currency.iso_code, scope: 'number.currency.symbol', raise: true
       rescue I18n::MissingTranslationData
         # Do nothing
       end
@@ -61,8 +62,8 @@ class Money
     def localize_formatting_rules(rules)
       return rules unless defined?(::I18n)
 
-      if currency.iso_code == "JPY" && ::I18n.locale == :ja
-        rules[:symbol] = "円" unless rules[:symbol] == false
+      if currency.iso_code == 'JPY' && ::I18n.locale == :ja
+        rules[:symbol] = '円' unless rules[:symbol] == false
         rules[:format] = '%n%u'
       end
 

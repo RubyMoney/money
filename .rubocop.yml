@@ -1,0 +1,92 @@
+# It makes a lot of sense for Money to be formated like 1000_00 to indicate
+# cents split postion. Therefore let's disable this check.
+Style/NumericLiterals:
+  Enabled: false
+
+# We want to check that prefixes work.
+Style/NumericLiteralPrefix:
+  Enabled: false
+
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+
+Style/YodaCondition:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/ClassVars:
+  Enabled: false
+
+# Don't break support for older ruby verions
+Style/SafeNavigation:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/ExpandPathArguments:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+# Makes sense for code and amount formatting in specs.
+Layout/SpaceInsideParens:
+  Enabled: false
+
+# Makes sense for code and amount formatting in specs.
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+# safe_load does break the specs, so let's ignore it for backward compatibility
+Security/YAMLLoad:
+  Enabled: false
+
+Security/MarshalLoad:
+  Enabled: false
+
+Security/JSONLoad:
+  Enabled: false
+
+# There are cases like I18n::MissingTranslationData where its ok to suppress
+# exceptions
+Lint/HandleExceptions:
+  Enabled: false
+
+Bundler/DuplicatedGem:
+  Enabled: false

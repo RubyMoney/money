@@ -183,6 +183,7 @@ class Money
 
     def to_s
       return free_text if show_free_text?
+
       result = format_number
       formatted = append_sign(result)
       append_currency_symbol(formatted)
@@ -196,8 +197,8 @@ class Money
       lookup :decimal_mark
     end
 
-    alias_method :delimiter, :thousands_separator
-    alias_method :separator, :decimal_mark
+    alias delimiter thousands_separator
+    alias separator decimal_mark
 
     private
 
@@ -213,12 +214,12 @@ class Money
       # Assemble the final formatted amount
       if rules[:html_wrap]
         if decimal_part.nil?
-          html_wrap(whole_part, "whole")
+          html_wrap(whole_part, 'whole')
         else
           [
-            html_wrap(whole_part, "whole"),
-            html_wrap(decimal_mark, "decimal-mark"),
-            html_wrap(decimal_part, "decimal")
+            html_wrap(whole_part, 'whole'),
+            html_wrap(decimal_mark, 'decimal-mark'),
+            html_wrap(decimal_part, 'decimal')
           ].join
         end
       else
@@ -229,7 +230,7 @@ class Money
     def append_sign(formatted_number)
       sign = money.negative? ? '-' : ''
 
-      if rules[:sign_positive] == true && money.positive?
+      if rules[:sign_positive] == true && money > 0
         sign = '+'
       end
 
@@ -242,26 +243,26 @@ class Money
 
       if symbol_value && !symbol_value.empty?
         if rules[:html_wrap]
-          symbol_value = html_wrap(symbol_value, "currency-symbol")
+          symbol_value = html_wrap(symbol_value, 'currency-symbol')
         end
 
         lookup(:format)
           .gsub('%u', [sign_before, symbol_value].join)
           .gsub('%n', [sign, formatted_number].join)
       else
-        formatted_number = "#{sign_before}#{sign}#{formatted_number}"
+        "#{sign_before}#{sign}#{formatted_number}"
       end
     end
 
     def append_currency_symbol(formatted_number)
       if rules[:with_currency]
-        formatted_number << " "
+        formatted_number << ' '
 
-        if rules[:html_wrap]
-          formatted_number << html_wrap(currency.to_s, "currency")
-        else
-          formatted_number << currency.to_s
-        end
+        formatted_number << if rules[:html_wrap]
+                              html_wrap(currency.to_s, 'currency')
+                            else
+                              currency.to_s
+                            end
       end
       formatted_number
     end
@@ -311,7 +312,7 @@ class Money
     end
 
     def lookup(key)
-      return rules[key] || DEFAULTS[key] if rules.has_key?(key)
+      return rules[key] || DEFAULTS[key] if rules.key?(key)
 
       (Money.locale_backend && Money.locale_backend.lookup(key, currency)) || DEFAULTS[key]
     end
@@ -326,8 +327,8 @@ class Money
     end
 
     def symbol_value_from(rules)
-      if rules.has_key?(:symbol)
-        if rules[:symbol] === true
+      if rules.key?(:symbol)
+        if rules[:symbol] == true
           if rules[:disambiguate] && currency.disambiguate_symbol
             currency.disambiguate_symbol
           else
@@ -336,7 +337,7 @@ class Money
         elsif rules[:symbol]
           rules[:symbol]
         else
-          ""
+          ''
         end
       elsif rules[:html_wrap]
         currency.html_entity == '' ? currency.symbol : currency.html_entity
