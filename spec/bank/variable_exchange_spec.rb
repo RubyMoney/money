@@ -149,7 +149,7 @@ describe Money::Bank::VariableExchange do
 
     it "delegates options to store, options are a no-op" do
       expect(subject.store).to receive(:get_rate).with('USD', 'EUR')
-      subject.get_rate('USD', 'EUR', without_mutex: true)
+      subject.get_rate('USD', 'EUR')
     end
   end
 

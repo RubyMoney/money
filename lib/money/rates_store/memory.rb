@@ -1,3 +1,5 @@
+require 'monitor'
+
 class Money
   module RatesStore
 
@@ -18,10 +20,10 @@ class Money
       # @param [Hash] opts Optional store options.
       # @option opts [Boolean] :without_mutex disables the usage of a mutex
       # @param [Hash] rt Optional initial exchange rate data.
-      def initialize(opts = {}, rt = {})
-        @options, @index = opts, rt
-        @mutex = Mutex.new
-        @in_transaction = false
+      def initialize(opts = {}, rates = {})
+        @rates = rates
+        @options = opts
+        @guard = Monitor.new
       end
 
       # Registers a conversion rate and returns it. Uses +Mutex+ to synchronize data access.
@@ -37,7 +39,9 @@ class Money
       #   store.add_rate("USD", "CAD", 1.24515)
       #   store.add_rate("CAD", "USD", 0.803115)
       def add_rate(currency_iso_from, currency_iso_to, rate)
-        transaction { index[rate_key_for(currency_iso_from, currency_iso_to)] = rate }
+        @guard.synchronize do
+          @rates[rate_key_for(currency_iso_from, currency_iso_to)] = rate
+        end
       end
 
       # Retrieve the rate for the given currencies. Uses +Mutex+ to synchronize data access.
@@ -54,24 +58,21 @@ class Money
       #
       #   store.get_rate("USD", "CAD") #=> 1.24515
       def get_rate(currency_iso_from, currency_iso_to)
-        transaction { index[rate_key_for(currency_iso_from, currency_iso_to)] }
+        @guard.synchronize do
+          @rates[rate_key_for(currency_iso_from, currency_iso_to)]
+        end
       end
 
       def marshal_dump
-        [self.class, options, index]
+        @guard.synchronize do
+          return [self.class, @options, @rates.dup]
+        end
       end
 
       # Wraps block execution in a thread-safe transaction
       def transaction(&block)
-        if @in_transaction || options[:without_mutex]
-          block.call self
-        else
-          @mutex.synchronize do
-            @in_transaction = true
-            result = block.call
-            @in_transaction = false
-            result
-          end
+        @guard.synchronize do
+          yield
         end
       end
 
@@ -88,19 +89,17 @@ class Money
       #     puts [iso_from, iso_to, rate].join
       #   end
       def each_rate(&block)
-        enum = Enumerator.new do |yielder|
-          index.each do |key, rate|
+        return to_enum(:each_rate) unless block_given?
+
+        @guard.synchronize do
+          @rates.each do |key, rate|
             iso_from, iso_to = key.split(INDEX_KEY_SEPARATOR)
-            yielder.yield iso_from, iso_to, rate                  
+            yield iso_from, iso_to, rate
           end
         end
-
-        block_given? ? enum.each(&block) : enum
       end
 
       private
-
-      attr_reader :index, :options
 
       # Return the rate hashkey for the given currencies.
       #
