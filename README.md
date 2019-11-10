@@ -21,7 +21,7 @@ A Ruby Library for dealing with money and currency conversion.
 
 ### Features
 
-- Provides a `Money` class which encapsulates all information about an certain
+- Provides a `Money` class which encapsulates all information about a certain
   amount of money, such as its value and its currency.
 - Provides a `Money::Currency` class which encapsulates all information about
   a monetary unit.
