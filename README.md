@@ -334,6 +334,8 @@ end
 Now you can use it with the default bank.
 
 ```ruby
+# For Rails 6 pass model name as a string to make it compatible with zeitwerk
+# Money.default_bank = Money::Bank::VariableExchange.new("ExchangeRate")
 Money.default_bank = Money::Bank::VariableExchange.new(ExchangeRate)
 
 # Add to the underlying store

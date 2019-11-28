@@ -42,7 +42,7 @@ class Money
     #   bank.get_rate 'USD', 'CAD'
     class VariableExchange < Base
 
-      attr_reader :mutex, :store
+      attr_reader :mutex
 
       # Available formats for importing/exporting rates.
       RATE_FORMATS = [:json, :ruby, :yaml].freeze
@@ -59,6 +59,10 @@ class Money
       def initialize(st = Money::RatesStore::Memory.new, &block)
         @store = st
         super(&block)
+      end
+
+      def store
+        @store.is_a?(String) ? Object.const_get(@store) : @store
       end
 
       def marshal_dump
