@@ -1,5 +1,13 @@
 # Changelog
 
+## 6.13.5
+- Raise warning on using Money.default_currency
+- Raise warning on using default Money.rounding_mode
+- Add Second Ouguiya MRU 929 to currency iso file
+- Add symbol for UZS
+- Use monitor for recursive mutual exclusion in RatesStore::Memory
+- Allow passing store as a string to Money::Bank::VariableExchange (to support Rails 6)
+
 ## 6.13.4
 - Update currency config for Zambian Kwacha (ZMW)
 - Do not modify options passed to FormattingRules
