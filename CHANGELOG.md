@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.13.6
+- Fix a regression introduced in 6.13.5 that broken RatesStore::Memory subclasses
+
 ## 6.13.5
 - Raise warning on using Money.default_currency
 - Raise warning on using default Money.rounding_mode

@@ -1,3 +1,3 @@
 class Money
-  VERSION = '6.13.5'
+  VERSION = '6.13.6'
 end
