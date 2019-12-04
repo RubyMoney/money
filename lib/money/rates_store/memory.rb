@@ -39,8 +39,8 @@ class Money
       #   store.add_rate("USD", "CAD", 1.24515)
       #   store.add_rate("CAD", "USD", 0.803115)
       def add_rate(currency_iso_from, currency_iso_to, rate)
-        @guard.synchronize do
-          @rates[rate_key_for(currency_iso_from, currency_iso_to)] = rate
+        guard.synchronize do
+          rates[rate_key_for(currency_iso_from, currency_iso_to)] = rate
         end
       end
 
@@ -58,20 +58,20 @@ class Money
       #
       #   store.get_rate("USD", "CAD") #=> 1.24515
       def get_rate(currency_iso_from, currency_iso_to)
-        @guard.synchronize do
-          @rates[rate_key_for(currency_iso_from, currency_iso_to)]
+        guard.synchronize do
+          rates[rate_key_for(currency_iso_from, currency_iso_to)]
         end
       end
 
       def marshal_dump
-        @guard.synchronize do
-          return [self.class, @options, @rates.dup]
+        guard.synchronize do
+          return [self.class, options, rates.dup]
         end
       end
 
       # Wraps block execution in a thread-safe transaction
       def transaction(&block)
-        @guard.synchronize do
+        guard.synchronize do
           yield
         end
       end
@@ -91,8 +91,8 @@ class Money
       def each_rate(&block)
         return to_enum(:each_rate) unless block_given?
 
-        @guard.synchronize do
-          @rates.each do |key, rate|
+        guard.synchronize do
+          rates.each do |key, rate|
             iso_from, iso_to = key.split(INDEX_KEY_SEPARATOR)
             yield iso_from, iso_to, rate
           end
@@ -100,6 +100,8 @@ class Money
       end
 
       private
+
+      attr_reader :rates, :options, :guard
 
       # Return the rate hashkey for the given currencies.
       #
