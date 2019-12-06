@@ -884,6 +884,7 @@ YAML
   end
 
   describe ".default_currency" do
+    before { Money.setup_defaults }
     after { Money.setup_defaults }
 
     it "accepts a lambda" do
@@ -914,6 +915,7 @@ YAML
   end
 
   describe ".rounding_mode" do
+    before { Money.setup_defaults }
     after { Money.setup_defaults }
 
     it 'warns about changing default rounding_mode value' do
