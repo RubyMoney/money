@@ -134,6 +134,7 @@ class Money
     if @using_deprecated_default_currency
       warn '[WARNING] The default currency will change to `nil` in the next major release. Make ' \
            'sure to set it explicitly using `Money.default_currency=` to avoid potential issues'
+      @using_deprecated_default_currency = false
     end
 
     if @default_currency.respond_to?(:call)
@@ -215,6 +216,7 @@ class Money
     if @using_deprecated_default_rounding_mode
       warn '[WARNING] The default rounding mode will change to `ROUND_HALF_UP` in the next major ' \
            'release. Set it explicitly using `Money.rounding_mode=` to avoid potential problems.'
+      @using_deprecated_default_rounding_mode = false
     end
 
     @rounding_mode
