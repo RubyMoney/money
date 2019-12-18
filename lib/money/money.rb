@@ -232,12 +232,14 @@ class Money
     @rounding_mode
   end
 
-  # This method temporarily changes the rounding mode. It will then return the
-  # results of the block instead.
+  # Temporarily changes the rounding mode in a given block.
   #
   # @param [BigDecimal::ROUND_MODE] mode
   #
-  # @return [BigDecimal::ROUND_MODE,Yield] block results
+  # @yield The block within which rounding mode will be changed. Its return
+  #   value will also be the return value of the whole method.
+  #
+  # @return [Object] block results
   #
   # @example
   #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_UP) do
