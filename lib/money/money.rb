@@ -103,7 +103,7 @@ class Money
     #     merged with the default ones.  To overwrite a rule, just provide the
     #     intended value while calling +format+.
     #
-    #   @see +Money::Formatting#format+ for more details.
+    #   @see Money::Formatter#initialize Money::Formatter for more details
     #
     #   @example
     #     Money.default_formatting_rules = { display_free: true }
