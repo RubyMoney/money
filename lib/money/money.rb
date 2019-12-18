@@ -579,7 +579,7 @@ class Money
 
   # Creates a formatted price string according to several rules.
   #
-  # @param [Hash] See Money::Formatter for the list of formatting options
+  # @param [Hash] rules See {Money::Formatter Money::Formatter} for the list of formatting options
   #
   # @return [String]
   #
