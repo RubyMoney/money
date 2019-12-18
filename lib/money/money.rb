@@ -91,17 +91,21 @@ class Money
   class << self
 
     # @!attribute [rw] default_bank
-    #   @return [Money::Bank::Base] Each Money object is associated with a bank
-    #     object, which is responsible for currency exchange. This property
-    #     allows you to specify the default bank object. The default value for
-    #     this property is an instance of +Bank::VariableExchange.+ It allows
-    #     one to specify custom exchange rates.
+    #   Used to set a default bank for currency exchange.
+    #
+    #   Each Money object is associated with a bank
+    #   object, which is responsible for currency exchange. This property
+    #   allows you to specify the default bank object. The default value for
+    #   this property is an instance of +Bank::VariableExchange.+ It allows
+    #   one to specify custom exchange rates.
+    #
+    #   @return [Money::Bank::Base]
     #
     # @!attribute default_formatting_rules
-    #   @return [Hash] Use this to define a default hash of rules for every time
-    #     +Money#format+ is called.  Rules provided on method call will be
-    #     merged with the default ones.  To overwrite a rule, just provide the
-    #     intended value while calling +format+.
+    #   Used to define a default hash of rules for every time
+    #   +Money#format+ is called.  Rules provided on method call will be
+    #   merged with the default ones.  To overwrite a rule, just provide the
+    #   intended value while calling +format+.
     #
     #   @see Money::Formatter#initialize Money::Formatter for more details
     #
@@ -110,16 +114,22 @@ class Money
     #     Money.new(0, "USD").format                          # => "free"
     #     Money.new(0, "USD").format(display_free: false)  # => "$0.00"
     #
+    #   @return [Hash]
+    #
     # @!attribute [rw] use_i18n
-    #   @return [Boolean] Use this to disable i18n even if it's used by other
-    #     objects in your app.
+    #   Used to disable i18n even if it's used by other components of your app.
+    #
+    #   @return [Boolean]
     #
     # @!attribute [rw] infinite_precision
-    #   @return [Boolean] Use this to enable infinite precision cents
+    #   Used to enable infinite precision cents
+    #
+    #   @return [Boolean]
     #
     # @!attribute [rw] conversion_precision
-    #   @return [Integer] Use this to specify precision for converting Rational
-    #     to BigDecimal
+    #   Used to specify precision for converting Rational to BigDecimal
+    #
+    #   @return [Integer]
     attr_accessor :default_bank, :default_formatting_rules,
       :use_i18n, :infinite_precision, :conversion_precision,
       :locale_backend
