@@ -57,7 +57,7 @@
 - Wrap all amount parts when `:html_wrap` option is used
 - Deprecate `#currency_as_string` and `#currency_as_string=` (in favour of `#with_currency`)
 - Add `#with_currency` for swapping the currency
-- Rewrite allocate/split (fixing some penny loosing issues)
+- Rewrite allocate/split (fixing some penny losing issues)
 
 ## 6.11.3
 - Fix regression: if enabled use i18n locales in Money#to_s
@@ -76,7 +76,7 @@
 - Added new symbol for bitcoin denomination
 - Specify custom rounding precision when using `infinite_precision`
 - Allow splits with sums greater than 1
-- Prevent arithmetic methods from loosing reference to the bank
+- Prevent arithmetic methods from losing reference to the bank
 - Fix coerced zero numeric subtraction
 - Fix south asian formatting to support whole numbers
 - Refactor formatting logic

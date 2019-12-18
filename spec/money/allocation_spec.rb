@@ -18,7 +18,7 @@ describe Money::Allocation do
         expect(described_class.generate(100, 5)).to eq([20, 20, 20, 20, 20])
       end
 
-      it 'does not loose pennies' do
+      it 'does not lose pennies' do
         expect(described_class.generate(5, 2)).to eq([3, 2])
         expect(described_class.generate(2, 3)).to eq([1, 1, 0])
         expect(described_class.generate(100, 3)).to eq([34, 33, 33])
@@ -83,7 +83,7 @@ describe Money::Allocation do
         expect(described_class.generate(10, [0.1, 0.2, 0.1])).to eq([3, 5, 2])
       end
 
-      it 'does not loose pennies' do
+      it 'does not lose pennies' do
         expect(described_class.generate(10, [1, 1, 2])).to eq([3, 2, 5])
         expect(described_class.generate(100, [1, 1, 1])).to eq([34, 33, 33])
       end

@@ -2,9 +2,9 @@
 
 class Money
   class Allocation
-    # Splits a given amount in parts without loosing pennies.
-    # The left-over pennies will be distributed round-robin amongst the parties. This means that
-    # parties listed first will likely receive more pennies than ones that are listed later.
+    # Splits a given amount in parts without losing pennies.
+    # The left-over pennies will be distributed round-robin amongst the parts. This means that
+    # parts listed first will likely receive more pennies than the ones listed later.
     #
     # The results should always add up to the original amount.
     #

@@ -91,7 +91,7 @@ class Money
   class << self
 
     # @!attribute [rw] default_bank
-    #   @return [Money::Bank::Base] Each Money object is associated to a bank
+    #   @return [Money::Bank::Base] Each Money object is associated with a bank
     #     object, which is responsible for currency exchange. This property
     #     allows you to specify the default bank object. The default value for
     #     this property is an instance of +Bank::VariableExchange.+ It allows
@@ -533,13 +533,15 @@ class Money
     exchange_to("EUR")
   end
 
-  # Splits a given amount in parts without loosing pennies. The left-over pennies will be
-  # distributed round-robin amongst the parties. This means that parties listed first will likely
-  # receive more pennies than ones that are listed later.
+  # Splits a given amount in parts without losing pennies. The left-over pennies will be
+  # distributed round-robin amongst the parties. This means that parts listed first will likely
+  # receive more pennies than ones listed later.
   #
-  # @param [Array<Numeric>, Numeric] pass [2, 1, 1] to give twice as much to party1 as party2 or
-  # party3 which results in 50% of the cash to party1, 25% to party2, and 25% to party3. Passing a
-  # number instead of an array will split the amount evenly (without loosing pennies when rounding).
+  # Pass [2, 1, 1] as input to give twice as much to part1 as part2 or
+  # part3 which results in 50% of the cash to party1, 25% to part2, and 25% to part3. Passing a
+  # number instead of an array will split the amount evenly (without losing pennies when rounding).
+  #
+  # @param [Array<Numeric>, Numeric] parts how amount should be distributed to parts
   #
   # @return [Array<Money>]
   #

@@ -78,7 +78,7 @@ describe Money::Bank::VariableExchange do
           expect(bank.exchange_with(special_money_class.new(100, 'USD'), 'EUR')).to be_a special_money_class
         end
 
-        it "doesn't loose precision when handling larger amounts" do
+        it "doesn't lose precision when handling larger amounts" do
           expect(bank.exchange_with(Money.new(100_000_000_000_000_01, 'USD'), 'EUR')).to eq Money.new(133_000_000_000_000_01, 'EUR')
         end
       end
