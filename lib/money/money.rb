@@ -91,35 +91,45 @@ class Money
   class << self
 
     # @!attribute [rw] default_bank
-    #   @return [Money::Bank::Base] Each Money object is associated to a bank
-    #     object, which is responsible for currency exchange. This property
-    #     allows you to specify the default bank object. The default value for
-    #     this property is an instance of +Bank::VariableExchange.+ It allows
-    #     one to specify custom exchange rates.
+    #   Used to set a default bank for currency exchange.
+    #
+    #   Each Money object is associated with a bank
+    #   object, which is responsible for currency exchange. This property
+    #   allows you to specify the default bank object. The default value for
+    #   this property is an instance of +Bank::VariableExchange.+ It allows
+    #   one to specify custom exchange rates.
+    #
+    #   @return [Money::Bank::Base]
     #
     # @!attribute default_formatting_rules
-    #   @return [Hash] Use this to define a default hash of rules for every time
-    #     +Money#format+ is called.  Rules provided on method call will be
-    #     merged with the default ones.  To overwrite a rule, just provide the
-    #     intended value while calling +format+.
+    #   Used to define a default hash of rules for every time
+    #   +Money#format+ is called.  Rules provided on method call will be
+    #   merged with the default ones.  To overwrite a rule, just provide the
+    #   intended value while calling +format+.
     #
-    #   @see +Money::Formatting#format+ for more details.
+    #   @see Money::Formatter#initialize Money::Formatter for more details
     #
     #   @example
     #     Money.default_formatting_rules = { display_free: true }
     #     Money.new(0, "USD").format                          # => "free"
     #     Money.new(0, "USD").format(display_free: false)  # => "$0.00"
     #
+    #   @return [Hash]
+    #
     # @!attribute [rw] use_i18n
-    #   @return [Boolean] Use this to disable i18n even if it's used by other
-    #     objects in your app.
+    #   Used to disable i18n even if it's used by other components of your app.
+    #
+    #   @return [Boolean]
     #
     # @!attribute [rw] infinite_precision
-    #   @return [Boolean] Use this to enable infinite precision cents
+    #   Used to enable infinite precision cents
+    #
+    #   @return [Boolean]
     #
     # @!attribute [rw] conversion_precision
-    #   @return [Integer] Use this to specify precision for converting Rational
-    #     to BigDecimal
+    #   Used to specify precision for converting Rational to BigDecimal
+    #
+    #   @return [Integer]
     attr_accessor :default_bank, :default_formatting_rules,
       :use_i18n, :infinite_precision, :conversion_precision,
       :locale_backend
@@ -222,12 +232,14 @@ class Money
     @rounding_mode
   end
 
-  # This method temporarily changes the rounding mode. It will then return the
-  # results of the block instead.
+  # Temporarily changes the rounding mode in a given block.
   #
   # @param [BigDecimal::ROUND_MODE] mode
   #
-  # @return [BigDecimal::ROUND_MODE,Yield] block results
+  # @yield The block within which rounding mode will be changed. Its return
+  #   value will also be the return value of the whole method.
+  #
+  # @return [Object] block results
   #
   # @example
   #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_UP) do
@@ -533,13 +545,15 @@ class Money
     exchange_to("EUR")
   end
 
-  # Splits a given amount in parts without loosing pennies. The left-over pennies will be
-  # distributed round-robin amongst the parties. This means that parties listed first will likely
-  # receive more pennies than ones that are listed later.
+  # Splits a given amount in parts without losing pennies. The left-over pennies will be
+  # distributed round-robin amongst the parties. This means that parts listed first will likely
+  # receive more pennies than ones listed later.
   #
-  # @param [Array<Numeric>, Numeric] pass [2, 1, 1] to give twice as much to party1 as party2 or
-  # party3 which results in 50% of the cash to party1, 25% to party2, and 25% to party3. Passing a
-  # number instead of an array will split the amount evenly (without loosing pennies when rounding).
+  # Pass [2, 1, 1] as input to give twice as much to part1 as part2 or
+  # part3 which results in 50% of the cash to party1, 25% to part2, and 25% to part3. Passing a
+  # number instead of an array will split the amount evenly (without losing pennies when rounding).
+  #
+  # @param [Array<Numeric>, Numeric] parts how amount should be distributed to parts
   #
   # @return [Array<Money>]
   #
@@ -577,7 +591,7 @@ class Money
 
   # Creates a formatted price string according to several rules.
   #
-  # @param [Hash] See Money::Formatter for the list of formatting options
+  # @param [Hash] rules See {Money::Formatter Money::Formatter} for the list of formatting options
   #
   # @return [String]
   #
