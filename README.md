@@ -423,7 +423,7 @@ Money.new(2.34567).round.format #=> "$0.02"
 Money.new(2.34567).round(BigDecimal::ROUND_HALF_UP, 2).format #=> "$0.0235"
 ```
 
-You can set the default rounding method by passing one the `BigDecimal` mode enumerables like so:
+You can set the default rounding mode by passing one of the `BigDecimal` mode enumerables like so:
 ```ruby
 Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
 ```
