@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.13.7
+- Improve deprecation warnings for the upcoming major release
+
 ## 6.13.6
 - Fix a regression introduced in 6.13.5 that broken RatesStore::Memory subclasses
 
