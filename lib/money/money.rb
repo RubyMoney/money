@@ -621,10 +621,11 @@ class Money
   private
 
   def dup_with(options = {})
-    fractional ||= options[:fractional] || self.fractional
-    currency ||= options[:currency] || self.currency
-    bank ||= options[:bank] || self.bank
-    self.class.new(fractional, currency, bank)
+    self.class.new(
+      options[:fractional] || fractional,
+      options[:currency] || currency,
+      options[:bank] || bank
+    )
   end
 
   def as_d(num)
