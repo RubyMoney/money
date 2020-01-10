@@ -565,7 +565,7 @@ class Money
   #
   def allocate(parts)
     amounts = Money::Allocation.generate(fractional, parts, !Money.infinite_precision)
-    amounts.map { |amount| self.class.new(amount, currency) }
+    amounts.map { |amount| dup_with(fractional: amount) }
   end
   alias_method :split, :allocate
 
@@ -586,7 +586,7 @@ class Money
   #
   def round(rounding_mode = self.class.rounding_mode, rounding_precision = 0)
     rounded_amount = as_d(@fractional).round(rounding_precision, rounding_mode)
-    self.class.new(rounded_amount, currency, bank)
+    dup_with(fractional: rounded_amount)
   end
 
   # Creates a formatted price string according to several rules.
@@ -618,6 +618,13 @@ class Money
   end
 
   private
+
+  def dup_with(fractional: nil, currency: nil, bank: nil)
+    fractional ||= self.fractional
+    currency ||= self.currency
+    bank ||= self.bank
+    self.class.new(fractional, currency, bank)
+  end
 
   def as_d(num)
     if num.respond_to?(:to_d)
