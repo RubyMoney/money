@@ -170,7 +170,7 @@ describe Money, "formatting" do
         expect(Money.new(10_00.1, "VUV").format).to eq "Vt1,000"
       end
 
-      it "displays a decimal part when infinite_precision is true", :infinite_precision do
+      it "displays a decimal part when infinite_precision is true", :default_infinite_precision_true do
         expect(Money.new(10_00.1, "VUV").format).to eq "Vt1,000.1"
       end
     end
@@ -609,7 +609,7 @@ describe Money, "formatting" do
       end
     end
 
-    describe ":rounded_infinite_precision option", :infinite_precision do
+    describe ":rounded_infinite_precision option", :default_infinite_precision_true do
       it "does round fractional when set to true" do
         expect(Money.new(BigDecimal('12.1'), "USD").format(rounded_infinite_precision: true)).to eq "$0.12"
         expect(Money.new(BigDecimal('12.5'), "USD").format(rounded_infinite_precision: true)).to eq "$0.13"
