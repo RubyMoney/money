@@ -21,11 +21,23 @@ end
 
 RSpec.shared_context "with infinite precision", :default_infinite_precision_true do
   before do
+    @previous_infinite_precision = Money.default_infinite_precision
     Money.default_infinite_precision = true
   end
 
   after do
+    Money.default_infinite_precision = @previous_infinite_precision
+  end
+end
+
+RSpec.shared_context "with infinite precision not set as default", :default_infinite_precision_false do
+  before do
+    @previous_infinite_precision = Money.default_infinite_precision
     Money.default_infinite_precision = false
+  end
+
+  after do
+    Money.default_infinite_precision = @previous_infinite_precision
   end
 end
 

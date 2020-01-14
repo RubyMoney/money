@@ -289,6 +289,8 @@ class Money
   # @param [Currency, String, Symbol] currency The currency format.
   # @param [Hash] options Optional settings for the new Money instance
   # @option [Money::Bank::*] :bank The exchange bank to use.
+  # @option [Boolean] :infinite_precision Whether to enable infinite precision for
+  #   the instance.
   #
   # @example
   #   Money.from_amount(23.45, "USD") # => #<Money fractional:2345 currency:USD>
@@ -318,6 +320,8 @@ class Money
   # @param [Currency, String, Symbol] currency The currency format.
   # @param [Hash] options Optional settings for the new Money instance
   # @option [Money::Bank::*] :bank The exchange bank to use.
+  # @option [Boolean] :infinite_precision Whether to enable infinite precision for
+  #   the instance.
   #
   # @return [Money]
   #
@@ -337,6 +341,9 @@ class Money
     @currency ||= Money.default_currency
     @bank       = obj.respond_to?(:bank) ? obj.bank : options[:bank]
     @bank     ||= Money.default_bank
+    @infinite_precision = obj.respond_to?(:infinite_precision?) ? obj.infinite_precision? : options[:infinite_precision]
+    @infinite_precision = self.class.default_infinite_precision if @infinite_precision.nil?
+    @infinite_precision = !!@infinite_precision # ensure we have a boolean
 
     # BigDecimal can be Infinity and NaN, money of that amount does not make sense
     raise ArgumentError, 'must be initialized with a finite value' unless @fractional.finite?
@@ -421,11 +428,27 @@ class Money
     currency.symbol || "¤"
   end
 
+  def infinite_precision?
+    @infinite_precision
+  end
+
   # Common inspect function
   #
   # @return [String]
   def inspect
     "#<#{self.class.name} fractional:#{fractional} currency:#{currency}>"
+  end
+
+  def to_precise
+    return self if infinite_precision?
+
+    dup_with(infinite_precision: true)
+  end
+
+  def to_rounding
+    return self unless infinite_precision?
+
+    dup_with(infinite_precision: false)
   end
 
   # Returns the amount of money as a string.
@@ -581,7 +604,7 @@ class Money
   #   Money.new(100, "USD").allocate(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
   #
   def allocate(parts)
-    amounts = Money::Allocation.generate(fractional, parts, !Money.default_infinite_precision)
+    amounts = Money::Allocation.generate(fractional, parts, !infinite_precision?)
     amounts.map { |amount| dup_with(fractional: amount) }
   end
   alias_method :split, :allocate
@@ -638,7 +661,9 @@ class Money
     self.class.new(
       options[:fractional] || fractional,
       options[:currency] || currency,
-      bank: options[:bank] || bank
+      bank: options[:bank] || bank,
+      infinite_precision:
+        options.fetch(:infinite_precision, infinite_precision?)
     )
   end
 
@@ -653,7 +678,7 @@ class Money
   end
 
   def return_value(value)
-    if self.class.default_infinite_precision
+    if infinite_precision?
       value
     else
       value.round(0, self.class.rounding_mode).to_i
