@@ -669,6 +669,10 @@ class Money
 
   private
 
+  def highest_precision(other)
+    infinite_precision? || other.infinite_precision?
+  end
+
   def as_d(num)
     if num.respond_to?(:to_d)
       num.is_a?(Rational) ? num.to_d(self.class.conversion_precision) : num.to_d
