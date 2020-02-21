@@ -641,6 +641,14 @@ YAML
       expect(money.exchange_to("EUR")).to eq Money.new(200_00, "EUR")
     end
 
+    it "allows double conversion using same bank" do
+      bank = Money::Bank::VariableExchange.new
+      bank.add_rate('EUR', 'USD', 2)
+      bank.add_rate('USD', 'EUR', 0.5)
+      money = Money.new(100_00, "USD", bank)
+      expect(money.exchange_to("EUR").exchange_to("USD")).to eq money
+    end
+
     it 'uses the block given as rounding method' do
       money = Money.new(100_00, 'USD')
       expect(money.bank).to receive(:exchange_with).and_yield(300_00)
