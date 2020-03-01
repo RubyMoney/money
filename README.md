@@ -493,6 +493,16 @@ Money.new(10_000_00, 'USD').format # => $10.000,00
 Money.new(10_000_00, 'EUR').format # => €10.000,00
 ```
 
+If you need to localize the position of the currency symbol, you
+have to pass it manually. *Note: this will become the default formatting
+behavior in the next version.*
+
+```ruby
+I18n.locale = :fr
+format = I18n.t :format, scope: 'number.currency.format'
+Money.new(10_00, 'EUR').format(format: format) # => 10,00 €
+```
+
 For the legacy behaviour of "per currency" localization (formatting depends only on currency):
 
 ```ruby
