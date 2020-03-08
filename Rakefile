@@ -12,6 +12,7 @@ end
 
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.fail_on_error = false
+  t.ruby_opts = "-w"
 end
 
 task default: :spec

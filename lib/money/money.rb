@@ -131,8 +131,9 @@ class Money
     #
     #   @return [Integer]
     attr_accessor :default_bank, :default_formatting_rules,
-      :use_i18n, :infinite_precision, :conversion_precision,
-      :locale_backend
+      :infinite_precision, :conversion_precision
+
+    attr_reader :use_i18n, :locale_backend
   end
 
   # @!attribute default_currency
