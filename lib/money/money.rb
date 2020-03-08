@@ -142,7 +142,7 @@ class Money
   #     +Money::Currency+ instance.
   def self.default_currency
     if @using_deprecated_default_currency
-      warn '[WARNING] The default currency will change from `USD` to `nil` in the next major release. Make ' \
+      warn '[RUBY MONEY WARNING] The default currency will change from `USD` to `nil` in the next major release. Make ' \
            'sure to set it explicitly using `Money.default_currency=` to avoid potential issues'
       @using_deprecated_default_currency = false
     end
@@ -171,9 +171,9 @@ class Money
 
   def self.use_i18n=(value)
     if value
-      warn '[DEPRECATION] `use_i18n` is deprecated - use `Money.locale_backend = :i18n` instead for locale based formatting'
+      warn '[RUBY MONEY DEPRECATION] `use_i18n` is deprecated - use `Money.locale_backend = :i18n` instead for locale based formatting'
     else
-      warn '[DEPRECATION] `use_i18n` is deprecated - use `Money.locale_backend = :currency` instead for currency based formatting'
+      warn '[RUBY MONEY DEPRECATION] `use_i18n` is deprecated - use `Money.locale_backend = :currency` instead for currency based formatting'
     end
 
     @use_i18n = value
@@ -217,14 +217,14 @@ class Money
   # @return [BigDecimal::ROUND_MODE] rounding mode
   def self.rounding_mode(mode = nil)
     if mode
-      warn "[DEPRECATION] calling `rounding_mode` with a block is deprecated. Please use `.with_rounding_mode` instead."
+      warn "[RUBY MONEY DEPRECATION] calling `rounding_mode` with a block is deprecated. Please use `.with_rounding_mode` instead."
       return with_rounding_mode(mode) { yield }
     end
 
     return Thread.current[:money_rounding_mode] if Thread.current[:money_rounding_mode]
 
     if @using_deprecated_default_rounding_mode
-      warn '[WARNING] The default rounding mode will change from `ROUND_HALF_EVEN` to `ROUND_HALF_UP` in the ' \
+      warn '[RUBY MONEY WARNING] The default rounding mode will change from `ROUND_HALF_EVEN` to `ROUND_HALF_UP` in the ' \
            'next major release. Set it explicitly using `Money.rounding_mode=` to avoid potential problems.'
       @using_deprecated_default_rounding_mode = false
     end
@@ -365,7 +365,7 @@ class Money
   # @example
   #   Money.new(100, :USD).currency_as_string #=> "USD"
   def currency_as_string
-    warn "[DEPRECATION] `currency_as_string` is deprecated. Please use `.currency.to_s` instead."
+    warn "[RUBY MONEY DEPRECATION] `currency_as_string` is deprecated. Please use `.currency.to_s` instead."
     currency.to_s
   end
 
@@ -378,7 +378,7 @@ class Money
   # @example
   #   Money.new(100).currency_as_string("CAD") #=> #<Money::Currency id: cad>
   def currency_as_string=(val)
-    warn "[DEPRECATION] `currency_as_string=` is deprecated - Money instances are immutable." \
+    warn "[RUBY MONEY DEPRECATION] `currency_as_string=` is deprecated - Money instances are immutable." \
       " Please use `with_currency` instead."
     @currency = Currency.wrap(val)
   end

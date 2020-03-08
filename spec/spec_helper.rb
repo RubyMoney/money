@@ -28,3 +28,13 @@ RSpec.shared_context "with infinite precision", :infinite_precision do
     Money.infinite_precision = false
   end
 end
+
+if RUBY_VERSION >= '2.4.0'
+  module Warning
+    def self.warn(message)
+      return if message.match?('RUBY MONEY')
+
+      super
+    end
+  end
+end

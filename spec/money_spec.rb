@@ -202,7 +202,7 @@ describe Money do
       end).to eq 1.99
       expect(Money)
         .to have_received(:warn)
-        .with('[DEPRECATION] calling `rounding_mode` with a block is deprecated. ' \
+        .with('[RUBY MONEY DEPRECATION] calling `rounding_mode` with a block is deprecated. ' \
               'Please use `.with_rounding_mode` instead.')
     end
 
@@ -908,7 +908,7 @@ YAML
     it 'warns about changing default_currency value' do
       expect(Money)
         .to receive(:warn)
-        .with('[WARNING] The default currency will change from `USD` to `nil` in the next major release. ' \
+        .with('[RUBY MONEY WARNING] The default currency will change from `USD` to `nil` in the next major release. ' \
               'Make sure to set it explicitly using `Money.default_currency=` to avoid potential issues')
 
       Money.default_currency
@@ -929,7 +929,7 @@ YAML
     it 'warns about changing default rounding_mode value' do
       expect(Money)
         .to receive(:warn)
-        .with('[WARNING] The default rounding mode will change from `ROUND_HALF_EVEN` to `ROUND_HALF_UP` in ' \
+        .with('[RUBY MONEY WARNING] The default rounding mode will change from `ROUND_HALF_EVEN` to `ROUND_HALF_UP` in ' \
               'the next major release. Set it explicitly using `Money.rounding_mode=` to avoid potential problems.')
 
       Money.rounding_mode

@@ -41,7 +41,7 @@ class Money
         rules = rules.dup if rules.is_a?(Hash)
 
         if rules.is_a?(Symbol)
-          warn '[DEPRECATION] Use Hash when passing rules to Money#format.'
+          warn '[RUBY MONEY DEPRECATION] Use Hash when passing rules to Money#format.'
           rules = { rules => true }
         end
       end
@@ -107,23 +107,23 @@ class Money
         position = rules[:symbol_position]
         template = position == :before ? '%u %n' : '%n %u'
 
-        warn "[DEPRECATION] `symbol_position: :#{position}` is deprecated - you can replace it with `format: #{template}`"
+        warn "[RUBY MONEY DEPRECATION] `symbol_position: :#{position}` is deprecated - you can replace it with `format: #{template}`"
       end
 
       if rules.has_key?(:symbol_before_without_space)
-        warn "[DEPRECATION] `symbol_before_without_space:` option is deprecated - you can replace it with `format: '%u%n'`"
+        warn "[RUBY MONEY DEPRECATION] `symbol_before_without_space:` option is deprecated - you can replace it with `format: '%u%n'`"
       end
 
       if rules.has_key?(:symbol_after_without_space)
-        warn "[DEPRECATION] `symbol_after_without_space:` option is deprecated - you can replace it with `format: '%n%u'`"
+        warn "[RUBY MONEY DEPRECATION] `symbol_after_without_space:` option is deprecated - you can replace it with `format: '%n%u'`"
       end
 
       if rules.has_key?(:html)
-        warn "[DEPRECATION] `html` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency and if you use `with_currency` option, currency element class changes from `currency` to `money-currency`."
+        warn "[RUBY MONEY DEPRECATION] `html` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency and if you use `with_currency` option, currency element class changes from `currency` to `money-currency`."
       end
 
       if rules.has_key?(:html_wrap_symbol)
-        warn "[DEPRECATION] `html_wrap_symbol` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency."
+        warn "[RUBY MONEY DEPRECATION] `html_wrap_symbol` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency."
       end
     end
   end
