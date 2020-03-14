@@ -28,3 +28,22 @@ RSpec.shared_context "with infinite precision", :infinite_precision do
     Money.infinite_precision = false
   end
 end
+
+class Money
+  module Warning
+    def warn(message); end
+  end
+end
+
+class Money
+  include Warning
+  extend Warning
+end
+
+class Money::LocaleBackend::Base
+  include Money::Warning
+end
+
+class Money::FormattingRules
+  include Money::Warning
+end
