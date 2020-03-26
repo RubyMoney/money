@@ -46,7 +46,7 @@ class Money
     # Compares two Money objects. If money objects have a different currency it
     # will attempt to convert the currency.
     #
-    # @param [Money] other_money Value to compare with.
+    # @param [Money] other Value to compare with.
     #
     # @return [Integer]
     #
@@ -103,7 +103,7 @@ class Money
     # values. If +other_money+ has a different currency then its monetary value
     # is automatically exchanged to this object's currency using +exchange_to+.
     #
-    # @param [Money] other_money Other +Money+ object to add.
+    # @param [Money] other Other +Money+ object to add.
     #
     # @return [Money]
     #
@@ -116,7 +116,7 @@ class Money
     # its monetary value is automatically exchanged to this object's currency
     # using +exchange_to+.
     #
-    # @param [Money] other_money Other +Money+ object to subtract.
+    # @param [Money] other Other +Money+ object to subtract.
     #
     # @return [Money]
     #
