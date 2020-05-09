@@ -219,11 +219,23 @@ describe Money::Bank::VariableExchange do
     end
 
     context "with format == :ruby" do
+      let(:dump) { Marshal.dump({ "USD_TO_EUR" => 1.25, "USD_TO_JPY" => 2.55 }) }
+
       it "loads the rates provided" do
-        s = Marshal.dump({"USD_TO_EUR"=>1.25,"USD_TO_JPY"=>2.55})
-        subject.import_rates(:ruby, s)
+        subject.import_rates(:ruby, dump)
+
         expect(subject.get_rate('USD', 'EUR')).to eq 1.25
         expect(subject.get_rate('USD', 'JPY')).to eq 2.55
+      end
+
+      it "prints a warning" do
+        allow(subject).to receive(:warn)
+
+        subject.import_rates(:ruby, dump)
+
+        expect(subject)
+          .to have_received(:warn)
+          .with(include('[WARNING] Using :ruby format when importing rates is potentially unsafe'))
       end
     end
 

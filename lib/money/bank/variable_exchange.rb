@@ -217,8 +217,7 @@ class Money
       #   s = bank.export_rates(:json)
       #   s #=> "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
       def export_rates(format, file = nil, opts = {})
-        raise Money::Bank::UnknownRateFormat unless
-          RATE_FORMATS.include? format
+        raise Money::Bank::UnknownRateFormat unless RATE_FORMATS.include?(format)
 
         store.transaction do
           s = FORMAT_SERIALIZERS[format].dump(rates)
@@ -258,8 +257,13 @@ class Money
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
       def import_rates(format, s, opts = {})
-        raise Money::Bank::UnknownRateFormat unless
-          RATE_FORMATS.include? format
+        raise Money::Bank::UnknownRateFormat unless RATE_FORMATS.include?(format)
+
+        if format == :ruby
+          warn '[WARNING] Using :ruby format when importing rates is potentially unsafe and ' \
+            'might lead to remote code execution via Marshal.load deserializer. Consider using ' \
+            'safe alternatives such as :json and :yaml.'
+        end
 
         store.transaction do
           data = FORMAT_SERIALIZERS[format].load(s)
