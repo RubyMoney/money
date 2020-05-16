@@ -31,9 +31,10 @@ describe Money, "formatting" do
   end
 
   context "with i18n", :i18n do
+    before { I18n.locale = :de }
+
     context "with number.format.*" do
       before do
-        I18n.locale = :de
         I18n.backend.store_translations(:de, number: { format: { delimiter: ".", separator: "," } })
       end
 
@@ -50,7 +51,6 @@ describe Money, "formatting" do
 
     context "with number.currency.format.*" do
       before do
-        I18n.locale = :de
         I18n.backend.store_translations(:de, number: { currency: { format: { delimiter: ".", separator: "," } } })
       end
 
@@ -67,7 +67,6 @@ describe Money, "formatting" do
 
     context "with number.currency.symbol.*", :i18n do
       before do
-        I18n.locale = :de
         I18n.backend.store_translations(:de, number: { currency: { symbol: { CAD: "CAD$" } } })
       end
 
@@ -80,7 +79,7 @@ describe Money, "formatting" do
 
     context "with overridden i18n settings" do
       it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
-        expect(Money.new(300_000, 'ISK').format(thousands_separator: ".", decimal_mark: ',')).to eq "300.000 kr."
+        expect(Money.new(300_000, 'ISK').format(thousands_separator: ".", decimal_mark: ',')).to eq "kr.300.000"
       end
 
       it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
@@ -147,7 +146,7 @@ describe Money, "formatting" do
 
     context "with overridden r18n settings" do
       it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
-        expect(Money.new(300_000, 'ISK').format(thousands_separator: ".", decimal_mark: ',')).to eq "300.000 kr."
+        expect(Money.new(300_000, 'ISK').format(thousands_separator: ".", decimal_mark: ',')).to eq "kr.300.000"
       end
 
       it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
