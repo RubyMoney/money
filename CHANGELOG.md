@@ -1,5 +1,12 @@
 # Changelog
 
+## 6.13.8
+- Update symbol for XOF
+- Update UYU currency symbol
+- Allow double conversion using same bank
+- Warn when using unsafe serializer for rate import
+- Move Icelandic symbol after the amount
+
 ## 6.13.7
 - Improve deprecation warnings for the upcoming major release
 
