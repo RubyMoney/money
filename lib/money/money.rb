@@ -513,7 +513,7 @@ class Money
   # @see
   #   Money.infinite_precision
   #
-  def round(rounding_mode = self.class.rounding_mode, rounding_precision = 0)
+  def round(rounding_precision = 0, rounding_mode = self.class.rounding_mode)
     rounded_amount = as_d(@fractional).round(rounding_precision, rounding_mode)
     self.class.new(rounded_amount, currency, bank)
   end

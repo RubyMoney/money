@@ -763,13 +763,13 @@ YAML
       end
 
       it "uses a provided rounding strategy" do
-        rounded = money.round(BigDecimal::ROUND_DOWN)
+        rounded = money.round(0, BigDecimal::ROUND_DOWN)
         expect(rounded.cents).to eq 15
       end
 
       it "does not accumulate rounding error" do
-        money_1 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
-        money_2 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
+        money_1 = Money.new(10.9).round(0, BigDecimal::ROUND_DOWN)
+        money_2 = Money.new(10.9).round(0, BigDecimal::ROUND_DOWN)
 
         expect(money_1 + money_2).to eq(Money.new(20))
       end
@@ -789,7 +789,7 @@ YAML
       end
 
       it "uses a provided rounding strategy" do
-        rounded = money.round(BigDecimal::ROUND_DOWN)
+        rounded = money.round(0, BigDecimal::ROUND_DOWN)
         expect(rounded.cents).to eq 15
       end
 
@@ -797,7 +797,7 @@ YAML
         let(:money) { Money.new(15.7526, 'NZD') }
 
         it "uses the provided rounding precision" do
-          rounded = money.round(BigDecimal::ROUND_DOWN, 3)
+          rounded = money.round(3, BigDecimal::ROUND_DOWN)
           expect(rounded.fractional).to eq 15.752
         end
       end
