@@ -12,6 +12,7 @@
 - Remove ability to call Money#rounding_mode with a block
 - Rubinius support
 - Add `frozen_string_literal: true` pragma comment.
+- Change order of arguments in `Money#round` to be identical to the one in `BigDecimal#round`
 
 ## 6.13.7
 - Improve deprecation warnings for the upcoming major release
