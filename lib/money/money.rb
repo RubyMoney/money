@@ -121,19 +121,28 @@ class Money
     #
     #   @return [Boolean]
     #
-    # @!attribute [rw] infinite_precision
-    #   Used to enable infinite precision cents
-    #
-    #   @return [Boolean]
+    # @!attribute [rw] default_infinite_precision
+    #   @return [Boolean] Use this to enable infinite precision cents as the
+    #     global default
     #
     # @!attribute [rw] conversion_precision
     #   Used to specify precision for converting Rational to BigDecimal
     #
     #   @return [Integer]
     attr_accessor :default_bank, :default_formatting_rules,
-      :infinite_precision, :conversion_precision
+      :default_infinite_precision, :conversion_precision
 
     attr_reader :use_i18n, :locale_backend
+
+    def infinite_precision
+      warn '[DEPRECATION] `Money.infinite_precision` is deprecated - use `Money.default_infinite_precision` instead'
+      default_infinite_precision
+    end
+
+    def infinite_precision=(value)
+      warn '[DEPRECATION] `Money.infinite_precision=` is deprecated - use `Money.default_infinite_precision= ` instead'
+      self.default_infinite_precision = value
+    end
   end
 
   # @!attribute default_currency
@@ -195,7 +204,7 @@ class Money
     self.locale_backend = :legacy
 
     # Default to not using infinite precision cents
-    self.infinite_precision = false
+    self.default_infinite_precision = false
 
     # Default to bankers rounding
     self.rounding_mode = BigDecimal::ROUND_HALF_EVEN
@@ -292,7 +301,7 @@ class Money
 
     currency = Currency.wrap(currency) || Money.default_currency
     value = amount.to_d * currency.subunit_to_unit
-    value = value.round(0, rounding_mode) unless infinite_precision
+    value = value.round(0, rounding_mode) unless default_infinite_precision
     new(value, currency, bank)
   end
 
@@ -565,7 +574,7 @@ class Money
   #   Money.new(100, "USD").allocate(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
   #
   def allocate(parts)
-    amounts = Money::Allocation.generate(fractional, parts, !Money.infinite_precision)
+    amounts = Money::Allocation.generate(fractional, parts, !Money.default_infinite_precision)
     amounts.map { |amount| dup_with(fractional: amount) }
   end
   alias_method :split, :allocate
@@ -583,7 +592,7 @@ class Money
   #   Money.new(10.1, 'USD').round #=> Money.new(10, 'USD')
   #
   # @see
-  #   Money.infinite_precision
+  #   Money.default_infinite_precision
   #
   def round(rounding_mode = self.class.rounding_mode, rounding_precision = 0)
     rounded_amount = as_d(@fractional).round(rounding_precision, rounding_mode)
@@ -621,10 +630,11 @@ class Money
   private
 
   def dup_with(options = {})
-    fractional ||= options[:fractional] || self.fractional
-    currency ||= options[:currency] || self.currency
-    bank ||= options[:bank] || self.bank
-    self.class.new(fractional, currency, bank)
+    self.class.new(
+      options[:fractional] || fractional,
+      options[:currency] || currency,
+      options[:bank] || bank
+    )
   end
 
   def as_d(num)
@@ -636,7 +646,7 @@ class Money
   end
 
   def return_value(value)
-    if self.class.infinite_precision
+    if self.class.default_infinite_precision
       value
     else
       value.round(0, self.class.rounding_mode).to_i

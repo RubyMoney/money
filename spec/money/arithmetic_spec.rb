@@ -374,7 +374,7 @@ describe Money::Arithmetic do
       end
     end
 
-    context "with infinite_precision", :infinite_precision do
+    context "with infinite_precision", :default_infinite_precision_true do
       it "uses BigDecimal division" do
         ts = [
           {a: Money.new( 13, :USD), b: 4, c: Money.new( 3.25, :USD)},
@@ -429,7 +429,7 @@ describe Money::Arithmetic do
       end
     end
 
-    context "with infinite_precision", :infinite_precision do
+    context "with infinite_precision", :default_infinite_precision_true do
       it "uses BigDecimal division" do
         ts = [
           {a: Money.new( 13, :USD), b: 4, c: Money.new( 3.25, :USD)},
@@ -482,7 +482,7 @@ describe Money::Arithmetic do
       end
     end
 
-    context "with infinite_precision", :infinite_precision do
+    context "with infinite_precision", :default_infinite_precision_true do
       it "uses BigDecimal division" do
         ts = [
             {a: Money.new( 13, :USD), b: 4, c: [Money.new( 3, :USD), Money.new( 1, :USD)]},
