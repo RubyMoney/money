@@ -10,4 +10,9 @@ describe Money::Currency::Loader do
 
     subject.load_currencies
   end
+
+  it "sets if the currency is supported" do
+    currencies = subject.load_currencies
+    expect(currencies.values.first).to have_key(:supported)
+  end
 end

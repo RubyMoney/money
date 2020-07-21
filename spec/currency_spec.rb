@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 describe Money::Currency do
-  FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 1000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
+  FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 1000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1, "supported": false }'
 
   def register_foo(opts={})
     foo_attrs = JSON.parse(FOO, symbolize_names: true)
@@ -90,6 +90,18 @@ describe Money::Currency do
 
       expect{described_class.all}.to \
         raise_error(described_class::MissingAttributeError, /foo.*priority/)
+      unregister_foo
+    end
+  end
+
+  describe ".supported_currencies" do
+    it "returns an array of currencies" do
+      expect(described_class.supported_currencies).to include described_class.new(:usd)
+    end
+
+    it "doesn't return unsupported currencies" do
+      register_foo
+      expect(described_class.supported_currencies).not_to include described_class.new(:foo)
       unregister_foo
     end
   end
