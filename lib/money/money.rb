@@ -287,7 +287,8 @@ class Money
   #
   # @param [Numeric] amount The numerical value of the money.
   # @param [Currency, String, Symbol] currency The currency format.
-  # @param [Money::Bank::*] bank The exchange bank to use.
+  # @param [Hash] options Optional settings for the new Money instance
+  # @option [Money::Bank::*] :bank The exchange bank to use.
   #
   # @example
   #   Money.from_amount(23.45, "USD") # => #<Money fractional:2345 currency:USD>
@@ -296,13 +297,12 @@ class Money
   # @return [Money]
   #
   # @see #initialize
-  def self.from_amount(amount, currency = default_currency, bank = default_bank)
+  def self.from_amount(amount, currency = default_currency, options = {})
     raise ArgumentError, "'amount' must be numeric" unless Numeric === amount
 
     currency = Currency.wrap(currency) || Money.default_currency
     value = amount.to_d * currency.subunit_to_unit
-    value = value.round(0, rounding_mode) unless default_infinite_precision
-    new(value, currency, bank)
+    new(value, currency, options)
   end
 
   # Creates a new Money object of value given in the
@@ -316,7 +316,8 @@ class Money
   #   argument, a Money will be created in that currency with fractional value
   #   = 0.
   # @param [Currency, String, Symbol] currency The currency format.
-  # @param [Money::Bank::*] bank The exchange bank to use.
+  # @param [Hash] options Optional settings for the new Money instance
+  # @option [Money::Bank::*] :bank The exchange bank to use.
   #
   # @return [Money]
   #
@@ -325,11 +326,17 @@ class Money
   #   Money.new(100, "USD") #=> #<Money @fractional=100 @currency="USD">
   #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
   #
-  def initialize(obj, currency = Money.default_currency, bank = Money.default_bank)
+  def initialize( obj, currency = Money.default_currency, options = {})
+    # For backwards compatability, if options is not a Hash, treat it as a bank parameter
+    unless options.is_a?(Hash)
+      options = { bank: options }
+    end
+
     @fractional = as_d(obj.respond_to?(:fractional) ? obj.fractional : obj)
     @currency   = obj.respond_to?(:currency) ? obj.currency : Currency.wrap(currency)
     @currency ||= Money.default_currency
-    @bank       = obj.respond_to?(:bank) ? obj.bank : bank
+    @bank       = obj.respond_to?(:bank) ? obj.bank : options[:bank]
+    @bank     ||= Money.default_bank
 
     # BigDecimal can be Infinity and NaN, money of that amount does not make sense
     raise ArgumentError, 'must be initialized with a finite value' unless @fractional.finite?
@@ -478,7 +485,7 @@ class Money
     if !new_currency || currency == new_currency
       self
     else
-      self.class.new(fractional, new_currency, bank)
+      dup_with(currency: new_currency)
     end
   end
 
@@ -627,15 +634,15 @@ class Money
       Money::Formatter::DEFAULTS[:decimal_mark]
   end
 
-  private
-
   def dup_with(options = {})
     self.class.new(
       options[:fractional] || fractional,
       options[:currency] || currency,
-      options[:bank] || bank
+      bank: options[:bank] || bank
     )
   end
+
+  private
 
   def as_d(num)
     if num.respond_to?(:to_d)

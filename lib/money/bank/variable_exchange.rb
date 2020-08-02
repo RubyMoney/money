@@ -113,8 +113,10 @@ class Money
         else
           if rate = get_rate(from.currency, to_currency)
             fractional = calculate_fractional(from, to_currency)
-            from.class.new(
-              exchange(fractional, rate, &block), to_currency, self
+            from.dup_with(
+              fractional: exchange(fractional, rate, &block),
+              currency: to_currency,
+              bank: self
             )
           else
             raise UnknownRate, "No conversion rate known for '#{from.currency.iso_code}' -> '#{to_currency}'"
