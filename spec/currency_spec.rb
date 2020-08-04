@@ -396,7 +396,7 @@ describe Money::Currency do
     end
   end
 
-  describe '#initialize!' do
+  describe '#reset!' do
     let(:modified_mark) { '&&' }
 
     before do
@@ -413,9 +413,9 @@ describe Money::Currency do
       )
     end
 
-    it "initializes modified currency" do
+    it "resets modified currency" do
       expect(described_class.find(:cad).decimal_mark).to eq modified_mark
-      described_class.initialize!
+      described_class.reset!
       expect(described_class.find(:cad).decimal_mark).not_to eq modified_mark
     end
   end

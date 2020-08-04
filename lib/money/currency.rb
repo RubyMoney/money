@@ -206,7 +206,7 @@ class Money
         all.each { |c| yield(c) }
       end
 
-      def initialize!
+      def reset!
         @@instances = {}
         @table = Loader.load_currencies
       end
