@@ -395,4 +395,28 @@ describe Money::Currency do
       unregister_foo
     end
   end
+
+  describe '#reset!' do
+    let(:modified_mark) { '&&' }
+
+    before do
+      cad = described_class.find(:cad)
+
+      described_class.register(
+        :priority            => 100,
+        :iso_code            => cad.iso_code,
+        :name                => cad.name,
+        :subunit             => cad.subunit,
+        :subunit_to_unit     => cad.subunit_to_unit,
+        :thousands_separator => cad.thousands_separator,
+        :decimal_mark        => modified_mark
+      )
+    end
+
+    it "resets modified currency" do
+      expect(described_class.find(:cad).decimal_mark).to eq modified_mark
+      described_class.reset!
+      expect(described_class.find(:cad).decimal_mark).not_to eq modified_mark
+    end
+  end
 end
