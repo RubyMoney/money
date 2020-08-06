@@ -168,6 +168,19 @@ describe Money::Arithmetic do
       expect(Money.usd(1) > 0.0).to eq true
       expect(Money.usd(0) >= 0.0).to eq true
     end
+
+    it 'compares with zero Money in any currency' do
+      expect(Money.new(42, 'USD') > Money.zero('USD')).to eq(true)
+      expect(Money.new(42, 'USD') > Money.zero('CAD')).to eq(true)
+      expect(Money.new(42, 'CAD') > Money.zero('USD')).to eq(true)
+
+      expect(Money.zero('USD') > Money.new(42, 'USD')).to eq(false)
+      expect(Money.zero('CAD') > Money.new(42, 'USD')).to eq(false)
+      expect(Money.zero('USD') > Money.new(42, 'CAD')).to eq(false)
+
+      expect(Money.zero('USD') == Money.zero('USD')).to be(true)
+      expect(Money.zero('USD') == Money.zero('CAD')).to be(true)
+    end
   end
 
   describe "#positive?" do
