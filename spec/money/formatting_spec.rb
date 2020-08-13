@@ -733,6 +733,18 @@ describe Money, "formatting" do
     end
   end
 
+  describe 'Separate symbol with space' do
+
+    it ":symbol_with_space to true" do
+      expect(Money.new(100_00, 'CHF').format).to eq "CHF 100.00"
+    end
+
+    it ":symbol_with_space to false" do
+      expect(Money.new(100_00, 'USD').format).to eq "$100.00"
+    end
+
+  end
+
   context "custom currencies with 4 decimal places" do
     before :each do
       Money::Currency.register(JSON.parse(BAR, symbolize_names: true))
