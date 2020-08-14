@@ -733,16 +733,39 @@ describe Money, "formatting" do
     end
   end
 
-  describe 'Separate symbol with space' do
+  describe ':symbol_with_space to true for currency' do
 
-    it ":symbol_with_space to true" do
-      expect(Money.new(100_00, 'CHF').format).to eq "CHF 100.00"
+    context 'when rules are not passed' do
+      it "insert space between symbol and number" do
+        expect(Money.new(100_00, 'CHF').format).to eq "CHF 100.00"
+      end
     end
 
-    it ":symbol_with_space to false" do
-      expect(Money.new(100_00, 'USD').format).to eq "$100.00"
+    context 'when format: "%u%n" rule is passed' do
+      it "ignores :symbol_with_space in favour of format" do
+        expect(Money.new(100_00, 'CHF').format(format: '%u%n')).to eq "CHF100.00"
+      end
     end
 
+    context 'when symbol_position is passed' do
+      it "inserts currency symbol before the amount when set to :before" do
+        expect(Money.new(100_00, 'CHF').format(symbol_position: :before)).to eq "CHF 100.00"
+      end
+
+      it "inserts currency symbol after the amount when set to :after" do
+        expect(Money.new(100_00, 'CHF').format(symbol_position: :after)).to eq "100.00 CHF"
+      end
+    end
+
+    context 'when :symbol_before_without_space is passed' do
+      it "does not insert space between currency symbol and amount when set to true" do
+        expect(Money.new(100_00, 'CHF').format(symbol_position: :before, symbol_before_without_space: true)).to eq "CHF100.00"
+      end
+
+      it "insert space between currency symbol and amount when set to false" do
+        expect(Money.new(100_00, 'CHF').format(symbol_position: :before, symbol_before_without_space: false)).to eq "CHF 100.00"
+      end
+    end
   end
 
   context "custom currencies with 4 decimal places" do
