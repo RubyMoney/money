@@ -444,7 +444,8 @@
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "756",
-    "smallest_denomination": 5
+    "smallest_denomination": 5,
+     "symbol_with_space": true
   },
   "clf": {
     "priority": 100,

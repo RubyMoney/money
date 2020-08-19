@@ -9,7 +9,8 @@ class Money
         if currency.respond_to?(key)
           currency.public_send(key)
         elsif key == :format
-          currency.symbol_first? ? '%u%n' : '%n %u'
+          format = currency.symbol_with_space? ? '%u %n' : '%u%n'
+          currency.symbol_first? ? format : '%n %u'
         end
       end
     end
