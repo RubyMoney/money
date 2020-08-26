@@ -321,7 +321,7 @@ describe Money::Currency do
 
   describe "#inspect" do
     it "works as documented" do
-      expect(described_class.new(:usd).inspect).to eq %Q{#<Money::Currency id: usd, priority: 1, symbol_first: true, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, exponent: 2, iso_code: USD, iso_numeric: 840, subunit: Cent, smallest_denomination: 1, symbol_with_space: false>}
+      expect(described_class.new(:usd).inspect).to eq %Q{#<Money::Currency id: usd, priority: 1, format: %u%n, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, exponent: 2, iso_code: USD, iso_numeric: 840, subunit: Cent, smallest_denomination: 1>}
     end
   end
 
