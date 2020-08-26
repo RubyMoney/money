@@ -276,7 +276,7 @@ describe Money do
     alternate_symbols: []
     subunit: Cent
     subunit_to_unit: 100
-    symbol_first: true
+    format: '%u%n'
     html_entity: ! '&#x20AC;'
     decimal_mark: ! ','
     thousands_separator: .
