@@ -129,10 +129,9 @@ class Money
     #   Used to specify precision for converting Rational to BigDecimal
     #
     #   @return [Integer]
-    attr_accessor :default_bank, :default_formatting_rules,
-      :default_infinite_precision, :conversion_precision
-
+    attr_accessor :default_formatting_rules, :default_infinite_precision, :conversion_precision
     attr_reader :use_i18n, :locale_backend
+    attr_writer :default_bank
 
     def infinite_precision
       warn '[DEPRECATION] `Money.infinite_precision` is deprecated - use `Money.default_infinite_precision` instead'
@@ -167,6 +166,14 @@ class Money
   def self.default_currency=(currency)
     @using_deprecated_default_currency = false
     @default_currency = currency
+  end
+
+  def self.default_bank
+    if @default_bank.respond_to?(:call)
+      @default_bank.call
+    else
+      @default_bank
+    end
   end
 
   def self.locale_backend=(value)
