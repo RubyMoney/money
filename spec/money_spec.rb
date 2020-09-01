@@ -942,4 +942,18 @@ YAML
       Money.rounding_mode
     end
   end
+
+  describe '.default_bank' do
+    after { Money.setup_defaults }
+
+    it 'accepts a bank instance' do
+      Money.default_bank = Money::Bank::SingleCurrency.instance
+      expect(Money.default_bank).to be_instance_of(Money::Bank::SingleCurrency)
+    end
+
+    it 'accepts a lambda' do
+      Money.default_bank = lambda { Money::Bank::SingleCurrency.instance }
+      expect(Money.default_bank).to be_instance_of(Money::Bank::SingleCurrency)
+    end
+  end
 end
