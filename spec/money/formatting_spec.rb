@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 describe Money, "formatting" do
-  BAR = '{ "priority": 1, "iso_code": "BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
-  INDIAN_BAR = '{ "priority": 1, "iso_code": "INDIAN_BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "south_asian_number_formatting": true, "smallest_denomination": 1}'
-  EU4 = '{ "priority": 1, "iso_code": "EU4", "iso_numeric": "841", "name": "Euro with 4 decimal places", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "€", "decimal_mark": ",", "thousands_separator": ".", "smallest_denomination": 1 }'
+  BAR = '{ "priority": 1, "iso_code": "BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "format": "%u%n", "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
+  INDIAN_BAR = '{ "priority": 1, "iso_code": "INDIAN_BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "format": "%u%n", "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "south_asian_number_formatting": true, "smallest_denomination": 1}'
+  EU4 = '{ "priority": 1, "iso_code": "EU4", "iso_numeric": "841", "name": "Euro with 4 decimal places", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 10000, "format": "%u%n", "html_entity": "€", "decimal_mark": ",", "thousands_separator": ".", "smallest_denomination": 1 }'
 
   context "without i18n" do
     subject(:money) { Money.empty("USD") }
@@ -772,6 +772,20 @@ describe Money, "formatting" do
         expect(Money.new(100000000, "BTC").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00000000"
         expect(Money.new(100000000, "BCH").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00000000"
         expect(Money.new(110, "AUD").format(drop_trailing_zeros: false, symbol: false)).to eq "1.10"
+      end
+    end
+
+    describe ':symbol_with_space to true for currency' do
+      context 'when rules are not passed' do
+        it "insert space between symbol and number" do
+          expect(Money.new(100_00, 'CHF').format).to eq "CHF 100.00"
+        end
+      end
+
+      context 'when format: "%u%n" rule is passed' do
+        it "ignores :symbol_with_space in favour of format" do
+          expect(Money.new(100_00, 'CHF').format(format: '%u%n')).to eq "CHF100.00"
+        end
       end
     end
   end

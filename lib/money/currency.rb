@@ -242,16 +242,16 @@ class Money
     # @!attribute [r] thousands_separator
     #   @return [String] The character used to separate thousands grouping of
     #     the whole unit.
-    # @!attribute [r] symbol_first
-    #   @return [Boolean] Should the currency symbol precede the amount, or
-    #     should it come after?
+    # @!attribute [r] format
+    #   @return [String] Provide a template for formatting. `%u` will be replaced
+    #     with the symbol and `%n` will be replaced with the number. eg. %u%n
     # @!attribute [r] smallest_denomination
     #   @return [Integer] Smallest amount of cash possible (in the subunit of
     #     this currency)
 
     attr_reader :id, :priority, :iso_code, :iso_numeric, :name, :symbol,
       :disambiguate_symbol, :html_entity, :subunit, :subunit_to_unit, :decimal_mark,
-      :thousands_separator, :symbol_first, :smallest_denomination
+      :thousands_separator, :format, :smallest_denomination
 
     alias_method :separator, :decimal_mark
     alias_method :delimiter, :thousands_separator
@@ -339,7 +339,7 @@ class Money
     # @example
     #   Money::Currency.new(:usd) #=> #<Currency id: usd ...>
     def inspect
-      "#<#{self.class.name} id: #{id}, priority: #{priority}, symbol_first: #{symbol_first}, thousands_separator: #{thousands_separator}, html_entity: #{html_entity}, decimal_mark: #{decimal_mark}, name: #{name}, symbol: #{symbol}, subunit_to_unit: #{subunit_to_unit}, exponent: #{exponent}, iso_code: #{iso_code}, iso_numeric: #{iso_numeric}, subunit: #{subunit}, smallest_denomination: #{smallest_denomination}>"
+      "#<#{self.class.name} id: #{id}, priority: #{priority}, format: #{format}, thousands_separator: #{thousands_separator}, html_entity: #{html_entity}, decimal_mark: #{decimal_mark}, name: #{name}, symbol: #{symbol}, subunit_to_unit: #{subunit_to_unit}, exponent: #{exponent}, iso_code: #{iso_code}, iso_numeric: #{iso_numeric}, subunit: #{subunit}, smallest_denomination: #{smallest_denomination}>"
     end
 
     # Returns a string representation corresponding to the upcase +id+
@@ -395,10 +395,6 @@ class Money
       symbol || iso_code
     end
 
-    def symbol_first?
-      !!@symbol_first
-    end
-
     # Returns if a code currency is ISO.
     #
     # @return [Boolean]
@@ -438,7 +434,7 @@ class Money
         @subunit               = data[:subunit]
         @subunit_to_unit       = data[:subunit_to_unit]
         @symbol                = data[:symbol]
-        @symbol_first          = data[:symbol_first]
+        @format                = data[:format]
         @thousands_separator   = data[:thousands_separator]
       end
     end
