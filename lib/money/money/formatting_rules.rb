@@ -79,10 +79,12 @@ class Money
     end
 
     def determine_format_from_formatting_rules(rules)
+      return currency.format if currency.format && !rules.has_key?(:symbol_position)
+
       symbol_position = symbol_position_from(rules)
 
       if symbol_position == :before
-        rules.fetch(:symbol_before_without_space, !currency.symbol_with_space?) ? '%u%n' : '%u %n'
+        rules.fetch(:symbol_before_without_space, true) ? '%u%n' : '%u %n'
       else
         rules[:symbol_after_without_space] ? '%n%u' : '%n %u'
       end
