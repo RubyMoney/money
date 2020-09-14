@@ -25,6 +25,9 @@ class Money
   # Raised when smallest denomination of a currency is not defined
   class UndefinedSmallestDenomination < StandardError; end
 
+  # Raised when Money is intialised without currency and no default currency
+  class DefaultCurrencyNotSetOrPassed < StandardError; end
+
   # Convenience method for fractional part of the amount. Synonym of #fractional
   #
   # @return [Integer] when infinite_precision is false
@@ -144,6 +147,8 @@ class Money
       Money::Currency.new(@default_currency.call)
     elsif @default_currency
       Money::Currency.new(@default_currency)
+    else
+      raise DefaultCurrencyNotSetOrPassed
     end
   end
 
