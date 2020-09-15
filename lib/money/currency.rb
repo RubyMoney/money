@@ -257,7 +257,7 @@ class Money
 
     attr_reader :id, :priority, :iso_code, :iso_numeric, :name, :symbol,
       :disambiguate_symbol, :html_entity, :subunit, :subunit_to_unit, :decimal_mark,
-      :thousands_separator, :symbol_first, :smallest_denomination
+      :thousands_separator, :symbol_first, :smallest_denomination, :format
 
     alias_method :separator, :decimal_mark
     alias_method :delimiter, :thousands_separator
@@ -345,7 +345,7 @@ class Money
     # @example
     #   Money::Currency.new(:usd) #=> #<Currency id: usd ...>
     def inspect
-      "#<#{self.class.name} id: #{id}, priority: #{priority}, symbol_first: #{symbol_first}, thousands_separator: #{thousands_separator}, html_entity: #{html_entity}, decimal_mark: #{decimal_mark}, name: #{name}, symbol: #{symbol}, subunit_to_unit: #{subunit_to_unit}, exponent: #{exponent}, iso_code: #{iso_code}, iso_numeric: #{iso_numeric}, subunit: #{subunit}, smallest_denomination: #{smallest_denomination}>"
+      "#<#{self.class.name} id: #{id}, priority: #{priority}, symbol_first: #{symbol_first}, thousands_separator: #{thousands_separator}, html_entity: #{html_entity}, decimal_mark: #{decimal_mark}, name: #{name}, symbol: #{symbol}, subunit_to_unit: #{subunit_to_unit}, exponent: #{exponent}, iso_code: #{iso_code}, iso_numeric: #{iso_numeric}, subunit: #{subunit}, smallest_denomination: #{smallest_denomination}, format: #{format}>"
     end
 
     # Returns a string representation corresponding to the upcase +id+
@@ -445,6 +445,7 @@ class Money
       @symbol                = data[:symbol]
       @symbol_first          = data[:symbol_first]
       @thousands_separator   = data[:thousands_separator]
+      @format                = data[:format]
     end
   end
 end
