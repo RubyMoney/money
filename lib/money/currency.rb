@@ -128,7 +128,7 @@ class Money
       # @return [Array]
       #
       # @example
-      #   Money::Currency.iso_codes()
+      #   Money::Currency.all()
       #   [#<Currency ..USD>, 'CAD', 'EUR']...
       def all
         table.keys.map do |curr|
