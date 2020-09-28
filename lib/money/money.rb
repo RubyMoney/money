@@ -26,7 +26,7 @@ class Money
   class UndefinedSmallestDenomination < StandardError; end
 
   # Raised when Money is intialised without currency and no default currency
-  class DefaultCurrencyNotSetOrPassed < StandardError; end
+  class DefaultCurrencyNotSet < StandardError; end
 
   # Convenience method for fractional part of the amount. Synonym of #fractional
   #
@@ -147,8 +147,6 @@ class Money
       Money::Currency.new(@default_currency.call)
     elsif @default_currency
       Money::Currency.new(@default_currency)
-    else
-      raise DefaultCurrencyNotSetOrPassed
     end
   end
 
@@ -282,6 +280,7 @@ class Money
 
     # BigDecimal can be Infinity and NaN, money of that amount does not make sense
     raise ArgumentError, 'must be initialized with a finite value' unless @fractional.finite?
+    raise DefaultCurrencyNotSet, 'default currency is not set' unless @currency
   end
 
   # Assuming using a currency using dollars:
