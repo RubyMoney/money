@@ -19,7 +19,7 @@ describe Money do
 
   describe ".new" do
     let(:initializing_value) { 1 }
-    subject(:money) { Money.new(initializing_value) }
+    subject(:money) { Money.new(initializing_value, "USD") }
 
     it "should be an instance of `Money::Bank::VariableExchange`" do
       expect(money.bank).to be Money::Bank::VariableExchange.instance
@@ -35,23 +35,23 @@ describe Money do
     context 'given the initializing value is a float' do
       context 'and the value is 1.00' do
         let(:initializing_value) { 1.00 }
-        it { is_expected.to eq Money.new(1) }
+        it { is_expected.to eq Money.new(1, "USD") }
       end
 
       context 'and the value is 1.01' do
         let(:initializing_value) { 1.01 }
-        it { is_expected.to eq Money.new(1) }
+        it { is_expected.to eq Money.new(1, "USD") }
       end
 
       context 'and the value is 1.50' do
         let(:initializing_value) { 1.50 }
-        it { is_expected.to eq Money.new(2) }
+        it { is_expected.to eq Money.new(2, "USD") }
       end
     end
 
     context 'given the initializing value is a rational' do
       let(:initializing_value) { Rational(1) }
-      it { is_expected.to eq Money.new(1) }
+      it { is_expected.to eq Money.new(1, "USD") }
     end
 
     context 'given the initializing value is money' do
@@ -61,11 +61,11 @@ describe Money do
 
     context "given the initializing value doesn't respond to .to_d" do
       let(:initializing_value) { :"1" }
-      it { is_expected.to eq Money.new(1) }
+      it { is_expected.to eq Money.new(1, "USD") }
     end
 
     context 'given a currency is not provided' do
-      subject(:money) { Money.new(initializing_value) }
+      subject(:money) { Money.new(initializing_value, "USD") }
 
       it "should have the default currency" do
         expect(money.currency).to eq Money.default_currency
@@ -242,7 +242,7 @@ describe Money do
   %w[cents pence].each do |units|
     describe "##{units}" do
       it "is a synonym of #fractional" do
-        expectation = Money.new(0)
+        expectation = Money.new(0, "USD")
         def expectation.fractional
           "expectation"
         end
@@ -253,11 +253,11 @@ describe Money do
 
   describe "#fractional" do
     it "returns the amount in fractional unit" do
-      expect(Money.new(1_00).fractional).to eq 1_00
+      expect(Money.new(1_00, "USD").fractional).to eq 1_00
     end
 
     it "stores fractional as an integer regardless of what is passed into the constructor" do
-      m = Money.new(100)
+      m = Money.new(100, "USD")
       expect(m.fractional).to eq 100
       expect(m.fractional).to be_a(Integer)
     end
@@ -305,20 +305,20 @@ YAML
 
       it "respects the rounding_mode" do
         Money.rounding_mode = BigDecimal::ROUND_DOWN
-        expect(Money.new(1.9).fractional).to eq 1
+        expect(Money.new(1.9, "USD").fractional).to eq 1
 
         Money.rounding_mode = BigDecimal::ROUND_UP
-        expect(Money.new(1.1).fractional).to eq 2
+        expect(Money.new(1.1, "USD").fractional).to eq 2
       end
     end
 
     context "with infinite_precision", :infinite_precision do
       it "returns the amount in fractional unit" do
-        expect(Money.new(1_00).fractional).to eq BigDecimal("100")
+        expect(Money.new(1_00, "USD").fractional).to eq BigDecimal("100")
       end
 
       it "stores in fractional unit as an integer regardless of what is passed into the constructor" do
-        m = Money.new(100)
+        m = Money.new(100, "USD")
         expect(m.fractional).to eq BigDecimal("100")
         expect(m.fractional).to be_a(BigDecimal)
       end
@@ -421,7 +421,7 @@ YAML
 
   describe "#dollars" do
     it "is synonym of #amount" do
-      m = Money.new(0)
+      m = Money.new(0, "USD")
 
       # Make a small expectation
       def m.amount
@@ -696,13 +696,13 @@ YAML
 
     it "keeps subclasses intact" do
       special_money_class = Class.new(Money)
-      expect(special_money_class.new(005).allocate([1]).first).to be_a special_money_class
+      expect(special_money_class.new(005, "USD").allocate([1]).first).to be_a special_money_class
     end
 
     context "with infinite_precision", :infinite_precision do
       it "allows for fractional cents allocation" do
-        moneys = Money.new(100).allocate([1, 1, 1])
-        expect(moneys.inject(0, :+)).to eq(Money.new(100))
+        moneys = Money.new(100, "USD").allocate([1, 1, 1])
+        expect(moneys.inject(0, :+)).to eq(Money.new(100, "USD"))
       end
     end
   end
@@ -734,13 +734,13 @@ YAML
 
     it "preserves the class in the result when using a subclass of Money" do
       special_money_class = Class.new(Money)
-      expect(special_money_class.new(10_00).split(1).first).to be_a special_money_class
+      expect(special_money_class.new(10_00, "USD").split(1).first).to be_a special_money_class
     end
 
     context "with infinite_precision", :infinite_precision do
       it "allows for splitting by fractional cents" do
-        moneys = Money.new(100).split(3)
-        expect(moneys.inject(0, :+)).to eq(Money.new(100))
+        moneys = Money.new(100, "USD").split(3)
+        expect(moneys.inject(0, :+)).to eq(Money.new(100, "USD"))
       end
     end
   end
@@ -768,10 +768,10 @@ YAML
       end
 
       it "does not accumulate rounding error" do
-        money_1 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
-        money_2 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
+        money_1 = Money.new(10.9, "USD").round(BigDecimal::ROUND_DOWN)
+        money_2 = Money.new(10.9, "USD").round(BigDecimal::ROUND_DOWN)
 
-        expect(money_1 + money_2).to eq(Money.new(20))
+        expect(money_1 + money_2).to eq(Money.new(20, "USD"))
       end
     end
 
@@ -822,9 +822,9 @@ YAML
 
   describe "#inspect" do
     it "reports the class name properly when using inheritance" do
-      expect(Money.new(1).inspect).to start_with '#<Money'
+      expect(Money.new(1, "USD").inspect).to start_with '#<Money'
       Subclass = Class.new(Money)
-      expect(Subclass.new(1).inspect).to start_with '#<Subclass'
+      expect(Subclass.new(1, "USD").inspect).to start_with '#<Subclass'
     end
   end
 
@@ -874,13 +874,13 @@ YAML
     it "respects the rounding_mode" do
       expect(
         Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
-          Money.new(1.9).fractional
+          Money.new(1.9, "USD").fractional
         end
       ).to eq(1)
 
       expect(
         Money.with_rounding_mode(BigDecimal::ROUND_UP) do
-          Money.new(1.1).fractional
+          Money.new(1.1, "USD").fractional
         end
       ).to eq(2)
 
@@ -889,11 +889,11 @@ YAML
 
     it "works for multiplication within a block" do
       Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
-        expect((Money.new(1_00) * "0.019".to_d).fractional).to eq(1)
+        expect((Money.new(1_00, "USD") * "0.019".to_d).fractional).to eq(1)
       end
 
       Money.with_rounding_mode(BigDecimal::ROUND_UP) do
-        expect((Money.new(1_00) * "0.011".to_d).fractional).to eq(2)
+        expect((Money.new(1_00, "USD") * "0.011".to_d).fractional).to eq(2)
       end
 
       expect(Money.rounding_mode).to eq(BigDecimal::ROUND_HALF_UP)

@@ -3,14 +3,14 @@
 describe Money::Arithmetic do
   describe "-@" do
     it "changes the sign of a number" do
-      expect((- Money.new(0))).to  eq Money.new(0)
-      expect((- Money.new(1))).to  eq Money.new(-1)
-      expect((- Money.new(-1))).to eq Money.new(1)
+      expect((- Money.new(0, "USD"))).to  eq Money.new(0, "USD")
+      expect((- Money.new(1, "USD"))).to  eq Money.new(-1, "USD")
+      expect((- Money.new(-1, "USD"))).to eq Money.new(1, "USD")
     end
 
     it "preserves the class in the result when using a subclass of Money" do
       special_money_class = Class.new(Money)
-      expect(- special_money_class.new(10_00)).to be_a special_money_class
+      expect(- special_money_class.new(10_00, "USD")).to be_a special_money_class
     end
 
     it_behaves_like 'instance with custom bank', :-@
@@ -119,17 +119,17 @@ describe Money::Arithmetic do
     it "can be used to compare with an object that inherits from Money" do
       klass = Class.new(Money)
 
-      expect(Money.new(1_00) <=> klass.new(1_00)).to eq 0
-      expect(Money.new(1_00) <=> klass.new(99)).to be > 0
-      expect(Money.new(1_00) <=> klass.new(2_00)).to be < 0
+      expect(Money.new(1_00, "USD") <=> klass.new(1_00, "USD")).to eq 0
+      expect(Money.new(1_00, "USD") <=> klass.new(99, "USD")).to be > 0
+      expect(Money.new(1_00, "USD") <=> klass.new(2_00, "USD")).to be < 0
     end
 
     it "returns nil when comparing with an object that doesn't inherit from Money" do
-      expect(Money.new(1_00) <=> 100).to be_nil
-      expect(Money.new(1_00) <=> Object.new).to be_nil
-      expect(Money.new(1_00) <=> Class).to be_nil
-      expect(Money.new(1_00) <=> Kernel).to be_nil
-      expect(Money.new(1_00) <=> /foo/).to be_nil
+      expect(Money.new(1_00, "USD") <=> 100).to be_nil
+      expect(Money.new(1_00, "USD") <=> Object.new).to be_nil
+      expect(Money.new(1_00, "USD") <=> Class).to be_nil
+      expect(Money.new(1_00, "USD") <=> Kernel).to be_nil
+      expect(Money.new(1_00, "USD") <=> /foo/).to be_nil
     end
 
     context 'when conversions disallowed' do
@@ -167,29 +167,29 @@ describe Money::Arithmetic do
 
   describe "#positive?" do
     it "returns true if the amount is greater than 0" do
-      expect(Money.new(1)).to be_positive
+      expect(Money.new(1, "USD")).to be_positive
     end
 
     it "returns false if the amount is 0" do
-      expect(Money.new(0)).not_to be_positive
+      expect(Money.new(0, "USD")).not_to be_positive
     end
 
     it "returns false if the amount is negative" do
-      expect(Money.new(-1)).not_to be_positive
+      expect(Money.new(-1, "USD")).not_to be_positive
     end
   end
 
   describe "#negative?" do
     it "returns true if the amount is less than 0" do
-      expect(Money.new(-1)).to be_negative
+      expect(Money.new(-1, "USD")).to be_negative
     end
 
     it "returns false if the amount is 0" do
-      expect(Money.new(0)).not_to be_negative
+      expect(Money.new(0, "USD")).not_to be_negative
     end
 
     it "returns false if the amount is greater than 0" do
-      expect(Money.new(1)).not_to be_negative
+      expect(Money.new(1, "USD")).not_to be_negative
     end
   end
 
@@ -205,7 +205,7 @@ describe Money::Arithmetic do
     end
 
     it "adds Integer 0 to money and returns the same ammount" do
-      expect(Money.new(10_00) + 0).to eq Money.new(10_00)
+      expect(Money.new(10_00, "USD") + 0).to eq Money.new(10_00, "USD")
     end
 
     it "preserves the class in the result when using a subclass of Money" do
@@ -214,11 +214,11 @@ describe Money::Arithmetic do
     end
 
     it "raises TypeError when adding non-zero Numeric" do
-      expect { Money.new(10_00) + 1.0 }.to raise_error(TypeError, "Can't add or subtract a non-zero Float value")
+      expect { Money.new(10_00, "USD") + 1.0 }.to raise_error(TypeError, "Can't add or subtract a non-zero Float value")
     end
 
     it "raises TypeError when adding a non-Numeric value" do
-      expect { Money.new(10_00) + nil }.to raise_error(TypeError, "Unsupported argument type: NilClass")
+      expect { Money.new(10_00, "USD") + nil }.to raise_error(TypeError, "Unsupported argument type: NilClass")
     end
 
     it_behaves_like 'instance with custom bank', :+, Money.new(1, "USD")
@@ -236,7 +236,7 @@ describe Money::Arithmetic do
     end
 
     it "subtract Integer 0 to money and returns the same ammount" do
-      expect(Money.new(10_00) - 0).to eq Money.new(10_00)
+      expect(Money.new(10_00, "USD") - 0).to eq Money.new(10_00, "USD")
     end
 
     it "preserves the class in the result when using a subclass of Money" do
@@ -245,11 +245,11 @@ describe Money::Arithmetic do
     end
 
     it "raises TypeError when adding non-zero Numeric" do
-      expect { Money.new(10_00) - 1.0 }.to raise_error(TypeError, "Can't add or subtract a non-zero Float value")
+      expect { Money.new(10_00, "USD") - 1.0 }.to raise_error(TypeError, "Can't add or subtract a non-zero Float value")
     end
 
     it "raises TypeError when adding a non-Numeric value" do
-      expect { Money.new(10_00) - nil }.to raise_error(TypeError, "Unsupported argument type: NilClass")
+      expect { Money.new(10_00, "USD") - nil }.to raise_error(TypeError, "Unsupported argument type: NilClass")
     end
 
     it_behaves_like 'instance with custom bank', :-, Money.new(1, "USD")
@@ -316,28 +316,28 @@ describe Money::Arithmetic do
       context 'ceiling rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_CEILING }
         it "obeys the rounding preference" do
-          expect(Money.new(10) / 3).to eq Money.new(4)
+          expect(Money.new(10, "USD") / 3).to eq Money.new(4, "USD")
         end
       end
 
       context 'floor rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_FLOOR }
         it "obeys the rounding preference" do
-          expect(Money.new(10) / 6).to eq Money.new(1)
+          expect(Money.new(10, "USD") / 6).to eq Money.new(1, "USD")
         end
       end
 
       context 'half up rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_HALF_UP }
         it "obeys the rounding preference" do
-          expect(Money.new(10) / 4).to eq Money.new(3)
+          expect(Money.new(10, "USD") / 4).to eq Money.new(3, "USD")
         end
       end
 
       context 'half down rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_HALF_DOWN }
         it "obeys the rounding preference" do
-          expect(Money.new(10) / 4).to eq Money.new(2)
+          expect(Money.new(10, "USD") / 4).to eq Money.new(2, "USD")
         end
       end
     end
@@ -608,7 +608,7 @@ describe Money::Arithmetic do
 
     it "preserves the class in the result when using a subclass of Money" do
       special_money_class = Class.new(Money)
-      expect(special_money_class.new(-1).abs).to be_a special_money_class
+      expect(special_money_class.new(-1, "USD").abs).to be_a special_money_class
     end
 
     it_behaves_like 'instance with custom bank', :abs

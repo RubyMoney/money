@@ -4,7 +4,7 @@ describe Money::Constructors do
 
   describe "::empty" do
     it "creates a new Money object of 0 cents" do
-      expect(Money.empty).to eq Money.new(0)
+      expect(Money.empty).to eq Money.new(0, "USD")
     end
 
     it "instantiates a subclass when inheritance is used" do
