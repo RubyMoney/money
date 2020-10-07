@@ -199,7 +199,7 @@ describe Money, "formatting" do
 
       # Rupees
       expect(one_thousand["INR"]).to eq "₹1,000.00"
-      expect(one_thousand["NPR"]).to eq "₨1,000.00"
+      expect(one_thousand["NPR"]).to eq "Rs.1,000.00"
       expect(one_thousand["SCR"]).to eq "1,000.00 ₨"
       expect(one_thousand["LKR"]).to eq "1,000.00 ₨"
 
@@ -350,7 +350,7 @@ describe Money, "formatting" do
 
         # Rupees
         expect(one["INR"]).to eq "₹1.00"
-        expect(one["NPR"]).to eq "₨1.00"
+        expect(one["NPR"]).to eq "Rs.1.00"
         expect(one["SCR"]).to eq "1.00 ₨"
         expect(one["LKR"]).to eq "1.00 ₨"
 
