@@ -4,23 +4,29 @@ describe Money::Constructors do
 
   describe "::empty" do
     it "creates a new Money object of 0 cents" do
-      expect(Money.empty).to eq Money.new(0)
+      Money.default_currency = :usd
+      expect(Money.empty).to eq Money.new(0, "USD")
+      Money.default_currency = nil
     end
 
     it "instantiates a subclass when inheritance is used" do
       special_money_class = Class.new(Money)
+      special_money_class.default_currency = :usd
       expect(special_money_class.empty).to be_a special_money_class
+      special_money_class.default_currency = nil
     end
   end
 
 
   describe "::zero" do
-    subject { Money.zero }
-    it { is_expected.to eq Money.empty }
+    subject { Money.default_currency = :usd;Money.zero }
+    it { is_expected.to eq Money.empty;Money.default_currency = nil }
 
     it "instantiates a subclass when inheritance is used" do
+      Money.default_currency = :usd
       special_money_class = Class.new(Money)
       expect(special_money_class.zero).to be_a special_money_class
+      Money.default_currency = nil
     end
   end
 

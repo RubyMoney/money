@@ -21,3 +21,6 @@ doc/
 
 # Spec artifacts
 /coverage
+
+# vim swp files
+*.swp
