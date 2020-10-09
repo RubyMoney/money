@@ -19,10 +19,15 @@ describe Money do
 
   describe ".new" do
     let(:initializing_value) { 1 }
+    let(:error) { 'default currency is not set' }
     subject(:money) { Money.new(initializing_value, "USD") }
 
     it "should be an instance of `Money::Bank::VariableExchange`" do
       expect(money.bank).to be Money::Bank::VariableExchange.instance
+    end
+
+    it "raises DefaultCurrencyNotSet with unsupported argument" do
+      expect { Money.new(100) }.to raise_error(Money::DefaultCurrencyNotSet, error)
     end
 
     context 'given the initializing value is an integer' do
@@ -68,7 +73,9 @@ describe Money do
       subject(:money) { Money.new(initializing_value, "USD") }
 
       it "should have the default currency" do
+        Money.default_currency = :usd
         expect(money.currency).to eq Money.default_currency
+        Money.default_currency = nil
       end
     end
 
@@ -84,10 +91,10 @@ describe Money do
       end
 
       context 'and the currency is nil' do
-        let(:currency) { nil }
+        let(:currency) { :usd }
 
         it "should have the default currency" do
-          expect(money.currency).to eq Money.default_currency
+          expect(nil).to eq Money.default_currency
         end
       end
     end
