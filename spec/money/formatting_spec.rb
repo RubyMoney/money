@@ -158,7 +158,7 @@ describe Money, "formatting" do
     end
 
     it "respects :subunit_to_unit currency property" do
-      expect(Money.new(10_00, "BHD").format).to eq "ب.د1.000"
+      expect(Money.new(10_00, "BHD").format).to eq ".د.ب1.000"
     end
 
     context "when :subunit_to_unit is 1" do
@@ -271,7 +271,7 @@ describe Money, "formatting" do
       end
 
       it "respects :subunit_to_unit currency property" do
-        expect(Money.new(10_00, "BHD").format(no_cents: true)).to eq "ب.د1"
+        expect(Money.new(10_00, "BHD").format(no_cents: true)).to eq ".د.ب1"
       end
 
       it "inserts thousand separators if symbol contains decimal mark and no_cents is true" do
@@ -613,8 +613,8 @@ describe Money, "formatting" do
       it "does round fractional when set to true" do
         expect(Money.new(BigDecimal('12.1'), "USD").format(rounded_infinite_precision: true)).to eq "$0.12"
         expect(Money.new(BigDecimal('12.5'), "USD").format(rounded_infinite_precision: true)).to eq "$0.13"
-        expect(Money.new(BigDecimal('123.1'), "BHD").format(rounded_infinite_precision: true)).to eq "ب.د0.123"
-        expect(Money.new(BigDecimal('123.5'), "BHD").format(rounded_infinite_precision: true)).to eq "ب.د0.124"
+        expect(Money.new(BigDecimal('123.1'), "BHD").format(rounded_infinite_precision: true)).to eq ".د.ب0.123"
+        expect(Money.new(BigDecimal('123.5'), "BHD").format(rounded_infinite_precision: true)).to eq ".د.ب0.124"
         expect(Money.new(BigDecimal('100.1'), "USD").format(rounded_infinite_precision: true)).to eq "$1.00"
         expect(Money.new(BigDecimal('109.5'), "USD").format(rounded_infinite_precision: true)).to eq "$1.10"
         expect(Money.new(BigDecimal('1.7'), "MGA").format(rounded_infinite_precision: true)).to eq "Ar0.4"
@@ -623,8 +623,8 @@ describe Money, "formatting" do
       it "does not round fractional when set to false" do
         expect(Money.new(BigDecimal('12.1'), "USD").format(rounded_infinite_precision: false)).to eq "$0.121"
         expect(Money.new(BigDecimal('12.5'), "USD").format(rounded_infinite_precision: false)).to eq "$0.125"
-        expect(Money.new(BigDecimal('123.1'), "BHD").format(rounded_infinite_precision: false)).to eq "ب.د0.1231"
-        expect(Money.new(BigDecimal('123.5'), "BHD").format(rounded_infinite_precision: false)).to eq "ب.د0.1235"
+        expect(Money.new(BigDecimal('123.1'), "BHD").format(rounded_infinite_precision: false)).to eq ".د.ب0.1231"
+        expect(Money.new(BigDecimal('123.5'), "BHD").format(rounded_infinite_precision: false)).to eq ".د.ب0.1235"
         expect(Money.new(BigDecimal('100.1'), "USD").format(rounded_infinite_precision: false)).to eq "$1.001"
         expect(Money.new(BigDecimal('109.5'), "USD").format(rounded_infinite_precision: false)).to eq "$1.095"
         expect(Money.new(BigDecimal('1.7'), "MGA").format(rounded_infinite_precision: false)).to eq "Ar0.34"
@@ -669,8 +669,8 @@ describe Money, "formatting" do
         it 'does round fractional when set to true' do
           expect(Money.new(BigDecimal('12.1'), "USD").format(rounded_infinite_precision: true)).to eq "$0,12"
           expect(Money.new(BigDecimal('12.5'), "USD").format(rounded_infinite_precision: true)).to eq "$0,13"
-          expect(Money.new(BigDecimal('123.1'), "BHD").format(rounded_infinite_precision: true)).to eq "ب.د0,123"
-          expect(Money.new(BigDecimal('123.5'), "BHD").format(rounded_infinite_precision: true)).to eq "ب.د0,124"
+          expect(Money.new(BigDecimal('123.1'), "BHD").format(rounded_infinite_precision: true)).to eq ".د.ب0,123"
+          expect(Money.new(BigDecimal('123.5'), "BHD").format(rounded_infinite_precision: true)).to eq ".د.ب0,124"
           expect(Money.new(BigDecimal('100.1'), "USD").format(rounded_infinite_precision: true)).to eq "$1,00"
           expect(Money.new(BigDecimal('109.5'), "USD").format(rounded_infinite_precision: true)).to eq "$1,10"
           expect(Money.new(BigDecimal('1'), "MGA").format(rounded_infinite_precision: true)).to eq "Ar0,2"
