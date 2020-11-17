@@ -961,7 +961,7 @@
     "symbol": "Ft",
     "alternate_symbols": [],
     "subunit": "",
-    "subunit_to_unit": 1,
+    "subunit_to_unit": 100,
     "symbol_first": false,
     "format": "%n %u",
     "html_entity": "",
