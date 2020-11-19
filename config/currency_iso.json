@@ -968,7 +968,7 @@
     "decimal_mark": ",",
     "thousands_separator": " ",
     "iso_numeric": "348",
-    "smallest_denomination": 5
+    "smallest_denomination": 500
   },
   "idr": {
     "priority": 100,
