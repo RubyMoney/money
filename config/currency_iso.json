@@ -224,7 +224,7 @@
     "priority": 100,
     "iso_code": "BHD",
     "name": "Bahraini Dinar",
-    "symbol": ".د.ب",
+    "symbol": "د.ب.",
     "alternate_symbols": ["BD"],
     "subunit": "Fils",
     "subunit_to_unit": 1000,
