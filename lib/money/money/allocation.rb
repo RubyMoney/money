@@ -13,7 +13,13 @@ class Money
     #   Array<Numeric> — allocates the amounts proportionally to the given array
     #
     def self.generate(amount, parts, whole_amounts = true)
-      parts = parts.is_a?(Numeric) ? Array.new(parts, 1) : parts.dup
+      parts = if parts.is_a?(Numeric)
+        Array.new(parts, 1)
+      elsif parts.all?(&:zero?)
+        Array.new(parts.count, 1)
+      else
+        parts.dup
+      end
 
       raise ArgumentError, 'need at least one party' if parts.empty?
 

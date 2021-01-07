@@ -729,6 +729,16 @@ YAML
       end
     end
 
+    context "with all zeros" do
+      subject { Money.us_dollar(100).allocate(arry).map(&:fractional) }
+
+      let(:arry) { [0, 0] }
+
+      it "allocates evenly" do
+         expect(subject).to eq [50, 50]
+      end
+    end
+
     it "keeps subclasses intact" do
       special_money_class = Class.new(Money)
       expect(special_money_class.new(005).allocate([1]).first).to be_a special_money_class

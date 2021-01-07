@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.13.9
+- Fix edgecase for Money#allocate when applying to array of all zero values
+
 ## 6.13.8
 - Update symbol for XOF
 - Update UYU currency symbol
