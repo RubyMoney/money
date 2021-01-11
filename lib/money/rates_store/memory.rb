@@ -14,11 +14,13 @@ class Money
     #   store.each_rate {|iso_from, iso_to, rate| puts "#{from} -> #{to}: #{rate}" }
     class Memory
       INDEX_KEY_SEPARATOR = '_TO_'.freeze
+      INDEX_KEY_DATE_SEPARATOR = '_AT_'.freeze
 
       # Initializes a new +Money::RatesStore::Memory+ object.
       #
       # @param [Hash] opts Optional store options.
       # @option opts [Boolean] :without_mutex disables the usage of a mutex
+      # @option opts [Boolean] :historical enables historical exchange rate storage
       # @param [Hash] rates Optional initial exchange rate data.
       def initialize(opts = {}, rates = {})
         @rates = rates
@@ -31,6 +33,7 @@ class Money
       # @param [String] currency_iso_from Currency to exchange from.
       # @param [String] currency_iso_to Currency to exchange to.
       # @param [Numeric] rate Rate to use when exchanging currencies.
+      # @param [Date] date Date of the exchange rate, ignored if not using a historical store.
       #
       # @return [Numeric]
       #
@@ -38,9 +41,13 @@ class Money
       #   store = Money::RatesStore::Memory.new
       #   store.add_rate("USD", "CAD", 1.24515)
       #   store.add_rate("CAD", "USD", 0.803115)
-      def add_rate(currency_iso_from, currency_iso_to, rate)
+      # @example Historical store
+      #   store = Money::RatesStore::Memory.new(historical: true)
+      #   store.add_rate("USD", "CAD", 1.28272, Date.today)
+      #   store.add_rate("USD", "CAD", 1.33085, Date.new(2020, 10, 1))
+      def add_rate(currency_iso_from, currency_iso_to, rate, date = nil)
         guard.synchronize do
-          rates[rate_key_for(currency_iso_from, currency_iso_to)] = rate
+          rates[rate_key_for(currency_iso_from, currency_iso_to, date)] = rate
         end
       end
 
@@ -49,6 +56,7 @@ class Money
       #
       # @param [String] currency_iso_from Currency to exchange from.
       # @param [String] currency_iso_to Currency to exchange to.
+      # @param [Date] date Date of the exchange rate, ignored if not using a historical store.
       #
       # @return [Numeric]
       #
@@ -57,9 +65,15 @@ class Money
       #   store.add_rate("USD", "CAD", 1.24515)
       #
       #   store.get_rate("USD", "CAD") #=> 1.24515
-      def get_rate(currency_iso_from, currency_iso_to)
+      # @example Historical store
+      #   store = Money::RatesStore::Memory.new(historical: true)
+      #   store.add_rate("USD", "CAD", 1.28272, Date.today)
+      #   store.add_rate("USD", "CAD", 1.33085, Date.new(2020, 10, 1))
+      #
+      #   store.get_rate("USD", "CAD", Date.today) #=> 1.28272
+      def get_rate(currency_iso_from, currency_iso_to, date = nil)
         guard.synchronize do
-          rates[rate_key_for(currency_iso_from, currency_iso_to)]
+          rates[rate_key_for(currency_iso_from, currency_iso_to, date)]
         end
       end
 
@@ -81,6 +95,7 @@ class Money
       # @yieldparam iso_from [String] Currency ISO string.
       # @yieldparam iso_to [String] Currency ISO string.
       # @yieldparam rate [Numeric] Exchange rate.
+      # @yieldparam date [(optional) Date] Date of the exchange rate, only yielded if using a historical store.
       #
       # @return [Enumerator]
       #
@@ -88,13 +103,24 @@ class Money
       #   store.each_rate do |iso_from, iso_to, rate|
       #     puts [iso_from, iso_to, rate].join
       #   end
+      # @example Historical store
+      #   store.each_rate do |iso_from, iso_to, rate, date|
+      #     puts [iso_from, iso_to, rate, date].join
+      #   end
       def each_rate(&block)
         return to_enum(:each_rate) unless block_given?
 
         guard.synchronize do
           rates.each do |key, rate|
-            iso_from, iso_to = key.split(INDEX_KEY_SEPARATOR)
-            yield iso_from, iso_to, rate
+            if @options[:historical]
+              iso_from, iso_to = key.split(INDEX_KEY_SEPARATOR)
+              iso_to, date = iso_to.split(INDEX_KEY_DATE_SEPARATOR)
+              date = Date.parse(date) if date
+              yield iso_from, iso_to, rate, date
+            else
+              iso_from, iso_to = key.split(INDEX_KEY_SEPARATOR)
+              yield iso_from, iso_to, rate
+            end
           end
         end
       end
@@ -107,13 +133,20 @@ class Money
       #
       # @param [String] currency_iso_from The currency to exchange from.
       # @param [String] currency_iso_to The currency to exchange to.
+      # @param [Date] date Date of the exchange rate, ignored if not using a historical store.
       #
       # @return [String]
       #
       # @example
       #   rate_key_for("USD", "CAD") #=> "USD_TO_CAD"
-      def rate_key_for(currency_iso_from, currency_iso_to)
-        [currency_iso_from, currency_iso_to].join(INDEX_KEY_SEPARATOR).upcase
+      def rate_key_for(currency_iso_from, currency_iso_to, date = nil)
+        key = if @options[:historical]
+          key_convert = [currency_iso_from, currency_iso_to].join(INDEX_KEY_SEPARATOR)
+          [key_convert, date.to_s].join(INDEX_KEY_DATE_SEPARATOR) if date
+        else
+          [currency_iso_from, currency_iso_to].join(INDEX_KEY_SEPARATOR)
+        end
+        key.upcase
       end
     end
   end
