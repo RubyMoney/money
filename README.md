@@ -3,7 +3,6 @@
 [![Gem Version](https://badge.fury.io/rb/money.svg)](https://rubygems.org/gems/money)
 [![Build Status](https://travis-ci.org/RubyMoney/money.svg?branch=master)](https://travis-ci.org/RubyMoney/money)
 [![Code Climate](https://codeclimate.com/github/RubyMoney/money.svg)](https://codeclimate.com/github/RubyMoney/money)
-[![Coverage Status](https://coveralls.io/repos/RubyMoney/money/badge.svg?branch=master)](https://coveralls.io/r/RubyMoney/money?branch=master)
 [![Inline docs](https://inch-ci.org/github/RubyMoney/money.svg)](https://inch-ci.org/github/RubyMoney/money)
 [![License](https://img.shields.io/github/license/RubyMoney/money.svg)](https://opensource.org/licenses/MIT)
 
@@ -327,7 +326,7 @@ class ExchangeRate < ApplicationRecord
     exrate.rate = rate
     exrate.save!
   end
-  
+
   def self.each_rate
     return find_each unless block_given?
 
@@ -435,7 +434,6 @@ You can set the default rounding mode by passing one of the `BigDecimal` mode en
 Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
 ```
 See [BigDecimal::ROUND_MODE](https://ruby-doc.org/stdlib-2.5.1/libdoc/bigdecimal/rdoc/BigDecimal.html#ROUND_MODE) for more information
-
 
 ## Ruby on Rails
 
