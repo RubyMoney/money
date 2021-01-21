@@ -735,10 +735,10 @@ describe Money, "formatting" do
     end
   end
 
-  describe ':format to "%u %n" for currency with :symbol_first to true' do
+  describe ':format to "%u%n" for currency with :symbol_first to true' do
     context 'when rules are not passed' do
-      it "insert space between symbol and number" do
-        expect(Money.new(100_00, 'CHF').format).to eq "CHF 100.00"
+      it "does not insert space between symbol and number" do
+        expect(Money.new(100_00, 'CHF').format).to eq "CHF100.00"
       end
     end
 
