@@ -742,12 +742,6 @@ describe Money, "formatting" do
       end
     end
 
-    context 'when format: "%u%n" rule is passed' do
-      it "ignores :symbol_with_space in favour of format" do
-        expect(Money.new(100_00, 'CHF').format(format: '%u%n')).to eq "CHF100.00"
-      end
-    end
-
     context 'when symbol_position is passed' do
       it "inserts currency symbol before the amount when set to :before" do
         expect(Money.new(100_00, 'CHF').format(symbol_position: :before)).to eq "CHF100.00"
@@ -773,12 +767,6 @@ describe Money, "formatting" do
     context 'when rules are not passed' do
       it "insert space between symbol and number" do
         expect(Money.new(100_00, 'AED').format).to eq "100.00 د.إ"
-      end
-    end
-
-    context 'when format: "%u%n" rule is passed' do
-      it "ignores :symbol_with_space in favour of format" do
-        expect(Money.new(100_00, 'AED').format(format: '%u%n')).to eq "د.إ100.00"
       end
     end
 
