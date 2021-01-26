@@ -411,7 +411,7 @@ Money.from_amount(2.34567).format #=> "$2.35"
 To retain the additional precision, you will also need to set `infinite_precision` to `true`.
 
 ```ruby
-Money.infinite_precision = true
+Money.default_infinite_precision = true
 Money.from_amount(2.34567).format #=> "$2.34567"
 ```
 
@@ -423,7 +423,7 @@ To round to the nearest cent (or anything more precise), you can use the `round`
 2.34567.round(2)  #=> 2.35
 
 # Money
-Money.infinite_precision = true
+Money.default_infinite_precision = true
 Money.new(2.34567).format       #=> "$0.0234567"
 Money.new(2.34567).round.format #=> "$0.02"
 Money.new(2.34567).round(BigDecimal::ROUND_HALF_UP, 2).format #=> "$0.0235"
