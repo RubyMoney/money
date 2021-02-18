@@ -1,6 +1,14 @@
 # Changelog
 
-## 6.13.9
+## 6.14.0
+
+- Fix Bahraini dinar symbol
+- Raise exception when default currency is not set or passed as parameter
+- Allow specifying default_bank as a lambda
+- Allow passing a default format in currencies definition only valid without symbol_position
+- Always allow comparison with zero Money
+- Rename Money.infinite_precision to default_infinite_precision
+- Add Currency.reset! method to reload all the default currency definitions
 - Fix edgecase for Money#allocate when applying to array of all zero values
 
 ## 6.13.8
