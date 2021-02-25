@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.14.1
+
+- Fix CHF format regression introduced in v6.14.0
+- Fix deprecation warning in #format_decimal_part
+
 ## 6.14.0
 
 - Fix Bahraini dinar symbol
