@@ -735,16 +735,10 @@ describe Money, "formatting" do
     end
   end
 
-  describe ':format to "%u %n" for currency with :symbol_first to true' do
+  describe ':format to "%u%n" for currency with :symbol_first to true' do
     context 'when rules are not passed' do
-      it "insert space between symbol and number" do
-        expect(Money.new(100_00, 'CHF').format).to eq "CHF 100.00"
-      end
-    end
-
-    context 'when format: "%u%n" rule is passed' do
-      it "ignores :symbol_with_space in favour of format" do
-        expect(Money.new(100_00, 'CHF').format(format: '%u%n')).to eq "CHF100.00"
+      it "does not insert space between symbol and number" do
+        expect(Money.new(100_00, 'CHF').format).to eq "CHF100.00"
       end
     end
 
@@ -773,12 +767,6 @@ describe Money, "formatting" do
     context 'when rules are not passed' do
       it "insert space between symbol and number" do
         expect(Money.new(100_00, 'AED').format).to eq "100.00 د.إ"
-      end
-    end
-
-    context 'when format: "%u%n" rule is passed' do
-      it "ignores :symbol_with_space in favour of format" do
-        expect(Money.new(100_00, 'AED').format(format: '%u%n')).to eq "د.إ100.00"
       end
     end
 
