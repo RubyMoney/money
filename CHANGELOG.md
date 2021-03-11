@@ -1,6 +1,6 @@
 # Changelog
 
-## 6.14.2
+## 6.15.0
 
 - Add :delimiter_pattern option to the Formatter
 
