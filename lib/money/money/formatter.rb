@@ -330,7 +330,9 @@ class Money
 
     def format_whole_part(value)
       # Apply thousands_separator
-      value.gsub regexp_format, "\\1#{thousands_separator}"
+      value.gsub(rules[:delimiter_pattern]) do |digit_to_delimit|
+        "#{digit_to_delimit}#{thousands_separator}"
+      end
     end
 
     def extract_whole_and_decimal_parts
@@ -364,15 +366,6 @@ class Money
       return rules[key] || DEFAULTS[key] if rules.has_key?(key)
 
       (Money.locale_backend && Money.locale_backend.lookup(key, currency)) || DEFAULTS[key]
-    end
-
-    def regexp_format
-      if rules[:south_asian_number_formatting]
-        # from http://blog.revathskumar.com/2014/11/regex-comma-seperated-indian-currency-format.html
-        /(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/
-      else
-        /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
-      end
     end
 
     def symbol_value_from(rules)

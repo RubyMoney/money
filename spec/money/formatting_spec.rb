@@ -92,7 +92,7 @@ describe Money, "formatting" do
         I18n.locale = :de
         I18n.backend.store_translations(
             :de,
-            number: { currency: { format: { delimiter: ".", separator: "," } } }
+            number: { currency: { format: { delimiter: ".", separator: ",", delimiter_pattern: /(\d)(?=\d)/ } } }
         )
       end
 
@@ -104,6 +104,10 @@ describe Money, "formatting" do
 
       it "should use ',' as the decimal mark" do
         expect(money.decimal_mark).to eq ','
+      end
+
+      it "should use delimiter pattern" do
+        expect(Money.new(1_456_00, "EUR").format).to eq "€1.4.5.6,00"
       end
     end
 
