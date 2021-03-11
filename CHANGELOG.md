@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.15.0
+
+- Add :delimiter_pattern option to the Formatter
+
 ## 6.14.1
 
 - Fix CHF format regression introduced in v6.14.0
