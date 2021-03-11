@@ -211,6 +211,12 @@ class Money
     #   Money.new(89000, :btc).format(drop_trailing_zeros: true) #=> B⃦0.00089
     #   Money.new(110, :usd).format(drop_trailing_zeros: true)   #=> $1.1
     #
+    # @option rules [Boolean] :delimiter_pattern (/(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/) Regular expression to set the placement
+    #   for the thousands delimiter
+    #
+    # @example
+    #   Money.new(89000, :btc).format(delimiter_pattern: /(\d)(?=\d)/) #=> B⃦8,9,0.00
+    #
     # @option rules [String] :format (nil) Provide a template for formatting. `%u` will be replaced
     # with the symbol (if present) and `%n` will be replaced with the number.
     #
