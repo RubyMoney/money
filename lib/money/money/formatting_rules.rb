@@ -12,6 +12,7 @@ class Money
       @rules = localize_formatting_rules(@rules)
       @rules = translate_formatting_rules(@rules) if @rules[:translate]
       @rules[:format] ||= determine_format_from_formatting_rules(@rules)
+      @rules[:delimiter_pattern] ||= delimiter_pattern_rule(@rules)
 
       warn_about_deprecated_rules(@rules)
     end
@@ -87,6 +88,15 @@ class Money
         rules.fetch(:symbol_before_without_space, true) ? '%u%n' : '%u %n'
       else
         rules[:symbol_after_without_space] ? '%n%u' : '%n %u'
+      end
+    end
+
+    def delimiter_pattern_rule(rules)
+      if rules[:south_asian_number_formatting]
+        # from http://blog.revathskumar.com/2014/11/regex-comma-seperated-indian-currency-format.html
+        /(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/
+      else
+        I18n.t('number.currency.format.delimiter_pattern', default: nil) || /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
       end
     end
 

@@ -211,6 +211,12 @@ class Money
     #   Money.new(89000, :btc).format(drop_trailing_zeros: true) #=> B⃦0.00089
     #   Money.new(110, :usd).format(drop_trailing_zeros: true)   #=> $1.1
     #
+    # @option rules [Boolean] :delimiter_pattern (/(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/) Regular expression to set the placement
+    #   for the thousands delimiter
+    #
+    # @example
+    #   Money.new(89000, :btc).format(delimiter_pattern: /(\d)(?=\d)/) #=> B⃦8,9,0.00
+    #
     # @option rules [String] :format (nil) Provide a template for formatting. `%u` will be replaced
     # with the symbol (if present) and `%n` will be replaced with the number.
     #
@@ -330,7 +336,9 @@ class Money
 
     def format_whole_part(value)
       # Apply thousands_separator
-      value.gsub regexp_format, "\\1#{thousands_separator}"
+      value.gsub(rules[:delimiter_pattern]) do |digit_to_delimit|
+        "#{digit_to_delimit}#{thousands_separator}"
+      end
     end
 
     def extract_whole_and_decimal_parts
@@ -364,15 +372,6 @@ class Money
       return rules[key] || DEFAULTS[key] if rules.has_key?(key)
 
       (Money.locale_backend && Money.locale_backend.lookup(key, currency)) || DEFAULTS[key]
-    end
-
-    def regexp_format
-      if rules[:south_asian_number_formatting]
-        # from http://blog.revathskumar.com/2014/11/regex-comma-seperated-indian-currency-format.html
-        /(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/
-      else
-        /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
-      end
     end
 
     def symbol_value_from(rules)
