@@ -104,6 +104,39 @@ class Money
         raise NotImplementedError, "#exchange_with must be implemented"
       end
 
+      # Exchanges the given +Money+ object to a new +Money+ object in
+      # +to_currency+ using the custom +rate+ provided.
+      #
+      # @abstract Subclass and override +#exchange_with_custom_rate+ to
+      # implement a custom +Money::Bank+ class.
+      #
+      # @raise NotImplementedError
+      #
+      # @param  [Money] from
+      #         The +Money+ object to exchange.
+      # @param  [Currency, String, Symbol] to_currency
+      #         The currency to exchange to.
+      # @param [Numeric] rate Rate to use when exchanging currencies.
+      #
+      # @yield [n] Optional block to use when rounding after exchanging one
+      #  currency for another.
+      # @yieldparam [Float] n The resulting float after exchanging one currency
+      #  for another.
+      # @yieldreturn [Integer]
+      #
+      # @return [Money]
+      #
+      # @example
+      #   bank = Money::Bank::VariableExchange.new
+      #
+      #   money = Money.new(100_00, "USD")
+      #
+      #   # Exchange 100 USD to CAD:
+      #   bank.exchange_with_custom_rate(money, "CAD", 2.0) #=> #<Money fractional:20000 currency:CAD>
+      def exchange_with_custom_rate(from, to_currency, rate, &block)
+        raise NotImplementedError, "#exchange_with must be implemented"
+      end
+
       # Given two currency strings or object, checks whether they're both the
       # same currency. Return +true+ if the currencies are the same, +false+
       # otherwise.

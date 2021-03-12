@@ -511,6 +511,7 @@ class Money
   # Receive the amount of this money object in another Currency.
   #
   # @param [Currency, String, Symbol] other_currency Currency to exchange to.
+  # @param [Numeric] rate Rate to use when exchanging currencies.
   #
   # @yield [n] Optional block to use when rounding after exchanging one currency
   #  for another.
@@ -524,12 +525,15 @@ class Money
   #   Money.new(2000, "USD").exchange_to("EUR")
   #   Money.new(2000, "USD").exchange_to("EUR") {|x| x.round}
   #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
-  def exchange_to(other_currency, &rounding_method)
+  def exchange_to(other_currency, rate: nil, &rounding_method)
     other_currency = Currency.wrap(other_currency)
-    if self.currency == other_currency
-      self
-    else
+
+    return self if self.currency == other_currency
+
+    if rate.nil?
       @bank.exchange_with(self, other_currency, &rounding_method)
+    else
+      @bank.exchange_with_custom_rate(self, other_currency, rate, &rounding_method)
     end
   end
 

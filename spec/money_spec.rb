@@ -660,6 +660,12 @@ YAML
       expect(money.bank).to_not receive(:exchange_with)
       expect(money.exchange_to("USD")).to eq money
     end
+
+    it "allows the exchange rate to be overriden" do
+      money = Money.new(100_00, "USD")
+      expect(money.bank).to receive(:exchange_with_custom_rate).with(Money.new(100_00, "USD"), Money::Currency.new("EUR"), 0.92).and_return(Money.new(92_00, Money::Currency.new('EUR')))
+      expect(money.exchange_to("EUR", rate: 0.92)).to eq Money.new(92_00, "EUR")
+    end
   end
 
   describe "#allocate" do

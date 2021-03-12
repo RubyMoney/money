@@ -82,6 +82,47 @@ describe Money::Bank::VariableExchange do
           expect(bank.exchange_with(Money.new(100_000_000_000_000_01, 'USD'), 'EUR')).to eq Money.new(133_000_000_000_000_01, 'EUR')
         end
       end
+
+      describe "#exchange_with_custom_rate" do
+        it "accepts str" do
+          expect { bank.exchange_with_custom_rate(Money.new(100, 'USD'), 'EUR', 2) }.to_not raise_exception
+        end
+
+        it "accepts currency" do
+          expect { bank.exchange_with_custom_rate(Money.new(100, 'USD'), Money::Currency.wrap('EUR'), 2) }.to_not raise_exception
+        end
+
+        it "exchanges one currency to another" do
+          expect(bank.exchange_with_custom_rate(Money.new(100, 'USD'), 'EUR', 2)).to eq Money.new(200, 'EUR')
+        end
+
+        it "truncates extra digits" do
+          expect(bank.exchange_with_custom_rate(Money.new(10, 'USD'), 'EUR', 1.33)).to eq Money.new(13, 'EUR')
+        end
+
+        it "raises an UnknownCurrency exception when an unknown currency is requested" do
+          expect { bank.exchange_with_custom_rate(Money.new(100, 'USD'), 'BBB', 2) }.to raise_exception(Money::Currency::UnknownCurrency)
+        end
+
+        it "accepts a custom truncation method" do
+          proc = Proc.new { |n| n.ceil }
+          expect(bank.exchange_with_custom_rate(Money.new(10, 'USD'), 'EUR', 1.33, &proc)).to eq Money.new(14, 'EUR')
+        end
+
+        it 'works with big numbers' do
+          amount = 10**20
+          expect(bank.exchange_with_custom_rate(Money.usd(amount), :EUR, 2.33)).to eq Money.eur(2.33 * amount)
+        end
+
+        it "preserves the class in the result when given a subclass of Money" do
+          special_money_class = Class.new(Money)
+          expect(bank.exchange_with_custom_rate(special_money_class.new(100, 'USD'), 'EUR', 2)).to be_a special_money_class
+        end
+
+        it "doesn't lose precision when handling larger amounts" do
+          expect(bank.exchange_with_custom_rate(Money.new(100_000_000_000_000_01, 'USD'), 'EUR', 2.33)).to eq Money.new(233_000_000_000_000_02, 'EUR')
+        end
+      end
     end
 
     context "with &block" do

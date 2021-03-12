@@ -112,16 +112,53 @@ class Money
           from
         else
           if rate = get_rate(from.currency, to_currency)
-            fractional = calculate_fractional(from, to_currency)
-            from.dup_with(
-              fractional: exchange(fractional, rate, &block),
-              currency: to_currency,
-              bank: self
-            )
+            perform_exchange(from, to_currency, rate, &block)
           else
             raise UnknownRate, "No conversion rate known for '#{from.currency.iso_code}' -> '#{to_currency}'"
           end
         end
+      end
+
+      # Exchanges the given +Money+ object to a new +Money+ object in
+      # +to_currency+ using the custom +rate+ provided.
+      #
+      # @param  [Money] from
+      #         The +Money+ object to exchange.
+      # @param  [Currency, String, Symbol] to_currency
+      #         The currency to exchange to.
+      # @param [Numeric] rate Rate to use when exchanging currencies.
+      #
+      # @yield [n] Optional block to use when rounding after exchanging one
+      #  currency for another.
+      # @yieldparam [Float] n The resulting float after exchanging one currency
+      #  for another.
+      # @yieldreturn [Integer]
+      #
+      # @return [Money]
+      #
+      # @example
+      #   bank = Money::Bank::VariableExchange.new
+      #
+      #   money = Money.new(100_00, "USD")
+      #
+      #   # Exchange 100 USD to CAD:
+      #   bank.exchange_with_custom_rate(money, "CAD", 2.0) #=> #<Money fractional:20000 currency:CAD>
+      def exchange_with_custom_rate(from, to_currency, rate, &block)
+        to_currency = Currency.wrap(to_currency)
+        if from.currency == to_currency
+          from
+        else
+          perform_exchange(from, to_currency, rate, &block)
+        end
+      end
+
+      def perform_exchange(from, to_currency, rate, &block)
+        fractional = calculate_fractional(from, to_currency)
+        from.dup_with(
+          fractional: exchange(fractional, rate, &block),
+          currency: to_currency,
+          bank: self
+        )
       end
 
       def calculate_fractional(from, to_currency)
