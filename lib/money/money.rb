@@ -312,6 +312,10 @@ class Money
     new(value, currency, options)
   end
 
+  class << self
+    alias_method :from_cents, :new
+  end
+
   # Creates a new Money object of value given in the
   # +fractional unit+ of the given +currency+.
   #

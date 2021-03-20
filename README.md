@@ -61,38 +61,38 @@ The development version (hosted on Github) can be installed with:
 require 'money'
 
 # 10.00 USD
-money = Money.new(1000, "USD")
+money = Money.from_cents(1000, "USD")
 money.cents     #=> 1000
 money.currency  #=> Currency.new("USD")
 
 # Comparisons
-Money.new(1000, "USD") == Money.new(1000, "USD")   #=> true
-Money.new(1000, "USD") == Money.new(100, "USD")    #=> false
-Money.new(1000, "USD") == Money.new(1000, "EUR")   #=> false
-Money.new(1000, "USD") != Money.new(1000, "EUR")   #=> true
+Money.from_cents(1000, "USD") == Money.from_cents(1000, "USD")   #=> true
+Money.from_cents(1000, "USD") == Money.from_cents(100, "USD")    #=> false
+Money.from_cents(1000, "USD") == Money.from_cents(1000, "EUR")   #=> false
+Money.from_cents(1000, "USD") != Money.from_cents(1000, "EUR")   #=> true
 
 # Arithmetic
-Money.new(1000, "USD") + Money.new(500, "USD") == Money.new(1500, "USD")
-Money.new(1000, "USD") - Money.new(200, "USD") == Money.new(800, "USD")
-Money.new(1000, "USD") / 5                     == Money.new(200, "USD")
-Money.new(1000, "USD") * 5                     == Money.new(5000, "USD")
+Money.from_cents(1000, "USD") + Money.from_cents(500, "USD") == Money.from_cents(1500, "USD")
+Money.from_cents(1000, "USD") - Money.from_cents(200, "USD") == Money.from_cents(800, "USD")
+Money.from_cents(1000, "USD") / 5                            == Money.from_cents(200, "USD")
+Money.from_cents(1000, "USD") * 5                            == Money.from_cents(5000, "USD")
 
 # Unit to subunit conversions
-Money.from_amount(5, "USD") == Money.new(500, "USD")  # 5 USD
-Money.from_amount(5, "JPY") == Money.new(5, "JPY")    # 5 JPY
-Money.from_amount(5, "TND") == Money.new(5000, "TND") # 5 TND
+Money.from_amount(5, "USD") == Money.from_cents(500, "USD")  # 5 USD
+Money.from_amount(5, "JPY") == Money.from_cents(5, "JPY")    # 5 JPY
+Money.from_amount(5, "TND") == Money.from_cents(5000, "TND") # 5 TND
 
 # Currency conversions
 some_code_to_setup_exchange_rates
-Money.new(1000, "USD").exchange_to("EUR") == Money.new(some_value, "EUR")
+Money.from_cents(1000, "USD").exchange_to("EUR") == Money.from_cents(some_value, "EUR")
 
 # Swap currency
-Money.new(1000, "USD").with_currency("EUR") == Money.new(1000, "EUR")
+Money.from_cents(1000, "USD").with_currency("EUR") == Money.from_cents(1000, "EUR")
 
 # Formatting (see Formatting section for more options)
-Money.new(100, "USD").format #=> "$1.00"
-Money.new(100, "GBP").format #=> "£1.00"
-Money.new(100, "EUR").format #=> "€1.00"
+Money.from_cents(100, "USD").format #=> "$1.00"
+Money.from_cents(100, "GBP").format #=> "£1.00"
+Money.from_cents(100, "EUR").format #=> "€1.00"
 ```
 
 ## Currency
@@ -102,15 +102,15 @@ The most part of `Money` APIs allows you to supply either a `String` or a
 `Money::Currency`.
 
 ``` ruby
-Money.new(1000, "USD") == Money.new(1000, Money::Currency.new("USD"))
-Money.new(1000, "EUR").currency == Money::Currency.new("EUR")
+Money.from_cents(1000, "USD") == Money.from_cents(1000, Money::Currency.new("USD"))
+Money.from_cents(1000, "EUR").currency == Money::Currency.new("EUR")
 ```
 
 A `Money::Currency` instance holds all the information about the currency,
 including the currency symbol, name and much more.
 
 ``` ruby
-currency = Money.new(1000, "USD").currency
+currency = Money.from_cents(1000, "USD").currency
 currency.iso_code #=> "USD"
 currency.name     #=> "United States Dollar"
 ```
@@ -230,18 +230,18 @@ an example of how it works:
 Money.add_rate("USD", "CAD", 1.24515)
 Money.add_rate("CAD", "USD", 0.803115)
 
-Money.us_dollar(100).exchange_to("CAD")  # => Money.new(124, "CAD")
-Money.ca_dollar(100).exchange_to("USD")  # => Money.new(80, "USD")
+Money.us_dollar(100).exchange_to("CAD")  # => Money.from_cents(124, "CAD")
+Money.ca_dollar(100).exchange_to("USD")  # => Money.from_cents(80, "USD")
 ```
 
 Comparison and arithmetic operations work as expected:
 
 ``` ruby
-Money.new(1000, "USD") <=> Money.new(900, "USD")   # => 1; 9.00 USD is smaller
-Money.new(1000, "EUR") + Money.new(10, "EUR") == Money.new(1010, "EUR")
+Money.from_cents(1000, "USD") <=> Money.from_cents(900, "USD")   # => 1; 9.00 USD is smaller
+Money.from_cents(1000, "EUR") + Money.from_cents(10, "EUR") == Money.from_cents(1010, "EUR")
 
 Money.add_rate("USD", "EUR", 0.5)
-Money.new(1000, "EUR") + Money.new(1000, "USD") == Money.new(1500, "EUR")
+Money.from_cents(1000, "EUR") + Money.from_cents(1000, "USD") == Money.from_cents(1500, "EUR")
 ```
 
 ### Exchange rate stores
@@ -349,7 +349,7 @@ Money.default_bank.add_rate('USD', 'CAD', 0.9)
 # Retrieve from the underlying store
 Money.default_bank.get_rate('USD', 'CAD') # => 0.9
 # Exchanging amounts just works.
-Money.new(1000, 'USD').exchange_to('CAD') #=> #<Money fractional:900 currency:CAD>
+Money.from_cents(1000, 'USD').exchange_to('CAD') #=> #<Money fractional:900 currency:CAD>
 ```
 
 There is nothing stopping you from creating store objects which scrapes
@@ -396,7 +396,7 @@ There are several formatting rules for when `Money#format` is called. For more i
 If you wish to format money according to the EU's [Rules for expressing monetary units](http://publications.europa.eu/code/en/en-370303.htm#position) in either English, Irish, Latvian or Maltese:
 
 ```ruby
-m = Money.new('123', :gbp) # => #<Money fractional:123 currency:GBP>
+m = Money.from_cents('123', :gbp) # => #<Money fractional:123 currency:GBP>
 m.format(symbol: m.currency.to_s + ' ') # => "GBP 1.23"
 ```
 
@@ -424,9 +424,9 @@ To round to the nearest cent (or anything more precise), you can use the `round`
 
 # Money
 Money.default_infinite_precision = true
-Money.new(2.34567).format       #=> "$0.0234567"
-Money.new(2.34567).round.format #=> "$0.02"
-Money.new(2.34567).round(BigDecimal::ROUND_HALF_UP, 2).format #=> "$0.0235"
+Money.from_cents(2.34567).format       #=> "$0.0234567"
+Money.from_cents(2.34567).round.format #=> "$0.02"
+Money.from_cents(2.34567).round(BigDecimal::ROUND_HALF_UP, 2).format #=> "$0.0235"
 ```
 
 You can set the default rounding mode by passing one of the `BigDecimal` mode enumerables like so:
@@ -466,7 +466,7 @@ en:
       separator: "."
 ```
 
-For this example `Money.new(123456789, "SEK").format` will return `1,234,567.89
+For this example `Money.from_cents(123456789, "SEK").format` will return `1,234,567.89
 kr` which otherwise would have returned `1 234 567,89 kr`.
 
 This will work seamlessly with [rails-i18n](https://github.com/svenfuchs/rails-i18n) gem that already has a lot of locales defined.
@@ -490,12 +490,12 @@ Money.locale_backend = :i18n
 
 # example (using default localization from rails-i18n):
 I18n.locale = :en
-Money.new(10_000_00, 'USD').format # => $10,000.00
-Money.new(10_000_00, 'EUR').format # => €10,000.00
+Money.from_cents(10_000_00, 'USD').format # => $10,000.00
+Money.from_cents(10_000_00, 'EUR').format # => €10,000.00
 
 I18n.locale = :es
-Money.new(10_000_00, 'USD').format # => $10.000,00
-Money.new(10_000_00, 'EUR').format # => €10.000,00
+Money.from_cents(10_000_00, 'USD').format # => $10.000,00
+Money.from_cents(10_000_00, 'EUR').format # => €10.000,00
 ```
 
 If you need to localize the position of the currency symbol, you
@@ -505,7 +505,7 @@ behavior in the next version.*
 ```ruby
 I18n.locale = :fr
 format = I18n.t :format, scope: 'number.currency.format'
-Money.new(10_00, 'EUR').format(format: format) # => 10,00 €
+Money.from_cents(10_00, 'EUR').format(format: format) # => 10,00 €
 ```
 
 For the legacy behaviour of "per currency" localization (formatting depends only on currency):
@@ -514,8 +514,8 @@ For the legacy behaviour of "per currency" localization (formatting depends only
 Money.locale_backend = :currency
 
 # example:
-Money.new(10_000_00, 'USD').format # => $10,000.00
-Money.new(10_000_00, 'EUR').format # => €10.000,00
+Money.from_cents(10_000_00, 'USD').format # => $10,000.00
+Money.from_cents(10_000_00, 'EUR').format # => €10.000,00
 ```
 
 In case you don't need localization and would like to use default values (can be redefined using
@@ -525,8 +525,8 @@ In case you don't need localization and would like to use default values (can be
 Money.locale_backend = nil
 
 # example:
-Money.new(10_000_00, 'USD').format # => $10000.00
-Money.new(10_000_00, 'EUR').format # => €10000.00
+Money.from_cents(10_000_00, 'USD').format # => $10000.00
+Money.from_cents(10_000_00, 'EUR').format # => €10000.00
 ```
 
 ## Collection

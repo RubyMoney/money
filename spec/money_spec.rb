@@ -115,6 +115,14 @@ describe Money do
         end
       end
     end
+
+    context 'initializing with .from_cents' do
+      subject(:money) { Money.from_cents(initializing_value) }
+
+      it 'works just as with .new' do
+        expect(money.cents).to eq initializing_value
+      end
+    end
   end
 
   describe ".add_rate" do
