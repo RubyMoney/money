@@ -96,7 +96,7 @@ class Money
         # from http://blog.revathskumar.com/2014/11/regex-comma-seperated-indian-currency-format.html
         /(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/
       else
-        I18n.t('number.currency.format.delimiter_pattern', default: nil) || /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
+        /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
       end
     end
 
