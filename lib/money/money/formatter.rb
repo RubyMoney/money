@@ -246,11 +246,9 @@ class Money
     def thousands_separator
       val = lookup :thousands_separator
 
-      if val == true
-        val = (Money.locale_backend && Money.locale_backend.lookup(:thousands_separator, currency)) || DEFAULTS[key]
-      end
+      return val unless val == true
 
-      val
+      lookup_default :thousands_separator
     end
 
     def decimal_mark
@@ -380,6 +378,10 @@ class Money
     def lookup(key)
       return rules[key] || DEFAULTS[key] if rules.has_key?(key)
 
+      lookup_default key
+    end
+
+    def lookup_default(key)
       (Money.locale_backend && Money.locale_backend.lookup(key, currency)) || DEFAULTS[key]
     end
 
