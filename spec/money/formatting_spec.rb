@@ -448,12 +448,17 @@ describe Money, "formatting" do
     describe ":thousands_separator option" do
       specify "(thousands_separator: a thousands_separator string) works as documented" do
         expect(Money.us_dollar(100000).format(thousands_separator: ".")).to eq "$1.000.00"
+        expect(Money.us_dollar(100000).format(thousands_separator: ".")).to eq "$1.000.00"
         expect(Money.us_dollar(200000).format(thousands_separator: "")).to eq "$2000.00"
       end
 
       specify "(thousands_separator: false or nil) works as documented" do
         expect(Money.us_dollar(100000).format(thousands_separator: false)).to eq "$1000.00"
         expect(Money.us_dollar(200000).format(thousands_separator: nil)).to eq "$2000.00"
+      end
+
+      specify "(thousands_separator: true) works as documented" do
+        expect(Money.us_dollar(100000).format(thousands_separator: true)).to eq "$1,000.00"
       end
 
       specify "(delimiter: a delimiter string) works as documented" do
@@ -464,6 +469,10 @@ describe Money, "formatting" do
       specify "(delimiter: false or nil) works as documented" do
         expect(Money.us_dollar(100000).format(delimiter: false)).to eq "$1000.00"
         expect(Money.us_dollar(200000).format(delimiter: nil)).to eq "$2000.00"
+      end
+
+      specify "(delimiter: true) works as documented" do
+        expect(Money.us_dollar(100000).format(delimiter: true)).to eq "$1,000.00"
       end
 
       it "defaults to ',' if currency isn't recognized" do
