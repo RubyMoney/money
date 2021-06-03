@@ -124,10 +124,13 @@ class Money
     #  the currency should be delimited by the specified character or ','
     #
     # @example
-    #   # If false is specified, no thousands_separator is used.
+    #   # If a falsey value is specified, no thousands_separator is used.
     #   Money.new(100000, "USD").format(thousands_separator: false) #=> "1000.00"
     #   Money.new(100000, "USD").format(thousands_separator: nil)   #=> "1000.00"
     #   Money.new(100000, "USD").format(thousands_separator: "")    #=> "1000.00"
+    #
+    #   # If true is specified, the locale or default thousands_separator is used.
+    #   Money.new(100000, "USD").format(thousands_separator: true) #=> "1,000.00"
     #
     #   # If a string is specified, it's value is used.
     #   Money.new(100000, "USD").format(thousands_separator: ".") #=> "$1.000.00"
@@ -241,7 +244,11 @@ class Money
     end
 
     def thousands_separator
-      lookup :thousands_separator
+      val = lookup :thousands_separator
+
+      return val unless val == true
+
+      lookup_default :thousands_separator
     end
 
     def decimal_mark
@@ -371,6 +378,10 @@ class Money
     def lookup(key)
       return rules[key] || DEFAULTS[key] if rules.has_key?(key)
 
+      lookup_default key
+    end
+
+    def lookup_default(key)
       (Money.locale_backend && Money.locale_backend.lookup(key, currency)) || DEFAULTS[key]
     end
 
