@@ -23,8 +23,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "kramdown", "~> 2.3"
 
   s.files         = `git ls-files -z -- config/* lib/* CHANGELOG.md LICENSE money.gemspec README.md`.split("\x0")
-  s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  s.test_files    = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths = ["lib"]
 
   if s.respond_to?(:metadata)
