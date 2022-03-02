@@ -337,7 +337,7 @@ class ExchangeRate < ApplicationRecord
 end
 ```
 
-The following example implements a Redis store to save exchange rates to a redis database.
+The following example implements a `Redis` store to save exchange rates to a redis database.
 
 ```ruby
 
