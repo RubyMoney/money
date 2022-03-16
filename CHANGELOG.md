@@ -3,6 +3,7 @@
 ## Upcoming
 
 - Add second dobra (STN) from São Tomé and Príncipe
+- Update Georgian Lari symbol
 
 ## 6.17.0
 
