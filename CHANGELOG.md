@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- Add second dobra (STN) from São Tomé and Príncipe
+
 ## 6.17.0
 
 - Allow true for `thousands_separator`
