@@ -3,6 +3,7 @@
 ## Upcoming
 
 - Add second dobra (STN) from São Tomé and Príncipe
+- Use euro symbol as html_entity for euro currency
 
 ## 6.17.0
 
