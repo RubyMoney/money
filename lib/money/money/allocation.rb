@@ -44,8 +44,17 @@ class Money
       if result.size > 0
         while remaining_amount != 0
           index = 0
-          result[index] += 1
-          remaining_amount -= 1
+
+          amount_to_distribute = [1, remaining_amount.abs].min
+
+          if remaining_amount > 0
+            result[index] += amount_to_distribute
+            remaining_amount -= amount_to_distribute
+          else
+            result[index] -= amount_to_distribute
+            remaining_amount += amount_to_distribute
+          end
+
           index += 1
           if index > result.size
             index = 0

@@ -1,16 +1,23 @@
 # encoding: utf-8
 
 describe Money::Allocation do
-  describe 'given number as argument' do
-    it 'raises an error when invalid argument is given' do
-  describe "an allocation seen in the wld" do
+  describe "an allocation seen in the wild" do
     it "allocates the full amount" do
       amount = 700273
       allocations = [1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.170126087450276, 1.0, 1.0, 1.0, 1.0]
 
       result = described_class.generate(amount, allocations)
-      expect(result).to eq([61566, 61565, 61565, 61565, 61565, 61565, 61565, 60953, 52091, 52091, 52091, 52091])
       expect(result.reduce(&:+)).to eq(amount)
+      expect(result).to eq([61566, 61565, 61565, 61565, 61565, 61565, 61565, 60953, 52091, 52091, 52091, 52091])
+    end
+
+    it "allocates the full -amount" do
+      amount = -700273
+      allocations = [1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.170126087450276, 1.0, 1.0, 1.0, 1.0]
+
+      result = described_class.generate(amount, allocations)
+      expect(result.reduce(&:+)).to eq(amount)
+      expect(result).to eq([-61566, -61565, -61565, -61565, -61565, -61565, -61565, -60953, -52091, -52091, -52091, -52091])
     end
   end
 
