@@ -4,6 +4,10 @@
 
 - Add second dobra (STN) from São Tomé and Príncipe
 
+## 6.18.0
+
+- Add `Money.from_dollars` alias as a more explicit initializer, it's the same as `Money.from_amount`
+
 ## 6.17.0
 
 - Allow true for `thousands_separator`

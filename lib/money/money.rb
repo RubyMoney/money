@@ -314,6 +314,7 @@ class Money
 
   class << self
     alias_method :from_cents, :new
+    alias_method :from_dollars, :from_amount
   end
 
   # Creates a new Money object of value given in the
