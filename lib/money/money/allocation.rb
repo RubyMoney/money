@@ -40,6 +40,19 @@ class Money
         remaining_amount -= current_split
       end
 
+      ## round-robin allocation of any remaining pennies
+      if result.size > 0
+        while remaining_amount != 0
+          index = 0
+          result[index] += 1
+          remaining_amount -= 1
+          index += 1
+          if index > result.size
+            index = 0
+          end
+        end
+      end
+
       result
     end
   end
