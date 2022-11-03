@@ -3,6 +3,7 @@
 ## Upcoming
 
 - Add second dobra (STN) from São Tomé and Príncipe
+- Correct South African Rand (ZAR) to use comma decimal mark, and space thousands separator
 
 ## 6.17.0
 
