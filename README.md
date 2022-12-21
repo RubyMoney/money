@@ -337,6 +337,55 @@ class ExchangeRate < ApplicationRecord
 end
 ```
 
+The following example implements a `Redis` store to save exchange rates to a redis database.
+
+```ruby
+
+class RedisRateStore
+  INDEX_KEY_SEPARATOR = '_TO_'.freeze
+  
+  # Using second db of the redis instance
+  # because sidekiq uses the first db
+  REDIS_DATABASE = 1
+  
+  # Using Hash to store rates data
+  REDIS_STORE_KEY = 'rates'
+
+  def initialize
+    conn_url = "#{Rails.application.credentials.redis_server}/#{REDIS_DATABASE}"
+    @connection = Redis.new(url: conn_url)
+  end
+
+  def add_rate(iso_from, iso_to, rate)
+    @connection.hset(REDIS_STORE_KEY, rate_key_for(iso_from, iso_to), rate)
+  end
+
+  def get_rate(iso_from, iso_to)
+    @connection.hget(REDIS_STORE_KEY, rate_key_for(iso_from, iso_to))
+  end
+
+  def each_rate
+    rates = @connection.hgetall(REDIS_STORE_KEY)
+    return to_enum(:each_rate) unless block_given?
+
+    rates.each do |key, rate|
+      iso_from, iso_to = key.split(INDEX_KEY_SEPARATOR)
+      yield iso_from, iso_to, rate
+    end
+  end
+
+  def transaction
+    yield
+  end
+
+  private
+
+  def rate_key_for(iso_from, iso_to)
+    [iso_from, iso_to].join(INDEX_KEY_SEPARATOR).upcase
+  end
+end
+```
+
 Now you can use it with the default bank.
 
 ```ruby
