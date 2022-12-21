@@ -2081,6 +2081,23 @@
     "iso_numeric": "678",
     "smallest_denomination": 10000
   },
+  "stn": {
+    "priority": 100,
+    "iso_code": "STN",
+    "name": "São Tomé and Príncipe Second Dobra",
+    "symbol": "Db",
+    "disambiguate_symbol": "STN",
+    "alternate_symbols": [],
+    "subunit": "Cêntimo",
+    "subunit_to_unit": 100,
+    "symbol_first": false,
+    "format": "%n %u",
+    "html_entity": "",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "930",
+    "smallest_denomination": 10
+  },
   "svc": {
     "priority": 100,
     "iso_code": "SVC",
