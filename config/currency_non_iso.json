@@ -129,7 +129,7 @@
   },
   "usdc": {
     "priority": 100,
-    "so_code": "USDC",
+    "iso_code": "USDC",
     "name": "USD Coin",
     "symbol": "USDC",
     "disambiguate_symbol": "USDC",
