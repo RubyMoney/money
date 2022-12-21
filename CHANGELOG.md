@@ -4,6 +4,10 @@
 
 - Add second dobra (STN) from São Tomé and Príncipe
 - Correct South African Rand (ZAR) to use comma decimal mark, and space thousands separator
+- Use euro symbol as html_entity for euro currency
+- Update Georgian Lari symbol
+- Add Ruby 3.1 to the CI matrix
+- Add `Money.from_dollars` alias as a more explicit initializer, it's the same as `Money.from_amount`
 
 ## 6.17.0
 

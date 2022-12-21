@@ -123,6 +123,14 @@ describe Money do
         expect(money.cents).to eq initializing_value
       end
     end
+
+    context 'initializing with .from_dollars' do
+      subject(:money) { Money.from_dollars(initializing_value) }
+
+      it 'works just as with .from_amount' do
+        expect(money.dollars).to eq initializing_value
+      end
+    end
   end
 
   describe ".add_rate" do
@@ -274,13 +282,20 @@ describe Money do
     decimal_mark: ! ','
     thousands_separator: .
     iso_numeric: '978'
-    mutex: !ruby/object:Mutex {}
+    mutex: !ruby/object:Thread::Mutex {}
     last_updated: 2012-11-23 20:41:47.454438399 +02:00
 YAML
       }
 
+      let(:m) do
+        if Psych::VERSION > '4.0'
+          YAML.safe_load(serialized, permitted_classes: [Money, Money::Currency, Symbol, Thread::Mutex, Time])
+        else
+          YAML.safe_load(serialized, [Money, Money::Currency, Symbol, Thread::Mutex, Time])
+        end
+      end
+
       it "uses BigDecimal when rounding" do
-        m = YAML::load serialized
         expect(m).to be_a(Money)
         expect(m.class.default_infinite_precision).to be false
         expect(m.fractional).to eq 250 # 249.5 rounded up
@@ -288,8 +303,7 @@ YAML
       end
 
       it "is a BigDecimal when using infinite_precision", :default_infinite_precision_true do
-        money = YAML::load serialized
-        expect(money.fractional).to be_a BigDecimal
+        expect(m.fractional).to be_a BigDecimal
       end
     end
 
