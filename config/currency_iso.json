@@ -782,7 +782,7 @@
     "priority": 100,
     "iso_code": "GEL",
     "name": "Georgian Lari",
-    "symbol": "ლ",
+    "symbol": "₾",
     "alternate_symbols": ["lari"],
     "subunit": "Tetri",
     "subunit_to_unit": 100,
