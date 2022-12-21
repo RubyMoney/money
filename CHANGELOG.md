@@ -4,6 +4,8 @@
 
 - Add second dobra (STN) from São Tomé and Príncipe
 - Use euro symbol as html_entity for euro currency
+- Update Georgian Lari symbol
+- Add Ruby 3.1 to the CI matrix
 
 ## 6.17.0
 
