@@ -334,6 +334,10 @@ class ExchangeRate < ApplicationRecord
       yield rate.from, rate.to, rate.rate
     end
   end
+
+  def self.marshal_dump
+    [self]
+  end
 end
 ```
 
