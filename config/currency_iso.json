@@ -585,12 +585,12 @@
     "iso_numeric": "132",
     "smallest_denomination": 100
   },
-  "czk": {
+  "cze": {
     "priority": 100,
-    "iso_code": "CZK",
+    "iso_code": "CZE",
     "name": "Czech Koruna",
     "symbol": "Kč",
-    "alternate_symbols": [],
+    "alternate_symbols": ["CZK"],
     "subunit": "Haléř",
     "subunit_to_unit": 100,
     "symbol_first": false,
@@ -2239,21 +2239,6 @@
     "iso_numeric": "776",
     "smallest_denomination": 1
   },
-  "try": {
-    "priority": 100,
-    "iso_code": "TRY",
-    "name": "Turkish Lira",
-    "symbol": "₺",
-    "alternate_symbols": ["TL"],
-    "subunit": "kuruş",
-    "subunit_to_unit": 100,
-    "symbol_first": true,
-    "html_entity": "&#8378;",
-    "decimal_mark": ",",
-    "thousands_separator": ".",
-    "iso_numeric": "949",
-    "smallest_denomination": 1
-  },
   "ttd": {
     "priority": 100,
     "iso_code": "TTD",
@@ -2269,6 +2254,21 @@
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "780",
+    "smallest_denomination": 1
+  },
+  "tur": {
+    "priority": 100,
+    "iso_code": "TUR",
+    "name": "Turkish Lira",
+    "symbol": "₺",
+    "alternate_symbols": ["TRY", "TL"],
+    "subunit": "kuruş",
+    "subunit_to_unit": 100,
+    "symbol_first": true,
+    "html_entity": "&#8378;",
+    "decimal_mark": ",",
+    "thousands_separator": ".",
+    "iso_numeric": "949",
     "smallest_denomination": 1
   },
   "twd": {
