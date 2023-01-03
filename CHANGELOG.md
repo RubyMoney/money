@@ -8,6 +8,7 @@
 - Update Georgian Lari symbol
 - Add Ruby 3.1 and 3.2 to the CI matrix
 - Add `Money.from_dollars` alias as a more explicit initializer, it's the same as `Money.from_amount`
+- Mark Croatian Kuna (HRK) as obsolete by moving its definition to the backwards compatibility data source
 
 ## 6.17.0
 
