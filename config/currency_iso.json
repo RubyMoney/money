@@ -922,22 +922,6 @@
     "iso_numeric": "340",
     "smallest_denomination": 5
   },
-  "hrk": {
-    "priority": 100,
-    "iso_code": "HRK",
-    "name": "Croatian Kuna",
-    "symbol": "kn",
-    "alternate_symbols": [],
-    "subunit": "Lipa",
-    "subunit_to_unit": 100,
-    "symbol_first": false,
-    "format": "%n %u",
-    "html_entity": "",
-    "decimal_mark": ",",
-    "thousands_separator": ".",
-    "iso_numeric": "191",
-    "smallest_denomination": 1
-  },
   "htg": {
     "priority": 100,
     "iso_code": "HTG",
