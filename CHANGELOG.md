@@ -2,6 +2,10 @@
 
 ## Upcoming
 
+- Change Peruvian Sol (PEN) decimal mark and thousands separator.
+
+## 6.18.0
+
 - Add second dobra (STN) from São Tomé and Príncipe
 - Correct South African Rand (ZAR) to use comma decimal mark, and space thousands separator
 - Use euro symbol as html_entity for euro currency
