@@ -60,6 +60,10 @@ The development version (hosted on Github) can be installed with:
 ``` ruby
 require 'money'
 
+# explicitly define locales
+I18n.config.available_locales = :en
+Money.locale_backend = :i18n
+
 # 10.00 USD
 money = Money.from_cents(1000, "USD")
 money.cents     #=> 1000
