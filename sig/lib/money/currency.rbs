@@ -35,7 +35,7 @@ class Money
     # @example
     #   Money::Currency.find(:eur) #=> #<Money::Currency id: eur ...>
     #   Money::Currency.find(:foo) #=> nil
-    def self.find: ((string | Symbol) id) -> Currency
+    def self.find: ((string | Symbol) id) -> Money::Currency
 
     # Lookup a currency with given +num+ as an ISO 4217 numeric and returns an
     # +Currency+ instance on success, +nil+ otherwise.
@@ -49,7 +49,7 @@ class Money
     #   Money::Currency.find_by_iso_numeric(978) #=> #<Money::Currency id: eur ...>
     #   Money::Currency.find_by_iso_numeric(51) #=> #<Money::Currency id: amd ...>
     #   Money::Currency.find_by_iso_numeric('001') #=> nil
-    def self.find_by_iso_numeric: ((string | Numeric) num) -> Currency
+    def self.find_by_iso_numeric: ((string | Numeric) num) -> Money::Currency
 
     # Wraps the object in a +Currency+ unless it's already a +Currency+
     # object.
@@ -64,7 +64,7 @@ class Money
     #   Money::Currency.wrap(nil)   #=> nil
     #   Money::Currency.wrap(c1)    #=> #<Money::Currency id: usd ...>
     #   Money::Currency.wrap("usd") #=> #<Money::Currency id: usd ...>
-    def self.wrap: (Object object) -> (nil | Currency)
+    def self.wrap: (Object object) -> (nil | Money::Currency)
 
     # List of known currencies.
     #
@@ -112,7 +112,7 @@ class Money
     # @option separator [String] character between the whole and fraction
     #   amounts
     # @option delimiter [String] character between each thousands place
-    def self.register: (Hash[untyped, untyped] curr) -> Currency
+    def self.register: (Hash[untyped, untyped] curr) -> Money::Currency
 
     # Inherit a new currency from existing one
     #
@@ -213,7 +213,7 @@ class Money
     #   c2 = Money::Currency.new(:jpy)
     #   c1 == c1 #=> true
     #   c1 == c2 #=> false
-    def ==: (untyped other_currency) -> untyped
+    def ==: (Money::Currency? other_currency) -> bool
 
     private
 

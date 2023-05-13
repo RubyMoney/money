@@ -18,7 +18,7 @@ class Money
   class UndefinedSmallestDenomination < StandardError
   end
 
-  @default_currency: Currency
+  @default_currency: Money::Currency
   @fractional: BigDecimal
   @using_deprecated_default_currency: bool
 
@@ -201,9 +201,9 @@ class Money
   #     +Money.new+ is called without an explicit currency argument. The
   #     default value is Currency.new("USD"). The value must be a valid
   #     +Money::Currency+ instance.
-  def self.default_currency: () -> Currency
+  def self.default_currency: () -> Money::Currency
 
-  def self.default_currency=: (Currency currency) -> Currency
+  def self.default_currency=: (Money::Currency currency) -> Money::Currency
 
   def self.default_bank: () -> untyped
 
@@ -251,9 +251,9 @@ class Money
   # @example
   #   Money.add_rate("USD", "CAD", 1.25) #=> 1.25
   def self.add_rate: (
-      (Currency | string | Symbol) from_currency,
-      (Currency | string | Symbol) to_currency,
-      (Currency | string | Symbol) rate)
+      (Money::Currency | string | Symbol) from_currency,
+      (Money::Currency | string | Symbol) to_currency,
+      (Money::Currency | string | Symbol) rate)
     -> Numeric
 
   # Sets the default bank to be a SingleCurrency bank that raises on
@@ -275,7 +275,7 @@ class Money
   # @return [Money]
   #
   # @see #initialize
-  def self.from_amount: (Numeric amount, ?(Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
+  def self.from_amount: (Numeric amount, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
 
   alias self.from_cents self.new
 
@@ -302,7 +302,7 @@ class Money
   #   Money.new(100, "USD") #=> #<Money @fractional=100 @currency="USD">
   #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
   #
-  def initialize: (Object obj, ?(Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
+  def initialize: (Object obj, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
 
   # Assuming using a currency using dollars:
   # Returns the value of the money in dollars,
@@ -414,7 +414,7 @@ class Money
   # @param [Currency, String, Symbol] new_currency Currency of the new object.
   #
   # @return [self]
-  def with_currency: ((Currency | string | Symbol) new_currency) -> Money
+  def with_currency: ((Money::Currency | string | Symbol) new_currency) -> Money
 
   # Conversion to +self+.
   #
@@ -437,7 +437,7 @@ class Money
   #   Money.new(2000, "USD").exchange_to("EUR")
   #   Money.new(2000, "USD").exchange_to("EUR") {|x| x.round}
   #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
-  def exchange_to: ((Currency | string | Symbol) other_currency) { () -> int } -> Money
+  def exchange_to: ((Money::Currency | string | Symbol) other_currency) { () -> int } -> Money
 
   # Receive a money object with the same amount as the current Money object
   # in United States dollar.
