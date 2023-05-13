@@ -1,0 +1,6 @@
+# manifest.yaml
+
+dependencies:
+  # If your gem depends on pathname but the gemspec doesn't include pathname,
+  # you need to write the following.
+  # - name: pathname

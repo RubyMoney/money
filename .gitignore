@@ -21,3 +21,5 @@ doc/
 
 # Spec artifacts
 /coverage
+.gem_rbs_collection
+.idea
