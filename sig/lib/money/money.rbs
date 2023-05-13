@@ -1,0 +1,540 @@
+# "Money is any object or record that is generally accepted as payment for
+# goods and services and repayment of debts in a given socio-economic context
+# or country." -Wikipedia
+#
+# An instance of Money represents an amount of a specific currency.
+#
+# Money is a value object and should be treated as immutable.
+#
+# @see http://en.wikipedia.org/wiki/Money
+class Money
+  include Comparable
+
+  include Money::Arithmetic
+
+  extend Constructors
+
+  # Raised when smallest denomination of a currency is not defined
+  class UndefinedSmallestDenomination < StandardError
+  end
+
+  @default_currency: Currency
+  @fractional: BigDecimal
+  @using_deprecated_default_currency: bool
+
+  # Convenience method for fractional part of the amount. Synonym of #fractional
+  #
+  # @return [Integer] when infinite_precision is false
+  # @return [BigDecimal] when infinite_precision is true
+  #
+  # @see infinite_precision
+  def cents: () -> (Integer | BigDecimal)
+
+  # The value of the monetary amount represented in the fractional or subunit
+  # of the currency.
+  #
+  # For example, in the US dollar currency the fractional unit is cents, and
+  # there are 100 cents in one US dollar. So given the Money representation of
+  # one US dollar, the fractional interpretation is 100.
+  #
+  # Another example is that of the Kuwaiti dinar. In this case the fractional
+  # unit is the fils and there 1000 fils to one Kuwaiti dinar. So given the
+  # Money representation of one Kuwaiti dinar, the fractional interpretation is
+  # 1000.
+  #
+  # @return [Integer] when infinite_precision is false
+  # @return [BigDecimal] when infinite_precision is true
+  #
+  # @see infinite_precision
+  def fractional: () -> (Integer | BigDecimal)
+
+  # Round a given amount of money to the nearest possible amount in cash value. For
+  # example, in Swiss franc (CHF), the smallest possible amount of cash value is
+  # CHF 0.05. Therefore, this method rounds CHF 0.07 to CHF 0.05, and CHF 0.08 to
+  # CHF 0.10.
+  #
+  # @return [Integer] when infinite_precision is false
+  # @return [BigDecimal] when infinite_precision is true
+  #
+  # @see infinite_precision
+  def round_to_nearest_cash_value: () -> (Integer | BigDecimal)
+
+  attr_reader currency: Currency
+
+  attr_reader bank: untyped
+
+  # @!attribute [rw] default_bank
+  #   Used to set a default bank for currency exchange.
+  #
+  #   Each Money object is associated with a bank
+  #   object, which is responsible for currency exchange. This property
+  #   allows you to specify the default bank object. The default value for
+  #   this property is an instance of +Bank::VariableExchange.+ It allows
+  #   one to specify custom exchange rates.
+  #
+  #   @return [Money::Bank::Base]
+  #
+  # @!attribute default_formatting_rules
+  #   Used to define a default hash of rules for every time
+  #   +Money#format+ is called.  Rules provided on method call will be
+  #   merged with the default ones.  To overwrite a rule, just provide the
+  #   intended value while calling +format+.
+  #
+  #   @see Money::Formatter#initialize Money::Formatter for more details
+  #
+  #   @example
+  #     Money.default_formatting_rules = { display_free: true }
+  #     Money.new(0, "USD").format                          # => "free"
+  #     Money.new(0, "USD").format(display_free: false)  # => "$0.00"
+  #
+  #   @return [Hash]
+  #
+  # @!attribute [rw] use_i18n
+  #   Used to disable i18n even if it's used by other components of your app.
+  #
+  #   @return [Boolean]
+  #
+  # @!attribute [rw] default_infinite_precision
+  #   @return [Boolean] Use this to enable infinite precision cents as the
+  #     global default
+  #
+  # @!attribute [rw] conversion_precision
+  #   Used to specify precision for converting Rational to BigDecimal
+  #
+  #   @return [Integer]
+  attr_accessor self.default_formatting_rules: untyped
+
+  # @!attribute [rw] default_bank
+  #   Used to set a default bank for currency exchange.
+  #
+  #   Each Money object is associated with a bank
+  #   object, which is responsible for currency exchange. This property
+  #   allows you to specify the default bank object. The default value for
+  #   this property is an instance of +Bank::VariableExchange.+ It allows
+  #   one to specify custom exchange rates.
+  #
+  #   @return [Money::Bank::Base]
+  #
+  # @!attribute default_formatting_rules
+  #   Used to define a default hash of rules for every time
+  #   +Money#format+ is called.  Rules provided on method call will be
+  #   merged with the default ones.  To overwrite a rule, just provide the
+  #   intended value while calling +format+.
+  #
+  #   @see Money::Formatter#initialize Money::Formatter for more details
+  #
+  #   @example
+  #     Money.default_formatting_rules = { display_free: true }
+  #     Money.new(0, "USD").format                          # => "free"
+  #     Money.new(0, "USD").format(display_free: false)  # => "$0.00"
+  #
+  #   @return [Hash]
+  #
+  # @!attribute [rw] use_i18n
+  #   Used to disable i18n even if it's used by other components of your app.
+  #
+  #   @return [Boolean]
+  #
+  # @!attribute [rw] default_infinite_precision
+  #   @return [Boolean] Use this to enable infinite precision cents as the
+  #     global default
+  #
+  # @!attribute [rw] conversion_precision
+  #   Used to specify precision for converting Rational to BigDecimal
+  #
+  #   @return [Integer]
+  attr_accessor self.default_infinite_precision: untyped
+
+  # @!attribute [rw] default_bank
+  #   Used to set a default bank for currency exchange.
+  #
+  #   Each Money object is associated with a bank
+  #   object, which is responsible for currency exchange. This property
+  #   allows you to specify the default bank object. The default value for
+  #   this property is an instance of +Bank::VariableExchange.+ It allows
+  #   one to specify custom exchange rates.
+  #
+  #   @return [Money::Bank::Base]
+  #
+  # @!attribute default_formatting_rules
+  #   Used to define a default hash of rules for every time
+  #   +Money#format+ is called.  Rules provided on method call will be
+  #   merged with the default ones.  To overwrite a rule, just provide the
+  #   intended value while calling +format+.
+  #
+  #   @see Money::Formatter#initialize Money::Formatter for more details
+  #
+  #   @example
+  #     Money.default_formatting_rules = { display_free: true }
+  #     Money.new(0, "USD").format                          # => "free"
+  #     Money.new(0, "USD").format(display_free: false)  # => "$0.00"
+  #
+  #   @return [Hash]
+  #
+  # @!attribute [rw] use_i18n
+  #   Used to disable i18n even if it's used by other components of your app.
+  #
+  #   @return [Boolean]
+  #
+  # @!attribute [rw] default_infinite_precision
+  #   @return [Boolean] Use this to enable infinite precision cents as the
+  #     global default
+  #
+  # @!attribute [rw] conversion_precision
+  #   Used to specify precision for converting Rational to BigDecimal
+  #
+  #   @return [Integer]
+  attr_accessor self.conversion_precision: untyped
+
+  attr_reader self.use_i18n: untyped
+
+  attr_reader self.locale_backend: untyped
+
+  attr_writer self.default_bank: untyped
+
+  def self.infinite_precision: () -> untyped
+
+  def self.infinite_precision=: (untyped value) -> untyped
+
+  # @!attribute default_currency
+  #   @return [Money::Currency] The default currency, which is used when
+  #     +Money.new+ is called without an explicit currency argument. The
+  #     default value is Currency.new("USD"). The value must be a valid
+  #     +Money::Currency+ instance.
+  def self.default_currency: () -> Currency
+
+  def self.default_currency=: (Currency currency) -> Currency
+
+  def self.default_bank: () -> untyped
+
+  def self.locale_backend=: (untyped value) -> untyped
+
+  # @attr_writer rounding_mode Use this to specify the rounding mode
+  def self.rounding_mode=: (untyped new_rounding_mode) -> untyped
+
+  def self.use_i18n=: (untyped value) -> untyped
+
+  def self.setup_defaults: () -> untyped
+
+  def self.inherited: (untyped base) -> untyped
+
+  # Use this to return the rounding mode.
+  #
+  # @param [BigDecimal::ROUND_MODE] mode
+  #
+  # @return [BigDecimal::ROUND_MODE] rounding mode
+  def self.rounding_mode: (?untyped? mode) { () -> untyped } -> untyped
+
+  # Temporarily changes the rounding mode in a given block.
+  #
+  # @param [BigDecimal::ROUND_MODE] mode
+  #
+  # @yield The block within which rounding mode will be changed. Its return
+  #   value will also be the return value of the whole method.
+  #
+  # @return [Object] block results
+  #
+  # @example
+  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_UP) do
+  #     Money.new(1200) * BigDecimal('0.029')
+  #   end
+  def self.with_rounding_mode: (untyped mode) { () -> untyped } -> untyped
+
+  # Adds a new exchange rate to the default bank and return the rate.
+  #
+  # @param [Currency, String, Symbol] from_currency Currency to exchange from.
+  # @param [Currency, String, Symbol] to_currency Currency to exchange to.
+  # @param [Numeric] rate Rate to exchange with.
+  #
+  # @return [Numeric]
+  #
+  # @example
+  #   Money.add_rate("USD", "CAD", 1.25) #=> 1.25
+  def self.add_rate: (
+      (Currency | string | Symbol) from_currency,
+      (Currency | string | Symbol) to_currency,
+      (Currency | string | Symbol) rate)
+    -> Numeric
+
+  # Sets the default bank to be a SingleCurrency bank that raises on
+  # currency exchange. Useful when apps operate in a single currency at a time.
+  def self.disallow_currency_conversion!: () -> untyped
+
+  # Creates a new Money object of value given in the +unit+ of the given
+  # +currency+.
+  #
+  # @param [Numeric] amount The numerical value of the money.
+  # @param [Currency, String, Symbol] currency The currency format.
+  # @param [Hash] options Optional settings for the new Money instance
+  # @option [Money::Bank::*] :bank The exchange bank to use.
+  #
+  # @example
+  #   Money.from_amount(23.45, "USD") # => #<Money fractional:2345 currency:USD>
+  #   Money.from_amount(23.45, "JPY") # => #<Money fractional:23 currency:JPY>
+  #
+  # @return [Money]
+  #
+  # @see #initialize
+  def self.from_amount: (Numeric amount, ?(Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
+
+  alias self.from_cents self.new
+
+  alias self.from_dollars self.from_amount
+
+  # Creates a new Money object of value given in the
+  # +fractional unit+ of the given +currency+.
+  #
+  # Alternatively you can use the convenience
+  # methods like {Money.ca_dollar} and {Money.us_dollar}.
+  #
+  # @param [Object] obj Either the fractional value of the money,
+  #   a Money object, or a currency. (If passed a currency as the first
+  #   argument, a Money will be created in that currency with fractional value
+  #   = 0.
+  # @param [Currency, String, Symbol] currency The currency format.
+  # @param [Hash] options Optional settings for the new Money instance
+  # @option [Money::Bank::*] :bank The exchange bank to use.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.new(100)        #=> #<Money @fractional=100 @currency="USD">
+  #   Money.new(100, "USD") #=> #<Money @fractional=100 @currency="USD">
+  #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
+  #
+  def initialize: (Object obj, ?(Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
+
+  # Assuming using a currency using dollars:
+  # Returns the value of the money in dollars,
+  # instead of in the fractional unit cents.
+  #
+  # Synonym of #amount
+  #
+  # @return [BigDecimal]
+  #
+  # @example
+  #   Money.new(1_00, "USD").dollars   # => BigDecimal("1.00")
+  #
+  # @see #amount
+  # @see #to_d
+  # @see #cents
+  #
+  def dollars: () -> BigDecimal
+
+  # Returns the numerical value of the money
+  #
+  # @return [BigDecimal]
+  #
+  # @example
+  #   Money.new(1_00, "USD").amount    # => BigDecimal("1.00")
+  #
+  # @see #to_d
+  # @see #fractional
+  #
+  def amount: () -> BigDecimal
+
+  # Return string representation of currency object
+  #
+  # @return [String]
+  #
+  # @example
+  #   Money.new(100, :USD).currency_as_string #=> "USD"
+  def currency_as_string: () -> string
+
+  # Set currency object using a string
+  #
+  # @param [String] val The currency string.
+  #
+  # @return [Money::Currency]
+  #
+  # @example
+  #   Money.new(100).currency_as_string("CAD") #=> #<Money::Currency id: cad>
+  def currency_as_string=: (string val) -> Currency
+
+  # Returns a Integer hash value based on the +fractional+ and +currency+ attributes
+  # in order to use functions like & (intersection), group_by, etc.
+  #
+  # @return [Integer]
+  #
+  # @example
+  #   Money.new(100).hash #=> 908351
+  def hash: () -> int
+
+  # Uses +Currency#symbol+. If +nil+ is returned, defaults to "¤".
+  #
+  # @return [String]
+  #
+  # @example
+  #   Money.new(100, "USD").symbol #=> "$"
+  def symbol: () -> string
+
+  # Common inspect function
+  #
+  # @return [String]
+  def inspect: () -> ::String
+
+  # Returns the amount of money as a string.
+  #
+  # @return [String]
+  #
+  # @example
+  #   Money.ca_dollar(100).to_s #=> "1.00"
+  def to_s: () -> string
+
+  # Return the amount of money as a BigDecimal.
+  #
+  # @return [BigDecimal]
+  #
+  # @example
+  #   Money.us_dollar(1_00).to_d #=> BigDecimal("1.00")
+  def to_d: () -> BigDecimal
+
+  # Return the amount of money as a Integer.
+  #
+  # @return [Integer]
+  #
+  # @example
+  #   Money.us_dollar(1_00).to_i #=> 1
+  def to_i: () -> int
+
+  # Return the amount of money as a float. Floating points cannot guarantee
+  # precision. Therefore, this function should only be used when you no longer
+  # need to represent currency or working with another system that requires
+  # floats.
+  #
+  # @return [Float]
+  #
+  # @example
+  #   Money.us_dollar(100).to_f #=> 1.0
+  def to_f: () -> Float
+
+  # Returns a new Money instance in a given currency leaving the amount intact
+  # and not performing currency conversion.
+  #
+  # @param [Currency, String, Symbol] new_currency Currency of the new object.
+  #
+  # @return [self]
+  def with_currency: ((Currency | string | Symbol) new_currency) -> Money
+
+  # Conversion to +self+.
+  #
+  # @return [self]
+  def to_money: (?untyped? given_currency) -> Money
+
+  # Receive the amount of this money object in another Currency.
+  #
+  # @param [Currency, String, Symbol] other_currency Currency to exchange to.
+  #
+  # @yield [n] Optional block to use when rounding after exchanging one currency
+  #  for another.
+  # @yieldparam [Float] n The resulting float after exchanging one currency for
+  #  another.
+  # @yieldreturn [Integer]
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.new(2000, "USD").exchange_to("EUR")
+  #   Money.new(2000, "USD").exchange_to("EUR") {|x| x.round}
+  #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
+  def exchange_to: ((Currency | string | Symbol) other_currency) { () -> int } -> Money
+
+  # Receive a money object with the same amount as the current Money object
+  # in United States dollar.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   n = Money.new(100, "CAD").as_us_dollar
+  #   n.currency #=> #<Money::Currency id: usd>
+  def as_us_dollar: () -> Money
+
+  # Receive a money object with the same amount as the current Money object
+  # in Canadian dollar.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   n = Money.new(100, "USD").as_ca_dollar
+  #   n.currency #=> #<Money::Currency id: cad>
+  def as_ca_dollar: () -> Money
+
+  # Receive a money object with the same amount as the current Money object
+  # in euro.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   n = Money.new(100, "USD").as_euro
+  #   n.currency #=> #<Money::Currency id: eur>
+  def as_euro: () -> Money
+
+  # Splits a given amount in parts without losing pennies. The left-over pennies will be
+  # distributed round-robin amongst the parties. This means that parts listed first will likely
+  # receive more pennies than ones listed later.
+  #
+  # Pass [2, 1, 1] as input to give twice as much to part1 as part2 or
+  # part3 which results in 50% of the cash to party1, 25% to part2, and 25% to part3. Passing a
+  # number instead of an array will split the amount evenly (without losing pennies when rounding).
+  #
+  # @param [Array<Numeric>, Numeric] parts how amount should be distributed to parts
+  #
+  # @return [Array<Money>]
+  #
+  # @example
+  #   Money.new(5,   "USD").allocate([3, 7]) #=> [Money.new(2), Money.new(3)]
+  #   Money.new(100, "USD").allocate([1, 1, 1]) #=> [Money.new(34), Money.new(33), Money.new(33)]
+  #   Money.new(100, "USD").allocate(2) #=> [Money.new(50), Money.new(50)]
+  #   Money.new(100, "USD").allocate(3) #=> [Money.new(34), Money.new(33), Money.new(33)]
+  #
+  def allocate: ((Array[Numeric] | Numeric) parts) -> Array[Money]
+
+  alias split allocate
+
+  # Round the monetary amount to smallest unit of coinage.
+  #
+  # @note
+  #   This method is only useful when operating with infinite_precision turned
+  #   on. Without infinite_precision values are rounded to the smallest unit of
+  #   coinage automatically.
+  #
+  # @return [Money]
+  #
+  # @example
+  #   Money.new(10.1, 'USD').round #=> Money.new(10, 'USD')
+  #
+  # @see
+  #   Money.default_infinite_precision
+  #
+  def round: (?untyped rounding_mode, ?::Integer rounding_precision) -> Money
+
+  # Creates a formatted price string according to several rules.
+  #
+  # @param [Hash] rules See {Money::Formatter Money::Formatter} for the list of formatting options
+  #
+  # @return [String]
+  #
+  def format: (*Hash[untyped, untyped] rules) -> string
+
+  # Returns a thousands separator according to the locale
+  #
+  # @return [String]
+  #
+  def thousands_separator: () -> string
+
+  # Returns a decimal mark according to the locale
+  #
+  # @return [String]
+  #
+  def decimal_mark: () -> string
+
+  def dup_with: (?::Hash[untyped, untyped] options) -> untyped
+
+  private
+
+  def as_d: (untyped num) -> untyped
+
+  def return_value: (untyped value) -> untyped
+
+  def locale_backend: () -> untyped
+end

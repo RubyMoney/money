@@ -1,0 +1,309 @@
+class Money
+  # Represents a specific currency unit.
+  #
+  # @see https://en.wikipedia.org/wiki/Currency
+  # @see http://iso4217.net/
+  class Currency
+    include Comparable
+
+    extend Enumerable
+
+    extend Money::Currency::Heuristics
+
+    # Thrown when a Currency has been registered without all the attributes
+    # which are required for the current action.
+    class MissingAttributeError < StandardError
+      def initialize: (untyped method, untyped currency, untyped attribute) -> void
+    end
+
+    # Thrown when an unknown currency is requested.
+    class UnknownCurrency < ArgumentError
+    end
+
+    def self.new: (untyped id) -> untyped
+
+    def self._instances: () -> untyped
+
+    # Lookup a currency with given +id+ an returns a +Currency+ instance on
+    # success, +nil+ otherwise.
+    #
+    # @param [String, Symbol, #to_s] id Used to look into +table+ and
+    # retrieve the applicable attributes.
+    #
+    # @return [Money::Currency]
+    #
+    # @example
+    #   Money::Currency.find(:eur) #=> #<Money::Currency id: eur ...>
+    #   Money::Currency.find(:foo) #=> nil
+    def self.find: ((string | Symbol) id) -> Currency
+
+    # Lookup a currency with given +num+ as an ISO 4217 numeric and returns an
+    # +Currency+ instance on success, +nil+ otherwise.
+    #
+    # @param [#to_s] num used to look into +table+ in +iso_numeric+ and find
+    # the right currency id.
+    #
+    # @return [Money::Currency]
+    #
+    # @example
+    #   Money::Currency.find_by_iso_numeric(978) #=> #<Money::Currency id: eur ...>
+    #   Money::Currency.find_by_iso_numeric(51) #=> #<Money::Currency id: amd ...>
+    #   Money::Currency.find_by_iso_numeric('001') #=> nil
+    def self.find_by_iso_numeric: ((string | Numeric) num) -> Currency
+
+    # Wraps the object in a +Currency+ unless it's already a +Currency+
+    # object.
+    #
+    # @param [Object] object The object to attempt and wrap as a +Currency+
+    # object.
+    #
+    # @return [Money::Currency]
+    #
+    # @example
+    #   c1 = Money::Currency.new(:usd)
+    #   Money::Currency.wrap(nil)   #=> nil
+    #   Money::Currency.wrap(c1)    #=> #<Money::Currency id: usd ...>
+    #   Money::Currency.wrap("usd") #=> #<Money::Currency id: usd ...>
+    def self.wrap: (Object object) -> (nil | Currency)
+
+    # List of known currencies.
+    #
+    # == monetary unit
+    # The standard unit of value of a currency, as the dollar in the United States or the peso in Mexico.
+    # https://www.answers.com/topic/monetary-unit
+    # == fractional monetary unit, subunit
+    # A monetary unit that is valued at a fraction (usually one hundredth) of the basic monetary unit
+    # https://www.answers.com/topic/fractional-monetary-unit-subunit
+    #
+    # See https://en.wikipedia.org/wiki/List_of_circulating_currencies and
+    # http://search.cpan.org/~tnguyen/Locale-Currency-Format-1.28/Format.pm
+    def self.table: () -> untyped
+
+    # List the currencies imported and registered
+    # @return [Array]
+    #
+    # @example
+    #   Money::Currency.all()
+    #   [#<Currency ..USD>, 'CAD', 'EUR']...
+    def self.all: () -> Array[untyped]
+
+    # We need a string-based validator before creating an unbounded number of
+    # symbols.
+    # http://www.randomhacks.net/articles/2007/01/20/13-ways-of-looking-at-a-ruby-symbol#11
+    # https://github.com/RubyMoney/money/issues/132
+    #
+    # @return [Set]
+    def self.stringified_keys: () -> untyped
+
+    # Register a new currency
+    #
+    # @param curr [Hash] information about the currency
+    # @option priority [Numeric] a numerical value you can use to sort/group
+    #   the currency list
+    # @option iso_code [String] the international 3-letter code as defined
+    #   by the ISO 4217 standard
+    # @option iso_numeric [Integer] the international 3-digit code as
+    #   defined by the ISO 4217 standard
+    # @option name [String] the currency name
+    # @option symbol [String] the currency symbol (UTF-8 encoded)
+    # @option subunit [String] the name of the fractional monetary unit
+    # @option subunit_to_unit [Numeric] the proportion between the unit and
+    #   the subunit
+    # @option separator [String] character between the whole and fraction
+    #   amounts
+    # @option delimiter [String] character between each thousands place
+    def self.register: (Hash[untyped, untyped] curr) -> Currency
+
+    # Inherit a new currency from existing one
+    #
+    # @param parent_iso_code [String] the international 3-letter code as defined
+    # @param curr [Hash] See {register} method for hash structure
+    def self.inherit: (string parent_iso_code, Hash[untyped, untyped] curr) -> untyped
+
+    # Unregister a currency.
+    #
+    # @param [Object] curr A Hash with the key `:iso_code`, or the ISO code
+    #   as a String or Symbol.
+    #
+    # @return [Boolean] true if the currency previously existed, false
+    #   if it didn't.
+    def self.unregister: (Hash[untyped, untyped] curr) -> bool
+
+    def self.each: () { (untyped) -> untyped } -> untyped
+
+    def self.reset!: () -> untyped
+
+    private
+
+    def self.stringify_keys: () -> untyped
+
+    public
+
+    attr_reader id: untyped
+
+    attr_reader priority: untyped
+
+    attr_reader iso_code: untyped
+
+    attr_reader iso_numeric: untyped
+
+    attr_reader name: untyped
+
+    attr_reader symbol: untyped
+
+    attr_reader disambiguate_symbol: untyped
+
+    attr_reader html_entity: untyped
+
+    attr_reader subunit: untyped
+
+    attr_reader subunit_to_unit: untyped
+
+    attr_reader decimal_mark: untyped
+
+    attr_reader thousands_separator: untyped
+
+    attr_reader symbol_first: untyped
+
+    attr_reader smallest_denomination: untyped
+
+    attr_reader format: untyped
+
+    alias separator decimal_mark
+
+    alias delimiter thousands_separator
+
+    alias eql? ==
+
+    # Create a new +Currency+ object.
+    #
+    # @param [String, Symbol, #to_s] id Used to look into +table+ and retrieve
+    #  the applicable attributes.
+    #
+    # @return [Money::Currency]
+    #
+    # @example
+    #   Money::Currency.new(:usd) #=> #<Money::Currency id: usd ...>
+    def initialize: (untyped id) -> void
+
+    # Compares +self+ with +other_currency+ against the value of +priority+
+    # attribute.
+    #
+    # @param [Money::Currency] other_currency The currency to compare to.
+    #
+    # @return [-1,0,1] -1 if less than, 0 is equal to, 1 if greater than
+    #
+    # @example
+    #   c1 = Money::Currency.new(:usd)
+    #   c2 = Money::Currency.new(:jpy)
+    #   c1 <=> c2 #=> 1
+    #   c2 <=> c1 #=> -1
+    #   c1 <=> c1 #=> 0
+    def <=>: (untyped other_currency) -> untyped
+
+    # Compares +self+ with +other_currency+ and returns +true+ if the are the
+    # same or if their +id+ attributes match.
+    #
+    # @param [Money::Currency] other_currency The currency to compare to.
+    #
+    # @return [Boolean]
+    #
+    # @example
+    #   c1 = Money::Currency.new(:usd)
+    #   c2 = Money::Currency.new(:jpy)
+    #   c1 == c1 #=> true
+    #   c1 == c2 #=> false
+    def ==: (untyped other_currency) -> untyped
+
+    private
+
+    def compare_ids: (untyped other_currency) -> untyped
+
+    public
+
+    # Returns a Integer hash value based on the +id+ attribute in order to use
+    # functions like & (intersection), group_by, etc.
+    #
+    # @return [Integer]
+    #
+    # @example
+    #   Money::Currency.new(:usd).hash #=> 428936
+    def hash: () -> untyped
+
+    # Returns a human readable representation.
+    #
+    # @return [String]
+    #
+    # @example
+    #   Money::Currency.new(:usd) #=> #<Currency id: usd ...>
+    def inspect: () -> ::String
+
+    # Returns a string representation corresponding to the upcase +id+
+    # attribute.
+    #
+    # --
+    # DEV: id.to_s.upcase corresponds to iso_code but don't use ISO_CODE for consistency.
+    #
+    # @return [String]
+    #
+    # @example
+    #   Money::Currency.new(:usd).to_s #=> "USD"
+    #   Money::Currency.new(:eur).to_s #=> "EUR"
+    def to_s: () -> untyped
+
+    # Returns a string representation corresponding to the upcase +id+
+    # attribute. Useful in cases where only implicit conversions are made.
+    #
+    # @return [String]
+    #
+    # @example
+    #   Money::Currency.new(:usd).to_str #=> "USD"
+    #   Money::Currency.new(:eur).to_str #=> "EUR"
+    def to_str: () -> untyped
+
+    # Returns a symbol representation corresponding to the upcase +id+
+    # attribute.
+    #
+    # @return [Symbol]
+    #
+    # @example
+    #   Money::Currency.new(:usd).to_sym #=> :USD
+    #   Money::Currency.new(:eur).to_sym #=> :EUR
+    def to_sym: () -> untyped
+
+    # Conversion to +self+.
+    #
+    # @return [self]
+    def to_currency: () -> self
+
+    # Returns currency symbol or iso code for currencies with no symbol.
+    #
+    # @return [String]
+    def code: () -> untyped
+
+    def symbol_first?: () -> untyped
+
+    # Returns if a code currency is ISO.
+    #
+    # @return [Boolean]
+    #
+    # @example
+    #   Money::Currency.new(:usd).iso?
+    #
+    def iso?: () -> untyped
+
+    # Returns the relation between subunit and unit as a base 10 exponent.
+    #
+    # Note that MGA and MRU are exceptions and are rounded to 1
+    # @see https://en.wikipedia.org/wiki/ISO_4217#Active_codes
+    #
+    # @return [Integer]
+    def exponent: () -> untyped
+
+    alias decimal_places exponent
+
+    private
+
+    def initialize_data!: () -> untyped
+  end
+end
