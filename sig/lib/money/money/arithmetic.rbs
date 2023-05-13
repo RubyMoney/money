@@ -1,0 +1,197 @@
+class Money
+  module Arithmetic
+    # Wrapper for coerced numeric values to distinguish
+    # when numeric was on the 1st place in operation.
+    CoercedNumeric: untyped
+
+    # Returns a money object with changed polarity.
+    #
+    # @return [Money]
+    #
+    # @example
+    #    - Money.new(100) #=> #<Money @fractional=-100>
+    def -@: () -> Money
+
+    # Checks whether two Money objects have the same currency and the same
+    # amount. If Money objects have a different currency it will only be true
+    # if the amounts are both zero. Checks against objects that are not Money or
+    # a subclass will always return false.
+    #
+    # @param [Money] other_money Value to compare with.
+    #
+    # @return [Boolean]
+    #
+    # @example
+    #   Money.new(100).eql?(Money.new(101))                #=> false
+    #   Money.new(100).eql?(Money.new(100))                #=> true
+    #   Money.new(100, "USD").eql?(Money.new(100, "GBP"))  #=> false
+    #   Money.new(0, "USD").eql?(Money.new(0, "EUR"))      #=> true
+    #   Money.new(100).eql?("1.00")                        #=> false
+    def eql?: (Money other_money) -> bool
+
+    # Compares two Money objects. If money objects have a different currency it
+    # will attempt to convert the currency.
+    #
+    # @param [Money] other Value to compare with.
+    #
+    # @return [Integer]
+    #
+    # @raise [TypeError] when other object is not Money
+    #
+    def <=>: (Money other) -> Integer
+
+    # Uses Comparable's implementation but raises ArgumentError if non-zero
+    # numeric value is given.
+    def ==: ((Money | Numeric) other) -> bool
+
+    # Test if the amount is positive. Returns +true+ if the money amount is
+    # greater than 0, +false+ otherwise.
+    #
+    # @return [Boolean]
+    #
+    # @example
+    #   Money.new(1).positive?  #=> true
+    #   Money.new(0).positive?  #=> false
+    #   Money.new(-1).positive? #=> false
+    def positive?: () -> bool
+
+    # Test if the amount is negative. Returns +true+ if the money amount is
+    # less than 0, +false+ otherwise.
+    #
+    # @return [Boolean]
+    #
+    # @example
+    #   Money.new(-1).negative? #=> true
+    #   Money.new(0).negative?  #=> false
+    #   Money.new(1).negative?  #=> false
+    def negative?: () -> bool
+
+    # Multiplies the monetary value with the given number and returns a new
+    # +Money+ object with this monetary value and the same currency.
+    #
+    # Note that you can't multiply a Money object by an other +Money+ object.
+    #
+    # @param [Numeric] value Number to multiply by.
+    #
+    # @return [Money] The resulting money.
+    #
+    # @raise [TypeError] If +value+ is NOT a number.
+    #
+    # @example
+    #   Money.new(100) * 2 #=> #<Money @fractional=200>
+    #
+    def *: (Numeric value) -> Money
+
+    # Divides the monetary value with the given number and returns a new +Money+
+    # object with this monetary value and the same currency.
+    # Can also divide by another +Money+ object to get a ratio.
+    #
+    # +Money/Numeric+ returns +Money+. +Money/Money+ returns +Float+.
+    #
+    # @param [Money, Numeric] value Number to divide by.
+    #
+    # @return [Money] The resulting money if you divide Money by a number.
+    # @return [Float] The resulting number if you divide Money by a Money.
+    #
+    # @example
+    #   Money.new(100) / 10            #=> #<Money @fractional=10>
+    #   Money.new(100) / Money.new(10) #=> 10.0
+    #
+    def /: ((Money | Numeric) value) -> (Money | Float)
+
+    # Synonym for +#/+.
+    #
+    # @param [Money, Numeric] value Number to divide by.
+    #
+    # @return [Money] The resulting money if you divide Money by a number.
+    # @return [Float] The resulting number if you divide Money by a Money.
+    #
+    # @see #/
+    #
+    def div: ((Money | Numeric) value) -> (Money | Float)
+
+    # Divide money by money or fixnum and return array containing quotient and
+    # modulus.
+    #
+    # @param [Money, Integer] val Number to divmod by.
+    #
+    # @return [Array<Money,Money>,Array<Integer,Money>]
+    #
+    # @example
+    #   Money.new(100).divmod(9)            #=> [#<Money @fractional=11>, #<Money @fractional=1>]
+    #   Money.new(100).divmod(Money.new(9)) #=> [11, #<Money @fractional=1>]
+    def divmod: ((Money | Integer) val) -> Array[Money | Integer]
+
+    private
+
+    def divmod_money: (untyped val) -> ::Array[untyped]
+
+    def divmod_other: (untyped val) -> ::Array[untyped]
+
+    public
+
+    # Equivalent to +self.divmod(val)[1]+
+    #
+    # @param [Money, Integer] val Number take modulo with.
+    #
+    # @return [Money]
+    #
+    # @example
+    #   Money.new(100).modulo(9)            #=> #<Money @fractional=1>
+    #   Money.new(100).modulo(Money.new(9)) #=> #<Money @fractional=1>
+    def modulo: ((Money | Integer) val) -> Money
+
+    # Synonym for +#modulo+.
+    #
+    # @param [Money, Integer] val Number take modulo with.
+    #
+    # @return [Money]
+    #
+    # @see #modulo
+    def %: ((Money | Integer) val) -> Money
+
+    # If different signs +self.modulo(val) - val+ otherwise +self.modulo(val)+
+    #
+    # @param [Money, Integer] val Number to rake remainder with.
+    #
+    # @return [Money]
+    #
+    # @example
+    #   Money.new(100).remainder(9) #=> #<Money @fractional=1>
+    def remainder: ((Money | Integer) val) -> Money
+
+    # Return absolute value of self as a new Money object.
+    #
+    # @return [Money]
+    #
+    # @example
+    #   Money.new(-100).abs #=> #<Money @fractional=100>
+    def abs: () -> Money
+
+    # Test if the money amount is zero.
+    #
+    # @return [Boolean]
+    #
+    # @example
+    #   Money.new(100).zero? #=> false
+    #   Money.new(0).zero?   #=> true
+    def zero?: () -> bool
+
+    # Test if the money amount is non-zero. Returns this money object if it is
+    # non-zero, or nil otherwise, like +Numeric#nonzero?+.
+    #
+    # @return [Money, nil]
+    #
+    # @example
+    #   Money.new(100).nonzero? #=> #<Money @fractional=100>
+    #   Money.new(0).nonzero?   #=> nil
+    def nonzero?: () -> Arithmetic?
+
+    # Used to make Money instance handle the operations when arguments order is reversed
+    # @return [Array]
+    #
+    # @example
+    #   2 * Money.new(10) #=> #<Money @fractional=20>
+    def coerce: (untyped other) -> ::Array[self | untyped]
+  end
+end

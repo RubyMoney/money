@@ -9,7 +9,7 @@ class Money
     # The results should always add up to the original amount.
     #
     # The parts can be specified as:
-    #   Numeric — performs the split between a given number of parties evenely
+    #   Numeric — performs the split between a given number of parties evenly
     #   Array<Numeric> — allocates the amounts proportionally to the given array
     #
     def self.generate(amount, parts, whole_amounts = true)
