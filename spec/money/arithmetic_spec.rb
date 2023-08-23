@@ -306,6 +306,41 @@ describe Money::Arithmetic do
     it_behaves_like 'instance with custom bank', :*, 1
   end
 
+  describe "#**" do
+    it "Exponentiates Money by Integer and returns Money" do
+      ts = [
+        {a: Money.new( 2, :USD), b: 4, c: Money.new(16, :USD)},
+        {a: Money.new( 2, :USD), b: -4, c: Money.new((1/16), :USD)},
+        {a: Money.new(-2, :USD), b: 4, c: Money.new(16, :USD)},
+        {a: Money.new(-2, :USD), b: -4, c: Money.new(-(1/16), :USD)},
+        {a: Money.new(2, :USD), b: 0, c: Money.new(1, :USD)},
+        {a: Money.new(-2, :USD), b: 0, c: Money.new(1, :USD)},
+      ]
+      ts.each do |t|
+        expect(t[:a] ** t[:b]).to eq t[:c]
+      end
+    end
+
+    it "does exponantiate Money by Money (same currency)" do
+      expect(Money.new(10, :USD) ** Money.new(0, :USD)).to eq Money.new(1, :USD)
+    end
+
+    it "does not exponentiate Money by Money (different currency)" do
+      expect { Money.new(10, :USD) ** Money.new(4, :EUR) }.to raise_error(TypeError)
+    end
+
+    it "does not exponentiate Money by an object which is not a number" do
+      expect { Money.new(10, :USD) **  'abc' }.to raise_error(TypeError)
+    end
+
+    it "preserves the class in the result when using a subclass of Money" do
+      special_money_class = Class.new(Money)
+      expect(special_money_class.new(10_00, "USD") ** 2).to be_a special_money_class
+    end
+
+    it_behaves_like 'instance with custom bank', :**, 1
+  end
+
   describe "#/" do
     it "divides Money by Integer and returns Money" do
       ts = [

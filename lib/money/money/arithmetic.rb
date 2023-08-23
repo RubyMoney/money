@@ -173,6 +173,36 @@ class Money
       end
     end
 
+
+    # Raises the monetary value to the power of the given number and returns a new
+    # +Money+ object with the modified monetary value and the same currency.
+    #
+    # Note that you can exponentiate a Money object by another +Money+ object only
+    # if they share the same currency.
+    #
+    # @param [Numeric, Money] value The exponent to raise the monetary value to,
+    #   or a +Money+ object of the same currency to exponentiate by.
+    #
+    # @return [Money] The resulting money after exponentiation.
+    #
+    # @raise [TypeError] If the input +value+ is not a number, or if it's a +Money+ object with a different currency.
+    #
+    # @example Exponentiating by a number:
+    #   Money.new(2, :USD) ** 3 #=> #<Money @fractional=8>
+    #
+    # @example Exponentiating by a Money object (same currency):
+    #   Money.new(2, :USD) ** Money.new(3, :USD) #=> #<Money @fractional=8>
+    #
+    def **(value)
+      if value.is_a?(Numeric)
+        dup_with(fractional: fractional ** value)
+      elsif value.is_a?(self.class) && value.currency == currency
+        dup_with(fractional: fractional ** value.fractional)
+      else
+        raise TypeError, "Can't exponentiate a #{self.class.name} by a #{value.class.name}"
+      end
+    end
+
     # Divides the monetary value with the given number and returns a new +Money+
     # object with this monetary value and the same currency.
     # Can also divide by another +Money+ object to get a ratio.
