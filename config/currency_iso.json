@@ -452,7 +452,7 @@
     "subunit": "Rappen",
     "subunit_to_unit": 100,
     "symbol_first": true,
-    "format": "%u%n",
+    "format": "%u %n",
     "html_entity": "",
     "decimal_mark": ".",
     "thousands_separator": ",",
