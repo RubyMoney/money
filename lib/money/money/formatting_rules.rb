@@ -117,7 +117,7 @@ class Money
     def warn_about_deprecated_rules(rules)
       if rules.has_key?(:symbol_position)
         position = rules[:symbol_position]
-        template = position == :before ? '%u %n' : '%n %u'
+        template = position == :before ? '%u%n' : '%n%u'
 
         warn "[DEPRECATION] `symbol_position: :#{position}` is deprecated - you can replace it with `format: #{template}`"
       end
