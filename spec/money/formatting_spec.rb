@@ -147,6 +147,7 @@ describe Money, "formatting" do
         money = Money.new(1000, "JPY")
         expect(money.format).to eq "1,000円"
         expect(money.format(symbol: false)).to eq "1,000"
+        expect(money.format(format: "%u%n")).to eq "¥1,000"
       end
 
       after  { I18n.locale = @_locale }
