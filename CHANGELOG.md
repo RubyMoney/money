@@ -3,6 +3,7 @@
 ## Upcoming
 
 - Change Peruvian Sol (PEN) decimal mark and thousands separator.
+- Fix deprecation warning for BigDecimal being moved out from stdlib.
 
 ## 6.18.0
 
