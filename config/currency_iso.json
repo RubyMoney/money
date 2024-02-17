@@ -455,7 +455,7 @@
     "format": "%u %n",
     "html_entity": "",
     "decimal_mark": ".",
-    "thousands_separator": ",",
+    "thousands_separator": "'",
     "iso_numeric": "756",
     "smallest_denomination": 5
   },
