@@ -42,9 +42,9 @@ class Money
 
       ## round-robin allocation of any remaining pennies
       if result.size > 0
-        while remaining_amount != 0
-          index = 0
+        index = 0
 
+        while remaining_amount != 0
           amount_to_distribute = [1, remaining_amount.abs].min
 
           if remaining_amount > 0
