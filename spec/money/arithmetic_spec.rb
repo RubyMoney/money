@@ -755,7 +755,6 @@ describe Money::Arithmetic do
 
   %w(+ - / divmod remainder).each do |op|
     describe "##{op}" do
-      subject { ->(other = self.other) { instance.send(op, other) } }
       let(:instance) { Money.usd(1) }
 
       context 'when conversions disallowed' do
@@ -771,12 +770,18 @@ describe Money::Arithmetic do
 
         context 'and other is money with different currency' do
           let(:other) { Money.gbp(1) }
-          it { should raise_error Money::Bank::DifferentCurrencyError }
+
+          it 'raises Money::Bank::DifferentCurrencyError' do
+            expect { instance.send(op, other) }.to raise_error Money::Bank::DifferentCurrencyError
+          end
 
           context 'even for zero' do
             let(:instance) { Money.usd(0) }
             let(:other) { Money.gbp(0) }
-            it { should raise_error Money::Bank::DifferentCurrencyError }
+
+            it 'raises Money::Bank::DifferentCurrencyError' do
+              expect { instance.send(op, other) }.to raise_error Money::Bank::DifferentCurrencyError
+            end
           end
         end
       end
