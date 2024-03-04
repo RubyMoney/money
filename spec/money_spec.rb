@@ -160,7 +160,7 @@ describe Money do
 
     it "disallows conversions when doing money arithmetic" do
       Money.disallow_currency_conversion!
-      expect { Money.new(100, "USD") + Money.new(100, "EUR") }.to raise_exception(Money::Bank::DifferentCurrencyError)
+      expect { Money.new(100, "USD") + Money.new(100, "EUR") }.to raise_error(Money::Bank::DifferentCurrencyError)
     end
   end
 
@@ -417,7 +417,7 @@ YAML
       expect(money.round_to_nearest_cash_value).to eq(-301)
     end
 
-    it "raises an exception if smallest denomination is not defined" do
+    it "raises an error if smallest denomination is not defined" do
       money = Money.new(100, "XAG")
       expect {money.round_to_nearest_cash_value}.to raise_error(Money::UndefinedSmallestDenomination)
     end
