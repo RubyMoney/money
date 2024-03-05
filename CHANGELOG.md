@@ -15,6 +15,7 @@
 ## 6.18.0
 
 - Add second dobra (STN) from São Tomé and Príncipe
+- Add Sierra Leonean (new) leone (SLE) from Sierra Leone
 - Correct South African Rand (ZAR) to use comma decimal mark, and space thousands separator
 - Use euro symbol as html_entity for euro currency
 - Update Georgian Lari symbol
