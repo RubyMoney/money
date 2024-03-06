@@ -2,7 +2,15 @@
 
 ## Upcoming
 
+-
+
+## 6.19.0
+
 - Change Peruvian Sol (PEN) decimal mark and thousands separator.
+- Improves Precision and Simplifies Allocation Logic
+- explicit declaration of i18n locales
+- Add space to CHF format
+- Update deprecation message to suggest correct formatting.
 
 ## 6.18.0
 
