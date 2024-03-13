@@ -367,7 +367,7 @@ describe Money::Currency do
     end
 
     it "doesn't create new symbols indefinitely" do
-      expect { described_class.new("bogus") }.to raise_exception(described_class::UnknownCurrency)
+      expect { described_class.new("bogus") }.to raise_error(described_class::UnknownCurrency)
       expect(Symbol.all_symbols.map{|s| s.to_s}).not_to include("bogus")
     end
   end

@@ -14,6 +14,8 @@ Gem::Specification.new do |s|
   s.description = "A Ruby Library for dealing with money and currency conversion."
   s.license     = "MIT"
 
+
+  s.add_dependency "bigdecimal", "~> 3.1" if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('6.19.0')
   s.add_dependency 'i18n', [">= 0.6.4", '<= 2']
 
   s.add_development_dependency "bundler"
@@ -29,5 +31,6 @@ Gem::Specification.new do |s|
     s.metadata['changelog_uri'] = 'https://github.com/RubyMoney/money/blob/master/CHANGELOG.md'
     s.metadata['source_code_uri'] = 'https://github.com/RubyMoney/money/'
     s.metadata['bug_tracker_uri'] = 'https://github.com/RubyMoney/money/issues'
+    s.metadata['rubygems_mfa_required'] = 'true'
   end
 end
