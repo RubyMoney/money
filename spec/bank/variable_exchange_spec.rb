@@ -33,11 +33,11 @@ describe Money::Bank::VariableExchange do
 
       describe "#exchange_with" do
         it "accepts str" do
-          expect { bank.exchange_with(Money.new(100, 'USD'), 'EUR') }.to_not raise_exception
+          expect { bank.exchange_with(Money.new(100, 'USD'), 'EUR') }.to_not raise_error
         end
 
         it "accepts currency" do
-          expect { bank.exchange_with(Money.new(100, 'USD'), Money::Currency.wrap('EUR')) }.to_not raise_exception
+          expect { bank.exchange_with(Money.new(100, 'USD'), Money::Currency.wrap('EUR')) }.to_not raise_error
         end
 
         it "exchanges one currency to another" do
@@ -48,12 +48,12 @@ describe Money::Bank::VariableExchange do
           expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR')).to eq Money.new(13, 'EUR')
         end
 
-        it "raises an UnknownCurrency exception when an unknown currency is requested" do
-          expect { bank.exchange_with(Money.new(100, 'USD'), 'BBB') }.to raise_exception(Money::Currency::UnknownCurrency)
+        it "raises an UnknownCurrency error when an unknown currency is requested" do
+          expect { bank.exchange_with(Money.new(100, 'USD'), 'BBB') }.to raise_error(Money::Currency::UnknownCurrency)
         end
 
-        it "raises an UnknownRate exception when an unknown rate is requested" do
-          expect { bank.exchange_with(Money.new(100, 'USD'), 'JPY') }.to raise_exception(Money::Bank::UnknownRate)
+        it "raises an UnknownRate error when an unknown rate is requested" do
+          expect { bank.exchange_with(Money.new(100, 'USD'), 'JPY') }.to raise_error(Money::Bank::UnknownRate)
         end
 
         #it "rounds the exchanged result down" do
@@ -136,8 +136,8 @@ describe Money::Bank::VariableExchange do
       expect(subject.store.get_rate('USD', 'EUR')).to eq 1.25
     end
 
-    it "raises an UnknownCurrency exception when an unknown currency is passed" do
-      expect { subject.set_rate('AAA', 'BBB', 1.25) }.to raise_exception(Money::Currency::UnknownCurrency)
+    it "raises an UnknownCurrency error when an unknown currency is passed" do
+      expect { subject.set_rate('AAA', 'BBB', 1.25) }.to raise_error(Money::Currency::UnknownCurrency)
     end
   end
 
@@ -147,8 +147,8 @@ describe Money::Bank::VariableExchange do
       expect(subject.get_rate('USD', 'EUR')).to eq 1.25
     end
 
-    it "raises an UnknownCurrency exception when an unknown currency is passed" do
-      expect { subject.get_rate('AAA', 'BBB') }.to raise_exception(Money::Currency::UnknownCurrency)
+    it "raises an UnknownCurrency error when an unknown currency is passed" do
+      expect { subject.get_rate('AAA', 'BBB') }.to raise_error(Money::Currency::UnknownCurrency)
     end
 
     it "delegates options to store, options are a no-op" do

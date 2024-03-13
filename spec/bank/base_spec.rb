@@ -32,25 +32,25 @@ describe Money::Bank::Base do
 
   describe "#exchange_with" do
     it "is not implemented" do
-      expect { subject.exchange_with(Money.new(100, 'USD'), 'EUR') }.to raise_exception(NotImplementedError)
+      expect { subject.exchange_with(Money.new(100, 'USD'), 'EUR') }.to raise_error(NotImplementedError)
     end
   end
 
   describe "#same_currency?" do
     it "accepts str/str" do
-      expect { subject.send(:same_currency?, 'USD', 'EUR') }.to_not raise_exception
+      expect { subject.send(:same_currency?, 'USD', 'EUR') }.to_not raise_error
     end
 
     it "accepts currency/str" do
-      expect { subject.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR') }.to_not raise_exception
+      expect { subject.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR') }.to_not raise_error
     end
 
     it "accepts str/currency" do
-      expect { subject.send(:same_currency?, 'USD', Money::Currency.wrap('EUR')) }.to_not raise_exception
+      expect { subject.send(:same_currency?, 'USD', Money::Currency.wrap('EUR')) }.to_not raise_error
     end
 
     it "accepts currency/currency" do
-      expect { subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR')) }.to_not raise_exception
+      expect { subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR')) }.to_not raise_error
     end
 
     it "returns true when currencies match" do
@@ -67,8 +67,8 @@ describe Money::Bank::Base do
       expect(subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR'))).to be false
     end
 
-    it "raises an UnknownCurrency exception when an unknown currency is passed" do
-      expect { subject.send(:same_currency?, 'AAA', 'BBB') }.to raise_exception(Money::Currency::UnknownCurrency)
+    it "raises an UnknownCurrency error when an unknown currency is passed" do
+      expect { subject.send(:same_currency?, 'AAA', 'BBB') }.to raise_error(Money::Currency::UnknownCurrency)
     end
   end
 end

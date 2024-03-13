@@ -72,7 +72,7 @@ class Money
     end
 
     def localize_formatting_rules(rules)
-      if currency.iso_code == "JPY" && I18n.locale == :ja
+      if currency.iso_code == "JPY" && I18n.locale == :ja && rules[:format] == nil
         rules[:symbol] = "円" unless rules[:symbol] == false
         rules[:format] = '%n%u'
       end
@@ -117,7 +117,7 @@ class Money
     def warn_about_deprecated_rules(rules)
       if rules.has_key?(:symbol_position)
         position = rules[:symbol_position]
-        template = position == :before ? '%u %n' : '%n %u'
+        template = position == :before ? '%u%n' : '%n%u'
 
         warn "[DEPRECATION] `symbol_position: :#{position}` is deprecated - you can replace it with `format: #{template}`"
       end

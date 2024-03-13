@@ -708,19 +708,19 @@ describe Money::Arithmetic do
     it "raises TypeError dividing by a Money (unless other is a Money)" do
       expect {
         2 / Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_error(TypeError)
     end
 
     it "raises TypeError subtracting by a Money (unless other is a Money)" do
       expect {
         2 - Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_error(TypeError)
     end
 
     it "raises TypeError adding by a Money (unless other is a Money)" do
       expect {
         2 + Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_error(TypeError)
     end
 
     it "allows subtraction from numeric zero" do
@@ -736,7 +736,7 @@ describe Money::Arithmetic do
     it "treats multiplication as commutative" do
       expect {
         2 * Money.new(2, 'USD')
-      }.to_not raise_exception
+      }.to_not raise_error
       result = 2 * Money.new(2, 'USD')
       expect(result).to eq(Money.new(4, 'USD'))
     end
@@ -744,25 +744,25 @@ describe Money::Arithmetic do
     it "doesn't work with non-numerics" do
       expect {
         "2" * Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_error(TypeError)
     end
 
     it "correctly handles <=>" do
       expect {
         2 < Money.new(2, 'USD')
-      }.to raise_exception(ArgumentError)
+      }.to raise_error(ArgumentError)
 
       expect {
         2 > Money.new(2, 'USD')
-      }.to raise_exception(ArgumentError)
+      }.to raise_error(ArgumentError)
 
       expect {
         2 <= Money.new(2, 'USD')
-      }.to raise_exception(ArgumentError)
+      }.to raise_error(ArgumentError)
 
       expect {
         2 >= Money.new(2, 'USD')
-      }.to raise_exception(ArgumentError)
+      }.to raise_error(ArgumentError)
 
       expect(2 <=> Money.new(2, 'USD')).to be_nil
     end
@@ -773,24 +773,23 @@ describe Money::Arithmetic do
       expect(0.0 >= Money.usd(0)).to eq true
     end
 
-    it "raises exceptions for all numeric types, not just Integer" do
+    it "raises errors for all numeric types, not just Integer" do
       expect {
         2.0 / Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_error(TypeError)
 
       expect {
         Rational(2,3) / Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_error(TypeError)
 
       expect {
         BigDecimal(2) / Money.new(2, 'USD')
-      }.to raise_exception(TypeError)
+      }.to raise_error(TypeError)
     end
   end
 
   %w(+ - / divmod remainder).each do |op|
     describe "##{op}" do
-      subject { ->(other = self.other) { instance.send(op, other) } }
       let(:instance) { Money.usd(1) }
 
       context 'when conversions disallowed' do
@@ -806,12 +805,18 @@ describe Money::Arithmetic do
 
         context 'and other is money with different currency' do
           let(:other) { Money.gbp(1) }
-          it { should raise_error Money::Bank::DifferentCurrencyError }
+
+          it 'raises Money::Bank::DifferentCurrencyError' do
+            expect { instance.send(op, other) }.to raise_error Money::Bank::DifferentCurrencyError
+          end
 
           context 'even for zero' do
             let(:instance) { Money.usd(0) }
             let(:other) { Money.gbp(0) }
-            it { should raise_error Money::Bank::DifferentCurrencyError }
+
+            it 'raises Money::Bank::DifferentCurrencyError' do
+              expect { instance.send(op, other) }.to raise_error Money::Bank::DifferentCurrencyError
+            end
           end
         end
       end

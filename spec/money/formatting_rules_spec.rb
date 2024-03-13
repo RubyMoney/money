@@ -14,4 +14,22 @@ describe Money::FormattingRules do
     expect(rules).to eq(separator: '.')
     expect(rules).not_to eq(new_rules)
   end
+
+  context 'when the position is :before' do
+    it 'warns about deprecated :symbol_position' do
+      expect_any_instance_of(Money::FormattingRules).to receive(:warn)
+        .with('[DEPRECATION] `symbol_position: :before` is deprecated - you can replace it with `format: %u%n`')
+
+      Money::FormattingRules.new(Money::Currency.new('USD'), symbol_position: :before)
+    end
+  end
+
+  context "when the position is :after" do
+    it 'warns about deprecated :symbol_position' do
+      expect_any_instance_of(Money::FormattingRules).to receive(:warn)
+        .with('[DEPRECATION] `symbol_position: :after` is deprecated - you can replace it with `format: %n%u`')
+
+      Money::FormattingRules.new(Money::Currency.new('USD'), symbol_position: :after)
+    end
+  end
 end

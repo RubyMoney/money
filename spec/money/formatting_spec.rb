@@ -147,6 +147,7 @@ describe Money, "formatting" do
         money = Money.new(1000, "JPY")
         expect(money.format).to eq "1,000円"
         expect(money.format(symbol: false)).to eq "1,000"
+        expect(money.format(format: "%u%n")).to eq "¥1,000"
       end
 
       after  { I18n.locale = @_locale }
@@ -750,10 +751,10 @@ describe Money, "formatting" do
     end
   end
 
-  describe ':format to "%u%n" for currency with :symbol_first to true' do
+  describe ':format to "%u %n" for currency with :symbol_first to true' do
     context 'when rules are not passed' do
-      it "does not insert space between symbol and number" do
-        expect(Money.new(100_00, 'CHF').format).to eq "CHF100.00"
+      it "inserts a space between symbol and number" do
+        expect(Money.new(100_00, 'CHF').format).to eq "CHF 100.00"
       end
     end
 
