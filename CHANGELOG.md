@@ -2,12 +2,21 @@
 
 ## Upcoming
 
+-
+
+## 6.19.0
+
 - Change Peruvian Sol (PEN) decimal mark and thousands separator.
 - Fix deprecation warning for BigDecimal being moved out from stdlib.
+- Improves Precision and Simplifies Allocation Logic
+- explicit declaration of i18n locales
+- Add space to CHF format
+- Update deprecation message to suggest correct formatting.
 
 ## 6.18.0
 
 - Add second dobra (STN) from São Tomé and Príncipe
+- Add Sierra Leonean (new) leone (SLE) from Sierra Leone
 - Correct South African Rand (ZAR) to use comma decimal mark, and space thousands separator
 - Use euro symbol as html_entity for euro currency
 - Update Georgian Lari symbol

@@ -31,5 +31,6 @@ Gem::Specification.new do |s|
     s.metadata['changelog_uri'] = 'https://github.com/RubyMoney/money/blob/master/CHANGELOG.md'
     s.metadata['source_code_uri'] = 'https://github.com/RubyMoney/money/'
     s.metadata['bug_tracker_uri'] = 'https://github.com/RubyMoney/money/issues'
+    s.metadata['rubygems_mfa_required'] = 'true'
   end
 end
