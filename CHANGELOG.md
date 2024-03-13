@@ -7,6 +7,7 @@
 ## 6.19.0
 
 - Change Peruvian Sol (PEN) decimal mark and thousands separator.
+- Fix deprecation warning for BigDecimal being moved out from stdlib.
 - Improves Precision and Simplifies Allocation Logic
 - explicit declaration of i18n locales
 - Add space to CHF format
