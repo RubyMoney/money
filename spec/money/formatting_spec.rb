@@ -914,23 +914,27 @@ describe Money, "formatting" do
     end
 
     describe ":drop_trailing_zeros option" do
+      currencies = ["BTC", "BCH", "ETH"]
+
       specify "(drop_trailing_zeros: true) works as documented" do
-        expect(Money.new(89000, "BTC").format(drop_trailing_zeros: true, symbol: false)).to eq "0.00089"
-        expect(Money.new(89000, "BCH").format(drop_trailing_zeros: true, symbol: false)).to eq "0.00089"
-        expect(Money.new(100089000, "BTC").format(drop_trailing_zeros: true, symbol: false)).to eq "1.00089"
-        expect(Money.new(100089000, "BCH").format(drop_trailing_zeros: true, symbol: false)).to eq "1.00089"
-        expect(Money.new(100000000, "BTC").format(drop_trailing_zeros: true, symbol: false)).to eq "1"
-        expect(Money.new(100000000, "BCH").format(drop_trailing_zeros: true, symbol: false)).to eq "1"
+        amounts = { 89000 => "0.00089", 100089000 => "1.00089", 100000000 => "1" }
+
+        currencies.each do |currency|
+          amounts.each do |amount, expect|
+            expect(Money.new(amount, currency).format(drop_trailing_zeros: true, symbol: false)).to eq expect
+          end
+        end
         expect(Money.new(110, "AUD").format(drop_trailing_zeros: true, symbol: false)).to eq "1.1"
       end
 
       specify "(drop_trailing_zeros: false) works as documented" do
-        expect(Money.new(89000, "BTC").format(drop_trailing_zeros: false, symbol: false)).to eq "0.00089000"
-        expect(Money.new(89000, "BCH").format(drop_trailing_zeros: false, symbol: false)).to eq "0.00089000"
-        expect(Money.new(100089000, "BTC").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00089000"
-        expect(Money.new(100089000, "BCH").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00089000"
-        expect(Money.new(100000000, "BTC").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00000000"
-        expect(Money.new(100000000, "BCH").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00000000"
+        amounts = { 89000 => "0.00089000", 100089000 => "1.00089000", 100000000 => "1.00000000"}
+
+        currencies.each do |currency|
+          amounts.each do |amount, expect|
+            expect(Money.new(amount, currency).format(drop_trailing_zeros: false, symbol: false)).to eq expect
+          end
+        end
         expect(Money.new(110, "AUD").format(drop_trailing_zeros: false, symbol: false)).to eq "1.10"
       end
     end
