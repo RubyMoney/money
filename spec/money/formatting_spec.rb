@@ -147,6 +147,7 @@ describe Money, "formatting" do
         money = Money.new(1000, "JPY")
         expect(money.format).to eq "1,000円"
         expect(money.format(symbol: false)).to eq "1,000"
+        expect(money.format(format: "%u%n")).to eq "¥1,000"
       end
 
       after  { I18n.locale = @_locale }
@@ -759,7 +760,7 @@ describe Money, "formatting" do
 
     context 'when symbol_position is passed' do
       it "inserts currency symbol before the amount when set to :before" do
-        expect(Money.new(100_00, 'CHF').format(symbol_position: :before)).to eq "CHF 100.00"
+        expect(Money.new(100_00, 'CHF').format(symbol_position: :before)).to eq "CHF100.00"
       end
 
       it "inserts currency symbol after the amount when set to :after" do
