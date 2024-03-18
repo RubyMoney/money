@@ -1,0 +1,11 @@
+class Money
+  module LocaleBackend
+    class I18n < Base
+      KEY_MAP: Hash[Symbol, Symbol]
+
+      def initialize: () -> void
+
+      def lookup: (Symbol key, untyped _) -> untyped
+    end
+  end
+end

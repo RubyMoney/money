@@ -1,0 +1,7 @@
+class Money
+  module LocaleBackend
+    BACKENDS: { legacy: untyped, :i18n => untyped, currency: untyped }
+
+    def self.find: (untyped name) -> untyped
+  end
+end

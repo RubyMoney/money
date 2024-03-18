@@ -1,0 +1,198 @@
+class Money
+  module Bank
+    # Thrown when an unknown rate format is requested.
+    class UnknownRateFormat < StandardError
+    end
+
+    # Class for aiding in exchanging money between different currencies. By
+    # default, the +Money+ class uses an object of this class (accessible
+    # through +Money#bank+) for performing currency exchanges.
+    #
+    # By default, +Money::Bank::VariableExchange+ has no knowledge about
+    # conversion rates. One must manually specify them with +add_rate+, after
+    # which one can perform exchanges with +#exchange_with+.
+    #
+    # Exchange rates are stored in memory using +Money::RatesStore::Memory+ by default.
+    # Pass custom rates stores for other types of storage (file, database, etc)
+    #
+    # @example
+    #   bank = Money::Bank::VariableExchange.new
+    #   bank.add_rate("USD", "CAD", 1.24515)
+    #   bank.add_rate("CAD", "USD", 0.803115)
+    #
+    #   c1 = Money.new(100_00, "USD")
+    #   c2 = Money.new(100_00, "CAD")
+    #
+    #   # Exchange 100 USD to CAD:
+    #   bank.exchange_with(c1, "CAD") #=> #<Money fractional:12451 currency:CAD>
+    #
+    #   # Exchange 100 CAD to USD:
+    #   bank.exchange_with(c2, "USD") #=> #<Money fractional:8031 currency:USD>
+    #
+    #   # With custom exchange rates storage
+    #   redis_store = MyCustomRedisStore.new(host: 'localhost:6379')
+    #   bank = Money::Bank::VariableExchange.new(redis_store)
+    #   # Store rates in redis
+    #   bank.add_rate 'USD', 'CAD', 0.98
+    #   # Get rate from redis
+    #   bank.get_rate 'USD', 'CAD'
+    class VariableExchange < Base
+      attr_reader mutex: untyped
+
+      # Available formats for importing/exporting rates.
+      RATE_FORMATS: Array[Symbol]
+
+      SERIALIZER_SEPARATOR: string
+
+      FORMAT_SERIALIZERS: Hash[Symbol, (JSON | Marshal | YAML)]
+
+      # Initializes a new +Money::Bank::VariableExchange+ object.
+      # It defaults to using an in-memory, thread safe store instance for
+      # storing exchange rates.
+      #
+      # @param [RateStore] st An exchange rate store, used to persist exchange rate pairs.
+      # @yield [n] Optional block to use when rounding after exchanging one
+      #  currency for another. See +Money::bank::base+
+      def initialize: (?untyped st) { () -> untyped } -> void
+
+      def store: () -> untyped
+
+      def marshal_dump: () -> ::Array[untyped]
+
+      def marshal_load: (untyped arr) -> untyped
+
+      # Exchanges the given +Money+ object to a new +Money+ object in
+      # +to_currency+.
+      #
+      # @param  [Money] from
+      #         The +Money+ object to exchange.
+      # @param  [Currency, String, Symbol] to_currency
+      #         The currency to exchange to.
+      #
+      # @yield [n] Optional block to use when rounding after exchanging one
+      #  currency for another.
+      # @yieldparam [Float] n The resulting float after exchanging one currency
+      #  for another.
+      # @yieldreturn [Integer]
+      #
+      # @return [Money]
+      #
+      # @raise +Money::Bank::UnknownRate+ if the conversion rate is unknown.
+      #
+      # @example
+      #   bank = Money::Bank::VariableExchange.new
+      #   bank.add_rate("USD", "CAD", 1.24515)
+      #   bank.add_rate("CAD", "USD", 0.803115)
+      #
+      #   c1 = Money.new(100_00, "USD")
+      #   c2 = Money.new(100_00, "CAD")
+      #
+      #   # Exchange 100 USD to CAD:
+      #   bank.exchange_with(c1, "CAD") #=> #<Money fractional:12451 currency:CAD>
+      #
+      #   # Exchange 100 CAD to USD:
+      #   bank.exchange_with(c2, "USD") #=> #<Money fractional:8031 currency:USD>
+      def exchange_with: (Money from, (Money::Currency | string | Symbol) to_currency) { () -> int } -> Money
+
+      def calculate_fractional: (untyped from, untyped to_currency) -> untyped
+
+      def exchange: (untyped fractional, untyped rate) ?{ (untyped) -> untyped } -> untyped
+
+      # Registers a conversion rate and returns it (uses +#set_rate+).
+      # Delegates to +Money::RatesStore::Memory+
+      #
+      # @param [Currency, String, Symbol] from Currency to exchange from.
+      # @param [Currency, String, Symbol] to Currency to exchange to.
+      # @param [Numeric] rate Rate to use when exchanging currencies.
+      #
+      # @return [Numeric]
+      #
+      # @example
+      #   bank = Money::Bank::VariableExchange.new
+      #   bank.add_rate("USD", "CAD", 1.24515)
+      #   bank.add_rate("CAD", "USD", 0.803115)
+      def add_rate: ((Money::Currency | string | Symbol) from, (Money::Currency | string | Symbol) to, Numeric rate) -> Numeric
+
+      # Set the rate for the given currencies.
+      # access.
+      # Delegates to +Money::RatesStore::Memory+
+      #
+      # @param [Currency, String, Symbol] from Currency to exchange from.
+      # @param [Currency, String, Symbol] to Currency to exchange to.
+      # @param [Numeric] rate Rate to use when exchanging currencies.
+      # @param [Hash] opts Options hash to set special parameters. Backwards compatibility only.
+      #
+      # @return [Numeric]
+      #
+      # @example
+      #   bank = Money::Bank::VariableExchange.new
+      #   bank.set_rate("USD", "CAD", 1.24515)
+      #   bank.set_rate("CAD", "USD", 0.803115)
+      def set_rate: ((Money::Currency | string | Symbol) from, (Money::Currency | string | Symbol) to, Numeric rate, ?::Hash[untyped, untyped] opts) -> Numeric
+
+      # Retrieve the rate for the given currencies.
+      # data access.
+      # Delegates to +Money::RatesStore::Memory+
+      #
+      # @param [Currency, String, Symbol] from Currency to exchange from.
+      # @param [Currency, String, Symbol] to Currency to exchange to.
+      # @param [Hash] opts Options hash to set special parameters. Backwards compatibility only.
+      #
+      # @return [Numeric]
+      #
+      # @example
+      #   bank = Money::Bank::VariableExchange.new
+      #   bank.set_rate("USD", "CAD", 1.24515)
+      #   bank.set_rate("CAD", "USD", 0.803115)
+      #
+      #   bank.get_rate("USD", "CAD") #=> 1.24515
+      #   bank.get_rate("CAD", "USD") #=> 0.803115
+      def get_rate: ((Money::Currency | string | Symbol) from, (Money::Currency | string | Symbol) to, ?::Hash[untyped, untyped] opts) -> Numeric
+
+      # Return the known rates as a string in the format specified. If +file+
+      # is given will also write the string out to the file specified.
+      # Available formats are +:json+, +:ruby+ and +:yaml+.
+      #
+      # @param [Symbol] format Request format for the resulting string.
+      # @param [String] file Optional file location to write the rates to.
+      # @param [Hash] opts Options hash to set special parameters. Backwards compatibility only.
+      #
+      # @return [String]
+      #
+      # @raise +Money::Bank::UnknownRateFormat+ if format is unknown.
+      #
+      # @example
+      #   bank = Money::Bank::VariableExchange.new
+      #   bank.set_rate("USD", "CAD", 1.24515)
+      #   bank.set_rate("CAD", "USD", 0.803115)
+      #
+      #   s = bank.export_rates(:json)
+      #   s #=> "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
+      def export_rates: (Symbol format, ?string? file, ?::Hash[untyped, untyped] opts) -> string
+
+      # This should be deprecated.
+      def rates: () -> untyped
+
+      # Loads rates provided in +s+ given the specified format. Available
+      # formats are +:json+, +:ruby+ and +:yaml+.
+      # Delegates to +Money::RatesStore::Memory+
+      #
+      # @param [Symbol] format The format of +s+.
+      # @param [String] s The rates string.
+      # @param [Hash] opts Options hash to set special parameters. Backwards compatibility only.
+      #
+      # @return [self]
+      #
+      # @raise +Money::Bank::UnknownRateFormat+ if format is unknown.
+      #
+      # @example
+      #   s = "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
+      #   bank = Money::Bank::VariableExchange.new
+      #   bank.import_rates(:json, s)
+      #
+      #   bank.get_rate("USD", "CAD") #=> 1.24515
+      #   bank.get_rate("CAD", "USD") #=> 0.803115
+      def import_rates: (Symbol format, string s, ?::Hash[untyped, untyped] opts) -> Money::Bank::VariableExchange
+    end
+  end
+end

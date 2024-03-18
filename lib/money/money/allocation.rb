@@ -7,6 +7,10 @@ class Money
     #
     # The results should always add up to the original amount.
     #
+    # The parts can be specified as:
+    #   Numeric — performs the split between a given number of parties evenly
+    #   Array<Numeric> — allocates the amounts proportionally to the given array
+    #
     # @param amount [Numeric] The total amount to be allocated.
     # @param parts [Numeric, Array<Numeric>] Number of parts to split into or an array (proportions for allocation)
     # @param whole_amounts [Boolean] Specifies whether to allocate whole amounts only. Defaults to true.
