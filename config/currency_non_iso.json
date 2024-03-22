@@ -135,7 +135,7 @@
     "disambiguate_symbol": "USDC",
     "alternate_symbols": [],
     "subunit": "Cent",
-    "subunit_to_unit": 100,
+    "subunit_to_unit": 1000000,
     "symbol_first": false,
     "html_entity": "$",
     "decimal_mark": ".",

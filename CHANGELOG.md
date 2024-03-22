@@ -2,7 +2,7 @@
 
 ## Upcoming
 
--
+- **Potential breaking change**: Fix USDC decimals places from 2 to 6
 
 ## 6.19.0
 
