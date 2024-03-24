@@ -2,15 +2,7 @@ source 'https://rubygems.org'
 
 gem 'pry', require: false
 
-# JSON gem no longer supports ruby < 2.0.0
-if defined?(JRUBY_VERSION)
-  gem 'json'
-elsif RUBY_VERSION =~ /^1/
-  # Legacy gem locks for ruby 1.9.x
-  gem 'json',           '~> 1.8.3'
-  gem 'tins',           '~> 1.6.0'
-  gem 'term-ansicolor', '< 1.4'
-end
-gem 'i18n', '<= 1.2.0' if RUBY_VERSION < '2.3'
+gem 'rbs', platforms: %i[mri mingw x64_mingw]
+gem 'typeprof', platforms: %i[mri mingw x64_mingw]
 
 gemspec

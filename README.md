@@ -40,8 +40,6 @@ A Ruby Library for dealing with money and currency conversion.
 
 - Your app must use UTF-8 to function with this library. There are a
   number of non-ASCII currency attributes.
-- This app requires JSON. If you're using JRuby < 1.7.0
-  you'll need to add `gem "json"` to your Gemfile or similar.
 
 ## Downloading
 
@@ -351,11 +349,11 @@ The following example implements a `Redis` store to save exchange rates to a red
 
 class RedisRateStore
   INDEX_KEY_SEPARATOR = '_TO_'.freeze
-  
+
   # Using second db of the redis instance
   # because sidekiq uses the first db
   REDIS_DATABASE = 1
-  
+
   # Using Hash to store rates data
   REDIS_STORE_KEY = 'rates'
 
