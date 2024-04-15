@@ -142,5 +142,20 @@
     "thousands_separator": ",",
     "iso_numeric": "",
     "smallest_denomination": 1
+  },
+  "eth": {
+    "priority": 100,
+    "iso_code": "ETH",
+    "name": "Ethereum",
+    "symbol": "Ξ",
+    "alternate_symbols": [],
+    "subunit": "Wei",
+    "subunit_to_unit": 1000000000000000000,
+    "symbol_first": true,
+    "html_entity": "&#x039E;",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "",
+    "smallest_denomination": 1
   }
 }
