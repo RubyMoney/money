@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Upcoming 7.0.0.alpha
 
 - **Potential breaking change**: Fix USDC decimals places from 2 to 6
 
