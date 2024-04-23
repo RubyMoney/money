@@ -339,7 +339,7 @@ class Money
   #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
   #
   def initialize( obj, currency = Money.default_currency, options = {})
-    # For backwards compatability, if options is not a Hash, treat it as a bank parameter
+    # For backwards compatibility, if options is not a Hash, treat it as a bank parameter
     unless options.is_a?(Hash)
       options = { bank: options }
     end

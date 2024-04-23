@@ -504,7 +504,7 @@ In order to localize formatting you can use `I18n` gem:
 Money.locale_backend = :i18n
 ```
 
-With this enabled a thousands seperator and a decimal mark will get looked up in your `I18n` translation files. In a Rails application this may look like:
+With this enabled a thousands separator and a decimal mark will get looked up in your `I18n` translation files. In a Rails application this may look like:
 
 ```yml
 # config/locale/en.yml
