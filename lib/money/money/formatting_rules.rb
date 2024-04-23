@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class Money
   class FormattingRules
     def initialize(currency, *raw_rules)

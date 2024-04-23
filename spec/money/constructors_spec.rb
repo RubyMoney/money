@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe Money::Constructors do
 
   describe "::empty" do

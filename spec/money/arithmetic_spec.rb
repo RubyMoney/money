@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe Money::Arithmetic do
   describe "-@" do
     it "changes the sign of a number" do

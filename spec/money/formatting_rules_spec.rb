@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe Money::FormattingRules do
   it 'does not modify frozen rules in place' do
     expect {
