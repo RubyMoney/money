@@ -31,6 +31,9 @@ class Money
     # Thrown when an unknown currency is requested.
     class UnknownCurrency < ArgumentError; end
 
+    # Thrown when currency is not provided.
+    class NoCurrency < ArgumentError; end
+
     class << self
       def new(id)
         id = id.to_s.downcase

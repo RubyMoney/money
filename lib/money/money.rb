@@ -155,7 +155,9 @@ class Money
       @using_deprecated_default_currency = false
     end
 
-    if @default_currency.respond_to?(:call)
+    if @default_currency.nil?
+      nil
+    elsif @default_currency.respond_to?(:call)
       Money::Currency.new(@default_currency.call)
     else
       Money::Currency.new(@default_currency)
@@ -307,6 +309,8 @@ class Money
     raise ArgumentError, "'amount' must be numeric" unless Numeric === amount
 
     currency = Currency.wrap(currency) || Money.default_currency
+    raise Currency::NoCurrency, 'must provide a currency' if currency.nil?
+
     value = amount.to_d * currency.subunit_to_unit
     new(value, currency, options)
   end
@@ -337,7 +341,7 @@ class Money
   #   Money.new(100, "USD") #=> #<Money @fractional=100 @currency="USD">
   #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
   #
-  def initialize( obj, currency = Money.default_currency, options = {})
+  def initialize(obj, currency = Money.default_currency, options = {})
     # For backwards compatibility, if options is not a Hash, treat it as a bank parameter
     unless options.is_a?(Hash)
       options = { bank: options }
@@ -351,6 +355,7 @@ class Money
 
     # BigDecimal can be Infinity and NaN, money of that amount does not make sense
     raise ArgumentError, 'must be initialized with a finite value' unless @fractional.finite?
+    raise Currency::NoCurrency, 'must provide a currency' if @currency.nil?
   end
 
   # Assuming using a currency using dollars:
