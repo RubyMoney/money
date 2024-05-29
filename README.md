@@ -455,6 +455,12 @@ m = Money.from_cents('123', :gbp) # => #<Money fractional:123 currency:GBP>
 m.format(symbol: m.currency.to_s + ' ') # => "GBP 1.23"
 ```
 
+If you would like to customise currency symbols (e.g to avoid ambiguous between currencies), you can set custom symbol for specific currency as following
+
+```ruby
+  Money::Currency.table[hkd][:symbol] = 'HK$'
+```
+
 ## Rounding
 
 By default, `Money` objects are rounded to the nearest cent and the additional precision is not preserved:
