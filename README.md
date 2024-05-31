@@ -458,7 +458,7 @@ m.format(symbol: m.currency.to_s + ' ') # => "GBP 1.23"
 If you would like to customise currency symbols (e.g to avoid ambiguous between currencies), you can set custom symbol for specific currency as following
 
 ```ruby
-  Money::Currency.table[hkd][:symbol] = 'HK$'
+  Money::Currency.table[:hkd][:symbol] = 'HK$'
 ```
 
 ## Rounding
