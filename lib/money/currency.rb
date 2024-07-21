@@ -9,7 +9,7 @@ class Money
   # Represents a specific currency unit.
   #
   # @see https://en.wikipedia.org/wiki/Currency
-  # @see http://iso4217.net/
+  # @see https://www.iso.org/iso-4217-currency-codes.html
   class Currency
     include Comparable
     extend Enumerable
@@ -113,13 +113,13 @@ class Money
       #
       # == monetary unit
       # The standard unit of value of a currency, as the dollar in the United States or the peso in Mexico.
-      # https://www.answers.com/topic/monetary-unit
+      # https://www.answers.com/redirectSearch?query=monetary-unit
       # == fractional monetary unit, subunit
       # A monetary unit that is valued at a fraction (usually one hundredth) of the basic monetary unit
-      # https://www.answers.com/topic/fractional-monetary-unit-subunit
+      # https://www.answers.com/redirectSearch?query=fractional-monetary-unit-subunit
       #
       # See https://en.wikipedia.org/wiki/List_of_circulating_currencies and
-      # http://search.cpan.org/~tnguyen/Locale-Currency-Format-1.28/Format.pm
+      # https://metacpan.org/release/TNGUYEN/Locale-Currency-Format-1.28/view/Format.pm
       def table
         @table ||= Loader.load_currencies
       end
@@ -142,7 +142,7 @@ class Money
 
       # We need a string-based validator before creating an unbounded number of
       # symbols.
-      # http://www.randomhacks.net/articles/2007/01/20/13-ways-of-looking-at-a-ruby-symbol#11
+      # http://www.randomhacks.net.s3-website-us-east-1.amazonaws.com/2007/01/20/13-ways-of-looking-at-a-ruby-symbol/#11
       # https://github.com/RubyMoney/money/issues/132
       #
       # @return [Set]
