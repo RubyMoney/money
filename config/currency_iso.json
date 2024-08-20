@@ -972,7 +972,7 @@
   "ils": {
     "priority": 100,
     "iso_code": "ILS",
-    "name": "Israeli New Sheqel",
+    "name": "Israeli New Shekel",
     "symbol": "₪",
     "alternate_symbols": ["ש״ח", "NIS"],
     "subunit": "Agora",
