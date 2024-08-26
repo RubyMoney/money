@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe Money::Currency::Heuristics do
   describe "#analyze_string" do
     let(:it) { Money::Currency }

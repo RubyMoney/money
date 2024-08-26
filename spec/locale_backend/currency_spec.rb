@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe Money::LocaleBackend::Currency do
   describe '#lookup' do
     let(:currency) { Money::Currency.new('EUR') }
