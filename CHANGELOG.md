@@ -4,6 +4,7 @@
 
 - **Potential breaking change**: Fix USDC decimals places from 2 to 6
 - Fix typo in ILS currency
+- Enable and enforce customizable allocation precision for handling large arrays
 
 ## 6.19.0
 
