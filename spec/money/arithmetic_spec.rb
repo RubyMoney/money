@@ -1,6 +1,6 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
-describe Money::Arithmetic do
+RSpec.describe Money::Arithmetic do
   describe "-@" do
     it "changes the sign of a number" do
       expect((- Money.new(0))).to  eq Money.new(0)
@@ -49,16 +49,17 @@ describe Money::Arithmetic do
     end
 
     it 'allows comparison with zero' do
-      expect(Money.new(0, :usd)).to eq 0
-      expect(Money.new(0, :usd)).to eq 0.0
-      expect(Money.new(0, :usd)).to eq BigDecimal(0)
-      expect(Money.new(1, :usd)).to_not eq 0
+      expect(Money.new(0, "USD")).to eq 0
+      expect(Money.new(0, "EUR")).to eq 0
+      expect(Money.new(0, "USD")).to eq 0.0
+      expect(Money.new(0, "USD")).to eq BigDecimal(0)
+      expect(Money.new(1, "USD")).to_not eq 0
     end
 
     it 'raises error for non-zero numerics' do
-      expect { Money.new(1_00, :usd) == 1 }.to raise_error ArgumentError
-      expect { Money.new(1_00, :usd) == -2.0 }.to raise_error ArgumentError
-      expect { Money.new(1_00, :usd) == Float::INFINITY }.to raise_error ArgumentError
+      expect { Money.new(1_00, "USD") == 1 }.to raise_error ArgumentError
+      expect { Money.new(1_00, "USD") == -2.0 }.to raise_error ArgumentError
+      expect { Money.new(1_00, "USD") == Float::INFINITY }.to raise_error ArgumentError
     end
   end
 
@@ -70,18 +71,54 @@ describe Money::Arithmetic do
       expect(Money.new(1_00, "USD").eql?(Money.new(99_00, "EUR"))).to be false
     end
 
-    it "returns true when their amounts are zero and currencies differ" do
-      expect(Money.new(0, "USD").eql?(Money.new(0, "EUR"))).to be true
-      expect(Money.new(0, "USD").eql?(Money.new(0, "USD"))).to be true
-      expect(Money.new(0, "AUD").eql?(Money.new(0, "EUR"))).to be true
+    context "with strict_eql_compare set to false" do
+      before { Money.strict_eql_compare = false }
+      after { Money.setup_defaults }
+
+      it "returns true when comparing zero" do
+        expect(Money.new(0, "USD").eql?(Money.new(0, "USD"))).to be true
+        expect(Money.new(0, "USD").eql?(Money.new(0, "EUR"))).to be true
+        expect(Money.new(0, "EUR").eql?(Money.new(0, "USD"))).to be true
+      end
+
+      it "warns" do
+        amount = Money.new(0, "USD")
+        allow(amount).to receive(:warn)
+
+        expect(amount.eql?(Money.new(0, "EUR"))).to be true
+        expect(amount).to have_received(:warn)
+          .with(/\A\[DEPRECATION\] Comparing 0 USD with 0 EUR using `#eql\?`/)
+      end
+    end
+
+    context "with strict_eql_compare set to true" do
+      before { Money.strict_eql_compare = true }
+      after { Money.setup_defaults }
+
+      it "does not make an exception for zero" do
+        expect(Money.new(0, "USD").eql?(Money.new(0, "USD"))).to be true
+        expect(Money.new(0, "USD").eql?(Money.new(0, "EUR"))).to be false
+        expect(Money.new(0, "EUR").eql?(Money.new(0, "USD"))).to be false
+      end
+
+      it "does not warn" do
+        amount = Money.new(0, "USD")
+        allow(amount).to receive(:warn)
+
+        expect(amount.eql?(Money.new(0, "EUR"))).to be false
+        expect(amount).not_to have_received(:warn)
+      end
     end
 
     it "returns false if used to compare with an object that doesn't inherit from Money" do
-      expect(Money.new(1_00, "USD").eql?(Object.new)).to  be false
-      expect(Money.new(1_00, "USD").eql?(Class)).to       be false
-      expect(Money.new(1_00, "USD").eql?(Kernel)).to      be false
-      expect(Money.new(1_00, "USD").eql?(/foo/)).to       be false
-      expect(Money.new(1_00, "USD").eql?(nil)).to         be false
+      expect(Money.new(1_00, "USD").eql?(Object.new)).to be false
+      expect(Money.new(1_00, "USD").eql?(Class)).to      be false
+      expect(Money.new(1_00, "USD").eql?(Kernel)).to     be false
+      expect(Money.new(1_00, "USD").eql?(/foo/)).to      be false
+      expect(Money.new(1_00, "USD").eql?(nil)).to        be false
+      expect(Money.new(1_00, "USD").eql?(1.0)).to        be false
+      expect(Money.new(1_00, "USD").eql?(1)).to          be false
+      expect(Money.new(1_00, "USD").eql?(1_00)).to       be false
     end
 
     it "can be used to compare with an object that inherits from Money" do
@@ -222,7 +259,7 @@ describe Money::Arithmetic do
       expect(Money.new(10_00, "USD") + other).to eq Money.new(19_00, "USD")
     end
 
-    it "adds Integer 0 to money and returns the same ammount" do
+    it "adds Integer 0 to money and returns the same amount" do
       expect(Money.new(10_00) + 0).to eq Money.new(10_00)
     end
 
@@ -239,7 +276,7 @@ describe Money::Arithmetic do
       expect { Money.new(10_00) + nil }.to raise_error(TypeError, "Unsupported argument type: NilClass")
     end
 
-    it_behaves_like 'instance with custom bank', :+, Money.new(1)
+    it_behaves_like 'instance with custom bank', :+, -> { Money.new(1) }
   end
 
   describe "#-" do
@@ -253,7 +290,7 @@ describe Money::Arithmetic do
       expect(Money.new(10_00, "USD") - other).to eq Money.new(1_00, "USD")
     end
 
-    it "subtract Integer 0 to money and returns the same ammount" do
+    it "subtract Integer 0 to money and returns the same amount" do
       expect(Money.new(10_00) - 0).to eq Money.new(10_00)
     end
 
@@ -270,7 +307,7 @@ describe Money::Arithmetic do
       expect { Money.new(10_00) - nil }.to raise_error(TypeError, "Unsupported argument type: NilClass")
     end
 
-    it_behaves_like 'instance with custom bank', :-, Money.new(1)
+    it_behaves_like 'instance with custom bank', :-, -> { Money.new(1) }
   end
 
   describe "#*" do
@@ -519,7 +556,7 @@ describe Money::Arithmetic do
       expect(special_money_class.new(10_00, "USD").divmod(special_money_class.new(4_00)).last).to be_a special_money_class
     end
 
-    it_behaves_like 'instance with custom bank', :divmod, Money.new(1)
+    it_behaves_like 'instance with custom bank', :divmod, -> { Money.new(1) }
     it_behaves_like 'instance with custom bank', :divmod, 1
   end
 

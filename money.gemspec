@@ -1,4 +1,5 @@
-# -*- encoding: utf-8 -*-
+# frozen_string_literal: true
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "money/version"
@@ -15,7 +16,7 @@ Gem::Specification.new do |s|
   s.license     = "MIT"
 
   s.add_dependency "bigdecimal"
-  s.add_dependency 'i18n', [">= 0.6.4", '<= 2']
+  s.add_dependency 'i18n', "~> 1.9"
 
   s.add_development_dependency "bundler"
   s.add_development_dependency "rake"
@@ -29,7 +30,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   if s.respond_to?(:metadata)
-    s.metadata['changelog_uri'] = 'https://github.com/RubyMoney/money/blob/master/CHANGELOG.md'
+    s.metadata['changelog_uri'] = 'https://github.com/RubyMoney/money/blob/main/CHANGELOG.md'
     s.metadata['source_code_uri'] = 'https://github.com/RubyMoney/money/'
     s.metadata['bug_tracker_uri'] = 'https://github.com/RubyMoney/money/issues'
     s.metadata['rubygems_mfa_required'] = 'true'

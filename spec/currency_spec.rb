@@ -1,6 +1,6 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
-describe Money::Currency do
+RSpec.describe Money::Currency do
   FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 1000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
 
   def register_foo(opts={})
@@ -18,6 +18,12 @@ describe Money::Currency do
   describe "UnknownCurrency" do
     it "is a subclass of ArgumentError" do
       expect(described_class::UnknownCurrency < ArgumentError).to be true
+    end
+  end
+
+  describe "NoCurrency" do
+    it "is a subclass of ArgumentError" do
+      expect(described_class::NoCurrency < ArgumentError).to be true
     end
   end
 
@@ -281,7 +287,7 @@ describe Money::Currency do
       expect(currency).to eq currency
     end
 
-    it "returns true if the id is equal ignorning case" do
+    it "returns true if the id is equal ignoring case" do
       expect(described_class.new(:eur)).to     eq described_class.new(:eur)
       expect(described_class.new(:eur)).to     eq described_class.new(:EUR)
       expect(described_class.new(:eur)).not_to eq described_class.new(:usd)
@@ -336,6 +342,16 @@ describe Money::Currency do
 
     it "returns false if the currency is not iso" do
       expect(described_class.new(:btc).iso?).to be false
+    end
+  end
+
+  describe "#cents_based?" do
+    it "returns true if the currency is cents-based" do
+      expect(described_class.new(:mxn).cents_based?).to be true
+    end
+
+    it "returns false if the currency is not cents-based" do
+      expect(described_class.new(:clp).cents_based?).to be false
     end
   end
 

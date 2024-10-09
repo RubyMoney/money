@@ -1,4 +1,4 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 require "json"
 require "money/currency/loader"
@@ -9,7 +9,7 @@ class Money
   # Represents a specific currency unit.
   #
   # @see https://en.wikipedia.org/wiki/Currency
-  # @see http://iso4217.net/
+  # @see https://www.iso.org/iso-4217-currency-codes.html
   class Currency
     include Comparable
     extend Enumerable
@@ -32,6 +32,9 @@ class Money
 
     # Thrown when an unknown currency is requested.
     class UnknownCurrency < ArgumentError; end
+
+    # Thrown when currency is not provided.
+    class NoCurrency < ArgumentError; end
 
     class << self
       def new(id)
@@ -113,13 +116,13 @@ class Money
       #
       # == monetary unit
       # The standard unit of value of a currency, as the dollar in the United States or the peso in Mexico.
-      # https://www.answers.com/topic/monetary-unit
+      # https://www.answers.com/redirectSearch?query=monetary-unit
       # == fractional monetary unit, subunit
       # A monetary unit that is valued at a fraction (usually one hundredth) of the basic monetary unit
-      # https://www.answers.com/topic/fractional-monetary-unit-subunit
+      # https://www.answers.com/redirectSearch?query=fractional-monetary-unit-subunit
       #
       # See https://en.wikipedia.org/wiki/List_of_circulating_currencies and
-      # http://search.cpan.org/~tnguyen/Locale-Currency-Format-1.28/Format.pm
+      # https://metacpan.org/release/TNGUYEN/Locale-Currency-Format-1.28/view/Format.pm
       def table
         @table ||= Loader.load_currencies
       end
@@ -142,7 +145,7 @@ class Money
 
       # We need a string-based validator before creating an unbounded number of
       # symbols.
-      # http://www.randomhacks.net/articles/2007/01/20/13-ways-of-looking-at-a-ruby-symbol#11
+      # http://www.randomhacks.net.s3-website-us-east-1.amazonaws.com/2007/01/20/13-ways-of-looking-at-a-ruby-symbol/#11
       # https://github.com/RubyMoney/money/issues/132
       #
       # @return [Set]
@@ -405,7 +408,7 @@ class Money
       !!@symbol_first
     end
 
-    # Returns if a code currency is ISO.
+    # Returns true if a code currency is ISO.
     #
     # @return [Boolean]
     #
@@ -414,6 +417,17 @@ class Money
     #
     def iso?
       iso_numeric && iso_numeric != ''
+    end
+
+    # Returns true if a subunit is cents-based.
+    #
+    # @return [Boolean]
+    #
+    # @example
+    #  Money::Currency.new(:usd).cents_based?
+    #
+    def cents_based?
+      subunit_to_unit == 100
     end
 
     # Returns the relation between subunit and unit as a base 10 exponent.

@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# frozen_string_literal: true
 
 class Money
   class FormattingRules
@@ -9,12 +9,9 @@ class Money
       @rules = normalize_formatting_rules(raw_rules)
 
       @rules = default_formatting_rules.merge(@rules) unless @rules[:ignore_defaults]
-      @rules = localize_formatting_rules(@rules)
       @rules = translate_formatting_rules(@rules) if @rules[:translate]
-      @rules[:format] ||= determine_format_from_formatting_rules(@rules)
+      @rules[:format] ||= determine_format
       @rules[:delimiter_pattern] ||= delimiter_pattern_rule(@rules)
-
-      warn_about_deprecated_rules(@rules)
     end
 
     def [](key)
@@ -71,71 +68,24 @@ class Money
       rules
     end
 
-    def localize_formatting_rules(rules)
-      if currency.iso_code == "JPY" && I18n.locale == :ja && rules[:format] == nil
-        rules[:symbol] = "円" unless rules[:symbol] == false
-        rules[:format] = '%n%u'
-      end
-      rules
+    def determine_format
+      Money.locale_backend&.lookup(:format, @currency) || default_format
     end
 
-    def determine_format_from_formatting_rules(rules)
-      return currency.format if currency.format && !rules.has_key?(:symbol_position)
-
-      symbol_position = symbol_position_from(rules)
-
-      if symbol_position == :before
-        rules.fetch(:symbol_before_without_space, true) ? '%u%n' : '%u %n'
+    def default_format
+      if currency.format
+        currency.format
       else
-        rules[:symbol_after_without_space] ? '%n%u' : '%n %u'
+        currency.symbol_first? ? "%u%n" : "%n %u"
       end
     end
 
     def delimiter_pattern_rule(rules)
       if rules[:south_asian_number_formatting]
-        # from http://blog.revathskumar.com/2014/11/regex-comma-seperated-indian-currency-format.html
+        # from https://blog.revathskumar.com/2014/11/regex-comma-seperated-indian-currency-format.html
         /(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/
       else
         /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
-      end
-    end
-
-    def symbol_position_from(rules)
-      if rules.has_key?(:symbol_position)
-        if [:before, :after].include?(rules[:symbol_position])
-          return rules[:symbol_position]
-        else
-          raise ArgumentError, ":symbol_position must be ':before' or ':after'"
-        end
-      elsif currency.symbol_first?
-        :before
-      else
-        :after
-      end
-    end
-
-    def warn_about_deprecated_rules(rules)
-      if rules.has_key?(:symbol_position)
-        position = rules[:symbol_position]
-        template = position == :before ? '%u%n' : '%n%u'
-
-        warn "[DEPRECATION] `symbol_position: :#{position}` is deprecated - you can replace it with `format: #{template}`"
-      end
-
-      if rules.has_key?(:symbol_before_without_space)
-        warn "[DEPRECATION] `symbol_before_without_space:` option is deprecated - you can replace it with `format: '%u%n'`"
-      end
-
-      if rules.has_key?(:symbol_after_without_space)
-        warn "[DEPRECATION] `symbol_after_without_space:` option is deprecated - you can replace it with `format: '%n%u'`"
-      end
-
-      if rules.has_key?(:html)
-        warn "[DEPRECATION] `html` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency and if you use `with_currency` option, currency element class changes from `currency` to `money-currency`."
-      end
-
-      if rules.has_key?(:html_wrap_symbol)
-        warn "[DEPRECATION] `html_wrap_symbol` is deprecated - use `html_wrap` instead. Please note that `html_wrap` will wrap all parts of currency."
       end
     end
   end

@@ -1,6 +1,6 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
-describe Money::LocaleBackend::Currency do
+RSpec.describe Money::LocaleBackend::Currency do
   describe '#lookup' do
     let(:currency) { Money::Currency.new('EUR') }
 
@@ -10,6 +10,10 @@ describe Money::LocaleBackend::Currency do
 
     it 'returns decimal_mark based as defined in currency' do
       expect(subject.lookup(:decimal_mark, currency)).to eq(',')
+    end
+
+    it 'returns format based as defined in currency' do
+      expect(subject.lookup(:format, currency)).to eq(nil)
     end
   end
 end

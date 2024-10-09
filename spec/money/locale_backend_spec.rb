@@ -1,6 +1,6 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
-describe Money::LocaleBackend do
+RSpec.describe Money::LocaleBackend do
   describe '.find' do
     it 'returns an initialized backend' do
       expect(described_class.find(:legacy)).to be_a(Money::LocaleBackend::Legacy)

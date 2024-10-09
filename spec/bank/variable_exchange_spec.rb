@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'yaml'
 
-describe Money::Bank::VariableExchange do
+RSpec.describe Money::Bank::VariableExchange do
 
   describe "#initialize" do
     context "without &block" do

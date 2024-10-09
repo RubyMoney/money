@@ -2,9 +2,8 @@
 
 [![Gem Version](https://badge.fury.io/rb/money.svg)](https://rubygems.org/gems/money)
 [![Ruby](https://github.com/RubyMoney/money/actions/workflows/ruby.yml/badge.svg)](https://github.com/RubyMoney/money/actions/workflows/ruby.yml)
-[![Code Climate](https://codeclimate.com/github/RubyMoney/money.svg)](https://codeclimate.com/github/RubyMoney/money)
-[![Inline docs](https://inch-ci.org/github/RubyMoney/money.svg)](https://inch-ci.org/github/RubyMoney/money)
-[![License](https://img.shields.io/github/license/RubyMoney/money.svg)](https://opensource.org/licenses/MIT)
+[![Inline docs](https://img.shields.io/badge/docs-github.io-green.svg)](https://rubymoney.github.io/money/)
+[![License](https://img.shields.io/github/license/RubyMoney/money.svg)](https://opensource.org/license/MIT)
 
 :warning: Please read the [migration notes](#migration-notes) before upgrading to a new major version.
 
@@ -12,7 +11,7 @@ If you miss String parsing, check out the new [monetize gem](https://github.com/
 
 ## Contributing
 
-See the [Contribution Guidelines](https://github.com/RubyMoney/money/blob/master/CONTRIBUTING.md)
+See the [Contribution Guidelines](https://github.com/RubyMoney/money/blob/main/CONTRIBUTING.md)
 
 ## Introduction
 
@@ -33,7 +32,7 @@ A Ruby Library for dealing with money and currency conversion.
 ### Resources
 
 - [Website](https://rubymoney.github.io/money/)
-- [API Documentation](http://www.rubydoc.info/gems/money/frames)
+- [API Documentation](https://www.rubydoc.info/gems/money/frames)
 - [Git Repository](https://github.com/RubyMoney/money)
 
 ### Notes
@@ -55,7 +54,7 @@ The development version (hosted on Github) can be installed with:
 
 ## Usage
 
-``` ruby
+```ruby
 require 'money'
 
 # explicitly define locales
@@ -103,7 +102,7 @@ Currencies are consistently represented as instances of `Money::Currency`.
 The most part of `Money` APIs allows you to supply either a `String` or a
 `Money::Currency`.
 
-``` ruby
+```ruby
 Money.from_cents(1000, "USD") == Money.from_cents(1000, Money::Currency.new("USD"))
 Money.from_cents(1000, "EUR").currency == Money::Currency.new("EUR")
 ```
@@ -111,16 +110,17 @@ Money.from_cents(1000, "EUR").currency == Money::Currency.new("EUR")
 A `Money::Currency` instance holds all the information about the currency,
 including the currency symbol, name and much more.
 
-``` ruby
+```ruby
 currency = Money.from_cents(1000, "USD").currency
-currency.iso_code #=> "USD"
-currency.name     #=> "United States Dollar"
+currency.iso_code     #=> "USD"
+currency.name         #=> "United States Dollar"
+currency.cents_based? #=> true
 ```
 
 To define a new `Money::Currency` use `Money::Currency.register` as shown
 below.
 
-``` ruby
+```ruby
 curr = {
   priority:            1,
   iso_code:            "USD",
@@ -164,7 +164,7 @@ selector like the one available
 custom methods to return the list of major currencies and all currencies as
 follows:
 
-``` ruby
+```ruby
 # Returns an array of currency id where
 # priority < 10
 def major_currencies(hash)
@@ -192,23 +192,22 @@ all_currencies(Money::Currency.table)
 
 ### Default Currency
 
-By default `Money` defaults to USD as its currency. This can be overwritten
-using:
+A default currency is not set by default. If a default currency is not set, it will raise an error when you try to initialize a `Money` object without explicitly passing a currency or parse a string that does not contain a currency. You can set a default currency for your application by using:
 
-``` ruby
+```ruby
 Money.default_currency = Money::Currency.new("CAD")
 ```
 
-If you use [Rails](https://github.com/RubyMoney/money/tree/master#ruby-on-rails), then `config/initializers/money.rb` is a very good place to put this.
+If you use [Rails](https://github.com/RubyMoney/money/tree/main#ruby-on-rails), then `config/initializers/money.rb` is a very good place to put this.
 
 ### Currency Exponent
 
 The exponent of a money value is the number of digits after the decimal
 separator (which separates the major unit from the minor unit). See e.g.
-[ISO 4217](https://www.currency-iso.org/en/shared/amendments/iso-4217-amendment.html) for more
+[ISO 4217](https://www.iso.org/iso-4217-currency-codes.html) for more
 information. You can find the exponent (as an `Integer`) by
 
-``` ruby
+```ruby
 Money::Currency.new("USD").exponent  # => 2
 Money::Currency.new("JPY").exponent  # => 0
 Money::Currency.new("MGA").exponent  # => 1
@@ -218,7 +217,7 @@ Money::Currency.new("MGA").exponent  # => 1
 
 To find a given currency by ISO 4217 numeric code (three digits) you can do
 
-``` ruby
+```ruby
 Money::Currency.find_by_iso_numeric(978) #=> Money::Currency.new(:eur)
 ```
 
@@ -228,7 +227,7 @@ Exchanging money is performed through an exchange bank object. The default
 exchange bank object requires one to manually specify the exchange rate. Here's
 an example of how it works:
 
-``` ruby
+```ruby
 Money.add_rate("USD", "CAD", 1.24515)
 Money.add_rate("CAD", "USD", 0.803115)
 
@@ -238,7 +237,7 @@ Money.ca_dollar(100).exchange_to("USD")  # => Money.from_cents(80, "USD")
 
 Comparison and arithmetic operations work as expected:
 
-``` ruby
+```ruby
 Money.from_cents(1000, "USD") <=> Money.from_cents(900, "USD")   # => 1; 9.00 USD is smaller
 Money.from_cents(1000, "EUR") + Money.from_cents(10, "EUR") == Money.from_cents(1010, "EUR")
 
@@ -346,7 +345,6 @@ end
 The following example implements a `Redis` store to save exchange rates to a redis database.
 
 ```ruby
-
 class RedisRateStore
   INDEX_KEY_SEPARATOR = '_TO_'.freeze
 
@@ -408,9 +406,9 @@ Money.from_cents(1000, 'USD').exchange_to('CAD') #=> #<Money fractional:900 curr
 ```
 
 There is nothing stopping you from creating store objects which scrapes
-[XE](http://www.xe.com) for the current rates or just returns `rand(2)`:
+[XE](https://www.xe.com) for the current rates or just returns `rand(2)`:
 
-``` ruby
+```ruby
 Money.default_bank = Money::Bank::VariableExchange.new(StoreWhichScrapesXeDotCom.new)
 ```
 
@@ -424,7 +422,7 @@ Money.default_bank = MyCustomBank.new(Money::RatesStore::Memory.new)
 If you wish to disable automatic currency conversion to prevent arithmetic when
 currencies don't match:
 
-``` ruby
+```ruby
 Money.disallow_currency_conversion!
 ```
 
@@ -446,9 +444,9 @@ implementations.
 
 ## Formatting
 
-There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module source](https://github.com/RubyMoney/money/blob/master/lib/money/money/formatter.rb), or read the latest release's [rdoc version](http://www.rubydoc.info/gems/money/Money/Formatter).
+There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module source](https://github.com/RubyMoney/money/blob/main/lib/money/money/formatter.rb), or read the latest release's [rdoc version](https://www.rubydoc.info/gems/money/Money/Formatter).
 
-If you wish to format money according to the EU's [Rules for expressing monetary units](http://publications.europa.eu/code/en/en-370303.htm#position) in either English, Irish, Latvian or Maltese:
+If you wish to format money according to the EU's [Rules for expressing monetary units](https://style-guide.europa.eu/en/content/-/isg/topic?identifier=7.3.3-rules-for-expressing-monetary-units#id370303__id370303_PositionISO) in either English, Irish, Latvian or Maltese:
 
 ```ruby
 m = Money.from_cents('123', :gbp) # => #<Money fractional:123 currency:GBP>
@@ -472,23 +470,31 @@ Money.from_amount(2.34567).format #=> "$2.34567"
 
 To round to the nearest cent (or anything more precise), you can use the `round` method. However, note that the `round` method on a `Money` object does not work the same way as a normal Ruby `Float` object. Money's `round` method accepts different arguments. The first argument to the round method is the rounding mode, while the second argument is the level of precision relative to the cent.
 
-```
+```ruby
 # Float
 2.34567.round     #=> 2
 2.34567.round(2)  #=> 2.35
 
 # Money
 Money.default_infinite_precision = true
-Money.from_cents(2.34567).format       #=> "$0.0234567"
+Money.from_cents(2.34567).format #=> "$0.0234567"
 Money.from_cents(2.34567).round.format #=> "$0.02"
-Money.from_cents(2.34567).round(BigDecimal::ROUND_HALF_UP, 2).format #=> "$0.0235"
+Money.from_cents(2.34567).round(BigDecimal::ROUND_DOWN, 2).format #=> "$0.0234"
 ```
 
 You can set the default rounding mode by passing one of the `BigDecimal` mode enumerables like so:
+
 ```ruby
 Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
 ```
-See [BigDecimal::ROUND_MODE](https://ruby-doc.org/stdlib-2.5.1/libdoc/bigdecimal/rdoc/BigDecimal.html#ROUND_MODE) for more information
+
+See [BigDecimal::ROUND_MODE](https://ruby-doc.org/3.4.1/gems/bigdecimal/BigDecimal.html#ROUND_MODE) for more information.
+
+To round to the nearest cash value in currencies without small denominations:
+
+```ruby
+Money.from_cents(11_11, "CHF").to_nearest_cash_value.format # => "CHF 11.10"
+```
 
 ## Ruby on Rails
 
@@ -504,7 +510,7 @@ In order to localize formatting you can use `I18n` gem:
 Money.locale_backend = :i18n
 ```
 
-With this enabled a thousands seperator and a decimal mark will get looked up in your `I18n` translation files. In a Rails application this may look like:
+With this enabled a thousands separator and a decimal mark will get looked up in your `I18n` translation files. In a Rails application this may look like:
 
 ```yml
 # config/locale/en.yml
@@ -528,7 +534,7 @@ This will work seamlessly with [rails-i18n](https://github.com/svenfuchs/rails-i
 
 If you wish to disable this feature and use defaults instead:
 
-``` ruby
+```ruby
 Money.locale_backend = nil
 ```
 
@@ -596,7 +602,7 @@ If you don't have some locale and don't want to get a runtime error such as:
     I18n::InvalidLocale: :en is not a valid locale
 
 Set the following:
-``` ruby
+```ruby
 I18n.enforce_available_locales = false
 ```
 
