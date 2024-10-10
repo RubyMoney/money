@@ -7,9 +7,17 @@ class Money
     # The results should always add up to the original amount.
     #
     # The parts can be specified as:
-    #   Numeric — performs the split between a given number of parties evenely
+    #   Numeric — performs the split between a given number of parties evenly
     #   Array<Numeric> — allocates the amounts proportionally to the given array
     #
-    def self.generate: (untyped amount, (Numeric | Array[Numeric]) parts, ?bool whole_amounts) -> untyped
+    # @param amount [Numeric] The total amount to be allocated.
+    # @param parts [Numeric, Array<Numeric>] Number of parts to split into or an array (proportions for allocation).
+    # @param whole_amounts [Boolean] Specifies whether to allocate whole amounts only. Defaults to true.
+    # @param precision [Integer] The number of decimal places to round to.
+    #   This is ignored if whole_amounts is set to true. Defaults to BigDecimal.double_fig.
+    #
+    # @return [Array<Numeric>] An array containing the allocated amounts.
+    # @raise [ArgumentError] If parts is empty or not provided.
+    def self.generate: (Numeric amount, (Numeric | Array[Numeric]) parts, ?bool whole_amounts, ?Integer precision) -> Array[Numeric]
   end
 end
