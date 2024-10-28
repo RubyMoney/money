@@ -32,4 +32,32 @@ describe Money::FormattingRules do
       Money::FormattingRules.new(Money::Currency.new('USD'), symbol_position: :after)
     end
   end
+
+  context "when translate is false" do
+    it "ignores locale's format" do
+      I18n.backend.store_translations(:fr, number: {
+        currency: { format: { format: "%n %u" } }
+      })
+      # Have the currency's default symbol position be the opposite of the locale's format
+      allow_any_instance_of(Money::Currency).to receive(:symbol_first).and_return(true)
+
+      rules = I18n.with_locale(:fr) {Money::FormattingRules.new(Money::Currency.new('EUR'), translate: false)}
+
+      expect(rules[:format]).to eq("%u%n")
+    end
+  end
+
+  context "when translate is true" do
+    it "uses locale's format by default" do
+      I18n.backend.store_translations(:fr, number: {
+        currency: { format: { format: "%n %u" } }
+      })
+      # Have the currency's default symbol position be the opposite of the locale's format
+      allow_any_instance_of(Money::Currency).to receive(:symbol_first).and_return(true)
+
+      rules = I18n.with_locale(:fr) {Money::FormattingRules.new(Money::Currency.new('EUR'), translate: true)}
+
+      expect(rules[:format]).to eq("%n %u")
+    end
+  end
 end

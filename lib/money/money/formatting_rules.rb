@@ -68,6 +68,11 @@ class Money
       rescue I18n::MissingTranslationData
         # Do nothing
       end
+      begin
+        rules[:format] ||= I18n.t :format, scope: "number.currency.format", raise: true
+      rescue I18n::MissingTranslationData
+        # Do nothing
+      end
       rules
     end
 
