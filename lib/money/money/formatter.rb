@@ -1,4 +1,3 @@
-# encoding: UTF-8
 require 'money/money/formatting_rules'
 
 class Money
