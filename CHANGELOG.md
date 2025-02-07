@@ -4,6 +4,7 @@
 
 - **Potential breaking change**: Fix USDC decimals places from 2 to 6
 - Fix typo in ILS currency
+- Refactor `Money::Allocation.generate` method: Rename `whole_amounts` to `rounding_mode` for flexible rounding
 
 ## 6.19.0
 
