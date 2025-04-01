@@ -2562,6 +2562,7 @@
     "iso_code": "XCG",
     "name": "Caribbean Guilder",
     "symbol": "Cg",
+    "format": "%u %n",
     "alternate_symbols": [],
     "subunit": "Cent",
     "subunit_to_unit": 100,
