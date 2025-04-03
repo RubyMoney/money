@@ -416,6 +416,17 @@ class Money
       iso_numeric && iso_numeric != ''
     end
 
+    # Returns if a subunit is cents-based
+    #
+    # @return [Boolean]
+    #
+    # @example
+    #  Money::Currency.new(:usd).cents_based?
+    #
+    def cents_based?
+      subunit_to_unit == 100
+    end
+
     # Returns the relation between subunit and unit as a base 10 exponent.
     #
     # Note that MGA and MRU are exceptions and are rounded to 1
