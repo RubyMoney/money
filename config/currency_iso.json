@@ -2557,6 +2557,22 @@
     "iso_numeric": "951",
     "smallest_denomination": 1
   },
+  "xcg": {
+    "priority": 100,
+    "iso_code": "XCG",
+    "name": "Caribbean Guilder",
+    "symbol": "Cg",
+    "alternate_symbols": ["ƒ"],
+    "subunit": "Cent",
+    "subunit_to_unit": 100,
+    "symbol_first": false,
+    "format": "%n %u",
+    "html_entity": "&#x0192;",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "532",
+    "smallest_denomination": 1
+  },
   "xdr": {
     "priority": 100,
     "iso_code": "XDR",
