@@ -2731,5 +2731,20 @@
     "thousands_separator": ",",
     "iso_numeric": "967",
     "smallest_denomination": 5
+  },
+  "zwg": {
+    "priority": 100,
+    "iso_code": "ZWG",
+    "name": "Zimbabwe Gold",
+    "symbol": "ZiG",
+    "alternate_symbols": [],
+    "subunit": "cent",
+    "subunit_to_unit": 100,
+    "symbol_first": false,
+    "html_entity": "",
+    "decimal_mark": ".",
+    "thousands_separator": ",",
+    "iso_numeric": "924",
+    "smallest_denomination": 1
   }
 }
