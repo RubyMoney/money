@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require "json"
 require "money/currency/loader"
 require "money/currency/heuristics"
