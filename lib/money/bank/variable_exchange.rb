@@ -265,6 +265,10 @@ class Money
           warn '[WARNING] Using :ruby format when importing rates is potentially unsafe and ' \
             'might lead to remote code execution via Marshal.load deserializer. Consider using ' \
             'safe alternatives such as :json and :yaml.'
+        elsif format == :yaml
+          warn '[WARNING] Using :yaml format when importing rates is potentially unsafe and ' \
+            'might lead to remote code execution via Marshal.load deserializer. Consider using ' \
+            'safe alternatives such as :json and :ruby.'
         end
 
         store.transaction do
