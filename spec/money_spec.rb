@@ -265,6 +265,58 @@ describe Money do
       ).to eq(BigDecimal::ROUND_HALF_EVEN), 'Original mode should be restored after outer block'
       expect(Money.from_amount(2.137).to_d).to eq 2.14
     end
+
+    it 'safely handles concurrent usage in different threads' do
+      test_value = 1.999
+      expected_down = 1.99
+      expected_up = 2.00
+
+      results = Queue.new
+
+      test_money_with_rounding_mode = lambda do |rounding_mode|
+        Thread.new do
+          Money.with_rounding_mode(rounding_mode) do
+            results.push({
+              set_rounding_mode: rounding_mode,
+              mode: Money.rounding_mode,
+              result: Money.from_amount(test_value).to_d
+            })
+
+            # Sleep to allow interleaving with other thread
+            sleep 0.01
+
+            results.push({
+              set_rounding_mode: rounding_mode,
+              mode: Money.rounding_mode,
+              result: Money.from_amount(test_value).to_d
+            })
+          end
+        end
+      end
+
+      [
+        test_money_with_rounding_mode.call(BigDecimal::ROUND_DOWN),
+        test_money_with_rounding_mode.call(BigDecimal::ROUND_UP)
+      ].each(&:join)
+
+      all_results = []
+      all_results << results.pop until results.empty?
+
+      round_down_results = all_results.select { |r| r[:set_rounding_mode] == BigDecimal::ROUND_DOWN }
+      round_up_results = all_results.select { |r| r[:set_rounding_mode] == BigDecimal::ROUND_UP }
+
+      round_down_results.each do |result|
+        expect(result[:mode]).to eq(BigDecimal::ROUND_DOWN)
+        expect(result[:result]).to eq(expected_down)
+      end
+
+      round_up_results.each do |result|
+        expect(result[:mode]).to eq(BigDecimal::ROUND_UP)
+        expect(result[:result]).to eq(expected_up)
+      end
+
+      expect(Money.rounding_mode).to eq(BigDecimal::ROUND_HALF_EVEN)
+    end
   end
 
   %w[cents pence].each do |units|
