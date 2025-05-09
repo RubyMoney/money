@@ -244,6 +244,27 @@ describe Money do
         Money.from_amount(1.999).to_d
       end).to eq 1.99
     end
+
+    it 'allows blocks nesting' do
+      Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
+        expect(Money.rounding_mode).to eq(BigDecimal::ROUND_DOWN)
+
+        Money.with_rounding_mode(BigDecimal::ROUND_UP) do
+          expect(Money.rounding_mode).to eq(BigDecimal::ROUND_UP)
+          expect(Money.from_amount(2.137).to_d).to eq 2.14
+        end
+
+        expect(
+          Money.rounding_mode
+        ).to eq(BigDecimal::ROUND_DOWN), 'Outer mode should be restored after inner block'
+        expect(Money.from_amount(2.137).to_d).to eq 2.13
+      end
+
+      expect(
+        Money.rounding_mode
+      ).to eq(BigDecimal::ROUND_HALF_EVEN), 'Original mode should be restored after outer block'
+      expect(Money.from_amount(2.137).to_d).to eq 2.14
+    end
   end
 
   %w[cents pence].each do |units|
