@@ -209,7 +209,19 @@ describe Money do
       expect(Money.from_amount(1, "USD", bank).bank).to eq bank
     end
 
-    it 'warns about rounding_mode deprecation' do
+    context 'given a currency is provided' do
+      context 'and the currency is nil' do
+        let(:currency) { nil }
+
+        it "should have the default currency" do
+          expect(Money.from_amount(1, currency).currency).to eq Money.default_currency
+        end
+      end
+    end
+  end
+
+  describe '.with_rounding_mode' do
+    it 'sets the .rounding_mode method deprecated' do
       allow(Money).to receive(:warn)
 
       expect(Money.from_amount(1.999).to_d).to eq 2
@@ -227,16 +239,6 @@ describe Money do
       expect(Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
         Money.from_amount(1.999).to_d
       end).to eq 1.99
-    end
-
-    context 'given a currency is provided' do
-      context 'and the currency is nil' do
-        let(:currency) { nil }
-
-        it "should have the default currency" do
-          expect(Money.from_amount(1, currency).currency).to eq Money.default_currency
-        end
-      end
     end
   end
 
@@ -322,11 +324,11 @@ YAML
 
       context "with a block" do
         it "respects the rounding_mode" do
-          expect(Money.rounding_mode(BigDecimal::ROUND_DOWN) do
+          expect(Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
             Money.new(1.9).fractional
           end).to eq 1
 
-          expect(Money.rounding_mode(BigDecimal::ROUND_UP) do
+          expect(Money.with_rounding_mode(BigDecimal::ROUND_UP) do
             Money.new(1.1).fractional
           end).to eq 2
 
@@ -334,11 +336,11 @@ YAML
         end
 
         it "works for multiplication within a block" do
-          Money.rounding_mode(BigDecimal::ROUND_DOWN) do
+          Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
             expect((Money.new(1_00) * "0.019".to_d).fractional).to eq 1
           end
 
-          Money.rounding_mode(BigDecimal::ROUND_UP) do
+          Money.with_rounding_mode(BigDecimal::ROUND_UP) do
             expect((Money.new(1_00) * "0.011".to_d).fractional).to eq 2
           end
 
