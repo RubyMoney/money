@@ -223,15 +223,19 @@ describe Money do
   describe '.with_rounding_mode' do
     it 'sets the .rounding_mode method deprecated' do
       allow(Money).to receive(:warn)
+      allow(Money).to receive(:with_rounding_mode).and_call_original
+
+      rounding_block = lambda do
+        Money.from_amount(1.999).to_d
+      end
 
       expect(Money.from_amount(1.999).to_d).to eq 2
-      expect(Money.rounding_mode(BigDecimal::ROUND_DOWN) do
-        Money.from_amount(1.999).to_d
-      end).to eq 1.99
+      expect(Money.rounding_mode(BigDecimal::ROUND_DOWN, &rounding_block)).to eq 1.99
       expect(Money)
         .to have_received(:warn)
         .with('[DEPRECATION] calling `rounding_mode` with a block is deprecated. ' \
               'Please use `.with_rounding_mode` instead.')
+      expect(Money).to have_received(:with_rounding_mode).with(BigDecimal::ROUND_DOWN, &rounding_block)
     end
 
     it 'rounds using with_rounding_mode' do
