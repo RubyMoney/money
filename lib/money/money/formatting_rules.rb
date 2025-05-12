@@ -93,7 +93,7 @@ class Money
 
     def delimiter_pattern_rule(rules)
       if rules[:south_asian_number_formatting]
-        # from http://blog.revathskumar.com/2014/11/regex-comma-seperated-indian-currency-format.html
+        # from https://blog.revathskumar.com/2014/11/regex-comma-seperated-indian-currency-format.html
         /(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/
       else
         /(\d)(?=(?:\d{3})+(?:[^\d]{1}|$))/
