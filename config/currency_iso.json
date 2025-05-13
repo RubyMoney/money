@@ -1371,7 +1371,7 @@
     "symbol": "Ar",
     "alternate_symbols": [],
     "subunit": "Iraimbilanja",
-    "subunit_to_unit": 5,
+    "subunit_to_unit": 1,
     "symbol_first": true,
     "html_entity": "",
     "decimal_mark": ".",
@@ -2555,6 +2555,21 @@
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "951",
+    "smallest_denomination": 1
+  },
+  "xcg": {
+    "priority": 100,
+    "iso_code": "XCG",
+    "name": "Caribbean Guilder",
+    "symbol": "Cg",
+    "alternate_symbols": [],
+    "subunit": "Cent",
+    "subunit_to_unit": 100,
+    "symbol_first": true,
+    "html_entity": "",
+    "decimal_mark": ",",
+    "thousands_separator": ".",
+    "iso_numeric": "532",
     "smallest_denomination": 1
   },
   "xdr": {
