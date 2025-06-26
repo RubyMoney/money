@@ -538,7 +538,7 @@ YAML
     end
 
     it "does not work when :subunit_to_unit == 5" do
-      expect(Money.new(10_00, "MGA").to_s).to eq "200.0"
+      expect(Money.new(10_00, "MRU").to_s).to eq "200.0"
     end
 
     it "respects :decimal_mark" do
