@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe Money::LocaleBackend::Legacy do
   after { Money.use_i18n = true }
 
