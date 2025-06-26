@@ -2,6 +2,7 @@
 
 ## Upcoming 7.0.0.alpha
 
+- **Potential breaking change**: Fix RSD (Serbian Dinar) formatting (symbol, symbol_first, alternate_symbols, decimal_mark, thousands_separator)
 - **Potential breaking change**: Fix USDC decimals places from 2 to 6
 - **Potential breaking change**: Fix MGA (Malagasy Ariary) to be a zero-decimal currency (changing subunit_to_unit from 5 to 1)
 - Fix typo in ILS currency
