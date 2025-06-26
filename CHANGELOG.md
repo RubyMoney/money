@@ -4,6 +4,7 @@
 
 - **Potential breaking change**: Fix USDC decimals places from 2 to 6
 - Fix typo in ILS currency
+- Add Zimbabwe Gold (ZWG) currency
 
 ## 6.19.0
 
