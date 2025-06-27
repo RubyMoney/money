@@ -3,6 +3,7 @@
 ## Upcoming 7.0.0.alpha
 
 - **Potential breaking change**: Fix USDC decimals places from 2 to 6
+- **Potential breaking change**: Remove special handling for Japanese language only
 
 ## 6.19.0
 
