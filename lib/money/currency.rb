@@ -405,7 +405,7 @@ class Money
       !!@symbol_first
     end
 
-    # Returns if a code currency is ISO.
+    # Returns true if a code currency is ISO.
     #
     # @return [Boolean]
     #
@@ -416,7 +416,7 @@ class Money
       iso_numeric && iso_numeric != ''
     end
 
-    # Returns if a subunit is cents-based
+    # Returns true if a subunit is cents-based.
     #
     # @return [Boolean]
     #
