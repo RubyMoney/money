@@ -130,8 +130,8 @@ including the currency symbol, name and much more.
 
 ``` ruby
 currency = Money.from_cents(1000, "USD").currency
-currency.iso_code #=> "USD"
-currency.name     #=> "United States Dollar"
+currency.iso_code     #=> "USD"
+currency.name         #=> "United States Dollar"
 currency.cents_based? #=> true
 ```
 
