@@ -340,11 +340,11 @@ describe Money::Currency do
   end
 
   describe "#cents_based?" do
-    it "returns true for cents based currency" do
+    it "returns true if the currency is cents-based" do
       expect(described_class.new(:mxn).cents_based?).to be true
     end
 
-    it "returns false if the currency is not cents based" do
+    it "returns false if the currency is not cents-based" do
       expect(described_class.new(:clp).cents_based?).to be false
     end
   end
