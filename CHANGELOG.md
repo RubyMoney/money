@@ -10,6 +10,7 @@
 - Updated the Turkmen Manat symbol and HTML entity and added disambiguation symbol for TMM
 - Expose Money::VERSION
 - Fix typo in ILS currency
+- Add Zimbabwe Gold (ZWG) currency
 - Update thousands_separator for CHF
 - Add Caribbean Guilder (XCG) as replacement for Netherlands Antillean Gulden (ANG)
 - Add `Currency#cents_based?` to check if currency is cents-based
