@@ -3,6 +3,7 @@
 ## Upcoming 7.0.0.alpha
 
 - Require Ruby >= 3.1 and I18n ~> 1.9
+- **Potential breaking change**: Fix RSD (Serbian Dinar) formatting to be like `12.345,42 RSD`
 - **Potential breaking change**: Fix USDC decimals places from 2 to 6
 - Expose Money::VERSION
 - **Potential breaking change**: Fix MGA (Malagasy Ariary) to be a zero-decimal currency (changing subunit_to_unit from 5 to 1)
