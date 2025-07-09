@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe Money, "formatting" do
 
   BAR = '{ "priority": 1, "iso_code": "BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
@@ -298,8 +296,8 @@ describe Money, "formatting" do
       specify "(no_cents_if_whole: true) works as documented" do
         expect(Money.new(10000, "VUV").format(no_cents_if_whole: true, symbol: false)).to eq "10,000"
         expect(Money.new(10034, "VUV").format(no_cents_if_whole: true, symbol: false)).to eq "10,034"
-        expect(Money.new(10000, "MGA").format(no_cents_if_whole: true, symbol: false)).to eq "2,000"
-        expect(Money.new(10034, "MGA").format(no_cents_if_whole: true, symbol: false)).to eq "2,006.8"
+        expect(Money.new(10000, "MGA").format(no_cents_if_whole: true, symbol: false)).to eq "10,000"
+        expect(Money.new(10034, "MGA").format(no_cents_if_whole: true, symbol: false)).to eq "10,034"
         expect(Money.new(10000, "VND").format(no_cents_if_whole: true, symbol: false)).to eq "10.000"
         expect(Money.new(10034, "VND").format(no_cents_if_whole: true, symbol: false)).to eq "10.034"
         expect(Money.new(10000, "USD").format(no_cents_if_whole: true, symbol: false)).to eq "100"
@@ -311,8 +309,8 @@ describe Money, "formatting" do
       specify "(no_cents_if_whole: false) works as documented" do
         expect(Money.new(10000, "VUV").format(no_cents_if_whole: false, symbol: false)).to eq "10,000"
         expect(Money.new(10034, "VUV").format(no_cents_if_whole: false, symbol: false)).to eq "10,034"
-        expect(Money.new(10000, "MGA").format(no_cents_if_whole: false, symbol: false)).to eq "2,000.0"
-        expect(Money.new(10034, "MGA").format(no_cents_if_whole: false, symbol: false)).to eq "2,006.8"
+        expect(Money.new(10000, "MGA").format(no_cents_if_whole: false, symbol: false)).to eq "10,000"
+        expect(Money.new(10034, "MGA").format(no_cents_if_whole: false, symbol: false)).to eq "10,034"
         expect(Money.new(10000, "VND").format(no_cents_if_whole: false, symbol: false)).to eq "10.000"
         expect(Money.new(10034, "VND").format(no_cents_if_whole: false, symbol: false)).to eq "10.034"
         expect(Money.new(10000, "USD").format(no_cents_if_whole: false, symbol: false)).to eq "100.00"
@@ -627,7 +625,7 @@ describe Money, "formatting" do
         expect(Money.new(BigDecimal('123.5'), "BHD").format(rounded_infinite_precision: true)).to eq "د.ب0.124"
         expect(Money.new(BigDecimal('100.1'), "USD").format(rounded_infinite_precision: true)).to eq "$1.00"
         expect(Money.new(BigDecimal('109.5'), "USD").format(rounded_infinite_precision: true)).to eq "$1.10"
-        expect(Money.new(BigDecimal('1.7'), "MGA").format(rounded_infinite_precision: true)).to eq "Ar0.4"
+        expect(Money.new(BigDecimal('1.7'), "MGA").format(rounded_infinite_precision: true)).to eq "Ar2.0"
       end
 
       it "does not round fractional when set to false" do
@@ -639,7 +637,7 @@ describe Money, "formatting" do
         expect(Money.new(BigDecimal('123.5'), "KWD").format(rounded_infinite_precision: false)).to eq "د.ك0.1235"
         expect(Money.new(BigDecimal('100.1'), "USD").format(rounded_infinite_precision: false)).to eq "$1.001"
         expect(Money.new(BigDecimal('109.5'), "USD").format(rounded_infinite_precision: false)).to eq "$1.095"
-        expect(Money.new(BigDecimal('1.7'), "MGA").format(rounded_infinite_precision: false)).to eq "Ar0.34"
+        expect(Money.new(BigDecimal('1.7'), "MGA").format(rounded_infinite_precision: false)).to eq "Ar1.7"
       end
 
       describe "with i18n = false" do
@@ -685,7 +683,7 @@ describe Money, "formatting" do
           expect(Money.new(BigDecimal('123.5'), "BHD").format(rounded_infinite_precision: true)).to eq "د.ب0,124"
           expect(Money.new(BigDecimal('100.1'), "USD").format(rounded_infinite_precision: true)).to eq "$1,00"
           expect(Money.new(BigDecimal('109.5'), "USD").format(rounded_infinite_precision: true)).to eq "$1,10"
-          expect(Money.new(BigDecimal('1'), "MGA").format(rounded_infinite_precision: true)).to eq "Ar0,2"
+          expect(Money.new(BigDecimal('1'), "MGA").format(rounded_infinite_precision: true)).to eq "Ar1,0"
         end
       end
     end

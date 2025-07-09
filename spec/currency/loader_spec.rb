@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe Money::Currency::Loader do
   it "returns a currency table hash" do
     expect(subject.load_currencies).to be_a Hash

@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe Money::LocaleBackend::I18n do
   describe '#initialize' do
     it 'raises an error when I18n is not defined' do

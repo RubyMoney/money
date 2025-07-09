@@ -2,9 +2,9 @@
 
 [![Gem Version](https://badge.fury.io/rb/money.svg)](https://rubygems.org/gems/money)
 [![Ruby](https://github.com/RubyMoney/money/actions/workflows/ruby.yml/badge.svg)](https://github.com/RubyMoney/money/actions/workflows/ruby.yml)
-[![Code Climate](https://codeclimate.com/github/RubyMoney/money.svg)](https://codeclimate.com/github/RubyMoney/money)
+[![Maintainability](https://api.codeclimate.com/v1/badges/fa5311ad7b2fe88c54c8/maintainability)](https://codeclimate.com/github/RubyMoney/money/maintainability)
 [![Inline docs](https://inch-ci.org/github/RubyMoney/money.svg)](https://inch-ci.org/github/RubyMoney/money)
-[![License](https://img.shields.io/github/license/RubyMoney/money.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/github/license/RubyMoney/money.svg)](https://opensource.org/license/MIT)
 
 :warning: Please read the [migration notes](#migration-notes) before upgrading to a new major version.
 
@@ -12,7 +12,7 @@ If you miss String parsing, check out the new [monetize gem](https://github.com/
 
 ## Contributing
 
-See the [Contribution Guidelines](https://github.com/RubyMoney/money/blob/master/CONTRIBUTING.md)
+See the [Contribution Guidelines](https://github.com/RubyMoney/money/blob/main/CONTRIBUTING.md)
 
 ## Introduction
 
@@ -33,7 +33,7 @@ A Ruby Library for dealing with money and currency conversion.
 ### Resources
 
 - [Website](https://rubymoney.github.io/money/)
-- [API Documentation](http://www.rubydoc.info/gems/money/frames)
+- [API Documentation](https://www.rubydoc.info/gems/money/frames)
 - [Git Repository](https://github.com/RubyMoney/money)
 
 ### Notes
@@ -199,13 +199,13 @@ using:
 Money.default_currency = Money::Currency.new("CAD")
 ```
 
-If you use [Rails](https://github.com/RubyMoney/money/tree/master#ruby-on-rails), then `config/initializers/money.rb` is a very good place to put this.
+If you use [Rails](https://github.com/RubyMoney/money/tree/main#ruby-on-rails), then `config/initializers/money.rb` is a very good place to put this.
 
 ### Currency Exponent
 
 The exponent of a money value is the number of digits after the decimal
 separator (which separates the major unit from the minor unit). See e.g.
-[ISO 4217](https://www.currency-iso.org/en/shared/amendments/iso-4217-amendment.html) for more
+[ISO 4217](https://www.iso.org/iso-4217-currency-codes.html) for more
 information. You can find the exponent (as an `Integer`) by
 
 ``` ruby
@@ -408,7 +408,7 @@ Money.from_cents(1000, 'USD').exchange_to('CAD') #=> #<Money fractional:900 curr
 ```
 
 There is nothing stopping you from creating store objects which scrapes
-[XE](http://www.xe.com) for the current rates or just returns `rand(2)`:
+[XE](https://www.xe.com) for the current rates or just returns `rand(2)`:
 
 ``` ruby
 Money.default_bank = Money::Bank::VariableExchange.new(StoreWhichScrapesXeDotCom.new)
@@ -446,9 +446,9 @@ implementations.
 
 ## Formatting
 
-There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module source](https://github.com/RubyMoney/money/blob/master/lib/money/money/formatter.rb), or read the latest release's [rdoc version](http://www.rubydoc.info/gems/money/Money/Formatter).
+There are several formatting rules for when `Money#format` is called. For more information, check out the [formatting module source](https://github.com/RubyMoney/money/blob/main/lib/money/money/formatter.rb), or read the latest release's [rdoc version](https://www.rubydoc.info/gems/money/Money/Formatter).
 
-If you wish to format money according to the EU's [Rules for expressing monetary units](http://publications.europa.eu/code/en/en-370303.htm#position) in either English, Irish, Latvian or Maltese:
+If you wish to format money according to the EU's [Rules for expressing monetary units](https://style-guide.europa.eu/en/content/-/isg/topic?identifier=7.3.3-rules-for-expressing-monetary-units#id370303__id370303_PositionISO) in either English, Irish, Latvian or Maltese:
 
 ```ruby
 m = Money.from_cents('123', :gbp) # => #<Money fractional:123 currency:GBP>
@@ -504,7 +504,7 @@ In order to localize formatting you can use `I18n` gem:
 Money.locale_backend = :i18n
 ```
 
-With this enabled a thousands seperator and a decimal mark will get looked up in your `I18n` translation files. In a Rails application this may look like:
+With this enabled a thousands separator and a decimal mark will get looked up in your `I18n` translation files. In a Rails application this may look like:
 
 ```yml
 # config/locale/en.yml

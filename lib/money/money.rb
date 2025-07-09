@@ -1,4 +1,3 @@
-# encoding: utf-8
 require "money/bank/variable_exchange"
 require "money/bank/single_currency"
 require "money/money/arithmetic"
@@ -15,7 +14,7 @@ require "money/money/locale_backend"
 #
 # Money is a value object and should be treated as immutable.
 #
-# @see http://en.wikipedia.org/wiki/Money
+# @see https://en.wikipedia.org/wiki/Money
 class Money
   include Comparable
   include Money::Arithmetic
@@ -339,7 +338,7 @@ class Money
   #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
   #
   def initialize( obj, currency = Money.default_currency, options = {})
-    # For backwards compatability, if options is not a Hash, treat it as a bank parameter
+    # For backwards compatibility, if options is not a Hash, treat it as a bank parameter
     unless options.is_a?(Hash)
       options = { bank: options }
     end

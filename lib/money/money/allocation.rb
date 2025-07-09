@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class Money
   class Allocation
     # Splits a given amount in parts. The allocation is based on the parts' proportions
