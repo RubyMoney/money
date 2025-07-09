@@ -7,7 +7,7 @@
 - **Potential breaking change**: Fix USDC decimals places from 2 to 6
 - **Potential breaking change**: Fix MGA (Malagasy Ariary) to be a zero-decimal currency (changing subunit_to_unit from 5 to 1)
 - Updated Armenian Dram sign and HTML entity
-- Updated the Turkmen Manat symbol and HTML entity
+- Updated the Turkmen Manat symbol and HTML entity and added disambiguation symbol for TMM
 - Expose Money::VERSION
 - Fix typo in ILS currency
 - Update thousands_separator for CHF
