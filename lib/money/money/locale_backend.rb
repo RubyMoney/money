@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'money/locale_backend/errors'
 require 'money/locale_backend/legacy'
 require 'money/locale_backend/i18n'

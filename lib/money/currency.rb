@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "json"
 require "money/currency/loader"
 require "money/currency/heuristics"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Money::Arithmetic do
   describe "-@" do
     it "changes the sign of a number" do
