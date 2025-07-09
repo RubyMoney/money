@@ -8,6 +8,7 @@
 - Expose Money::VERSION
 - **Potential breaking change**: Fix MGA (Malagasy Ariary) to be a zero-decimal currency (changing subunit_to_unit from 5 to 1)
 - Fix typo in ILS currency
+- Update thousands_separator for CHF
 - Add Caribbean Guilder (XCG) as replacement for Netherlands Antillean Gulden (ANG)
 
 ## 6.19.0
