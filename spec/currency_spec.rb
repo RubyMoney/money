@@ -281,7 +281,7 @@ describe Money::Currency do
       expect(currency).to eq currency
     end
 
-    it "returns true if the id is equal ignorning case" do
+    it "returns true if the id is equal ignoring case" do
       expect(described_class.new(:eur)).to     eq described_class.new(:eur)
       expect(described_class.new(:eur)).to     eq described_class.new(:EUR)
       expect(described_class.new(:eur)).not_to eq described_class.new(:usd)

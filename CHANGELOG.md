@@ -216,7 +216,7 @@
    return `nil` as `Comparable#==` will not rescue exceptions in the next release.
  - Fix `Currency` specs for `#exponent` and `#decimal_places` not making assertions.
  - Fix a couple of Ruby warnings found in specs.
- - Fix `Money#-`,`Money#+` arithmetics for Ruby 2.3+ : check for zero value without using eql? with a Fixnum. (#577)
+ - Fix `Money#-`,`Money#+` arithmetic for Ruby 2.3+ : check for zero value without using eql? with a Fixnum. (#577)
  - Use `Money#decimal_mark` when formatting with `rounded_infinite_precision` rule
    set to `true`.
  - Replaced meta-defined `thousands_separator` and `decimal_mark` methods with regular methods. (#579)
@@ -263,7 +263,7 @@
  - Fix formatting of NGN - show symbol before amount
  - Switch default and alternate symbols for RUB currency
  - Fix symbol for TRY currency
- - Add `Money.default_formatting_rules` hash, meant to define default rules for everytime `Money#format` is called. They can be overwritten if provided on method call
+ - Add `Money.default_formatting_rules` hash, meant to define default rules for every time `Money#format` is called. They can be overwritten if provided on method call
  - Add support for the new official symbol for Russian Ruble (RUB) — «₽»
 
 ## 6.2.1
@@ -602,7 +602,7 @@ Features
  - Added `Money::Bank::Base#exchange_with`.
  - Deprecated `Money::Bank::Base#exchange`. Deprecation target set to Money
    3.2.0.
- - Implented `Money::Bank::VariableExchange`
+ - Implemented `Money::Bank::VariableExchange`
  - Deprecated `Money::VariableExchangeBank`. Deprecation target set to Money
    3.2.0.
  - Deprecate `Money::SYMBOLS`, `Money::SEPARATORS` and `Money::DELIMITERS`.
@@ -682,7 +682,7 @@ Features
  - Added `Money::Bank::Base#exchange_with`.
  - Deprecated `Money::Bank::Base#exchange`. Deprecation target set to Money
    3.2.0.
- - Implented `Money::Bank::VariableExchange`
+ - Implemented `Money::Bank::VariableExchange`
  - Deprecated `Money::VariableExchangeBank`. Deprecation target set to Money
    3.2.0.
  - Deprecate `Money::SYMBOLS`, `Money::SEPARATORS` and `Money::DELIMITERS`.
