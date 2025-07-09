@@ -184,7 +184,7 @@ class Money
     #  in a html <span> tag.
     #
     # @example
-    #   Money.new(10000, "USD").format(disambiguate: false)
+    #   Money.new(10000, "USD").format(html_wrap_symbol: true)
     #   #=> "<span class=\"currency_symbol\">$100.00</span>
     #
     # @option rules [Symbol] :symbol_position (:before) `:before` if the currency
