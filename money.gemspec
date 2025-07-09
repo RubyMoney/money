@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.license     = "MIT"
 
   s.add_dependency "bigdecimal"
-  s.add_dependency 'i18n', [">= 0.6.4", '<= 2']
+  s.add_dependency 'i18n', "~> 1.9"
 
   s.add_development_dependency "bundler"
   s.add_development_dependency "rake"
