@@ -2,7 +2,6 @@
 
 [![Gem Version](https://badge.fury.io/rb/money.svg)](https://rubygems.org/gems/money)
 [![Ruby](https://github.com/RubyMoney/money/actions/workflows/ruby.yml/badge.svg)](https://github.com/RubyMoney/money/actions/workflows/ruby.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/fa5311ad7b2fe88c54c8/maintainability)](https://codeclimate.com/github/RubyMoney/money/maintainability)
 [![Inline docs](https://inch-ci.org/github/RubyMoney/money.svg)](https://inch-ci.org/github/RubyMoney/money)
 [![License](https://img.shields.io/github/license/RubyMoney/money.svg)](https://opensource.org/license/MIT)
 
