@@ -12,8 +12,6 @@
 - Fix typo in ILS currency
 - Update thousands_separator for CHF
 - Add Caribbean Guilder (XCG) as replacement for Netherlands Antillean Gulden (ANG)
-
-## 6.20.0
 - Add `Currency#cents_based?` to check if currency is cents-based
 
 ## 6.19.0
