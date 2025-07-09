@@ -403,7 +403,7 @@ class Money
       !!@symbol_first
     end
 
-    # Returns if a code currency is ISO.
+    # Returns true if a code currency is ISO.
     #
     # @return [Boolean]
     #
@@ -412,6 +412,17 @@ class Money
     #
     def iso?
       iso_numeric && iso_numeric != ''
+    end
+
+    # Returns true if a subunit is cents-based.
+    #
+    # @return [Boolean]
+    #
+    # @example
+    #  Money::Currency.new(:usd).cents_based?
+    #
+    def cents_based?
+      subunit_to_unit == 100
     end
 
     # Returns the relation between subunit and unit as a base 10 exponent.
