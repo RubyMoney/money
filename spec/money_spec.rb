@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe Money do
   describe '.locale_backend' do
     after { Money.locale_backend = :legacy }
@@ -986,6 +984,12 @@ YAML
     it 'accepts a lambda' do
       Money.default_bank = lambda { Money::Bank::SingleCurrency.instance }
       expect(Money.default_bank).to be_instance_of(Money::Bank::SingleCurrency)
+    end
+  end
+
+  describe 'VERSION' do
+    it 'exposes a version with major, minor and patch level' do
+      expect(Money::VERSION).to match(/\d+.\d+.\d+/)
     end
   end
 end
