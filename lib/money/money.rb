@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "money/bank/variable_exchange"
 require "money/bank/single_currency"
 require "money/money/arithmetic"

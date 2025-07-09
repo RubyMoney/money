@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Money::Constructors do
 
   describe "::empty" do

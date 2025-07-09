@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Money::LocaleBackend::Currency do
   describe '#lookup' do
     let(:currency) { Money::Currency.new('EUR') }
