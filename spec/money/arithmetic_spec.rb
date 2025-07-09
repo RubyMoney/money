@@ -1,4 +1,4 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 describe Money::Arithmetic do
   describe "-@" do
@@ -222,7 +222,7 @@ describe Money::Arithmetic do
       expect(Money.new(10_00, "USD") + other).to eq Money.new(19_00, "USD")
     end
 
-    it "adds Integer 0 to money and returns the same ammount" do
+    it "adds Integer 0 to money and returns the same amount" do
       expect(Money.new(10_00) + 0).to eq Money.new(10_00)
     end
 
@@ -253,7 +253,7 @@ describe Money::Arithmetic do
       expect(Money.new(10_00, "USD") - other).to eq Money.new(1_00, "USD")
     end
 
-    it "subtract Integer 0 to money and returns the same ammount" do
+    it "subtract Integer 0 to money and returns the same amount" do
       expect(Money.new(10_00) - 0).to eq Money.new(10_00)
     end
 

@@ -115,6 +115,7 @@
     "iso_code": "TMM",
     "name": "Turkmenistani Manat",
     "symbol": "m",
+    "disambiguate_symbol": "TMM",
     "alternate_symbols": [],
     "subunit": "Tennesi",
     "subunit_to_unit": 100,

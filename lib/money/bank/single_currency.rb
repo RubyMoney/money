@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'money/bank/base'
 
 class Money
