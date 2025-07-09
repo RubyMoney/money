@@ -14,7 +14,7 @@ require "money/money/locale_backend"
 #
 # Money is a value object and should be treated as immutable.
 #
-# @see http://en.wikipedia.org/wiki/Money
+# @see https://en.wikipedia.org/wiki/Money
 class Money
   include Comparable
   include Money::Arithmetic
