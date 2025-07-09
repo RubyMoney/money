@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe Money do
   describe '.locale_backend' do
     after { Money.locale_backend = :legacy }

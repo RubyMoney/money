@@ -1,4 +1,3 @@
-# encoding: utf-8
 require "money/bank/variable_exchange"
 require "money/bank/single_currency"
 require "money/money/arithmetic"

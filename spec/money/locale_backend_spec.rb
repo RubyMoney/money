@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe Money::LocaleBackend do
   describe '.find' do
     it 'returns an initialized backend' do

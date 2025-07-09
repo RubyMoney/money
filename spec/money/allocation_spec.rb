@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe Money::Allocation do
    describe 'given number as argument' do
      it 'raises an error when invalid argument is given' do
