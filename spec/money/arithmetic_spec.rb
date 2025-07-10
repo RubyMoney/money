@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Money::Arithmetic do
+RSpec.describe Money::Arithmetic do
   describe "-@" do
     it "changes the sign of a number" do
       expect((- Money.new(0))).to  eq Money.new(0)

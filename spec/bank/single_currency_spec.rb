@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Money::Bank::SingleCurrency do
+RSpec.describe Money::Bank::SingleCurrency do
   describe "#exchange_with" do
     it "raises when called" do
       expect {

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Money::Constructors do
+RSpec.describe Money::Constructors do
 
   describe "::empty" do
     it "creates a new Money object of 0 cents" do
