@@ -133,16 +133,6 @@ class Money
     attr_accessor :default_formatting_rules, :default_infinite_precision, :conversion_precision
     attr_reader :use_i18n, :locale_backend
     attr_writer :default_bank
-
-    def infinite_precision
-      warn '[DEPRECATION] `Money.infinite_precision` is deprecated - use `Money.default_infinite_precision` instead'
-      default_infinite_precision
-    end
-
-    def infinite_precision=(value)
-      warn '[DEPRECATION] `Money.infinite_precision=` is deprecated - use `Money.default_infinite_precision= ` instead'
-      self.default_infinite_precision = value
-    end
   end
 
   # @!attribute default_currency
