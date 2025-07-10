@@ -1,4 +1,4 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 describe Money::Allocation do
    describe 'given number as argument' do

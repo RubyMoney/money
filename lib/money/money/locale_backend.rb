@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# frozen_string_literal: true
 
 require 'money/locale_backend/errors'
 require 'money/locale_backend/legacy'

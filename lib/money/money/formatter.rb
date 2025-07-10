@@ -1,4 +1,5 @@
-# encoding: UTF-8
+# frozen_string_literal: true
+
 require 'money/money/formatting_rules'
 
 class Money
@@ -185,7 +186,7 @@ class Money
     #  in a html <span> tag.
     #
     # @example
-    #   Money.new(10000, "USD").format(disambiguate: false)
+    #   Money.new(10000, "USD").format(html_wrap_symbol: true)
     #   #=> "<span class=\"currency_symbol\">$100.00</span>
     #
     # @option rules [Symbol] :symbol_position (:before) `:before` if the currency
@@ -316,17 +317,19 @@ class Money
 
     def append_currency_symbol(formatted_number)
       if rules[:with_currency]
-        formatted_number << " "
+        currency_part =
+          if rules[:html]
+            "<span class=\"currency\">#{currency}</span>"
+          elsif rules[:html_wrap]
+            html_wrap(currency.to_s, "currency")
+          else
+            currency.to_s
+          end
 
-        if rules[:html]
-          formatted_number << "<span class=\"currency\">#{currency.to_s}</span>"
-        elsif rules[:html_wrap]
-          formatted_number << html_wrap(currency.to_s, "currency")
-        else
-          formatted_number << currency.to_s
-        end
+        "#{formatted_number} #{currency_part}"
+      else
+        formatted_number
       end
-      formatted_number
     end
 
     def show_free_text?

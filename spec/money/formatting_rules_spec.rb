@@ -1,4 +1,4 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 describe Money::FormattingRules do
   it 'does not modify frozen rules in place' do

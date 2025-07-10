@@ -1,4 +1,4 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 describe Money::LocaleBackend::Legacy do
   after { Money.use_i18n = true }

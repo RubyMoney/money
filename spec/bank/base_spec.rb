@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Money::Bank::Base do
 
   describe ".instance" do
