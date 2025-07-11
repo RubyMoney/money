@@ -14,6 +14,7 @@
 - Update thousands_separator for CHF
 - Add Caribbean Guilder (XCG) as replacement for Netherlands Antillean Gulden (ANG)
 - Add `Currency#cents_based?` to check if currency is cents-based
+- Allow `nil` to be used as a default_currency
 
 ## 6.19.0
 

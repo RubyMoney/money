@@ -21,6 +21,12 @@ RSpec.describe Money::Currency do
     end
   end
 
+  describe "NoCurrency" do
+    it "is a subclass of ArgumentError" do
+      expect(described_class::NoCurrency < ArgumentError).to be true
+    end
+  end
+
   describe ".find" do
     before { register_foo }
     after  { unregister_foo }

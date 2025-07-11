@@ -70,6 +70,21 @@ RSpec.describe Money do
       it "should have the default currency" do
         expect(money.currency).to eq Money.default_currency
       end
+
+      context 'without a default' do
+        around do |example|
+          default_currency = Money.default_currency
+          Money.default_currency = nil
+
+          example.run
+
+          Money.default_currency = default_currency
+        end
+
+        it 'should throw an NoCurrency Error' do
+          expect { money }.to raise_error(Money::Currency::NoCurrency)
+        end
+      end
     end
 
     context 'given a currency is provided' do
