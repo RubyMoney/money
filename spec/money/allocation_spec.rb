@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Money::Allocation do
+RSpec.describe Money::Allocation do
    describe 'given number as argument' do
      it 'raises an error when invalid argument is given' do
       expect { described_class.generate(100, 0) }.to raise_error(ArgumentError)

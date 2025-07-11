@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Money::Bank::Base do
+RSpec.describe Money::Bank::Base do
 
   describe ".instance" do
     it "is local to one class" do

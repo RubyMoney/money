@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Money do
+RSpec.describe Money do
   describe '.locale_backend' do
     after { Money.locale_backend = :legacy }
 

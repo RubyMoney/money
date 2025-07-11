@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Money::Currency::Heuristics do
+RSpec.describe Money::Currency::Heuristics do
   describe "#analyze_string" do
     it "it raises deprecation error" do
       expect { Money::Currency.analyze('123') }.to raise_error(StandardError, 'Heuristics deprecated, add `gem "money-heuristics"` to Gemfile')
