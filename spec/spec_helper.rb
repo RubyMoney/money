@@ -62,8 +62,7 @@ RSpec.configure do |config|
   # compatibility in RSpec 3). It causes shared context metadata to be
   # inherited by the metadata hash of host groups and examples, rather than
   # triggering implicit auto-inclusion in groups with matching metadata.
-  # TODO: enable this option. Tracked in RubyMoney/money#1136
-  # config.shared_context_metadata_behavior = :apply_to_host_groups
+  config.shared_context_metadata_behavior = :apply_to_host_groups
 
   # This allows you to limit a spec run to individual examples or groups
   # you care about by tagging them with `:focus` metadata. When nothing
@@ -112,20 +111,18 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
+
+  config.before(:each, :default_infinite_precision_true) do
+    Money.default_infinite_precision = true
+  end
+
+  config.after(:each, :default_infinite_precision_true) do
+    Money.default_infinite_precision = false
+  end
 end
 
 def reset_i18n
   I18n.backend = I18n::Backend::Simple.new
-end
-
-RSpec.shared_context "with infinite precision", :default_infinite_precision_true do
-  before do
-    Money.default_infinite_precision = true
-  end
-
-  after do
-    Money.default_infinite_precision = false
-  end
 end
 
 class Money
