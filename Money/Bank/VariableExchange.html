@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Money::Bank::VariableExchange
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Money::Bank::VariableExchange";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (V)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Bank.html" title="Money::Bank (module)">Bank</a></span></span>
+     &raquo; 
+    <span class="title">VariableExchange</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Money::Bank::VariableExchange
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="Base.html" title="Money::Bank::Base (class)">Base</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="Base.html" title="Money::Bank::Base (class)">Base</a></span></li>
+          
+            <li class="next">Money::Bank::VariableExchange</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/money/bank/variable_exchange.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Class for aiding in exchanging money between different currencies. By default, the <code>Money</code> class uses an object of this class (accessible through <tt>Money#bank</tt>) for performing currency exchanges.</p>
+
+<p>By default, <code>Money::Bank::VariableExchange</code> has no knowledge about conversion rates. One must manually specify them with <code>add_rate</code>, after which one can perform exchanges with <code>#exchange_with</code>.</p>
+
+<p>Exchange rates are stored in memory using <code>Money::RatesStore::Memory</code> by default. Pass custom rates stores for other types of storage (file, database, etc)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bank'>bank</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'>VariableExchange</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money::Bank::VariableExchange#initialize (method)">new</a></span></span>
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>1.24515</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>0.803115</span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_c1'>c1</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_c2'>c2</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+<span class='comment'># Exchange 100 USD to CAD:
+</span><span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_exchange_with'>exchange_with</span><span class='lparen'>(</span><span class='id identifier rubyid_c1'>c1</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money fractional:12451 currency:CAD&gt;
+</span>
+<span class='comment'># Exchange 100 CAD to USD:
+</span><span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_exchange_with'>exchange_with</span><span class='lparen'>(</span><span class='id identifier rubyid_c2'>c2</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money fractional:8031 currency:USD&gt;
+</span>
+<span class='comment'># With custom exchange rates storage
+</span><span class='id identifier rubyid_redis_store'>redis_store</span> <span class='op'>=</span> <span class='const'>MyCustomRedisStore</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>host:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>localhost:6379</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bank'>bank</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'>VariableExchange</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money::Bank::VariableExchange#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_redis_store'>redis_store</span><span class='rparen'>)</span>
+<span class='comment'># Store rates in redis
+</span><span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='float'>0.98</span>
+<span class='comment'># Get rate from redis
+</span><span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_get_rate'>get_rate</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&#39;</span></span></code></pre>
+    
+  </div>
+
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="RATE_FORMATS-constant" class="">RATE_FORMATS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Available formats for importing/exporting rates.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:json</span><span class='comma'>,</span> <span class='symbol'>:ruby</span><span class='comma'>,</span> <span class='symbol'>:yaml</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="SERIALIZER_SEPARATOR-constant" class="">SERIALIZER_SEPARATOR =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_TO_</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="FORMAT_SERIALIZERS-constant" class="">FORMAT_SERIALIZERS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span><span class='label'>json:</span> <span class='const'>JSON</span><span class='comma'>,</span> <span class='label'>ruby:</span> <span class='const'>Marshal</span><span class='comma'>,</span> <span class='label'>yaml:</span> <span class='const'>YAML</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mutex-instance_method" title="#mutex (instance method)">#<strong>mutex</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute mutex.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Base.html" title="Money::Bank::Base (class)">Base</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Base.html#rounding_method-instance_method" title="Money::Bank::Base#rounding_method (method)">#rounding_method</a></span></p>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_rate-instance_method" title="#add_rate (instance method)">#<strong>add_rate</strong>(from, to, rate)  &#x21d2; Numeric </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Registers a conversion rate and returns it (uses <code>#set_rate</code>).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#calculate_fractional-instance_method" title="#calculate_fractional (instance method)">#<strong>calculate_fractional</strong>(from, to_currency)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#exchange-instance_method" title="#exchange (instance method)">#<strong>exchange</strong>(fractional, rate, &amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#exchange_with-instance_method" title="#exchange_with (instance method)">#<strong>exchange_with</strong>(from, to_currency) {|n| ... } &#x21d2; Money </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Exchanges the given <code>Money</code> object to a new <code>Money</code> object in <code>to_currency</code>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#export_rates-instance_method" title="#export_rates (instance method)">#<strong>export_rates</strong>(format, file = nil, opts = {})  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return the known rates as a string in the format specified.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_rate-instance_method" title="#get_rate (instance method)">#<strong>get_rate</strong>(from, to, opts = {})  &#x21d2; Numeric </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Retrieve the rate for the given currencies.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#import_rates-instance_method" title="#import_rates (instance method)">#<strong>import_rates</strong>(format, s, opts = {})  &#x21d2; self </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Loads rates provided in <code>s</code> given the specified format.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(st = Money::RatesStore::Memory.new) {|n| ... } &#x21d2; VariableExchange </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Initializes a new <code>Money::Bank::VariableExchange</code> object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#marshal_dump-instance_method" title="#marshal_dump (instance method)">#<strong>marshal_dump</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#marshal_load-instance_method" title="#marshal_load (instance method)">#<strong>marshal_load</strong>(arr)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rates-instance_method" title="#rates (instance method)">#<strong>rates</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>This should be deprecated.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_rate-instance_method" title="#set_rate (instance method)">#<strong>set_rate</strong>(from, to, rate, opts = {})  &#x21d2; Numeric </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the rate for the given currencies.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#store-instance_method" title="#store (instance method)">#<strong>store</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Base.html" title="Money::Bank::Base (class)">Base</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Base.html#instance-class_method" title="Money::Bank::Base.instance (method)">instance</a></span>, <span class='object_link'><a href="Base.html#same_currency%3F-instance_method" title="Money::Bank::Base#same_currency? (method)">#same_currency?</a></span>, <span class='object_link'><a href="Base.html#setup-instance_method" title="Money::Bank::Base#setup (method)">#setup</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(st = Money::RatesStore::Memory.new) {|n| ... } &#x21d2; <tt><span class='object_link'><a href="" title="Money::Bank::VariableExchange (class)">VariableExchange</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Initializes a new <code>Money::Bank::VariableExchange</code> object. It defaults to using an in-memory, thread safe store instance for storing exchange rates.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>st</span>
+      
+      
+        <span class='type'>(<tt>RateStore</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Money::RatesStore::Memory.new</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An exchange rate store, used to persist exchange rate pairs.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>n</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Optional block to use when rounding after exchanging one currency for another. See <code>Money::bank::base</code></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+61
+62
+63
+64</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 61</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_st'>st</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../RatesStore.html" title="Money::RatesStore (module)">RatesStore</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../RatesStore/Memory.html" title="Money::RatesStore::Memory (class)">Memory</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../RatesStore/Memory.html#initialize-instance_method" title="Money::RatesStore::Memory#initialize (method)">new</a></span></span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@store</span> <span class='op'>=</span> <span class='id identifier rubyid_st'>st</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="mutex-instance_method">
+  
+    #<strong>mutex</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute mutex.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mutex'>mutex</span>
+  <span class='ivar'>@mutex</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="add_rate-instance_method">
+  
+    #<strong>add_rate</strong>(from, to, rate)  &#x21d2; <tt>Numeric</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Registers a conversion rate and returns it (uses <code>#set_rate</code>). Delegates to <code>Money::RatesStore::Memory</code></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bank'>bank</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Bank::VariableExchange (class)">VariableExchange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money::Bank::VariableExchange#initialize (method)">new</a></span></span>
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>1.24515</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>0.803115</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>from</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Currency.html" title="Money::Currency (class)">Currency</a></span></tt>, <tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Currency to exchange from.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>to</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Currency.html" title="Money::Currency (class)">Currency</a></span></tt>, <tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Currency to exchange to.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>rate</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Rate to use when exchanging currencies.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+160
+161
+162</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 160</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='comma'>,</span> <span class='id identifier rubyid_to'>to</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_set_rate'>set_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='comma'>,</span> <span class='id identifier rubyid_to'>to</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="calculate_fractional-instance_method">
+  
+    #<strong>calculate_fractional</strong>(from, to_currency)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+129
+130
+131
+132
+133
+134</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 129</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_calculate_fractional'>calculate_fractional</span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='comma'>,</span> <span class='id identifier rubyid_to_currency'>to_currency</span><span class='rparen'>)</span>
+  <span class='const'>BigDecimal</span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='period'>.</span><span class='id identifier rubyid_fractional'>fractional</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='lparen'>(</span>
+    <span class='const'>BigDecimal</span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_subunit_to_unit'>subunit_to_unit</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span> <span class='op'>/</span>
+    <span class='const'>BigDecimal</span><span class='lparen'>(</span><span class='id identifier rubyid_to_currency'>to_currency</span><span class='period'>.</span><span class='id identifier rubyid_subunit_to_unit'>subunit_to_unit</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="exchange-instance_method">
+  
+    #<strong>exchange</strong>(fractional, rate, &amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 136</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_exchange'>exchange</span><span class='lparen'>(</span><span class='id identifier rubyid_fractional'>fractional</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_ex'>ex</span> <span class='op'>=</span> <span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>*</span> <span class='const'>BigDecimal</span><span class='lparen'>(</span><span class='id identifier rubyid_rate'>rate</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+    <span class='kw'>yield</span> <span class='id identifier rubyid_ex'>ex</span>
+  <span class='kw'>elsif</span> <span class='ivar'>@rounding_method</span>
+    <span class='ivar'>@rounding_method</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_ex'>ex</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_ex'>ex</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="exchange_with-instance_method">
+  
+    #<strong>exchange_with</strong>(from, to_currency) {|n| ... } &#x21d2; <tt><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Exchanges the given <code>Money</code> object to a new <code>Money</code> object in <code>to_currency</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bank'>bank</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Bank::VariableExchange (class)">VariableExchange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money::Bank::VariableExchange#initialize (method)">new</a></span></span>
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>1.24515</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>0.803115</span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_c1'>c1</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_c2'>c2</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+<span class='comment'># Exchange 100 USD to CAD:
+</span><span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_exchange_with'>exchange_with</span><span class='lparen'>(</span><span class='id identifier rubyid_c1'>c1</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money fractional:12451 currency:CAD&gt;
+</span>
+<span class='comment'># Exchange 100 CAD to USD:
+</span><span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_exchange_with'>exchange_with</span><span class='lparen'>(</span><span class='id identifier rubyid_c2'>c2</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money fractional:8031 currency:USD&gt;</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>from</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The <code>Money</code> object to exchange.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>to_currency</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Currency.html" title="Money::Currency (class)">Currency</a></span></tt>, <tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The currency to exchange to.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>n</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Optional block to use when rounding after exchanging one currency for another.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>n</span>
+      
+      
+        <span class='type'>(<tt>Float</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The resulting float after exchanging one currency for another.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Returns:</p>
+<ul class="yieldreturn">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'>
+<p><code>Money::Bank::UnknownRate</code> if the conversion rate is unknown.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 111</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_exchange_with'>exchange_with</span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='comma'>,</span> <span class='id identifier rubyid_to_currency'>to_currency</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_to_currency'>to_currency</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="../Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_to_currency'>to_currency</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_from'>from</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span> <span class='op'>==</span> <span class='id identifier rubyid_to_currency'>to_currency</span>
+    <span class='id identifier rubyid_from'>from</span>
+  <span class='kw'>else</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_rate'>rate</span> <span class='op'>=</span> <span class='id identifier rubyid_get_rate'>get_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span><span class='comma'>,</span> <span class='id identifier rubyid_to_currency'>to_currency</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>=</span> <span class='id identifier rubyid_calculate_fractional'>calculate_fractional</span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='comma'>,</span> <span class='id identifier rubyid_to_currency'>to_currency</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_from'>from</span><span class='period'>.</span><span class='id identifier rubyid_dup_with'>dup_with</span><span class='lparen'>(</span>
+        <span class='label'>fractional:</span> <span class='id identifier rubyid_exchange'>exchange</span><span class='lparen'>(</span><span class='id identifier rubyid_fractional'>fractional</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span><span class='comma'>,</span>
+        <span class='label'>currency:</span> <span class='id identifier rubyid_to_currency'>to_currency</span><span class='comma'>,</span>
+        <span class='label'>bank:</span> <span class='kw'>self</span>
+      <span class='rparen'>)</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="UnknownRate.html" title="Money::Bank::UnknownRate (class)">UnknownRate</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No conversion rate known for &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_from'>from</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_iso_code'>iso_code</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; -&gt; &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_to_currency'>to_currency</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="export_rates-instance_method">
+  
+    #<strong>export_rates</strong>(format, file = nil, opts = {})  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return the known rates as a string in the format specified. If <code>file</code> is given will also write the string out to the file specified. Available formats are <code>:json</code>, <code>:ruby</code> and <code>:yaml</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bank'>bank</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Bank::VariableExchange (class)">VariableExchange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money::Bank::VariableExchange#initialize (method)">new</a></span></span>
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_set_rate'>set_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>1.24515</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_set_rate'>set_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>0.803115</span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_s'>s</span> <span class='op'>=</span> <span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_export_rates'>export_rates</span><span class='lparen'>(</span><span class='symbol'>:json</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_s'>s</span> <span class='comment'>#=&gt; &quot;{\&quot;USD_TO_CAD\&quot;:1.24515,\&quot;CAD_TO_USD\&quot;:0.803115}&quot;</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>format</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Request format for the resulting string.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>file</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Optional file location to write the rates to.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Options hash to set special parameters. Backwards compatibility only.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'>
+<p><code>Money::Bank::UnknownRateFormat</code> if format is unknown.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 223</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_export_rates'>export_rates</span><span class='lparen'>(</span><span class='id identifier rubyid_format'>format</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnknownRateFormat.html" title="Money::Bank::UnknownRateFormat (class)">UnknownRateFormat</a></span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#RATE_FORMATS-constant" title="Money::Bank::VariableExchange::RATE_FORMATS (constant)">RATE_FORMATS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_format'>format</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_transaction'>transaction</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_s'>s</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#FORMAT_SERIALIZERS-constant" title="Money::Bank::VariableExchange::FORMAT_SERIALIZERS (constant)">FORMAT_SERIALIZERS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_format'>format</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_dump'>dump</span><span class='lparen'>(</span><span class='id identifier rubyid_rates'>rates</span><span class='rparen'>)</span>
+
+    <span class='kw'>unless</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+      <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>w</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='id identifier rubyid_s'>s</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_s'>s</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_rate-instance_method">
+  
+    #<strong>get_rate</strong>(from, to, opts = {})  &#x21d2; <tt>Numeric</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Retrieve the rate for the given currencies. data access. Delegates to <code>Money::RatesStore::Memory</code></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bank'>bank</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Bank::VariableExchange (class)">VariableExchange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money::Bank::VariableExchange#initialize (method)">new</a></span></span>
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_set_rate'>set_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>1.24515</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_set_rate'>set_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>0.803115</span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_get_rate'>get_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; 1.24515
+</span><span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_get_rate'>get_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; 0.803115</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>from</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Currency.html" title="Money::Currency (class)">Currency</a></span></tt>, <tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Currency to exchange from.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>to</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Currency.html" title="Money::Currency (class)">Currency</a></span></tt>, <tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Currency to exchange to.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Options hash to set special parameters. Backwards compatibility only.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+200
+201
+202</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 200</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_rate'>get_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='comma'>,</span> <span class='id identifier rubyid_to'>to</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_get_rate'>get_rate</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="../Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_iso_code'><span class='object_link'><a href="../Currency.html#iso_code-instance_method" title="Money::Currency#iso_code (method)">iso_code</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="../Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_to'>to</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_iso_code'><span class='object_link'><a href="../Currency.html#iso_code-instance_method" title="Money::Currency#iso_code (method)">iso_code</a></span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="import_rates-instance_method">
+  
+    #<strong>import_rates</strong>(format, s, opts = {})  &#x21d2; <tt>self</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Loads rates provided in <code>s</code> given the specified format. Available formats are <code>:json</code>, <code>:ruby</code> and <code>:yaml</code>. Delegates to <code>Money::RatesStore::Memory</code></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_s'>s</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>{\&quot;USD_TO_CAD\&quot;:1.24515,\&quot;CAD_TO_USD\&quot;:0.803115}</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_bank'>bank</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Bank::VariableExchange (class)">VariableExchange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money::Bank::VariableExchange#initialize (method)">new</a></span></span>
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_import_rates'>import_rates</span><span class='lparen'>(</span><span class='symbol'>:json</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_get_rate'>get_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; 1.24515
+</span><span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_get_rate'>get_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; 0.803115</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>format</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The format of <code>s</code>.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>s</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The rates string.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Options hash to set special parameters. Backwards compatibility only.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>self</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'>
+<p><code>Money::Bank::UnknownRateFormat</code> if format is unknown.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 263</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_import_rates'>import_rates</span><span class='lparen'>(</span><span class='id identifier rubyid_format'>format</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnknownRateFormat.html" title="Money::Bank::UnknownRateFormat (class)">UnknownRateFormat</a></span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#RATE_FORMATS-constant" title="Money::Bank::VariableExchange::RATE_FORMATS (constant)">RATE_FORMATS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_format'>format</span><span class='rparen'>)</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_format'>format</span> <span class='op'>==</span> <span class='symbol'>:ruby</span>
+    <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>[WARNING] Using :ruby format when importing rates is potentially unsafe and </span><span class='tstring_end'>&#39;</span></span> \
+      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>might lead to remote code execution via Marshal.load deserializer. Consider using </span><span class='tstring_end'>&#39;</span></span> \
+      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>safe alternatives such as :json and :yaml.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_transaction'>transaction</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#FORMAT_SERIALIZERS-constant" title="Money::Bank::VariableExchange::FORMAT_SERIALIZERS (constant)">FORMAT_SERIALIZERS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_format'>format</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_s'>s</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='op'>|</span>
+      <span class='id identifier rubyid_from'>from</span><span class='comma'>,</span> <span class='id identifier rubyid_to'>to</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#SERIALIZER_SEPARATOR-constant" title="Money::Bank::VariableExchange::SERIALIZER_SEPARATOR (constant)">SERIALIZER_SEPARATOR</a></span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span> <span class='id identifier rubyid_from'>from</span><span class='comma'>,</span> <span class='id identifier rubyid_to'>to</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="marshal_dump-instance_method">
+  
+    #<strong>marshal_dump</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 70</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_marshal_dump'>marshal_dump</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_marshal_dump'>marshal_dump</span><span class='comma'>,</span> <span class='ivar'>@rounding_method</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="marshal_load-instance_method">
+  
+    #<strong>marshal_load</strong>(arr)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 74</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_marshal_load'>marshal_load</span><span class='lparen'>(</span><span class='id identifier rubyid_arr'>arr</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_store_info'>store_info</span> <span class='op'>=</span> <span class='id identifier rubyid_arr'>arr</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='ivar'>@store</span> <span class='op'>=</span> <span class='id identifier rubyid_store_info'>store_info</span><span class='period'>.</span><span class='id identifier rubyid_shift'>shift</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_store_info'>store_info</span><span class='rparen'>)</span>
+  <span class='ivar'>@rounding_method</span> <span class='op'>=</span> <span class='id identifier rubyid_arr'>arr</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rates-instance_method">
+  
+    #<strong>rates</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>This should be deprecated.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+238
+239
+240
+241
+242</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 238</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rates'>rates</span>
+  <span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_each_rate'>each_rate</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='comma'>,</span><span class='id identifier rubyid_to'>to</span><span class='comma'>,</span><span class='id identifier rubyid_rate'>rate</span><span class='rparen'>)</span><span class='comma'>,</span><span class='id identifier rubyid_hash'>hash</span><span class='op'>|</span>
+    <span class='id identifier rubyid_hash'>hash</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id identifier rubyid_from'>from</span><span class='comma'>,</span> <span class='id identifier rubyid_to'>to</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#SERIALIZER_SEPARATOR-constant" title="Money::Bank::VariableExchange::SERIALIZER_SEPARATOR (constant)">SERIALIZER_SEPARATOR</a></span></span><span class='rparen'>)</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_rate'>rate</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_rate-instance_method">
+  
+    #<strong>set_rate</strong>(from, to, rate, opts = {})  &#x21d2; <tt>Numeric</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set the rate for the given currencies. access. Delegates to <code>Money::RatesStore::Memory</code></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bank'>bank</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Bank::VariableExchange (class)">VariableExchange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money::Bank::VariableExchange#initialize (method)">new</a></span></span>
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_set_rate'>set_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>1.24515</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bank'>bank</span><span class='period'>.</span><span class='id identifier rubyid_set_rate'>set_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>0.803115</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>from</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Currency.html" title="Money::Currency (class)">Currency</a></span></tt>, <tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Currency to exchange from.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>to</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Currency.html" title="Money::Currency (class)">Currency</a></span></tt>, <tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Currency to exchange to.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>rate</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Rate to use when exchanging currencies.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Options hash to set special parameters. Backwards compatibility only.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+179
+180
+181</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 179</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_rate'>set_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='comma'>,</span> <span class='id identifier rubyid_to'>to</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="../Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_iso_code'><span class='object_link'><a href="../Currency.html#iso_code-instance_method" title="Money::Currency#iso_code (method)">iso_code</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="../Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_to'>to</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_iso_code'><span class='object_link'><a href="../Currency.html#iso_code-instance_method" title="Money::Currency#iso_code (method)">iso_code</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="store-instance_method">
+  
+    #<strong>store</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/bank/variable_exchange.rb', line 66</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_store'>store</span>
+  <span class='ivar'>@store</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'>Object</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='ivar'>@store</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='ivar'>@store</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Sat Jul 12 16:26:11 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.4.1).
+</div>
+
+    </div>
+  </body>
+</html>

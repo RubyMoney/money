@@ -1,0 +1,4827 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Money
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Money";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (M)</a> &raquo;
+    
+    
+    <span class="title">Money</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Money
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Money</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd><span class='object_link'><a href="Money/Constructors.html" title="Money::Constructors (module)">Constructors</a></span></dd>
+  </dl>
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd>Comparable, <span class='object_link'><a href="Money/Arithmetic.html" title="Money::Arithmetic (module)">Arithmetic</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/money/money.rb<span class="defines">,<br />
+  lib/money/version.rb,<br /> lib/money/currency.rb,<br /> lib/money/bank/base.rb,<br /> lib/money/currency/loader.rb,<br /> lib/money/money/formatter.rb,<br /> lib/money/money/allocation.rb,<br /> lib/money/money/arithmetic.rb,<br /> lib/money/money/constructors.rb,<br /> lib/money/rates_store/memory.rb,<br /> lib/money/currency/heuristics.rb,<br /> lib/money/locale_backend/base.rb,<br /> lib/money/locale_backend/i18n.rb,<br /> lib/money/bank/single_currency.rb,<br /> lib/money/money/locale_backend.rb,<br /> lib/money/locale_backend/errors.rb,<br /> lib/money/locale_backend/legacy.rb,<br /> lib/money/bank/variable_exchange.rb,<br /> lib/money/money/formatting_rules.rb,<br /> lib/money/locale_backend/currency.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>“Money is any object or record that is generally accepted as payment for goods and services and repayment of debts in a given socio-economic context or country.” -Wikipedia</p>
+
+<p>An instance of Money represents an amount of a specific currency.</p>
+
+<p>Money is a value object and should be treated as immutable.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://en.wikipedia.org/wiki/Money" target="_parent" title="https://en.wikipedia.org/wiki/Money">https://en.wikipedia.org/wiki/Money</a></li>
+    
+  </ul>
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Money/Arithmetic.html" title="Money::Arithmetic (module)">Arithmetic</a></span>, <span class='object_link'><a href="Money/Bank.html" title="Money::Bank (module)">Bank</a></span>, <span class='object_link'><a href="Money/Constructors.html" title="Money::Constructors (module)">Constructors</a></span>, <span class='object_link'><a href="Money/LocaleBackend.html" title="Money::LocaleBackend (module)">LocaleBackend</a></span>, <span class='object_link'><a href="Money/RatesStore.html" title="Money::RatesStore (module)">RatesStore</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Money/Allocation.html" title="Money::Allocation (class)">Allocation</a></span>, <span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span>, <span class='object_link'><a href="Money/Formatter.html" title="Money::Formatter (class)">Formatter</a></span>, <span class='object_link'><a href="Money/FormattingRules.html" title="Money::FormattingRules (class)">FormattingRules</a></span>, <span class='object_link'><a href="Money/UndefinedSmallestDenomination.html" title="Money::UndefinedSmallestDenomination (class)">UndefinedSmallestDenomination</a></span>
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>6.19.0</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Class Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#conversion_precision-class_method" title="conversion_precision (class method)">.<strong>conversion_precision</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Used to specify precision for converting Rational to BigDecimal.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_bank-class_method" title="default_bank (class method)">.<strong>default_bank</strong>  &#x21d2; Money::Bank::Base </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Used to set a default bank for currency exchange.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_formatting_rules-class_method" title="default_formatting_rules (class method)">.<strong>default_formatting_rules</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Used to define a default hash of rules for every time <tt>Money#format</tt> is called.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_infinite_precision-class_method" title="default_infinite_precision (class method)">.<strong>default_infinite_precision</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Use this to enable infinite precision cents as the global default.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#locale_backend-class_method" title="locale_backend (class method)">.<strong>locale_backend</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute locale_backend.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#use_i18n-class_method" title="use_i18n (class method)">.<strong>use_i18n</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Used to disable i18n even if it’s used by other components of your app.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bank-instance_method" title="#bank (instance method)">#<strong>bank</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute bank.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#currency-instance_method" title="#currency (instance method)">#<strong>currency</strong>  &#x21d2; Currency </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The money’s currency.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_currency-instance_method" title="#default_currency (instance method)">#<strong>default_currency</strong>  &#x21d2; Money::Currency </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The default currency, which is used when <code>Money.new</code> is called without an explicit currency argument.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_rate-class_method" title="add_rate (class method)">.<strong>add_rate</strong>(from_currency, to_currency, rate)  &#x21d2; Numeric </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Adds a new exchange rate to the default bank and return the rate.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_currency-class_method" title="default_currency (class method)">.<strong>default_currency</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_currency=-class_method" title="default_currency= (class method)">.<strong>default_currency=</strong>(currency)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disallow_currency_conversion!-class_method" title="disallow_currency_conversion! (class method)">.<strong>disallow_currency_conversion!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sets the default bank to be a SingleCurrency bank that raises on currency exchange.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#from_amount-class_method" title="from_amount (class method)">.<strong>from_amount</strong>(amount, currency = default_currency, options = {})  &#x21d2; Money </a>
+    
+
+    
+      (also: from_dollars)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates a new Money object of value given in the <code>unit</code> of the given <code>currency</code>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#infinite_precision-class_method" title="infinite_precision (class method)">.<strong>infinite_precision</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#infinite_precision=-class_method" title="infinite_precision= (class method)">.<strong>infinite_precision=</strong>(value)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inherited-class_method" title="inherited (class method)">.<strong>inherited</strong>(base)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rounding_mode-class_method" title="rounding_mode (class method)">.<strong>rounding_mode</strong>(mode = nil)  &#x21d2; BigDecimal::ROUND_MODE </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Use this to return the rounding mode.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rounding_mode=-class_method" title="rounding_mode= (class method)">.<strong>rounding_mode=</strong>(new_rounding_mode)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#setup_defaults-class_method" title="setup_defaults (class method)">.<strong>setup_defaults</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#with_rounding_mode-class_method" title="with_rounding_mode (class method)">.<strong>with_rounding_mode</strong>(mode) { ... } &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Temporarily changes the rounding mode in a given block.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#allocate-instance_method" title="#allocate (instance method)">#<strong>allocate</strong>(parts)  &#x21d2; Array&lt;Money&gt; </a>
+    
+
+    
+      (also: #split)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Splits a given amount in parts without losing pennies.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#amount-instance_method" title="#amount (instance method)">#<strong>amount</strong>  &#x21d2; BigDecimal </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the numerical value of the money.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#as_ca_dollar-instance_method" title="#as_ca_dollar (instance method)">#<strong>as_ca_dollar</strong>  &#x21d2; Money </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Receive a money object with the same amount as the current Money object in Canadian dollar.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#as_euro-instance_method" title="#as_euro (instance method)">#<strong>as_euro</strong>  &#x21d2; Money </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Receive a money object with the same amount as the current Money object in euro.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#as_us_dollar-instance_method" title="#as_us_dollar (instance method)">#<strong>as_us_dollar</strong>  &#x21d2; Money </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Receive a money object with the same amount as the current Money object in United States dollar.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cents-instance_method" title="#cents (instance method)">#<strong>cents</strong>  &#x21d2; Integer, BigDecimal </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Convenience method for fractional part of the amount.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#currency_as_string-instance_method" title="#currency_as_string (instance method)">#<strong>currency_as_string</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return string representation of currency object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#currency_as_string=-instance_method" title="#currency_as_string= (instance method)">#<strong>currency_as_string=</strong>(val)  &#x21d2; Money::Currency </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set currency object using a string.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#decimal_mark-instance_method" title="#decimal_mark (instance method)">#<strong>decimal_mark</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns a decimal mark according to the locale.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dollars-instance_method" title="#dollars (instance method)">#<strong>dollars</strong>  &#x21d2; BigDecimal </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Assuming using a currency using dollars: Returns the value of the money in dollars, instead of in the fractional unit cents.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dup_with-instance_method" title="#dup_with (instance method)">#<strong>dup_with</strong>(options = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#exchange_to-instance_method" title="#exchange_to (instance method)">#<strong>exchange_to</strong>(other_currency) {|n| ... } &#x21d2; Money </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Receive the amount of this money object in another Currency.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#format-instance_method" title="#format (instance method)">#<strong>format</strong>(*rules)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates a formatted price string according to several rules.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fractional-instance_method" title="#fractional (instance method)">#<strong>fractional</strong>  &#x21d2; Integer, BigDecimal </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The value of the monetary amount represented in the fractional or subunit of the currency.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hash-instance_method" title="#hash (instance method)">#<strong>hash</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns a Integer hash value based on the <code>fractional</code> and <code>currency</code> attributes in order to use functions like &amp; (intersection), group_by, etc.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(obj, currency = Money.default_currency, options = {})  &#x21d2; Money </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates a new Money object of value given in the <tt>fractional unit</tt> of the given <code>currency</code>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inspect-instance_method" title="#inspect (instance method)">#<strong>inspect</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Common inspect function.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#round-instance_method" title="#round (instance method)">#<strong>round</strong>(rounding_mode = self.class.rounding_mode, rounding_precision = 0)  &#x21d2; Money </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Round the monetary amount to smallest unit of coinage.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#round_to_nearest_cash_value-instance_method" title="#round_to_nearest_cash_value (instance method)">#<strong>round_to_nearest_cash_value</strong>  &#x21d2; Integer, BigDecimal </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Round a given amount of money to the nearest possible amount in cash value.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#symbol-instance_method" title="#symbol (instance method)">#<strong>symbol</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Uses <tt>Currency#symbol</tt>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#thousands_separator-instance_method" title="#thousands_separator (instance method)">#<strong>thousands_separator</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns a thousands separator according to the locale.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_d-instance_method" title="#to_d (instance method)">#<strong>to_d</strong>  &#x21d2; BigDecimal </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return the amount of money as a BigDecimal.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_f-instance_method" title="#to_f (instance method)">#<strong>to_f</strong>  &#x21d2; Float </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return the amount of money as a float.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_i-instance_method" title="#to_i (instance method)">#<strong>to_i</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return the amount of money as a Integer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_money-instance_method" title="#to_money (instance method)">#<strong>to_money</strong>(given_currency = nil)  &#x21d2; self </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Conversion to <code>self</code>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the amount of money as a string.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#with_currency-instance_method" title="#with_currency (instance method)">#<strong>with_currency</strong>(new_currency)  &#x21d2; self </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns a new Money instance in a given currency leaving the amount intact and not performing currency conversion.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Money/Constructors.html" title="Money::Constructors (module)">Constructors</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Money/Constructors.html#ca_dollar-instance_method" title="Money::Constructors#ca_dollar (method)">ca_dollar</a></span>, <span class='object_link'><a href="Money/Constructors.html#empty-instance_method" title="Money::Constructors#empty (method)">empty</a></span>, <span class='object_link'><a href="Money/Constructors.html#euro-instance_method" title="Money::Constructors#euro (method)">euro</a></span>, <span class='object_link'><a href="Money/Constructors.html#pound_sterling-instance_method" title="Money::Constructors#pound_sterling (method)">pound_sterling</a></span>, <span class='object_link'><a href="Money/Constructors.html#us_dollar-instance_method" title="Money::Constructors#us_dollar (method)">us_dollar</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Money/Arithmetic.html" title="Money::Arithmetic (module)">Arithmetic</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Money/Arithmetic.html#%25-instance_method" title="Money::Arithmetic#% (method)">#%</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#*-instance_method" title="Money::Arithmetic#* (method)">#*</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#%2B-instance_method" title="Money::Arithmetic#+ (method)">#+</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#--instance_method" title="Money::Arithmetic#- (method)">#-</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#-@-instance_method" title="Money::Arithmetic#-@ (method)">#-@</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#%2F-instance_method" title="Money::Arithmetic#/ (method)">#/</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#<=>-instance_method" title="Money::Arithmetic#&lt;=&gt; (method)">#<=></a></span>, <span class='object_link'><a href="Money/Arithmetic.html#==-instance_method" title="Money::Arithmetic#== (method)">#==</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#abs-instance_method" title="Money::Arithmetic#abs (method)">#abs</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#coerce-instance_method" title="Money::Arithmetic#coerce (method)">#coerce</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#div-instance_method" title="Money::Arithmetic#div (method)">#div</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#divmod-instance_method" title="Money::Arithmetic#divmod (method)">#divmod</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#eql%3F-instance_method" title="Money::Arithmetic#eql? (method)">#eql?</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#modulo-instance_method" title="Money::Arithmetic#modulo (method)">#modulo</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#negative%3F-instance_method" title="Money::Arithmetic#negative? (method)">#negative?</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#nonzero%3F-instance_method" title="Money::Arithmetic#nonzero? (method)">#nonzero?</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#positive%3F-instance_method" title="Money::Arithmetic#positive? (method)">#positive?</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#remainder-instance_method" title="Money::Arithmetic#remainder (method)">#remainder</a></span>, <span class='object_link'><a href="Money/Arithmetic.html#zero%3F-instance_method" title="Money::Arithmetic#zero? (method)">#zero?</a></span></p>
+
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(obj, currency = Money.default_currency, options = {})  &#x21d2; <tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Creates a new Money object of value given in the <tt>fractional unit</tt> of the given <code>currency</code>.</p>
+
+<p>Alternatively you can use the convenience methods like <span class='object_link'><a href="Money/Constructors.html#ca_dollar-instance_method" title="Money::Constructors#ca_dollar (method)">Money::Constructors#ca_dollar</a></span> and <span class='object_link'><a href="Money/Constructors.html#us_dollar-instance_method" title="Money::Constructors#us_dollar (method)">Money::Constructors#us_dollar</a></span>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>100</span><span class='rparen'>)</span>        <span class='comment'>#=&gt; #&lt;Money @fractional=100 @currency=&quot;USD&quot;&gt;
+</span><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money @fractional=100 @currency=&quot;USD&quot;&gt;
+</span><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money @fractional=100 @currency=&quot;EUR&quot;&gt;</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>obj</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Either the fractional value of the money, a Money object, or a currency. (If passed a currency as the first argument, a Money will be created in that currency with fractional value</p>
+
+<h1 id="label-0.">0.</h1>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>currency</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></tt>, <tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Money.default_currency</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The currency format.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Optional settings for the new Money instance</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>[Money::Bank::*]</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a customizable set of options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    
+    
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 346</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_currency'><span class='object_link'><a href="#default_currency-class_method" title="Money.default_currency (method)">default_currency</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='comment'># For backwards compatibility, if options is not a Hash, treat it as a bank parameter
+</span>  <span class='kw'>unless</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>bank:</span> <span class='id identifier rubyid_options'>options</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@fractional</span> <span class='op'>=</span> <span class='id identifier rubyid_as_d'>as_d</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:fractional</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>:</span> <span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span>
+  <span class='ivar'>@currency</span>   <span class='op'>=</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:currency</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="Money/Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_currency'>currency</span><span class='rparen'>)</span>
+  <span class='ivar'>@currency</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_currency'><span class='object_link'><a href="#default_currency-class_method" title="Money.default_currency (method)">default_currency</a></span></span>
+  <span class='ivar'>@bank</span>       <span class='op'>=</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:bank</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_bank'>bank</span> <span class='op'>:</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:bank</span><span class='rbracket'>]</span>
+  <span class='ivar'>@bank</span>     <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_bank'><span class='object_link'><a href="#default_bank-class_method" title="Money.default_bank (method)">default_bank</a></span></span>
+
+  <span class='comment'># BigDecimal can be Infinity and NaN, money of that amount does not make sense
+</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>must be initialized with a finite value</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='ivar'>@fractional</span><span class='period'>.</span><span class='id identifier rubyid_finite?'>finite?</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency/NoCurrency.html" title="Money::Currency::NoCurrency (class)">NoCurrency</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>must provide a currency</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@currency</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="class_attr_details" class="attr_details">
+    <h2>Class Attribute Details</h2>
+    
+      
+      <span id="conversion_precision=-class_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="conversion_precision-class_method">
+  
+    .<strong>conversion_precision</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Used to specify precision for converting Rational to BigDecimal</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 133</span>
+
+<span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:default_formatting_rules</span><span class='comma'>,</span> <span class='symbol'>:default_infinite_precision</span><span class='comma'>,</span> <span class='symbol'>:conversion_precision</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="default_bank=-class_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="default_bank-class_method">
+  
+    .<strong>default_bank</strong>  &#x21d2; <tt><span class='object_link'><a href="Money/Bank/Base.html" title="Money::Bank::Base (class)">Money::Bank::Base</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Used to set a default bank for currency exchange.</p>
+
+<p>Each Money object is associated with a bank object, which is responsible for currency exchange. This property allows you to specify the default bank object. The default value for this property is an instance of <code>Bank::VariableExchange.</code> It allows one to specify custom exchange rates.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Money/Bank/Base.html" title="Money::Bank::Base (class)">Money::Bank::Base</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 133</span>
+
+<span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:default_formatting_rules</span><span class='comma'>,</span> <span class='symbol'>:default_infinite_precision</span><span class='comma'>,</span> <span class='symbol'>:conversion_precision</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="default_formatting_rules=-class_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="default_formatting_rules-class_method">
+  
+    .<strong>default_formatting_rules</strong>  &#x21d2; <tt>Hash</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Used to define a default hash of rules for every time <tt>Money#format</tt> is called.  Rules provided on method call will be merged with the default ones.  To overwrite a rule, just provide the intended value while calling <code>format</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_formatting_rules'>default_formatting_rules</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>display_free:</span> <span class='kw'>true</span> <span class='rbrace'>}</span>
+<span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="#format-instance_method" title="Money#format (method)">format</a></span></span>                          <span class='comment'># =&gt; &quot;free&quot;
+</span><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>display_free:</span> <span class='kw'>false</span><span class='rparen'>)</span>  <span class='comment'># =&gt; &quot;$0.00&quot;</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Money/Formatter.html#initialize-instance_method" title="Money::Formatter#initialize (method)">Money::Formatter for more details</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133
+134
+135</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 133</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_default_formatting_rules'>default_formatting_rules</span>
+  <span class='ivar'>@default_formatting_rules</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="default_infinite_precision=-class_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="default_infinite_precision-class_method">
+  
+    .<strong>default_infinite_precision</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Use this to enable infinite precision cents as the global default.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Use this to enable infinite precision cents as the global default</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 133</span>
+
+<span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:default_formatting_rules</span><span class='comma'>,</span> <span class='symbol'>:default_infinite_precision</span><span class='comma'>,</span> <span class='symbol'>:conversion_precision</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="locale_backend=-class_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="locale_backend-class_method">
+  
+    .<strong>locale_backend</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute locale_backend.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+134
+135
+136</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 134</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_locale_backend'>locale_backend</span>
+  <span class='ivar'>@locale_backend</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="use_i18n=-class_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="use_i18n-class_method">
+  
+    .<strong>use_i18n</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Used to disable i18n even if it’s used by other components of your app.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 133</span>
+
+<span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:default_formatting_rules</span><span class='comma'>,</span> <span class='symbol'>:default_infinite_precision</span><span class='comma'>,</span> <span class='symbol'>:conversion_precision</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="bank-instance_method">
+  
+    #<strong>bank</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute bank.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 89</span>
+
+<span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:currency</span><span class='comma'>,</span> <span class='symbol'>:bank</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="currency-instance_method">
+  
+    #<strong>currency</strong>  &#x21d2; <tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The money’s currency.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The money’s currency.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 89</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_currency'>currency</span>
+  <span class='ivar'>@currency</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="default_currency=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="default_currency-instance_method">
+  
+    #<strong>default_currency</strong>  &#x21d2; <tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Money::Currency</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The default currency, which is used when <code>Money.new</code> is called without an explicit currency argument. The default value is Currency.new(“USD”). The value must be a valid <code>Money::Currency</code> instance.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Money::Currency</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The default currency, which is used when <code>Money.new</code> is called without an explicit currency argument. The default value is Currency.new(“USD”). The value must be a valid <code>Money::Currency</code> instance.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 153</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_currency'>default_currency</span>
+  <span class='kw'>if</span> <span class='ivar'>@using_deprecated_default_currency</span>
+    <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>[WARNING] The default currency will change from `USD` to `nil` in the next major release. Make </span><span class='tstring_end'>&#39;</span></span> \
+         <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sure to set it explicitly using `Money.default_currency=` to avoid potential issues</span><span class='tstring_end'>&#39;</span></span>
+    <span class='ivar'>@using_deprecated_default_currency</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='ivar'>@default_currency</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='kw'>nil</span>
+  <span class='kw'>elsif</span> <span class='ivar'>@default_currency</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Currency.html#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@default_currency</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Currency.html#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@default_currency</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="add_rate-class_method">
+  
+    .<strong>add_rate</strong>(from_currency, to_currency, rate)  &#x21d2; <tt>Numeric</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Adds a new exchange rate to the default bank and return the rate.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>1.25</span><span class='rparen'>)</span> <span class='comment'>#=&gt; 1.25</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>from_currency</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></tt>, <tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Currency to exchange from.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>to_currency</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></tt>, <tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Currency to exchange to.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>rate</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Rate to exchange with.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+285
+286
+287</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 285</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_from_currency'>from_currency</span><span class='comma'>,</span> <span class='id identifier rubyid_to_currency'>to_currency</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_bank'><span class='object_link'><a href="#default_bank-class_method" title="Money.default_bank (method)">default_bank</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_from_currency'>from_currency</span><span class='comma'>,</span> <span class='id identifier rubyid_to_currency'>to_currency</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="default_currency-class_method">
+  
+    .<strong>default_currency</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 153</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_currency'>default_currency</span>
+  <span class='kw'>if</span> <span class='ivar'>@using_deprecated_default_currency</span>
+    <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>[WARNING] The default currency will change from `USD` to `nil` in the next major release. Make </span><span class='tstring_end'>&#39;</span></span> \
+         <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sure to set it explicitly using `Money.default_currency=` to avoid potential issues</span><span class='tstring_end'>&#39;</span></span>
+    <span class='ivar'>@using_deprecated_default_currency</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='ivar'>@default_currency</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='kw'>nil</span>
+  <span class='kw'>elsif</span> <span class='ivar'>@default_currency</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Currency.html#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@default_currency</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Currency.html#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@default_currency</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="default_currency=-class_method">
+  
+    .<strong>default_currency=</strong>(currency)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+169
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 169</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_currency='>default_currency=</span><span class='lparen'>(</span><span class='id identifier rubyid_currency'>currency</span><span class='rparen'>)</span>
+  <span class='ivar'>@using_deprecated_default_currency</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@default_currency</span> <span class='op'>=</span> <span class='id identifier rubyid_currency'>currency</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disallow_currency_conversion!-class_method">
+  
+    .<strong>disallow_currency_conversion!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sets the default bank to be a SingleCurrency bank that raises on currency exchange. Useful when apps operate in a single currency at a time.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+291
+292
+293</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 291</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_disallow_currency_conversion!'>disallow_currency_conversion!</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_bank'>default_bank</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Bank/SingleCurrency.html" title="Money::Bank::SingleCurrency (class)">SingleCurrency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_instance'><span class='object_link'><a href="Money/Bank/Base.html#instance-class_method" title="Money::Bank::Base.instance (method)">instance</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="from_amount-class_method">
+  
+    .<strong>from_amount</strong>(amount, currency = default_currency, options = {})  &#x21d2; <tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='from_dollars-class_method'>from_dollars</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Creates a new Money object of value given in the <code>unit</code> of the given <code>currency</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_amount'>from_amount</span><span class='lparen'>(</span><span class='float'>23.45</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'># =&gt; #&lt;Money fractional:2345 currency:USD&gt;
+</span><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_amount'>from_amount</span><span class='lparen'>(</span><span class='float'>23.45</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>JPY</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'># =&gt; #&lt;Money fractional:23 currency:JPY&gt;</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>amount</span>
+      
+      
+        <span class='type'>(<tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The numerical value of the money.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>currency</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></tt>, <tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>default_currency</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The currency format.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Optional settings for the new Money instance</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>[Money::Bank::*]</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a customizable set of options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    
+    
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">#initialize</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+310
+311
+312
+313
+314
+315
+316
+317
+318</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 310</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_from_amount'>from_amount</span><span class='lparen'>(</span><span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span> <span class='op'>=</span> <span class='id identifier rubyid_default_currency'>default_currency</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&#39;amount&#39; must be numeric</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'>Numeric</span> <span class='op'>===</span> <span class='id identifier rubyid_amount'>amount</span>
+
+  <span class='id identifier rubyid_currency'>currency</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="Money/Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_currency'>currency</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_currency'><span class='object_link'><a href="#default_currency-class_method" title="Money.default_currency (method)">default_currency</a></span></span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency/NoCurrency.html" title="Money::Currency::NoCurrency (class)">NoCurrency</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>must provide a currency</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_amount'>amount</span><span class='period'>.</span><span class='id identifier rubyid_to_d'>to_d</span> <span class='op'>*</span> <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_subunit_to_unit'>subunit_to_unit</span>
+  <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="infinite_precision-class_method">
+  
+    .<strong>infinite_precision</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+137
+138
+139
+140</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 137</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_infinite_precision'>infinite_precision</span>
+  <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>[DEPRECATION] `Money.infinite_precision` is deprecated - use `Money.default_infinite_precision` instead</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_default_infinite_precision'>default_infinite_precision</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="infinite_precision=-class_method">
+  
+    .<strong>infinite_precision=</strong>(value)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+142
+143
+144
+145</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 142</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_infinite_precision='>infinite_precision=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>[DEPRECATION] `Money.infinite_precision=` is deprecated - use `Money.default_infinite_precision= ` instead</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_infinite_precision'>default_infinite_precision</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inherited-class_method">
+  
+    .<strong>inherited</strong>(base)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+227
+228
+229</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 227</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_inherited'>inherited</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_setup_defaults'>setup_defaults</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rounding_mode-class_method">
+  
+    .<strong>rounding_mode</strong>(mode = nil)  &#x21d2; <tt>BigDecimal::ROUND_MODE</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Use this to return the rounding mode.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>mode</span>
+      
+      
+        <span class='type'>(<tt>BigDecimal::ROUND_MODE</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>BigDecimal::ROUND_MODE</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>rounding mode</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 238</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_rounding_mode'>rounding_mode</span><span class='lparen'>(</span><span class='id identifier rubyid_mode'>mode</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_mode'>mode</span>
+    <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[DEPRECATION] calling `rounding_mode` with a block is deprecated. Please use `.with_rounding_mode` instead.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_with_rounding_mode'>with_rounding_mode</span><span class='lparen'>(</span><span class='id identifier rubyid_mode'>mode</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='kw'>yield</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>return</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='symbol'>:money_rounding_mode</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='symbol'>:money_rounding_mode</span><span class='rbracket'>]</span>
+
+  <span class='kw'>if</span> <span class='ivar'>@using_deprecated_default_rounding_mode</span>
+    <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>[WARNING] The default rounding mode will change from `ROUND_HALF_EVEN` to `ROUND_HALF_UP` in the </span><span class='tstring_end'>&#39;</span></span> \
+         <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>next major release. Set it explicitly using `Money.rounding_mode=` to avoid potential problems.</span><span class='tstring_end'>&#39;</span></span>
+    <span class='ivar'>@using_deprecated_default_rounding_mode</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@rounding_mode</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rounding_mode=-class_method">
+  
+    .<strong>rounding_mode=</strong>(new_rounding_mode)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+187
+188
+189
+190</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 187</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_rounding_mode='>rounding_mode=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_rounding_mode'>new_rounding_mode</span><span class='rparen'>)</span>
+  <span class='ivar'>@using_deprecated_default_rounding_mode</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@rounding_mode</span> <span class='op'>=</span> <span class='id identifier rubyid_new_rounding_mode'>new_rounding_mode</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="setup_defaults-class_method">
+  
+    .<strong>setup_defaults</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 202</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_setup_defaults'>setup_defaults</span>
+  <span class='comment'># Set the default bank for creating new +Money+ objects.
+</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_bank'>default_bank</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Bank/VariableExchange.html" title="Money::Bank::VariableExchange (class)">VariableExchange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_instance'><span class='object_link'><a href="Money/Bank/Base.html#instance-class_method" title="Money::Bank::Base.instance (method)">instance</a></span></span>
+
+  <span class='comment'># Set the default currency for creating new +Money+ object.
+</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_currency'>default_currency</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Currency.html#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@using_deprecated_default_currency</span> <span class='op'>=</span> <span class='kw'>true</span>
+
+  <span class='comment'># Default to using i18n
+</span>  <span class='ivar'>@use_i18n</span> <span class='op'>=</span> <span class='kw'>true</span>
+
+  <span class='comment'># Default to using legacy locale backend
+</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_locale_backend'>locale_backend</span> <span class='op'>=</span> <span class='symbol'>:legacy</span>
+
+  <span class='comment'># Default to not using infinite precision cents
+</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_infinite_precision'>default_infinite_precision</span> <span class='op'>=</span> <span class='kw'>false</span>
+
+  <span class='comment'># Default to bankers rounding
+</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_rounding_mode'>rounding_mode</span> <span class='op'>=</span> <span class='const'>BigDecimal</span><span class='op'>::</span><span class='const'>ROUND_HALF_EVEN</span>
+  <span class='ivar'>@using_deprecated_default_rounding_mode</span> <span class='op'>=</span> <span class='kw'>true</span>
+
+  <span class='comment'># Default the conversion of Rationals precision to 16
+</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_conversion_precision'>conversion_precision</span> <span class='op'>=</span> <span class='int'>16</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="with_rounding_mode-class_method">
+  
+    .<strong>with_rounding_mode</strong>(mode) { ... } &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Temporarily changes the rounding mode in a given block.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_fee'>fee</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_with_rounding_mode'>with_rounding_mode</span><span class='lparen'>(</span><span class='const'>BigDecimal</span><span class='op'>::</span><span class='const'>ROUND_HALF_UP</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>1200</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='const'>BigDecimal</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0.029</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>mode</span>
+      
+      
+        <span class='type'>(<tt>BigDecimal::ROUND_MODE</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'>
+<p>The block within which rounding mode will be changed. Its return value will also be the return value of the whole method.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>block results</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+268
+269
+270
+271
+272
+273</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 268</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_with_rounding_mode'>with_rounding_mode</span><span class='lparen'>(</span><span class='id identifier rubyid_mode'>mode</span><span class='rparen'>)</span>
+  <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='symbol'>:money_rounding_mode</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_mode'>mode</span>
+  <span class='kw'>yield</span>
+<span class='kw'>ensure</span>
+  <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='symbol'>:money_rounding_mode</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="allocate-instance_method">
+  
+    #<strong>allocate</strong>(parts)  &#x21d2; <tt>Array&lt;<span class='object_link'><a href="" title="Money (class)">Money</a></span>&gt;</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='split-instance_method'>split</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Splits a given amount in parts without losing pennies. The left-over pennies will be distributed round-robin amongst the parties. This means that parts listed first will likely receive more pennies than ones listed later.</p>
+
+<p>Pass [2, 1, 1] as input to give twice as much to part1 as part2 or part3 which results in 50% of the cash to party1, 25% to part2, and 25% to part3. Passing a number instead of an array will split the amount evenly (without losing pennies when rounding).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>5</span><span class='comma'>,</span>   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_allocate'>allocate</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>3</span><span class='comma'>,</span> <span class='int'>7</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='comment'>#=&gt; [Money.new(2), Money.new(3)]
+</span><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_allocate'>allocate</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='comment'>#=&gt; [Money.new(34), Money.new(33), Money.new(33)]
+</span><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_allocate'>allocate</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span> <span class='comment'>#=&gt; [Money.new(50), Money.new(50)]
+</span><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_allocate'>allocate</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span> <span class='comment'>#=&gt; [Money.new(34), Money.new(33), Money.new(33)]</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>parts</span>
+      
+      
+        <span class='type'>(<tt>Array&lt;Numeric&gt;</tt>, <tt>Numeric</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>how amount should be distributed to parts</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="" title="Money (class)">Money</a></span>&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+601
+602
+603
+604</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 601</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_allocate'>allocate</span><span class='lparen'>(</span><span class='id identifier rubyid_parts'>parts</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_amounts'>amounts</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Allocation.html" title="Money::Allocation (class)">Allocation</a></span></span><span class='period'>.</span><span class='id identifier rubyid_generate'><span class='object_link'><a href="Money/Allocation.html#generate-class_method" title="Money::Allocation.generate (method)">generate</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_fractional'>fractional</span><span class='comma'>,</span> <span class='id identifier rubyid_parts'>parts</span><span class='comma'>,</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_infinite_precision'><span class='object_link'><a href="#default_infinite_precision-class_method" title="Money.default_infinite_precision (method)">default_infinite_precision</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_amounts'>amounts</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_amount'>amount</span><span class='op'>|</span> <span class='id identifier rubyid_dup_with'>dup_with</span><span class='lparen'>(</span><span class='label'>fractional:</span> <span class='id identifier rubyid_amount'>amount</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="amount-instance_method">
+  
+    #<strong>amount</strong>  &#x21d2; <tt>BigDecimal</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the numerical value of the money</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>1_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_amount'>amount</span>    <span class='comment'># =&gt; BigDecimal(&quot;1.00&quot;)</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>BigDecimal</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#to_d-instance_method" title="Money#to_d (method)">#to_d</a></span></li>
+    
+      <li><span class='object_link'><a href="#fractional-instance_method" title="Money#fractional (method)">#fractional</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+392
+393
+394</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 392</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_amount'>amount</span>
+  <span class='id identifier rubyid_to_d'>to_d</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="as_ca_dollar-instance_method">
+  
+    #<strong>as_ca_dollar</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Receive a money object with the same amount as the current Money object in Canadian dollar.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_as_ca_dollar'>as_ca_dollar</span>
+<span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span> <span class='comment'>#=&gt; #&lt;Money::Currency id: cad&gt;</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+567
+568
+569</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 567</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_as_ca_dollar'>as_ca_dollar</span>
+  <span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="as_euro-instance_method">
+  
+    #<strong>as_euro</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Receive a money object with the same amount as the current Money object in euro.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_as_euro'>as_euro</span>
+<span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span> <span class='comment'>#=&gt; #&lt;Money::Currency id: eur&gt;</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+579
+580
+581</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 579</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_as_euro'>as_euro</span>
+  <span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="as_us_dollar-instance_method">
+  
+    #<strong>as_us_dollar</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Receive a money object with the same amount as the current Money object in United States dollar.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_n'>n</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_as_us_dollar'>as_us_dollar</span>
+<span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span> <span class='comment'>#=&gt; #&lt;Money::Currency id: usd&gt;</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+555
+556
+557</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 555</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_as_us_dollar'>as_us_dollar</span>
+  <span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="cents-instance_method">
+  
+    #<strong>cents</strong>  &#x21d2; <tt>Integer</tt>, <tt>BigDecimal</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Convenience method for fractional part of the amount. Synonym of #fractional</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>when infinite_precision is false</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>BigDecimal</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>when infinite_precision is true</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#infinite_precision-class_method" title="Money.infinite_precision (method)">infinite_precision</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cents'>cents</span>
+  <span class='id identifier rubyid_fractional'>fractional</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="currency_as_string-instance_method">
+  
+    #<strong>currency_as_string</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return string representation of currency object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='symbol'>:USD</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_currency_as_string'>currency_as_string</span> <span class='comment'>#=&gt; &quot;USD&quot;</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+402
+403
+404
+405</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 402</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_currency_as_string'>currency_as_string</span>
+  <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[DEPRECATION] `currency_as_string` is deprecated. Please use `.currency.to_s` instead.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="currency_as_string=-instance_method">
+  
+    #<strong>currency_as_string=</strong>(val)  &#x21d2; <tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Money::Currency</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set currency object using a string</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_currency_as_string'><span class='object_link'><a href="#currency_as_string-instance_method" title="Money#currency_as_string (method)">currency_as_string</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money::Currency id: cad&gt;</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The currency string.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Money::Currency</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+415
+416
+417
+418
+419</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 415</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_currency_as_string='>currency_as_string=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[DEPRECATION] `currency_as_string=` is deprecated - Money instances are immutable.</span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> Please use `with_currency` instead.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='ivar'>@currency</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="Money/Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="decimal_mark-instance_method">
+  
+    #<strong>decimal_mark</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a decimal mark according to the locale</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+650
+651
+652
+653</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 650</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_decimal_mark'>decimal_mark</span>
+  <span class='lparen'>(</span><span class='id identifier rubyid_locale_backend'>locale_backend</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_locale_backend'>locale_backend</span><span class='period'>.</span><span class='id identifier rubyid_lookup'>lookup</span><span class='lparen'>(</span><span class='symbol'>:decimal_mark</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>||</span>
+    <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Formatter.html" title="Money::Formatter (class)">Formatter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Formatter.html#DEFAULTS-constant" title="Money::Formatter::DEFAULTS (constant)">DEFAULTS</a></span></span><span class='lbracket'>[</span><span class='symbol'>:decimal_mark</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="dollars-instance_method">
+  
+    #<strong>dollars</strong>  &#x21d2; <tt>BigDecimal</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Assuming using a currency using dollars: Returns the value of the money in dollars, instead of in the fractional unit cents.</p>
+
+<p>Synonym of #amount</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>1_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_dollars'>dollars</span>   <span class='comment'># =&gt; BigDecimal(&quot;1.00&quot;)</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>BigDecimal</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#amount-instance_method" title="Money#amount (method)">#amount</a></span></li>
+    
+      <li><span class='object_link'><a href="#to_d-instance_method" title="Money#to_d (method)">#to_d</a></span></li>
+    
+      <li><span class='object_link'><a href="#cents-instance_method" title="Money#cents (method)">#cents</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+378
+379
+380</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 378</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_dollars'>dollars</span>
+  <span class='id identifier rubyid_amount'>amount</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="dup_with-instance_method">
+  
+    #<strong>dup_with</strong>(options = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+655
+656
+657
+658
+659
+660
+661</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 655</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_dup_with'>dup_with</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
+    <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:fractional</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_fractional'>fractional</span><span class='comma'>,</span>
+    <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:currency</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_currency'>currency</span><span class='comma'>,</span>
+    <span class='label'>bank:</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:bank</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_bank'>bank</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="exchange_to-instance_method">
+  
+    #<strong>exchange_to</strong>(other_currency) {|n| ... } &#x21d2; <tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Receive the amount of this money object in another Currency.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>2000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>2000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_x'>x</span><span class='op'>|</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='rbrace'>}</span>
+<span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>2000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Currency.html#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other_currency</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></tt>, <tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Currency to exchange to.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>n</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Optional block to use when rounding after exchanging one currency for another.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>n</span>
+      
+      
+        <span class='type'>(<tt>Float</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The resulting float after exchanging one currency for another.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Returns:</p>
+<ul class="yieldreturn">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+538
+539
+540
+541
+542
+543
+544
+545</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 538</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='id identifier rubyid_other_currency'>other_currency</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_rounding_method'>rounding_method</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_other_currency'>other_currency</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="Money/Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_other_currency'>other_currency</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span> <span class='op'>==</span> <span class='id identifier rubyid_other_currency'>other_currency</span>
+    <span class='kw'>self</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@bank</span><span class='period'>.</span><span class='id identifier rubyid_exchange_with'>exchange_with</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_other_currency'>other_currency</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_rounding_method'>rounding_method</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="format-instance_method">
+  
+    #<strong>format</strong>(*rules)  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Creates a formatted price string according to several rules.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rules</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>See <span class='object_link'><a href="Money/Formatter.html" title="Money::Formatter (class)">Money::Formatter</a></span> for the list of formatting options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+633
+634
+635</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 633</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_format'>format</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_rules'>rules</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Formatter.html" title="Money::Formatter (class)">Formatter</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Formatter.html#initialize-instance_method" title="Money::Formatter#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_rules'>rules</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fractional-instance_method">
+  
+    #<strong>fractional</strong>  &#x21d2; <tt>Integer</tt>, <tt>BigDecimal</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The value of the monetary amount represented in the fractional or subunit of the currency.</p>
+
+<p>For example, in the US dollar currency the fractional unit is cents, and there are 100 cents in one US dollar. So given the Money representation of one US dollar, the fractional interpretation is 100.</p>
+
+<p>Another example is that of the Kuwaiti dinar. In this case the fractional unit is the fils and there 1000 fils to one Kuwaiti dinar. So given the Money representation of one Kuwaiti dinar, the fractional interpretation is 1000.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>when infinite_precision is false</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>BigDecimal</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>when infinite_precision is true</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#infinite_precision-class_method" title="Money.infinite_precision (method)">infinite_precision</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56
+57
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 54</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fractional'>fractional</span>
+  <span class='comment'># Ensure we have a BigDecimal. If the Money object is created
+</span>  <span class='comment'># from YAML, @fractional can end up being set to a Float.
+</span>  <span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>=</span> <span class='id identifier rubyid_as_d'>as_d</span><span class='lparen'>(</span><span class='ivar'>@fractional</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_return_value'>return_value</span><span class='lparen'>(</span><span class='id identifier rubyid_fractional'>fractional</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="hash-instance_method">
+  
+    #<strong>hash</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a Integer hash value based on the <code>fractional</code> and <code>currency</code> attributes in order to use functions like &amp; (intersection), group_by, etc.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_hash'>hash</span> <span class='comment'>#=&gt; 908351</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+428
+429
+430</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 428</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_fractional'>fractional</span><span class='period'>.</span><span class='id identifier rubyid_hash'>hash</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_hash'>hash</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_hash'>hash</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inspect-instance_method">
+  
+    #<strong>inspect</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Common inspect function</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+445
+446
+447</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 445</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_inspect'>inspect</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>#&lt;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> fractional:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fractional'>fractional</span><span class='embexpr_end'>}</span><span class='tstring_content'> currency:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_currency'>currency</span><span class='embexpr_end'>}</span><span class='tstring_content'>&gt;</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="round-instance_method">
+  
+    #<strong>round</strong>(rounding_mode = self.class.rounding_mode, rounding_precision = 0)  &#x21d2; <tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>This method is only useful when operating with infinite_precision turned on. Without infinite_precision values are rounded to the smallest unit of coinage automatically.</p>
+</div>
+  </div>
+
+
+<p>Round the monetary amount to smallest unit of coinage.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='float'>10.1</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span> <span class='comment'>#=&gt; Money.new(10, &#39;USD&#39;)</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#default_infinite_precision-class_method" title="Money.default_infinite_precision (method)">default_infinite_precision</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+622
+623
+624
+625</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 622</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='id identifier rubyid_rounding_mode'>rounding_mode</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_rounding_mode'>rounding_mode</span><span class='comma'>,</span> <span class='id identifier rubyid_rounding_precision'>rounding_precision</span> <span class='op'>=</span> <span class='int'>0</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_rounded_amount'>rounded_amount</span> <span class='op'>=</span> <span class='id identifier rubyid_as_d'>as_d</span><span class='lparen'>(</span><span class='ivar'>@fractional</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='id identifier rubyid_rounding_precision'>rounding_precision</span><span class='comma'>,</span> <span class='id identifier rubyid_rounding_mode'>rounding_mode</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_dup_with'>dup_with</span><span class='lparen'>(</span><span class='label'>fractional:</span> <span class='id identifier rubyid_rounded_amount'>rounded_amount</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="round_to_nearest_cash_value-instance_method">
+  
+    #<strong>round_to_nearest_cash_value</strong>  &#x21d2; <tt>Integer</tt>, <tt>BigDecimal</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Round a given amount of money to the nearest possible amount in cash value. For example, in Swiss franc (CHF), the smallest possible amount of cash value is CHF 0.05. Therefore, this method rounds CHF 0.07 to CHF 0.05, and CHF 0.08 to CHF 0.10.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>when infinite_precision is false</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>BigDecimal</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>when infinite_precision is true</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#infinite_precision-class_method" title="Money.infinite_precision (method)">infinite_precision</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 71</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_round_to_nearest_cash_value'>round_to_nearest_cash_value</span>
+  <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_smallest_denomination'>smallest_denomination</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Money/UndefinedSmallestDenomination.html" title="Money::UndefinedSmallestDenomination (class)">UndefinedSmallestDenomination</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Smallest denomination of this currency is not defined</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>=</span> <span class='id identifier rubyid_as_d'>as_d</span><span class='lparen'>(</span><span class='ivar'>@fractional</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_smallest_denomination'>smallest_denomination</span> <span class='op'>=</span> <span class='id identifier rubyid_as_d'>as_d</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_smallest_denomination'>smallest_denomination</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_rounded_value'>rounded_value</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>/</span> <span class='id identifier rubyid_smallest_denomination'>smallest_denomination</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_rounding_mode'>rounding_mode</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='id identifier rubyid_smallest_denomination'>smallest_denomination</span>
+
+  <span class='id identifier rubyid_return_value'>return_value</span><span class='lparen'>(</span><span class='id identifier rubyid_rounded_value'>rounded_value</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="symbol-instance_method">
+  
+    #<strong>symbol</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Uses <tt>Currency#symbol</tt>. If <code>nil</code> is returned, defaults to “¤”.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_symbol'>symbol</span> <span class='comment'>#=&gt; &quot;$&quot;</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+438
+439
+440</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 438</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_symbol'>symbol</span>
+  <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>¤</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="thousands_separator-instance_method">
+  
+    #<strong>thousands_separator</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a thousands separator according to the locale</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+641
+642
+643
+644</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 641</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_thousands_separator'>thousands_separator</span>
+  <span class='lparen'>(</span><span class='id identifier rubyid_locale_backend'>locale_backend</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_locale_backend'>locale_backend</span><span class='period'>.</span><span class='id identifier rubyid_lookup'>lookup</span><span class='lparen'>(</span><span class='symbol'>:thousands_separator</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>||</span>
+    <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Formatter.html" title="Money::Formatter (class)">Formatter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Formatter.html#DEFAULTS-constant" title="Money::Formatter::DEFAULTS (constant)">DEFAULTS</a></span></span><span class='lbracket'>[</span><span class='symbol'>:thousands_separator</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_d-instance_method">
+  
+    #<strong>to_d</strong>  &#x21d2; <tt>BigDecimal</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return the amount of money as a BigDecimal.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_us_dollar'><span class='object_link'><a href="Money/Constructors.html#us_dollar-instance_method" title="Money::Constructors#us_dollar (method)">us_dollar</a></span></span><span class='lparen'>(</span><span class='int'>1_00</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_d'>to_d</span> <span class='comment'>#=&gt; BigDecimal(&quot;1.00&quot;)</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>BigDecimal</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+468
+469
+470</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 468</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_d'>to_d</span>
+  <span class='id identifier rubyid_as_d'>as_d</span><span class='lparen'>(</span><span class='id identifier rubyid_fractional'>fractional</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='id identifier rubyid_as_d'>as_d</span><span class='lparen'>(</span><span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_subunit_to_unit'>subunit_to_unit</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_f-instance_method">
+  
+    #<strong>to_f</strong>  &#x21d2; <tt>Float</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return the amount of money as a float. Floating points cannot guarantee precision. Therefore, this function should only be used when you no longer need to represent currency or working with another system that requires floats.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_us_dollar'><span class='object_link'><a href="Money/Constructors.html#us_dollar-instance_method" title="Money::Constructors#us_dollar (method)">us_dollar</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span> <span class='comment'>#=&gt; 1.0</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Float</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+491
+492
+493</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 491</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_f'>to_f</span>
+  <span class='id identifier rubyid_to_d'>to_d</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_i-instance_method">
+  
+    #<strong>to_i</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return the amount of money as a Integer.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_us_dollar'><span class='object_link'><a href="Money/Constructors.html#us_dollar-instance_method" title="Money::Constructors#us_dollar (method)">us_dollar</a></span></span><span class='lparen'>(</span><span class='int'>1_00</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='comment'>#=&gt; 1</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+478
+479
+480</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 478</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='id identifier rubyid_to_d'>to_d</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_money-instance_method">
+  
+    #<strong>to_money</strong>(given_currency = nil)  &#x21d2; <tt>self</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Conversion to <code>self</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>self</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+513
+514
+515
+516
+517
+518
+519
+520</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 513</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_money'>to_money</span><span class='lparen'>(</span><span class='id identifier rubyid_given_currency'>given_currency</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_given_currency'>given_currency</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="Money/Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_given_currency'>given_currency</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_given_currency'>given_currency</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span> <span class='op'>==</span> <span class='id identifier rubyid_given_currency'>given_currency</span>
+    <span class='kw'>self</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='id identifier rubyid_given_currency'>given_currency</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_s-instance_method">
+  
+    #<strong>to_s</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the amount of money as a string.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ca_dollar'><span class='object_link'><a href="Money/Constructors.html#ca_dollar-instance_method" title="Money::Constructors#ca_dollar (method)">ca_dollar</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='comment'>#=&gt; &quot;1.00&quot;</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+455
+456
+457
+458
+459
+460</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 455</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='id identifier rubyid_format'>format</span> <span class='label'>thousands_separator:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+         <span class='label'>no_cents_if_whole:</span> <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_decimal_places'>decimal_places</span> <span class='op'>==</span> <span class='int'>0</span><span class='comma'>,</span>
+         <span class='label'>symbol:</span> <span class='kw'>false</span><span class='comma'>,</span>
+         <span class='label'>ignore_defaults:</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="with_currency-instance_method">
+  
+    #<strong>with_currency</strong>(new_currency)  &#x21d2; <tt>self</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new Money instance in a given currency leaving the amount intact and not performing currency conversion.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_currency</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></tt>, <tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Currency of the new object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>self</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+501
+502
+503
+504
+505
+506
+507
+508</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 501</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_with_currency'>with_currency</span><span class='lparen'>(</span><span class='id identifier rubyid_new_currency'>new_currency</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_new_currency'>new_currency</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="Money/Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_new_currency'>new_currency</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_new_currency'>new_currency</span> <span class='op'>||</span> <span class='id identifier rubyid_currency'>currency</span> <span class='op'>==</span> <span class='id identifier rubyid_new_currency'>new_currency</span>
+    <span class='kw'>self</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_dup_with'>dup_with</span><span class='lparen'>(</span><span class='label'>currency:</span> <span class='id identifier rubyid_new_currency'>new_currency</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Sat Jul 12 16:26:11 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.4.1).
+</div>
+
+    </div>
+  </body>
+</html>
