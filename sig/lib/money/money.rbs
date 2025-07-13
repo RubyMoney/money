@@ -20,7 +20,6 @@ class Money
 
   @default_currency: Money::Currency
   @fractional: BigDecimal
-  @using_deprecated_default_currency: bool
 
   # Convenience method for fractional part of the amount. Synonym of #fractional
   #

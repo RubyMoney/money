@@ -141,12 +141,6 @@ class Money
   #     default value is Currency.new("USD"). The value must be a valid
   #     +Money::Currency+ instance.
   def self.default_currency
-    if @using_deprecated_default_currency
-      warn '[WARNING] The default currency will change from `USD` to `nil` in the next major release. Make ' \
-           'sure to set it explicitly using `Money.default_currency=` to avoid potential issues'
-      @using_deprecated_default_currency = false
-    end
-
     if @default_currency.nil?
       nil
     elsif @default_currency.respond_to?(:call)
@@ -157,7 +151,6 @@ class Money
   end
 
   def self.default_currency=(currency)
-    @using_deprecated_default_currency = false
     @default_currency = currency
   end
 
@@ -192,10 +185,6 @@ class Money
   def self.setup_defaults
     # Set the default bank for creating new +Money+ objects.
     self.default_bank = Bank::VariableExchange.instance
-
-    # Set the default currency for creating new +Money+ object.
-    self.default_currency = Currency.new("USD")
-    @using_deprecated_default_currency = true
 
     # Default to using i18n
     @use_i18n = true
@@ -334,7 +323,7 @@ class Money
   #   Money.new(100, "USD") #=> #<Money @fractional=100 @currency="USD">
   #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
   #
-  def initialize(obj, currency = Money.default_currency, options = {})
+  def initialize(obj, currency = nil, options = {})
     # For backwards compatibility, if options is not a Hash, treat it as a bank parameter
     unless options.is_a?(Hash)
       options = { bank: options }
