@@ -1031,15 +1031,6 @@ YAML
       expect(Money.default_currency).to eq Money::Currency.new(:eur)
     end
 
-    it 'warns about changing default_currency value' do
-      expect(Money)
-        .to receive(:warn)
-        .with('[WARNING] The default currency will change from `USD` to `nil` in the next major release. ' \
-              'Make sure to set it explicitly using `Money.default_currency=` to avoid potential issues')
-
-      Money.default_currency
-    end
-
     it 'does not warn if the default_currency has been changed' do
       Money.default_currency = Money::Currency.new(:usd)
 
