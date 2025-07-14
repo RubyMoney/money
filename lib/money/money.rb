@@ -194,7 +194,7 @@ class Money
     # Default to not using infinite precision cents
     self.default_infinite_precision = false
 
-    # Default to bankers rounding
+    # Default rounding mode toward the nearest neighbor; if the neighbors are equidistant, round away from zero
     self.rounding_mode = BigDecimal::ROUND_HALF_UP
 
     # Default the conversion of Rationals precision to 16
