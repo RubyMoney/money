@@ -168,7 +168,6 @@ class Money
 
   # @attr_writer rounding_mode Use this to specify the rounding mode
   def self.rounding_mode=(new_rounding_mode)
-    @using_deprecated_default_rounding_mode = false
     @rounding_mode = new_rounding_mode
   end
 
@@ -196,8 +195,7 @@ class Money
     self.default_infinite_precision = false
 
     # Default to bankers rounding
-    self.rounding_mode = BigDecimal::ROUND_HALF_EVEN
-    @using_deprecated_default_rounding_mode = true
+    self.rounding_mode = BigDecimal::ROUND_HALF_UP
 
     # Default the conversion of Rationals precision to 16
     self.conversion_precision = 16
@@ -211,22 +209,9 @@ class Money
 
   # Use this to return the rounding mode.
   #
-  # @param [BigDecimal::ROUND_MODE] mode
-  #
   # @return [BigDecimal::ROUND_MODE] rounding mode
-  def self.rounding_mode(mode = nil)
-    if mode
-      warn "[DEPRECATION] calling `rounding_mode` with a block is deprecated. Please use `.with_rounding_mode` instead."
-      return with_rounding_mode(mode) { yield }
-    end
-
+  def self.rounding_mode
     return Thread.current[:money_rounding_mode] if Thread.current[:money_rounding_mode]
-
-    if @using_deprecated_default_rounding_mode
-      warn '[WARNING] The default rounding mode will change from `ROUND_HALF_EVEN` to `ROUND_HALF_UP` in the ' \
-           'next major release. Set it explicitly using `Money.rounding_mode=` to avoid potential problems.'
-      @using_deprecated_default_rounding_mode = false
-    end
 
     @rounding_mode
   end
@@ -241,7 +226,7 @@ class Money
   # @return [Object] block results
   #
   # @example
-  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_UP) do
+  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_DOWN) do
   #     Money.new(1200) * BigDecimal('0.029')
   #   end
   def self.with_rounding_mode(mode)
