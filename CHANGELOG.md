@@ -6,6 +6,7 @@
 - **Breaking change**: Remove deprecated methods:
   - `Money.infinite_precision`
   - `Money.infinite_precision=`
+- **Breaking change**: Default currency is now `nil` instead of `USD`. If you want to keep the previous behavior, set `Money.default_currency = Money::Currency.find("USD")` in your initializer. Initializing a Money object will raise a `Currency::NoCurrency` if no currency is set.
 - **Potential breaking change**: Fix RSD (Serbian Dinar) formatting to be like `12.345,42 RSD`
 - **Potential breaking change**: Fix USDC decimals places from 2 to 6
 - **Potential breaking change**: Fix MGA (Malagasy Ariary) to be a zero-decimal currency (changing subunit_to_unit from 5 to 1)

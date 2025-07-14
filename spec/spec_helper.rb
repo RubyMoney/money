@@ -112,6 +112,11 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
+
+  # Code to run once before the entire test suite
+  config.before(:suite) do
+    Money.default_currency = Money::Currency.new("USD")
+  end
 end
 
 def reset_i18n
