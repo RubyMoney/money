@@ -215,10 +215,8 @@ class Money
 
   # Use this to return the rounding mode.
   #
-  # @param [BigDecimal::ROUND_MODE] mode
-  #
   # @return [BigDecimal::ROUND_MODE] rounding mode
-  def self.rounding_mode: (?untyped? mode) { () -> untyped } -> untyped
+  def self.rounding_mode: () -> untyped
 
   # Temporarily changes the rounding mode in a given block.
   #
@@ -230,7 +228,7 @@ class Money
   # @return [Object] block results
   #
   # @example
-  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_UP) do
+  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_DOWN) do
   #     Money.new(1200) * BigDecimal('0.029')
   #   end
   def self.with_rounding_mode: (untyped mode) { () -> untyped } -> untyped

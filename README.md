@@ -487,7 +487,7 @@ You can set the default rounding mode by passing one of the `BigDecimal` mode en
 ```ruby
 Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
 ```
-See [BigDecimal::ROUND_MODE](https://ruby-doc.org/stdlib-2.5.1/libdoc/bigdecimal/rdoc/BigDecimal.html#ROUND_MODE) for more information
+See [BigDecimal::ROUND_MODE](https://ruby-doc.org/3.4.1/gems/bigdecimal/BigDecimal.html#ROUND_MODE) for more information
 
 ## Ruby on Rails
 
