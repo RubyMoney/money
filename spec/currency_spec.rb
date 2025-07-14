@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Money::Currency do
+RSpec.describe Money::Currency do
   FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 1000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
 
   def register_foo(opts={})
@@ -18,6 +18,12 @@ describe Money::Currency do
   describe "UnknownCurrency" do
     it "is a subclass of ArgumentError" do
       expect(described_class::UnknownCurrency < ArgumentError).to be true
+    end
+  end
+
+  describe "NoCurrency" do
+    it "is a subclass of ArgumentError" do
+      expect(described_class::NoCurrency < ArgumentError).to be true
     end
   end
 

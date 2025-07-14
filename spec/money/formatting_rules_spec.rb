@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Money::FormattingRules do
+RSpec.describe Money::FormattingRules do
   it 'does not modify frozen rules in place' do
     expect {
       Money::FormattingRules.new(Money::Currency.new('USD'), { separator: '.' }.freeze)
