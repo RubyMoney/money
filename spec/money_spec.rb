@@ -224,17 +224,33 @@ RSpec.describe Money do
       expect(Money.from_amount(1, "USD", bank).bank).to eq bank
     end
 
-    it 'warns about rounding_mode deprecation' do
+    context 'given a currency is provided' do
+      context 'and the currency is nil' do
+        let(:currency) { nil }
+
+        it "should have the default currency" do
+          expect(Money.from_amount(1, currency).currency).to eq Money.default_currency
+        end
+      end
+    end
+  end
+
+  describe '.with_rounding_mode' do
+    it 'sets the .rounding_mode method deprecated' do
       allow(Money).to receive(:warn)
+      allow(Money).to receive(:with_rounding_mode).and_call_original
+
+      rounding_block = lambda do
+        Money.from_amount(1.999).to_d
+      end
 
       expect(Money.from_amount(1.999).to_d).to eq 2
-      expect(Money.rounding_mode(BigDecimal::ROUND_DOWN) do
-        Money.from_amount(1.999).to_d
-      end).to eq 1.99
+      expect(Money.rounding_mode(BigDecimal::ROUND_DOWN, &rounding_block)).to eq 1.99
       expect(Money)
         .to have_received(:warn)
         .with('[DEPRECATION] calling `rounding_mode` with a block is deprecated. ' \
               'Please use `.with_rounding_mode` instead.')
+      expect(Money).to have_received(:with_rounding_mode).with(BigDecimal::ROUND_DOWN, &rounding_block)
     end
 
     it 'rounds using with_rounding_mode' do
@@ -244,14 +260,77 @@ RSpec.describe Money do
       end).to eq 1.99
     end
 
-    context 'given a currency is provided' do
-      context 'and the currency is nil' do
-        let(:currency) { nil }
+    it 'allows blocks nesting' do
+      Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
+        expect(Money.rounding_mode).to eq(BigDecimal::ROUND_DOWN)
 
-        it "should have the default currency" do
-          expect(Money.from_amount(1, currency).currency).to eq Money.default_currency
+        Money.with_rounding_mode(BigDecimal::ROUND_UP) do
+          expect(Money.rounding_mode).to eq(BigDecimal::ROUND_UP)
+          expect(Money.from_amount(2.137).to_d).to eq 2.14
+        end
+
+        expect(
+          Money.rounding_mode
+        ).to eq(BigDecimal::ROUND_DOWN), 'Outer mode should be restored after inner block'
+        expect(Money.from_amount(2.137).to_d).to eq 2.13
+      end
+
+      expect(
+        Money.rounding_mode
+      ).to eq(BigDecimal::ROUND_HALF_EVEN), 'Original mode should be restored after outer block'
+      expect(Money.from_amount(2.137).to_d).to eq 2.14
+    end
+
+    it 'safely handles concurrent usage in different threads' do
+      test_value = 1.999
+      expected_down = 1.99
+      expected_up = 2.00
+
+      results = Queue.new
+
+      test_money_with_rounding_mode = lambda do |rounding_mode|
+        Thread.new do
+          Money.with_rounding_mode(rounding_mode) do
+            results.push({
+              set_rounding_mode: rounding_mode,
+              mode: Money.rounding_mode,
+              result: Money.from_amount(test_value).to_d
+            })
+
+            # Sleep to allow interleaving with other thread
+            sleep 0.01
+
+            results.push({
+              set_rounding_mode: rounding_mode,
+              mode: Money.rounding_mode,
+              result: Money.from_amount(test_value).to_d
+            })
+          end
         end
       end
+
+      [
+        test_money_with_rounding_mode.call(BigDecimal::ROUND_DOWN),
+        test_money_with_rounding_mode.call(BigDecimal::ROUND_UP)
+      ].each(&:join)
+
+      all_results = []
+      all_results << results.pop until results.empty?
+
+      round_down_results = all_results.select { |r| r[:set_rounding_mode] == BigDecimal::ROUND_DOWN }
+      round_up_results = all_results.select { |r| r[:set_rounding_mode] == BigDecimal::ROUND_UP }
+
+      round_down_results.each do |result|
+        expect(result[:mode]).to eq(BigDecimal::ROUND_DOWN)
+        expect(result[:result]).to eq(expected_down)
+      end
+
+      round_up_results.each do |result|
+        expect(result[:mode]).to eq(BigDecimal::ROUND_UP)
+        expect(result[:result]).to eq(expected_up)
+      end
+
+      expect(Money.rounding_mode).to eq(BigDecimal::ROUND_HALF_EVEN)
     end
   end
 
@@ -337,11 +416,11 @@ YAML
 
       context "with a block" do
         it "respects the rounding_mode" do
-          expect(Money.rounding_mode(BigDecimal::ROUND_DOWN) do
+          expect(Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
             Money.new(1.9).fractional
           end).to eq 1
 
-          expect(Money.rounding_mode(BigDecimal::ROUND_UP) do
+          expect(Money.with_rounding_mode(BigDecimal::ROUND_UP) do
             Money.new(1.1).fractional
           end).to eq 2
 
@@ -349,11 +428,11 @@ YAML
         end
 
         it "works for multiplication within a block" do
-          Money.rounding_mode(BigDecimal::ROUND_DOWN) do
+          Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
             expect((Money.new(1_00) * "0.019".to_d).fractional).to eq 1
           end
 
-          Money.rounding_mode(BigDecimal::ROUND_UP) do
+          Money.with_rounding_mode(BigDecimal::ROUND_UP) do
             expect((Money.new(1_00) * "0.011".to_d).fractional).to eq 2
           end
 

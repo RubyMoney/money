@@ -266,10 +266,11 @@ class Money
   #     Money.new(1200) * BigDecimal('0.029')
   #   end
   def self.with_rounding_mode(mode)
+    original_mode = Thread.current[:money_rounding_mode]
     Thread.current[:money_rounding_mode] = mode
     yield
   ensure
-    Thread.current[:money_rounding_mode] = nil
+    Thread.current[:money_rounding_mode] = original_mode
   end
 
   # Adds a new exchange rate to the default bank and return the rate.
