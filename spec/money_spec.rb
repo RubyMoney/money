@@ -349,16 +349,17 @@ RSpec.describe Money do
       custom_store = double
       bank = Money::Bank::VariableExchange.new(custom_store)
       Money.with_bank(bank) do
-        expect(custom_store).to receive(:add_rate).with("USD", "EUR", 0.5).once
+        expect(custom_store).to receive(:add_rate).with("USD", "EUR", 0.5)
         Money.add_rate("USD", "EUR", 0.5)
       end
 
-      expect(old_bank).to receive(:add_rate)
-      Money.add_rate("USD", "EUR", 0.5)
+      expect(old_bank).to receive(:add_rate).with("UAH", "NOK", 0.8)
+      Money.add_rate("UAH", "NOK", 0.8)
     end
 
     it 'safely handles concurrent usage in different threads' do
       results = []
+      results_mutex = Mutex.new
       threads = []
 
       custom_store = double
@@ -373,19 +374,22 @@ RSpec.describe Money do
             sleep(0.01)
 
             actual_bank = ::Money.default_bank
-            results << {
+            result = {
               thread_id: Thread.current.object_id,
               expected: expected_bank,
               actual: actual_bank,
               match: expected_bank == actual_bank
             }
+            results_mutex.synchronize do
+              results << result
+            end
           end
         end
       end
 
       threads.each(&:join)
       mismatches = results.reject { |r| r[:match] }
-      expect(mismatches.length).to be == 0
+      expect(mismatches.length).to be_zero
     end
   end
 
