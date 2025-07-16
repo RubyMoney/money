@@ -80,6 +80,13 @@ class Money
     return_value(rounded_value)
   end
 
+  # Round a given amount of money to the nearest possible money in cash value.
+  #
+  # @return [Money]
+  def to_nearest_cash_value
+    dup_with(fractional: round_to_nearest_cash_value)
+  end
+
   # @!attribute [r] currency
   #   @return [Currency] The money's currency.
   # @!attribute [r] bank
