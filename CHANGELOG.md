@@ -16,6 +16,7 @@
 - Add `Currency#cents_based?` to check if currency is cents-based
 - Add ability to nest `Money.with_rounding_mode` blocks
 - Allow `nil` to be used as a default_currency
+- Add ability to nest `Money.with_bank` blocks
 
 ## 6.19.0
 

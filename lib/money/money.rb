@@ -171,12 +171,35 @@ class Money
     @default_currency = currency
   end
 
+  # Modified to support thread-local bank override
   def self.default_bank
+    # Check for thread-local bank first, then fall back to global default
+    return Thread.current[:money_bank] if Thread.current[:money_bank]
+
     if @default_bank.respond_to?(:call)
       @default_bank.call
     else
       @default_bank
     end
+  end
+
+  # Thread-safe bank switching method
+  # Temporarily changes the default bank in the current thread only
+  #
+  # @param [Money::Bank::Base] bank The bank to use within the block
+  # @yield The block within which the bank will be changed
+  # @return [Object] block results
+  #
+  # @example
+  #   Money.with_bank(european_bank) do
+  #     Money.new(100, "USD").exchange_to("EUR")
+  #   end
+  def self.with_bank(bank)
+    original_bank = Thread.current[:money_bank]
+    Thread.current[:money_bank] = bank
+    yield
+  ensure
+    Thread.current[:money_bank] = original_bank
   end
 
   def self.locale_backend=(value)
