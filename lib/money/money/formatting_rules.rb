@@ -9,7 +9,6 @@ class Money
       @rules = normalize_formatting_rules(raw_rules)
 
       @rules = default_formatting_rules.merge(@rules) unless @rules[:ignore_defaults]
-      @rules = localize_formatting_rules(@rules)
       @rules = translate_formatting_rules(@rules) if @rules[:translate]
       @rules[:format] ||= determine_format_from_formatting_rules(@rules)
       @rules[:delimiter_pattern] ||= delimiter_pattern_rule(@rules)
@@ -67,14 +66,6 @@ class Money
         rules[:symbol] = I18n.t currency.iso_code, scope: "number.currency.symbol", raise: true
       rescue I18n::MissingTranslationData
         # Do nothing
-      end
-      rules
-    end
-
-    def localize_formatting_rules(rules)
-      if currency.iso_code == "JPY" && I18n.locale == :ja && rules[:format] == nil
-        rules[:symbol] = "円" unless rules[:symbol] == false
-        rules[:format] = '%n%u'
       end
       rules
     end

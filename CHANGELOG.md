@@ -6,6 +6,7 @@
 - **Potential breaking change**: Fix RSD (Serbian Dinar) formatting to be like `12.345,42 RSD`
 - **Potential breaking change**: Fix USDC decimals places from 2 to 6
 - **Potential breaking change**: Fix MGA (Malagasy Ariary) to be a zero-decimal currency (changing subunit_to_unit from 5 to 1)
+- **Potential breaking change**: Remove special handling for Japanese language only
 - Updated Armenian Dram sign and HTML entity
 - Updated the Turkmen Manat symbol and HTML entity and added disambiguation symbol for TMM
 - Expose Money::VERSION
