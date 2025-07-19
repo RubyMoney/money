@@ -35,9 +35,9 @@ class Money
 
       result = []
       remaining_amount = amount
-
+      parts_sum = parts.sum
+    
       until parts.empty? do
-        parts_sum = parts.inject(0, :+)
         part = parts.pop
 
         current_split = 0
@@ -48,6 +48,7 @@ class Money
 
         result.unshift current_split
         remaining_amount -= current_split
+        parts_sum -= part
       end
 
       result
