@@ -113,8 +113,7 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 
-  # Code to run once before the entire test suite
-  config.before(:suite) do
+  config.before(:each) do
     Money.default_currency = Money::Currency.new("USD")
   end
 end

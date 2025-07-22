@@ -72,16 +72,9 @@ RSpec.describe Money do
       end
 
       context 'without a default' do
-        around do |example|
-          default_currency = Money.default_currency
+        it 'should throw an NoCurrency Error' do
           Money.default_currency = nil
 
-          example.run
-
-          Money.default_currency = default_currency
-        end
-
-        it 'should throw an NoCurrency Error' do
           expect { money }.to raise_error(Money::Currency::NoCurrency)
         end
       end
