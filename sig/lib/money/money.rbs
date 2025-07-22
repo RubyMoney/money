@@ -24,10 +24,10 @@ class Money
 
   # Convenience method for fractional part of the amount. Synonym of #fractional
   #
-  # @return [Integer] when infinite_precision is false
-  # @return [BigDecimal] when infinite_precision is true
+  # @return [Integer] when Money.default_infinite_precision is false
+  # @return [BigDecimal] when Money.default_infinite_precision is true
   #
-  # @see infinite_precision
+  # @see Money.default_infinite_precision
   def cents: () -> (Integer | BigDecimal)
 
   # The value of the monetary amount represented in the fractional or subunit
@@ -42,10 +42,10 @@ class Money
   # Money representation of one Kuwaiti dinar, the fractional interpretation is
   # 1000.
   #
-  # @return [Integer] when infinite_precision is false
-  # @return [BigDecimal] when infinite_precision is true
+  # @return [Integer] when Money.default_infinite_precision is false
+  # @return [BigDecimal] when Money.default_infinite_precision is true
   #
-  # @see infinite_precision
+  # @see Money.default_infinite_precision
   def fractional: () -> (Integer | BigDecimal)
 
   # Round a given amount of money to the nearest possible amount in cash value. For
@@ -53,10 +53,10 @@ class Money
   # CHF 0.05. Therefore, this method rounds CHF 0.07 to CHF 0.05, and CHF 0.08 to
   # CHF 0.10.
   #
-  # @return [Integer] when infinite_precision is false
-  # @return [BigDecimal] when infinite_precision is true
+  # @return [Integer] when Money.default_infinite_precision is false
+  # @return [BigDecimal] when Money.default_infinite_precision is true
   #
-  # @see infinite_precision
+  # @see Money.default_infinite_precision
   def round_to_nearest_cash_value: () -> (Integer | BigDecimal)
 
   attr_reader currency: Currency
@@ -191,10 +191,6 @@ class Money
   attr_reader self.locale_backend: untyped
 
   attr_writer self.default_bank: untyped
-
-  def self.infinite_precision: () -> untyped
-
-  def self.infinite_precision=: (untyped value) -> untyped
 
   # @!attribute default_currency
   #   @return [Money::Currency] The default currency, which is used when
@@ -494,8 +490,8 @@ class Money
   # Round the monetary amount to smallest unit of coinage.
   #
   # @note
-  #   This method is only useful when operating with infinite_precision turned
-  #   on. Without infinite_precision values are rounded to the smallest unit of
+  #   This method is only useful when operating with Money.default_infinite_precision turned
+  #   on. Without Money.default_infinite_precision values are rounded to the smallest unit of
   #   coinage automatically.
   #
   # @return [Money]
