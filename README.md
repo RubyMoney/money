@@ -478,9 +478,9 @@ To round to the nearest cent (or anything more precise), you can use the `round`
 
 # Money
 Money.default_infinite_precision = true
-Money.from_cents(2.34567).format       #=> "$0.0234567"
+Money.from_cents(2.34567).format #=> "$0.0234567"
 Money.from_cents(2.34567).round.format #=> "$0.02"
-Money.from_cents(2.34567).round(BigDecimal::ROUND_HALF_UP, 2).format #=> "$0.0235"
+Money.from_cents(2.34567).round(BigDecimal::ROUND_DOWN, 2).format #=> "$0.0234"
 ```
 
 You can set the default rounding mode by passing one of the `BigDecimal` mode enumerables like so:
