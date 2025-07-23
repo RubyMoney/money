@@ -478,16 +478,16 @@ To round to the nearest cent (or anything more precise), you can use the `round`
 
 # Money
 Money.default_infinite_precision = true
-Money.from_cents(2.34567).format       #=> "$0.0234567"
+Money.from_cents(2.34567).format #=> "$0.0234567"
 Money.from_cents(2.34567).round.format #=> "$0.02"
-Money.from_cents(2.34567).round(BigDecimal::ROUND_HALF_UP, 2).format #=> "$0.0235"
+Money.from_cents(2.34567).round(BigDecimal::ROUND_DOWN, 2).format #=> "$0.0234"
 ```
 
 You can set the default rounding mode by passing one of the `BigDecimal` mode enumerables like so:
 ```ruby
 Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
 ```
-See [BigDecimal::ROUND_MODE](https://ruby-doc.org/stdlib-2.5.1/libdoc/bigdecimal/rdoc/BigDecimal.html#ROUND_MODE) for more information
+See [BigDecimal::ROUND_MODE](https://ruby-doc.org/3.4.1/gems/bigdecimal/BigDecimal.html#ROUND_MODE) for more information
 
 ## Ruby on Rails
 
