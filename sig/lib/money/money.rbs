@@ -250,7 +250,7 @@ class Money
   #   Money.with_bank(european_bank) do
   #     Money.new(100, "USD").exchange_to("EUR")
   #   end
-  def self.with_bank: (untyped mode) { () -> untyped } -> untyped
+  def self.with_bank: (Money::Bank::Base bank) { () -> untyped } -> untyped
 
   # Adds a new exchange rate to the default bank and return the rate.
   #
