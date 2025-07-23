@@ -7,7 +7,7 @@
   - `Money.infinite_precision`
   - `Money.infinite_precision=`
 - **Breaking change**: Default currency is now `nil` instead of `USD`. If you want to keep the previous behavior, set `Money.default_currency = Money::Currency.new("USD")` in your initializer. Initializing a Money object will raise a `Currency::NoCurrency` if no currency is set.
-- **Breaking change**: The default rounding mode has change from `BigDecimal::ROUND_HALF_EVEN` to `BigDecimal::ROUND_HALF_UP`. Set it explicitly using `Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN` to keep the previous behavior.
+- **Breaking change**: The default rounding mode has changed from `BigDecimal::ROUND_HALF_EVEN` to `BigDecimal::ROUND_HALF_UP`. Set it explicitly using `Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN` to keep the previous behavior.
 - **Potential breaking change**: Fix RSD (Serbian Dinar) formatting to be like `12.345,42 RSD`
 - **Potential breaking change**: Fix USDC decimals places from 2 to 6
 - **Potential breaking change**: Fix MGA (Malagasy Ariary) to be a zero-decimal currency (changing subunit_to_unit from 5 to 1)
