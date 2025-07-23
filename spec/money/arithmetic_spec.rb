@@ -239,7 +239,7 @@ RSpec.describe Money::Arithmetic do
       expect { Money.new(10_00) + nil }.to raise_error(TypeError, "Unsupported argument type: NilClass")
     end
 
-    it_behaves_like 'instance with custom bank', :+, Money.new(1)
+    it_behaves_like 'instance with custom bank', :+, -> { Money.new(1) }
   end
 
   describe "#-" do
@@ -270,7 +270,7 @@ RSpec.describe Money::Arithmetic do
       expect { Money.new(10_00) - nil }.to raise_error(TypeError, "Unsupported argument type: NilClass")
     end
 
-    it_behaves_like 'instance with custom bank', :-, Money.new(1)
+    it_behaves_like 'instance with custom bank', :-, -> { Money.new(1) }
   end
 
   describe "#*" do
@@ -519,7 +519,7 @@ RSpec.describe Money::Arithmetic do
       expect(special_money_class.new(10_00, "USD").divmod(special_money_class.new(4_00)).last).to be_a special_money_class
     end
 
-    it_behaves_like 'instance with custom bank', :divmod, Money.new(1)
+    it_behaves_like 'instance with custom bank', :divmod, -> { Money.new(1) }
     it_behaves_like 'instance with custom bank', :divmod, 1
   end
 
