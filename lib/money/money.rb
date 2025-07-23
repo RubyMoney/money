@@ -81,6 +81,9 @@ class Money
   end
 
   # Round a given amount of money to the nearest possible money in cash value.
+  # For example, in Swiss franc (CHF), the smallest possible amount of cash
+  # value is CHF 0.05. Therefore, this method rounds CHF 0.07 to CHF 0.05, and
+  # CHF 0.08 to CHF 0.10.
   #
   # @return [Money]
   def to_nearest_cash_value
