@@ -310,6 +310,65 @@ RSpec.describe Money do
     end
   end
 
+  describe '.with_bank' do
+    it 'fallbacks to old bank after block' do
+      old_bank = Money.default_bank
+
+      bank = Money::Bank::VariableExchange.new
+
+      Money.with_bank(bank) {}
+      expect(Money.default_bank).to eq(old_bank)
+    end
+
+    it "uses the correct bank inside block" do
+      old_bank = Money.default_bank
+      custom_store = double
+      bank = Money::Bank::VariableExchange.new(custom_store)
+      Money.with_bank(bank) do
+        expect(custom_store).to receive(:add_rate).with("USD", "EUR", 0.5)
+        Money.add_rate("USD", "EUR", 0.5)
+      end
+
+      expect(old_bank).to receive(:add_rate).with("UAH", "NOK", 0.8)
+      Money.add_rate("UAH", "NOK", 0.8)
+    end
+
+    it 'safely handles concurrent usage in different threads' do
+      results = []
+      results_mutex = Mutex.new
+      threads = []
+
+      custom_store = double
+      custom_bank = Money::Bank::VariableExchange.new(custom_store)
+
+      2.times do |i|
+        threads << Thread.new do
+          bank_to_use = custom_bank
+          expected_bank = custom_bank
+
+          Money.with_bank(bank_to_use) do
+            sleep(0.01)
+
+            actual_bank = ::Money.default_bank
+            result = {
+              thread_id: Thread.current.object_id,
+              expected: expected_bank,
+              actual: actual_bank,
+              match: expected_bank == actual_bank
+            }
+            results_mutex.synchronize do
+              results << result
+            end
+          end
+        end
+      end
+
+      threads.each(&:join)
+      mismatches = results.reject { |r| r[:match] }
+      expect(mismatches.length).to be_zero
+    end
+  end
+
   %w[cents pence].each do |units|
     describe "##{units}" do
       it "is a synonym of #fractional" do

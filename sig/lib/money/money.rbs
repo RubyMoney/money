@@ -233,6 +233,18 @@ class Money
   #   end
   def self.with_rounding_mode: (untyped mode) { () -> untyped } -> untyped
 
+  # Temporarily changes the default bank in the current thread only
+  #
+  # @param [Money::Bank::Base] bank The bank to use within the block
+  # @yield The block within which the bank will be changed
+  # @return [Object] block results
+  #
+  # @example
+  #   Money.with_bank(european_bank) do
+  #     Money.new(100, "USD").exchange_to("EUR")
+  #   end
+  def self.with_bank: (Money::Bank::Base bank) { () -> untyped } -> untyped
+
   # Adds a new exchange rate to the default bank and return the rate.
   #
   # @param [Currency, String, Symbol] from_currency Currency to exchange from.
