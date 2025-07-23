@@ -72,16 +72,9 @@ RSpec.describe Money do
       end
 
       context 'without a default' do
-        around do |example|
-          default_currency = Money.default_currency
+        it 'should throw an NoCurrency Error' do
           Money.default_currency = nil
 
-          example.run
-
-          Money.default_currency = default_currency
-        end
-
-        it 'should throw an NoCurrency Error' do
           expect { money }.to raise_error(Money::Currency::NoCurrency)
         end
       end
@@ -236,23 +229,6 @@ RSpec.describe Money do
   end
 
   describe '.with_rounding_mode' do
-    it 'sets the .rounding_mode method deprecated' do
-      allow(Money).to receive(:warn)
-      allow(Money).to receive(:with_rounding_mode).and_call_original
-
-      rounding_block = lambda do
-        Money.from_amount(1.999).to_d
-      end
-
-      expect(Money.from_amount(1.999).to_d).to eq 2
-      expect(Money.rounding_mode(BigDecimal::ROUND_DOWN, &rounding_block)).to eq 1.99
-      expect(Money)
-        .to have_received(:warn)
-        .with('[DEPRECATION] calling `rounding_mode` with a block is deprecated. ' \
-              'Please use `.with_rounding_mode` instead.')
-      expect(Money).to have_received(:with_rounding_mode).with(BigDecimal::ROUND_DOWN, &rounding_block)
-    end
-
     it 'rounds using with_rounding_mode' do
       expect(Money.from_amount(1.999).to_d).to eq 2
       expect(Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
@@ -277,7 +253,7 @@ RSpec.describe Money do
 
       expect(
         Money.rounding_mode
-      ).to eq(BigDecimal::ROUND_HALF_EVEN), 'Original mode should be restored after outer block'
+      ).to eq(BigDecimal::ROUND_HALF_UP), 'Original mode should be restored after outer block'
       expect(Money.from_amount(2.137).to_d).to eq 2.14
     end
 
@@ -330,7 +306,7 @@ RSpec.describe Money do
         expect(result[:result]).to eq(expected_up)
       end
 
-      expect(Money.rounding_mode).to eq(BigDecimal::ROUND_HALF_EVEN)
+      expect(Money.rounding_mode).to eq(BigDecimal::ROUND_HALF_UP)
     end
   end
 
@@ -424,7 +400,7 @@ YAML
             Money.new(1.1).fractional
           end).to eq 2
 
-          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_EVEN
+          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_UP
         end
 
         it "works for multiplication within a block" do
@@ -436,7 +412,7 @@ YAML
             expect((Money.new(1_00) * "0.011".to_d).fractional).to eq 2
           end
 
-          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_EVEN
+          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_UP
         end
       end
     end
@@ -1061,41 +1037,11 @@ YAML
       expect(Money.default_currency).to eq Money::Currency.new(:eur)
     end
 
-    it 'warns about changing default_currency value' do
-      expect(Money)
-        .to receive(:warn)
-        .with('[WARNING] The default currency will change from `USD` to `nil` in the next major release. ' \
-              'Make sure to set it explicitly using `Money.default_currency=` to avoid potential issues')
-
-      Money.default_currency
-    end
-
     it 'does not warn if the default_currency has been changed' do
       Money.default_currency = Money::Currency.new(:usd)
 
       expect(Money).not_to receive(:warn)
       Money.default_currency
-    end
-  end
-
-  describe ".rounding_mode" do
-    before { Money.setup_defaults }
-    after { Money.setup_defaults }
-
-    it 'warns about changing default rounding_mode value' do
-      expect(Money)
-        .to receive(:warn)
-        .with('[WARNING] The default rounding mode will change from `ROUND_HALF_EVEN` to `ROUND_HALF_UP` in ' \
-              'the next major release. Set it explicitly using `Money.rounding_mode=` to avoid potential problems.')
-
-      Money.rounding_mode
-    end
-
-    it 'does not warn if the default rounding_mode has been changed' do
-      Money.rounding_mode = BigDecimal::ROUND_HALF_UP
-
-      expect(Money).not_to receive(:warn)
-      Money.rounding_mode
     end
   end
 

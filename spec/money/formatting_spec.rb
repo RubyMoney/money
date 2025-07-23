@@ -145,7 +145,8 @@ RSpec.describe Money, "formatting" do
 
       it "formats Japanese currency in Japanese properly" do
         money = Money.new(1000, "JPY")
-        expect(money.format).to eq "1,000円"
+        expect(money.format).to eq "¥1,000"
+        expect(money.format(format: "%n%u", symbol: "円")).to eq "1,000円"
         expect(money.format(symbol: false)).to eq "1,000"
         expect(money.format(format: "%u%n")).to eq "¥1,000"
       end

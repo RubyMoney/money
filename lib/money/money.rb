@@ -140,16 +140,6 @@ class Money
     attr_accessor :default_formatting_rules, :default_infinite_precision, :conversion_precision
     attr_reader :use_i18n, :locale_backend
     attr_writer :default_bank
-
-    def infinite_precision
-      warn '[DEPRECATION] `Money.infinite_precision` is deprecated - use `Money.default_infinite_precision` instead'
-      default_infinite_precision
-    end
-
-    def infinite_precision=(value)
-      warn '[DEPRECATION] `Money.infinite_precision=` is deprecated - use `Money.default_infinite_precision= ` instead'
-      self.default_infinite_precision = value
-    end
   end
 
   # @!attribute default_currency
@@ -158,12 +148,6 @@ class Money
   #     default value is Currency.new("USD"). The value must be a valid
   #     +Money::Currency+ instance.
   def self.default_currency
-    if @using_deprecated_default_currency
-      warn '[WARNING] The default currency will change from `USD` to `nil` in the next major release. Make ' \
-           'sure to set it explicitly using `Money.default_currency=` to avoid potential issues'
-      @using_deprecated_default_currency = false
-    end
-
     if @default_currency.nil?
       nil
     elsif @default_currency.respond_to?(:call)
@@ -174,7 +158,6 @@ class Money
   end
 
   def self.default_currency=(currency)
-    @using_deprecated_default_currency = false
     @default_currency = currency
   end
 
@@ -192,7 +175,6 @@ class Money
 
   # @attr_writer rounding_mode Use this to specify the rounding mode
   def self.rounding_mode=(new_rounding_mode)
-    @using_deprecated_default_rounding_mode = false
     @rounding_mode = new_rounding_mode
   end
 
@@ -210,10 +192,6 @@ class Money
     # Set the default bank for creating new +Money+ objects.
     self.default_bank = Bank::VariableExchange.instance
 
-    # Set the default currency for creating new +Money+ object.
-    self.default_currency = Currency.new("USD")
-    @using_deprecated_default_currency = true
-
     # Default to using i18n
     @use_i18n = true
 
@@ -223,9 +201,8 @@ class Money
     # Default to not using infinite precision cents
     self.default_infinite_precision = false
 
-    # Default to bankers rounding
-    self.rounding_mode = BigDecimal::ROUND_HALF_EVEN
-    @using_deprecated_default_rounding_mode = true
+    # Default rounding mode toward the nearest neighbor; if the neighbors are equidistant, round away from zero
+    self.rounding_mode = BigDecimal::ROUND_HALF_UP
 
     # Default the conversion of Rationals precision to 16
     self.conversion_precision = 16
@@ -239,22 +216,9 @@ class Money
 
   # Use this to return the rounding mode.
   #
-  # @param [BigDecimal::ROUND_MODE] mode
-  #
   # @return [BigDecimal::ROUND_MODE] rounding mode
-  def self.rounding_mode(mode = nil)
-    if mode
-      warn "[DEPRECATION] calling `rounding_mode` with a block is deprecated. Please use `.with_rounding_mode` instead."
-      return with_rounding_mode(mode) { yield }
-    end
-
+  def self.rounding_mode
     return Thread.current[:money_rounding_mode] if Thread.current[:money_rounding_mode]
-
-    if @using_deprecated_default_rounding_mode
-      warn '[WARNING] The default rounding mode will change from `ROUND_HALF_EVEN` to `ROUND_HALF_UP` in the ' \
-           'next major release. Set it explicitly using `Money.rounding_mode=` to avoid potential problems.'
-      @using_deprecated_default_rounding_mode = false
-    end
 
     @rounding_mode
   end
@@ -269,7 +233,7 @@ class Money
   # @return [Object] block results
   #
   # @example
-  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_UP) do
+  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_DOWN) do
   #     Money.new(1200) * BigDecimal('0.029')
   #   end
   def self.with_rounding_mode(mode)
@@ -351,7 +315,7 @@ class Money
   #   Money.new(100, "USD") #=> #<Money @fractional=100 @currency="USD">
   #   Money.new(100, "EUR") #=> #<Money @fractional=100 @currency="EUR">
   #
-  def initialize(obj, currency = Money.default_currency, options = {})
+  def initialize(obj, currency = nil, options = {})
     # For backwards compatibility, if options is not a Hash, treat it as a bank parameter
     unless options.is_a?(Hash)
       options = { bank: options }
