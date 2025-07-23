@@ -69,15 +69,10 @@ class Money
   #
   # @see infinite_precision
   def round_to_nearest_cash_value
-    unless self.currency.smallest_denomination
-      raise UndefinedSmallestDenomination, 'Smallest denomination of this currency is not defined'
-    end
+    warn "[DEPRECATION] `round_to_nearest_cash_value` is deprecated - use " \
+         "`to_nearest_cash_value.fractional` instead"
 
-    fractional = as_d(@fractional)
-    smallest_denomination = as_d(self.currency.smallest_denomination)
-    rounded_value = (fractional / smallest_denomination).round(0, self.class.rounding_mode) * smallest_denomination
-
-    return_value(rounded_value)
+    to_nearest_cash_value.fractional
   end
 
   # Round a given amount of money to the nearest possible money in cash value.
@@ -87,7 +82,18 @@ class Money
   #
   # @return [Money]
   def to_nearest_cash_value
-    dup_with(fractional: round_to_nearest_cash_value)
+    unless self.currency.smallest_denomination
+      raise UndefinedSmallestDenomination,
+            "Smallest denomination of this currency is not defined"
+    end
+
+    fractional = as_d(@fractional)
+    smallest_denomination = as_d(self.currency.smallest_denomination)
+    rounded_value =
+      (fractional / smallest_denomination)
+        .round(0, self.class.rounding_mode) * smallest_denomination
+
+    dup_with(fractional: return_value(rounded_value))
   end
 
   # @!attribute [r] currency
