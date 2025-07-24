@@ -471,7 +471,7 @@ Money.from_amount(2.34567).format #=> "$2.34567"
 
 To round to the nearest cent (or anything more precise), you can use the `round` method. However, note that the `round` method on a `Money` object does not work the same way as a normal Ruby `Float` object. Money's `round` method accepts different arguments. The first argument to the round method is the rounding mode, while the second argument is the level of precision relative to the cent.
 
-```
+```ruby
 # Float
 2.34567.round     #=> 2
 2.34567.round(2)  #=> 2.35
@@ -484,10 +484,18 @@ Money.from_cents(2.34567).round(BigDecimal::ROUND_DOWN, 2).format #=> "$0.0234"
 ```
 
 You can set the default rounding mode by passing one of the `BigDecimal` mode enumerables like so:
+
 ```ruby
 Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
 ```
-See [BigDecimal::ROUND_MODE](https://ruby-doc.org/3.4.1/gems/bigdecimal/BigDecimal.html#ROUND_MODE) for more information
+
+See [BigDecimal::ROUND_MODE](https://ruby-doc.org/3.4.1/gems/bigdecimal/BigDecimal.html#ROUND_MODE) for more information.
+
+To round to the nearest cash value in currencies without small denominations:
+
+```ruby
+Money.from_cents(11_11, "CHF").to_nearest_cash_value.format # => "CHF 11.10"
+```
 
 ## Ruby on Rails
 
@@ -527,7 +535,7 @@ This will work seamlessly with [rails-i18n](https://github.com/svenfuchs/rails-i
 
 If you wish to disable this feature and use defaults instead:
 
-``` ruby
+```ruby
 Money.locale_backend = nil
 ```
 

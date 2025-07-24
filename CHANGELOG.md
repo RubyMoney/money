@@ -19,7 +19,9 @@
 - Add Zimbabwe Gold (ZWG) currency
 - Update thousands_separator for CHF
 - Add Caribbean Guilder (XCG) as replacement for Netherlands Antillean Gulden (ANG)
-- Add `Currency#cents_based?` to check if currency is cents-based
+- Add `Money#to_nearest_cash_value` to return a rounded Money instance to the smallest denomination
+- Deprecate `Money#round_to_nearest_cash_value` in favor of calling `to_nearest_cash_value.fractional`
+- Add `Money::Currency#cents_based?` to check if currency is cents-based
 - Add ability to nest `Money.with_rounding_mode` blocks
 - Allow `nil` to be used as a default_currency
 - Add ability to nest `Money.with_bank` blocks

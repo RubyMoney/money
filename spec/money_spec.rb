@@ -562,6 +562,36 @@ YAML
     end
   end
 
+  describe "#to_nearest_cash_value" do
+    it "rounds to the nearest possible cash value" do
+      expect(Money.new(23_50, "AED").to_nearest_cash_value).to eq(Money.new(23_50, "AED"))
+      expect(Money.new(-23_50, "AED").to_nearest_cash_value).to eq(Money.new(-23_50, "AED"))
+      expect(Money.new(22_13, "AED").to_nearest_cash_value).to eq(Money.new(22_25, "AED"))
+      expect(Money.new(-22_13, "AED").to_nearest_cash_value).to eq(Money.new(-22_25, "AED"))
+      expect(Money.new(22_12, "AED").to_nearest_cash_value).to eq(Money.new(22_00, "AED"))
+      expect(Money.new(-22_12, "AED").to_nearest_cash_value).to eq(Money.new(-22_00, "AED"))
+
+      expect(Money.new(1_78, "CHF").to_nearest_cash_value).to eq(Money.new(1_80, "CHF"))
+      expect(Money.new(-1_78, "CHF").to_nearest_cash_value).to eq(Money.new(-1_80, "CHF"))
+      expect(Money.new(1_77, "CHF").to_nearest_cash_value).to eq(Money.new(1_75, "CHF"))
+      expect(Money.new(-1_77, "CHF").to_nearest_cash_value).to eq(Money.new(-1_75, "CHF"))
+      expect(Money.new(1_75, "CHF").to_nearest_cash_value).to eq(Money.new(1_75, "CHF"))
+      expect(Money.new(-1_75, "CHF").to_nearest_cash_value).to eq(Money.new(-1_75, "CHF"))
+
+      expect(Money.new(2_99, "USD").to_nearest_cash_value).to eq(Money.new(2_99, "USD"))
+      expect(Money.new(-2_99, "USD").to_nearest_cash_value).to eq(Money.new(-2_99, "USD"))
+      expect(Money.new(3_00, "USD").to_nearest_cash_value).to eq(Money.new(3_00, "USD"))
+      expect(Money.new(-3_00, "USD").to_nearest_cash_value).to eq(Money.new(-3_00, "USD"))
+      expect(Money.new( 3_01, "USD").to_nearest_cash_value).to eq(Money.new(3_01, "USD"))
+      expect(Money.new(-3_01, "USD").to_nearest_cash_value).to eq(Money.new(-3_01, "USD"))
+    end
+
+    it "raises an error if smallest denomination is not defined" do
+      expect {Money.new(1_00, "XAG").to_nearest_cash_value}
+        .to raise_error(Money::UndefinedSmallestDenomination)
+    end
+  end
+
   describe "#amount" do
     it "returns the amount of cents as dollars" do
       expect(Money.new(1_00).amount).to eq 1
