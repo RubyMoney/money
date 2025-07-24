@@ -346,24 +346,6 @@ class Money
   #
   def amount: () -> BigDecimal
 
-  # Return string representation of currency object
-  #
-  # @return [String]
-  #
-  # @example
-  #   Money.new(100, :USD).currency_as_string #=> "USD"
-  def currency_as_string: () -> string
-
-  # Set currency object using a string
-  #
-  # @param [String] val The currency string.
-  #
-  # @return [Money::Currency]
-  #
-  # @example
-  #   Money.new(100).currency_as_string("CAD") #=> #<Money::Currency id: cad>
-  def currency_as_string=: (string val) -> Currency
-
   # Returns a Integer hash value based on the +fractional+ and +currency+ attributes
   # in order to use functions like & (intersection), group_by, etc.
   #
