@@ -54,7 +54,7 @@ The development version (hosted on Github) can be installed with:
 
 ## Usage
 
-``` ruby
+```ruby
 require 'money'
 
 # explicitly define locales
@@ -102,7 +102,7 @@ Currencies are consistently represented as instances of `Money::Currency`.
 The most part of `Money` APIs allows you to supply either a `String` or a
 `Money::Currency`.
 
-``` ruby
+```ruby
 Money.from_cents(1000, "USD") == Money.from_cents(1000, Money::Currency.new("USD"))
 Money.from_cents(1000, "EUR").currency == Money::Currency.new("EUR")
 ```
@@ -110,7 +110,7 @@ Money.from_cents(1000, "EUR").currency == Money::Currency.new("EUR")
 A `Money::Currency` instance holds all the information about the currency,
 including the currency symbol, name and much more.
 
-``` ruby
+```ruby
 currency = Money.from_cents(1000, "USD").currency
 currency.iso_code     #=> "USD"
 currency.name         #=> "United States Dollar"
@@ -120,7 +120,7 @@ currency.cents_based? #=> true
 To define a new `Money::Currency` use `Money::Currency.register` as shown
 below.
 
-``` ruby
+```ruby
 curr = {
   priority:            1,
   iso_code:            "USD",
@@ -164,7 +164,7 @@ selector like the one available
 custom methods to return the list of major currencies and all currencies as
 follows:
 
-``` ruby
+```ruby
 # Returns an array of currency id where
 # priority < 10
 def major_currencies(hash)
@@ -194,7 +194,7 @@ all_currencies(Money::Currency.table)
 
 A default currency is not set by default. If a default currency is not set, it will raise an error when you try to initialize a `Money` object without explicitly passing a currency or parse a string that does not contain a currency. You can set a default currency for your application by using:
 
-``` ruby
+```ruby
 Money.default_currency = Money::Currency.new("CAD")
 ```
 
@@ -207,7 +207,7 @@ separator (which separates the major unit from the minor unit). See e.g.
 [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html) for more
 information. You can find the exponent (as an `Integer`) by
 
-``` ruby
+```ruby
 Money::Currency.new("USD").exponent  # => 2
 Money::Currency.new("JPY").exponent  # => 0
 Money::Currency.new("MGA").exponent  # => 1
@@ -217,7 +217,7 @@ Money::Currency.new("MGA").exponent  # => 1
 
 To find a given currency by ISO 4217 numeric code (three digits) you can do
 
-``` ruby
+```ruby
 Money::Currency.find_by_iso_numeric(978) #=> Money::Currency.new(:eur)
 ```
 
@@ -227,7 +227,7 @@ Exchanging money is performed through an exchange bank object. The default
 exchange bank object requires one to manually specify the exchange rate. Here's
 an example of how it works:
 
-``` ruby
+```ruby
 Money.add_rate("USD", "CAD", 1.24515)
 Money.add_rate("CAD", "USD", 0.803115)
 
@@ -237,7 +237,7 @@ Money.ca_dollar(100).exchange_to("USD")  # => Money.from_cents(80, "USD")
 
 Comparison and arithmetic operations work as expected:
 
-``` ruby
+```ruby
 Money.from_cents(1000, "USD") <=> Money.from_cents(900, "USD")   # => 1; 9.00 USD is smaller
 Money.from_cents(1000, "EUR") + Money.from_cents(10, "EUR") == Money.from_cents(1010, "EUR")
 
@@ -345,7 +345,6 @@ end
 The following example implements a `Redis` store to save exchange rates to a redis database.
 
 ```ruby
-
 class RedisRateStore
   INDEX_KEY_SEPARATOR = '_TO_'.freeze
 
@@ -409,7 +408,7 @@ Money.from_cents(1000, 'USD').exchange_to('CAD') #=> #<Money fractional:900 curr
 There is nothing stopping you from creating store objects which scrapes
 [XE](https://www.xe.com) for the current rates or just returns `rand(2)`:
 
-``` ruby
+```ruby
 Money.default_bank = Money::Bank::VariableExchange.new(StoreWhichScrapesXeDotCom.new)
 ```
 
@@ -423,7 +422,7 @@ Money.default_bank = MyCustomBank.new(Money::RatesStore::Memory.new)
 If you wish to disable automatic currency conversion to prevent arithmetic when
 currencies don't match:
 
-``` ruby
+```ruby
 Money.disallow_currency_conversion!
 ```
 
@@ -603,7 +602,7 @@ If you don't have some locale and don't want to get a runtime error such as:
     I18n::InvalidLocale: :en is not a valid locale
 
 Set the following:
-``` ruby
+```ruby
 I18n.enforce_available_locales = false
 ```
 
