@@ -2,10 +2,12 @@
 
 ## Upcoming 7.0.0.alpha
 
-- **Breaking change**: Require Ruby >= 3.1 and I18n ~> 1.9
+- **Breaking change**: Require Ruby >= 3.1 and i18n ~> 1.9
 - **Breaking change**: Remove deprecated methods:
-  - `Money.infinite_precision`
-  - `Money.infinite_precision=`
+  - `Money.infinite_precision`.
+  - `Money.infinite_precision=`.
+  - `Money#currency_as_string`.
+  - `Money#currency_as_string=`.
 - **Breaking change**: Default currency is now `nil` instead of `USD`. If you want to keep the previous behavior, set `Money.default_currency = Money::Currency.new("USD")` in your initializer. Initializing a Money object will raise a `Currency::NoCurrency` if no currency is set.
 - **Breaking change**: The default rounding mode has changed from `BigDecimal::ROUND_HALF_EVEN` to `BigDecimal::ROUND_HALF_UP`. Set it explicitly using `Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN` to keep the previous behavior.
 - **Potential breaking change**: Fix RSD (Serbian Dinar) formatting to be like `12.345,42 RSD`
