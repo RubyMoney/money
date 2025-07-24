@@ -3,6 +3,12 @@
 ## Upcoming 7.0.0.alpha
 
 - **Breaking change**: Require Ruby >= 3.1 and i18n ~> 1.9
+- **Breaking change**: Remove deprecated formatting rules:
+  - `:html`
+  - `:html_wrap_symbol`
+  - `:symbol_position`
+  - `:symbol_before_without_space`
+  - `:symbol_after_without_space`
 - **Breaking change**: Remove deprecated methods:
   - `Money.infinite_precision`.
   - `Money.infinite_precision=`.
