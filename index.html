@@ -59,12 +59,12 @@
 
       <div id="content"><div id='filecontents'><h1 id="rubymoney---money">RubyMoney - Money</h1>
 
-<p><a href="https://rubygems.org/gems/money"><img src="https://badge.fury.io/rb/money.svg" alt="Gem Version"></a>
-<a href="https://github.com/RubyMoney/money/actions/workflows/ruby.yml"><img src="https://github.com/RubyMoney/money/actions/workflows/ruby.yml/badge.svg" alt="Ruby"></a>
-<a href="https://inch-ci.org/github/RubyMoney/money"><img src="https://inch-ci.org/github/RubyMoney/money.svg" alt="Inline docs"></a>
-<a href="https://opensource.org/license/MIT"><img src="https://img.shields.io/github/license/RubyMoney/money.svg" alt="License"></a></p>
+<p><a href="https://rubygems.org/gems/money"><img src="https://badge.fury.io/rb/money.svg" alt="Gem Version" /></a>
+<a href="https://github.com/RubyMoney/money/actions/workflows/ruby.yml"><img src="https://github.com/RubyMoney/money/actions/workflows/ruby.yml/badge.svg" alt="Ruby" /></a>
+<a href="https://inch-ci.org/github/RubyMoney/money"><img src="https://inch-ci.org/github/RubyMoney/money.svg" alt="Inline docs" /></a>
+<a href="https://opensource.org/license/MIT"><img src="https://img.shields.io/github/license/RubyMoney/money.svg" alt="License" /></a></p>
 
-<p>⚠️  Please read the <a href="#migration-notes">migration notes</a> before upgrading to a new major version.</p>
+<p>⚠️ Please read the <a href="#migration-notes">migration notes</a> before upgrading to a new major version.</p>
 
 <p>If you miss String parsing, check out the new <a href="https://github.com/RubyMoney/monetize">monetize gem</a>.</p>
 
@@ -79,29 +79,29 @@
 <h3 id="features">Features</h3>
 
 <ul>
-<li>Provides a <code>Money</code> class which encapsulates all information about a certain
+  <li>Provides a <code>Money</code> class which encapsulates all information about a certain
 amount of money, such as its value and its currency.</li>
-<li>Provides a <code>Money::Currency</code> class which encapsulates all information about
+  <li>Provides a <code>Money::Currency</code> class which encapsulates all information about
 a monetary unit.</li>
-<li>Represents monetary values as integers, in cents. This avoids floating point
+  <li>Represents monetary values as integers, in cents. This avoids floating point
 rounding errors.</li>
-<li>Represents currency as <code>Money::Currency</code> instances providing a high level of
+  <li>Represents currency as <code>Money::Currency</code> instances providing a high level of
 flexibility.</li>
-<li>Provides APIs for exchanging money from one currency to another.</li>
+  <li>Provides APIs for exchanging money from one currency to another.</li>
 </ul>
 
 <h3 id="resources">Resources</h3>
 
 <ul>
-<li><a href="https://rubymoney.github.io/money/">Website</a></li>
-<li><a href="https://www.rubydoc.info/gems/money/frames">API Documentation</a></li>
-<li><a href="https://github.com/RubyMoney/money">Git Repository</a></li>
+  <li><a href="https://rubymoney.github.io/money/">Website</a></li>
+  <li><a href="https://www.rubydoc.info/gems/money/frames">API Documentation</a></li>
+  <li><a href="https://github.com/RubyMoney/money">Git Repository</a></li>
 </ul>
 
 <h3 id="notes">Notes</h3>
 
 <ul>
-<li>Your app must use UTF-8 to function with this library. There are a
+  <li>Your app must use UTF-8 to function with this library. There are a
 number of non-ASCII currency attributes.</li>
 </ul>
 
@@ -121,46 +121,47 @@ rake install
 
 <h2 id="usage">Usage</h2>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>money</span><span class='tstring_end'>&#39;</span></span>
+<p>``` ruby
+require ‘money’</p>
 
-<span class='comment'># explicitly define locales
-</span><span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_available_locales'>available_locales</span> <span class='op'>=</span> <span class='symbol'>:en</span>
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_locale_backend'><span class='object_link'><a href="Money.html#locale_backend-class_method" title="Money.locale_backend (method)">locale_backend</a></span></span> <span class='op'>=</span> <span class='symbol'>:i18n</span>
+<h1 id="explicitly-define-locales">explicitly define locales</h1>
+<p>I18n.config.available_locales = :en
+Money.locale_backend = :i18n</p>
 
-<span class='comment'># 10.00 USD
-</span><span class='id identifier rubyid_money'>money</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-<span class='id identifier rubyid_money'>money</span><span class='period'>.</span><span class='id identifier rubyid_cents'>cents</span>     <span class='comment'>#=&gt; 1000
-</span><span class='id identifier rubyid_money'>money</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span>  <span class='comment'>#=&gt; Currency.new(&quot;USD&quot;)
-</span>
-<span class='comment'># Comparisons
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>   <span class='comment'>#=&gt; true
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>    <span class='comment'>#=&gt; false
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>   <span class='comment'>#=&gt; false
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>!=</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>   <span class='comment'>#=&gt; true
-</span>
-<span class='comment'># Arithmetic
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>500</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1500</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>-</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>200</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>800</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>/</span> <span class='int'>5</span>                            <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>200</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>*</span> <span class='int'>5</span>                            <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>5000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<h1 id="usd">10.00 USD</h1>
+<p>money = Money.from_cents(1000, “USD”)
+money.cents     #=&gt; 1000
+money.currency  #=&gt; Currency.new(“USD”)</p>
 
-<span class='comment'># Unit to subunit conversions
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_amount'><span class='object_link'><a href="Money.html#from_amount-class_method" title="Money.from_amount (method)">from_amount</a></span></span><span class='lparen'>(</span><span class='int'>5</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>500</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>  <span class='comment'># 5 USD
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_amount'><span class='object_link'><a href="Money.html#from_amount-class_method" title="Money.from_amount (method)">from_amount</a></span></span><span class='lparen'>(</span><span class='int'>5</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>JPY</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>5</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>JPY</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>    <span class='comment'># 5 JPY
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_amount'><span class='object_link'><a href="Money.html#from_amount-class_method" title="Money.from_amount (method)">from_amount</a></span></span><span class='lparen'>(</span><span class='int'>5</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>TND</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>5000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>TND</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'># 5 TND
-</span>
-<span class='comment'># Currency conversions
-</span><span class='id identifier rubyid_some_code_to_setup_exchange_rates'>some_code_to_setup_exchange_rates</span>
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='id identifier rubyid_some_value'>some_value</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<h1 id="comparisons">Comparisons</h1>
+<p>Money.from_cents(1000, “USD”) == Money.from_cents(1000, “USD”)   #=&gt; true
+Money.from_cents(1000, “USD”) == Money.from_cents(100, “USD”)    #=&gt; false
+Money.from_cents(1000, “USD”) == Money.from_cents(1000, “EUR”)   #=&gt; false
+Money.from_cents(1000, “USD”) != Money.from_cents(1000, “EUR”)   #=&gt; true</p>
 
-<span class='comment'># Swap currency
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_with_currency'>with_currency</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<h1 id="arithmetic">Arithmetic</h1>
+<p>Money.from_cents(1000, “USD”) + Money.from_cents(500, “USD”) == Money.from_cents(1500, “USD”)
+Money.from_cents(1000, “USD”) - Money.from_cents(200, “USD”) == Money.from_cents(800, “USD”)
+Money.from_cents(1000, “USD”) / 5                            == Money.from_cents(200, “USD”)
+Money.from_cents(1000, “USD”) * 5                            == Money.from_cents(5000, “USD”)</p>
 
-<span class='comment'># Formatting (see Formatting section for more options)
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span> <span class='comment'>#=&gt; &quot;$1.00&quot;
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GBP</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span> <span class='comment'>#=&gt; &quot;£1.00&quot;
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span> <span class='comment'>#=&gt; &quot;€1.00&quot;
-</span></code></pre>
+<h1 id="unit-to-subunit-conversions">Unit to subunit conversions</h1>
+<p>Money.from_amount(5, “USD”) == Money.from_cents(500, “USD”)  # 5 USD
+Money.from_amount(5, “JPY”) == Money.from_cents(5, “JPY”)    # 5 JPY
+Money.from_amount(5, “TND”) == Money.from_cents(5000, “TND”) # 5 TND</p>
+
+<h1 id="currency-conversions">Currency conversions</h1>
+<p>some_code_to_setup_exchange_rates
+Money.from_cents(1000, “USD”).exchange_to(“EUR”) == Money.from_cents(some_value, “EUR”)</p>
+
+<h1 id="swap-currency">Swap currency</h1>
+<p>Money.from_cents(1000, “USD”).with_currency(“EUR”) == Money.from_cents(1000, “EUR”)</p>
+
+<h1 id="formatting-see-formatting-section-for-more-options">Formatting (see Formatting section for more options)</h1>
+<p>Money.from_cents(100, “USD”).format #=&gt; “$1.00”
+Money.from_cents(100, “GBP”).format #=&gt; “£1.00”
+Money.from_cents(100, “EUR”).format #=&gt; “€1.00”
+```</p>
 
 <h2 id="currency">Currency</h2>
 
@@ -168,49 +169,52 @@ rake install
 The most part of <code>Money</code> APIs allows you to supply either a <code>String</code> or a
 <code>Money::Currency</code>.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Currency.html#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Currency.html#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-</code></pre>
+<p><code>ruby
+Money.from_cents(1000, "USD") == Money.from_cents(1000, Money::Currency.new("USD"))
+Money.from_cents(1000, "EUR").currency == Money::Currency.new("EUR")
+</code></p>
 
 <p>A <code>Money::Currency</code> instance holds all the information about the currency,
 including the currency symbol, name and much more.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_currency'>currency</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span>
-<span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_iso_code'>iso_code</span>     <span class='comment'>#=&gt; &quot;USD&quot;
-</span><span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>         <span class='comment'>#=&gt; &quot;United States Dollar&quot;
-</span><span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_cents_based?'>cents_based?</span> <span class='comment'>#=&gt; true
-</span></code></pre>
+<p><code>ruby
+currency = Money.from_cents(1000, "USD").currency
+currency.iso_code     #=&gt; "USD"
+currency.name         #=&gt; "United States Dollar"
+currency.cents_based? #=&gt; true
+</code></p>
 
 <p>To define a new <code>Money::Currency</code> use <code>Money::Currency.register</code> as shown
 below.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_curr'>curr</span> <span class='op'>=</span> <span class='lbrace'>{</span>
-  <span class='label'>priority:</span>            <span class='int'>1</span><span class='comma'>,</span>
-  <span class='label'>iso_code:</span>            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-  <span class='label'>iso_numeric:</span>         <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>840</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-  <span class='label'>name:</span>                <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>United States Dollar</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-  <span class='label'>symbol:</span>              <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>$</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-  <span class='label'>subunit:</span>             <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cent</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-  <span class='label'>subunit_to_unit:</span>     <span class='int'>100</span><span class='comma'>,</span>
-  <span class='label'>decimal_mark:</span>        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-  <span class='label'>thousands_separator:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>,</span><span class='tstring_end'>&quot;</span></span>
-<span class='rbrace'>}</span>
+<p>``` ruby
+curr = {
+  priority:            1,
+  iso_code:            “USD”,
+  iso_numeric:         “840”,
+  name:                “United States Dollar”,
+  symbol:              “$”,
+  subunit:             “Cent”,
+  subunit_to_unit:     100,
+  decimal_mark:        “.”,
+  thousands_separator: “,”
+}</p>
 
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_register'><span class='object_link'><a href="Money/Currency.html#register-class_method" title="Money::Currency.register (method)">register</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_curr'>curr</span><span class='rparen'>)</span>
-</code></pre>
+<p>Money::Currency.register(curr)
+```</p>
 
 <p>The pre-defined set of attributes includes:</p>
 
 <ul>
-<li><code>:priority</code> a numerical value you can use to sort/group the currency list</li>
-<li><code>:iso_code</code> the international 3-letter code as defined by the ISO 4217 standard</li>
-<li><code>:iso_numeric</code> the international 3-digit code as defined by the ISO 4217 standard</li>
-<li><code>:name</code> the currency name</li>
-<li><code>:symbol</code> the currency symbol (UTF-8 encoded)</li>
-<li><code>:subunit</code> the name of the fractional monetary unit</li>
-<li><code>:subunit_to_unit</code> the proportion between the unit and the subunit</li>
-<li><code>:decimal_mark</code> character between the whole and fraction amounts</li>
-<li><code>:thousands_separator</code> character between each thousands place</li>
+  <li><code>:priority</code> a numerical value you can use to sort/group the currency list</li>
+  <li><code>:iso_code</code> the international 3-letter code as defined by the ISO 4217 standard</li>
+  <li><code>:iso_numeric</code> the international 3-digit code as defined by the ISO 4217 standard</li>
+  <li><code>:name</code> the currency name</li>
+  <li><code>:symbol</code> the currency symbol (UTF-8 encoded)</li>
+  <li><code>:subunit</code> the name of the fractional monetary unit</li>
+  <li><code>:subunit_to_unit</code> the proportion between the unit and the subunit</li>
+  <li><code>:decimal_mark</code> character between the whole and fraction amounts</li>
+  <li><code>:thousands_separator</code> character between each thousands place</li>
 </ul>
 
 <p>All attributes except <code>:iso_code</code> are optional. Some attributes, such as
@@ -218,49 +222,50 @@ below.</p>
 object. Other attributes, such as <code>:name</code> or <code>:priority</code>, exist to provide a
 basic API you can take advantage of to build your application.</p>
 
-<h3 id=":priority">:priority</h3>
+<h3 id="priority">:priority</h3>
 
 <p>The priority attribute is an arbitrary numerical value you can assign to the
 <code>Money::Currency</code> and use in sorting/grouping operation.</p>
 
-<p>For instance, let&#39;s assume your Rails application needs to render a currency
+<p>For instance, let’s assume your Rails application needs to render a currency
 selector like the one available
 <a href="https://finance.yahoo.com/currency-converter/">here</a>. You can create a couple of
 custom methods to return the list of major currencies and all currencies as
 follows:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='comment'># Returns an array of currency id where
-</span><span class='comment'># priority &lt; 10
-</span><span class='kw'>def</span> <span class='id identifier rubyid_major_currencies'>major_currencies</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_hash'>hash</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_array'>array</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_attributes'>attributes</span><span class='rparen'>)</span><span class='op'>|</span>
-    <span class='id identifier rubyid_priority'>priority</span> <span class='op'>=</span> <span class='id identifier rubyid_attributes'>attributes</span><span class='lbracket'>[</span><span class='symbol'>:priority</span><span class='rbracket'>]</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_priority'>priority</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_priority'>priority</span> <span class='op'>&lt;</span> <span class='int'>10</span>
-      <span class='id identifier rubyid_array'>array</span><span class='lbracket'>[</span><span class='id identifier rubyid_priority'>priority</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-      <span class='id identifier rubyid_array'>array</span><span class='lbracket'>[</span><span class='id identifier rubyid_priority'>priority</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_id'>id</span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_array'>array</span>
-  <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
-<span class='kw'>end</span>
+<p>``` ruby
+# Returns an array of currency id where
+# priority &lt; 10
+def major_currencies(hash)
+  hash.inject([]) do |array, (id, attributes)|
+    priority = attributes[:priority]
+    if priority &amp;&amp; priority &lt; 10
+      array[priority] ||= []
+      array[priority] « id
+    end
+    array
+  end.compact.flatten
+end</p>
 
-<span class='comment'># Returns an array of all currency id
-</span><span class='kw'>def</span> <span class='id identifier rubyid_all_currencies'>all_currencies</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_hash'>hash</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
-<span class='kw'>end</span>
+<h1 id="returns-an-array-of-all-currency-id">Returns an array of all currency id</h1>
+<p>def all_currencies(hash)
+  hash.keys
+end</p>
 
-<span class='id identifier rubyid_major_currencies'>major_currencies</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_table'><span class='object_link'><a href="Money/Currency.html#table-class_method" title="Money::Currency.table (method)">table</a></span></span><span class='rparen'>)</span>
-<span class='comment'># =&gt; [:usd, :eur, :gbp, :aud, :cad, :jpy]
-</span>
-<span class='id identifier rubyid_all_currencies'>all_currencies</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_table'><span class='object_link'><a href="Money/Currency.html#table-class_method" title="Money::Currency.table (method)">table</a></span></span><span class='rparen'>)</span>
-<span class='comment'># =&gt; [:aed, :afn, :all, ...]
-</span></code></pre>
+<p>major_currencies(Money::Currency.table)
+# =&gt; [:usd, :eur, :gbp, :aud, :cad, :jpy]</p>
+
+<p>all_currencies(Money::Currency.table)
+# =&gt; [:aed, :afn, :all, …]
+```</p>
 
 <h3 id="default-currency">Default Currency</h3>
 
-<p>By default <code>Money</code> defaults to USD as its currency. This can be overwritten
-using:</p>
+<p>A default currency is not set by default. If a default currency is not set, it will raise an error when you try to initialize a <code>Money</code> object without explicitly passing a currency or parse a string that does not contain a currency. You can set a default currency for your application by using:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_currency'><span class='object_link'><a href="Money.html#default_currency-class_method" title="Money.default_currency (method)">default_currency</a></span></span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Currency.html#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-</code></pre>
+<p><code>ruby
+Money.default_currency = Money::Currency.new("CAD")
+</code></p>
 
 <p>If you use <a href="https://github.com/RubyMoney/money/tree/main#ruby-on-rails">Rails</a>, then <code>config/initializers/money.rb</code> is a very good place to put this.</p>
 
@@ -271,212 +276,225 @@ separator (which separates the major unit from the minor unit). See e.g.
 <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO 4217</a> for more
 information. You can find the exponent (as an <code>Integer</code>) by</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Currency.html#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exponent'>exponent</span>  <span class='comment'># =&gt; 2
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Currency.html#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>JPY</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exponent'>exponent</span>  <span class='comment'># =&gt; 0
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Currency.html#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MGA</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exponent'>exponent</span>  <span class='comment'># =&gt; 1
-</span></code></pre>
+<p><code>ruby
+Money::Currency.new("USD").exponent  # =&gt; 2
+Money::Currency.new("JPY").exponent  # =&gt; 0
+Money::Currency.new("MGA").exponent  # =&gt; 1
+</code></p>
 
 <h3 id="currency-lookup">Currency Lookup</h3>
 
 <p>To find a given currency by ISO 4217 numeric code (three digits) you can do</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find_by_iso_numeric'><span class='object_link'><a href="Money/Currency.html#find_by_iso_numeric-class_method" title="Money::Currency.find_by_iso_numeric (method)">find_by_iso_numeric</a></span></span><span class='lparen'>(</span><span class='int'>978</span><span class='rparen'>)</span> <span class='comment'>#=&gt; Money::Currency.new(:eur)
-</span></code></pre>
+<p><code>ruby
+Money::Currency.find_by_iso_numeric(978) #=&gt; Money::Currency.new(:eur)
+</code></p>
 
 <h2 id="currency-exchange">Currency Exchange</h2>
 
 <p>Exchanging money is performed through an exchange bank object. The default
-exchange bank object requires one to manually specify the exchange rate. Here&#39;s
+exchange bank object requires one to manually specify the exchange rate. Here’s
 an example of how it works:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_rate'><span class='object_link'><a href="Money.html#add_rate-class_method" title="Money.add_rate (method)">add_rate</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>1.24515</span><span class='rparen'>)</span>
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_rate'><span class='object_link'><a href="Money.html#add_rate-class_method" title="Money.add_rate (method)">add_rate</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>0.803115</span><span class='rparen'>)</span>
+<p>``` ruby
+Money.add_rate(“USD”, “CAD”, 1.24515)
+Money.add_rate(“CAD”, “USD”, 0.803115)</p>
 
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_us_dollar'><span class='object_link'><a href="Money/Constructors.html#us_dollar-instance_method" title="Money::Constructors#us_dollar (method)">us_dollar</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exchange_to'><span class='object_link'><a href="Money.html#exchange_to-instance_method" title="Money#exchange_to (method)">exchange_to</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>  <span class='comment'># =&gt; Money.from_cents(124, &quot;CAD&quot;)
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ca_dollar'><span class='object_link'><a href="Money/Constructors.html#ca_dollar-instance_method" title="Money::Constructors#ca_dollar (method)">ca_dollar</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exchange_to'><span class='object_link'><a href="Money.html#exchange_to-instance_method" title="Money#exchange_to (method)">exchange_to</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>  <span class='comment'># =&gt; Money.from_cents(80, &quot;USD&quot;)
-</span></code></pre>
+<p>Money.us_dollar(100).exchange_to(“CAD”)  # =&gt; Money.from_cents(124, “CAD”)
+Money.ca_dollar(100).exchange_to(“USD”)  # =&gt; Money.from_cents(80, “USD”)
+```</p>
 
 <p>Comparison and arithmetic operations work as expected:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>&lt;=&gt;</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>900</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>   <span class='comment'># =&gt; 1; 9.00 USD is smaller
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>10</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1010</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<p>``` ruby
+Money.from_cents(1000, “USD”) &lt;=&gt; Money.from_cents(900, “USD”)   # =&gt; 1; 9.00 USD is smaller
+Money.from_cents(1000, “EUR”) + Money.from_cents(10, “EUR”) == Money.from_cents(1010, “EUR”)</p>
 
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_rate'><span class='object_link'><a href="Money.html#add_rate-class_method" title="Money.add_rate (method)">add_rate</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>0.5</span><span class='rparen'>)</span>
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1500</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-</code></pre>
+<p>Money.add_rate(“USD”, “EUR”, 0.5)
+Money.from_cents(1000, “EUR”) + Money.from_cents(1000, “USD”) == Money.from_cents(1500, “EUR”)
+```</p>
 
 <h3 id="exchange-rate-stores">Exchange rate stores</h3>
 
 <p>The default bank is initialized with an in-memory store for exchange rates.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_bank'><span class='object_link'><a href="Money.html#default_bank-class_method" title="Money.default_bank (method)">default_bank</a></span></span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Bank/VariableExchange.html" title="Money::Bank::VariableExchange (class)">VariableExchange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Bank/VariableExchange.html#initialize-instance_method" title="Money::Bank::VariableExchange#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/RatesStore.html" title="Money::RatesStore (module)">RatesStore</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/RatesStore/Memory.html" title="Money::RatesStore::Memory (class)">Memory</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/RatesStore/Memory.html#initialize-instance_method" title="Money::RatesStore::Memory#initialize (method)">new</a></span></span><span class='rparen'>)</span>
-</code></pre>
+<p><code>ruby
+Money.default_bank = Money::Bank::VariableExchange.new(Money::RatesStore::Memory.new)
+</code></p>
 
 <p>You can pass your own store implementation, i.e. for storing and retrieving rates off a database, file, cache, etc.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_bank'><span class='object_link'><a href="Money.html#default_bank-class_method" title="Money.default_bank (method)">default_bank</a></span></span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Bank/VariableExchange.html" title="Money::Bank::VariableExchange (class)">VariableExchange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Bank/VariableExchange.html#initialize-instance_method" title="Money::Bank::VariableExchange#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='const'>MyCustomStore</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
-</code></pre>
+<p><code>ruby
+Money.default_bank = Money::Bank::VariableExchange.new(MyCustomStore.new)
+</code></p>
 
 <p>Stores must implement the following interface:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='comment'># Add new exchange rate.
-</span><span class='comment'># @param [String] iso_from Currency ISO code. ex. &#39;USD&#39;
-</span><span class='comment'># @param [String] iso_to Currency ISO code. ex. &#39;CAD&#39;
-</span><span class='comment'># @param [Numeric] rate Exchange rate. ex. 0.0016
-</span><span class='comment'>#
-</span><span class='comment'># @return [Numeric] rate.
-</span><span class='kw'>def</span> <span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_iso_from'>iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_iso_to'>iso_to</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span>
+<p>```ruby
+# Add new exchange rate.
+# @param [String] iso_from Currency ISO code. ex. ‘USD’
+# @param [String] iso_to Currency ISO code. ex. ‘CAD’
+# @param [Numeric] rate Exchange rate. ex. 0.0016
+#
+# @return [Numeric] rate.
+def add_rate(iso_from, iso_to, rate); end</p>
 
-<span class='comment'># Get rate. Must be idempotent. i.e. adding the same rate must not produce duplicates.
-</span><span class='comment'># @param [String] iso_from Currency ISO code. ex. &#39;USD&#39;
-</span><span class='comment'># @param [String] iso_to Currency ISO code. ex. &#39;CAD&#39;
-</span><span class='comment'>#
-</span><span class='comment'># @return [Numeric] rate.
-</span><span class='kw'>def</span> <span class='id identifier rubyid_get_rate'>get_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_iso_from'>iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_iso_to'>iso_to</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span>
+<h1 id="get-rate-must-be-idempotent-ie-adding-the-same-rate-must-not-produce-duplicates">Get rate. Must be idempotent. i.e. adding the same rate must not produce duplicates.</h1>
+<p># @param [String] iso_from Currency ISO code. ex. ‘USD’
+# @param [String] iso_to Currency ISO code. ex. ‘CAD’
+#
+# @return [Numeric] rate.
+def get_rate(iso_from, iso_to); end</p>
 
-<span class='comment'># Iterate over rate tuples (iso_from, iso_to, rate)
-</span><span class='comment'>#
-</span><span class='comment'># @yieldparam iso_from [String] Currency ISO string.
-</span><span class='comment'># @yieldparam iso_to [String] Currency ISO string.
-</span><span class='comment'># @yieldparam rate [Numeric] Exchange rate.
-</span><span class='comment'>#
-</span><span class='comment'># @return [Enumerator]
-</span><span class='comment'>#
-</span><span class='comment'># @example
-</span><span class='comment'>#   store.each_rate do |iso_from, iso_to, rate|
-</span><span class='comment'>#     puts [iso_from, iso_to, rate].join
-</span><span class='comment'>#   end
-</span><span class='kw'>def</span> <span class='id identifier rubyid_each_rate'>each_rate</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span>
+<h1 id="iterate-over-rate-tuples-isofrom-isoto-rate">Iterate over rate tuples (iso_from, iso_to, rate)</h1>
+<p>#
+# @yieldparam iso_from [String] Currency ISO string.
+# @yieldparam iso_to [String] Currency ISO string.
+# @yieldparam rate [Numeric] Exchange rate.
+#
+# @return [Enumerator]
+#
+# @example
+#   store.each_rate do |iso_from, iso_to, rate|
+#     puts [iso_from, iso_to, rate].join
+#   end
+def each_rate(&amp;block); end</p>
 
-<span class='comment'># Wrap store operations in a thread-safe transaction
-</span><span class='comment'># (or IO or Database transaction, depending on your implementation)
-</span><span class='comment'>#
-</span><span class='comment'># @yield [n] Block that will be wrapped in transaction.
-</span><span class='comment'>#
-</span><span class='comment'># @example
-</span><span class='comment'>#   store.transaction do
-</span><span class='comment'>#     store.add_rate(&#39;USD&#39;, &#39;CAD&#39;, 0.9)
-</span><span class='comment'>#     store.add_rate(&#39;USD&#39;, &#39;CLP&#39;, 0.0016)
-</span><span class='comment'>#   end
-</span><span class='kw'>def</span> <span class='id identifier rubyid_transaction'>transaction</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span>
+<h1 id="wrap-store-operations-in-a-thread-safe-transaction">Wrap store operations in a thread-safe transaction</h1>
+<p># (or IO or Database transaction, depending on your implementation)
+#
+# @yield [n] Block that will be wrapped in transaction.
+#
+# @example
+#   store.transaction do
+#     store.add_rate(‘USD’, ‘CAD’, 0.9)
+#     store.add_rate(‘USD’, ‘CLP’, 0.0016)
+#   end
+def transaction(&amp;block); end</p>
 
-<span class='comment'># Serialize store and its content to make Marshal.dump work.
-</span><span class='comment'>#
-</span><span class='comment'># Returns an array with store class and any arguments needed to initialize the store in the current state.
-</span>
-<span class='comment'># @return [Array] [class, arg1, arg2]
-</span><span class='kw'>def</span> <span class='id identifier rubyid_marshal_dump'>marshal_dump</span><span class='semicolon'>;</span> <span class='kw'>end</span>
-</code></pre>
+<h1 id="serialize-store-and-its-content-to-make-marshaldump-work">Serialize store and its content to make Marshal.dump work.</h1>
+<p>#
+# Returns an array with store class and any arguments needed to initialize the store in the current state.</p>
+
+<h1 id="return-array-class-arg1-arg2">@return [Array] [class, arg1, arg2]</h1>
+<p>def marshal_dump; end
+```</p>
 
 <p>The following example implements an <code>ActiveRecord</code> store to save exchange rates to a database.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='comment'># rails g model exchange_rate from:string to:string rate:float
-</span>
-<span class='kw'>class</span> <span class='const'>ExchangeRate</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
-  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_rate'>get_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_from_iso_code'>from_iso_code</span><span class='comma'>,</span> <span class='id identifier rubyid_to_iso_code'>to_iso_code</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_rate'>rate</span> <span class='op'>=</span> <span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>from:</span> <span class='id identifier rubyid_from_iso_code'>from_iso_code</span><span class='comma'>,</span> <span class='label'>to:</span> <span class='id identifier rubyid_to_iso_code'>to_iso_code</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_rate'>rate</span><span class='op'>&amp;.</span><span class='id identifier rubyid_rate'>rate</span>
-  <span class='kw'>end</span>
+<p>```ruby
+# rails g model exchange_rate from:string to:string rate:float</p>
 
-  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_from_iso_code'>from_iso_code</span><span class='comma'>,</span> <span class='id identifier rubyid_to_iso_code'>to_iso_code</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_exrate'>exrate</span> <span class='op'>=</span> <span class='id identifier rubyid_find_or_initialize_by'>find_or_initialize_by</span><span class='lparen'>(</span><span class='label'>from:</span> <span class='id identifier rubyid_from_iso_code'>from_iso_code</span><span class='comma'>,</span> <span class='label'>to:</span> <span class='id identifier rubyid_to_iso_code'>to_iso_code</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_exrate'>exrate</span><span class='period'>.</span><span class='id identifier rubyid_rate'>rate</span> <span class='op'>=</span> <span class='id identifier rubyid_rate'>rate</span>
-    <span class='id identifier rubyid_exrate'>exrate</span><span class='period'>.</span><span class='id identifier rubyid_save!'>save!</span>
-  <span class='kw'>end</span>
+<p>class ExchangeRate &lt; ApplicationRecord
+  def self.get_rate(from_iso_code, to_iso_code)
+    rate = find_by(from: from_iso_code, to: to_iso_code)
+    rate&amp;.rate
+  end</p>
 
-  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_each_rate'>each_rate</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_find_each'>find_each</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+<p>def self.add_rate(from_iso_code, to_iso_code, rate)
+    exrate = find_or_initialize_by(from: from_iso_code, to: to_iso_code)
+    exrate.rate = rate
+    exrate.save!
+  end</p>
 
-    <span class='id identifier rubyid_find_each'>find_each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_rate'>rate</span><span class='op'>|</span>
-      <span class='kw'>yield</span> <span class='id identifier rubyid_rate'>rate</span><span class='period'>.</span><span class='id identifier rubyid_from'>from</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='period'>.</span><span class='id identifier rubyid_to'>to</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='period'>.</span><span class='id identifier rubyid_rate'>rate</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
+<p>def self.each_rate
+    return find_each unless block_given?</p>
 
-  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_marshal_dump'>marshal_dump</span>
-    <span class='lbracket'>[</span><span class='kw'>self</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span>
+<pre class="code ruby"><code class="ruby">find_each do |rate|
+  yield rate.from, rate.to, rate.rate
+end   end
 </code></pre>
+
+<p>def self.marshal_dump
+    [self]
+  end
+end
+```</p>
 
 <p>The following example implements a <code>Redis</code> store to save exchange rates to a redis database.</p>
 
-<pre class="code ruby"><code class="ruby">
-<span class='kw'>class</span> <span class='const'>RedisRateStore</span>
-  <span class='const'>INDEX_KEY_SEPARATOR</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_TO_</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
+<p>```ruby</p>
 
-  <span class='comment'># Using second db of the redis instance
-</span>  <span class='comment'># because sidekiq uses the first db
-</span>  <span class='const'>REDIS_DATABASE</span> <span class='op'>=</span> <span class='int'>1</span>
+<p>class RedisRateStore
+  INDEX_KEY_SEPARATOR = ‘<em>TO</em>‘.freeze</p>
 
-  <span class='comment'># Using Hash to store rates data
-</span>  <span class='const'>REDIS_STORE_KEY</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rates</span><span class='tstring_end'>&#39;</span></span>
+<p># Using second db of the redis instance
+  # because sidekiq uses the first db
+  REDIS_DATABASE = 1</p>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
-    <span class='id identifier rubyid_conn_url'>conn_url</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_credentials'>credentials</span><span class='period'>.</span><span class='id identifier rubyid_redis_server'>redis_server</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'>REDIS_DATABASE</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='ivar'>@connection</span> <span class='op'>=</span> <span class='const'>Redis</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>url:</span> <span class='id identifier rubyid_conn_url'>conn_url</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+<p># Using Hash to store rates data
+  REDIS_STORE_KEY = ‘rates’</p>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_iso_from'>iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_iso_to'>iso_to</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='rparen'>)</span>
-    <span class='ivar'>@connection</span><span class='period'>.</span><span class='id identifier rubyid_hset'>hset</span><span class='lparen'>(</span><span class='const'>REDIS_STORE_KEY</span><span class='comma'>,</span> <span class='id identifier rubyid_rate_key_for'>rate_key_for</span><span class='lparen'>(</span><span class='id identifier rubyid_iso_from'>iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_iso_to'>iso_to</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+<p>def initialize
+    conn_url = “#Rails.application.credentials.redis_server/#REDIS_DATABASE”
+    @connection = Redis.new(url: conn_url)
+  end</p>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_get_rate'>get_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_iso_from'>iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_iso_to'>iso_to</span><span class='rparen'>)</span>
-    <span class='ivar'>@connection</span><span class='period'>.</span><span class='id identifier rubyid_hget'>hget</span><span class='lparen'>(</span><span class='const'>REDIS_STORE_KEY</span><span class='comma'>,</span> <span class='id identifier rubyid_rate_key_for'>rate_key_for</span><span class='lparen'>(</span><span class='id identifier rubyid_iso_from'>iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_iso_to'>iso_to</span><span class='rparen'>)</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+<p>def add_rate(iso_from, iso_to, rate)
+    @connection.hset(REDIS_STORE_KEY, rate_key_for(iso_from, iso_to), rate)
+  end</p>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_each_rate'>each_rate</span>
-    <span class='id identifier rubyid_rates'>rates</span> <span class='op'>=</span> <span class='ivar'>@connection</span><span class='period'>.</span><span class='id identifier rubyid_hgetall'>hgetall</span><span class='lparen'>(</span><span class='const'>REDIS_STORE_KEY</span><span class='rparen'>)</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_to_enum'>to_enum</span><span class='lparen'>(</span><span class='symbol'>:each_rate</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+<p>def get_rate(iso_from, iso_to)
+    @connection.hget(REDIS_STORE_KEY, rate_key_for(iso_from, iso_to))
+  end</p>
 
-    <span class='id identifier rubyid_rates'>rates</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='op'>|</span>
-      <span class='id identifier rubyid_iso_from'>iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_iso_to'>iso_to</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='const'>INDEX_KEY_SEPARATOR</span><span class='rparen'>)</span>
-      <span class='kw'>yield</span> <span class='id identifier rubyid_iso_from'>iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_iso_to'>iso_to</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
+<p>def each_rate
+    rates = @connection.hgetall(REDIS_STORE_KEY)
+    return to_enum(:each_rate) unless block_given?</p>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_transaction'>transaction</span>
-    <span class='kw'>yield</span>
-  <span class='kw'>end</span>
-
-  <span class='id identifier rubyid_private'>private</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_rate_key_for'>rate_key_for</span><span class='lparen'>(</span><span class='id identifier rubyid_iso_from'>iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_iso_to'>iso_to</span><span class='rparen'>)</span>
-    <span class='lbracket'>[</span><span class='id identifier rubyid_iso_from'>iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_iso_to'>iso_to</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>INDEX_KEY_SEPARATOR</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span>
+<pre class="code ruby"><code class="ruby">rates.each do |key, rate|
+  iso_from, iso_to = key.split(INDEX_KEY_SEPARATOR)
+  yield iso_from, iso_to, rate
+end   end
 </code></pre>
+
+<p>def transaction
+    yield
+  end</p>
+
+<p>private</p>
+
+<p>def rate_key_for(iso_from, iso_to)
+    [iso_from, iso_to].join(INDEX_KEY_SEPARATOR).upcase
+  end
+end
+```</p>
 
 <p>Now you can use it with the default bank.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='comment'># For Rails 6 pass model name as a string to make it compatible with zeitwerk
-</span><span class='comment'># Money.default_bank = Money::Bank::VariableExchange.new(&quot;ExchangeRate&quot;)
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_bank'><span class='object_link'><a href="Money.html#default_bank-class_method" title="Money.default_bank (method)">default_bank</a></span></span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Bank/VariableExchange.html" title="Money::Bank::VariableExchange (class)">VariableExchange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Bank/VariableExchange.html#initialize-instance_method" title="Money::Bank::VariableExchange#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='const'>ExchangeRate</span><span class='rparen'>)</span>
+<p>```ruby
+# For Rails 6 pass model name as a string to make it compatible with zeitwerk
+# Money.default_bank = Money::Bank::VariableExchange.new(“ExchangeRate”)
+Money.default_bank = Money::Bank::VariableExchange.new(ExchangeRate)</p>
 
-<span class='comment'># Add to the underlying store
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_bank'><span class='object_link'><a href="Money.html#default_bank-class_method" title="Money.default_bank (method)">default_bank</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='float'>0.9</span><span class='rparen'>)</span>
-<span class='comment'># Retrieve from the underlying store
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_bank'><span class='object_link'><a href="Money.html#default_bank-class_method" title="Money.default_bank (method)">default_bank</a></span></span><span class='period'>.</span><span class='id identifier rubyid_get_rate'>get_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># =&gt; 0.9
-</span><span class='comment'># Exchanging amounts just works.
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>1000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money fractional:900 currency:CAD&gt;
-</span></code></pre>
+<h1 id="add-to-the-underlying-store">Add to the underlying store</h1>
+<p>Money.default_bank.add_rate(‘USD’, ‘CAD’, 0.9)
+# Retrieve from the underlying store
+Money.default_bank.get_rate(‘USD’, ‘CAD’) # =&gt; 0.9
+# Exchanging amounts just works.
+Money.from_cents(1000, ‘USD’).exchange_to(‘CAD’) #=&gt; #&lt;Money fractional:900 currency:CAD&gt;
+```</p>
 
 <p>There is nothing stopping you from creating store objects which scrapes
 <a href="https://www.xe.com">XE</a> for the current rates or just returns <code>rand(2)</code>:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_bank'><span class='object_link'><a href="Money.html#default_bank-class_method" title="Money.default_bank (method)">default_bank</a></span></span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Bank/VariableExchange.html" title="Money::Bank::VariableExchange (class)">VariableExchange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Bank/VariableExchange.html#initialize-instance_method" title="Money::Bank::VariableExchange#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='const'>StoreWhichScrapesXeDotCom</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
-</code></pre>
+<p><code>ruby
+Money.default_bank = Money::Bank::VariableExchange.new(StoreWhichScrapesXeDotCom.new)
+</code></p>
 
 <p>You can also implement your own Bank to calculate exchanges differently.
 Different banks can share Stores.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_bank'><span class='object_link'><a href="Money.html#default_bank-class_method" title="Money.default_bank (method)">default_bank</a></span></span> <span class='op'>=</span> <span class='const'>MyCustomBank</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/RatesStore.html" title="Money::RatesStore (module)">RatesStore</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/RatesStore/Memory.html" title="Money::RatesStore::Memory (class)">Memory</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/RatesStore/Memory.html#initialize-instance_method" title="Money::RatesStore::Memory#initialize (method)">new</a></span></span><span class='rparen'>)</span>
-</code></pre>
+<p><code>ruby
+Money.default_bank = MyCustomBank.new(Money::RatesStore::Memory.new)
+</code></p>
 
 <p>If you wish to disable automatic currency conversion to prevent arithmetic when
-currencies don&#39;t match:</p>
+currencies don’t match:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_disallow_currency_conversion!'><span class='object_link'><a href="Money.html#disallow_currency_conversion!-class_method" title="Money.disallow_currency_conversion! (method)">disallow_currency_conversion!</a></span></span>
-</code></pre>
+<p><code>ruby
+Money.disallow_currency_conversion!
+</code></p>
 
 <h3 id="implementations">Implementations</h3>
 
@@ -484,60 +502,71 @@ currencies don&#39;t match:</p>
 implementations.</p>
 
 <ul>
-<li><a href="https://github.com/RubyMoney/eu_central_bank">eu_central_bank</a></li>
-<li><a href="https://github.com/RubyMoney/google_currency">google_currency</a></li>
-<li><a href="https://github.com/askuratovsky/currencylayer">currencylayer</a></li>
-<li><a href="https://github.com/matiaskorhonen/nordea">nordea</a></li>
-<li><a href="https://github.com/slbug/nbrb_currency">nbrb_currency</a></li>
-<li><a href="https://github.com/phlegx/money-currencylayer-bank">money-currencylayer-bank</a></li>
-<li><a href="https://github.com/spk/money-open-exchange-rates">money-open-exchange-rates</a></li>
-<li><a href="https://github.com/atwam/money-historical-bank">money-historical-bank</a></li>
-<li><a href="https://github.com/rmustafin/russian_central_bank">russian_central_bank</a></li>
-<li><a href="https://github.com/subvisual/money-uphold-bank">money-uphold-bank</a></li>
+  <li><a href="https://github.com/RubyMoney/eu_central_bank">eu_central_bank</a></li>
+  <li><a href="https://github.com/RubyMoney/google_currency">google_currency</a></li>
+  <li><a href="https://github.com/askuratovsky/currencylayer">currencylayer</a></li>
+  <li><a href="https://github.com/matiaskorhonen/nordea">nordea</a></li>
+  <li><a href="https://github.com/slbug/nbrb_currency">nbrb_currency</a></li>
+  <li><a href="https://github.com/phlegx/money-currencylayer-bank">money-currencylayer-bank</a></li>
+  <li><a href="https://github.com/spk/money-open-exchange-rates">money-open-exchange-rates</a></li>
+  <li><a href="https://github.com/atwam/money-historical-bank">money-historical-bank</a></li>
+  <li><a href="https://github.com/rmustafin/russian_central_bank">russian_central_bank</a></li>
+  <li><a href="https://github.com/subvisual/money-uphold-bank">money-uphold-bank</a></li>
 </ul>
 
 <h2 id="formatting">Formatting</h2>
 
-<p>There are several formatting rules for when <code>Money#format</code> is called. For more information, check out the <a href="https://github.com/RubyMoney/money/blob/main/lib/money/money/formatter.rb">formatting module source</a>, or read the latest release&#39;s <a href="https://www.rubydoc.info/gems/money/Money/Formatter">rdoc version</a>.</p>
+<p>There are several formatting rules for when <code>Money#format</code> is called. For more information, check out the <a href="https://github.com/RubyMoney/money/blob/main/lib/money/money/formatter.rb">formatting module source</a>, or read the latest release’s <a href="https://www.rubydoc.info/gems/money/Money/Formatter">rdoc version</a>.</p>
 
-<p>If you wish to format money according to the EU&#39;s <a href="https://style-guide.europa.eu/en/content/-/isg/topic?identifier=7.3.3-rules-for-expressing-monetary-units#id370303__id370303_PositionISO">Rules for expressing monetary units</a> in either English, Irish, Latvian or Maltese:</p>
+<p>If you wish to format money according to the EU’s <a href="https://style-guide.europa.eu/en/content/-/isg/topic?identifier=7.3.3-rules-for-expressing-monetary-units#id370303__id370303_PositionISO">Rules for expressing monetary units</a> in either English, Irish, Latvian or Maltese:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_m'>m</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>123</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:gbp</span><span class='rparen'>)</span> <span class='comment'># =&gt; #&lt;Money fractional:123 currency:GBP&gt;
-</span><span class='id identifier rubyid_m'>m</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span><span class='lparen'>(</span><span class='label'>symbol:</span> <span class='id identifier rubyid_m'>m</span><span class='period'>.</span><span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># =&gt; &quot;GBP 1.23&quot;
-</span></code></pre>
+<p><code>ruby
+m = Money.from_cents('123', :gbp) # =&gt; #&lt;Money fractional:123 currency:GBP&gt;
+m.format(symbol: m.currency.to_s + ' ') # =&gt; "GBP 1.23"
+</code></p>
 
 <h2 id="rounding">Rounding</h2>
 
 <p>By default, <code>Money</code> objects are rounded to the nearest cent and the additional precision is not preserved:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_amount'><span class='object_link'><a href="Money.html#from_amount-class_method" title="Money.from_amount (method)">from_amount</a></span></span><span class='lparen'>(</span><span class='float'>2.34567</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="Money.html#format-instance_method" title="Money#format (method)">format</a></span></span> <span class='comment'>#=&gt; &quot;$2.35&quot;
-</span></code></pre>
+<p><code>ruby
+Money.from_amount(2.34567).format #=&gt; "$2.35"
+</code></p>
 
 <p>To retain the additional precision, you will also need to set <code>infinite_precision</code> to <code>true</code>.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_infinite_precision'><span class='object_link'><a href="Money.html#default_infinite_precision-class_method" title="Money.default_infinite_precision (method)">default_infinite_precision</a></span></span> <span class='op'>=</span> <span class='kw'>true</span>
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_amount'><span class='object_link'><a href="Money.html#from_amount-class_method" title="Money.from_amount (method)">from_amount</a></span></span><span class='lparen'>(</span><span class='float'>2.34567</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="Money.html#format-instance_method" title="Money#format (method)">format</a></span></span> <span class='comment'>#=&gt; &quot;$2.34567&quot;
-</span></code></pre>
+<p><code>ruby
+Money.default_infinite_precision = true
+Money.from_amount(2.34567).format #=&gt; "$2.34567"
+</code></p>
 
-<p>To round to the nearest cent (or anything more precise), you can use the <code>round</code> method. However, note that the <code>round</code> method on a <code>Money</code> object does not work the same way as a normal Ruby <code>Float</code> object. Money&#39;s <code>round</code> method accepts different arguments. The first argument to the round method is the rounding mode, while the second argument is the level of precision relative to the cent.</p>
+<p>To round to the nearest cent (or anything more precise), you can use the <code>round</code> method. However, note that the <code>round</code> method on a <code>Money</code> object does not work the same way as a normal Ruby <code>Float</code> object. Money’s <code>round</code> method accepts different arguments. The first argument to the round method is the rounding mode, while the second argument is the level of precision relative to the cent.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='comment'># Float
-</span><span class='float'>2.34567</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span>     <span class='comment'>#=&gt; 2
-</span><span class='float'>2.34567</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span>  <span class='comment'>#=&gt; 2.35
-</span>
-<span class='comment'># Money
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_infinite_precision'><span class='object_link'><a href="Money.html#default_infinite_precision-class_method" title="Money.default_infinite_precision (method)">default_infinite_precision</a></span></span> <span class='op'>=</span> <span class='kw'>true</span>
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='float'>2.34567</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span>       <span class='comment'>#=&gt; &quot;$0.0234567&quot;
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='float'>2.34567</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span> <span class='comment'>#=&gt; &quot;$0.02&quot;
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='float'>2.34567</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='const'>BigDecimal</span><span class='op'>::</span><span class='const'>ROUND_HALF_UP</span><span class='comma'>,</span> <span class='int'>2</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span> <span class='comment'>#=&gt; &quot;$0.0235&quot;
-</span></code></pre>
+<p>```ruby
+# Float
+2.34567.round     #=&gt; 2
+2.34567.round(2)  #=&gt; 2.35</p>
+
+<h1 id="money">Money</h1>
+<p>Money.default_infinite_precision = true
+Money.from_cents(2.34567).format #=&gt; “$0.0234567”
+Money.from_cents(2.34567).round.format #=&gt; “$0.02”
+Money.from_cents(2.34567).round(BigDecimal::ROUND_DOWN, 2).format #=&gt; “$0.0234”
+```</p>
 
 <p>You can set the default rounding mode by passing one of the <code>BigDecimal</code> mode enumerables like so:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_rounding_mode'><span class='object_link'><a href="Money.html#rounding_mode-class_method" title="Money.rounding_mode (method)">rounding_mode</a></span></span> <span class='op'>=</span> <span class='const'>BigDecimal</span><span class='op'>::</span><span class='const'>ROUND_HALF_EVEN</span>
-</code></pre>
+<p><code>ruby
+Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
+</code></p>
 
-<p>See <a href="https://ruby-doc.org/stdlib-2.5.1/libdoc/bigdecimal/rdoc/BigDecimal.html#ROUND_MODE">BigDecimal::ROUND_MODE</a> for more information</p>
+<p>See <a href="https://ruby-doc.org/3.4.1/gems/bigdecimal/BigDecimal.html#ROUND_MODE">BigDecimal::ROUND_MODE</a> for more information.</p>
+
+<p>To round to the nearest cash value in currencies without small denominations:</p>
+
+<p><code>ruby
+Money.from_cents(11_11, "CHF").to_nearest_cash_value.format # =&gt; "CHF 11.10"
+</code></p>
 
 <h2 id="ruby-on-rails">Ruby on Rails</h2>
 
@@ -549,99 +578,106 @@ implementations.</p>
 
 <p>In order to localize formatting you can use <code>I18n</code> gem:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_locale_backend'><span class='object_link'><a href="Money.html#locale_backend-class_method" title="Money.locale_backend (method)">locale_backend</a></span></span> <span class='op'>=</span> <span class='symbol'>:i18n</span>
-</code></pre>
+<p><code>ruby
+Money.locale_backend = :i18n
+</code></p>
 
 <p>With this enabled a thousands separator and a decimal mark will get looked up in your <code>I18n</code> translation files. In a Rails application this may look like:</p>
 
-<pre class="code yml"><code class="yml"># config/locale/en.yml
+<p><code>yml
+# config/locale/en.yml
 en:
   number:
     currency:
       format:
-        delimiter: &quot;,&quot;
-        separator: &quot;.&quot;
+        delimiter: ","
+        separator: "."
   # falling back to
   number:
     format:
-      delimiter: &quot;,&quot;
-      separator: &quot;.&quot;
-</code></pre>
+      delimiter: ","
+      separator: "."
+</code></p>
 
-<p>For this example <code>Money.from_cents(123456789, &quot;SEK&quot;).format</code> will return <code>1,234,567.89
+<p>For this example <code>Money.from_cents(123456789, "SEK").format</code> will return <code>1,234,567.89
 kr</code> which otherwise would have returned <code>1 234 567,89 kr</code>.</p>
 
 <p>This will work seamlessly with <a href="https://github.com/svenfuchs/rails-i18n">rails-i18n</a> gem that already has a lot of locales defined.</p>
 
 <p>If you wish to disable this feature and use defaults instead:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_locale_backend'><span class='object_link'><a href="Money.html#locale_backend-class_method" title="Money.locale_backend (method)">locale_backend</a></span></span> <span class='op'>=</span> <span class='kw'>nil</span>
-</code></pre>
+<p><code>ruby
+Money.locale_backend = nil
+</code></p>
 
 <h3 id="deprecation">Deprecation</h3>
 
-<p>The current default behaviour always checks the I18n locale first, falling back to &quot;per currency&quot;
+<p>The current default behaviour always checks the I18n locale first, falling back to “per currency”
 localization. This is now deprecated and will be removed in favour of explicitly defined behaviour
 in the next major release.</p>
 
 <p>If you would like to use I18n localization (formatting depends on the locale):</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_locale_backend'><span class='object_link'><a href="Money.html#locale_backend-class_method" title="Money.locale_backend (method)">locale_backend</a></span></span> <span class='op'>=</span> <span class='symbol'>:i18n</span>
+<p>```ruby
+Money.locale_backend = :i18n</p>
 
-<span class='comment'># example (using default localization from rails-i18n):
-</span><span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='symbol'>:en</span>
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>10_000_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span> <span class='comment'># =&gt; $10,000.00
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>10_000_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span> <span class='comment'># =&gt; €10,000.00
-</span>
-<span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='symbol'>:es</span>
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>10_000_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span> <span class='comment'># =&gt; $10.000,00
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>10_000_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span> <span class='comment'># =&gt; €10.000,00
-</span></code></pre>
+<h1 id="example-using-default-localization-from-rails-i18n">example (using default localization from rails-i18n):</h1>
+<p>I18n.locale = :en
+Money.from_cents(10_000_00, ‘USD’).format # =&gt; $10,000.00
+Money.from_cents(10_000_00, ‘EUR’).format # =&gt; €10,000.00</p>
+
+<p>I18n.locale = :es
+Money.from_cents(10_000_00, ‘USD’).format # =&gt; $10.000,00
+Money.from_cents(10_000_00, ‘EUR’).format # =&gt; €10.000,00
+```</p>
 
 <p>If you need to localize the position of the currency symbol, you
 have to pass it manually. <em>Note: this will become the default formatting
 behavior in the next version.</em></p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='symbol'>:fr</span>
-<span class='id identifier rubyid_format'>format</span> <span class='op'>=</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_t'>t</span> <span class='symbol'>:format</span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>number.currency.format</span><span class='tstring_end'>&#39;</span></span>
-<span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>10_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span><span class='lparen'>(</span><span class='label'>format:</span> <span class='id identifier rubyid_format'>format</span><span class='rparen'>)</span> <span class='comment'># =&gt; 10,00 €
-</span></code></pre>
+<p><code>ruby
+I18n.locale = :fr
+format = I18n.t :format, scope: 'number.currency.format'
+Money.from_cents(10_00, 'EUR').format(format: format) # =&gt; 10,00 €
+</code></p>
 
-<p>For the legacy behaviour of &quot;per currency&quot; localization (formatting depends only on currency):</p>
+<p>For the legacy behaviour of “per currency” localization (formatting depends only on currency):</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_locale_backend'><span class='object_link'><a href="Money.html#locale_backend-class_method" title="Money.locale_backend (method)">locale_backend</a></span></span> <span class='op'>=</span> <span class='symbol'>:currency</span>
+<p>```ruby
+Money.locale_backend = :currency</p>
 
-<span class='comment'># example:
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>10_000_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span> <span class='comment'># =&gt; $10,000.00
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>10_000_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span> <span class='comment'># =&gt; €10.000,00
-</span></code></pre>
+<h1 id="example">example:</h1>
+<p>Money.from_cents(10_000_00, ‘USD’).format # =&gt; $10,000.00
+Money.from_cents(10_000_00, ‘EUR’).format # =&gt; €10.000,00
+```</p>
 
-<p>In case you don&#39;t need localization and would like to use default values (can be redefined using
+<p>In case you don’t need localization and would like to use default values (can be redefined using
 <code>Money.default_formatting_rules</code>):</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_locale_backend'><span class='object_link'><a href="Money.html#locale_backend-class_method" title="Money.locale_backend (method)">locale_backend</a></span></span> <span class='op'>=</span> <span class='kw'>nil</span>
+<p>```ruby
+Money.locale_backend = nil</p>
 
-<span class='comment'># example:
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>10_000_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span> <span class='comment'># =&gt; $10000.00
-</span><span class='const'><span class='object_link'><a href="Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_cents'>from_cents</span><span class='lparen'>(</span><span class='int'>10_000_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'>format</span> <span class='comment'># =&gt; €10000.00
-</span></code></pre>
+<h1 id="example-1">example:</h1>
+<p>Money.from_cents(10_000_00, ‘USD’).format # =&gt; $10000.00
+Money.from_cents(10_000_00, ‘EUR’).format # =&gt; €10000.00
+```</p>
 
 <h2 id="collection">Collection</h2>
 
-<p>In case you&#39;re working with collections of <code>Money</code> instances, have a look at <a href="https://github.com/RubyMoney/money-collection">money-collection</a>
+<p>In case you’re working with collections of <code>Money</code> instances, have a look at <a href="https://github.com/RubyMoney/money-collection">money-collection</a>
 for improved performance and accuracy.</p>
 
 <h3 id="troubleshooting">Troubleshooting</h3>
 
-<p>If you don&#39;t have some locale and don&#39;t want to get a runtime error such as:</p>
+<p>If you don’t have some locale and don’t want to get a runtime error such as:</p>
 
 <pre class="code ruby"><code class="ruby">I18n::InvalidLocale: :en is not a valid locale
 </code></pre>
 
-<p>Set the following:</p>
-
-<pre class="code ruby"><code class="ruby"><span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_enforce_available_locales'>enforce_available_locales</span> <span class='op'>=</span> <span class='kw'>false</span>
-</code></pre>
+<p>Set the following:
+<code>ruby
+I18n.enforce_available_locales = false
+</code></p>
 
 <h2 id="heuristics">Heuristics</h2>
 
@@ -649,30 +685,30 @@ for improved performance and accuracy.</p>
 
 <h2 id="migration-notes">Migration Notes</h2>
 
-<h4 id="version-6.0.0">Version 6.0.0</h4>
+<h4 id="version-600">Version 6.0.0</h4>
 
 <ul>
-<li>The <code>Money#dollars</code> and <code>Money#amount</code> methods now return instances of
+  <li>The <code>Money#dollars</code> and <code>Money#amount</code> methods now return instances of
 <code>BigDecimal</code> rather than <code>Float</code>. We should avoid representing monetary
 values with floating point types so to avoid a whole class of errors relating
 to lack of precision. There are two migration options for this change:
-
-<ul>
-<li>The first is to test your application and where applicable update the
+    <ul>
+      <li>The first is to test your application and where applicable update the
 application to accept a <code>BigDecimal</code> return value. This is the recommended
 path.</li>
-<li>The second is to migrate from the <code>#amount</code> and <code>#dollars</code> methods to use
+      <li>The second is to migrate from the <code>#amount</code> and <code>#dollars</code> methods to use
 the <code>#to_f</code> method instead. This option should only be used where <code>Float</code>
-is the desired type and nothing else will do for your application&#39;s
+is the desired type and nothing else will do for your application’s
 requirements.</li>
-</ul></li>
+    </ul>
+  </li>
 </ul>
 </div></div>
 
       <div id="footer">
-  Generated on Sat Jul 12 16:26:10 2025 by
+  Generated on Thu Jul 24 12:12:16 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.4.1).
+  0.9.37 (ruby-3.4.5).
 </div>
 
     </div>

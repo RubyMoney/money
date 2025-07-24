@@ -235,7 +235,6 @@
       <pre class="lines">
 
 
-62
 63
 64
 65
@@ -243,10 +242,11 @@
 67
 68
 69
-70</pre>
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money/allocation.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money/allocation.rb', line 63</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_convert_to_big_decimal'>convert_to_big_decimal</span><span class='lparen'>(</span><span class='id identifier rubyid_number'>number</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_number'>number</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>BigDecimal</span>
@@ -420,7 +420,8 @@ Array&lt;Numeric&gt; — allocates the amounts proportionally to the given array
 51
 52
 53
-54</pre>
+54
+55</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/money/money/allocation.rb', line 20</span>
@@ -443,9 +444,9 @@ Array&lt;Numeric&gt; — allocates the amounts proportionally to the given array
 
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_remaining_amount'>remaining_amount</span> <span class='op'>=</span> <span class='id identifier rubyid_amount'>amount</span>
+  <span class='id identifier rubyid_parts_sum'>parts_sum</span> <span class='op'>=</span> <span class='id identifier rubyid_parts'>parts</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span>
 
   <span class='kw'>until</span> <span class='id identifier rubyid_parts'>parts</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='kw'>do</span>
-    <span class='id identifier rubyid_parts_sum'>parts_sum</span> <span class='op'>=</span> <span class='id identifier rubyid_parts'>parts</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='symbol'>:+</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_part'>part</span> <span class='op'>=</span> <span class='id identifier rubyid_parts'>parts</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
 
     <span class='id identifier rubyid_current_split'>current_split</span> <span class='op'>=</span> <span class='int'>0</span>
@@ -456,6 +457,7 @@ Array&lt;Numeric&gt; — allocates the amounts proportionally to the given array
 
     <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_unshift'>unshift</span> <span class='id identifier rubyid_current_split'>current_split</span>
     <span class='id identifier rubyid_remaining_amount'>remaining_amount</span> <span class='op'>-=</span> <span class='id identifier rubyid_current_split'>current_split</span>
+    <span class='id identifier rubyid_parts_sum'>parts_sum</span> <span class='op'>-=</span> <span class='id identifier rubyid_part'>part</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_result'>result</span>
@@ -470,9 +472,9 @@ Array&lt;Numeric&gt; — allocates the amounts proportionally to the given array
 </div>
 
       <div id="footer">
-  Generated on Sat Jul 12 16:26:11 2025 by
+  Generated on Thu Jul 24 12:12:17 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.4.1).
+  0.9.37 (ruby-3.4.5).
 </div>
 
     </div>
