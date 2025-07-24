@@ -121,7 +121,7 @@ rake install
 
 <h2 id="usage">Usage</h2>
 
-<p>``` ruby
+<p>```ruby
 require ‘money’</p>
 
 <h1 id="explicitly-define-locales">explicitly define locales</h1>
@@ -187,7 +187,7 @@ currency.cents_based? #=&gt; true
 <p>To define a new <code>Money::Currency</code> use <code>Money::Currency.register</code> as shown
 below.</p>
 
-<p>``` ruby
+<p>```ruby
 curr = {
   priority:            1,
   iso_code:            “USD”,
@@ -233,7 +233,7 @@ selector like the one available
 custom methods to return the list of major currencies and all currencies as
 follows:</p>
 
-<p>``` ruby
+<p>```ruby
 # Returns an array of currency id where
 # priority &lt; 10
 def major_currencies(hash)
@@ -296,7 +296,7 @@ Money::Currency.find_by_iso_numeric(978) #=&gt; Money::Currency.new(:eur)
 exchange bank object requires one to manually specify the exchange rate. Here’s
 an example of how it works:</p>
 
-<p>``` ruby
+<p>```ruby
 Money.add_rate(“USD”, “CAD”, 1.24515)
 Money.add_rate(“CAD”, “USD”, 0.803115)</p>
 
@@ -306,7 +306,7 @@ Money.ca_dollar(100).exchange_to(“USD”)  # =&gt; Money.from_cents(80, “USD
 
 <p>Comparison and arithmetic operations work as expected:</p>
 
-<p>``` ruby
+<p>```ruby
 Money.from_cents(1000, “USD”) &lt;=&gt; Money.from_cents(900, “USD”)   # =&gt; 1; 9.00 USD is smaller
 Money.from_cents(1000, “EUR”) + Money.from_cents(10, “EUR”) == Money.from_cents(1010, “EUR”)</p>
 
@@ -413,9 +413,8 @@ end
 
 <p>The following example implements a <code>Redis</code> store to save exchange rates to a redis database.</p>
 
-<p>```ruby</p>
-
-<p>class RedisRateStore
+<p>```ruby
+class RedisRateStore
   INDEX_KEY_SEPARATOR = ‘<em>TO</em>‘.freeze</p>
 
 <p># Using second db of the redis instance
@@ -706,7 +705,7 @@ requirements.</li>
 </div></div>
 
       <div id="footer">
-  Generated on Thu Jul 24 12:12:16 2025 by
+  Generated on Thu Jul 24 12:16:16 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
