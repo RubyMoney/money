@@ -369,15 +369,9 @@ RSpec.describe Money do
     end
   end
 
-  %w[cents pence].each do |units|
-    describe "##{units}" do
-      it "is a synonym of #fractional" do
-        expectation = Money.new(0)
-        def expectation.fractional
-          "expectation"
-        end
-        expect(expectation.cents).to eq "expectation"
-      end
+  describe "#cents" do
+    it "is a synonym of #fractional" do
+      expect(Money.new(1_23).cents).to eq(1_23)
     end
   end
 
