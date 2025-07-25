@@ -83,33 +83,6 @@ class Money
     #   Money.new(10000000, "INR").format(south_asian_number_formatting: true) #=> "1,00,000.00"
     #   Money.new(10000000).format(south_asian_number_formatting: true) #=> "$1,00,000.00"
     #
-    # @option rules [Boolean, nil] :symbol_before_without_space (true) Whether
-    #   a space between the money symbol and the amount should be inserted when
-    #   +:symbol_position+ is +:before+. The default is true (meaning no space). Ignored
-    #   if +:symbol+ is false or +:symbol_position+ is not +:before+.
-    #
-    # @example
-    #   # Default is to not insert a space.
-    #   Money.new(100, "USD").format #=> "$1.00"
-    #
-    #   # Same thing.
-    #   Money.new(100, "USD").format(symbol_before_without_space: true) #=> "$1.00"
-    #
-    #   # If set to false, will insert a space.
-    #   Money.new(100, "USD").format(symbol_before_without_space: false) #=> "$ 1.00"
-    #
-    # @option rules [Boolean, nil] :symbol_after_without_space (false) Whether
-    #   a space between the amount and the money symbol should be inserted when
-    #   +:symbol_position+ is +:after+. The default is false (meaning space). Ignored
-    #   if +:symbol+ is false or +:symbol_position+ is not +:after+.
-    #
-    # @example
-    #   # Default is to insert a space.
-    #   Money.new(100, "USD").format(symbol_position: :after) #=> "1.00 $"
-    #
-    #   # If set to true, will not insert a space.
-    #   Money.new(100, "USD").format(symbol_position: :after, symbol_after_without_space: true) #=> "1.00$"
-    #
     # @option rules [Boolean, String, nil] :decimal_mark (true) Whether the
     #  currency should be separated by the specified character or '.'
     #
@@ -139,13 +112,6 @@ class Money
     #   # If the thousands_separator for a given currency isn't known, then it will
     #   # default to "," as thousands_separator.
     #   Money.new(100000, "FOO").format #=> "$1,000.00"
-    #
-    # @option rules [Boolean] :html (false) Whether the currency should be
-    #  HTML-formatted. Only useful in combination with +:with_currency+.
-    #
-    # @example
-    #   Money.ca_dollar(570).format(html: true, with_currency: true)
-    #   #=> "$5.70 <span class=\"currency\">CAD</span>"
     #
     # @option rules [Boolean] :html_wrap (false) Whether all currency parts should be HTML-formatted.
     #
@@ -181,20 +147,6 @@ class Money
     #   Money.new(10000, "CAD").format(disambiguate: false)   #=> "$100.00"
     #   Money.new(10000, "USD").format(disambiguate: true)    #=> "$100.00"
     #   Money.new(10000, "CAD").format(disambiguate: true)    #=> "C$100.00"
-    #
-    # @option rules [Boolean] :html_wrap_symbol (false) Wraps the currency symbol
-    #  in a html <span> tag.
-    #
-    # @example
-    #   Money.new(10000, "USD").format(html_wrap_symbol: true)
-    #   #=> "<span class=\"currency_symbol\">$100.00</span>
-    #
-    # @option rules [Symbol] :symbol_position (:before) `:before` if the currency
-    #   symbol goes before the amount, `:after` if it goes after.
-    #
-    # @example
-    #   Money.new(10000, "USD").format(symbol_position: :before) #=> "$100.00"
-    #   Money.new(10000, "USD").format(symbol_position: :after)  #=> "100.00 $"
     #
     # @option rules [Boolean] :translate (true) `true` Checks for custom
     #   symbol definitions using I18n.
@@ -301,9 +253,7 @@ class Money
       symbol_value = symbol_value_from(rules)
 
       if symbol_value && !symbol_value.empty?
-        if rules[:html_wrap_symbol]
-          symbol_value = "<span class=\"currency_symbol\">#{symbol_value}</span>"
-        elsif rules[:html_wrap]
+        if rules[:html_wrap]
           symbol_value = html_wrap(symbol_value, "currency-symbol")
         end
 
@@ -318,9 +268,7 @@ class Money
     def append_currency_symbol(formatted_number)
       if rules[:with_currency]
         currency_part =
-          if rules[:html]
-            "<span class=\"currency\">#{currency}</span>"
-          elsif rules[:html_wrap]
+          if rules[:html_wrap]
             html_wrap(currency.to_s, "currency")
           else
             currency.to_s
@@ -401,7 +349,7 @@ class Money
         else
           ""
         end
-      elsif rules[:html] || rules[:html_wrap]
+      elsif rules[:html_wrap]
         currency.html_entity == '' ? currency.symbol : currency.html_entity
       elsif rules[:disambiguate] && currency.disambiguate_symbol
         currency.disambiguate_symbol
