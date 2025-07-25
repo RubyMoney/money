@@ -614,15 +614,18 @@ YAML
   end
 
   describe "#dollars" do
-    it "is synonym of #amount" do
-      m = Money.new(0)
+    it "is a synonym of #amount" do
+      expect(Money.new(1_23, "USD").dollars).to eq(1.23)
+    end
 
-      # Make a small expectation
-      def m.amount
-        5
+    context "when using another currency" do
+      it "warns" do
+        amount = Money.new(1_23, "EUR")
+
+        allow(amount).to receive(:warn)
+        expect(amount.dollars).to eq(1.23)
+        expect(amount).to have_received(:warn).with(/DEPRECATION/)
       end
-
-      expect(m.dollars).to eq 5
     end
   end
 
@@ -648,14 +651,16 @@ YAML
   end
 
   describe "#symbol" do
-    it "works as documented" do
-      currency = Money::Currency.new("EUR")
-      expect(currency).to receive(:symbol).and_return("€")
-      expect(Money.new(0, currency).symbol).to eq "€"
+    it "returns the currency’s symbol" do
+      expect(Money.new(0, "EUR").symbol).to eq("€")
+    end
 
-      currency = Money::Currency.new("EUR")
-      expect(currency).to receive(:symbol).and_return(nil)
-      expect(Money.new(0, currency).symbol).to eq "¤"
+    context "when the currency has no symbol" do
+      it "returns a generic currency symbol" do
+        currency = Money::Currency.new("EUR")
+        expect(currency).to receive(:symbol).and_return(nil)
+        expect(Money.new(0, currency).symbol).to eq "¤"
+      end
     end
   end
 

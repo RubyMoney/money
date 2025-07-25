@@ -365,34 +365,37 @@ class Money
   end
 
   # Assuming using a currency using dollars:
-  # Returns the value of the money in dollars,
-  # instead of in the fractional unit cents.
+  # Returns the value of the money in dollars, instead of in the fractional unit
+  # cents.
   #
   # Synonym of #amount
   #
   # @return [BigDecimal]
   #
   # @example
-  #   Money.new(1_00, "USD").dollars   # => BigDecimal("1.00")
+  #   Money.new(1_00, "USD").dollars # => BigDecimal("1.00")
   #
   # @see #amount
   # @see #to_d
   # @see #cents
-  #
   def dollars
+    unless currency == "USD"
+      warn "[DEPRECATION] `#dollars` was called on an instance of Money in " \
+           "#{currency}. Prefer calling `#amount` instead."
+    end
+
     amount
   end
 
-  # Returns the numerical value of the money
+  # Returns the numerical value of the money.
   #
   # @return [BigDecimal]
   #
   # @example
-  #   Money.new(1_00, "USD").amount    # => BigDecimal("1.00")
+  #   Money.new(1_00, "USD").amount # => BigDecimal("1.00")
   #
   # @see #to_d
   # @see #fractional
-  #
   def amount
     to_d
   end
@@ -595,9 +598,7 @@ class Money
   # @example
   #   Money.new(10.1, 'USD').round #=> Money.new(10, 'USD')
   #
-  # @see
-  #   Money.default_infinite_precision
-  #
+  # @see Money.default_infinite_precision
   def round(rounding_mode = self.class.rounding_mode, rounding_precision = 0)
     rounded_amount = as_d(@fractional).round(rounding_precision, rounding_mode)
     dup_with(fractional: rounded_amount)
