@@ -146,7 +146,27 @@ class Money
     #   Used to specify precision for converting Rational to BigDecimal
     #
     #   @return [Integer]
-    attr_accessor :default_formatting_rules, :default_infinite_precision, :conversion_precision
+    #
+    # @!attribute [rw] strict_eql_compare
+    #    Use this to specify how +Money#eql?+ behaves. Opt-in to the new
+    #    behavior by setting this to +true+ and disable warnings when comparing
+    #    zero amounts with different currencies.
+    #
+    #    @example
+    #      Money.strict_eql_compare = false # (default)
+    #      Money.new(0, "USD").eql?(Money.new(0, "EUR")) # => true
+    #      # => [DEPRECATION] warning
+    #
+    #      Money.strict_eql_compare = true
+    #      Money.new(0, "USD").eql?(Money.new(0, "EUR")) # => false
+    #
+    #    @return [Boolean]
+    #
+    #    @see Money#eql
+    attr_accessor :default_formatting_rules,
+                  :default_infinite_precision,
+                  :conversion_precision,
+                  :strict_eql_compare
     attr_reader :use_i18n, :locale_backend
     attr_writer :default_bank
   end
@@ -238,6 +258,10 @@ class Money
 
     # Default the conversion of Rationals precision to 16
     self.conversion_precision = 16
+
+    # Defaults to the deprecated behavior where
+    # `Money.new(0, "USD").eql?(Money.new(0, "EUR"))` is true.
+    self.strict_eql_compare = false
   end
 
   def self.inherited(base)

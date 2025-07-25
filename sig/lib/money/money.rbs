@@ -193,6 +193,24 @@ class Money
   #   @return [Integer]
   attr_accessor self.conversion_precision: untyped
 
+  # @!attribute [rw] strict_eql_compare
+  #    Use this to specify how +Money#eql?+ behaves. Opt-in to the new
+  #    behavior by setting this to +true+ and disable warnings when comparing
+  #    zero amounts with different currencies.
+  #
+  #    @example
+  #      Money.strict_eql_compare = false # (default)
+  #      Money.new(0, "USD").eql?(Money.new(0, "EUR")) # => true
+  #      # => [DEPRECATION] warning
+  #
+  #      Money.strict_eql_compare = true
+  #      Money.new(0, "USD").eql?(Money.new(0, "EUR")) # => false
+  #
+  #    @return [Boolean]
+  #
+  #    @see Money#eql
+  attr_accessor self.strict_eql_compare: untyped
+
   attr_reader self.use_i18n: untyped
 
   attr_reader self.locale_backend: untyped
