@@ -2,7 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/money.svg)](https://rubygems.org/gems/money)
 [![Ruby](https://github.com/RubyMoney/money/actions/workflows/ruby.yml/badge.svg)](https://github.com/RubyMoney/money/actions/workflows/ruby.yml)
-[![Inline docs](https://inch-ci.org/github/RubyMoney/money.svg)](https://inch-ci.org/github/RubyMoney/money)
+[![Inline docs](https://img.shields.io/badge/docs-github.io-green.svg)](https://rubymoney.github.io/money/)
 [![License](https://img.shields.io/github/license/RubyMoney/money.svg)](https://opensource.org/license/MIT)
 
 :warning: Please read the [migration notes](#migration-notes) before upgrading to a new major version.
