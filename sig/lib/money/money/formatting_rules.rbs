@@ -28,9 +28,5 @@ class Money
     def determine_format_from_formatting_rules: (Hash[Symbol, untyped] rules) -> Hash[Symbol, untyped]
 
     def delimiter_pattern_rule: (Hash[Symbol, untyped] rules) -> ::Regexp
-
-    def symbol_position_from: (Hash[Symbol, untyped] rules) -> (Hash[Symbol, untyped] | :before | :after)
-
-    def warn_about_deprecated_rules: (Hash[Symbol, untyped] rules) -> void
   end
 end
