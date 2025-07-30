@@ -27,6 +27,14 @@
 - Add Zimbabwe Gold (ZWG) currency
 - Update thousands_separator for CHF
 - Add Caribbean Guilder (XCG) as replacement for Netherlands Antillean Gulden (ANG)
+- Add `Money.strict_eql_compare = true` so that comparing zero amounts with different currencies using `Money#eql?` returns `false`
+    ```rb
+    Money.new(0, "USD").eql?(Money.new(0, "EUR")) #=> true
+    #> [DEPRECATION] Comparing 0 USD with 0 EUR using `#eql?` will return false…
+
+    Money.strict_eql_compare = true
+    Money.new(0, "USD").eql?(Money.new(0, "EUR")) #=> false
+    ```
 - Add `Money#to_nearest_cash_value` to return a rounded Money instance to the smallest denomination
 - Deprecate `Money#round_to_nearest_cash_value` in favor of calling `to_nearest_cash_value.fractional`
 - Add `Money::Currency#cents_based?` to check if currency is cents-based
