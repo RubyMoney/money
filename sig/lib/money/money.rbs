@@ -320,20 +320,9 @@ class Money
   #
   def initialize: (Object obj, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
 
-  # Assuming using a currency using dollars:
-  # Returns the value of the money in dollars, instead of in the fractional unit
-  # cents.
-  #
-  # Synonym of #amount
-  #
-  # @return [BigDecimal]
-  #
-  # @example
-  #   Money.new(1_00, "USD").dollars # => BigDecimal("1.00")
+  # DEPRECATED.
   #
   # @see #amount
-  # @see #to_d
-  # @see #cents
   def dollars: () -> BigDecimal
 
   # Returns the numerical value of the money.

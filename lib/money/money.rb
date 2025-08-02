@@ -373,25 +373,12 @@ class Money
     raise Currency::NoCurrency, 'must provide a currency' if @currency.nil?
   end
 
-  # Assuming using a currency using dollars:
-  # Returns the value of the money in dollars, instead of in the fractional unit
-  # cents.
-  #
-  # Synonym of #amount
-  #
-  # @return [BigDecimal]
-  #
-  # @example
-  #   Money.new(1_00, "USD").dollars # => BigDecimal("1.00")
+  # DEPRECATED.
   #
   # @see #amount
-  # @see #to_d
-  # @see #cents
   def dollars
-    unless currency == "USD"
-      warn "[DEPRECATION] `#dollars` was called on an instance of Money in " \
-           "#{currency}. Prefer calling `#amount` instead."
-    end
+    warn "[DEPRECATION] `Money#dollars` is deprecated in favor of " \
+         "`Money#amount`."
 
     amount
   end

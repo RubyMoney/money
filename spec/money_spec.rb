@@ -136,7 +136,7 @@ RSpec.describe Money do
       subject(:money) { Money.from_dollars(initializing_value) }
 
       it 'works just as with .from_amount' do
-        expect(money.dollars).to eq initializing_value
+        expect(money.amount).to eq initializing_value
       end
 
       it "warns" do
@@ -601,7 +601,7 @@ YAML
   end
 
   describe "#amount" do
-    it "returns the amount of cents as dollars" do
+    it "returns the amount of cents as the full unit" do
       expect(Money.new(1_00).amount).to eq 1
     end
 
@@ -626,14 +626,12 @@ YAML
       expect(Money.new(1_23, "USD").dollars).to eq(1.23)
     end
 
-    context "when using another currency" do
-      it "warns" do
-        amount = Money.new(1_23, "EUR")
+    it "warns" do
+      money = Money.new(1_23)
 
-        allow(amount).to receive(:warn)
-        expect(amount.dollars).to eq(1.23)
-        expect(amount).to have_received(:warn).with(/DEPRECATION/)
-      end
+      allow(money).to receive(:warn)
+      expect(money.dollars).to eq(1.23)
+      expect(money).to have_received(:warn).with(/DEPRECATION/)
     end
   end
 
