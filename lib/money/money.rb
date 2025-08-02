@@ -345,9 +345,18 @@ class Money
     new(value, currency, options)
   end
 
+  # DEPRECATED.
+  #
+  # @see Money.from_amount
+  def self.from_dollars(amount, currency = default_currency, options = {})
+    warn "[DEPRECATION] `Money.from_dollars` is deprecated in favor of " \
+         "`Money.from_amount`."
+
+    from_amount(amount, currency, options)
+  end
+
   class << self
     alias_method :from_cents, :new
-    alias_method :from_dollars, :from_amount
   end
 
   # Creates a new Money object of value given in the
@@ -388,35 +397,25 @@ class Money
     raise Currency::NoCurrency, 'must provide a currency' if @currency.nil?
   end
 
-  # Assuming using a currency using dollars:
-  # Returns the value of the money in dollars,
-  # instead of in the fractional unit cents.
-  #
-  # Synonym of #amount
-  #
-  # @return [BigDecimal]
-  #
-  # @example
-  #   Money.new(1_00, "USD").dollars   # => BigDecimal("1.00")
+  # DEPRECATED.
   #
   # @see #amount
-  # @see #to_d
-  # @see #cents
-  #
   def dollars
+    warn "[DEPRECATION] `Money#dollars` is deprecated in favor of " \
+         "`Money#amount`."
+
     amount
   end
 
-  # Returns the numerical value of the money
+  # Returns the numerical value of the money.
   #
   # @return [BigDecimal]
   #
   # @example
-  #   Money.new(1_00, "USD").amount    # => BigDecimal("1.00")
+  #   Money.new(1_00, "USD").amount # => BigDecimal("1.00")
   #
   # @see #to_d
   # @see #fractional
-  #
   def amount
     to_d
   end
@@ -619,9 +618,7 @@ class Money
   # @example
   #   Money.new(10.1, 'USD').round #=> Money.new(10, 'USD')
   #
-  # @see
-  #   Money.default_infinite_precision
-  #
+  # @see Money.default_infinite_precision
   def round(rounding_mode = self.class.rounding_mode, rounding_precision = 0)
     rounded_amount = as_d(@fractional).round(rounding_precision, rounding_mode)
     dup_with(fractional: rounded_amount)

@@ -308,9 +308,12 @@ class Money
   # @see #initialize
   def self.from_amount: (Numeric amount, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
 
-  alias self.from_cents self.new
+  # DEPRECATED.
+  #
+  # @see Money.from_amount
+  def self.from_amount: (Numeric amount, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
 
-  alias self.from_dollars self.from_amount
+  alias self.from_cents self.new
 
   # Creates a new Money object of value given in the
   # +fractional unit+ of the given +currency+.
@@ -335,33 +338,20 @@ class Money
   #
   def initialize: (Object obj, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
 
-  # Assuming using a currency using dollars:
-  # Returns the value of the money in dollars,
-  # instead of in the fractional unit cents.
-  #
-  # Synonym of #amount
-  #
-  # @return [BigDecimal]
-  #
-  # @example
-  #   Money.new(1_00, "USD").dollars   # => BigDecimal("1.00")
+  # DEPRECATED.
   #
   # @see #amount
-  # @see #to_d
-  # @see #cents
-  #
   def dollars: () -> BigDecimal
 
-  # Returns the numerical value of the money
+  # Returns the numerical value of the money.
   #
   # @return [BigDecimal]
   #
   # @example
-  #   Money.new(1_00, "USD").amount    # => BigDecimal("1.00")
+  #   Money.new(1_00, "USD").amount # => BigDecimal("1.00")
   #
   # @see #to_d
   # @see #fractional
-  #
   def amount: () -> BigDecimal
 
   # Returns a Integer hash value based on the +fractional+ and +currency+ attributes
@@ -516,9 +506,7 @@ class Money
   # @example
   #   Money.new(10.1, 'USD').round #=> Money.new(10, 'USD')
   #
-  # @see
-  #   Money.default_infinite_precision
-  #
+  # @see Money.default_infinite_precision
   def round: (?untyped rounding_mode, ?::Integer rounding_precision) -> Money
 
   # Creates a formatted price string according to several rules.
