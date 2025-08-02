@@ -290,9 +290,12 @@ class Money
   # @see #initialize
   def self.from_amount: (Numeric amount, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
 
-  alias self.from_cents self.new
+  # DEPRECATED.
+  #
+  # @see Money.from_amount
+  def self.from_amount: (Numeric amount, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
 
-  alias self.from_dollars self.from_amount
+  alias self.from_cents self.new
 
   # Creates a new Money object of value given in the
   # +fractional unit+ of the given +currency+.

@@ -321,9 +321,18 @@ class Money
     new(value, currency, options)
   end
 
+  # DEPRECATED.
+  #
+  # @see Money.from_amount
+  def self.from_dollars(amount, currency = default_currency, options = {})
+    warn "[DEPRECATION] `Money.from_dollars` is deprecated in favor of " \
+         "`Money.from_amount`."
+
+    from_amount(amount, currency, options)
+  end
+
   class << self
     alias_method :from_cents, :new
-    alias_method :from_dollars, :from_amount
   end
 
   # Creates a new Money object of value given in the

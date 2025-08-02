@@ -138,6 +138,14 @@ RSpec.describe Money do
       it 'works just as with .from_amount' do
         expect(money.dollars).to eq initializing_value
       end
+
+      it "warns" do
+        allow(Money).to receive(:warn)
+
+        money
+
+        expect(Money).to have_received(:warn).with(/DEPRECATION/)
+      end
     end
   end
 
