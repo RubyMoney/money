@@ -135,15 +135,9 @@ RSpec.describe Money do
     context 'initializing with .from_dollars' do
       subject(:money) { Money.from_dollars(initializing_value) }
 
-      it 'works just as with .from_amount' do
-        expect(money.amount).to eq initializing_value
-      end
-
-      it "warns" do
+      it 'works like .from_amount but warns' do
         allow(Money).to receive(:warn)
-
-        money
-
+        expect(money.amount).to eq initializing_value
         expect(Money).to have_received(:warn).with(/DEPRECATION/)
       end
     end
