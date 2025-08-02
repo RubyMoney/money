@@ -135,7 +135,7 @@ RSpec.describe Money do
     context 'initializing with .from_dollars' do
       subject(:money) { Money.from_dollars(initializing_value) }
 
-      it 'works like .from_amount but warns' do
+      it "is a deprecated .from_amount" do
         allow(Money).to receive(:warn)
         expect(money.amount).to eq initializing_value
         expect(Money).to have_received(:warn).with(/DEPRECATION/)
@@ -616,11 +616,7 @@ YAML
   end
 
   describe "#dollars" do
-    it "is a synonym of #amount" do
-      expect(Money.new(1_23, "USD").dollars).to eq(1.23)
-    end
-
-    it "warns" do
+    it "is a deprecated synonym of #amount" do
       money = Money.new(1_23)
 
       allow(money).to receive(:warn)
