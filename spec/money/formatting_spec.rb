@@ -785,20 +785,26 @@ RSpec.describe Money, "formatting" do
       specify "(drop_trailing_zeros: true) works as documented" do
         expect(Money.new(89000, "BTC").format(drop_trailing_zeros: true, symbol: false)).to eq "0.00089"
         expect(Money.new(89000, "BCH").format(drop_trailing_zeros: true, symbol: false)).to eq "0.00089"
+        expect(Money.new(890000000000000000, "ETH").format(drop_trailing_zeros: true, symbol: false)).to eq "0.89"
         expect(Money.new(100089000, "BTC").format(drop_trailing_zeros: true, symbol: false)).to eq "1.00089"
         expect(Money.new(100089000, "BCH").format(drop_trailing_zeros: true, symbol: false)).to eq "1.00089"
+        expect(Money.new(1000890000000000000, "ETH").format(drop_trailing_zeros: true, symbol: false)).to eq "1.00089"
         expect(Money.new(100000000, "BTC").format(drop_trailing_zeros: true, symbol: false)).to eq "1"
         expect(Money.new(100000000, "BCH").format(drop_trailing_zeros: true, symbol: false)).to eq "1"
+        expect(Money.new(1000000000000000000, "ETH").format(drop_trailing_zeros: true, symbol: false)).to eq "1"
         expect(Money.new(110, "AUD").format(drop_trailing_zeros: true, symbol: false)).to eq "1.1"
       end
 
       specify "(drop_trailing_zeros: false) works as documented" do
         expect(Money.new(89000, "BTC").format(drop_trailing_zeros: false, symbol: false)).to eq "0.00089000"
         expect(Money.new(89000, "BCH").format(drop_trailing_zeros: false, symbol: false)).to eq "0.00089000"
+        expect(Money.new(890000000000000000, "ETH").format(drop_trailing_zeros: false, symbol: false)).to eq "0.890000000000000000"
         expect(Money.new(100089000, "BTC").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00089000"
         expect(Money.new(100089000, "BCH").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00089000"
+        expect(Money.new(1000890000000000000, "ETH").format(drop_trailing_zeros: false, symbol: false)).to eq "1.000890000000000000"
         expect(Money.new(100000000, "BTC").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00000000"
         expect(Money.new(100000000, "BCH").format(drop_trailing_zeros: false, symbol: false)).to eq "1.00000000"
+        expect(Money.new(1000000000000000000, "ETH").format(drop_trailing_zeros: false, symbol: false)).to eq "1.000000000000000000"
         expect(Money.new(110, "AUD").format(drop_trailing_zeros: false, symbol: false)).to eq "1.10"
       end
     end

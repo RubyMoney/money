@@ -342,6 +342,7 @@ RSpec.describe Money::Currency do
 
     it "returns false if the currency is not iso" do
       expect(described_class.new(:btc).iso?).to be false
+      expect(described_class.new(:eth).iso?).to be false
     end
   end
 
