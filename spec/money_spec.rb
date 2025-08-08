@@ -135,7 +135,7 @@ RSpec.describe Money do
     context 'initializing with .from_dollars' do
       subject(:money) { Money.from_dollars(initializing_value) }
 
-      it "is a deprecated .from_amount" do
+      it "is a deprecated synonym of .from_amount" do
         allow(Money).to receive(:warn)
         expect(money.amount).to eq initializing_value
         expect(Money).to have_received(:warn).with(/DEPRECATION/)
@@ -652,9 +652,13 @@ YAML
     end
 
     context "when the currency has no symbol" do
-      it "returns a generic currency symbol" do
-        currency = Money::Currency.new("EUR")
+      let(:currency) { Money::Currency.new("EUR") }
+
+      before do
         expect(currency).to receive(:symbol).and_return(nil)
+      end
+
+      it "returns a generic currency symbol" do
         expect(Money.new(0, currency).symbol).to eq "¤"
       end
     end
