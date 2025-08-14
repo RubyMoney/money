@@ -135,8 +135,10 @@ RSpec.describe Money do
     context 'initializing with .from_dollars' do
       subject(:money) { Money.from_dollars(initializing_value) }
 
-      it 'works just as with .from_amount' do
-        expect(money.dollars).to eq initializing_value
+      it "is a deprecated synonym of .from_amount" do
+        allow(Money).to receive(:warn)
+        expect(money.amount).to eq initializing_value
+        expect(Money).to have_received(:warn).with(/DEPRECATION/)
       end
     end
   end
@@ -587,7 +589,7 @@ YAML
   end
 
   describe "#amount" do
-    it "returns the amount of cents as dollars" do
+    it "returns the amount of cents as the full unit" do
       expect(Money.new(1_00).amount).to eq 1
     end
 
@@ -608,15 +610,12 @@ YAML
   end
 
   describe "#dollars" do
-    it "is synonym of #amount" do
-      m = Money.new(0)
+    it "is a deprecated synonym of #amount" do
+      money = Money.new(1_23)
 
-      # Make a small expectation
-      def m.amount
-        5
-      end
-
-      expect(m.dollars).to eq 5
+      allow(money).to receive(:warn)
+      expect(money.dollars).to eq(1.23)
+      expect(money).to have_received(:warn).with(/DEPRECATION/)
     end
   end
 
@@ -642,14 +641,20 @@ YAML
   end
 
   describe "#symbol" do
-    it "works as documented" do
-      currency = Money::Currency.new("EUR")
-      expect(currency).to receive(:symbol).and_return("€")
-      expect(Money.new(0, currency).symbol).to eq "€"
+    it "returns the currency’s symbol" do
+      expect(Money.new(0, "EUR").symbol).to eq("€")
+    end
 
-      currency = Money::Currency.new("EUR")
-      expect(currency).to receive(:symbol).and_return(nil)
-      expect(Money.new(0, currency).symbol).to eq "¤"
+    context "when the currency has no symbol" do
+      let(:currency) { Money::Currency.new("EUR") }
+
+      before do
+        expect(currency).to receive(:symbol).and_return(nil)
+      end
+
+      it "returns a generic currency symbol" do
+        expect(Money.new(0, currency).symbol).to eq "¤"
+      end
     end
   end
 
