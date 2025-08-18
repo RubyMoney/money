@@ -21,7 +21,7 @@ RSpec.describe Money::LocaleBackend::I18n do
       before do
         I18n.locale = :de
         I18n.backend.store_translations(:de, number: {
-          currency: { format: { delimiter: '.', separator: ',', unit: '$' } }
+          currency: { format: { delimiter: '.', separator: ',', unit: '$', format: '%u%n' } }
         })
       end
 
@@ -35,6 +35,10 @@ RSpec.describe Money::LocaleBackend::I18n do
 
       it 'returns symbol based on the current locale' do
         expect(subject.lookup(:symbol, nil)).to eq('$')
+      end
+
+      it 'returns format based on the current locale' do
+        expect(subject.lookup(:format, nil)).to eq('%u%n')
       end
     end
 
@@ -64,6 +68,10 @@ RSpec.describe Money::LocaleBackend::I18n do
 
       it 'returns symbol based on the current locale' do
         expect(subject.lookup(:symbol, nil)).to eq(nil)
+      end
+
+      it 'returns format based on the current locale' do
+        expect(subject.lookup(:format, nil)).to eq(nil)
       end
     end
   end

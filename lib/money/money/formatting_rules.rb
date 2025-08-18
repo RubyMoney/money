@@ -10,7 +10,7 @@ class Money
 
       @rules = default_formatting_rules.merge(@rules) unless @rules[:ignore_defaults]
       @rules = translate_formatting_rules(@rules) if @rules[:translate]
-      @rules[:format] ||= determine_format_from_formatting_rules(@rules)
+      @rules[:format] ||= determine_format
       @rules[:delimiter_pattern] ||= delimiter_pattern_rule(@rules)
     end
 
@@ -68,7 +68,11 @@ class Money
       rules
     end
 
-    def determine_format_from_formatting_rules(rules)
+    def determine_format
+      Money.locale_backend&.lookup(:format, @currency) || default_format
+    end
+
+    def default_format
       if currency.format
         currency.format
       else

@@ -11,5 +11,9 @@ RSpec.describe Money::LocaleBackend::Currency do
     it 'returns decimal_mark based as defined in currency' do
       expect(subject.lookup(:decimal_mark, currency)).to eq(',')
     end
+
+    it 'returns format based as defined in currency' do
+      expect(subject.lookup(:format, currency)).to eq(nil)
+    end
   end
 end
