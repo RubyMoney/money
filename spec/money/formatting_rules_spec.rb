@@ -14,4 +14,47 @@ RSpec.describe Money::FormattingRules do
     expect(rules).to eq(separator: '.')
     expect(rules).not_to eq(new_rules)
   end
+
+  describe 'format' do
+    context 'when there is a locale backend' do
+      it 'returns the format from the passed rules' do
+        currency = Money::Currency.new('EUR')
+        rules = { format: '%n%u', separator: '.', delimiter: ',' }
+
+        expect(Money::FormattingRules.new(currency, rules)[:format]).to eq('%n%u')
+      end
+
+      it 'returns the translated format for the locale' do
+        I18n.backend.store_translations(:fr, number: {
+          currency: { format: { format: "%n %u" } }
+        })
+        currency = Money::Currency.new('EUR')
+        rules = { separator: '.', delimiter: ',' }
+
+        expect(I18n.with_locale(:fr) { Money::FormattingRules.new(currency, rules)[:format] }).to eq('%n %u')
+      end
+    end
+
+    context 'when there is no locale backend' do
+      it 'returns the format from the passed rules' do
+        allow(Money).to receive(:locale_backend).and_return(nil)
+        currency = Money::Currency.new('EUR')
+        rules = { format: '%n%u', separator: '.', delimiter: ',' }
+
+        expect(Money::FormattingRules.new(currency, rules)[:format]).to eq('%n%u')
+      end
+
+      it 'returns the default format for the locale' do
+        allow(Money).to receive(:locale_backend).and_return(nil)
+        I18n.backend.store_translations(:fr, number: {
+          currency: { format: { format: "%n %u" } }
+        })
+        currency = Money::Currency.new('EUR')
+        rules = { separator: '.', delimiter: ',' }
+        allow(currency).to receive(:format).and_return("%u%n")
+
+        expect(I18n.with_locale(:fr) { Money::FormattingRules.new(currency, rules)[:format] }).to eq('%u%n')
+      end
+    end
+  end
 end
