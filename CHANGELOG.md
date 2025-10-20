@@ -44,7 +44,7 @@
 - Add ability to nest `Money.with_rounding_mode` blocks
 - Allow `nil` to be used as a default_currency
 - Add ability to nest `Money.with_bank` blocks
-- Refactor Money::Allocation.generate to support configurable per-split precision: rename `whole_amounts` to `decimal_cutoff` (accepts true/false or an Integer precision), fixes allocation failures with large arrays and infinite decimal expansions.
+- Refactor `Money::Allocation.generate` to support configurable per-split precision by accepting an Integer as a second argument, fixing allocation failures with large arrays and infinite decimal expansions.
 
 ## 6.19.0
 
