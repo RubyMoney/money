@@ -60,8 +60,7 @@ RSpec.configure do |config|
   # compatibility in RSpec 3). It causes shared context metadata to be
   # inherited by the metadata hash of host groups and examples, rather than
   # triggering implicit auto-inclusion in groups with matching metadata.
-  # TODO: enable this option. Tracked in RubyMoney/money#1136
-  # config.shared_context_metadata_behavior = :apply_to_host_groups
+  config.shared_context_metadata_behavior = :apply_to_host_groups
 
   # This allows you to limit a spec run to individual examples or groups
   # you care about by tagging them with `:focus` metadata. When nothing
@@ -113,5 +112,13 @@ RSpec.configure do |config|
 
   config.before(:each) do
     Money.default_currency = Money::Currency.new("USD")
+  end
+
+  config.before(:each, :default_infinite_precision_true) do
+    Money.default_infinite_precision = true
+  end
+
+  config.after(:each, :default_infinite_precision_true) do
+    Money.default_infinite_precision = false
   end
 end

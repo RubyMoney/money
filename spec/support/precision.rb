@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-RSpec.shared_context "with infinite precision", :default_infinite_precision_true do
-  before do
+RSpec.configure do |config|
+  config.before(:each, :default_infinite_precision_true) do
     Money.default_infinite_precision = true
   end
 
-  after do
+  config.after(:each, :default_infinite_precision_true) do
     Money.default_infinite_precision = false
   end
 end
