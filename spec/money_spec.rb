@@ -823,11 +823,11 @@ YAML
 
   describe "#allocate" do
     it "takes no action when one gets all" do
-      expect(Money.us_dollar(005).allocate([1.0])).to eq [Money.us_dollar(5)]
+      expect(Money.us_dollar(5).allocate([1.0])).to eq [Money.us_dollar(5)]
     end
 
     it "keeps currencies intact" do
-      expect(Money.ca_dollar(005).allocate([1])).to eq [Money.ca_dollar(5)]
+      expect(Money.ca_dollar(5).allocate([1])).to eq [Money.ca_dollar(5)]
     end
 
     it "does not lose pennies" do
@@ -900,7 +900,7 @@ YAML
 
     it "keeps subclasses intact" do
       special_money_class = Class.new(Money)
-      expect(special_money_class.new(005).allocate([1]).first).to be_a special_money_class
+      expect(special_money_class.new(5).allocate([1]).first).to be_a special_money_class
     end
 
     context "with infinite_precision", :default_infinite_precision_true do
@@ -1065,7 +1065,7 @@ YAML
     after { Money.setup_defaults }
 
     it "accepts a lambda" do
-      Money.default_currency = lambda { :eur }
+      Money.default_currency = -> { :eur }
       expect(Money.default_currency).to eq Money::Currency.new(:eur)
     end
 
@@ -1091,7 +1091,7 @@ YAML
     end
 
     it 'accepts a lambda' do
-      Money.default_bank = lambda { Money::Bank::SingleCurrency.instance }
+      Money.default_bank = -> { Money::Bank::SingleCurrency.instance }
       expect(Money.default_bank).to be_instance_of(Money::Bank::SingleCurrency)
     end
   end
