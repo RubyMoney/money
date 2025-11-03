@@ -790,7 +790,7 @@ RSpec.describe Money::Arithmetic do
     end
   end
 
-  %w(+ - / divmod remainder).each do |op|
+  %w[+ - / divmod remainder].each do |op|
     describe "##{op}" do
       let(:instance) { Money.usd(1) }
 
