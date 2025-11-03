@@ -109,16 +109,4 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
-
-  config.before(:each) do
-    Money.default_currency = Money::Currency.new("USD")
-  end
-
-  config.before(:each, :default_infinite_precision_true) do
-    Money.default_infinite_precision = true
-  end
-
-  config.after(:each, :default_infinite_precision_true) do
-    Money.default_infinite_precision = false
-  end
 end
