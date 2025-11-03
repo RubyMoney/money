@@ -259,8 +259,8 @@ class Money
     #     this currency)
 
     attr_reader :id, :priority, :iso_code, :iso_numeric, :name, :symbol,
-      :disambiguate_symbol, :html_entity, :subunit, :subunit_to_unit, :decimal_mark,
-      :thousands_separator, :symbol_first, :smallest_denomination, :format
+                :disambiguate_symbol, :html_entity, :subunit, :subunit_to_unit, :decimal_mark,
+                :thousands_separator, :symbol_first, :smallest_denomination, :format
 
     alias separator decimal_mark
     alias delimiter thousands_separator

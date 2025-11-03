@@ -36,8 +36,8 @@ RSpec.describe Money, "formatting" do
       reset_i18n
       I18n.locale = :de
       I18n.backend.store_translations(
-          :de,
-          number: { currency: { format: { delimiter: ".", separator: "," } } }
+        :de,
+        number: { currency: { format: { delimiter: ".", separator: "," } } }
       )
       Money.use_i18n = false
     end
@@ -70,8 +70,8 @@ RSpec.describe Money, "formatting" do
         reset_i18n
         I18n.locale = :de
         I18n.backend.store_translations(
-            :de,
-            number: { format: { delimiter: ".", separator: "," } }
+          :de,
+          number: { format: { delimiter: ".", separator: "," } }
         )
       end
 
@@ -91,8 +91,8 @@ RSpec.describe Money, "formatting" do
         reset_i18n
         I18n.locale = :de
         I18n.backend.store_translations(
-            :de,
-            number: { currency: { format: { delimiter: ".", separator: "," } } }
+          :de,
+          number: { currency: { format: { delimiter: ".", separator: "," } } }
         )
       end
 
@@ -112,8 +112,8 @@ RSpec.describe Money, "formatting" do
         reset_i18n
         I18n.locale = :de
         I18n.backend.store_translations(
-            :de,
-            number: { currency: { symbol: { CAD: "CAD$" } } }
+          :de,
+          number: { currency: { symbol: { CAD: "CAD$" } } }
         )
       end
 
@@ -399,8 +399,7 @@ RSpec.describe Money, "formatting" do
         expect(money.format(symbol: false)).to eq "-1,00"
 
         money = Money.new(100, "EUR")
-        expect(money.format(symbol: false,
-                     sign_positive: true)).to eq "+1,00"
+        expect(money.format(symbol: false, sign_positive: true)).to eq "+1,00"
       end
     end
 
@@ -591,8 +590,8 @@ RSpec.describe Money, "formatting" do
           reset_i18n
           I18n.locale = :de
           I18n.backend.store_translations(
-              :de,
-              number: { currency: { format: { delimiter: ".", separator: "," } } }
+            :de,
+            number: { currency: { format: { delimiter: ".", separator: "," } } }
           )
         end
 
