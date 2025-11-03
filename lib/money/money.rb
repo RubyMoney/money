@@ -356,7 +356,7 @@ class Money
   end
 
   class << self
-    alias_method :from_cents, :new
+    alias from_cents new
   end
 
   # Creates a new Money object of value given in the
@@ -604,7 +604,7 @@ class Money
     amounts = Money::Allocation.generate(fractional, parts, !Money.default_infinite_precision)
     amounts.map { |amount| dup_with(fractional: amount) }
   end
-  alias_method :split, :allocate
+  alias split allocate
 
   # Round the monetary amount to smallest unit of coinage.
   #

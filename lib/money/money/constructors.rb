@@ -14,7 +14,7 @@ class Money
     def empty(currency = default_currency)
       new(0, currency)
     end
-    alias_method :zero, :empty
+    alias zero empty
 
 
     # Creates a new Money object of the given value, using the Canadian
@@ -31,7 +31,7 @@ class Money
     def ca_dollar(cents)
       new(cents, "CAD")
     end
-    alias_method :cad, :ca_dollar
+    alias cad ca_dollar
 
 
     # Creates a new Money object of the given value, using the American dollar
@@ -48,7 +48,7 @@ class Money
     def us_dollar(cents)
       new(cents, "USD")
     end
-    alias_method :usd, :us_dollar
+    alias usd us_dollar
 
 
     # Creates a new Money object of the given value, using the Euro currency.
@@ -64,7 +64,7 @@ class Money
     def euro(cents)
       new(cents, "EUR")
     end
-    alias_method :eur, :euro
+    alias eur euro
 
 
     # Creates a new Money object of the given value, in British pounds.
@@ -80,7 +80,7 @@ class Money
     def pound_sterling(pence)
       new(pence, "GBP")
     end
-    alias_method :gbp, :pound_sterling
+    alias gbp pound_sterling
 
   end
 end
