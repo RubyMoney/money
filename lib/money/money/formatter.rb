@@ -333,7 +333,7 @@ class Money
     end
 
     def lookup_default(key)
-      (Money.locale_backend && Money.locale_backend.lookup(key, currency)) || DEFAULTS[key]
+      Money.locale_backend&.lookup(key, currency) || DEFAULTS[key]
     end
 
     def symbol_value_from(rules)

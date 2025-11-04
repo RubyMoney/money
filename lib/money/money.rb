@@ -639,7 +639,7 @@ class Money
   # @return [String]
   #
   def thousands_separator
-    (locale_backend && locale_backend.lookup(:thousands_separator, currency)) ||
+    locale_backend&.lookup(:thousands_separator, currency) ||
       Money::Formatter::DEFAULTS[:thousands_separator]
   end
 
@@ -648,7 +648,7 @@ class Money
   # @return [String]
   #
   def decimal_mark
-    (locale_backend && locale_backend.lookup(:decimal_mark, currency)) ||
+    locale_backend&.lookup(:decimal_mark, currency) ||
       Money::Formatter::DEFAULTS[:decimal_mark]
   end
 
