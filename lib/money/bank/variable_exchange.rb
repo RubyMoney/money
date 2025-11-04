@@ -262,8 +262,8 @@ class Money
 
         if format == :ruby
           warn '[WARNING] Using :ruby format when importing rates is potentially unsafe and ' \
-            'might lead to remote code execution via Marshal.load deserializer. Consider using ' \
-            'safe alternatives such as :json and :yaml.'
+               'might lead to remote code execution via Marshal.load deserializer. Consider using ' \
+               'safe alternatives such as :json and :yaml.'
         end
 
         store.transaction do

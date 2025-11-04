@@ -41,9 +41,9 @@ class Money
       if other.is_a?(Money)
         if !Money.strict_eql_compare && fractional == 0 && other.fractional == 0
           warn "[DEPRECATION] Comparing 0 #{currency} with 0 " \
-                "#{other.currency} using `#eql?` will return false in " \
-                "future versions of Money. Opt-in to the new behavior by " \
-                "setting `Money.strict_eql_compare = true`."
+               "#{other.currency} using `#eql?` will return false in " \
+               "future versions of Money. Opt-in to the new behavior by " \
+               "setting `Money.strict_eql_compare = true`."
           return true
         end
 
