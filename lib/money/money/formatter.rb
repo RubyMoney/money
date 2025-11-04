@@ -261,7 +261,7 @@ class Money
           .gsub('%u', [sign_before, symbol_value].join)
           .gsub('%n', [sign, formatted_number].join)
       else
-        formatted_number = "#{sign_before}#{sign}#{formatted_number}"
+        "#{sign_before}#{sign}#{formatted_number}"
       end
     end
 
