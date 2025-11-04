@@ -517,27 +517,27 @@ RSpec.describe Money, "formatting" do
 
     describe ":sign_positive option" do
       specify "(sign_positive: true, sign_before_symbol: true) works as documented" do
-        expect(Money.us_dollar(      0).format(sign_positive: true, sign_before_symbol: true)).to eq "$0.00"
-        expect(Money.us_dollar( 100000).format(sign_positive: true, sign_before_symbol: true)).to eq "+$1,000.00"
+        expect(Money.us_dollar(0).format(sign_positive: true, sign_before_symbol: true)).to eq "$0.00"
+        expect(Money.us_dollar(100000).format(sign_positive: true, sign_before_symbol: true)).to eq "+$1,000.00"
         expect(Money.us_dollar(-100000).format(sign_positive: true, sign_before_symbol: true)).to eq "-$1,000.00"
       end
 
       specify "(sign_positive: true, sign_before_symbol: false) works as documented" do
-        expect(Money.us_dollar(      0).format(sign_positive: true, sign_before_symbol: false)).to eq "$0.00"
-        expect(Money.us_dollar( 100000).format(sign_positive: true, sign_before_symbol: false)).to eq "$+1,000.00"
-        expect(Money.us_dollar( 100000).format(sign_positive: true, sign_before_symbol: nil)).to eq "$+1,000.00"
+        expect(Money.us_dollar(0).format(sign_positive: true, sign_before_symbol: false)).to eq "$0.00"
+        expect(Money.us_dollar(100000).format(sign_positive: true, sign_before_symbol: false)).to eq "$+1,000.00"
+        expect(Money.us_dollar(100000).format(sign_positive: true, sign_before_symbol: nil)).to eq "$+1,000.00"
         expect(Money.us_dollar(-100000).format(sign_positive: true, sign_before_symbol: false)).to eq "$-1,000.00"
         expect(Money.us_dollar(-100000).format(sign_positive: true, sign_before_symbol: nil)).to eq "$-1,000.00"
       end
 
       specify "(sign_positive: false, sign_before_symbol: true) works as documented" do
-        expect(Money.us_dollar( 100000).format(sign_positive: false, sign_before_symbol: true)).to eq "$1,000.00"
+        expect(Money.us_dollar(100000).format(sign_positive: false, sign_before_symbol: true)).to eq "$1,000.00"
         expect(Money.us_dollar(-100000).format(sign_positive: false, sign_before_symbol: true)).to eq "-$1,000.00"
       end
 
       specify "(sign_positive: false, sign_before_symbol: false) works as documented" do
-        expect(Money.us_dollar( 100000).format(sign_positive: false, sign_before_symbol: false)).to eq "$1,000.00"
-        expect(Money.us_dollar( 100000).format(sign_positive: false, sign_before_symbol: nil)).to eq "$1,000.00"
+        expect(Money.us_dollar(100000).format(sign_positive: false, sign_before_symbol: false)).to eq "$1,000.00"
+        expect(Money.us_dollar(100000).format(sign_positive: false, sign_before_symbol: nil)).to eq "$1,000.00"
         expect(Money.us_dollar(-100000).format(sign_positive: false, sign_before_symbol: false)).to eq "$-1,000.00"
         expect(Money.us_dollar(-100000).format(sign_positive: false, sign_before_symbol: nil)).to eq "$-1,000.00"
       end

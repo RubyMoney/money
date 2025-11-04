@@ -578,7 +578,7 @@ RSpec.describe Money do
       expect(Money.new(-2_99, "USD").to_nearest_cash_value).to eq(Money.new(-2_99, "USD"))
       expect(Money.new(3_00, "USD").to_nearest_cash_value).to eq(Money.new(3_00, "USD"))
       expect(Money.new(-3_00, "USD").to_nearest_cash_value).to eq(Money.new(-3_00, "USD"))
-      expect(Money.new( 3_01, "USD").to_nearest_cash_value).to eq(Money.new(3_01, "USD"))
+      expect(Money.new(3_01, "USD").to_nearest_cash_value).to eq(Money.new(3_01, "USD"))
       expect(Money.new(-3_01, "USD").to_nearest_cash_value).to eq(Money.new(-3_01, "USD"))
     end
 
