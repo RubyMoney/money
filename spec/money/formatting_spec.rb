@@ -153,7 +153,7 @@ RSpec.describe Money, "formatting" do
         expect(money.format(format: "%u%n")).to eq "¥1,000"
       end
 
-      after  { I18n.locale = @_locale }
+      after { I18n.locale = @_locale }
     end
 
     it "returns the monetary value as a string" do
@@ -417,7 +417,7 @@ RSpec.describe Money, "formatting" do
 
     describe ":separator option" do
       specify "(separator: a separator string) works as documented" do
-        expect(Money.us_dollar(100).format(separator:  ",")).to eq "$1,00"
+        expect(Money.us_dollar(100).format(separator: ",")).to eq "$1,00"
       end
     end
 

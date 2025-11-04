@@ -263,7 +263,7 @@ RSpec.describe Money::Bank::VariableExchange do
 
   describe "#marshal_dump" do
     it "does not raise an error" do
-      expect {  Marshal.dump(subject) }.to_not raise_error
+      expect { Marshal.dump(subject) }.to_not raise_error
     end
 
     it "works with Marshal.load" do
