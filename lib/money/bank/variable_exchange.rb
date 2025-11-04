@@ -174,7 +174,7 @@ class Money
       #   bank = Money::Bank::VariableExchange.new
       #   bank.set_rate("USD", "CAD", 1.24515)
       #   bank.set_rate("CAD", "USD", 0.803115)
-      def set_rate(from, to, rate, opts = {})
+      def set_rate(from, to, rate, _opts = {})
         store.add_rate(Currency.wrap(from).iso_code, Currency.wrap(to).iso_code, rate)
       end
 
@@ -195,7 +195,7 @@ class Money
       #
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
-      def get_rate(from, to, opts = {})
+      def get_rate(from, to, _opts = {})
         store.get_rate(Currency.wrap(from).iso_code, Currency.wrap(to).iso_code)
       end
 
@@ -218,7 +218,7 @@ class Money
       #
       #   s = bank.export_rates(:json)
       #   s #=> "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
-      def export_rates(format, file = nil, opts = {})
+      def export_rates(format, file = nil, _opts = {})
         raise Money::Bank::UnknownRateFormat unless RATE_FORMATS.include?(format)
 
         store.transaction do
@@ -258,7 +258,7 @@ class Money
       #
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
-      def import_rates(format, string, opts = {})
+      def import_rates(format, string, _opts = {})
         raise Money::Bank::UnknownRateFormat unless RATE_FORMATS.include?(format)
 
         if format == :ruby

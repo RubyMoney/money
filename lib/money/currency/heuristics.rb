@@ -3,7 +3,7 @@
 class Money
   class Currency
     module Heuristics
-      def analyze(str)
+      def analyze(_str)
         raise StandardError, 'Heuristics deprecated, add `gem "money-heuristics"` to Gemfile'
       end
     end
