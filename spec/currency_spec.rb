@@ -3,7 +3,7 @@
 RSpec.describe Money::Currency do
   FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 1000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
 
-  def register_foo(opts={})
+  def register_foo(opts = {})
     foo_attrs = JSON.parse(FOO, symbolize_names: true)
     # Pass an array of attribute names to 'skip' to remove them from the 'FOO'
     # json before registering foo as a currency.
