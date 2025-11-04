@@ -390,7 +390,7 @@ RSpec.describe Money do
 
     context "loading a serialized Money via YAML" do
 
-      let(:serialized) { <<YAML
+      let(:serialized) do <<YAML
 !ruby/object:Money
   fractional: 249.5
   currency: !ruby/object:Money::Currency
@@ -410,7 +410,7 @@ RSpec.describe Money do
     mutex: !ruby/object:Thread::Mutex {}
     last_updated: 2012-11-23 20:41:47.454438399 +02:00
 YAML
-      }
+      end
 
       let(:m) do
         if Psych::VERSION > '4.0'

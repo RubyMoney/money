@@ -118,9 +118,9 @@ RSpec.describe Money::Currency do
     end
 
     specify ":iso_code must be present" do
-      expect {
+      expect do
         described_class.register(name: "New Currency")
-      }.to raise_error(KeyError)
+      end.to raise_error(KeyError)
     end
   end
 
