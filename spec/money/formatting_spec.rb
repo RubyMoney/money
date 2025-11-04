@@ -36,7 +36,7 @@ RSpec.describe Money, "formatting" do
       I18n.locale = :de
       I18n.backend.store_translations(
         :de,
-        number: { currency: { format: { delimiter: ".", separator: "," } } }
+        number: {currency: {format: {delimiter: ".", separator: ","}}}
       )
       Money.use_i18n = false
     end
@@ -70,7 +70,7 @@ RSpec.describe Money, "formatting" do
         I18n.locale = :de
         I18n.backend.store_translations(
           :de,
-          number: { format: { delimiter: ".", separator: "," } }
+          number: {format: {delimiter: ".", separator: ","}}
         )
       end
 
@@ -91,7 +91,7 @@ RSpec.describe Money, "formatting" do
         I18n.locale = :de
         I18n.backend.store_translations(
           :de,
-          number: { currency: { format: { delimiter: ".", separator: "," } } }
+          number: {currency: {format: {delimiter: ".", separator: ","}}}
         )
       end
 
@@ -112,7 +112,7 @@ RSpec.describe Money, "formatting" do
         I18n.locale = :de
         I18n.backend.store_translations(
           :de,
-          number: { currency: { symbol: { CAD: "CAD$" } } }
+          number: {currency: {symbol: {CAD: "CAD$"}}}
         )
       end
 
@@ -227,7 +227,7 @@ RSpec.describe Money, "formatting" do
 
     context 'when default_formatting_rules defines (display_free: true)' do
       before do
-        Money.default_formatting_rules = { display_free: "you won't pay a thing" }
+        Money.default_formatting_rules = {display_free: "you won't pay a thing"}
       end
 
       after do
@@ -593,7 +593,7 @@ RSpec.describe Money, "formatting" do
           I18n.locale = :de
           I18n.backend.store_translations(
             :de,
-            number: { currency: { format: { delimiter: ".", separator: "," } } }
+            number: {currency: {format: {delimiter: ".", separator: ","}}}
           )
         end
 

@@ -18,6 +18,10 @@ Layout/SpaceInsideArrayPercentLiteral:
   # Sometimes spacing is used to align amounts.
   Enabled: false
 
+Layout/SpaceInsideHashLiteralBraces:
+  # Prefer `{a: 1}` to `{ a: 1 }`
+  EnforcedStyle: no_space
+
 # Lint
 
 Lint/BinaryOperatorWithIdenticalOperands:

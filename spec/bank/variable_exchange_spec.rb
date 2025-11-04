@@ -163,7 +163,7 @@ RSpec.describe Money::Bank::VariableExchange do
       subject.set_rate('USD', 'EUR', 1.25)
       subject.set_rate('USD', 'JPY', 2.55)
 
-      @rates = { "USD_TO_EUR" => 1.25, "USD_TO_JPY" => 2.55 }
+      @rates = {"USD_TO_EUR" => 1.25, "USD_TO_JPY" => 2.55}
     end
 
     context "with format == :json" do
@@ -219,7 +219,7 @@ RSpec.describe Money::Bank::VariableExchange do
     end
 
     context "with format == :ruby" do
-      let(:dump) { Marshal.dump({ "USD_TO_EUR" => 1.25, "USD_TO_JPY" => 2.55 }) }
+      let(:dump) { Marshal.dump({"USD_TO_EUR" => 1.25, "USD_TO_JPY" => 2.55}) }
 
       it "loads the rates provided" do
         subject.import_rates(:ruby, dump)

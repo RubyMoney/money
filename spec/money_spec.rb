@@ -683,7 +683,7 @@ RSpec.describe Money do
     end
 
     context "using i18n" do
-      before { I18n.backend.store_translations(:en, number: { format: { separator: "." } }) }
+      before { I18n.backend.store_translations(:en, number: {format: {separator: "."}}) }
       after { reset_i18n }
 
       it "respects decimal mark" do
@@ -692,7 +692,7 @@ RSpec.describe Money do
     end
 
     context "with defaults set" do
-      before { Money.default_formatting_rules = { with_currency: true } }
+      before { Money.default_formatting_rules = {with_currency: true} }
       after { Money.default_formatting_rules = nil }
 
       it "ignores defaults" do

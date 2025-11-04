@@ -382,7 +382,7 @@ class Money
   def initialize(obj, currency = nil, options = {})
     # For backwards compatibility, if options is not a Hash, treat it as a bank parameter
     unless options.is_a?(Hash)
-      options = { bank: options }
+      options = {bank: options}
     end
 
     @fractional = as_d(obj.respond_to?(:fractional) ? obj.fractional : obj)

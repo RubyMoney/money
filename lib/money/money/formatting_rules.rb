@@ -40,7 +40,7 @@ class Money
 
         if rules.is_a?(Symbol)
           warn '[DEPRECATION] Use Hash when passing rules to Money#format.'
-          rules = { rules => true }
+          rules = {rules => true}
         end
       end
 

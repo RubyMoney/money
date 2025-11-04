@@ -14,17 +14,6 @@ Gemspec/DevelopmentDependencies:
   Exclude:
     - 'money.gemspec'
 
-# Offense count: 164
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces.
-# SupportedStyles: space, no_space, compact
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceInsideHashLiteralBraces:
-  Exclude:
-    - 'lib/money/bank/variable_exchange.rb'
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/rates_store/memory_spec.rb'
-
 # Offense count: 106
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.
