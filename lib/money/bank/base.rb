@@ -15,7 +15,6 @@ class Money
     class UnknownRate < Error
     end
 
-
     # Money::Bank::Base is the basic interface for creating a money exchange
     # object, also called Bank.
     #
