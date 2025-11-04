@@ -15,7 +15,7 @@ class Money
     #   # iterates rates
     #   store.each_rate {|iso_from, iso_to, rate| puts "#{from} -> #{to}: #{rate}" }
     class Memory
-      INDEX_KEY_SEPARATOR = '_TO_'.freeze
+      INDEX_KEY_SEPARATOR = '_TO_'
 
       # Initializes a new +Money::RatesStore::Memory+ object.
       #
