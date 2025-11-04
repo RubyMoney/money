@@ -11,7 +11,7 @@ RSpec.describe Money::Bank::Base do
 
   describe "#initialize" do
     it "accepts a block and stores @rounding_method" do
-      proc = proc { |n| n.ceil }
+      proc = proc(&:ceil)
       bank = described_class.new(&proc)
       expect(bank.rounding_method).to eq proc
     end
