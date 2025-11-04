@@ -894,7 +894,7 @@ RSpec.describe Money do
       let(:arry) { [0, 0] }
 
       it "allocates evenly" do
-         expect(subject).to eq [50, 50]
+        expect(subject).to eq [50, 50]
       end
     end
 
