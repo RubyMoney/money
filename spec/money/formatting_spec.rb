@@ -487,7 +487,7 @@ RSpec.describe Money, "formatting" do
           expect(Money.new(300_000, 'USD').format(thousands_separator: ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
         end
 
-        after { Money.use_i18n = true}
+        after { Money.use_i18n = true }
       end
     end
 

@@ -544,7 +544,7 @@ RSpec.describe Money do
 
     it "raises an error if smallest denomination is not defined" do
       money = Money.new(100, "XAG")
-      expect {money.round_to_nearest_cash_value}.to raise_error(Money::UndefinedSmallestDenomination)
+      expect { money.round_to_nearest_cash_value }.to raise_error(Money::UndefinedSmallestDenomination)
     end
 
     it "returns a Integer when infinite_precision is not set" do
@@ -583,7 +583,7 @@ RSpec.describe Money do
     end
 
     it "raises an error if smallest denomination is not defined" do
-      expect {Money.new(1_00, "XAG").to_nearest_cash_value}
+      expect { Money.new(1_00, "XAG").to_nearest_cash_value }
         .to raise_error(Money::UndefinedSmallestDenomination)
     end
   end

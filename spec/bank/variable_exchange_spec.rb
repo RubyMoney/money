@@ -188,7 +188,7 @@ RSpec.describe Money::Bank::VariableExchange do
 
     context "with unknown format" do
       it "raises Money::Bank::UnknownRateFormat" do
-        expect { subject.export_rates(:foo)}.to raise_error Money::Bank::UnknownRateFormat
+        expect { subject.export_rates(:foo) }.to raise_error Money::Bank::UnknownRateFormat
       end
     end
 
@@ -250,7 +250,7 @@ RSpec.describe Money::Bank::VariableExchange do
 
     context "with unknown format" do
       it "raises Money::Bank::UnknownRateFormat" do
-        expect { subject.import_rates(:foo, "")}.to raise_error Money::Bank::UnknownRateFormat
+        expect { subject.import_rates(:foo, "") }.to raise_error Money::Bank::UnknownRateFormat
       end
     end
 

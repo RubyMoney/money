@@ -224,7 +224,7 @@ class Money
           s = FORMAT_SERIALIZERS[format].dump(rates)
 
           unless file.nil?
-            File.open(file, "w") {|f| f.write(s) }
+            File.open(file, "w") { |f| f.write(s) }
           end
 
           s
