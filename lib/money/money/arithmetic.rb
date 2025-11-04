@@ -37,17 +37,17 @@ class Money
     #   Money.new(1_00).eql?("1.00")                        #=> false
     #
     # @see Money.strict_eql_compare
-    def eql?(other_money)
-      if other_money.is_a?(Money)
-        if !Money.strict_eql_compare && fractional == 0 && other_money.fractional == 0
+    def eql?(other)
+      if other.is_a?(Money)
+        if !Money.strict_eql_compare && fractional == 0 && other.fractional == 0
           warn "[DEPRECATION] Comparing 0 #{currency} with 0 " \
-                "#{other_money.currency} using `#eql?` will return false in " \
+                "#{other.currency} using `#eql?` will return false in " \
                 "future versions of Money. Opt-in to the new behavior by " \
                 "setting `Money.strict_eql_compare = true`."
           return true
         end
 
-        fractional == other_money.fractional && currency == other_money.currency
+        fractional == other.fractional && currency == other.currency
       else
         false
       end
@@ -174,12 +174,12 @@ class Money
     # @example
     #   Money.new(100) * 2 #=> #<Money @fractional=200>
     #
-    def *(value)
-      value = value.value if value.is_a?(CoercedNumeric)
-      if value.is_a? Numeric
-        dup_with(fractional: fractional * value)
+    def *(other)
+      other = other.value if other.is_a?(CoercedNumeric)
+      if other.is_a? Numeric
+        dup_with(fractional: fractional * other)
       else
-        raise TypeError, "Can't multiply a #{self.class.name} by a #{value.class.name}'s value"
+        raise TypeError, "Can't multiply a #{self.class.name} by a #{other.class.name}'s value"
       end
     end
 
@@ -198,12 +198,12 @@ class Money
     #   Money.new(100) / 10            #=> #<Money @fractional=10>
     #   Money.new(100) / Money.new(10) #=> 10.0
     #
-    def /(value)
-      if value.is_a?(self.class)
-        fractional / as_d(value.exchange_to(currency).fractional).to_f
+    def /(other)
+      if other.is_a?(self.class)
+        fractional / as_d(other.exchange_to(currency).fractional).to_f
       else
-        raise TypeError, 'Can not divide by Money' if value.is_a?(CoercedNumeric)
-        dup_with(fractional: fractional / as_d(value))
+        raise TypeError, 'Can not divide by Money' if other.is_a?(CoercedNumeric)
+        dup_with(fractional: fractional / as_d(other))
       end
     end
 
@@ -271,8 +271,8 @@ class Money
     # @return [Money]
     #
     # @see #modulo
-    def %(val)
-      modulo(val)
+    def %(other)
+      modulo(other)
     end
 
     # If different signs +self.modulo(val) - val+ otherwise +self.modulo(val)+

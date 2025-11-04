@@ -294,12 +294,12 @@ class Money
     #   c1 <=> c2 #=> 1
     #   c2 <=> c1 #=> -1
     #   c1 <=> c1 #=> 0
-    def <=>(other_currency)
+    def <=>(other)
       # <=> returns nil when one of the values is nil
-      comparison = priority <=> other_currency.priority || 0
+      comparison = priority <=> other.priority || 0
 
       if comparison == 0
-        id <=> other_currency.id
+        id <=> other.id
       else
         comparison
       end
@@ -317,8 +317,8 @@ class Money
     #   c2 = Money::Currency.new(:jpy)
     #   c1 == c1 #=> true
     #   c1 == c2 #=> false
-    def ==(other_currency)
-      equal?(other_currency) || compare_ids(other_currency)
+    def ==(other)
+      equal?(other) || compare_ids(other)
     end
 
     def compare_ids(other_currency)
