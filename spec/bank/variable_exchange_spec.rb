@@ -170,7 +170,7 @@ RSpec.describe Money::Bank::VariableExchange do
     context "with format == :json" do
       it "should return rates formatted as json" do
         json = subject.export_rates(:json)
-        expect(JSON.load(json)).to eq @rates
+        expect(JSON.parse(json)).to eq @rates
       end
     end
 
