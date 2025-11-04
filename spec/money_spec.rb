@@ -972,10 +972,10 @@ YAML
       end
 
       it "does not accumulate rounding error" do
-        money_1 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
-        money_2 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
+        money1 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
+        money2 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
 
-        expect(money_1 + money_2).to eq(Money.new(20))
+        expect(money1 + money2).to eq(Money.new(20))
       end
     end
 
