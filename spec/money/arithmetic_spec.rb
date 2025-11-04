@@ -507,10 +507,10 @@ RSpec.describe Money::Arithmetic do
 
     it "calculates division and modulo with Money (same currency)" do
       ts = [
-        {a: Money.new( 13, :USD), b: Money.new( 4, :USD), c: [ 3, Money.new( 1, :USD)]},
+        {a: Money.new( 13, :USD), b: Money.new( 4, :USD), c: [3, Money.new( 1, :USD)]},
         {a: Money.new( 13, :USD), b: Money.new(-4, :USD), c: [-4, Money.new(-3, :USD)]},
         {a: Money.new(-13, :USD), b: Money.new( 4, :USD), c: [-4, Money.new( 3, :USD)]},
-        {a: Money.new(-13, :USD), b: Money.new(-4, :USD), c: [ 3, Money.new(-1, :USD)]},
+        {a: Money.new(-13, :USD), b: Money.new(-4, :USD), c: [3, Money.new(-1, :USD)]},
       ]
       ts.each do |t|
         expect(t[:a].divmod(t[:b])).to eq t[:c]
@@ -519,10 +519,10 @@ RSpec.describe Money::Arithmetic do
 
     it "calculates division and modulo with Money (different currency)" do
       ts = [
-        {a: Money.new( 13, :USD), b: Money.new( 4, :EUR), c: [ 1, Money.new( 5, :USD)]},
+        {a: Money.new( 13, :USD), b: Money.new( 4, :EUR), c: [1, Money.new( 5, :USD)]},
         {a: Money.new( 13, :USD), b: Money.new(-4, :EUR), c: [-2, Money.new(-3, :USD)]},
         {a: Money.new(-13, :USD), b: Money.new( 4, :EUR), c: [-2, Money.new( 3, :USD)]},
-        {a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: [ 1, Money.new(-5, :USD)]},
+        {a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: [1, Money.new(-5, :USD)]},
       ]
       ts.each do |t|
         expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
