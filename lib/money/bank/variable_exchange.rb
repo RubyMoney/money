@@ -233,7 +233,7 @@ class Money
 
       # This should be deprecated.
       def rates
-        store.each_rate.each_with_object({}) do |(from,to,rate),hash|
+        store.each_rate.each_with_object({}) do |(from, to, rate), hash|
           hash[[from, to].join(SERIALIZER_SEPARATOR)] = rate
         end
       end

@@ -14,14 +14,6 @@ Gemspec/DevelopmentDependencies:
   Exclude:
     - 'money.gemspec'
 
-# Offense count: 6
-# This cop supports safe autocorrection (--autocorrect).
-Layout/SpaceAfterComma:
-  Exclude:
-    - 'lib/money/bank/variable_exchange.rb'
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/rates_store/memory_spec.rb'
-
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.

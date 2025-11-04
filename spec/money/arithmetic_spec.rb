@@ -779,7 +779,7 @@ RSpec.describe Money::Arithmetic do
       end.to raise_error(TypeError)
 
       expect do
-        Rational(2,3) / Money.new(2, 'USD')
+        Rational(2, 3) / Money.new(2, 'USD')
       end.to raise_error(TypeError)
 
       expect do
