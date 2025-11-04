@@ -111,7 +111,7 @@ class Money
         to_currency = Currency.wrap(to_currency)
         if from.currency == to_currency
           from
-        elsif rate = get_rate(from.currency, to_currency)
+        elsif (rate = get_rate(from.currency, to_currency))
           fractional = calculate_fractional(from, to_currency)
           from.dup_with(
             fractional: exchange(fractional, rate, &block),
