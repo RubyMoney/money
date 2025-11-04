@@ -4,7 +4,6 @@ require 'json'
 require 'yaml'
 
 RSpec.describe Money::Bank::VariableExchange do
-
   describe "#initialize" do
     context "without &block" do
       let(:bank) do
@@ -207,7 +206,6 @@ RSpec.describe Money::Bank::VariableExchange do
       expect(subject.store).to receive(:transaction)
       subject.export_rates(:yaml, nil, foo: 1)
     end
-
   end
 
   describe "#import_rates" do
@@ -261,7 +259,6 @@ RSpec.describe Money::Bank::VariableExchange do
       s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
       subject.import_rates(:yaml, s, foo: 1)
     end
-
   end
 
   describe "#marshal_dump" do

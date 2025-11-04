@@ -389,7 +389,6 @@ RSpec.describe Money do
     end
 
     context "loading a serialized Money via YAML" do
-
       let(:serialized) do <<YAML
 !ruby/object:Money
   fractional: 249.5

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe Money, "formatting" do
-
   BAR = '{ "priority": 1, "iso_code": "BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
   INDIAN_BAR = '{ "priority": 1, "iso_code": "INDIAN_BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "south_asian_number_formatting": true, "smallest_denomination": 1}'
   EU4 = '{ "priority": 1, "iso_code": "EU4", "iso_numeric": "841", "name": "Euro with 4 decimal places", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "€", "decimal_mark": ",", "thousands_separator": ".", "smallest_denomination": 1 }'
@@ -716,11 +715,9 @@ RSpec.describe Money, "formatting" do
       expect(Money.new(88833310034, "BAR").format).to eq "$8,883,331.0034"
       expect(Money.new(88833310034, "EU4").format).to eq "€8.883.331,0034"
     end
-
   end
 
   context "currencies with ambiguous signs" do
-
     it "returns ambiguous signs when disambiguate is not set" do
       expect(Money.new(1999_98, "USD").format).to eq("$1,999.98")
       expect(Money.new(1999_98, "CAD").format).to eq("$1,999.98")

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe Money::Constructors do
-
   describe "::empty" do
     it "creates a new Money object of 0 cents" do
       expect(Money.empty).to eq Money.new(0)
@@ -82,5 +81,4 @@ RSpec.describe Money::Constructors do
       expect(special_money_class.pound_sterling(0)).to be_a special_money_class
     end
   end
-
 end
