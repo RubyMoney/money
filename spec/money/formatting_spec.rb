@@ -376,7 +376,7 @@ RSpec.describe Money, "formatting" do
         expect(Money.new(100, "SEK").format(symbol: true)).to eq "1,00 kr"
       end
 
-      specify "(symbol: "", nil or false) returns the amount without a symbol" do
+      specify "(symbol: \"\", nil or false) returns the amount without a symbol" do
         money = Money.new(100, "GBP")
         expect(money.format(symbol: "")).to eq "1.00"
         expect(money.format(symbol: nil)).to eq "1.00"
