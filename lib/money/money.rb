@@ -336,7 +336,7 @@ class Money
   #
   # @see #initialize
   def self.from_amount(amount, currency = default_currency, options = {})
-    raise ArgumentError, "'amount' must be numeric" unless Numeric === amount
+    raise ArgumentError, "'amount' must be numeric" unless amount.is_a?(Numeric)
 
     currency = Currency.wrap(currency) || Money.default_currency
     raise Currency::NoCurrency, 'must provide a currency' if currency.nil?
