@@ -32,7 +32,7 @@ class Money
     #
     # @return [Hash]
     def normalize_formatting_rules(rules)
-      if rules.size == 0
+      if rules.empty?
         rules = {}
       elsif rules.size == 1
         rules = rules.pop
