@@ -289,9 +289,9 @@ class Money
       end
 
       if (fractional < 0 && val < 0) || (fractional > 0 && val > 0)
-        self.modulo(val)
+        modulo(val)
       else
-        self.modulo(val) - (val.is_a?(Money) ? val : dup_with(fractional: val))
+        modulo(val) - (val.is_a?(Money) ? val : dup_with(fractional: val))
       end
     end
 

@@ -83,7 +83,7 @@ class Money
       def find_by_iso_numeric(num)
         num = num.to_s.rjust(3, '0')
         return if num.empty?
-        id, _ = self.table.find { |key, currency| currency[:iso_numeric] == num }
+        id, _ = table.find { |key, currency| currency[:iso_numeric] == num }
         new(id)
       rescue UnknownCurrency
         nil
@@ -295,10 +295,10 @@ class Money
     #   c1 <=> c1 #=> 0
     def <=>(other_currency)
       # <=> returns nil when one of the values is nil
-      comparison = self.priority <=> other_currency.priority || 0
+      comparison = priority <=> other_currency.priority || 0
 
       if comparison == 0
-        self.id <=> other_currency.id
+        id <=> other_currency.id
       else
         comparison
       end
@@ -317,7 +317,7 @@ class Money
     #   c1 == c1 #=> true
     #   c1 == c2 #=> false
     def ==(other_currency)
-      self.equal?(other_currency) || compare_ids(other_currency)
+      equal?(other_currency) || compare_ids(other_currency)
     end
 
     def compare_ids(other_currency)
@@ -326,7 +326,7 @@ class Money
                           else
                             other_currency.to_s.downcase
                           end
-      self.id.to_s.downcase == other_currency_id
+      id.to_s.downcase == other_currency_id
     end
     private :compare_ids
 

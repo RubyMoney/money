@@ -82,13 +82,13 @@ class Money
   #
   # @return [Money]
   def to_nearest_cash_value
-    unless self.currency.smallest_denomination
+    unless currency.smallest_denomination
       raise UndefinedSmallestDenomination,
             "Smallest denomination of this currency is not defined"
     end
 
     fractional = as_d(@fractional)
-    smallest_denomination = as_d(self.currency.smallest_denomination)
+    smallest_denomination = as_d(currency.smallest_denomination)
     rounded_value =
       (fractional / smallest_denomination)
         .round(0, self.class.rounding_mode) * smallest_denomination
@@ -514,7 +514,7 @@ class Money
   # @return [self]
   def to_money(given_currency = nil)
     given_currency = Currency.wrap(given_currency)
-    if given_currency.nil? || self.currency == given_currency
+    if given_currency.nil? || currency == given_currency
       self
     else
       exchange_to(given_currency)
@@ -539,7 +539,7 @@ class Money
   #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
   def exchange_to(other_currency, &rounding_method)
     other_currency = Currency.wrap(other_currency)
-    if self.currency == other_currency
+    if currency == other_currency
       self
     else
       @bank.exchange_with(self, other_currency, &rounding_method)
