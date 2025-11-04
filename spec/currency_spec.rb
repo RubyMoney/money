@@ -94,7 +94,7 @@ RSpec.describe Money::Currency do
     it "raises a MissingAttributeError if any currency has no priority" do
       register_foo(skip: :priority)
 
-      expect{described_class.all}.to \
+      expect {described_class.all}.to \
         raise_error(described_class::MissingAttributeError, /foo.*priority/)
       unregister_foo
     end
@@ -240,7 +240,7 @@ RSpec.describe Money::Currency do
 
     it 'is thread safe' do
       ids = []
-      2.times.map{ Thread.new{ ids << described_class.new("USD").object_id }}.each(&:join)
+      2.times.map { Thread.new { ids << described_class.new("USD").object_id }}.each(&:join)
       expect(ids.uniq.length).to eq(1)
     end
   end
