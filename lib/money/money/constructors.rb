@@ -16,7 +16,6 @@ class Money
     end
     alias zero empty
 
-
     # Creates a new Money object of the given value, using the Canadian
     # dollar currency.
     #
@@ -32,7 +31,6 @@ class Money
       new(cents, "CAD")
     end
     alias cad ca_dollar
-
 
     # Creates a new Money object of the given value, using the American dollar
     # currency.
@@ -50,7 +48,6 @@ class Money
     end
     alias usd us_dollar
 
-
     # Creates a new Money object of the given value, using the Euro currency.
     #
     # @param [Integer] cents The cents value.
@@ -65,7 +62,6 @@ class Money
       new(cents, "EUR")
     end
     alias eur euro
-
 
     # Creates a new Money object of the given value, in British pounds.
     #

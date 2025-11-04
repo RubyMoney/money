@@ -100,7 +100,6 @@ RSpec.describe Money::Currency do
     end
   end
 
-
   describe ".register" do
     after { described_class.unregister(iso_code: "XXX") if described_class.find("XXX") }
 
@@ -123,7 +122,6 @@ RSpec.describe Money::Currency do
       end.to raise_error(KeyError)
     end
   end
-
 
   describe ".inherit" do
     after do
@@ -151,7 +149,6 @@ RSpec.describe Money::Currency do
     end
   end
 
-
   describe ".unregister" do
     it "unregisters a currency" do
       described_class.register(iso_code: "XXX")
@@ -178,7 +175,6 @@ RSpec.describe Money::Currency do
     end
   end
 
-
   describe ".each" do
     it "yields each currency to the block" do
       expect(described_class).to respond_to(:each)
@@ -194,7 +190,6 @@ RSpec.describe Money::Currency do
     end
   end
 
-
   it "implements Enumerable" do
     expect(described_class).to respond_to(:all?)
     expect(described_class).to respond_to(:each_with_index)
@@ -202,7 +197,6 @@ RSpec.describe Money::Currency do
     expect(described_class).to respond_to(:select)
     expect(described_class).to respond_to(:reject)
   end
-
 
   describe "#initialize" do
     before { described_class._instances.clear }
