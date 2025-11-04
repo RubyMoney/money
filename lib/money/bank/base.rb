@@ -4,7 +4,6 @@ class Money
   # Provides classes that aid in the ability of exchange one currency with
   # another.
   module Bank
-
     # The lowest Money::Bank error class.
     # All Money::Bank errors should inherit from it.
     class Error < StandardError

@@ -2,7 +2,6 @@
 
 class Money
   module Constructors
-
     # Create a new money object with value 0.
     #
     # @param [Currency, String, Symbol] currency The currency to use.
@@ -77,6 +76,5 @@ class Money
       new(pence, "GBP")
     end
     alias gbp pound_sterling
-
   end
 end
