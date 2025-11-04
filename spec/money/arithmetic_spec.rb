@@ -3,9 +3,9 @@
 RSpec.describe Money::Arithmetic do
   describe "-@" do
     it "changes the sign of a number" do
-      expect((- Money.new(0))).to  eq Money.new(0)
-      expect((- Money.new(1))).to  eq Money.new(-1)
-      expect((- Money.new(-1))).to eq Money.new(1)
+      expect(- Money.new(0)).to  eq Money.new(0)
+      expect(- Money.new(1)).to  eq Money.new(-1)
+      expect(- Money.new(-1)).to eq Money.new(1)
     end
 
     it "preserves the class in the result when using a subclass of Money" do
@@ -133,9 +133,9 @@ RSpec.describe Money::Arithmetic do
 
   describe "#<=>" do
     it "compares the two object amounts (same currency)" do
-      expect((Money.new(1_00, "USD") <=> Money.new(1_00, "USD"))).to eq 0
-      expect((Money.new(1_00, "USD") <=> Money.new(99, "USD"))).to be > 0
-      expect((Money.new(1_00, "USD") <=> Money.new(2_00, "USD"))).to be < 0
+      expect(Money.new(1_00, "USD") <=> Money.new(1_00, "USD")).to eq 0
+      expect(Money.new(1_00, "USD") <=> Money.new(99, "USD")).to be > 0
+      expect(Money.new(1_00, "USD") <=> Money.new(2_00, "USD")).to be < 0
     end
 
     it "converts other object amount to current currency, then compares the two object amounts (different currency)" do
