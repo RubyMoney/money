@@ -318,7 +318,10 @@ RSpec.describe Money do
 
       bank = Money::Bank::VariableExchange.new
 
-      Money.with_bank(bank) {}
+      Money.with_bank(bank) do
+        # Do something…
+      end
+
       expect(Money.default_bank).to eq(old_bank)
     end
 
