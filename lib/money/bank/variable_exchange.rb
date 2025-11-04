@@ -58,8 +58,8 @@ class Money
       # @param [RateStore] st An exchange rate store, used to persist exchange rate pairs.
       # @yield [n] Optional block to use when rounding after exchanging one
       #  currency for another. See +Money::bank::base+
-      def initialize(st = Money::RatesStore::Memory.new, &block)
-        @store = st
+      def initialize(store = Money::RatesStore::Memory.new, &block)
+        @store = store
         super(&block)
       end
 
@@ -258,7 +258,7 @@ class Money
       #
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
-      def import_rates(format, s, opts = {})
+      def import_rates(format, string, opts = {})
         raise Money::Bank::UnknownRateFormat unless RATE_FORMATS.include?(format)
 
         if format == :ruby
@@ -268,7 +268,7 @@ class Money
         end
 
         store.transaction do
-          data = FORMAT_SERIALIZERS[format].load(s)
+          data = FORMAT_SERIALIZERS[format].load(string)
 
           data.each do |key, rate|
             from, to = key.split(SERIALIZER_SEPARATOR)
