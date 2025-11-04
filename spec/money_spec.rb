@@ -343,7 +343,7 @@ RSpec.describe Money do
       custom_store = double
       custom_bank = Money::Bank::VariableExchange.new(custom_store)
 
-      2.times do |i|
+      2.times do
         threads << Thread.new do
           bank_to_use = custom_bank
           expected_bank = custom_bank

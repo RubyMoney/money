@@ -83,7 +83,7 @@ class Money
       def find_by_iso_numeric(num)
         num = num.to_s.rjust(3, '0')
         return if num.empty?
-        id, _ = table.find { |key, currency| currency[:iso_numeric] == num }
+        id, _ = table.find { |_key, currency| currency[:iso_numeric] == num }
         new(id)
       rescue UnknownCurrency
         nil
