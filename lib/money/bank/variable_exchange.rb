@@ -43,7 +43,6 @@ class Money
     #   # Get rate from redis
     #   bank.get_rate 'USD', 'CAD'
     class VariableExchange < Base
-
       attr_reader :mutex
 
       # Available formats for importing/exporting rates.

@@ -106,7 +106,6 @@ class Money
 
   # Class Methods
   class << self
-
     # @!attribute [rw] default_bank
     #   Used to set a default bank for currency exchange.
     #

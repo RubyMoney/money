@@ -39,7 +39,6 @@ class Money
     #  +Money::Bank+ class. You can also override +#setup+ instead of
     #  +#initialize+ to setup initial variables, etc.
     class Base
-
       # Returns the singleton instance of the Base bank.
       #
       # @return [Money::Bank::Base]

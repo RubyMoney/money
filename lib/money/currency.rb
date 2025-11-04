@@ -5,7 +5,6 @@ require "money/currency/loader"
 require "money/currency/heuristics"
 
 class Money
-
   # Represents a specific currency unit.
   #
   # @see https://en.wikipedia.org/wiki/Currency
