@@ -19,7 +19,7 @@ class Money
     end
 
     def has_key?(key)
-      @rules.key? key
+      @rules.has_key? key
     end
 
     private

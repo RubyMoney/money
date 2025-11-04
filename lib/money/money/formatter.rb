@@ -327,7 +327,7 @@ class Money
     end
 
     def lookup(key)
-      return rules[key] || DEFAULTS[key] if rules.key?(key)
+      return rules[key] || DEFAULTS[key] if rules.has_key?(key)
 
       lookup_default key
     end
@@ -337,7 +337,7 @@ class Money
     end
 
     def symbol_value_from(rules)
-      if rules.key?(:symbol)
+      if rules.has_key?(:symbol)
         if rules[:symbol] === true
           if rules[:disambiguate] && currency.disambiguate_symbol
             currency.disambiguate_symbol
