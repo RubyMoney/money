@@ -21,13 +21,6 @@ Layout/IndentationWidth:
   Exclude:
     - 'spec/money_spec.rb'
 
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowDoxygenCommentStyle, AllowGemfileRubyComment, AllowRBSInlineAnnotation, AllowSteepAnnotation.
-Layout/LeadingCommentSpace:
-  Exclude:
-    - 'spec/bank/variable_exchange_spec.rb'
-
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.

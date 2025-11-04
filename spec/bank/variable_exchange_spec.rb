@@ -57,12 +57,12 @@ RSpec.describe Money::Bank::VariableExchange do
           expect { bank.exchange_with(Money.new(100, 'USD'), 'JPY') }.to raise_error(Money::Bank::UnknownRate)
         end
 
-        #it "rounds the exchanged result down" do
+        # it "rounds the exchanged result down" do
         #  bank.add_rate("USD", "EUR", 0.788332676)
         #  bank.add_rate("EUR", "YEN", 122.631477)
         #  expect(bank.exchange_with(Money.new(10_00,  "USD"), "EUR")).to eq Money.new(788, "EUR")
         #  expect(bank.exchange_with(Money.new(500_00, "EUR"), "YEN")).to eq Money.new(6131573, "YEN")
-        #end
+        # end
 
         it "accepts a custom truncation method" do
           proc = proc(&:ceil)
