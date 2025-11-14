@@ -3,7 +3,7 @@
 RSpec.describe Money::Currency do
   FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 1000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
 
-  def register_foo(opts={})
+  def register_foo(opts = {})
     foo_attrs = JSON.parse(FOO, symbolize_names: true)
     # Pass an array of attribute names to 'skip' to remove them from the 'FOO'
     # json before registering foo as a currency.
@@ -94,12 +94,11 @@ RSpec.describe Money::Currency do
     it "raises a MissingAttributeError if any currency has no priority" do
       register_foo(skip: :priority)
 
-      expect{described_class.all}.to \
+      expect { described_class.all }.to \
         raise_error(described_class::MissingAttributeError, /foo.*priority/)
       unregister_foo
     end
   end
-
 
   describe ".register" do
     after { described_class.unregister(iso_code: "XXX") if described_class.find("XXX") }
@@ -118,12 +117,11 @@ RSpec.describe Money::Currency do
     end
 
     specify ":iso_code must be present" do
-      expect {
+      expect do
         described_class.register(name: "New Currency")
-      }.to raise_error(KeyError)
+      end.to raise_error(KeyError)
     end
   end
-
 
   describe ".inherit" do
     after do
@@ -138,7 +136,8 @@ RSpec.describe Money::Currency do
         symbol: "%",
         subunit_to_unit: 100
       )
-      described_class.inherit("XXX",
+      described_class.inherit(
+        "XXX",
         iso_code: "YYY",
         symbol: "@"
       )
@@ -149,7 +148,6 @@ RSpec.describe Money::Currency do
       expect(new_currency.subunit_to_unit).to eq 100
     end
   end
-
 
   describe ".unregister" do
     it "unregisters a currency" do
@@ -177,7 +175,6 @@ RSpec.describe Money::Currency do
     end
   end
 
-
   describe ".each" do
     it "yields each currency to the block" do
       expect(described_class).to respond_to(:each)
@@ -193,7 +190,6 @@ RSpec.describe Money::Currency do
     end
   end
 
-
   it "implements Enumerable" do
     expect(described_class).to respond_to(:all?)
     expect(described_class).to respond_to(:each_with_index)
@@ -201,7 +197,6 @@ RSpec.describe Money::Currency do
     expect(described_class).to respond_to(:select)
     expect(described_class).to respond_to(:reject)
   end
-
 
   describe "#initialize" do
     before { described_class._instances.clear }
@@ -245,7 +240,7 @@ RSpec.describe Money::Currency do
 
     it 'is thread safe' do
       ids = []
-      2.times.map{ Thread.new{ ids << described_class.new("USD").object_id }}.each(&:join)
+      2.times.map { Thread.new { ids << described_class.new("USD").object_id } }.each(&:join)
       expect(ids.uniq.length).to eq(1)
     end
   end
@@ -327,11 +322,11 @@ RSpec.describe Money::Currency do
 
   describe "#inspect" do
     it "works as documented" do
-      expect(described_class.new(:usd).inspect).to eq %Q{#<Money::Currency id: usd, priority: 1, symbol_first: true, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, exponent: 2, iso_code: USD, iso_numeric: 840, subunit: Cent, smallest_denomination: 1, format: >}
+      expect(described_class.new(:usd).inspect).to eq '#<Money::Currency id: usd, priority: 1, symbol_first: true, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, exponent: 2, iso_code: USD, iso_numeric: 840, subunit: Cent, smallest_denomination: 1, format: >'
     end
 
     it "works as documented" do
-      expect(described_class.new(:aed).inspect).to eq %Q{#<Money::Currency id: aed, priority: 100, symbol_first: false, thousands_separator: ,, html_entity: , decimal_mark: ., name: United Arab Emirates Dirham, symbol: د.إ, subunit_to_unit: 100, exponent: 2, iso_code: AED, iso_numeric: 784, subunit: Fils, smallest_denomination: 25, format: %n %u>}
+      expect(described_class.new(:aed).inspect).to eq '#<Money::Currency id: aed, priority: 100, symbol_first: false, thousands_separator: ,, html_entity: , decimal_mark: ., name: United Arab Emirates Dirham, symbol: د.إ, subunit_to_unit: 100, exponent: 2, iso_code: AED, iso_numeric: 784, subunit: Fils, smallest_denomination: 25, format: %n %u>'
     end
   end
 
@@ -384,7 +379,7 @@ RSpec.describe Money::Currency do
 
     it "doesn't create new symbols indefinitely" do
       expect { described_class.new("bogus") }.to raise_error(described_class::UnknownCurrency)
-      expect(Symbol.all_symbols.map{|s| s.to_s}).not_to include("bogus")
+      expect(Symbol.all_symbols.map(&:to_s)).not_to include("bogus")
     end
   end
 
@@ -423,13 +418,13 @@ RSpec.describe Money::Currency do
       cad = described_class.find(:cad)
 
       described_class.register(
-        :priority            => 100,
-        :iso_code            => cad.iso_code,
-        :name                => cad.name,
-        :subunit             => cad.subunit,
-        :subunit_to_unit     => cad.subunit_to_unit,
-        :thousands_separator => cad.thousands_separator,
-        :decimal_mark        => modified_mark
+        priority: 100,
+        iso_code: cad.iso_code,
+        name: cad.name,
+        subunit: cad.subunit,
+        subunit_to_unit: cad.subunit_to_unit,
+        thousands_separator: cad.thousands_separator,
+        decimal_mark: modified_mark
       )
     end
 

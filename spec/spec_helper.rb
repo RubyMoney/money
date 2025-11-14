@@ -14,7 +14,7 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 require "rspec"
 require "money"
 
-Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
+Dir['./spec/support/**/*.rb'].each { |f| require f }
 
 I18n.enforce_available_locales = false
 

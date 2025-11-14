@@ -4,14 +4,13 @@ require 'json'
 require 'yaml'
 
 RSpec.describe Money::Bank::VariableExchange do
-
   describe "#initialize" do
     context "without &block" do
-      let(:bank) {
+      let(:bank) do
         described_class.new.tap do |bank|
           bank.add_rate('USD', 'EUR', 1.33)
         end
-      }
+      end
 
       describe '#store' do
         it 'defaults to Memory store' do
@@ -58,15 +57,15 @@ RSpec.describe Money::Bank::VariableExchange do
           expect { bank.exchange_with(Money.new(100, 'USD'), 'JPY') }.to raise_error(Money::Bank::UnknownRate)
         end
 
-        #it "rounds the exchanged result down" do
+        # it "rounds the exchanged result down" do
         #  bank.add_rate("USD", "EUR", 0.788332676)
         #  bank.add_rate("EUR", "YEN", 122.631477)
         #  expect(bank.exchange_with(Money.new(10_00,  "USD"), "EUR")).to eq Money.new(788, "EUR")
         #  expect(bank.exchange_with(Money.new(500_00, "EUR"), "YEN")).to eq Money.new(6131573, "YEN")
-        #end
+        # end
 
         it "accepts a custom truncation method" do
-          proc = Proc.new { |n| n.ceil }
+          proc = proc(&:ceil)
           expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc)).to eq Money.new(14, 'EUR')
         end
 
@@ -87,12 +86,12 @@ RSpec.describe Money::Bank::VariableExchange do
     end
 
     context "with &block" do
-      let(:bank) {
-        proc = Proc.new { |n| n.ceil }
+      let(:bank) do
+        proc = proc(&:ceil)
         described_class.new(&proc).tap do |bank|
           bank.add_rate('USD', 'EUR', 1.33)
         end
-      }
+      end
 
       describe "#exchange_with" do
         it "uses the stored truncation method" do
@@ -100,7 +99,7 @@ RSpec.describe Money::Bank::VariableExchange do
         end
 
         it "accepts a custom truncation method" do
-          proc = Proc.new { |n| n.ceil + 1 }
+          proc = proc { |n| n.ceil + 1 }
           expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc)).to eq Money.new(15, 'EUR')
         end
       end
@@ -164,13 +163,13 @@ RSpec.describe Money::Bank::VariableExchange do
       subject.set_rate('USD', 'EUR', 1.25)
       subject.set_rate('USD', 'JPY', 2.55)
 
-      @rates = { "USD_TO_EUR" => 1.25, "USD_TO_JPY" => 2.55 }
+      @rates = {"USD_TO_EUR" => 1.25, "USD_TO_JPY" => 2.55}
     end
 
     context "with format == :json" do
       it "should return rates formatted as json" do
         json = subject.export_rates(:json)
-        expect(JSON.load(json)).to eq @rates
+        expect(JSON.parse(json)).to eq @rates
       end
     end
 
@@ -189,7 +188,7 @@ RSpec.describe Money::Bank::VariableExchange do
 
     context "with unknown format" do
       it "raises Money::Bank::UnknownRateFormat" do
-        expect { subject.export_rates(:foo)}.to raise_error Money::Bank::UnknownRateFormat
+        expect { subject.export_rates(:foo) }.to raise_error Money::Bank::UnknownRateFormat
       end
     end
 
@@ -207,7 +206,6 @@ RSpec.describe Money::Bank::VariableExchange do
       expect(subject.store).to receive(:transaction)
       subject.export_rates(:yaml, nil, foo: 1)
     end
-
   end
 
   describe "#import_rates" do
@@ -221,7 +219,7 @@ RSpec.describe Money::Bank::VariableExchange do
     end
 
     context "with format == :ruby" do
-      let(:dump) { Marshal.dump({ "USD_TO_EUR" => 1.25, "USD_TO_JPY" => 2.55 }) }
+      let(:dump) { Marshal.dump({"USD_TO_EUR" => 1.25, "USD_TO_JPY" => 2.55}) }
 
       it "loads the rates provided" do
         subject.import_rates(:ruby, dump)
@@ -252,7 +250,7 @@ RSpec.describe Money::Bank::VariableExchange do
 
     context "with unknown format" do
       it "raises Money::Bank::UnknownRateFormat" do
-        expect { subject.import_rates(:foo, "")}.to raise_error Money::Bank::UnknownRateFormat
+        expect { subject.import_rates(:foo, "") }.to raise_error Money::Bank::UnknownRateFormat
       end
     end
 
@@ -261,12 +259,11 @@ RSpec.describe Money::Bank::VariableExchange do
       s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
       subject.import_rates(:yaml, s, foo: 1)
     end
-
   end
 
   describe "#marshal_dump" do
     it "does not raise an error" do
-      expect {  Marshal.dump(subject) }.to_not raise_error
+      expect { Marshal.dump(subject) }.to_not raise_error
     end
 
     it "works with Marshal.load" do

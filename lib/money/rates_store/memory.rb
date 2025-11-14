@@ -4,7 +4,6 @@ require 'monitor'
 
 class Money
   module RatesStore
-
     # Class for thread-safe storage of exchange rate pairs.
     # Used by instances of +Money::Bank::VariableExchange+.
     #
@@ -15,7 +14,7 @@ class Money
     #   # iterates rates
     #   store.each_rate {|iso_from, iso_to, rate| puts "#{from} -> #{to}: #{rate}" }
     class Memory
-      INDEX_KEY_SEPARATOR = '_TO_'.freeze
+      INDEX_KEY_SEPARATOR = '_TO_'
 
       # Initializes a new +Money::RatesStore::Memory+ object.
       #
@@ -73,9 +72,7 @@ class Money
 
       # Wraps block execution in a thread-safe transaction
       def transaction(&block)
-        guard.synchronize do
-          yield
-        end
+        guard.synchronize(&block)
       end
 
       # Iterate over rate tuples (iso_from, iso_to, rate)

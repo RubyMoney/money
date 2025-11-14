@@ -82,16 +82,16 @@ class Money
   #
   # @return [Money]
   def to_nearest_cash_value
-    unless self.currency.smallest_denomination
+    unless currency.smallest_denomination
       raise UndefinedSmallestDenomination,
             "Smallest denomination of this currency is not defined"
     end
 
     fractional = as_d(@fractional)
-    smallest_denomination = as_d(self.currency.smallest_denomination)
+    smallest_denomination = as_d(currency.smallest_denomination)
     rounded_value =
       (fractional / smallest_denomination)
-        .round(0, self.class.rounding_mode) * smallest_denomination
+      .round(0, self.class.rounding_mode) * smallest_denomination
 
     dup_with(fractional: return_value(rounded_value))
   end
@@ -106,7 +106,6 @@ class Money
 
   # Class Methods
   class << self
-
     # @!attribute [rw] default_bank
     #   Used to set a default bank for currency exchange.
     #
@@ -336,7 +335,7 @@ class Money
   #
   # @see #initialize
   def self.from_amount(amount, currency = default_currency, options = {})
-    raise ArgumentError, "'amount' must be numeric" unless Numeric === amount
+    raise ArgumentError, "'amount' must be numeric" unless amount.is_a?(Numeric)
 
     currency = Currency.wrap(currency) || Money.default_currency
     raise Currency::NoCurrency, 'must provide a currency' if currency.nil?
@@ -356,7 +355,7 @@ class Money
   end
 
   class << self
-    alias_method :from_cents, :new
+    alias from_cents new
   end
 
   # Creates a new Money object of value given in the
@@ -383,7 +382,7 @@ class Money
   def initialize(obj, currency = nil, options = {})
     # For backwards compatibility, if options is not a Hash, treat it as a bank parameter
     unless options.is_a?(Hash)
-      options = { bank: options }
+      options = {bank: options}
     end
 
     @fractional = as_d(obj.respond_to?(:fractional) ? obj.fractional : obj)
@@ -514,7 +513,7 @@ class Money
   # @return [self]
   def to_money(given_currency = nil)
     given_currency = Currency.wrap(given_currency)
-    if given_currency.nil? || self.currency == given_currency
+    if given_currency.nil? || currency == given_currency
       self
     else
       exchange_to(given_currency)
@@ -539,7 +538,7 @@ class Money
   #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
   def exchange_to(other_currency, &rounding_method)
     other_currency = Currency.wrap(other_currency)
-    if self.currency == other_currency
+    if currency == other_currency
       self
     else
       @bank.exchange_with(self, other_currency, &rounding_method)
@@ -604,7 +603,7 @@ class Money
     amounts = Money::Allocation.generate(fractional, parts, !Money.default_infinite_precision)
     amounts.map { |amount| dup_with(fractional: amount) }
   end
-  alias_method :split, :allocate
+  alias split allocate
 
   # Round the monetary amount to smallest unit of coinage.
   #
@@ -639,7 +638,7 @@ class Money
   # @return [String]
   #
   def thousands_separator
-    (locale_backend && locale_backend.lookup(:thousands_separator, currency)) ||
+    locale_backend&.lookup(:thousands_separator, currency) ||
       Money::Formatter::DEFAULTS[:thousands_separator]
   end
 
@@ -648,7 +647,7 @@ class Money
   # @return [String]
   #
   def decimal_mark
-    (locale_backend && locale_backend.lookup(:decimal_mark, currency)) ||
+    locale_backend&.lookup(:decimal_mark, currency) ||
       Money::Formatter::DEFAULTS[:decimal_mark]
   end
 
