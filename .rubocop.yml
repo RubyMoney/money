@@ -29,6 +29,10 @@ Lint/BinaryOperatorWithIdenticalOperands:
   Exclude:
     - 'spec/**/*'
 
+Lint/EmptyClass:
+  # Allow defining empty classes, since it can be used as a base.
+  Enabled: false
+
 # Style
 
 Style/ClassAndModuleChildren:

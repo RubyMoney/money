@@ -9,4 +9,7 @@ gem 'typeprof', platforms: [:mri, :mingw, :x64_mingw]
 
 gem 'simplecov', require: false
 
+# Ruby linting
+gem 'rubocop', require: false
+
 gemspec
