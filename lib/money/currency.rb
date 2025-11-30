@@ -83,8 +83,8 @@ class Money
       def find_by_iso_numeric(num)
         num = num.to_s.rjust(3, '0')
         return if num.empty?
-        id, _ = self.table.find { |key, currency| currency[:iso_numeric] == num }
-        new(id)
+        id = iso_numeric_index[num]
+        new(id) if id
       rescue UnknownCurrency
         nil
       end
@@ -175,6 +175,7 @@ class Money
         @@mutex.synchronize { _instances.delete(key.to_s) }
         @table[key] = curr
         @stringified_keys = nil
+        clear_iso_numeric_cache
       end
 
       # Inherit a new currency from existing one
@@ -212,9 +213,20 @@ class Money
       def reset!
         @@instances = {}
         @table = Loader.load_currencies
+        clear_iso_numeric_cache
       end
 
       private
+
+      def iso_numeric_index
+        @iso_numeric_index ||= table.each_with_object({}) do |(id, attrs), index|
+          index[attrs[:iso_numeric]] = id
+        end
+      end
+
+      def clear_iso_numeric_cache
+        @iso_numeric_index = nil
+      end
 
       def stringify_keys
         table.keys.each_with_object(Set.new) { |k, set| set.add(k.to_s.downcase) }
