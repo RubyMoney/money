@@ -2,10 +2,25 @@
 
 ## Upcoming 7.0.0.alpha
 
-- **Breaking change**: Require Ruby >= 3.1 and I18n ~> 1.9
+- **Breaking change**: Require Ruby >= 3.1 and i18n ~> 1.9
+- **Breaking change**: Remove deprecated formatting rules:
+  - `:html`
+  - `:html_wrap_symbol`
+  - `:symbol_position`
+  - `:symbol_before_without_space`
+  - `:symbol_after_without_space`
+- **Breaking change**: Remove deprecated methods:
+  - `Money.infinite_precision`.
+  - `Money.infinite_precision=`.
+  - `Money#currency_as_string`.
+  - `Money#currency_as_string=`.
+- **Breaking change**: Default currency is now `nil` instead of `USD`. If you want to keep the previous behavior, set `Money.default_currency = Money::Currency.new("USD")` in your initializer. Initializing a Money object will raise a `Currency::NoCurrency` if no currency is set.
+- **Breaking change**: The default rounding mode has changed from `BigDecimal::ROUND_HALF_EVEN` to `BigDecimal::ROUND_HALF_UP`. Set it explicitly using `Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN` to keep the previous behavior.
 - **Potential breaking change**: Fix RSD (Serbian Dinar) formatting to be like `12.345,42 RSD`
 - **Potential breaking change**: Fix USDC decimals places from 2 to 6
 - **Potential breaking change**: Fix MGA (Malagasy Ariary) to be a zero-decimal currency (changing subunit_to_unit from 5 to 1)
+- **Potential breaking change**: Remove special handling for Japanese language only
+- **Potential breaking change**: Adjust formatting rules to use i18n translations for `:format`
 - Updated Armenian Dram sign and HTML entity
 - Updated the Turkmen Manat symbol and HTML entity and added disambiguation symbol for TMM
 - Expose Money::VERSION
@@ -13,9 +28,23 @@
 - Add Zimbabwe Gold (ZWG) currency
 - Update thousands_separator for CHF
 - Add Caribbean Guilder (XCG) as replacement for Netherlands Antillean Gulden (ANG)
-- Add `Currency#cents_based?` to check if currency is cents-based
+- Add `Money.strict_eql_compare = true` so that comparing zero amounts with different currencies using `Money#eql?` returns `false`
+    ```rb
+    Money.new(0, "USD").eql?(Money.new(0, "EUR")) #=> true
+    #> [DEPRECATION] Comparing 0 USD with 0 EUR using `#eql?` will return false…
+
+    Money.strict_eql_compare = true
+    Money.new(0, "USD").eql?(Money.new(0, "EUR")) #=> false
+    ```
+- Add `Money#to_nearest_cash_value` to return a rounded Money instance to the smallest denomination
+- Deprecate `Money#round_to_nearest_cash_value` in favor of calling `to_nearest_cash_value.fractional`
+- Deprecate `Money#dollars` in favor of `Money#amount`.
+- Deprecate `Money.from_dollars` in favor of `Money.from_amount`.
+- Add `Money::Currency#cents_based?` to check if currency is cents-based
 - Add ability to nest `Money.with_rounding_mode` blocks
 - Allow `nil` to be used as a default_currency
+- Add ability to nest `Money.with_bank` blocks
+- Refactor `Money::Allocation.generate` to support configurable per-split precision by accepting an Integer as a second argument, fixing allocation failures with large arrays and infinite decimal expansions.
 
 ## 6.19.0
 

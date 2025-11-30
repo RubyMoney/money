@@ -145,7 +145,8 @@ RSpec.describe Money, "formatting" do
 
       it "formats Japanese currency in Japanese properly" do
         money = Money.new(1000, "JPY")
-        expect(money.format).to eq "1,000円"
+        expect(money.format).to eq "¥1,000"
+        expect(money.format(format: "%n%u", symbol: "円")).to eq "1,000円"
         expect(money.format(symbol: false)).to eq "1,000"
         expect(money.format(format: "%u%n")).to eq "¥1,000"
       end
@@ -279,12 +280,6 @@ RSpec.describe Money, "formatting" do
         expect(Money.new(100000000, "AMD").format(no_cents: true)).to eq "1,000,000 ֏"
         expect(Money.new(100000000, "USD").format(no_cents: true)).to eq "$1,000,000"
         expect(Money.new(100000000, "RUB").format(no_cents: true)).to eq "1.000.000 ₽"
-      end
-
-      it "doesn't incorrectly format HTML" do
-        money = ::Money.new(1999, "RUB")
-        output = money.format(html: true, no_cents: true)
-        expect(output).to eq "19 &#x20BD;"
       end
 
       it "doesn't incorrectly format HTML (html_wrap)" do
@@ -502,25 +497,6 @@ RSpec.describe Money, "formatting" do
       end
     end
 
-    describe ":html option" do
-      specify "(html: true) works as documented" do
-        string = Money.ca_dollar(570).format(html: true, with_currency: true)
-        expect(string).to eq "$5.70 <span class=\"currency\">CAD</span>"
-      end
-
-      specify "should fallback to symbol if entity is not available" do
-        string = Money.new(570, 'DKK').format(html: true)
-        expect(string).to eq "5,70 kr."
-      end
-    end
-
-    describe ":html_wrap_symbol option" do
-      specify "(html_wrap_symbol: true) works as documented" do
-        string = Money.ca_dollar(570).format(html_wrap_symbol: true)
-        expect(string).to eq "<span class=\"currency_symbol\">$</span>5.70"
-      end
-    end
-
     describe ":html_wrap option" do
       specify "(html_wrap: true) works as documented" do
         string = Money.ca_dollar(570).format(html_wrap: true)
@@ -535,59 +511,6 @@ RSpec.describe Money, "formatting" do
       specify "should fallback to symbol if entity is not available" do
         string = Money.new(570, 'DKK').format(html_wrap: true)
         expect(string).to eq "<span class=\"money-whole\">5</span><span class=\"money-decimal-mark\">,</span><span class=\"money-decimal\">70</span> <span class=\"money-currency-symbol\">kr.</span>"
-      end
-    end
-
-    describe ":symbol_position option" do
-      it "inserts currency symbol before the amount when set to :before" do
-        expect(Money.euro(1_234_567_12).format(symbol_position: :before)).to eq "€1.234.567,12"
-      end
-
-      it "inserts currency symbol after the amount when set to :after" do
-        expect(Money.us_dollar(1_000_000_000_12).format(symbol_position: :after)).to eq "1,000,000,000.12 $"
-      end
-
-      it "raises an ArgumentError when passed an invalid option" do
-        expect{Money.euro(0).format(symbol_position: :befor)}.to raise_error(ArgumentError)
-      end
-    end
-
-    describe ":sign_before_symbol option" do
-      specify "(sign_before_symbol: true) works as documented" do
-        expect(Money.us_dollar(-100000).format(sign_before_symbol: true)).to eq "-$1,000.00"
-      end
-
-      specify "(sign_before_symbol: false) works as documented" do
-        expect(Money.us_dollar(-100000).format(sign_before_symbol: false)).to eq "$-1,000.00"
-        expect(Money.us_dollar(-100000).format(sign_before_symbol: nil)).to eq "$-1,000.00"
-      end
-    end
-
-    describe ":symbol_before_without_space option" do
-      it "does not insert space between currency symbol and amount when set to true" do
-        expect(Money.euro(1_234_567_12).format(symbol_position: :before, symbol_before_without_space: true)).to eq "€1.234.567,12"
-      end
-
-      it "inserts space between currency symbol and amount when set to false" do
-        expect(Money.euro(1_234_567_12).format(symbol_position: :before, symbol_before_without_space: false)).to eq "€ 1.234.567,12"
-      end
-
-      it "defaults to true" do
-        expect(Money.euro(1_234_567_12).format(symbol_position: :before)).to eq "€1.234.567,12"
-      end
-    end
-
-    describe ":symbol_after_without_space option" do
-      it "does not insert space between amount and currency symbol when set to true" do
-        expect(Money.euro(1_234_567_12).format(symbol_position: :after, symbol_after_without_space: true)).to eq "1.234.567,12€"
-      end
-
-      it "inserts space between amount and currency symbol when set to false" do
-        expect(Money.euro(1_234_567_12).format(symbol_position: :after, symbol_after_without_space: false)).to eq "1.234.567,12 €"
-      end
-
-      it "defaults to false" do
-        expect(Money.euro(1_234_567_12).format(symbol_position: :after)).to eq "1.234.567,12 €"
       end
     end
 
@@ -702,21 +625,6 @@ RSpec.describe Money, "formatting" do
         expect(money.format(format: 'Your balance is: %u%n')).to eq('Your balance is: $99.99')
       end
 
-      it 'ignores :symbol_position in favour of format' do
-        expect(money.format(format: '%u%n', symbol_position: :after)).to eq('$99.99')
-        expect(money.format(format: '%n%u', symbol_position: :before)).to eq('99.99$')
-      end
-
-      it 'ignores :symbol_before_without_space in favour of format' do
-        expect(money.format(format: '%u %n', symbol_position: :before, symbol_before_without_space: true)).to eq('$ 99.99')
-        expect(money.format(format: '%u%n', symbol_position: :before, symbol_before_without_space: false)).to eq('$99.99')
-      end
-
-      it 'ignores :symbol_after_without_space in favour of format' do
-        expect(money.format(format: '%n %u', symbol_position: :after, symbol_after_without_space: true)).to eq('99.99 $')
-        expect(money.format(format: '%n%u', symbol_position: :after, symbol_after_without_space: false)).to eq('99.99$')
-      end
-
       it 'works with sign' do
         money = Money.new(-99_99, 'USD')
 
@@ -757,52 +665,12 @@ RSpec.describe Money, "formatting" do
         expect(Money.new(100_00, 'CHF').format).to eq "CHF 100.00"
       end
     end
-
-    context 'when symbol_position is passed' do
-      it "inserts currency symbol before the amount when set to :before" do
-        expect(Money.new(100_00, 'CHF').format(symbol_position: :before)).to eq "CHF100.00"
-      end
-
-      it "inserts currency symbol after the amount when set to :after" do
-        expect(Money.new(100_00, 'CHF').format(symbol_position: :after)).to eq "100.00 CHF"
-      end
-    end
-
-    context 'when :symbol_before_without_space is passed' do
-      it "does not insert space between currency symbol and amount when set to true" do
-        expect(Money.new(100_00, 'CHF').format(symbol_position: :before, symbol_before_without_space: true)).to eq "CHF100.00"
-      end
-
-      it "insert space between currency symbol and amount when set to false" do
-        expect(Money.new(100_00, 'CHF').format(symbol_position: :before, symbol_before_without_space: false)).to eq "CHF 100.00"
-      end
-    end
   end
 
   describe ':format to "%n %u" for currency with :symbol_first to false' do
     context 'when rules are not passed' do
       it "insert space between symbol and number" do
         expect(Money.new(100_00, 'AED').format).to eq "100.00 د.إ"
-      end
-    end
-
-    context 'when symbol_position is passed' do
-      it "inserts currency symbol before the amount when set to :before" do
-        expect(Money.new(100_00, 'AED').format(symbol_position: :before)).to eq "د.إ100.00"
-      end
-
-      it "inserts currency symbol after the amount when set to :after" do
-        expect(Money.new(100_00, 'AED').format(symbol_position: :after)).to eq "100.00 د.إ"
-      end
-    end
-
-    context 'when :symbol_before_without_space is passed' do
-      it "does not insert space between currency symbol and amount when set to true" do
-        expect(Money.new(100_00, 'AED').format(symbol_position: :before, symbol_before_without_space: true)).to eq "د.إ100.00"
-      end
-
-      it "insert space between currency symbol and amount when set to false" do
-        expect(Money.new(100_00, 'AED').format(symbol_position: :before, symbol_before_without_space: false)).to eq "د.إ 100.00"
       end
     end
   end
