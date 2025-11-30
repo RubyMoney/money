@@ -318,7 +318,10 @@ RSpec.describe Money do
 
       bank = Money::Bank::VariableExchange.new
 
-      Money.with_bank(bank) {}
+      Money.with_bank(bank) do
+        # Do something…
+      end
+
       expect(Money.default_bank).to eq(old_bank)
     end
 
@@ -343,7 +346,7 @@ RSpec.describe Money do
       custom_store = double
       custom_bank = Money::Bank::VariableExchange.new(custom_store)
 
-      2.times do |i|
+      2.times do
         threads << Thread.new do
           bank_to_use = custom_bank
           expected_bank = custom_bank
@@ -389,28 +392,28 @@ RSpec.describe Money do
     end
 
     context "loading a serialized Money via YAML" do
-
-      let(:serialized) { <<YAML
-!ruby/object:Money
-  fractional: 249.5
-  currency: !ruby/object:Money::Currency
-    id: :eur
-    priority: 2
-    iso_code: EUR
-    name: Euro
-    symbol: €
-    alternate_symbols: []
-    subunit: Cent
-    subunit_to_unit: 100
-    symbol_first: true
-    html_entity: ! '&#x20AC;'
-    decimal_mark: ! ','
-    thousands_separator: .
-    iso_numeric: '978'
-    mutex: !ruby/object:Thread::Mutex {}
-    last_updated: 2012-11-23 20:41:47.454438399 +02:00
-YAML
-      }
+      let(:serialized) do
+        <<~YAML
+          !ruby/object:Money
+            fractional: 249.5
+            currency: !ruby/object:Money::Currency
+              id: :eur
+              priority: 2
+              iso_code: EUR
+              name: Euro
+              symbol: €
+              alternate_symbols: []
+              subunit: Cent
+              subunit_to_unit: 100
+              symbol_first: true
+              html_entity: ! '&#x20AC;'
+              decimal_mark: ! ','
+              thousands_separator: .
+              iso_numeric: '978'
+              mutex: !ruby/object:Thread::Mutex {}
+              last_updated: 2012-11-23 20:41:47.454438399 +02:00
+        YAML
+      end
 
       let(:m) do
         if Psych::VERSION > '4.0'
@@ -544,7 +547,7 @@ YAML
 
     it "raises an error if smallest denomination is not defined" do
       money = Money.new(100, "XAG")
-      expect {money.round_to_nearest_cash_value}.to raise_error(Money::UndefinedSmallestDenomination)
+      expect { money.round_to_nearest_cash_value }.to raise_error(Money::UndefinedSmallestDenomination)
     end
 
     it "returns a Integer when infinite_precision is not set" do
@@ -578,12 +581,12 @@ YAML
       expect(Money.new(-2_99, "USD").to_nearest_cash_value).to eq(Money.new(-2_99, "USD"))
       expect(Money.new(3_00, "USD").to_nearest_cash_value).to eq(Money.new(3_00, "USD"))
       expect(Money.new(-3_00, "USD").to_nearest_cash_value).to eq(Money.new(-3_00, "USD"))
-      expect(Money.new( 3_01, "USD").to_nearest_cash_value).to eq(Money.new(3_01, "USD"))
+      expect(Money.new(3_01, "USD").to_nearest_cash_value).to eq(Money.new(3_01, "USD"))
       expect(Money.new(-3_01, "USD").to_nearest_cash_value).to eq(Money.new(-3_01, "USD"))
     end
 
     it "raises an error if smallest denomination is not defined" do
-      expect {Money.new(1_00, "XAG").to_nearest_cash_value}
+      expect { Money.new(1_00, "XAG").to_nearest_cash_value }
         .to raise_error(Money::UndefinedSmallestDenomination)
     end
   end
@@ -683,7 +686,7 @@ YAML
     end
 
     context "using i18n" do
-      before { I18n.backend.store_translations(:en, number: { format: { separator: "." } }) }
+      before { I18n.backend.store_translations(:en, number: {format: {separator: "."}}) }
       after { reset_i18n }
 
       it "respects decimal mark" do
@@ -692,7 +695,7 @@ YAML
     end
 
     context "with defaults set" do
-      before { Money.default_formatting_rules = { with_currency: true } }
+      before { Money.default_formatting_rules = {with_currency: true} }
       after { Money.default_formatting_rules = nil }
 
       it "ignores defaults" do
@@ -823,11 +826,11 @@ YAML
 
   describe "#allocate" do
     it "takes no action when one gets all" do
-      expect(Money.us_dollar(005).allocate([1.0])).to eq [Money.us_dollar(5)]
+      expect(Money.us_dollar(5).allocate([1.0])).to eq [Money.us_dollar(5)]
     end
 
     it "keeps currencies intact" do
-      expect(Money.ca_dollar(005).allocate([1])).to eq [Money.ca_dollar(5)]
+      expect(Money.ca_dollar(5).allocate([1])).to eq [Money.ca_dollar(5)]
     end
 
     it "does not lose pennies" do
@@ -894,13 +897,13 @@ YAML
       let(:arry) { [0, 0] }
 
       it "allocates evenly" do
-         expect(subject).to eq [50, 50]
+        expect(subject).to eq [50, 50]
       end
     end
 
     it "keeps subclasses intact" do
       special_money_class = Class.new(Money)
-      expect(special_money_class.new(005).allocate([1]).first).to be_a special_money_class
+      expect(special_money_class.new(5).allocate([1]).first).to be_a special_money_class
     end
 
     context "with infinite_precision", :default_infinite_precision_true do
@@ -972,10 +975,10 @@ YAML
       end
 
       it "does not accumulate rounding error" do
-        money_1 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
-        money_2 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
+        money1 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
+        money2 = Money.new(10.9).round(BigDecimal::ROUND_DOWN)
 
-        expect(money_1 + money_2).to eq(Money.new(20))
+        expect(money1 + money2).to eq(Money.new(20))
       end
     end
 
@@ -1065,7 +1068,7 @@ YAML
     after { Money.setup_defaults }
 
     it "accepts a lambda" do
-      Money.default_currency = lambda { :eur }
+      Money.default_currency = -> { :eur }
       expect(Money.default_currency).to eq Money::Currency.new(:eur)
     end
 
@@ -1091,7 +1094,7 @@ YAML
     end
 
     it 'accepts a lambda' do
-      Money.default_bank = lambda { Money::Bank::SingleCurrency.instance }
+      Money.default_bank = -> { Money::Bank::SingleCurrency.instance }
       expect(Money.default_bank).to be_instance_of(Money::Bank::SingleCurrency)
     end
   end

@@ -191,6 +191,7 @@ class Money
 
     def to_s
       return free_text if show_free_text?
+
       result = format_number
       formatted = append_sign(result)
       append_currency_symbol(formatted)
@@ -208,8 +209,8 @@ class Money
       lookup :decimal_mark
     end
 
-    alias_method :delimiter, :thousands_separator
-    alias_method :separator, :decimal_mark
+    alias delimiter thousands_separator
+    alias separator decimal_mark
 
     private
 
@@ -261,7 +262,7 @@ class Money
           .gsub('%u', [sign_before, symbol_value].join)
           .gsub('%n', [sign, formatted_number].join)
       else
-        formatted_number = "#{sign_before}#{sign}#{formatted_number}"
+        "#{sign_before}#{sign}#{formatted_number}"
       end
     end
 
@@ -333,12 +334,12 @@ class Money
     end
 
     def lookup_default(key)
-      (Money.locale_backend && Money.locale_backend.lookup(key, currency)) || DEFAULTS[key]
+      Money.locale_backend&.lookup(key, currency) || DEFAULTS[key]
     end
 
     def symbol_value_from(rules)
       if rules.has_key?(:symbol)
-        if rules[:symbol] === true
+        if rules[:symbol] == true
           if rules[:disambiguate] && currency.disambiguate_symbol
             currency.disambiguate_symbol
           else

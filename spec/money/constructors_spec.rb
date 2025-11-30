@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe Money::Constructors do
-
   describe "::empty" do
     it "creates a new Money object of 0 cents" do
       expect(Money.empty).to eq Money.new(0)
@@ -13,7 +12,6 @@ RSpec.describe Money::Constructors do
     end
   end
 
-
   describe "::zero" do
     subject { Money.zero }
     it { is_expected.to eq Money.empty }
@@ -23,7 +21,6 @@ RSpec.describe Money::Constructors do
       expect(special_money_class.zero).to be_a special_money_class
     end
   end
-
 
   describe "::ca_dollar" do
     it "creates a new Money object of the given value in CAD" do
@@ -40,7 +37,6 @@ RSpec.describe Money::Constructors do
     end
   end
 
-
   describe "::us_dollar" do
     it "creates a new Money object of the given value in USD" do
       expect(Money.us_dollar(50)).to eq Money.new(50, "USD")
@@ -55,7 +51,6 @@ RSpec.describe Money::Constructors do
       expect(special_money_class.us_dollar(0)).to be_a special_money_class
     end
   end
-
 
   describe "::euro" do
     it "creates a new Money object of the given value in EUR" do
@@ -72,7 +67,6 @@ RSpec.describe Money::Constructors do
     end
   end
 
-
   describe "::pound_sterling" do
     it "creates a new Money object of the given value in GBP" do
       expect(Money.pound_sterling(50)).to eq Money.new(50, "GBP")
@@ -87,5 +81,4 @@ RSpec.describe Money::Constructors do
       expect(special_money_class.pound_sterling(0)).to be_a special_money_class
     end
   end
-
 end

@@ -43,12 +43,11 @@ class Money
     #   # Get rate from redis
     #   bank.get_rate 'USD', 'CAD'
     class VariableExchange < Base
-
       attr_reader :mutex
 
       # Available formats for importing/exporting rates.
       RATE_FORMATS = [:json, :ruby, :yaml].freeze
-      SERIALIZER_SEPARATOR = '_TO_'.freeze
+      SERIALIZER_SEPARATOR = '_TO_'
       FORMAT_SERIALIZERS = {json: JSON, ruby: Marshal, yaml: YAML}.freeze
 
       # Initializes a new +Money::Bank::VariableExchange+ object.
@@ -58,8 +57,8 @@ class Money
       # @param [RateStore] st An exchange rate store, used to persist exchange rate pairs.
       # @yield [n] Optional block to use when rounding after exchanging one
       #  currency for another. See +Money::bank::base+
-      def initialize(st = Money::RatesStore::Memory.new, &block)
-        @store = st
+      def initialize(store = Money::RatesStore::Memory.new, &block)
+        @store = store
         super(&block)
       end
 
@@ -112,17 +111,15 @@ class Money
         to_currency = Currency.wrap(to_currency)
         if from.currency == to_currency
           from
+        elsif (rate = get_rate(from.currency, to_currency))
+          fractional = calculate_fractional(from, to_currency)
+          from.dup_with(
+            fractional: exchange(fractional, rate, &block),
+            currency: to_currency,
+            bank: self
+          )
         else
-          if rate = get_rate(from.currency, to_currency)
-            fractional = calculate_fractional(from, to_currency)
-            from.dup_with(
-              fractional: exchange(fractional, rate, &block),
-              currency: to_currency,
-              bank: self
-            )
-          else
-            raise UnknownRate, "No conversion rate known for '#{from.currency.iso_code}' -> '#{to_currency}'"
-          end
+          raise UnknownRate, "No conversion rate known for '#{from.currency.iso_code}' -> '#{to_currency}'"
         end
       end
 
@@ -176,7 +173,7 @@ class Money
       #   bank = Money::Bank::VariableExchange.new
       #   bank.set_rate("USD", "CAD", 1.24515)
       #   bank.set_rate("CAD", "USD", 0.803115)
-      def set_rate(from, to, rate, opts = {})
+      def set_rate(from, to, rate, _opts = {})
         store.add_rate(Currency.wrap(from).iso_code, Currency.wrap(to).iso_code, rate)
       end
 
@@ -197,7 +194,7 @@ class Money
       #
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
-      def get_rate(from, to, opts = {})
+      def get_rate(from, to, _opts = {})
         store.get_rate(Currency.wrap(from).iso_code, Currency.wrap(to).iso_code)
       end
 
@@ -220,14 +217,14 @@ class Money
       #
       #   s = bank.export_rates(:json)
       #   s #=> "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
-      def export_rates(format, file = nil, opts = {})
+      def export_rates(format, file = nil, _opts = {})
         raise Money::Bank::UnknownRateFormat unless RATE_FORMATS.include?(format)
 
         store.transaction do
           s = FORMAT_SERIALIZERS[format].dump(rates)
 
           unless file.nil?
-            File.open(file, "w") {|f| f.write(s) }
+            File.open(file, "w") { |f| f.write(s) }
           end
 
           s
@@ -236,7 +233,7 @@ class Money
 
       # This should be deprecated.
       def rates
-        store.each_rate.each_with_object({}) do |(from,to,rate),hash|
+        store.each_rate.each_with_object({}) do |(from, to, rate), hash|
           hash[[from, to].join(SERIALIZER_SEPARATOR)] = rate
         end
       end
@@ -260,17 +257,17 @@ class Money
       #
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
-      def import_rates(format, s, opts = {})
+      def import_rates(format, string, _opts = {})
         raise Money::Bank::UnknownRateFormat unless RATE_FORMATS.include?(format)
 
         if format == :ruby
           warn '[WARNING] Using :ruby format when importing rates is potentially unsafe and ' \
-            'might lead to remote code execution via Marshal.load deserializer. Consider using ' \
-            'safe alternatives such as :json and :yaml.'
+               'might lead to remote code execution via Marshal.load deserializer. Consider using ' \
+               'safe alternatives such as :json and :yaml.'
         end
 
         store.transaction do
-          data = FORMAT_SERIALIZERS[format].load(s)
+          data = FORMAT_SERIALIZERS[format].load(string)
 
           data.each do |key, rate|
             from, to = key.split(SERIALIZER_SEPARATOR)
