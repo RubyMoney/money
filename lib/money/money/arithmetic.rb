@@ -196,7 +196,8 @@ class Money
         raise ZeroDivisionError, "divided by Money(0)" if exchanged.zero?
         fractional / as_d(exchanged.fractional).to_f
       else
-        value = value.value if value.is_a?(CoercedNumeric)
+        raise TypeError, 'Can not divide by Money' if value.is_a?(CoercedNumeric)
+
         value = as_d(value)
         raise ZeroDivisionError, "divided by zero" if value.zero?
         dup_with(fractional: fractional / value)
@@ -333,8 +334,6 @@ class Money
     # @example
     #   2 * Money.new(10) #=> #<Money @fractional=20>
     def coerce(other)
-      raise TypeError, "Cannot divide Numeric by Money" if caller_locations(1,1).first.label == "/"
-
       [self, CoercedNumeric.new(other)]
     end
   end
