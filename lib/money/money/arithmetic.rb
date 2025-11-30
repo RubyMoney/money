@@ -200,10 +200,15 @@ class Money
     #
     def /(value)
       if value.is_a?(self.class)
-        fractional / as_d(value.exchange_to(currency).fractional).to_f
+        exchanged = value.exchange_to(currency)
+        raise ZeroDivisionError, "divided by Money(0)" if exchanged.zero?
+        fractional / as_d(exchanged.fractional).to_f
       else
         raise TypeError, 'Can not divide by Money' if value.is_a?(CoercedNumeric)
-        dup_with(fractional: fractional / as_d(value))
+
+        value = as_d(value)
+        raise ZeroDivisionError, "divided by zero" if value.zero?
+        dup_with(fractional: fractional / value)
       end
     end
 
@@ -240,13 +245,16 @@ class Money
 
     def divmod_money(val)
       cents = val.exchange_to(currency).cents
+      raise ZeroDivisionError, "divided by Money(0)" if cents == 0
       quotient, remainder = fractional.divmod(cents)
       [quotient, dup_with(fractional: remainder)]
     end
     private :divmod_money
 
     def divmod_other(val)
-      quotient, remainder = fractional.divmod(as_d(val))
+      val = as_d(val)
+      raise ZeroDivisionError, "divided by zero" if val.zero?
+      quotient, remainder = fractional.divmod(val)
       [dup_with(fractional: quotient), dup_with(fractional: remainder)]
     end
     private :divmod_other
