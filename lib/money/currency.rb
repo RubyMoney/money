@@ -175,6 +175,7 @@ class Money
         @@mutex.synchronize { _instances.delete(key.to_s) }
         @table[key] = curr
         @stringified_keys = nil
+        clear_iso_numeric_cache
       end
 
       # Inherit a new currency from existing one
@@ -212,14 +213,19 @@ class Money
       def reset!
         @@instances = {}
         @table = Loader.load_currencies
+        clear_iso_numeric_cache
       end
 
       private
-            
+
       def iso_numeric_index
         @iso_numeric_index ||= table.each_with_object({}) do |(id, attrs), index|
           index[attrs[:iso_numeric]] = id
         end
+      end
+
+      def clear_iso_numeric_cache
+        @iso_numeric_index = nil
       end
 
       def stringify_keys
