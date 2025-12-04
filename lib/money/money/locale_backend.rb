@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
 require 'money/locale_backend/errors'
-require 'money/locale_backend/legacy'
 require 'money/locale_backend/i18n'
 require 'money/locale_backend/currency'
 
 class Money
   module LocaleBackend
     BACKENDS = {
-      legacy: Money::LocaleBackend::Legacy,
       i18n: Money::LocaleBackend::I18n,
       currency: Money::LocaleBackend::Currency
     }.freeze

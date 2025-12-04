@@ -2,7 +2,7 @@
 
 RSpec.describe Money do
   describe '.locale_backend' do
-    after { Money.locale_backend = :legacy }
+    after { Money.locale_backend = :currency }
 
     it 'sets the locale_backend' do
       Money.locale_backend = :i18n
@@ -72,16 +72,9 @@ RSpec.describe Money do
       end
 
       context 'without a default' do
-        around do |example|
-          default_currency = Money.default_currency
+        it 'should throw an NoCurrency Error' do
           Money.default_currency = nil
 
-          example.run
-
-          Money.default_currency = default_currency
-        end
-
-        it 'should throw an NoCurrency Error' do
           expect { money }.to raise_error(Money::Currency::NoCurrency)
         end
       end
@@ -142,8 +135,10 @@ RSpec.describe Money do
     context 'initializing with .from_dollars' do
       subject(:money) { Money.from_dollars(initializing_value) }
 
-      it 'works just as with .from_amount' do
-        expect(money.dollars).to eq initializing_value
+      it "is a deprecated synonym of .from_amount" do
+        allow(Money).to receive(:warn)
+        expect(money.amount).to eq initializing_value
+        expect(Money).to have_received(:warn).with(/DEPRECATION/)
       end
     end
   end
@@ -236,23 +231,6 @@ RSpec.describe Money do
   end
 
   describe '.with_rounding_mode' do
-    it 'sets the .rounding_mode method deprecated' do
-      allow(Money).to receive(:warn)
-      allow(Money).to receive(:with_rounding_mode).and_call_original
-
-      rounding_block = lambda do
-        Money.from_amount(1.999).to_d
-      end
-
-      expect(Money.from_amount(1.999).to_d).to eq 2
-      expect(Money.rounding_mode(BigDecimal::ROUND_DOWN, &rounding_block)).to eq 1.99
-      expect(Money)
-        .to have_received(:warn)
-        .with('[DEPRECATION] calling `rounding_mode` with a block is deprecated. ' \
-              'Please use `.with_rounding_mode` instead.')
-      expect(Money).to have_received(:with_rounding_mode).with(BigDecimal::ROUND_DOWN, &rounding_block)
-    end
-
     it 'rounds using with_rounding_mode' do
       expect(Money.from_amount(1.999).to_d).to eq 2
       expect(Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
@@ -277,7 +255,7 @@ RSpec.describe Money do
 
       expect(
         Money.rounding_mode
-      ).to eq(BigDecimal::ROUND_HALF_EVEN), 'Original mode should be restored after outer block'
+      ).to eq(BigDecimal::ROUND_HALF_UP), 'Original mode should be restored after outer block'
       expect(Money.from_amount(2.137).to_d).to eq 2.14
     end
 
@@ -330,19 +308,72 @@ RSpec.describe Money do
         expect(result[:result]).to eq(expected_up)
       end
 
-      expect(Money.rounding_mode).to eq(BigDecimal::ROUND_HALF_EVEN)
+      expect(Money.rounding_mode).to eq(BigDecimal::ROUND_HALF_UP)
     end
   end
 
-  %w[cents pence].each do |units|
-    describe "##{units}" do
-      it "is a synonym of #fractional" do
-        expectation = Money.new(0)
-        def expectation.fractional
-          "expectation"
-        end
-        expect(expectation.cents).to eq "expectation"
+  describe '.with_bank' do
+    it 'fallbacks to old bank after block' do
+      old_bank = Money.default_bank
+
+      bank = Money::Bank::VariableExchange.new
+
+      Money.with_bank(bank) {}
+      expect(Money.default_bank).to eq(old_bank)
+    end
+
+    it "uses the correct bank inside block" do
+      old_bank = Money.default_bank
+      custom_store = double
+      bank = Money::Bank::VariableExchange.new(custom_store)
+      Money.with_bank(bank) do
+        expect(custom_store).to receive(:add_rate).with("USD", "EUR", 0.5)
+        Money.add_rate("USD", "EUR", 0.5)
       end
+
+      expect(old_bank).to receive(:add_rate).with("UAH", "NOK", 0.8)
+      Money.add_rate("UAH", "NOK", 0.8)
+    end
+
+    it 'safely handles concurrent usage in different threads' do
+      results = []
+      results_mutex = Mutex.new
+      threads = []
+
+      custom_store = double
+      custom_bank = Money::Bank::VariableExchange.new(custom_store)
+
+      2.times do |i|
+        threads << Thread.new do
+          bank_to_use = custom_bank
+          expected_bank = custom_bank
+
+          Money.with_bank(bank_to_use) do
+            sleep(0.01)
+
+            actual_bank = ::Money.default_bank
+            result = {
+              thread_id: Thread.current.object_id,
+              expected: expected_bank,
+              actual: actual_bank,
+              match: expected_bank == actual_bank
+            }
+            results_mutex.synchronize do
+              results << result
+            end
+          end
+        end
+      end
+
+      threads.each(&:join)
+      mismatches = results.reject { |r| r[:match] }
+      expect(mismatches.length).to be_zero
+    end
+  end
+
+  describe "#cents" do
+    it "is a synonym of #fractional" do
+      expect(Money.new(1_23).cents).to eq(1_23)
     end
   end
 
@@ -424,7 +455,7 @@ YAML
             Money.new(1.1).fractional
           end).to eq 2
 
-          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_EVEN
+          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_UP
         end
 
         it "works for multiplication within a block" do
@@ -436,7 +467,7 @@ YAML
             expect((Money.new(1_00) * "0.011".to_d).fractional).to eq 2
           end
 
-          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_EVEN
+          expect(Money.rounding_mode).to eq BigDecimal::ROUND_HALF_UP
         end
       end
     end
@@ -527,8 +558,38 @@ YAML
     end
   end
 
+  describe "#to_nearest_cash_value" do
+    it "rounds to the nearest possible cash value" do
+      expect(Money.new(23_50, "AED").to_nearest_cash_value).to eq(Money.new(23_50, "AED"))
+      expect(Money.new(-23_50, "AED").to_nearest_cash_value).to eq(Money.new(-23_50, "AED"))
+      expect(Money.new(22_13, "AED").to_nearest_cash_value).to eq(Money.new(22_25, "AED"))
+      expect(Money.new(-22_13, "AED").to_nearest_cash_value).to eq(Money.new(-22_25, "AED"))
+      expect(Money.new(22_12, "AED").to_nearest_cash_value).to eq(Money.new(22_00, "AED"))
+      expect(Money.new(-22_12, "AED").to_nearest_cash_value).to eq(Money.new(-22_00, "AED"))
+
+      expect(Money.new(1_78, "CHF").to_nearest_cash_value).to eq(Money.new(1_80, "CHF"))
+      expect(Money.new(-1_78, "CHF").to_nearest_cash_value).to eq(Money.new(-1_80, "CHF"))
+      expect(Money.new(1_77, "CHF").to_nearest_cash_value).to eq(Money.new(1_75, "CHF"))
+      expect(Money.new(-1_77, "CHF").to_nearest_cash_value).to eq(Money.new(-1_75, "CHF"))
+      expect(Money.new(1_75, "CHF").to_nearest_cash_value).to eq(Money.new(1_75, "CHF"))
+      expect(Money.new(-1_75, "CHF").to_nearest_cash_value).to eq(Money.new(-1_75, "CHF"))
+
+      expect(Money.new(2_99, "USD").to_nearest_cash_value).to eq(Money.new(2_99, "USD"))
+      expect(Money.new(-2_99, "USD").to_nearest_cash_value).to eq(Money.new(-2_99, "USD"))
+      expect(Money.new(3_00, "USD").to_nearest_cash_value).to eq(Money.new(3_00, "USD"))
+      expect(Money.new(-3_00, "USD").to_nearest_cash_value).to eq(Money.new(-3_00, "USD"))
+      expect(Money.new( 3_01, "USD").to_nearest_cash_value).to eq(Money.new(3_01, "USD"))
+      expect(Money.new(-3_01, "USD").to_nearest_cash_value).to eq(Money.new(-3_01, "USD"))
+    end
+
+    it "raises an error if smallest denomination is not defined" do
+      expect {Money.new(1_00, "XAG").to_nearest_cash_value}
+        .to raise_error(Money::UndefinedSmallestDenomination)
+    end
+  end
+
   describe "#amount" do
-    it "returns the amount of cents as dollars" do
+    it "returns the amount of cents as the full unit" do
       expect(Money.new(1_00).amount).to eq 1
     end
 
@@ -549,42 +610,18 @@ YAML
   end
 
   describe "#dollars" do
-    it "is synonym of #amount" do
-      m = Money.new(0)
+    it "is a deprecated synonym of #amount" do
+      money = Money.new(1_23)
 
-      # Make a small expectation
-      def m.amount
-        5
-      end
-
-      expect(m.dollars).to eq 5
+      allow(money).to receive(:warn)
+      expect(money.dollars).to eq(1.23)
+      expect(money).to have_received(:warn).with(/DEPRECATION/)
     end
   end
 
   describe "#currency" do
     it "returns the currency object" do
       expect(Money.new(1_00, "USD").currency).to eq Money::Currency.new("USD")
-    end
-  end
-
-  describe "#currency_as_string" do
-    it "returns the iso_code of the currency object" do
-      expect(Money.new(1_00, "USD").currency_as_string).to eq "USD"
-      expect(Money.new(1_00, "EUR").currency_as_string).to eq "EUR"
-    end
-  end
-
-  describe "#currency_as_string=" do
-    it "sets the currency object using the provided string leaving cents intact" do
-      money = Money.new(100_00, "USD")
-
-      money.currency_as_string = "EUR"
-      expect(money.currency).to eq Money::Currency.new("EUR")
-      expect(money.cents).to eq 100_00
-
-      money.currency_as_string = "YEN"
-      expect(money.currency).to eq Money::Currency.new("YEN")
-      expect(money.cents).to eq 100_00
     end
   end
 
@@ -604,14 +641,20 @@ YAML
   end
 
   describe "#symbol" do
-    it "works as documented" do
-      currency = Money::Currency.new("EUR")
-      expect(currency).to receive(:symbol).and_return("€")
-      expect(Money.new(0, currency).symbol).to eq "€"
+    it "returns the currency’s symbol" do
+      expect(Money.new(0, "EUR").symbol).to eq("€")
+    end
 
-      currency = Money::Currency.new("EUR")
-      expect(currency).to receive(:symbol).and_return(nil)
-      expect(Money.new(0, currency).symbol).to eq "¤"
+    context "when the currency has no symbol" do
+      let(:currency) { Money::Currency.new("EUR") }
+
+      before do
+        expect(currency).to receive(:symbol).and_return(nil)
+      end
+
+      it "returns a generic currency symbol" do
+        expect(Money.new(0, currency).symbol).to eq "¤"
+      end
     end
   end
 
@@ -639,9 +682,10 @@ YAML
       expect(Money.new(10_00, "BRL").to_s).to eq "10,00"
     end
 
-    context "using i18n" do
-      before { I18n.backend.store_translations(:en, number: { format: { separator: "." } }) }
-      after { reset_i18n }
+    context "using i18n", :locale_backend_i18n do
+      before do
+        I18n.backend.store_translations(:en, number: { format: { separator: "." } })
+      end
 
       it "respects decimal mark" do
         expect(Money.new(10_00, "BRL").to_s).to eq "10.00"
@@ -1031,41 +1075,11 @@ YAML
       expect(Money.default_currency).to eq Money::Currency.new(:eur)
     end
 
-    it 'warns about changing default_currency value' do
-      expect(Money)
-        .to receive(:warn)
-        .with('[WARNING] The default currency will change from `USD` to `nil` in the next major release. ' \
-              'Make sure to set it explicitly using `Money.default_currency=` to avoid potential issues')
-
-      Money.default_currency
-    end
-
     it 'does not warn if the default_currency has been changed' do
       Money.default_currency = Money::Currency.new(:usd)
 
       expect(Money).not_to receive(:warn)
       Money.default_currency
-    end
-  end
-
-  describe ".rounding_mode" do
-    before { Money.setup_defaults }
-    after { Money.setup_defaults }
-
-    it 'warns about changing default rounding_mode value' do
-      expect(Money)
-        .to receive(:warn)
-        .with('[WARNING] The default rounding mode will change from `ROUND_HALF_EVEN` to `ROUND_HALF_UP` in ' \
-              'the next major release. Set it explicitly using `Money.rounding_mode=` to avoid potential problems.')
-
-      Money.rounding_mode
-    end
-
-    it 'does not warn if the default rounding_mode has been changed' do
-      Money.rounding_mode = BigDecimal::ROUND_HALF_UP
-
-      expect(Money).not_to receive(:warn)
-      Money.rounding_mode
     end
   end
 

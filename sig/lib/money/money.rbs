@@ -20,14 +20,13 @@ class Money
 
   @default_currency: Money::Currency
   @fractional: BigDecimal
-  @using_deprecated_default_currency: bool
 
   # Convenience method for fractional part of the amount. Synonym of #fractional
   #
-  # @return [Integer] when infinite_precision is false
-  # @return [BigDecimal] when infinite_precision is true
+  # @return [Integer] when Money.default_infinite_precision is false
+  # @return [BigDecimal] when Money.default_infinite_precision is true
   #
-  # @see infinite_precision
+  # @see Money.default_infinite_precision
   def cents: () -> (Integer | BigDecimal)
 
   # The value of the monetary amount represented in the fractional or subunit
@@ -42,10 +41,10 @@ class Money
   # Money representation of one Kuwaiti dinar, the fractional interpretation is
   # 1000.
   #
-  # @return [Integer] when infinite_precision is false
-  # @return [BigDecimal] when infinite_precision is true
+  # @return [Integer] when Money.default_infinite_precision is false
+  # @return [BigDecimal] when Money.default_infinite_precision is true
   #
-  # @see infinite_precision
+  # @see Money.default_infinite_precision
   def fractional: () -> (Integer | BigDecimal)
 
   # Round a given amount of money to the nearest possible amount in cash value. For
@@ -53,11 +52,19 @@ class Money
   # CHF 0.05. Therefore, this method rounds CHF 0.07 to CHF 0.05, and CHF 0.08 to
   # CHF 0.10.
   #
-  # @return [Integer] when infinite_precision is false
-  # @return [BigDecimal] when infinite_precision is true
+  # @return [Integer] when Money.default_infinite_precision is false
+  # @return [BigDecimal] when Money.default_infinite_precision is true
   #
-  # @see infinite_precision
+  # @see Money.default_infinite_precision
   def round_to_nearest_cash_value: () -> (Integer | BigDecimal)
+
+  # Round a given amount of money to the nearest possible money in cash value.
+  # For example, in Swiss franc (CHF), the smallest possible amount of cash
+  # value is CHF 0.05. Therefore, this method rounds CHF 0.07 to CHF 0.05, and
+  # CHF 0.08 to CHF 0.10.
+  #
+  # @return [Money]
+  def to_nearest_cash_value: () -> Money
 
   attr_reader currency: Currency
 
@@ -88,11 +95,6 @@ class Money
   #     Money.new(0, "USD").format(display_free: false)  # => "$0.00"
   #
   #   @return [Hash]
-  #
-  # @!attribute [rw] use_i18n
-  #   Used to disable i18n even if it's used by other components of your app.
-  #
-  #   @return [Boolean]
   #
   # @!attribute [rw] default_infinite_precision
   #   @return [Boolean] Use this to enable infinite precision cents as the
@@ -130,11 +132,6 @@ class Money
   #
   #   @return [Hash]
   #
-  # @!attribute [rw] use_i18n
-  #   Used to disable i18n even if it's used by other components of your app.
-  #
-  #   @return [Boolean]
-  #
   # @!attribute [rw] default_infinite_precision
   #   @return [Boolean] Use this to enable infinite precision cents as the
   #     global default
@@ -171,11 +168,6 @@ class Money
   #
   #   @return [Hash]
   #
-  # @!attribute [rw] use_i18n
-  #   Used to disable i18n even if it's used by other components of your app.
-  #
-  #   @return [Boolean]
-  #
   # @!attribute [rw] default_infinite_precision
   #   @return [Boolean] Use this to enable infinite precision cents as the
   #     global default
@@ -186,15 +178,27 @@ class Money
   #   @return [Integer]
   attr_accessor self.conversion_precision: untyped
 
-  attr_reader self.use_i18n: untyped
+  # @!attribute [rw] strict_eql_compare
+  #    Use this to specify how +Money#eql?+ behaves. Opt-in to the new
+  #    behavior by setting this to +true+ and disable warnings when comparing
+  #    zero amounts with different currencies.
+  #
+  #    @example
+  #      Money.strict_eql_compare = false # (default)
+  #      Money.new(0, "USD").eql?(Money.new(0, "EUR")) # => true
+  #      # => [DEPRECATION] warning
+  #
+  #      Money.strict_eql_compare = true
+  #      Money.new(0, "USD").eql?(Money.new(0, "EUR")) # => false
+  #
+  #    @return [Boolean]
+  #
+  #    @see Money#eql
+  attr_accessor self.strict_eql_compare: untyped
 
   attr_reader self.locale_backend: untyped
 
   attr_writer self.default_bank: untyped
-
-  def self.infinite_precision: () -> untyped
-
-  def self.infinite_precision=: (untyped value) -> untyped
 
   # @!attribute default_currency
   #   @return [Money::Currency] The default currency, which is used when
@@ -212,18 +216,14 @@ class Money
   # @attr_writer rounding_mode Use this to specify the rounding mode
   def self.rounding_mode=: (untyped new_rounding_mode) -> untyped
 
-  def self.use_i18n=: (untyped value) -> untyped
-
   def self.setup_defaults: () -> untyped
 
   def self.inherited: (untyped base) -> untyped
 
   # Use this to return the rounding mode.
   #
-  # @param [BigDecimal::ROUND_MODE] mode
-  #
   # @return [BigDecimal::ROUND_MODE] rounding mode
-  def self.rounding_mode: (?untyped? mode) { () -> untyped } -> untyped
+  def self.rounding_mode: () -> untyped
 
   # Temporarily changes the rounding mode in a given block.
   #
@@ -235,10 +235,22 @@ class Money
   # @return [Object] block results
   #
   # @example
-  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_UP) do
+  #   fee = Money.with_rounding_mode(BigDecimal::ROUND_HALF_DOWN) do
   #     Money.new(1200) * BigDecimal('0.029')
   #   end
   def self.with_rounding_mode: (untyped mode) { () -> untyped } -> untyped
+
+  # Temporarily changes the default bank in the current thread only
+  #
+  # @param [Money::Bank::Base] bank The bank to use within the block
+  # @yield The block within which the bank will be changed
+  # @return [Object] block results
+  #
+  # @example
+  #   Money.with_bank(european_bank) do
+  #     Money.new(100, "USD").exchange_to("EUR")
+  #   end
+  def self.with_bank: (Money::Bank::Base bank) { () -> untyped } -> untyped
 
   # Adds a new exchange rate to the default bank and return the rate.
   #
@@ -277,9 +289,12 @@ class Money
   # @see #initialize
   def self.from_amount: (Numeric amount, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
 
-  alias self.from_cents self.new
+  # DEPRECATED.
+  #
+  # @see Money.from_amount
+  def self.from_amount: (Numeric amount, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
 
-  alias self.from_dollars self.from_amount
+  alias self.from_cents self.new
 
   # Creates a new Money object of value given in the
   # +fractional unit+ of the given +currency+.
@@ -304,52 +319,21 @@ class Money
   #
   def initialize: (Object obj, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
 
-  # Assuming using a currency using dollars:
-  # Returns the value of the money in dollars,
-  # instead of in the fractional unit cents.
-  #
-  # Synonym of #amount
-  #
-  # @return [BigDecimal]
-  #
-  # @example
-  #   Money.new(1_00, "USD").dollars   # => BigDecimal("1.00")
+  # DEPRECATED.
   #
   # @see #amount
-  # @see #to_d
-  # @see #cents
-  #
   def dollars: () -> BigDecimal
 
-  # Returns the numerical value of the money
+  # Returns the numerical value of the money.
   #
   # @return [BigDecimal]
   #
   # @example
-  #   Money.new(1_00, "USD").amount    # => BigDecimal("1.00")
+  #   Money.new(1_00, "USD").amount # => BigDecimal("1.00")
   #
   # @see #to_d
   # @see #fractional
-  #
   def amount: () -> BigDecimal
-
-  # Return string representation of currency object
-  #
-  # @return [String]
-  #
-  # @example
-  #   Money.new(100, :USD).currency_as_string #=> "USD"
-  def currency_as_string: () -> string
-
-  # Set currency object using a string
-  #
-  # @param [String] val The currency string.
-  #
-  # @return [Money::Currency]
-  #
-  # @example
-  #   Money.new(100).currency_as_string("CAD") #=> #<Money::Currency id: cad>
-  def currency_as_string=: (string val) -> Currency
 
   # Returns a Integer hash value based on the +fractional+ and +currency+ attributes
   # in order to use functions like & (intersection), group_by, etc.
@@ -494,8 +478,8 @@ class Money
   # Round the monetary amount to smallest unit of coinage.
   #
   # @note
-  #   This method is only useful when operating with infinite_precision turned
-  #   on. Without infinite_precision values are rounded to the smallest unit of
+  #   This method is only useful when operating with Money.default_infinite_precision turned
+  #   on. Without Money.default_infinite_precision values are rounded to the smallest unit of
   #   coinage automatically.
   #
   # @return [Money]
@@ -503,9 +487,7 @@ class Money
   # @example
   #   Money.new(10.1, 'USD').round #=> Money.new(10, 'USD')
   #
-  # @see
-  #   Money.default_infinite_precision
-  #
+  # @see Money.default_infinite_precision
   def round: (?untyped rounding_mode, ?::Integer rounding_precision) -> Money
 
   # Creates a formatted price string according to several rules.

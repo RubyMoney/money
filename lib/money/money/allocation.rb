@@ -2,10 +2,10 @@
 
 class Money
   class Allocation
-    # Splits a given amount in parts. The allocation is based on the parts' proportions
-    # or evenly if parts are numerically specified.
+    # Allocates a specified amount into parts based on their proportions or distributes
+    # it evenly when the number of parts is specified numerically.
     #
-    # The results should always add up to the original amount.
+    # The total of the allocated amounts will always equal the original amount.
     #
     # The parts can be specified as:
     #   Numeric — performs the split between a given number of parties evenly
@@ -13,11 +13,15 @@ class Money
     #
     # @param amount [Numeric] The total amount to be allocated.
     # @param parts [Numeric, Array<Numeric>] Number of parts to split into or an array (proportions for allocation)
-    # @param whole_amounts [Boolean] Specifies whether to allocate whole amounts only. Defaults to true.
+    # @param decimal_cutoff [Boolean, Integer] Controls per-split precision:
+    #   - When true, splits are truncated to whole amounts.
+    #   - When an Integer N, splits are rounded to N decimal places.
+    #   - When false or nil, no rounding/truncation is applied.
+    #   Defaults to true (whole amounts).
     #
     # @return [Array<Numeric>] An array containing the allocated amounts.
     # @raise [ArgumentError] If parts is empty or not provided.
-    def self.generate(amount, parts, whole_amounts = true)
+    def self.generate(amount, parts, decimal_cutoff = true)
       parts = if parts.is_a?(Numeric)
         Array.new(parts, 1)
       elsif parts.all?(&:zero?)
@@ -35,19 +39,30 @@ class Money
 
       result = []
       remaining_amount = amount
+      round_to_whole = decimal_cutoff.is_a?(TrueClass)
+      round_to_precision = decimal_cutoff.is_a?(Integer)
+
+      parts_sum = parts.sum
 
       until parts.empty? do
-        parts_sum = parts.inject(0, :+)
         part = parts.pop
 
         current_split = 0
         if parts_sum > 0
           current_split = remaining_amount * part / parts_sum
-          current_split = current_split.truncate if whole_amounts
+          current_split =
+            if round_to_whole
+              current_split.truncate
+            elsif round_to_precision
+              current_split.round(decimal_cutoff)
+            else
+              current_split
+            end
         end
 
         result.unshift current_split
         remaining_amount -= current_split
+        parts_sum -= part
       end
 
       result
