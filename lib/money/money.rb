@@ -173,9 +173,7 @@ class Money
 
   # @!attribute default_currency
   #   @return [Money::Currency] The default currency, which is used when
-  #     +Money.new+ is called without an explicit currency argument. The
-  #     default value is Currency.new("USD"). The value must be a valid
-  #     +Money::Currency+ instance.
+  #     +Money.new+ is called without an explicit currency argument.
   def self.default_currency
     if @default_currency.nil?
       nil
