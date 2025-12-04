@@ -437,6 +437,28 @@ RSpec.describe Money::Arithmetic do
       end
     end
 
+    it "raises ZeroDivisionError when dividing by Money with zero value" do
+      money = Money.new(100, "USD")
+      zero_money = Money.new(0, "USD")
+
+      expect { money / zero_money }.to raise_error(ZeroDivisionError, "divided by Money(0)")
+    end
+
+    it "raises ZeroDivisionError when dividing by Money with zero value in same currency" do
+      money = Money.new(100, "USD")
+      zero_usd = Money.new(0, "USD")
+
+      expect { money / zero_usd }.to raise_error(ZeroDivisionError, "divided by Money(0)")
+    end
+
+    it "raises ZeroDivisionError when dividing by numeric zero" do
+      money = Money.new(100, "USD")
+
+      expect { money / 0 }.to raise_error(ZeroDivisionError, "divided by zero")
+      expect { money / 0.0 }.to raise_error(ZeroDivisionError, "divided by zero")
+      expect { money / BigDecimal("0") }.to raise_error(ZeroDivisionError, "divided by zero")
+    end
+
     it_behaves_like 'instance with custom bank', :/, 1
   end
 
@@ -553,6 +575,28 @@ RSpec.describe Money::Arithmetic do
     it "preserves the class in the result when using a subclass of Money by a subclass of Money" do
       special_money_class = Class.new(Money)
       expect(special_money_class.new(10_00, "USD").divmod(special_money_class.new(4_00)).last).to be_a special_money_class
+    end
+
+    it "raises ZeroDivisionError when dividing by Money with zero value" do
+      money = Money.new(100, "USD")
+      zero_money = Money.new(0, "USD")
+
+      expect { money.divmod(zero_money) }.to raise_error(ZeroDivisionError, "divided by Money(0)")
+    end
+
+    it "raises ZeroDivisionError when dividing by Money with zero value in same currency" do
+      money = Money.new(100, "USD")
+      zero_usd = Money.new(0, "USD")
+
+      expect { money.divmod(zero_usd) }.to raise_error(ZeroDivisionError, "divided by Money(0)")
+    end
+
+    it "raises ZeroDivisionError when dividing by numeric zero" do
+      money = Money.new(100, "USD")
+
+      expect { money.divmod(0) }.to raise_error(ZeroDivisionError, "divided by zero")
+      expect { money.divmod(0.0) }.to raise_error(ZeroDivisionError, "divided by zero")
+      expect { money.divmod(BigDecimal("0")) }.to raise_error(ZeroDivisionError, "divided by zero")
     end
 
     it_behaves_like 'instance with custom bank', :divmod, -> { Money.new(1) }
