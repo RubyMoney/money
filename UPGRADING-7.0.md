@@ -51,7 +51,7 @@ Money.default_currency = Money::Currency.new("USD")
 Option 2: Always specify the currency explicitly:
 
 ```ruby
-Money.new(100, "USD")
+Money.new(1_00, "USD")
 ```
 
 ### 2. Default Rounding Mode Changed
@@ -62,10 +62,10 @@ Money.new(100, "USD")
 
 ```ruby
 # Before (6.x) - ROUND_HALF_EVEN
-Money.new(250, "USD") / 3  # => #<Money @fractional=83.33...>
+Money.new(2_50, "USD") / 3  # => #<Money @fractional=83.33...>
 
 # After (7.0) - ROUND_HALF_UP
-Money.new(250, "USD") / 3  # => #<Money @fractional=83.33...> (may differ in edge cases)
+Money.new(2_50, "USD") / 3  # => #<Money @fractional=83.33...> (may differ in edge cases)
 ```
 
 **Migration:**
@@ -133,15 +133,15 @@ Money.locale_backend = :i18n
 ```ruby
 # Before (6.x)
 Money.infinite_precision = true
-money = Money.new(100)
-money.dollars                    # => 1.0
+money = Money.new(1_00)
+money.dollars # => 1.0
 Money.from_dollars(5.50, "USD")
 money.round_to_nearest_cash_value
 
 # After (7.0)
 Money.default_infinite_precision = true
-money = Money.new(100, "USD")
-money.amount                     # => 1.0
+money = Money.new(1_00, "USD")
+money.amount # => 1.0
 Money.from_amount(5.50, "USD")
 money.to_nearest_cash_value.fractional
 ```
@@ -192,16 +192,16 @@ Money.new(0, "USD").eql?(Money.new(0, "EUR"))  # => false
 
 ### 7. Division by Zero Now Raises an Error
 
-**What changed:** Dividing a Money object by zero now raises an error instead of returning infinity or an undefined value.
+**What changed:** Dividing a Money object by zero now raises an error instead of returning infinity, an undefined value or an ArgumentError.
 
 **Impact:** Code that previously performed division by zero will now raise an exception.
 
 ```ruby
 # Before (6.x)
-Money.new(100, "USD") / 0  # => May have returned Infinity or undefined behavior
+Money.new(1_00, "USD") / 0  # => May have returned Infinity or undefined behavior
 
 # After (7.0)
-Money.new(100, "USD") / 0  # => raises ZeroDivisionError
+Money.new(1_00, "USD") / 0  # => raises ZeroDivisionError
 ```
 
 **Migration:**
@@ -214,7 +214,7 @@ if divisor.zero?
   # Handle the zero case appropriately
   handle_zero_divisor
 else
-  Money.new(100, "USD") / divisor
+  Money.new(1_00, "USD") / divisor
 end
 ```
 

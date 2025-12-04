@@ -614,7 +614,7 @@ Prior to v6.9.0 heuristic analysis of string input was part of this gem. Since t
 
 When upgrading between major versions, please refer to the appropriate upgrade guide:
 
-- **[Upgrading to 7.0](UPGRADING-7.0.md)** - Comprehensive guide for migrating from Money 6.x to 7.0
-- **[Upgrading to 6.0](UPGRADING-6.0.md)** - Migration notes for upgrading to version 6.0.0
+- **[Upgrading to 7.0](UPGRADING-7.0.md)** - Guide for migrating from 6.x to 7.0
+- **[Upgrading to 6.0](UPGRADING-6.0.md)** - Guide for upgrading to version 6.0
 
 These guides provide detailed information about breaking changes, new features, and step-by-step migration instructions.
