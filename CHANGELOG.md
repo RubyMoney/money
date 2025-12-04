@@ -16,7 +16,7 @@
 - Add `Currency#cents_based?` to check if currency is cents-based
 - Add ability to nest `Money.with_rounding_mode` blocks
 - Allow `nil` to be used as a default_currency
-- Improve performance of find_by_iso_numeric method
+- Improve performance of `find_by_iso_numeric` method
 
 ## 6.19.0
 
