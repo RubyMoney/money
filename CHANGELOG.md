@@ -21,6 +21,7 @@
 - **Potential breaking change**: Fix MGA (Malagasy Ariary) to be a zero-decimal currency (changing subunit_to_unit from 5 to 1)
 - **Potential breaking change**: Remove special handling for Japanese language only
 - **Potential breaking change**: Adjust formatting rules to use i18n translations for `:format`
+- **Potential breaking change**: Not allow divide by zero
 - Updated Armenian Dram sign and HTML entity
 - Updated the Turkmen Manat symbol and HTML entity and added disambiguation symbol for TMM
 - Expose Money::VERSION
