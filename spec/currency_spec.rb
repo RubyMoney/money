@@ -69,6 +69,57 @@ RSpec.describe Money::Currency do
       expect(described_class.find_by_iso_numeric('')).to be_nil
       expect(described_class.find_by_iso_numeric(nil)).to be_nil
     end
+
+    context "with dynamically registered currencies" do
+      after { described_class.unregister(iso_code: "FRF") if described_class.find("FRF") }
+
+      it "finds currencies registered after initial cache build" do
+        expect(described_class.find_by_iso_numeric(250)).to be_nil
+
+        described_class.register(
+          priority:            1,
+          iso_code:            "FRF",
+          iso_numeric:         "250",
+          name:                "French Francs",
+          symbol:              "FR",
+          subunit:             "Centimes",
+          subunit_to_unit:     100,
+          decimal_mark:        ",",
+          thousands_separator: " "
+        )
+
+        expect(described_class.find_by_iso_numeric(250)).to eq described_class.new(:frf)
+        expect(described_class.find_by_iso_numeric("250")).to eq described_class.new(:frf)
+      end
+
+      it "returns nil for unregistered currencies after cache invalidation" do
+        described_class.register(
+          priority:     1,
+          iso_code:     "FRF",
+          iso_numeric:  "250",
+          name:         "French Francs",
+          symbol:       "FR",
+          subunit:      "Centimes",
+          subunit_to_unit: 100
+        )
+
+        expect(described_class.find_by_iso_numeric(250)).to eq described_class.new(:frf)
+
+        described_class.unregister(iso_code: "FRF")
+
+        expect(described_class.find_by_iso_numeric(250)).to be_nil
+      end
+    end
+
+    context "after reset!" do
+      it "clears the iso_numeric cache" do
+        expect(described_class.find_by_iso_numeric(840)).to eq described_class.new(:usd)
+
+        described_class.reset!
+
+        expect(described_class.find_by_iso_numeric(840)).to eq described_class.new(:usd)
+      end
+    end
   end
 
   describe ".wrap" do
