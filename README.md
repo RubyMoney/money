@@ -5,7 +5,7 @@
 [![Inline docs](https://img.shields.io/badge/docs-github.io-green.svg)](https://rubymoney.github.io/money/)
 [![License](https://img.shields.io/github/license/RubyMoney/money.svg)](https://opensource.org/license/MIT)
 
-:warning: Please read the [migration notes](#migration-notes) before upgrading to a new major version.
+:warning: Please read the [upgrade guides](#upgrade-guides) before upgrading to a new major version.
 
 If you miss String parsing, check out the new [monetize gem](https://github.com/RubyMoney/monetize).
 
@@ -610,18 +610,11 @@ I18n.enforce_available_locales = false
 
 Prior to v6.9.0 heuristic analysis of string input was part of this gem. Since then it was extracted in to [money-heuristics gem](https://github.com/RubyMoney/money-heuristics).
 
-## Migration Notes
+## Upgrade Guides
 
-#### Version 6.0.0
+When upgrading between major versions, please refer to the appropriate upgrade guide:
 
-- The `Money#dollars` and `Money#amount` methods now return instances of
-  `BigDecimal` rather than `Float`. We should avoid representing monetary
-  values with floating point types so to avoid a whole class of errors relating
-  to lack of precision. There are two migration options for this change:
-  * The first is to test your application and where applicable update the
-    application to accept a `BigDecimal` return value. This is the recommended
-    path.
-  * The second is to migrate from the `#amount` and `#dollars` methods to use
-    the `#to_f` method instead. This option should only be used where `Float`
-    is the desired type and nothing else will do for your application's
-    requirements.
+- **[Upgrading to 7.0](UPGRADING-7.0.md)** - Guide for migrating from 6.x to 7.0
+- **[Upgrading to 6.0](UPGRADING-6.0.md)** - Guide for upgrading to version 6.0
+
+These guides provide detailed information about breaking changes, new features, and step-by-step migration instructions.

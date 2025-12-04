@@ -1,6 +1,8 @@
 # Changelog
 
-## Upcoming 7.0.0.alpha
+## Unreleased
+
+## 7.0.0
 
 - **Breaking change**: Require Ruby >= 3.1 and i18n ~> 1.9
 - **Breaking change**: Remove deprecated formatting rules:
