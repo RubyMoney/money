@@ -14,6 +14,8 @@
   - `Money.infinite_precision=`.
   - `Money#currency_as_string`.
   - `Money#currency_as_string=`.
+  - `Money.use_i18n` and `Money.use_i18n=` (use `Money.locale_backend = :i18n` instead).
+- **Breaking change**: Remove legacy locale backend. The default locale backend is now `:currency` which uses currency definitions for formatting.
 - **Breaking change**: Default currency is now `nil` instead of `USD`. If you want to keep the previous behavior, set `Money.default_currency = Money::Currency.new("USD")` in your initializer. Initializing a Money object will raise a `Currency::NoCurrency` if no currency is set.
 - **Breaking change**: The default rounding mode has changed from `BigDecimal::ROUND_HALF_EVEN` to `BigDecimal::ROUND_HALF_UP`. Set it explicitly using `Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN` to keep the previous behavior.
 - **Potential breaking change**: Fix RSD (Serbian Dinar) formatting to be like `12.345,42 RSD`

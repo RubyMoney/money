@@ -96,11 +96,6 @@ class Money
   #
   #   @return [Hash]
   #
-  # @!attribute [rw] use_i18n
-  #   Used to disable i18n even if it's used by other components of your app.
-  #
-  #   @return [Boolean]
-  #
   # @!attribute [rw] default_infinite_precision
   #   @return [Boolean] Use this to enable infinite precision cents as the
   #     global default
@@ -136,11 +131,6 @@ class Money
   #     Money.new(0, "USD").format(display_free: false)  # => "$0.00"
   #
   #   @return [Hash]
-  #
-  # @!attribute [rw] use_i18n
-  #   Used to disable i18n even if it's used by other components of your app.
-  #
-  #   @return [Boolean]
   #
   # @!attribute [rw] default_infinite_precision
   #   @return [Boolean] Use this to enable infinite precision cents as the
@@ -178,11 +168,6 @@ class Money
   #
   #   @return [Hash]
   #
-  # @!attribute [rw] use_i18n
-  #   Used to disable i18n even if it's used by other components of your app.
-  #
-  #   @return [Boolean]
-  #
   # @!attribute [rw] default_infinite_precision
   #   @return [Boolean] Use this to enable infinite precision cents as the
   #     global default
@@ -211,8 +196,6 @@ class Money
   #    @see Money#eql
   attr_accessor self.strict_eql_compare: untyped
 
-  attr_reader self.use_i18n: untyped
-
   attr_reader self.locale_backend: untyped
 
   attr_writer self.default_bank: untyped
@@ -232,8 +215,6 @@ class Money
 
   # @attr_writer rounding_mode Use this to specify the rounding mode
   def self.rounding_mode=: (untyped new_rounding_mode) -> untyped
-
-  def self.use_i18n=: (untyped value) -> untyped
 
   def self.setup_defaults: () -> untyped
 

@@ -2,7 +2,7 @@
 
 RSpec.describe Money do
   describe '.locale_backend' do
-    after { Money.locale_backend = :legacy }
+    after { Money.locale_backend = :currency }
 
     it 'sets the locale_backend' do
       Money.locale_backend = :i18n
@@ -682,9 +682,10 @@ YAML
       expect(Money.new(10_00, "BRL").to_s).to eq "10,00"
     end
 
-    context "using i18n" do
-      before { I18n.backend.store_translations(:en, number: { format: { separator: "." } }) }
-      after { reset_i18n }
+    context "using i18n", :locale_backend_i18n do
+      before do
+        I18n.backend.store_translations(:en, number: { format: { separator: "." } })
+      end
 
       it "respects decimal mark" do
         expect(Money.new(10_00, "BRL").to_s).to eq "10.00"

@@ -11,7 +11,6 @@ RSpec.describe Money::LocaleBackend::I18n do
 
   describe '#lookup' do
     after do
-      reset_i18n
       I18n.locale = :en
     end
 

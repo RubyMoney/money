@@ -18,10 +18,7 @@ RSpec.describe Money, "formatting" do
     end
   end
 
-  context 'without locale_backend' do
-    before { Money.locale_backend = nil }
-    after { Money.locale_backend = :legacy }
-
+  context 'without locale_backend', :locale_backend_nil do
     subject(:money) { Money.new(1099_99, 'USD') }
 
     it 'falls back to using defaults' do
@@ -31,23 +28,7 @@ RSpec.describe Money, "formatting" do
     end
   end
 
-  context "with i18n but use_i18n = false" do
-    before :each do
-      reset_i18n
-      I18n.locale = :de
-      I18n.backend.store_translations(
-          :de,
-          number: { currency: { format: { delimiter: ".", separator: "," } } }
-      )
-      Money.use_i18n = false
-    end
-
-    after :each do
-      reset_i18n
-      I18n.locale = :en
-      Money.use_i18n = true
-    end
-
+  context "with currency locale_backend", :locale_backend_currency do
     subject(:money) { Money.empty("USD") }
 
     it "should use ',' as the thousands separator" do
@@ -59,19 +40,13 @@ RSpec.describe Money, "formatting" do
     end
   end
 
-  context "with i18n" do
-    after :each do
-      reset_i18n
-      I18n.locale = :en
-    end
-
+  context "with i18n locale_backend", :locale_backend_i18n do
     context "with number.format.*" do
       before :each do
-        reset_i18n
         I18n.locale = :de
         I18n.backend.store_translations(
-            :de,
-            number: { format: { delimiter: ".", separator: "," } }
+          :de,
+          number: { format: { delimiter: ".", separator: "," } }
         )
       end
 
@@ -88,11 +63,10 @@ RSpec.describe Money, "formatting" do
 
     context "with number.currency.format.*" do
       before :each do
-        reset_i18n
         I18n.locale = :de
         I18n.backend.store_translations(
-            :de,
-            number: { currency: { format: { delimiter: ".", separator: "," } } }
+          :de,
+          number: { currency: { format: { delimiter: ".", separator: "," } } }
         )
       end
 
@@ -109,11 +83,10 @@ RSpec.describe Money, "formatting" do
 
     context "with number.currency.symbol.*" do
       before :each do
-        reset_i18n
         I18n.locale = :de
         I18n.backend.store_translations(
-            :de,
-            number: { currency: { symbol: { CAD: "CAD$" } } }
+          :de,
+          number: { currency: { symbol: { CAD: "CAD$" } } }
         )
       end
 
@@ -475,18 +448,14 @@ RSpec.describe Money, "formatting" do
         expect(Money.new(100000, "ZWD").format).to eq "$1,000.00"
       end
 
-      context "without i18n" do
-        before { Money.use_i18n = false }
-
-        it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
+      context "currency locale_backend i18n", :locale_backend_currency do
+        it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there's no decimal component for currencies that have no subunit" do
           expect(Money.new(300_000, 'ISK').format(thousands_separator: ",", decimal_mark: '.')).to eq "300,000 kr."
         end
 
         it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
           expect(Money.new(300_000, 'USD').format(thousands_separator: ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
         end
-
-        after { Money.use_i18n = true}
       end
     end
 
@@ -565,15 +534,7 @@ RSpec.describe Money, "formatting" do
         expect(Money.new(BigDecimal('1.7'), "MGA").format(rounded_infinite_precision: false)).to eq "Ar1.7"
       end
 
-      describe "with i18n = false" do
-        before do
-          Money.use_i18n = false
-        end
-
-        after do
-          Money.use_i18n = true
-        end
-
+      describe "with currency locale_backend", :locale_backend_currency do
         it 'does round fractional when set to true' do
           expect(Money.new(BigDecimal('12.1'), "EUR").format(rounded_infinite_precision: true)).to eq "€0,12"
           expect(Money.new(BigDecimal('12.5'), "EUR").format(rounded_infinite_precision: true)).to eq "€0,13"
@@ -585,20 +546,13 @@ RSpec.describe Money, "formatting" do
         end
       end
 
-      describe "with i18n = true" do
+      describe "with i18n locale_backend", :locale_backend_i18n do
         before do
-          Money.use_i18n = true
-          reset_i18n
           I18n.locale = :de
           I18n.backend.store_translations(
-              :de,
-              number: { currency: { format: { delimiter: ".", separator: "," } } }
+            :de,
+            number: { currency: { format: { delimiter: ".", separator: "," } } }
           )
-        end
-
-        after do
-          reset_i18n
-          I18n.locale = :en
         end
 
         it 'does round fractional when set to true' do
