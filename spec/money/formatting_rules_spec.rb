@@ -17,6 +17,9 @@ RSpec.describe Money::FormattingRules do
 
   describe 'format' do
     context 'when there is a locale backend' do
+      before { Money.locale_backend = :i18n }
+      after { Money.locale_backend = :currency }
+
       it 'returns the format from the passed rules' do
         currency = Money::Currency.new('EUR')
         rules = { format: '%n%u', separator: '.', delimiter: ',' }
