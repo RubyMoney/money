@@ -3,9 +3,9 @@
 RSpec.describe Money::Arithmetic do
   describe "-@" do
     it "changes the sign of a number" do
-      expect((- Money.new(0))).to  eq Money.new(0)
-      expect((- Money.new(1))).to  eq Money.new(-1)
-      expect((- Money.new(-1))).to eq Money.new(1)
+      expect(- Money.new(0)).to  eq Money.new(0)
+      expect(- Money.new(1)).to  eq Money.new(-1)
+      expect(- Money.new(-1)).to eq Money.new(1)
     end
 
     it "preserves the class in the result when using a subclass of Money" do
@@ -133,9 +133,9 @@ RSpec.describe Money::Arithmetic do
 
   describe "#<=>" do
     it "compares the two object amounts (same currency)" do
-      expect((Money.new(1_00, "USD") <=> Money.new(1_00, "USD"))).to eq 0
-      expect((Money.new(1_00, "USD") <=> Money.new(99, "USD"))).to be > 0
-      expect((Money.new(1_00, "USD") <=> Money.new(2_00, "USD"))).to be < 0
+      expect(Money.new(1_00, "USD") <=> Money.new(1_00, "USD")).to eq 0
+      expect(Money.new(1_00, "USD") <=> Money.new(99, "USD")).to be > 0
+      expect(Money.new(1_00, "USD") <=> Money.new(2_00, "USD")).to be < 0
     end
 
     it "converts other object amount to current currency, then compares the two object amounts (different currency)" do
@@ -176,13 +176,11 @@ RSpec.describe Money::Arithmetic do
 
     context 'when conversions disallowed' do
       around do |example|
-        begin
-          old_default_bank = Money.default_bank
-          Money.disallow_currency_conversion!
-          example.run
-        ensure
-          Money.default_bank = old_default_bank
-        end
+        old_default_bank = Money.default_bank
+        Money.disallow_currency_conversion!
+        example.run
+      ensure
+        Money.default_bank = old_default_bank
       end
 
       context 'when currencies differ' do
@@ -313,10 +311,10 @@ RSpec.describe Money::Arithmetic do
   describe "#*" do
     it "multiplies Money by Integer and returns Money" do
       ts = [
-        {a: Money.new( 10, :USD), b: 4, c: Money.new( 40, :USD)},
-        {a: Money.new( 10, :USD), b: -4, c: Money.new(-40, :USD)},
+        {a: Money.new(10, :USD), b: 4, c: Money.new(40, :USD)},
+        {a: Money.new(10, :USD), b: -4, c: Money.new(-40, :USD)},
         {a: Money.new(-10, :USD), b: 4, c: Money.new(-40, :USD)},
-        {a: Money.new(-10, :USD), b: -4, c: Money.new( 40, :USD)},
+        {a: Money.new(-10, :USD), b: -4, c: Money.new(40, :USD)},
       ]
       ts.each do |t|
         expect(t[:a] * t[:b]).to eq t[:c]
@@ -346,10 +344,10 @@ RSpec.describe Money::Arithmetic do
   describe "#/" do
     it "divides Money by Integer and returns Money" do
       ts = [
-        {a: Money.new( 13, :USD), b: 4, c: Money.new( 3, :USD)},
-        {a: Money.new( 13, :USD), b: -4, c: Money.new(-3, :USD)},
+        {a: Money.new(13, :USD), b: 4, c: Money.new(3, :USD)},
+        {a: Money.new(13, :USD), b: -4, c: Money.new(-3, :USD)},
         {a: Money.new(-13, :USD), b: 4, c: Money.new(-3, :USD)},
-        {a: Money.new(-13, :USD), b: -4, c: Money.new( 3, :USD)},
+        {a: Money.new(-13, :USD), b: -4, c: Money.new(3, :USD)},
       ]
       ts.each do |t|
         expect(t[:a] / t[:b]).to eq t[:c]
@@ -401,9 +399,9 @@ RSpec.describe Money::Arithmetic do
 
     it "divides Money by Money (same currency) and returns Float" do
       ts = [
-        {a: Money.new( 13, :USD), b: Money.new( 4, :USD), c: 3.25},
-        {a: Money.new( 13, :USD), b: Money.new(-4, :USD), c: -3.25},
-        {a: Money.new(-13, :USD), b: Money.new( 4, :USD), c: -3.25},
+        {a: Money.new(13, :USD), b: Money.new(4, :USD), c: 3.25},
+        {a: Money.new(13, :USD), b: Money.new(-4, :USD), c: -3.25},
+        {a: Money.new(-13, :USD), b: Money.new(4, :USD), c: -3.25},
         {a: Money.new(-13, :USD), b: Money.new(-4, :USD), c: 3.25},
       ]
       ts.each do |t|
@@ -413,9 +411,9 @@ RSpec.describe Money::Arithmetic do
 
     it "divides Money by Money (different currency) and returns Float" do
       ts = [
-        {a: Money.new( 13, :USD), b: Money.new( 4, :EUR), c: 1.625},
-        {a: Money.new( 13, :USD), b: Money.new(-4, :EUR), c: -1.625},
-        {a: Money.new(-13, :USD), b: Money.new( 4, :EUR), c: -1.625},
+        {a: Money.new(13, :USD), b: Money.new(4, :EUR), c: 1.625},
+        {a: Money.new(13, :USD), b: Money.new(-4, :EUR), c: -1.625},
+        {a: Money.new(-13, :USD), b: Money.new(4, :EUR), c: -1.625},
         {a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: 1.625},
       ]
       ts.each do |t|
@@ -427,10 +425,10 @@ RSpec.describe Money::Arithmetic do
     context "with infinite_precision", :default_infinite_precision_true do
       it "uses BigDecimal division" do
         ts = [
-          {a: Money.new( 13, :USD), b: 4, c: Money.new( 3.25, :USD)},
-          {a: Money.new( 13, :USD), b: -4, c: Money.new(-3.25, :USD)},
+          {a: Money.new(13, :USD), b: 4, c: Money.new(3.25, :USD)},
+          {a: Money.new(13, :USD), b: -4, c: Money.new(-3.25, :USD)},
           {a: Money.new(-13, :USD), b: 4, c: Money.new(-3.25, :USD)},
-          {a: Money.new(-13, :USD), b: -4, c: Money.new( 3.25, :USD)},
+          {a: Money.new(-13, :USD), b: -4, c: Money.new(3.25, :USD)},
         ]
         ts.each do |t|
           expect(t[:a] / t[:b]).to eq t[:c]
@@ -444,10 +442,10 @@ RSpec.describe Money::Arithmetic do
   describe "#div" do
     it "divides Money by Integer and returns Money" do
       ts = [
-          {a: Money.new( 13, :USD), b: 4, c: Money.new( 3, :USD)},
-          {a: Money.new( 13, :USD), b: -4, c: Money.new(-3, :USD)},
-          {a: Money.new(-13, :USD), b: 4, c: Money.new(-3, :USD)},
-          {a: Money.new(-13, :USD), b: -4, c: Money.new( 3, :USD)},
+        {a: Money.new(13, :USD), b: 4, c: Money.new(3, :USD)},
+        {a: Money.new(13, :USD), b: -4, c: Money.new(-3, :USD)},
+        {a: Money.new(-13, :USD), b: 4, c: Money.new(-3, :USD)},
+        {a: Money.new(-13, :USD), b: -4, c: Money.new(3, :USD)},
       ]
       ts.each do |t|
         expect(t[:a].div(t[:b])).to eq t[:c]
@@ -456,10 +454,10 @@ RSpec.describe Money::Arithmetic do
 
     it "divides Money by Money (same currency) and returns Float" do
       ts = [
-          {a: Money.new( 13, :USD), b: Money.new( 4, :USD), c: 3.25},
-          {a: Money.new( 13, :USD), b: Money.new(-4, :USD), c: -3.25},
-          {a: Money.new(-13, :USD), b: Money.new( 4, :USD), c: -3.25},
-          {a: Money.new(-13, :USD), b: Money.new(-4, :USD), c: 3.25},
+        {a: Money.new(13, :USD), b: Money.new(4, :USD), c: 3.25},
+        {a: Money.new(13, :USD), b: Money.new(-4, :USD), c: -3.25},
+        {a: Money.new(-13, :USD), b: Money.new(4, :USD), c: -3.25},
+        {a: Money.new(-13, :USD), b: Money.new(-4, :USD), c: 3.25},
       ]
       ts.each do |t|
         expect(t[:a].div(t[:b])).to eq t[:c]
@@ -468,10 +466,10 @@ RSpec.describe Money::Arithmetic do
 
     it "divides Money by Money (different currency) and returns Float" do
       ts = [
-          {a: Money.new( 13, :USD), b: Money.new( 4, :EUR), c: 1.625},
-          {a: Money.new( 13, :USD), b: Money.new(-4, :EUR), c: -1.625},
-          {a: Money.new(-13, :USD), b: Money.new( 4, :EUR), c: -1.625},
-          {a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: 1.625},
+        {a: Money.new(13, :USD), b: Money.new(4, :EUR), c: 1.625},
+        {a: Money.new(13, :USD), b: Money.new(-4, :EUR), c: -1.625},
+        {a: Money.new(-13, :USD), b: Money.new(4, :EUR), c: -1.625},
+        {a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: 1.625},
       ]
       ts.each do |t|
         expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
@@ -482,10 +480,10 @@ RSpec.describe Money::Arithmetic do
     context "with infinite_precision", :default_infinite_precision_true do
       it "uses BigDecimal division" do
         ts = [
-          {a: Money.new( 13, :USD), b: 4, c: Money.new( 3.25, :USD)},
-          {a: Money.new( 13, :USD), b: -4, c: Money.new(-3.25, :USD)},
+          {a: Money.new(13, :USD), b: 4, c: Money.new(3.25, :USD)},
+          {a: Money.new(13, :USD), b: -4, c: Money.new(-3.25, :USD)},
           {a: Money.new(-13, :USD), b: 4, c: Money.new(-3.25, :USD)},
-          {a: Money.new(-13, :USD), b: -4, c: Money.new( 3.25, :USD)},
+          {a: Money.new(-13, :USD), b: -4, c: Money.new(3.25, :USD)},
         ]
         ts.each do |t|
           expect(t[:a].div(t[:b])).to eq t[:c]
@@ -497,10 +495,10 @@ RSpec.describe Money::Arithmetic do
   describe "#divmod" do
     it "calculates division and modulo with Integer" do
       ts = [
-          {a: Money.new( 13, :USD), b: 4, c: [Money.new( 3, :USD), Money.new( 1, :USD)]},
-          {a: Money.new( 13, :USD), b: -4, c: [Money.new(-4, :USD), Money.new(-3, :USD)]},
-          {a: Money.new(-13, :USD), b: 4, c: [Money.new(-4, :USD), Money.new( 3, :USD)]},
-          {a: Money.new(-13, :USD), b: -4, c: [Money.new( 3, :USD), Money.new(-1, :USD)]},
+        {a: Money.new(13, :USD), b: 4, c: [Money.new(3, :USD), Money.new(1, :USD)]},
+        {a: Money.new(13, :USD), b: -4, c: [Money.new(-4, :USD), Money.new(-3, :USD)]},
+        {a: Money.new(-13, :USD), b: 4, c: [Money.new(-4, :USD), Money.new(3, :USD)]},
+        {a: Money.new(-13, :USD), b: -4, c: [Money.new(3, :USD), Money.new(-1, :USD)]},
       ]
       ts.each do |t|
         expect(t[:a].divmod(t[:b])).to eq t[:c]
@@ -509,10 +507,10 @@ RSpec.describe Money::Arithmetic do
 
     it "calculates division and modulo with Money (same currency)" do
       ts = [
-          {a: Money.new( 13, :USD), b: Money.new( 4, :USD), c: [ 3, Money.new( 1, :USD)]},
-          {a: Money.new( 13, :USD), b: Money.new(-4, :USD), c: [-4, Money.new(-3, :USD)]},
-          {a: Money.new(-13, :USD), b: Money.new( 4, :USD), c: [-4, Money.new( 3, :USD)]},
-          {a: Money.new(-13, :USD), b: Money.new(-4, :USD), c: [ 3, Money.new(-1, :USD)]},
+        {a: Money.new(13, :USD), b: Money.new(4, :USD), c: [3, Money.new(1, :USD)]},
+        {a: Money.new(13, :USD), b: Money.new(-4, :USD), c: [-4, Money.new(-3, :USD)]},
+        {a: Money.new(-13, :USD), b: Money.new(4, :USD), c: [-4, Money.new(3, :USD)]},
+        {a: Money.new(-13, :USD), b: Money.new(-4, :USD), c: [3, Money.new(-1, :USD)]},
       ]
       ts.each do |t|
         expect(t[:a].divmod(t[:b])).to eq t[:c]
@@ -521,10 +519,10 @@ RSpec.describe Money::Arithmetic do
 
     it "calculates division and modulo with Money (different currency)" do
       ts = [
-          {a: Money.new( 13, :USD), b: Money.new( 4, :EUR), c: [ 1, Money.new( 5, :USD)]},
-          {a: Money.new( 13, :USD), b: Money.new(-4, :EUR), c: [-2, Money.new(-3, :USD)]},
-          {a: Money.new(-13, :USD), b: Money.new( 4, :EUR), c: [-2, Money.new( 3, :USD)]},
-          {a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: [ 1, Money.new(-5, :USD)]},
+        {a: Money.new(13, :USD), b: Money.new(4, :EUR), c: [1, Money.new(5, :USD)]},
+        {a: Money.new(13, :USD), b: Money.new(-4, :EUR), c: [-2, Money.new(-3, :USD)]},
+        {a: Money.new(-13, :USD), b: Money.new(4, :EUR), c: [-2, Money.new(3, :USD)]},
+        {a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: [1, Money.new(-5, :USD)]},
       ]
       ts.each do |t|
         expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
@@ -535,10 +533,10 @@ RSpec.describe Money::Arithmetic do
     context "with infinite_precision", :default_infinite_precision_true do
       it "uses BigDecimal division" do
         ts = [
-            {a: Money.new( 13, :USD), b: 4, c: [Money.new( 3, :USD), Money.new( 1, :USD)]},
-            {a: Money.new( 13, :USD), b: -4, c: [Money.new(-4, :USD), Money.new(-3, :USD)]},
-            {a: Money.new(-13, :USD), b: 4, c: [Money.new(-4, :USD), Money.new( 3, :USD)]},
-            {a: Money.new(-13, :USD), b: -4, c: [Money.new( 3, :USD), Money.new(-1, :USD)]},
+          {a: Money.new(13, :USD), b: 4, c: [Money.new(3, :USD), Money.new(1, :USD)]},
+          {a: Money.new(13, :USD), b: -4, c: [Money.new(-4, :USD), Money.new(-3, :USD)]},
+          {a: Money.new(-13, :USD), b: 4, c: [Money.new(-4, :USD), Money.new(3, :USD)]},
+          {a: Money.new(-13, :USD), b: -4, c: [Money.new(3, :USD), Money.new(-1, :USD)]},
         ]
         ts.each do |t|
           expect(t[:a].divmod(t[:b])).to eq t[:c]
@@ -563,10 +561,10 @@ RSpec.describe Money::Arithmetic do
   describe "#modulo" do
     it "calculates modulo with Integer" do
       ts = [
-          {a: Money.new( 13, :USD), b: 4, c: Money.new( 1, :USD)},
-          {a: Money.new( 13, :USD), b: -4, c: Money.new(-3, :USD)},
-          {a: Money.new(-13, :USD), b: 4, c: Money.new( 3, :USD)},
-          {a: Money.new(-13, :USD), b: -4, c: Money.new(-1, :USD)},
+        {a: Money.new(13, :USD), b: 4, c: Money.new(1, :USD)},
+        {a: Money.new(13, :USD), b: -4, c: Money.new(-3, :USD)},
+        {a: Money.new(-13, :USD), b: 4, c: Money.new(3, :USD)},
+        {a: Money.new(-13, :USD), b: -4, c: Money.new(-1, :USD)},
       ]
       ts.each do |t|
         expect(t[:a].modulo(t[:b])).to eq t[:c]
@@ -575,10 +573,10 @@ RSpec.describe Money::Arithmetic do
 
     it "calculates modulo with Money (same currency)" do
       ts = [
-          {a: Money.new( 13, :USD), b: Money.new( 4, :USD), c: Money.new( 1, :USD)},
-          {a: Money.new( 13, :USD), b: Money.new(-4, :USD), c: Money.new(-3, :USD)},
-          {a: Money.new(-13, :USD), b: Money.new( 4, :USD), c: Money.new( 3, :USD)},
-          {a: Money.new(-13, :USD), b: Money.new(-4, :USD), c: Money.new(-1, :USD)},
+        {a: Money.new(13, :USD), b: Money.new(4, :USD), c: Money.new(1, :USD)},
+        {a: Money.new(13, :USD), b: Money.new(-4, :USD), c: Money.new(-3, :USD)},
+        {a: Money.new(-13, :USD), b: Money.new(4, :USD), c: Money.new(3, :USD)},
+        {a: Money.new(-13, :USD), b: Money.new(-4, :USD), c: Money.new(-1, :USD)},
       ]
       ts.each do |t|
         expect(t[:a].modulo(t[:b])).to eq t[:c]
@@ -587,10 +585,10 @@ RSpec.describe Money::Arithmetic do
 
     it "calculates modulo with Money (different currency)" do
       ts = [
-          {a: Money.new( 13, :USD), b: Money.new( 4, :EUR), c: Money.new( 5, :USD)},
-          {a: Money.new( 13, :USD), b: Money.new(-4, :EUR), c: Money.new(-3, :USD)},
-          {a: Money.new(-13, :USD), b: Money.new( 4, :EUR), c: Money.new( 3, :USD)},
-          {a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: Money.new(-5, :USD)},
+        {a: Money.new(13, :USD), b: Money.new(4, :EUR), c: Money.new(5, :USD)},
+        {a: Money.new(13, :USD), b: Money.new(-4, :EUR), c: Money.new(-3, :USD)},
+        {a: Money.new(-13, :USD), b: Money.new(4, :EUR), c: Money.new(3, :USD)},
+        {a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: Money.new(-5, :USD)},
       ]
       ts.each do |t|
         expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
@@ -602,10 +600,10 @@ RSpec.describe Money::Arithmetic do
   describe "#%" do
     it "calculates modulo with Integer" do
       ts = [
-          {a: Money.new( 13, :USD), b: 4, c: Money.new( 1, :USD)},
-          {a: Money.new( 13, :USD), b: -4, c: Money.new(-3, :USD)},
-          {a: Money.new(-13, :USD), b: 4, c: Money.new( 3, :USD)},
-          {a: Money.new(-13, :USD), b: -4, c: Money.new(-1, :USD)},
+        {a: Money.new(13, :USD), b: 4, c: Money.new(1, :USD)},
+        {a: Money.new(13, :USD), b: -4, c: Money.new(-3, :USD)},
+        {a: Money.new(-13, :USD), b: 4, c: Money.new(3, :USD)},
+        {a: Money.new(-13, :USD), b: -4, c: Money.new(-1, :USD)},
       ]
       ts.each do |t|
         expect(t[:a] % t[:b]).to eq t[:c]
@@ -614,10 +612,10 @@ RSpec.describe Money::Arithmetic do
 
     it "calculates modulo with Money (same currency)" do
       ts = [
-          {a: Money.new( 13, :USD), b: Money.new( 4, :USD), c: Money.new( 1, :USD)},
-          {a: Money.new( 13, :USD), b: Money.new(-4, :USD), c: Money.new(-3, :USD)},
-          {a: Money.new(-13, :USD), b: Money.new( 4, :USD), c: Money.new( 3, :USD)},
-          {a: Money.new(-13, :USD), b: Money.new(-4, :USD), c: Money.new(-1, :USD)},
+        {a: Money.new(13, :USD), b: Money.new(4, :USD), c: Money.new(1, :USD)},
+        {a: Money.new(13, :USD), b: Money.new(-4, :USD), c: Money.new(-3, :USD)},
+        {a: Money.new(-13, :USD), b: Money.new(4, :USD), c: Money.new(3, :USD)},
+        {a: Money.new(-13, :USD), b: Money.new(-4, :USD), c: Money.new(-1, :USD)},
       ]
       ts.each do |t|
         expect(t[:a] % t[:b]).to eq t[:c]
@@ -626,10 +624,10 @@ RSpec.describe Money::Arithmetic do
 
     it "calculates modulo with Money (different currency)" do
       ts = [
-          {a: Money.new( 13, :USD), b: Money.new( 4, :EUR), c: Money.new( 5, :USD)},
-          {a: Money.new( 13, :USD), b: Money.new(-4, :EUR), c: Money.new(-3, :USD)},
-          {a: Money.new(-13, :USD), b: Money.new( 4, :EUR), c: Money.new( 3, :USD)},
-          {a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: Money.new(-5, :USD)},
+        {a: Money.new(13, :USD), b: Money.new(4, :EUR), c: Money.new(5, :USD)},
+        {a: Money.new(13, :USD), b: Money.new(-4, :EUR), c: Money.new(-3, :USD)},
+        {a: Money.new(-13, :USD), b: Money.new(4, :EUR), c: Money.new(3, :USD)},
+        {a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: Money.new(-5, :USD)},
       ]
       ts.each do |t|
         expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
@@ -641,10 +639,10 @@ RSpec.describe Money::Arithmetic do
   describe "#remainder" do
     it "calculates remainder with Integer" do
       ts = [
-          {a: Money.new( 13, :USD), b: 4, c: Money.new( 1, :USD)},
-          {a: Money.new( 13, :USD), b: -4, c: Money.new( 1, :USD)},
-          {a: Money.new(-13, :USD), b: 4, c: Money.new(-1, :USD)},
-          {a: Money.new(-13, :USD), b: -4, c: Money.new(-1, :USD)},
+        {a: Money.new(13, :USD), b: 4, c: Money.new(1, :USD)},
+        {a: Money.new(13, :USD), b: -4, c: Money.new(1, :USD)},
+        {a: Money.new(-13, :USD), b: 4, c: Money.new(-1, :USD)},
+        {a: Money.new(-13, :USD), b: -4, c: Money.new(-1, :USD)},
       ]
       ts.each do |t|
         expect(t[:a].remainder(t[:b])).to eq t[:c]
@@ -657,7 +655,7 @@ RSpec.describe Money::Arithmetic do
   describe "#abs" do
     it "returns the absolute value as a new Money object" do
       n = Money.new(-1, :USD)
-      expect(n.abs).to eq Money.new( 1, :USD)
+      expect(n.abs).to eq Money.new(1, :USD)
       expect(n).to     eq Money.new(-1, :USD)
     end
 
@@ -708,21 +706,21 @@ RSpec.describe Money::Arithmetic do
     end
 
     it "raises TypeError dividing by a Money (unless other is a Money)" do
-      expect {
+      expect do
         2 / Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
     end
 
     it "raises TypeError subtracting by a Money (unless other is a Money)" do
-      expect {
+      expect do
         2 - Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
     end
 
     it "raises TypeError adding by a Money (unless other is a Money)" do
-      expect {
+      expect do
         2 + Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
     end
 
     it "allows subtraction from numeric zero" do
@@ -736,35 +734,35 @@ RSpec.describe Money::Arithmetic do
     end
 
     it "treats multiplication as commutative" do
-      expect {
+      expect do
         2 * Money.new(2, 'USD')
-      }.to_not raise_error
+      end.to_not raise_error
       result = 2 * Money.new(2, 'USD')
       expect(result).to eq(Money.new(4, 'USD'))
     end
 
     it "doesn't work with non-numerics" do
-      expect {
+      expect do
         "2" * Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
     end
 
     it "correctly handles <=>" do
-      expect {
+      expect do
         2 < Money.new(2, 'USD')
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
 
-      expect {
+      expect do
         2 > Money.new(2, 'USD')
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
 
-      expect {
+      expect do
         2 <= Money.new(2, 'USD')
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
 
-      expect {
+      expect do
         2 >= Money.new(2, 'USD')
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
 
       expect(2 <=> Money.new(2, 'USD')).to be_nil
     end
@@ -776,33 +774,31 @@ RSpec.describe Money::Arithmetic do
     end
 
     it "raises errors for all numeric types, not just Integer" do
-      expect {
+      expect do
         2.0 / Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
 
-      expect {
-        Rational(2,3) / Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      expect do
+        Rational(2, 3) / Money.new(2, 'USD')
+      end.to raise_error(TypeError)
 
-      expect {
+      expect do
         BigDecimal(2) / Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
     end
   end
 
-  %w(+ - / divmod remainder).each do |op|
+  %w[+ - / divmod remainder].each do |op|
     describe "##{op}" do
       let(:instance) { Money.usd(1) }
 
       context 'when conversions disallowed' do
         around do |ex|
-          begin
-            old = Money.default_bank
-            Money.disallow_currency_conversion!
-            ex.run
-          ensure
-            Money.default_bank = old
-          end
+          old = Money.default_bank
+          Money.disallow_currency_conversion!
+          ex.run
+        ensure
+          Money.default_bank = old
         end
 
         context 'and other is money with different currency' do
