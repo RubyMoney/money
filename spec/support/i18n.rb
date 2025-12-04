@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-I18n.enforce_available_locales = false
-
-def reset_i18n
-  I18n.backend = I18n::Backend::Simple.new
+RSpec.configure do |config|
+  config.before(:each) do
+    I18n.enforce_available_locales = false
+    I18n.backend = I18n::Backend::Simple.new
+  end
 end
