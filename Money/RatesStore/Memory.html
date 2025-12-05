@@ -101,8 +101,8 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Class for thread-safe storage of exchange rate pairs. Used by instances of <code>Money::Bank::VariableExchange</code>.</p>
+    <p>Class for thread-safe storage of exchange rate pairs.
+Used by instances of +Money::Bank::VariableExchange+.</p>
 
 
   </div>
@@ -170,8 +170,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Registers a conversion rate and returns it.</p>
+    <span class="summary_desc"><div class='inline'><p>Registers a conversion rate and returns it.</p>
 </div></span>
   
 </li>
@@ -194,8 +193,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Iterate over rate tuples (iso_from, iso_to, rate).</p>
+    <span class="summary_desc"><div class='inline'><p>Iterate over rate tuples (iso_from, iso_to, rate).</p>
 </div></span>
   
 </li>
@@ -218,8 +216,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Retrieve the rate for the given currencies.</p>
+    <span class="summary_desc"><div class='inline'><p>Retrieve the rate for the given currencies.</p>
 </div></span>
   
 </li>
@@ -244,8 +241,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Initializes a new <code>Money::RatesStore::Memory</code> object.</p>
+    <span class="summary_desc"><div class='inline'><p>Initializes a new +Money::RatesStore::Memory+ object.</p>
 </div></span>
   
 </li>
@@ -290,8 +286,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Wraps block execution in a thread-safe transaction.</p>
+    <span class="summary_desc"><div class='inline'><p>Wraps block execution in a thread-safe transaction.</p>
 </div></span>
   
 </li>
@@ -314,8 +309,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Initializes a new <code>Money::RatesStore::Memory</code> object.</p>
+    <p>Initializes a new +Money::RatesStore::Memory+ object.</p>
 
 
   </div>
@@ -336,8 +330,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Optional store options.</p>
+        <div class='inline'><p>Optional store options.</p>
 </div>
       
     </li>
@@ -354,8 +347,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Optional initial exchange rate data.</p>
+        <div class='inline'><p>Optional initial exchange rate data.</p>
 </div>
       
     </li>
@@ -375,8 +367,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>disables the usage of a mutex</p>
+            &mdash; <div class='inline'><p>disables the usage of a mutex</p>
 </div>
           
         </li>
@@ -430,8 +421,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Registers a conversion rate and returns it. Uses <code>Mutex</code> to synchronize data access.</p>
+    <p>Registers a conversion rate and returns it. Uses +Mutex+ to synchronize data access.</p>
 
 
   </div>
@@ -460,8 +450,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Currency to exchange from.</p>
+        <div class='inline'><p>Currency to exchange from.</p>
 </div>
       
     </li>
@@ -476,8 +465,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Currency to exchange to.</p>
+        <div class='inline'><p>Currency to exchange to.</p>
 </div>
       
     </li>
@@ -492,8 +480,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Rate to use when exchanging currencies.</p>
+        <div class='inline'><p>Rate to use when exchanging currencies.</p>
 </div>
       
     </li>
@@ -550,8 +537,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Iterate over rate tuples (iso_from, iso_to, rate)</p>
+    <p>Iterate over rate tuples (iso_from, iso_to, rate)</p>
 
 
   </div>
@@ -581,8 +567,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Currency ISO string.</p>
+        <div class='inline'><p>Currency ISO string.</p>
 </div>
       
     </li>
@@ -597,8 +582,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Currency ISO string.</p>
+        <div class='inline'><p>Currency ISO string.</p>
 </div>
       
     </li>
@@ -613,8 +597,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Exchange rate.</p>
+        <div class='inline'><p>Exchange rate.</p>
 </div>
       
     </li>
@@ -680,8 +663,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Retrieve the rate for the given currencies. Uses <code>Mutex</code> to synchronize data access. Delegates to <code>Money::RatesStore::Memory</code></p>
+    <p>Retrieve the rate for the given currencies. Uses +Mutex+ to synchronize data access.
+Delegates to +Money::RatesStore::Memory+</p>
 
 
   </div>
@@ -711,8 +694,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Currency to exchange from.</p>
+        <div class='inline'><p>Currency to exchange from.</p>
 </div>
       
     </li>
@@ -727,8 +709,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Currency to exchange to.</p>
+        <div class='inline'><p>Currency to exchange to.</p>
 </div>
       
     </li>
@@ -819,8 +800,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Wraps block execution in a thread-safe transaction</p>
+    <p>Wraps block execution in a thread-safe transaction</p>
 
 
   </div>
@@ -858,7 +838,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Dec  5 10:19:10 2025 by
+  Generated on Fri Dec  5 16:08:50 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.7).
 </div>

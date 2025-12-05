@@ -176,8 +176,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Creates a formatted price string according to several rules.</p>
+    <span class="summary_desc"><div class='inline'><p>Creates a formatted price string according to several rules.</p>
 </div></span>
   
 </li>
@@ -246,10 +245,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Creates a formatted price string according to several rules.</p>
+    <p>Creates a formatted price string according to several rules.</p>
 
-<p>with the symbol (if present) and ‘%n` will be replaced with the number.</p>
+<p>with the symbol (if present) and <code>%n</code> will be replaced with the number.</p>
 
 <p>Note that the default rules can be defined through <span class='object_link'><a href="../Money.html#default_formatting_rules-class_method" title="Money.default_formatting_rules (method)">Money.default_formatting_rules</a></span> hash.</p>
 
@@ -393,8 +391,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The options used to format the string.</p>
+        <div class='inline'><p>The options used to format the string.</p>
 </div>
       
     </li>
@@ -419,8 +416,8 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Whether a zero amount of money should be formatted of “free” or as the supplied string.</p>
+            &mdash; <div class='inline'><p>Whether a zero
+amount of money should be formatted of &quot;free&quot; or as the supplied string.</p>
 </div>
           
         </li>
@@ -435,8 +432,8 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Whether the currency name should be appended to the result string.</p>
+            &mdash; <div class='inline'><p>Whether the currency name
+should be appended to the result string.</p>
 </div>
           
         </li>
@@ -451,8 +448,8 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Whether the amount of money should be rounded when using infinite_precision</p>
+            &mdash; <div class='inline'><p>Whether the
+amount of money should be rounded when using infinite_precision</p>
 </div>
           
         </li>
@@ -467,8 +464,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Whether cents should be omitted.</p>
+            &mdash; <div class='inline'><p>Whether cents should be omitted.</p>
 </div>
           
         </li>
@@ -483,8 +479,8 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Whether cents should be omitted if the cent value is zero</p>
+            &mdash; <div class='inline'><p>Whether cents should be
+omitted if the cent value is zero</p>
 </div>
           
         </li>
@@ -499,8 +495,9 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Whether a money symbol should be prepended to the result string. The default is true. This method attempts to pick a symbol that’s suitable for the given currency.</p>
+            &mdash; <div class='inline'><p>Whether a money symbol
+should be prepended to the result string. The default is true. This method
+attempts to pick a symbol that&#39;s suitable for the given currency.</p>
 </div>
           
         </li>
@@ -515,8 +512,8 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Whether the currency should be separated by the specified character or ‘.’</p>
+            &mdash; <div class='inline'><p>Whether the
+currency should be separated by the specified character or &#39;.&#39;</p>
 </div>
           
         </li>
@@ -531,8 +528,8 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Whether the currency should be delimited by the specified character or ‘,’</p>
+            &mdash; <div class='inline'><p>Whether
+the currency should be delimited by the specified character or &#39;,&#39;</p>
 </div>
           
         </li>
@@ -547,8 +544,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Whether all currency parts should be HTML-formatted.</p>
+            &mdash; <div class='inline'><p>Whether all currency parts should be HTML-formatted.</p>
 </div>
           
         </li>
@@ -563,8 +559,8 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Whether the sign should be before the currency symbol.</p>
+            &mdash; <div class='inline'><p>Whether the sign should be
+before the currency symbol.</p>
 </div>
           
         </li>
@@ -579,8 +575,8 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Whether positive numbers should be signed, too.</p>
+            &mdash; <div class='inline'><p>Whether positive numbers should be
+signed, too.</p>
 </div>
           
         </li>
@@ -595,8 +591,8 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Prevents the result from being ambiguous due to equal symbols for different currencies. Uses the ‘disambiguate_symbol`.</p>
+            &mdash; <div class='inline'><p>Prevents the result from being ambiguous
+due to equal symbols for different currencies. Uses the <code>disambiguate_symbol</code>.</p>
 </div>
           
         </li>
@@ -611,8 +607,8 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>‘true` Checks for custom symbol definitions using I18n.</p>
+            &mdash; <div class='inline'><p><code>true</code> Checks for custom
+symbol definitions using I18n.</p>
 </div>
           
         </li>
@@ -627,8 +623,8 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Ignore trailing zeros after the decimal mark</p>
+            &mdash; <div class='inline'><p>Ignore trailing zeros after
+the decimal mark</p>
 </div>
           
         </li>
@@ -643,8 +639,8 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Regular expression to set the placement for the thousands delimiter</p>
+            &mdash; <div class='inline'><p>Regular expression to set the placement
+for the thousands delimiter</p>
 </div>
           
         </li>
@@ -659,8 +655,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>Provide a template for formatting. ‘%u` will be replaced</p>
+            &mdash; <div class='inline'><p>Provide a template for formatting. <code>%u</code> will be replaced</p>
 </div>
           
         </li>
@@ -825,7 +820,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Dec  5 10:19:10 2025 by
+  Generated on Fri Dec  5 16:08:50 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.7).
 </div>

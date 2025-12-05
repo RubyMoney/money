@@ -103,23 +103,32 @@
   <div class="discussion">
     <div class="note abstract">
   <strong>This class is abstract.</strong>
-  <div class='inline'>
-<p>Subclass and override <code>#exchange_with</code> to implement a custom <code>Money::Bank</code> class. You can also override <code>#setup</code> instead of <code>#initialize</code> to setup initial variables, etc.</p>
+  <div class='inline'><p>Subclass and override +#exchange_with+ to implement a custom
++Money::Bank+ class. You can also override +#setup+ instead of
++#initialize+ to setup initial variables, etc.</p>
 </div>
 </div>
+<p>Money::Bank::Base is the basic interface for creating a money exchange
+object, also called Bank.</p>
 
-<p>Money::Bank::Base is the basic interface for creating a money exchange object, also called Bank.</p>
+<p>A Bank is responsible for storing exchange rates, take a Money object as
+input and returns the corresponding Money object converted into an other
+currency.</p>
 
-<p>A Bank is responsible for storing exchange rates, take a Money object as input and returns the corresponding Money object converted into an other currency.</p>
+<p>This class exists for aiding in the creating of other classes to exchange
+money between different currencies. When creating a subclass you will
+need to implement the following methods to exchange money between
+currencies:</p>
 
-<p>This class exists for aiding in the creating of other classes to exchange money between different currencies. When creating a subclass you will need to implement the following methods to exchange money between currencies:</p>
-<ul><li>
-<p>#exchange_with(Money) #=&gt; Money</p>
-</li></ul>
+<ul>
+<li>#exchange_with(Money) #=&gt; Money</li>
+</ul>
 
 <p>See Money::Bank::VariableExchange for a real example.</p>
 
-<p>Also, you can extend <code>Money::Bank::VariableExchange</code> instead of <code>Money::Bank::Base</code> if your bank implementation needs to store rates internally.</p>
+<p>Also, you can extend +Money::Bank::VariableExchange+ instead of
++Money::Bank::Base+ if your bank implementation needs to store rates
+internally.</p>
 
 
   </div>
@@ -160,8 +169,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The rounding method to use when exchanging rates.</p>
+    <span class="summary_desc"><div class='inline'><p>The rounding method to use when exchanging rates.</p>
 </div></span>
   
 </li>
@@ -197,8 +205,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the singleton instance of the Base bank.</p>
+    <span class="summary_desc"><div class='inline'><p>Returns the singleton instance of the Base bank.</p>
 </div></span>
   
 </li>
@@ -230,8 +237,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Exchanges the given <code>Money</code> object to a new <code>Money</code> object in <code>to_currency</code>.</p>
+    <span class="summary_desc"><div class='inline'><p>Exchanges the given +Money+ object to a new +Money+ object in +to_currency+.</p>
 </div></span>
   
 </li>
@@ -256,8 +262,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Initializes a new <code>Money::Bank::Base</code> object.</p>
+    <span class="summary_desc"><div class='inline'><p>Initializes a new +Money::Bank::Base+ object.</p>
 </div></span>
   
 </li>
@@ -280,8 +285,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Given two currency strings or object, checks whether they’re both the same currency.</p>
+    <span class="summary_desc"><div class='inline'><p>Given two currency strings or object, checks whether they&#39;re both the same currency.</p>
 </div></span>
   
 </li>
@@ -304,8 +308,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Called after initialize.</p>
+    <span class="summary_desc"><div class='inline'><p>Called after initialize.</p>
 </div></span>
   
 </li>
@@ -328,8 +331,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Initializes a new <code>Money::Bank::Base</code> object. An optional block can be passed to dictate the rounding method that <code>#exchange_with</code> can use.</p>
+    <p>Initializes a new +Money::Bank::Base+ object. An optional block can be
+passed to dictate the rounding method that +#exchange_with+ can use.</p>
 
 
   </div>
@@ -358,8 +361,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Optional block to use when rounding after exchanging one currency for another.</p>
+        <div class='inline'><p>Optional block to use when rounding after exchanging one
+currency for another.</p>
 </div>
       
     </li>
@@ -378,8 +381,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The resulting float after exchanging one currency for another.</p>
+        <div class='inline'><p>The resulting float after exchanging one currency
+for another.</p>
 </div>
       
     </li>
@@ -440,8 +443,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The rounding method to use when exchanging rates.</p>
+    <p>The rounding method to use when exchanging rates.</p>
 
 
   </div>
@@ -501,8 +503,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the singleton instance of the Base bank.</p>
+    <p>Returns the singleton instance of the Base bank.</p>
 
 
   </div>
@@ -563,12 +564,12 @@
   <div class="discussion">
     <div class="note abstract">
   <strong>This method is abstract.</strong>
-  <div class='inline'>
-<p>Subclass and override <code>#exchange_with</code> to implement a custom <code>Money::Bank</code> class.</p>
+  <div class='inline'><p>Subclass and override +#exchange_with+ to implement a custom
++Money::Bank+ class.</p>
 </div>
 </div>
-
-<p>Exchanges the given <code>Money</code> object to a new <code>Money</code> object in <code>to_currency</code>.</p>
+<p>Exchanges the given +Money+ object to a new +Money+ object in
++to_currency+.</p>
 
 
   </div>
@@ -587,8 +588,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The <code>Money</code> object to exchange from.</p>
+        <div class='inline'><p>The +Money+ object to exchange from.</p>
 </div>
       
     </li>
@@ -603,8 +603,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The currency string or object to exchange to.</p>
+        <div class='inline'><p>The currency
+string or object to exchange to.</p>
 </div>
       
     </li>
@@ -622,8 +622,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Optional block to use to round the result after making the exchange.</p>
+        <div class='inline'><p>Optional block to use to round the result after making
+the exchange.</p>
 </div>
       
     </li>
@@ -642,8 +642,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The result after exchanging from one currency to the other.</p>
+        <div class='inline'><p>The result after exchanging from one currency to
+the other.</p>
 </div>
       
     </li>
@@ -686,8 +686,7 @@
       
       
         
-        <div class='inline'>
-<p>NotImplementedError</p>
+        <div class='inline'><p>NotImplementedError</p>
 </div>
       
     </li>
@@ -726,8 +725,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Given two currency strings or object, checks whether they’re both the same currency. Return <code>true</code> if the currencies are the same, <code>false</code> otherwise.</p>
+    <p>Given two currency strings or object, checks whether they&#39;re both the
+same currency. Return +true+ if the currencies are the same, +false+
+otherwise.</p>
 
 
   </div>
@@ -757,8 +757,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The first currency to compare.</p>
+        <div class='inline'><p>The first currency
+to compare.</p>
 </div>
       
     </li>
@@ -773,8 +773,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The second currency to compare.</p>
+        <div class='inline'><p>The second currency
+to compare.</p>
 </div>
       
     </li>
@@ -829,12 +829,12 @@
   <div class="discussion">
     <div class="note abstract">
   <strong>This method is abstract.</strong>
-  <div class='inline'>
-<p>Subclass and override <code>#setup</code> to implement a custom <code>Money::Bank</code> class.</p>
+  <div class='inline'><p>Subclass and override +#setup+ to implement a custom
++Money::Bank+ class.</p>
 </div>
 </div>
-
-<p>Called after initialize. Subclasses can use this method to setup variables, etc that they normally would in <code>#initialize</code>.</p>
+<p>Called after initialize. Subclasses can use this method to setup
+variables, etc that they normally would in +#initialize+.</p>
 
 
   </div>
@@ -879,7 +879,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Dec  5 10:19:10 2025 by
+  Generated on Fri Dec  5 16:08:50 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.7).
 </div>

@@ -131,8 +131,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Converts a given number to BigDecimal.</p>
+    <span class="summary_desc"><div class='inline'><p>Converts a given number to BigDecimal.</p>
 </div></span>
   
 </li>
@@ -155,8 +154,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Allocates a specified amount into parts based on their proportions or distributes it evenly when the number of parts is specified numerically.</p>
+    <span class="summary_desc"><div class='inline'><p>Allocates a specified amount into parts based on their proportions or distributes it evenly when the number of parts is specified numerically.</p>
 </div></span>
   
 </li>
@@ -182,8 +180,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Converts a given number to BigDecimal. This method supports inputs of BigDecimal, Rational, and other numeric types by ensuring they are all returned as BigDecimal instances for consistent handling.</p>
+    <p>Converts a given number to BigDecimal.
+This method supports inputs of BigDecimal, Rational, and other numeric types by ensuring they are all returned
+as BigDecimal instances for consistent handling.</p>
 
 
   </div>
@@ -202,8 +201,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The number to convert.</p>
+        <div class='inline'><p>The number to convert.</p>
 </div>
       
     </li>
@@ -221,8 +219,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The converted number as a BigDecimal.</p>
+        <div class='inline'><p>The converted number as a BigDecimal.</p>
 </div>
       
     </li>
@@ -273,16 +270,14 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Allocates a specified amount into parts based on their proportions or distributes it evenly when the number of parts is specified numerically.</p>
+    <p>Allocates a specified amount into parts based on their proportions or distributes
+it evenly when the number of parts is specified numerically.</p>
 
 <p>The total of the allocated amounts will always equal the original amount.</p>
 
-<p>The parts can be specified as:</p>
-
-<pre class="code ruby"><code class="ruby">Numeric — performs the split between a given number of parties evenly
-Array&lt;Numeric&gt; — allocates the amounts proportionally to the given array
-</code></pre>
+<p>The parts can be specified as:
+  Numeric — performs the split between a given number of parties evenly
+  Array<Numeric> — allocates the amounts proportionally to the given array</p>
 
 
   </div>
@@ -301,8 +296,7 @@ Array&lt;Numeric&gt; — allocates the amounts proportionally to the given array
       
       
         &mdash;
-        <div class='inline'>
-<p>The total amount to be allocated.</p>
+        <div class='inline'><p>The total amount to be allocated.</p>
 </div>
       
     </li>
@@ -317,8 +311,7 @@ Array&lt;Numeric&gt; — allocates the amounts proportionally to the given array
       
       
         &mdash;
-        <div class='inline'>
-<p>Number of parts to split into or an array (proportions for allocation)</p>
+        <div class='inline'><p>Number of parts to split into or an array (proportions for allocation)</p>
 </div>
       
     </li>
@@ -335,17 +328,14 @@ Array&lt;Numeric&gt; — allocates the amounts proportionally to the given array
       
       
         &mdash;
-        <div class='inline'>
-<p>Controls per-split precision:</p>
-<ul><li>
-<p>When true, splits are truncated to whole amounts.</p>
-</li><li>
-<p>When an Integer N, splits are rounded to N decimal places.</p>
-</li><li>
-<p>When false or nil, no rounding/truncation is applied.</p>
-</li></ul>
+        <div class='inline'><p>Controls per-split precision:</p>
 
-<p>Defaults to true (whole amounts).</p>
+<ul>
+<li>When true, splits are truncated to whole amounts.</li>
+<li>When an Integer N, splits are rounded to N decimal places.</li>
+<li>When false or nil, no rounding/truncation is applied.
+Defaults to true (whole amounts).</li>
+</ul>
 </div>
       
     </li>
@@ -363,8 +353,7 @@ Array&lt;Numeric&gt; — allocates the amounts proportionally to the given array
       
       
         &mdash;
-        <div class='inline'>
-<p>An array containing the allocated amounts.</p>
+        <div class='inline'><p>An array containing the allocated amounts.</p>
 </div>
       
     </li>
@@ -381,8 +370,7 @@ Array&lt;Numeric&gt; — allocates the amounts proportionally to the given array
       
       
         &mdash;
-        <div class='inline'>
-<p>If parts is empty or not provided.</p>
+        <div class='inline'><p>If parts is empty or not provided.</p>
 </div>
       
     </li>
@@ -501,7 +489,7 @@ Array&lt;Numeric&gt; — allocates the amounts proportionally to the given array
 </div>
 
       <div id="footer">
-  Generated on Fri Dec  5 10:19:10 2025 by
+  Generated on Fri Dec  5 16:08:50 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.7).
 </div>

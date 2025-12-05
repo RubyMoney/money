@@ -103,12 +103,16 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Class for aiding in exchanging money between different currencies. By default, the <code>Money</code> class uses an object of this class (accessible through <tt>Money#bank</tt>) for performing currency exchanges.</p>
+    <p>Class for aiding in exchanging money between different currencies. By
+default, the +Money+ class uses an object of this class (accessible
+through +Money#bank+) for performing currency exchanges.</p>
 
-<p>By default, <code>Money::Bank::VariableExchange</code> has no knowledge about conversion rates. One must manually specify them with <code>add_rate</code>, after which one can perform exchanges with <code>#exchange_with</code>.</p>
+<p>By default, +Money::Bank::VariableExchange+ has no knowledge about
+conversion rates. One must manually specify them with +add_rate+, after
+which one can perform exchanges with +#exchange_with+.</p>
 
-<p>Exchange rates are stored in memory using <code>Money::RatesStore::Memory</code> by default. Pass custom rates stores for other types of storage (file, database, etc)</p>
+<p>Exchange rates are stored in memory using +Money::RatesStore::Memory+ by default.
+Pass custom rates stores for other types of storage (file, database, etc)</p>
 
 
   </div>
@@ -155,8 +159,7 @@
         <dt id="RATE_FORMATS-constant" class="">RATE_FORMATS =
           <div class="docstring">
   <div class="discussion">
-    
-<p>Available formats for importing/exporting rates.</p>
+    <p>Available formats for importing/exporting rates.</p>
 
 
   </div>
@@ -209,8 +212,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute mutex.</p>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute mutex.</p>
 </div></span>
   
 </li>
@@ -251,8 +253,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Registers a conversion rate and returns it (uses <code>#set_rate</code>).</p>
+    <span class="summary_desc"><div class='inline'><p>Registers a conversion rate and returns it (uses +#set_rate+).</p>
 </div></span>
   
 </li>
@@ -319,8 +320,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Exchanges the given <code>Money</code> object to a new <code>Money</code> object in <code>to_currency</code>.</p>
+    <span class="summary_desc"><div class='inline'><p>Exchanges the given +Money+ object to a new +Money+ object in +to_currency+.</p>
 </div></span>
   
 </li>
@@ -343,8 +343,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Return the known rates as a string in the format specified.</p>
+    <span class="summary_desc"><div class='inline'><p>Return the known rates as a string in the format specified.</p>
 </div></span>
   
 </li>
@@ -367,8 +366,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Retrieve the rate for the given currencies.</p>
+    <span class="summary_desc"><div class='inline'><p>Retrieve the rate for the given currencies.</p>
 </div></span>
   
 </li>
@@ -391,8 +389,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Loads rates provided in <code>s</code> given the specified format.</p>
+    <span class="summary_desc"><div class='inline'><p>Loads rates provided in +s+ given the specified format.</p>
 </div></span>
   
 </li>
@@ -417,8 +414,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Initializes a new <code>Money::Bank::VariableExchange</code> object.</p>
+    <span class="summary_desc"><div class='inline'><p>Initializes a new +Money::Bank::VariableExchange+ object.</p>
 </div></span>
   
 </li>
@@ -485,8 +481,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>This should be deprecated.</p>
+    <span class="summary_desc"><div class='inline'><p>This should be deprecated.</p>
 </div></span>
   
 </li>
@@ -509,8 +504,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Set the rate for the given currencies.</p>
+    <span class="summary_desc"><div class='inline'><p>Set the rate for the given currencies.</p>
 </div></span>
   
 </li>
@@ -566,8 +560,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Initializes a new <code>Money::Bank::VariableExchange</code> object. It defaults to using an in-memory, thread safe store instance for storing exchange rates.</p>
+    <p>Initializes a new +Money::Bank::VariableExchange+ object.
+It defaults to using an in-memory, thread safe store instance for
+storing exchange rates.</p>
 
 
   </div>
@@ -588,8 +583,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>An exchange rate store, used to persist exchange rate pairs.</p>
+        <div class='inline'><p>An exchange rate store, used to persist exchange rate pairs.</p>
 </div>
       
     </li>
@@ -607,8 +601,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Optional block to use when rounding after exchanging one currency for another. See <code>Money::bank::base</code></p>
+        <div class='inline'><p>Optional block to use when rounding after exchanging one
+currency for another. See +Money::bank::base+</p>
 </div>
       
     </li>
@@ -656,8 +650,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute mutex.</p>
+    <p>Returns the value of attribute mutex.</p>
 
 
   </div>
@@ -704,8 +697,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Registers a conversion rate and returns it (uses <code>#set_rate</code>). Delegates to <code>Money::RatesStore::Memory</code></p>
+    <p>Registers a conversion rate and returns it (uses +#set_rate+).
+Delegates to +Money::RatesStore::Memory+</p>
 
 
   </div>
@@ -734,8 +727,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Currency to exchange from.</p>
+        <div class='inline'><p>Currency to exchange from.</p>
 </div>
       
     </li>
@@ -750,8 +742,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Currency to exchange to.</p>
+        <div class='inline'><p>Currency to exchange to.</p>
 </div>
       
     </li>
@@ -766,8 +757,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Rate to use when exchanging currencies.</p>
+        <div class='inline'><p>Rate to use when exchanging currencies.</p>
 </div>
       
     </li>
@@ -900,8 +890,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Exchanges the given <code>Money</code> object to a new <code>Money</code> object in <code>to_currency</code>.</p>
+    <p>Exchanges the given +Money+ object to a new +Money+ object in
++to_currency+.</p>
 
 
   </div>
@@ -939,8 +929,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The <code>Money</code> object to exchange.</p>
+        <div class='inline'><p>The +Money+ object to exchange.</p>
 </div>
       
     </li>
@@ -955,8 +944,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The currency to exchange to.</p>
+        <div class='inline'><p>The currency to exchange to.</p>
 </div>
       
     </li>
@@ -974,8 +962,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Optional block to use when rounding after exchanging one currency for another.</p>
+        <div class='inline'><p>Optional block to use when rounding after exchanging one
+currency for another.</p>
 </div>
       
     </li>
@@ -994,8 +982,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The resulting float after exchanging one currency for another.</p>
+        <div class='inline'><p>The resulting float after exchanging one currency
+for another.</p>
 </div>
       
     </li>
@@ -1038,8 +1026,7 @@
       
       
         
-        <div class='inline'>
-<p><code>Money::Bank::UnknownRate</code> if the conversion rate is unknown.</p>
+        <div class='inline'><p>+Money::Bank::UnknownRate+ if the conversion rate is unknown.</p>
 </div>
       
     </li>
@@ -1106,8 +1093,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Return the known rates as a string in the format specified. If <code>file</code> is given will also write the string out to the file specified. Available formats are <code>:json</code>, <code>:ruby</code> and <code>:yaml</code>.</p>
+    <p>Return the known rates as a string in the format specified. If +file+
+is given will also write the string out to the file specified.
+Available formats are +:json+, +:ruby+ and +:yaml+.</p>
 
 
   </div>
@@ -1139,8 +1127,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Request format for the resulting string.</p>
+        <div class='inline'><p>Request format for the resulting string.</p>
 </div>
       
     </li>
@@ -1157,8 +1144,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Optional file location to write the rates to.</p>
+        <div class='inline'><p>Optional file location to write the rates to.</p>
 </div>
       
     </li>
@@ -1175,8 +1161,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Options hash to set special parameters. Backwards compatibility only.</p>
+        <div class='inline'><p>Options hash to set special parameters. Backwards compatibility only.</p>
 </div>
       
     </li>
@@ -1207,8 +1192,7 @@
       
       
         
-        <div class='inline'>
-<p><code>Money::Bank::UnknownRateFormat</code> if format is unknown.</p>
+        <div class='inline'><p>+Money::Bank::UnknownRateFormat+ if format is unknown.</p>
 </div>
       
     </li>
@@ -1267,8 +1251,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Retrieve the rate for the given currencies. data access. Delegates to <code>Money::RatesStore::Memory</code></p>
+    <p>Retrieve the rate for the given currencies.
+data access.
+Delegates to +Money::RatesStore::Memory+</p>
 
 
   </div>
@@ -1300,8 +1285,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Currency to exchange from.</p>
+        <div class='inline'><p>Currency to exchange from.</p>
 </div>
       
     </li>
@@ -1316,8 +1300,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Currency to exchange to.</p>
+        <div class='inline'><p>Currency to exchange to.</p>
 </div>
       
     </li>
@@ -1334,8 +1317,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Options hash to set special parameters. Backwards compatibility only.</p>
+        <div class='inline'><p>Options hash to set special parameters. Backwards compatibility only.</p>
 </div>
       
     </li>
@@ -1388,8 +1370,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Loads rates provided in <code>s</code> given the specified format. Available formats are <code>:json</code>, <code>:ruby</code> and <code>:yaml</code>. Delegates to <code>Money::RatesStore::Memory</code></p>
+    <p>Loads rates provided in +s+ given the specified format. Available
+formats are +:json+, +:ruby+ and +:yaml+.
+Delegates to +Money::RatesStore::Memory+</p>
 
 
   </div>
@@ -1421,8 +1404,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The format of <code>s</code>.</p>
+        <div class='inline'><p>The format of +s+.</p>
 </div>
       
     </li>
@@ -1437,8 +1419,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The rates string.</p>
+        <div class='inline'><p>The rates string.</p>
 </div>
       
     </li>
@@ -1455,8 +1436,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Options hash to set special parameters. Backwards compatibility only.</p>
+        <div class='inline'><p>Options hash to set special parameters. Backwards compatibility only.</p>
 </div>
       
     </li>
@@ -1487,8 +1467,7 @@
       
       
         
-        <div class='inline'>
-<p><code>Money::Bank::UnknownRateFormat</code> if format is unknown.</p>
+        <div class='inline'><p>+Money::Bank::UnknownRateFormat+ if format is unknown.</p>
 </div>
       
     </li>
@@ -1625,8 +1604,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>This should be deprecated.</p>
+    <p>This should be deprecated.</p>
 
 
   </div>
@@ -1670,8 +1648,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Set the rate for the given currencies. access. Delegates to <code>Money::RatesStore::Memory</code></p>
+    <p>Set the rate for the given currencies.
+access.
+Delegates to +Money::RatesStore::Memory+</p>
 
 
   </div>
@@ -1700,8 +1679,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Currency to exchange from.</p>
+        <div class='inline'><p>Currency to exchange from.</p>
 </div>
       
     </li>
@@ -1716,8 +1694,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Currency to exchange to.</p>
+        <div class='inline'><p>Currency to exchange to.</p>
 </div>
       
     </li>
@@ -1732,8 +1709,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Rate to use when exchanging currencies.</p>
+        <div class='inline'><p>Rate to use when exchanging currencies.</p>
 </div>
       
     </li>
@@ -1750,8 +1726,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Options hash to set special parameters. Backwards compatibility only.</p>
+        <div class='inline'><p>Options hash to set special parameters. Backwards compatibility only.</p>
 </div>
       
     </li>
@@ -1828,7 +1803,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Dec  5 10:19:10 2025 by
+  Generated on Fri Dec  5 16:08:50 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.7).
 </div>
