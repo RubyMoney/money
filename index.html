@@ -61,10 +61,10 @@
 
 <p><a href="https://rubygems.org/gems/money"><img src="https://badge.fury.io/rb/money.svg" alt="Gem Version" /></a>
 <a href="https://github.com/RubyMoney/money/actions/workflows/ruby.yml"><img src="https://github.com/RubyMoney/money/actions/workflows/ruby.yml/badge.svg" alt="Ruby" /></a>
-<a href="https://inch-ci.org/github/RubyMoney/money"><img src="https://inch-ci.org/github/RubyMoney/money.svg" alt="Inline docs" /></a>
+<a href="https://rubymoney.github.io/money/"><img src="https://img.shields.io/badge/docs-github.io-green.svg" alt="Inline docs" /></a>
 <a href="https://opensource.org/license/MIT"><img src="https://img.shields.io/github/license/RubyMoney/money.svg" alt="License" /></a></p>
 
-<p>⚠️ Please read the <a href="#migration-notes">migration notes</a> before upgrading to a new major version.</p>
+<p>⚠️ Please read the <a href="#upgrade-guides">upgrade guides</a> before upgrading to a new major version.</p>
 
 <p>If you miss String parsing, check out the new <a href="https://github.com/RubyMoney/monetize">monetize gem</a>.</p>
 
@@ -682,32 +682,22 @@ I18n.enforce_available_locales = false
 
 <p>Prior to v6.9.0 heuristic analysis of string input was part of this gem. Since then it was extracted in to <a href="https://github.com/RubyMoney/money-heuristics">money-heuristics gem</a>.</p>
 
-<h2 id="migration-notes">Migration Notes</h2>
+<h2 id="upgrade-guides">Upgrade Guides</h2>
 
-<h4 id="version-600">Version 6.0.0</h4>
+<p>When upgrading between major versions, please refer to the appropriate upgrade guide:</p>
 
 <ul>
-  <li>The <code>Money#dollars</code> and <code>Money#amount</code> methods now return instances of
-<code>BigDecimal</code> rather than <code>Float</code>. We should avoid representing monetary
-values with floating point types so to avoid a whole class of errors relating
-to lack of precision. There are two migration options for this change:
-    <ul>
-      <li>The first is to test your application and where applicable update the
-application to accept a <code>BigDecimal</code> return value. This is the recommended
-path.</li>
-      <li>The second is to migrate from the <code>#amount</code> and <code>#dollars</code> methods to use
-the <code>#to_f</code> method instead. This option should only be used where <code>Float</code>
-is the desired type and nothing else will do for your application’s
-requirements.</li>
-    </ul>
-  </li>
+  <li><strong><a href="https://github.com/RubyMoney/money/blob/main/UPGRADING-7.0.md">Upgrading to 7.0</a></strong> - Guide for migrating from 6.x to 7.0</li>
+  <li><strong><a href="https://github.com/RubyMoney/money/blob/main/UPGRADING-6.0.md">Upgrading to 6.0</a></strong> - Guide for upgrading to version 6.0</li>
 </ul>
+
+<p>These guides provide detailed information about breaking changes, new features, and step-by-step migration instructions.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Thu Jul 24 12:16:16 2025 by
+  Generated on Fri Dec  5 10:19:09 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.4.5).
+  0.9.37 (ruby-3.4.7).
 </div>
 
     </div>

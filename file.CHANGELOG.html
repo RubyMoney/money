@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: CHANGELOG
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "CHANGELOG";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: CHANGELOG</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="changelog">Changelog</h1>
+
+<h2 id="unreleased">Unreleased</h2>
+
+<h2 id="section">7.0.0</h2>
+
+<ul>
+  <li><strong>Breaking change</strong>: Require Ruby &gt;= 3.1 and i18n ~&gt; 1.9</li>
+  <li><strong>Breaking change</strong>: Remove deprecated formatting rules:
+    <ul>
+      <li><code>:html</code></li>
+      <li><code>:html_wrap_symbol</code></li>
+      <li><code>:symbol_position</code></li>
+      <li><code>:symbol_before_without_space</code></li>
+      <li><code>:symbol_after_without_space</code></li>
+    </ul>
+  </li>
+  <li><strong>Breaking change</strong>: Remove deprecated methods:
+    <ul>
+      <li><code>Money.infinite_precision</code>.</li>
+      <li><code>Money.infinite_precision=</code>.</li>
+      <li><code>Money#currency_as_string</code>.</li>
+      <li><code>Money#currency_as_string=</code>.</li>
+      <li><code>Money.use_i18n</code> and <code>Money.use_i18n=</code> (use <code>Money.locale_backend = :i18n</code> instead).</li>
+    </ul>
+  </li>
+  <li><strong>Breaking change</strong>: Remove legacy locale backend. The default locale backend is now <code>:currency</code> which uses currency definitions for formatting.</li>
+  <li><strong>Breaking change</strong>: Default currency is now <code>nil</code> instead of <code>USD</code>. If you want to keep the previous behavior, set <code>Money.default_currency = Money::Currency.new("USD")</code> in your initializer. Initializing a Money object will raise a <code>Currency::NoCurrency</code> if no currency is set.</li>
+  <li><strong>Breaking change</strong>: The default rounding mode has changed from <code>BigDecimal::ROUND_HALF_EVEN</code> to <code>BigDecimal::ROUND_HALF_UP</code>. Set it explicitly using <code>Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN</code> to keep the previous behavior.</li>
+  <li><strong>Potential breaking change</strong>: Fix RSD (Serbian Dinar) formatting to be like <code>12.345,42 RSD</code></li>
+  <li><strong>Potential breaking change</strong>: Fix USDC decimals places from 2 to 6</li>
+  <li><strong>Potential breaking change</strong>: Fix MGA (Malagasy Ariary) to be a zero-decimal currency (changing subunit_to_unit from 5 to 1)</li>
+  <li><strong>Potential breaking change</strong>: Remove special handling for Japanese language only</li>
+  <li><strong>Potential breaking change</strong>: Adjust formatting rules to use i18n translations for <code>:format</code></li>
+  <li><strong>Potential breaking change</strong>: Not allow divide by zero</li>
+  <li>Updated Armenian Dram sign and HTML entity</li>
+  <li>Updated the Turkmen Manat symbol and HTML entity and added disambiguation symbol for TMM</li>
+  <li>Expose Money::VERSION</li>
+  <li>Fix typo in ILS currency</li>
+  <li>Add Zimbabwe Gold (ZWG) currency</li>
+  <li>Update thousands_separator for CHF</li>
+  <li>Add Caribbean Guilder (XCG) as replacement for Netherlands Antillean Gulden (ANG)</li>
+  <li>
+    <p>Add <code>Money.strict_eql_compare = true</code> so that comparing zero amounts with different currencies using <code>Money#eql?</code> returns <code>false</code>
+  ```rb
+  Money.new(0, “USD”).eql?(Money.new(0, “EUR”)) #=&gt; true
+  #&gt; [DEPRECATION] Comparing 0 USD with 0 EUR using <code>#eql?</code> will return false…</p>
+
+    <p>Money.strict_eql_compare = true
+  Money.new(0, “USD”).eql?(Money.new(0, “EUR”)) #=&gt; false
+  ```</p>
+  </li>
+  <li>Add <code>Money#to_nearest_cash_value</code> to return a rounded Money instance to the smallest denomination</li>
+  <li>Deprecate <code>Money#round_to_nearest_cash_value</code> in favor of calling <code>to_nearest_cash_value.fractional</code></li>
+  <li>Deprecate <code>Money#dollars</code> in favor of <code>Money#amount</code>.</li>
+  <li>Deprecate <code>Money.from_dollars</code> in favor of <code>Money.from_amount</code>.</li>
+  <li>Add <code>Money::Currency#cents_based?</code> to check if currency is cents-based</li>
+  <li>Add ability to nest <code>Money.with_rounding_mode</code> blocks</li>
+  <li>Allow <code>nil</code> to be used as a default_currency</li>
+  <li>Improve performance of <code>find_by_iso_numeric</code> method</li>
+  <li>Add ability to nest <code>Money.with_bank</code> blocks</li>
+  <li>Refactor <code>Money::Allocation.generate</code> to support configurable per-split precision by accepting an Integer as a second argument, fixing allocation failures with large arrays and infinite decimal expansions.</li>
+</ul>
+
+<h2 id="section-1">6.19.0</h2>
+
+<ul>
+  <li>Change Peruvian Sol (PEN) decimal mark and thousands separator.</li>
+  <li>Fix deprecation warning for BigDecimal being moved out from stdlib.</li>
+  <li>Improves Precision and Simplifies Allocation Logic</li>
+  <li>explicit declaration of i18n locales</li>
+  <li>Add space to CHF format</li>
+  <li>Update deprecation message to suggest correct formatting.</li>
+</ul>
+
+<h2 id="section-2">6.18.0</h2>
+
+<ul>
+  <li>Add second dobra (STN) from São Tomé and Príncipe</li>
+  <li>Add Sierra Leonean (new) leone (SLE) from Sierra Leone</li>
+  <li>Correct South African Rand (ZAR) to use comma decimal mark, and space thousands separator</li>
+  <li>Use euro symbol as html_entity for euro currency</li>
+  <li>Update Georgian Lari symbol</li>
+  <li>Add Ruby 3.1 and 3.2 to the CI matrix</li>
+  <li>Add <code>Money.from_dollars</code> alias as a more explicit initializer, it’s the same as <code>Money.from_amount</code></li>
+  <li>Mark Croatian Kuna (HRK) as obsolete by moving its definition to the backwards compatibility data source</li>
+</ul>
+
+<h2 id="section-3">6.17.0</h2>
+
+<ul>
+  <li>Allow true for <code>thousands_separator</code></li>
+</ul>
+
+<h2 id="section-4">6.16.0</h2>
+
+<ul>
+  <li>Add <code>Money.from_cents</code> alias as a more explicit initializer, it’s the same as <code>Money.new</code></li>
+</ul>
+
+<h2 id="section-5">6.15.0</h2>
+
+<ul>
+  <li>Add :delimiter_pattern option to the Formatter</li>
+</ul>
+
+<h2 id="section-6">6.14.1</h2>
+
+<ul>
+  <li>Fix CHF format regression introduced in v6.14.0</li>
+  <li>Fix deprecation warning in #format_decimal_part</li>
+</ul>
+
+<h2 id="section-7">6.14.0</h2>
+
+<ul>
+  <li>Fix Bahraini dinar symbol</li>
+  <li>Raise exception when default currency is not set or passed as parameter</li>
+  <li>Allow specifying default_bank as a lambda</li>
+  <li>Allow passing a default format in currencies definition only valid without symbol_position</li>
+  <li>Always allow comparison with zero Money</li>
+  <li>Rename Money.infinite_precision to default_infinite_precision</li>
+  <li>Add Currency.reset! method to reload all the default currency definitions</li>
+  <li>Fix edgecase for Money#allocate when applying to array of all zero values</li>
+</ul>
+
+<h2 id="section-8">6.13.8</h2>
+<ul>
+  <li>Update symbol for XOF</li>
+  <li>Update UYU currency symbol</li>
+  <li>Allow double conversion using same bank</li>
+  <li>Warn when using unsafe serializer for rate import</li>
+  <li>Move Icelandic symbol after the amount</li>
+</ul>
+
+<h2 id="section-9">6.13.7</h2>
+<ul>
+  <li>Improve deprecation warnings for the upcoming major release</li>
+</ul>
+
+<h2 id="section-10">6.13.6</h2>
+<ul>
+  <li>Fix a regression introduced in 6.13.5 that broken RatesStore::Memory subclasses</li>
+</ul>
+
+<h2 id="section-11">6.13.5</h2>
+<ul>
+  <li>Raise warning on using Money.default_currency</li>
+  <li>Raise warning on using default Money.rounding_mode</li>
+  <li>Add Second Ouguiya MRU 929 to currency iso file</li>
+  <li>Add symbol for UZS</li>
+  <li>Use monitor for recursive mutual exclusion in RatesStore::Memory</li>
+  <li>Allow passing store as a string to Money::Bank::VariableExchange (to support Rails 6)</li>
+</ul>
+
+<h2 id="section-12">6.13.4</h2>
+<ul>
+  <li>Update currency config for Zambian Kwacha (ZMW)</li>
+  <li>Do not modify options passed to FormattingRules</li>
+</ul>
+
+<h2 id="section-13">6.13.3</h2>
+<ul>
+  <li>Remove specs from the packaged gem</li>
+  <li>Use Currency::Loader directly without extending</li>
+  <li>Add Money.with_rounding_mode as a replacement for calling Money.rounding_mode with a block</li>
+  <li>Fix currency search for two digit ISO numbers</li>
+  <li>Add description to TypeError raised by +/- operations</li>
+</ul>
+
+<h2 id="section-14">6.13.2</h2>
+<ul>
+  <li>Prevent Money initialization with non-finite amounts</li>
+  <li>Convert the fractional value of a Money object to BigDecimal when initializing</li>
+  <li>Offer replacements for currency position deprecations</li>
+  <li>Fix Peruvian Sol symbol</li>
+  <li>Lock i18n to &lt;= 1.2.0 for older (&lt; 2.3) rubies</li>
+  <li>Prevent Divide By Zero in <code>Money#allocate</code></li>
+</ul>
+
+<h2 id="section-15">6.13.1</h2>
+<ul>
+  <li>Add bolívar soberano (VES)</li>
+  <li>Deprecate bolívar fuerte (VEF)</li>
+  <li>Deprecate old <code>#format</code> rules passed as a symbol</li>
+  <li>Clarify <code>use_i18n</code> deprecation</li>
+  <li>Add <code>:currency</code> locale_backend for explicit per-currency localization</li>
+</ul>
+
+<h2 id="section-16">6.13.0</h2>
+<ul>
+  <li>Add :format option to the Formatter</li>
+  <li>Add ruby 2.6.0 support</li>
+  <li>Performance improvement (lazy stringify currency keys)</li>
+  <li>Add <code>Money.locale_backend</code> for translation lookups</li>
+  <li>Deprecate <code>use_i18n</code> flag in favour of <code>locale_backend = :i18n</code></li>
+  <li>Deprecate old formatting rules in favour of <code>:format</code></li>
+  <li>LVL and LTL are no longer used</li>
+  <li>Add <code>Currency#iso?</code> for checking if currency is iso or not</li>
+  <li>Relax versions-lock of <code>i18n</code> and <code>rspec</code> dependencies</li>
+  <li>Add Bitcoin Cash</li>
+  <li>Fix incorrect behaviour of <code>Currency#find_by_currency_iso</code> when given empty input</li>
+</ul>
+
+<h2 id="section-17">6.12.0</h2>
+<ul>
+  <li>Remove caching of <code>.empty</code>/<code>.zero</code></li>
+  <li>Preserve assigned bank when rounding</li>
+  <li>Always round the fractional part when calling <code>#round</code></li>
+  <li>Wrap all amount parts when <code>:html_wrap</code> option is used</li>
+  <li>Deprecate <code>#currency_as_string</code> and <code>#currency_as_string=</code> (in favour of <code>#with_currency</code>)</li>
+  <li>Add <code>#with_currency</code> for swapping the currency</li>
+  <li>Rewrite allocate/split (fixing some penny losing issues)</li>
+</ul>
+
+<h2 id="section-18">6.11.3</h2>
+<ul>
+  <li>Fix regression: if enabled use i18n locales in Money#to_s</li>
+</ul>
+
+<h2 id="section-19">6.11.2</h2>
+<ul>
+  <li>Fix regression: ignore formatting defaults for Money#to_s</li>
+</ul>
+
+<h2 id="section-20">6.11.1</h2>
+<ul>
+  <li>Fix issue with adding non-USD money to zero (used when calling <code>.sum</code> on an array)</li>
+</ul>
+
+<h2 id="section-21">6.11.0</h2>
+<ul>
+  <li>Support i18n 1.0</li>
+  <li>Update yard dependency to 0.9.11</li>
+  <li>Support for ruby 2.5.0</li>
+  <li>Add inheritance for currency definitions</li>
+  <li>Added new symbol for bitcoin denomination</li>
+  <li>Specify custom rounding precision when using <code>infinite_precision</code></li>
+  <li>Allow splits with sums greater than 1</li>
+  <li>Prevent arithmetic methods from losing reference to the bank</li>
+  <li>Fix coerced zero numeric subtraction</li>
+  <li>Fix south asian formatting to support whole numbers</li>
+  <li>Refactor formatting logic</li>
+</ul>
+
+<h2 id="section-22">6.10.1</h2>
+<ul>
+  <li>Fix an issue with Money.empty memoization</li>
+</ul>
+
+<h2 id="section-23">6.10.0</h2>
+<ul>
+  <li>Added support for i18n version 0.9</li>
+  <li>Disabled rounding when verifying allocation splits</li>
+  <li>Added Chinese Yuan Offshore (CNH)</li>
+  <li>Fixed html_entity for ARS</li>
+  <li>Fixed KZT symbol</li>
+  <li>Allowed comparing cross currency when both are zero</li>
+  <li>Fixed memory rate store</li>
+  <li>Corrected HUF subunit and thousands separator config</li>
+</ul>
+
+<h2 id="section-24">6.9.0</h2>
+<ul>
+  <li>Extracted heuristics into money-heuristics gem</li>
+</ul>
+
+<h2 id="section-25">6.8.4</h2>
+<ul>
+  <li>Resolving NIO ambiguity with CAD</li>
+  <li>Display the BBD $ symbol before digits</li>
+  <li>Symbol first for NIO and PAB currencies</li>
+</ul>
+
+<h2 id="section-26">6.8.3</h2>
+<ul>
+  <li>Added support for the British Penny (GBX)</li>
+  <li>Fixed LKR currency html_entity symbol</li>
+</ul>
+
+<h2 id="section-27">6.8.2</h2>
+<ul>
+  <li>Removed subunits for HUF</li>
+  <li>Fixed <code>#from_amount</code> accepting <code>nil</code> as currency_code</li>
+  <li>Relaxed i18n version (&lt; 0.9)</li>
+  <li>Set symbol for UZS</li>
+  <li>Added disambiguate_symbol for XFU</li>
+  <li>Fixed Peruvian Sol name</li>
+  <li>Fixed symbol_first for VND (now <code>false</code>)</li>
+</ul>
+
+<h2 id="section-28">6.8.1</h2>
+<ul>
+  <li>Fixed issue with calling <code>format</code> on a frozen <code>Money</code> object</li>
+</ul>
+
+<h2 id="section-29">6.8.0</h2>
+<ul>
+  <li>Ruby 2.4.0 support</li>
+  <li>Fixed UZS syntax</li>
+  <li>Fixed HUF smallest denomination</li>
+  <li>Fixed ruby 1.9 issues</li>
+  <li>Fixed html entity for COP</li>
+  <li>Updated all currency decimals to ISO-4217</li>
+  <li>Fixed money allocation for negative amounts</li>
+  <li>Fixed symbol_first for RON</li>
+  <li>Fixed disambiguate option when symbol is set to true</li>
+  <li>Fixed thousands separator for CZK</li>
+  <li>Improved formatter performance by precaching I18n calls</li>
+</ul>
+
+<h2 id="section-30">6.7.1</h2>
+<ul>
+  <li>Changed DKK symbol from ‘kr’ to ‘kr.’</li>
+  <li>Improved Money::Formatting#format docs</li>
+  <li>Updated VEF symbol from ‘Bs F’ to ‘Bs’</li>
+  <li><code>Currency#exponent</code> now returns Fixnum</li>
+  <li>Fixed coercion issues</li>
+  <li>Fixed edge case with explicit override of thousands separator and decimal mark</li>
+  <li><code>Money#==</code> will now raise error for non-zero numeric values</li>
+  <li>Fixed divmod</li>
+  <li>Added disambiguation symbol to USD Dollar</li>
+  <li>Use disambiguation symbol when both disambiguate and symbol are true in <code>format</code> method</li>
+</ul>
+
+<h2 id="section-31">6.7.0</h2>
+<ul>
+  <li>Changed <code>Money#&lt;=&gt;</code> to return <code>nil</code> if the comparison is inappropriate. (#584)</li>
+  <li>Remove implicit conversion of values being compared. Only accept <code>Money</code> and
+subclasses of <code>Money</code> for comparisons and raise TypeError otherwise.</li>
+  <li>When comparing fails due to <code>Money::Bank::UnknownRate</code> <code>Money#&lt;=&gt;</code> will now
+return <code>nil</code> as <code>Comparable#==</code> will not rescue exceptions in the next release.</li>
+  <li>Fix <code>Currency</code> specs for <code>#exponent</code> and <code>#decimal_places</code> not making assertions.</li>
+  <li>Fix a couple of Ruby warnings found in specs.</li>
+  <li>Fix <code>Money#-</code>,<code>Money#+</code> arithmetic for Ruby 2.3+ : check for zero value without using eql? with a Fixnum. (#577)</li>
+  <li>Use <code>Money#decimal_mark</code> when formatting with <code>rounded_infinite_precision</code> rule
+set to <code>true</code>.</li>
+  <li>Replaced meta-defined <code>thousands_separator</code> and <code>decimal_mark</code> methods with regular methods. (#579)</li>
+</ul>
+
+<h2 id="section-32">6.6.0</h2>
+<ul>
+  <li>Fixed VariableExchange#exchange_with for big numbers.</li>
+  <li>Add Currency symbol translation support</li>
+  <li><code>Currency.all</code> raises a more helpful error message
+(<code>Currency::MissingAttributeError</code>)if a currency has no priority</li>
+  <li><code>Currency</code> implements <code>Enumerable</code>.</li>
+  <li><code>Currency#&lt;=&gt;</code> sorts alphabetically by <code>id</code> if the <code>priority</code>s are the same,
+and no longer raises an error if one of the priorities is missing.</li>
+  <li><code>Money::Currency.unregister</code> can take an ISO code argument in addition
+to a hash.</li>
+  <li><code>Money::Currency.unregister</code> returns <code>true</code> if the given currency
+previously existed, and <code>false</code> if it didn’t.</li>
+  <li>Fix symbol for SZL currency</li>
+  <li>Trying to create a Currency without an <code>iso_code</code> now raises a more
+helpful error message.</li>
+  <li>Add <code>Money.usd</code>, <code>.cad</code> and <code>.eur</code> as aliases for <code>.us_dollar</code>,
+<code>.ca_dollar</code>, and <code>.euro</code>.</li>
+  <li>Add helper methods for British pounds: <code>Money.pound_sterling</code> and
+<code>Money.gbp</code>.</li>
+  <li>Add <code>Money.from_amount</code> to create money from a value in units instead of
+fractional units.</li>
+  <li>Changed CHF symbol from ‘Fr’ to ‘CHF’</li>
+  <li>Changed CLF exponent from 0 to 4</li>
+  <li>Changed CLP subunit_to_unit from 1 to 100</li>
+  <li>Minor fixes to prevent warnings on unused variables and the redefinition of
+<code>Money.default_currency</code></li>
+  <li><code>Money#==</code> changed to acknowledge that 0 in one currency is equal to 0 in any currency.</li>
+  <li>Changed KRW subunit_to_unit from 100 to 1</li>
+  <li>Decouple exchange rates storage from bank objects and formalize storage public API. Default is <code>Money::RatesStore::Memory</code>.</li>
+  <li><code>Currency.new</code> now a singleton by its id</li>
+</ul>
+
+<h2 id="section-33">6.5.1</h2>
+<ul>
+  <li>Fix format for BYR currency</li>
+</ul>
+
+<h2 id="section-34">6.5.0</h2>
+<ul>
+  <li>Add method to round a given amount of money to the nearest possible value in cash (aka Swedish rounding).</li>
+  <li>Fixed the subunit_to_unit values of the CLP and KRW currencies</li>
+  <li>Add option for <code>disambiguate</code> symbols for formatting</li>
+  <li>Fixed the subunit_to_unit values of the VND currency</li>
+  <li>Fix formatting of NGN - show symbol before amount</li>
+  <li>Switch default and alternate symbols for RUB currency</li>
+  <li>Fix symbol for TRY currency</li>
+  <li>Add <code>Money.default_formatting_rules</code> hash, meant to define default rules for every time <code>Money#format</code> is called. They can be overwritten if provided on method call</li>
+  <li>Add support for the new official symbol for Russian Ruble (RUB) — «₽»</li>
+</ul>
+
+<h2 id="section-35">6.2.1</h2>
+<ul>
+  <li>Ensure set is loaded</li>
+</ul>
+
+<h2 id="section-36">6.2.0</h2>
+<ul>
+  <li>Fixes formatting error when both <code>thousands_separator</code> and <code>decimal_mark</code> was added to Money#format as options.</li>
+  <li>Add Money#to_i which returns the whole part of the value. i.e.
+Money.new(100, “USD”).to_i # =&gt; 1</li>
+  <li>Fix output on Ukrainian Hryvnia symbol in HTML.</li>
+  <li>Add documentation about i18n in README.</li>
+  <li>Update iso code, symbol, subunit for the new Turkmenistani manat (GH-181)</li>
+  <li>Performance Improvements (1.99x faster on MRI, 1.85x on Rubinius, 41.4x faster on JRuby)</li>
+  <li>Money can now add and subtract Fixnum 0</li>
+  <li>Money#new uses Money.default_currency if currency arg is nil (GH-410)</li>
+  <li>Fixed formatting of NOK, putting the symbol after numbers</li>
+  <li>Fixed issue where rounded_infinite_precision formatting fails for some localized currencies (GH-422)</li>
+</ul>
+
+<h2 id="section-37">6.1.1</h2>
+<ul>
+  <li>Remove lingering Monetize call</li>
+</ul>
+
+<h2 id="section-38">6.1.0</h2>
+<ul>
+  <li>Remove deprecated methods.</li>
+  <li>Fix issue with block form of rounding_mode.</li>
+</ul>
+
+<h2 id="section-39">6.0.1</h2>
+<ul>
+  <li>Deprecated methods lists caller on print out for easier updating.</li>
+  <li>Added support for Money::Currency#to_str and Money::Currency#to_sym</li>
+  <li>Added ability to temporally change the rounding methond inside a given block</li>
+  <li>Replaced parsing and core extensions with the monetize gem</li>
+</ul>
+
+<h2 id="section-40">6.0.0</h2>
+<ul>
+  <li>Fix BTC subunit</li>
+  <li>New option :sign_positive to add a + sign to positive numbers</li>
+  <li>Only allow to multiply a money by a number (int, float)</li>
+  <li>Fix typo</li>
+  <li>Wrap the currency symbol in a span if :html is specified in the rules</li>
+  <li>Added Money::Currency.all method</li>
+  <li>Allow combined comparison operator to handle zero values without rates</li>
+  <li>Added Money::Currency.unregister method</li>
+  <li>Works on Ruby 1.8.7</li>
+  <li>Update deps</li>
+  <li>Depreciate Money.parse</li>
+  <li>Passing symbol: false when formatting ‘JPY’ currency in :ja locale
+will work as expected</li>
+  <li>Divide now obeys the specified rounding mode</li>
+  <li>Add Money#round method. This is helpful when working in infinite_precision mode and would like to perform rounding at specific points in your work flow.</li>
+  <li>In infinite precision mode, deserialized Money objects no longer return Float values from the <code>fractional</code> method.</li>
+  <li>Changed <code>thousands_separator</code> for Swedish Krona from dot to blank space.</li>
+  <li>Allow mathematical operations with first argument being not an instance of Money (eg. 2 * money instead of money * 2).</li>
+  <li>Money#dollars and Money#amount methods return numbers of type BigDecimal.</li>
+  <li>Change Money.from_bigdecimal (and in that way .to_money too) to keep precision when using <code>Money.infinite_precision = true</code></li>
+  <li>Add :rounded_infinite_precision option to .format</li>
+  <li>Changed the New Taiwan Dollar symbol position from after the amount to before the amount.</li>
+  <li>Passing a Money instance to the Money constructor will obtain a new Money object with the same property values as the original</li>
+  <li>Add deprecation warning to comparators</li>
+  <li>Add Money.disallow_currency_conversion! option</li>
+  <li>Allow to inherits from <code>Money</code></li>
+</ul>
+
+<h2 id="section-41">5.1.1</h2>
+
+<ul>
+  <li>Added :sign_before_symbol option to format negative numbers as -£1 rather than £-1</li>
+  <li>Ensure BigDecimal.new always receives a string - compatibility fix for ruby-1.9.2-p320</li>
+  <li>Update Maldivian Currency to MVR and fix ރ. to be ރ</li>
+  <li>Add exponent to currency</li>
+  <li>Add find_numeric to find currencies by ISO 4217 numeric code.</li>
+  <li>Fixed regression where thousands separator was missing on certain currencies. (GH-245)</li>
+  <li>Added :symbol_before_without_space option to add a space between currency symbol and amount.</li>
+</ul>
+
+<h2 id="section-42">5.1.0</h2>
+
+<ul>
+  <li>Fix currency assumption when parsing $ with a non-USD default currency.</li>
+  <li>Changed the Bulgarian lev symbol position from before the amount to after the amount.</li>
+  <li>Changed the symbol and html entity for INR. It is now “₹” instead of “₨”.</li>
+  <li>Added Money::Currency.analyze for determining potential currencies for a given string using powereful algorithms - will detect symbols, iso codes and names even if mixed with text.</li>
+  <li>Changed UGX symbol from ‘Sh’ to ‘USh’.</li>
+  <li>Changed SYP symbol from “£ or ل.س” to “£S”. The previous symbols remain as alternates.</li>
+  <li>Changed RWF symbol from ‘FR’ to ‘FRw’.</li>
+  <li>Changed RSD symbol from “din. or дин.” to ‘РСД’. The previous symbols remain as alternates.</li>
+  <li>Added MGA symbol ‘Ar’</li>
+  <li>Added KGS symbol ‘som’</li>
+  <li>Changed KES symbol from ‘Sh’ to ‘KSh’</li>
+  <li>Added ETB symbol ‘Br’</li>
+  <li>Changed EGP symbol from “£ or ج.م” to “ج.م”</li>
+  <li>Changed DJF symbol from ‘Fr’ to ‘Fdj’</li>
+  <li>Changed CVE symbol from ‘$ or Esc’ to ‘$’. ‘Esc’ remains as an alternate symbol.</li>
+  <li>Added BTN symbol ‘Nu.’</li>
+  <li>Changed BAM symbol from ‘KM or КМ’ to ‘КМ’, the alternate (cyrillic script) remains as an alternate symbol.</li>
+  <li>Added alternate symbols for all currencies. For example, USD can be written as both ‘$’ and ‘US$’, SEK can be ‘Kr’ or ‘:-‘, etc.</li>
+  <li>Renamed Money#cents to Money#fractional. Money#cents can still be used as a synonym and equivalent of Money#fractional.</li>
+  <li>Added Money.new_with_amount and Money#amount. Money.new_with_dollars and Money#dollars remain as synonyms.</li>
+  <li>Calling Bank::Base.instance doesn’t make Bank::VariableExchange.instance
+return Bank::Base.instance anymore (semaperepelitsa)</li>
+  <li>Update Turkmenistan manat from TMM to TMT currency (GH-181). [Thanks @Exoth]</li>
+  <li>Moved ZWD Zimbabwean dollars to currency_bc.json, also added there ZWL, ZWN, and ZWR Zimbabwean dollars (GH-184).</li>
+  <li>Switch to multi_json gem (GH-170)</li>
+  <li>Fix “warning: ambiguous first argument…” (GH-166)</li>
+  <li>Update dependencies to latest and greatest (GH-172)</li>
+  <li>TravisBot is now watching Pull Request!!! (GH-171)</li>
+  <li>Minor code cleaning</li>
+  <li>Remove subunit from South Korean won (KRW)</li>
+  <li>Fixed bug where bankers rounding wasn’t being used everywhere.</li>
+</ul>
+
+<h2 id="section-43">5.0.0</h2>
+
+<ul>
+  <li>Minor bugfix - incorrect use of character range resulted in
+botched results for Money::Parsing#extract_cents (GH-162)</li>
+  <li>Money::Currency::TABLE removed. Use Money::Currency.register to add
+additional currencies (GH-143)</li>
+  <li>Fix rounding error in Numeric.to_money (GH-145)</li>
+  <li>Allow on-the-fly calculation of decimal places if not known already
+(GH-146,GH-147,GH-148)</li>
+  <li>Move Euro symbol ahead of amount (GH-151)</li>
+  <li>Changed settings for Polish currency (GH-152)</li>
+  <li>Fall back to symbol if there is no html_entity present (GH-153)</li>
+  <li>Optionally Allow parsing of money values prefixed by symbols in key
+currencies (GH-155)</li>
+  <li>Fix bug where rates exported to a file from VariableExchange leave the File
+object open (GH-154)</li>
+  <li>Added Money#positive? and Money#negative? methods (GH-157)</li>
+  <li>Fix format function output for custom currencies (GH-156)</li>
+  <li>Fix parsing of strings with 3 decimal digits (GH-158)</li>
+  <li>Updated development dependencies</li>
+  <li>Said goodbye to RubyForge</li>
+</ul>
+
+<h2 id="section-44">4.0.2</h2>
+
+<ul>
+  <li>Money.to_money now understands a currency option (GH-121)</li>
+  <li>Added Money#-@ method to change object polarity (GH-122)</li>
+  <li>Added Money#symbol_or_iso_code utility method (GH-128)</li>
+  <li>Money.parse now understands trailing - as negative inputs (GH-133)</li>
+  <li>
+    <p>Money::Currency.new now validates input to avoid memory leaks (GH-137)</p>
+  </li>
+  <li>Forced UTF-8 encoding on currency JSON (GH-117)</li>
+  <li>Fixed position of Philippine peso sign (GH-124)</li>
+  <li>Fixed position of Danish currency sign (GH-127)</li>
+</ul>
+
+<h2 id="section-45">4.0.1</h2>
+
+<ul>
+  <li>Add missing config dir.</li>
+</ul>
+
+<h1 id="money-400">Money 4.0.0</h1>
+
+<p>The big change this release is moving the currency information into a JSON
+file. This should make it easier for users to add and test things. Thanks to
+Steve Morris for working on this during his Mendicant University course.</p>
+
+<p>In addition to this big change there were well over a dozen other minor
+changes.</p>
+
+<h2 id="features">Features</h2>
+<ul>
+  <li>a new exchange bank nordea has been added to the README. (k33l0r)</li>
+  <li>a new exchange bank nbrb_currency has been added to the README. (slbug)</li>
+  <li>update Rake tasks</li>
+  <li>See our CI status in the README</li>
+  <li>Add syntax highlighting to the README (phlipper)</li>
+  <li>Remove minor unit from YEN (pwim)</li>
+  <li>Format YEN (pwim)</li>
+  <li>Update README for <code>_as_string</code> (mjankowski)</li>
+  <li>Update Lebanon currency (kaleemullah)</li>
+  <li>Update Polish złoty (holek)</li>
+  <li>Move currency information into JSON storage! (stevemorris)</li>
+  <li>Add ISO4217 Numeric codes (alovak)</li>
+</ul>
+
+<h2 id="bugfixes">Bugfixes</h2>
+<ul>
+  <li>EEK currency is no longer used, kept for BC (<a href="https://github.com/RubyMoney/money/issues/110">#issue/110</a>)</li>
+  <li>Lithuanian Litas symbol position fixed (laurynas)</li>
+  <li>Fixed README typos (phlipper)</li>
+  <li>Fixed README typos (pwim)</li>
+  <li>Fix specs (alovak)</li>
+</ul>
+
+<h1 id="money-371">Money 3.7.1</h1>
+
+<h2 id="bugfixes-1">Bugfixes</h2>
+<ul>
+  <li>Add encoding indicator to top of Gemspec</li>
+</ul>
+
+<h1 id="money-370">Money 3.7.0</h1>
+
+<h2 id="features-1">Features</h2>
+<ul>
+  <li>add Money#to_d (thanks Andrew White)</li>
+  <li>Add Money.use_i18n, this allows you to enable/disable i18n from being used,
+even if it’s required in your app.</li>
+</ul>
+
+<h1 id="money-362">Money 3.6.2</h1>
+
+<h2 id="features-2">Features</h2>
+<ul>
+  <li>i18n enhancements (thanks eloyesp <a href="https://github.com/RubyMoney/money/commit/b2cab76c78ae04f40251fa20c4ab18faa968dc53">link</a>)</li>
+  <li>README updates (thanks pconnor)</li>
+  <li>Break into modules</li>
+  <li>Added <code>:no_cents_if_whole</code> format option</li>
+  <li>Update HKD from Ho to Cent</li>
+  <li>Performance improvements (thanks weppos)</li>
+  <li>Added Symbol#to_currency</li>
+  <li>Added Gemfile for development</li>
+  <li>Updated HUF currency to use <code>symbol_first =&gt; false</code></li>
+  <li>Updated “Turkish New Lira” to “Turkish Lira”</li>
+</ul>
+
+<h1 id="money-361">Money 3.6.1</h1>
+
+<h2 id="bugfixes-2">Bugfixes</h2>
+<ul>
+  <li>Floating point comparison needs to Epsilon aware (thanks Tobias Luetke)</li>
+  <li>reimplement fix for #issue/43, enable Marshal.(load/dump)</li>
+</ul>
+
+<h1 id="money-360">Money 3.6.0</h1>
+
+<h2 id="features-3">Features</h2>
+<ul>
+  <li>Add a symbol position option for Money#format (thanks Romain, Gil and
+Julien)</li>
+  <li>Updated CNY to use “Fen” and subunit_to_unit of 100</li>
+  <li>Updates to work with gem-testers.org</li>
+</ul>
+
+<h2 id="bugfixes-3">Bugfixes</h2>
+<ul>
+  <li>Fixed issue with #format(no_cents: true) (thanks Romain &amp; Julien)</li>
+</ul>
+
+<h1 id="money-355">Money 3.5.5</h1>
+
+<h2 id="features-4">Features</h2>
+<ul>
+  <li>Enhancements to Money::Currency (thanks Matthew McEachen)
+    <ul>
+      <li>Replace delimiter with thousands_separator</li>
+      <li>Replace separator with decimal_mark</li>
+      <li>Added symbol_first and html_entity</li>
+    </ul>
+  </li>
+  <li>Added allocation algorithm for fair(ish) splitting of money between parties
+without losing pennies (thanks Tobias Luetke)</li>
+</ul>
+
+<h2 id="bugfixes-4">Bugfixes</h2>
+<ul>
+  <li>Always store cents as an Integer (thanks Abhay Kumar)</li>
+  <li>Fixed TypeError in rate exchange (thanks Christian Billen)</li>
+  <li>Cleanup #parse (thanks Tom Lianza)</li>
+</ul>
+
+<h1 id="money-354">Money 3.5.4</h1>
+
+<h2 id="features-5">Features</h2>
+<ul>
+  <li>Added Currency#decimal_places.</li>
+</ul>
+
+<h2 id="bugfixes-5">Bugfixes</h2>
+<ul>
+  <li>Fixed error with Money#to_s error with negative amounts that are only cents.</li>
+</ul>
+
+<h1 id="money-353">Money 3.5.3</h1>
+
+<h2 id="bugfixes-6">Bugfixes</h2>
+<ul>
+  <li>Fixed an error in #to_s when cents is negative</li>
+</ul>
+
+<h1 id="money-352">Money 3.5.2</h1>
+
+<h2 id="bugfixes-7">Bugfixes</h2>
+<ul>
+  <li>Fixed an error in #to_s which appended extra 0s incorrectly</li>
+</ul>
+
+<h1 id="money-351">Money 3.5.1</h1>
+
+<h2 id="bugfixes-8">Bugfixes</h2>
+<ul>
+  <li>Removed erroneous require.</li>
+</ul>
+
+<h1 id="money-350">Money 3.5.0</h1>
+
+<h2 id="features-6">Features</h2>
+<ul>
+  <li>Updated to RSpec2.</li>
+  <li>Use i18n to lookup separator and delimiter signs.</li>
+  <li>Removed all deprecated methods up to v3.5.0, including the following:
+    <ul>
+      <li>Using Money#format with params instead of a Hash.</li>
+      <li>Using a Hash with Money#new.</li>
+      <li>Using Bank#exchange, use Bank#exchange_with instead.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="bugfixes-9">Bugfixes</h2>
+<ul>
+  <li>Updated Money#to_s to respect :separator and :subunit_to_unit.</li>
+  <li>Fixed Money#format for :subunit_to_unit != 100.
+(<a href="https://github.com/RubyMoney/money/issues/37">#issue/37</a>)</li>
+  <li>Fixed String#to_money for :subunit_to_unit != 100.
+(<a href="https://github.com/RubyMoney/money/issues/36">#issue/36</a>)</li>
+  <li>Removed duplicate currencies.
+(<a href="https://github.com/RubyMoney/money/issues/38">#issue/38</a>)</li>
+  <li>Fixed issue related to JRuby returning 2 for Math.log10(1000).floor instead
+of correctly returning 3.</li>
+</ul>
+
+<h1 id="money-315">Money 3.1.5</h1>
+
+<h2 id="features-7">Features</h2>
+<ul>
+  <li>Added support for creating objects with the main monetary unit instead of
+cents.
+(<a href="https://github.com/RubyMoney/money/issues/25">#issue/25</a>)</li>
+  <li>Deprecated <code>Money#format</code> with separate params instead of Hash. Deprecation
+target set to Money 3.5.0.
+(<a href="https://github.com/RubyMoney/money/issues/31">#issue/31</a>)</li>
+  <li>Deprecated <code>Money#new(0, currency: "EUR")</code> in favor of
+<code>Money#new(0, "EUR")</code>. Deprecation target set to Money 3.5.0.
+(<a href="https://github.com/RubyMoney/money/issues/31">#issue/31</a>)</li>
+  <li>Throw ArgumentError when trying to multiply two Money objects together.
+(<a href="https://github.com/RubyMoney/money/issues/29">#issue/29</a>)</li>
+  <li>Update Money#parse to use :subunit_to_unit
+(<a href="https://github.com/RubyMoney/money/issues/30">#issue/30</a>)</li>
+</ul>
+
+<h2 id="bugfixes-10">Bugfixes</h2>
+<ul>
+  <li>Downgraded required_rubygems_version to &gt;= 1.3.6.
+(<a href="https://github.com/RubyMoney/money/issues/26">#issue/26</a>)</li>
+  <li>Use BigDecimal when floating point calculations are needed.</li>
+  <li>Ruby 1.9.2 compatibility enhancements.</li>
+</ul>
+
+<h1 id="money-310">Money 3.1.0</h1>
+
+<h2 id="features-8">Features</h2>
+<ul>
+  <li>Implemented <code>Money::Bank::Base</code>.
+(<a href="https://github.com/RubyMoney/money/issues/14">#issue/14</a>)</li>
+  <li>Added <code>Money::Bank::Base#exchange_with</code>.</li>
+  <li>Deprecated <code>Money::Bank::Base#exchange</code>. Deprecation target set to Money
+3.2.0.</li>
+  <li>Implemented <code>Money::Bank::VariableExchange</code></li>
+  <li>Deprecated <code>Money::VariableExchangeBank</code>. Deprecation target set to Money
+3.2.0.</li>
+  <li>Deprecate <code>Money::SYMBOLS</code>, <code>Money::SEPARATORS</code> and <code>Money::DELIMITERS</code>.
+Deprecation target set to Money 3.2.0.
+(<a href="https://github.com/RubyMoney/money/issues/16">#issue/16</a>)</li>
+  <li>Implemented <code>#has</code> for <code>Money</code> and <code>Money::Currency</code>.</li>
+  <li>Refactored test suite to conform to RSpec conventions.</li>
+  <li>Moved project from <a href="https://github.com/FooBarWidget">FooBarWidget</a> to
+<a href="https://github.com/RubyMoney">RubyMoney</a></li>
+  <li>Added Simone Carletti to list of authors.</li>
+  <li>Moved <code>@rounding_method</code> from <code>Money::Bank::VariableExchange</code> to
+<code>Money::Bank::Base</code>.
+(<a href="https://github.com/RubyMoney/money/issues/18">#issue/18</a>)</li>
+  <li>Added <code>#setup</code> to <code>Money::Bank::Base</code>. Called from <code>#initialize</code>.
+(<a href="https://github.com/RubyMoney/money/issues/19">#issue/19</a>)</li>
+  <li>Added <a href="https://github.com/RubyMoney/google_currency">google_currency</a> to list
+of Currency Exchange Implementations.</li>
+  <li>Added <code>#export_rates</code> to <code>Money::Bank::VariableExchange</code>.
+(<a href="https://github.com/RubyMoney/money/issues/21">#issue/21</a>)</li>
+  <li>Added <code>#import_rates</code> to <code>Money::Bank::VariableExchange</code>.
+(<a href="https://github.com/RubyMoney/money/issues/21">#issue/21</a>)</li>
+  <li>Removed dependency on Jeweler.</li>
+  <li>Replaced usage of hanna with yardoc.</li>
+  <li>Rewrote/reformatted all documentation.</li>
+</ul>
+
+<h2 id="bugfixes-11">Bugfixes</h2>
+<ul>
+  <li>Fixed incorrect URLs in documentation.
+(<a href="https://github.com/RubyMoney/money/issues/17">#issue/17</a>)</li>
+  <li>Updated <code>:subunit_to_unit</code> for HKD from 10 to 100.
+(<a href="https://github.com/RubyMoney/money/issues/20">#issue/20</a>)</li>
+  <li>Updated Ghanaian Cedi to use correct ISO Code, GHS.
+(<a href="https://github.com/RubyMoney/money/issues/22">#issue/22</a>)</li>
+  <li>Make <code>default</code> rake task call <code>spec</code>.
+(<a href="https://github.com/RubyMoney/money/issues/23">#issue/23</a>)</li>
+</ul>
+
+<h1 id="money-310pre3">Money 3.1.0.pre3</h1>
+
+<h2 id="features-9">Features</h2>
+<ul>
+  <li>Added <a href="https://github.com/RubyMoney/google_currency">google_currency</a> to list
+of Currency Exchange Implementations.</li>
+  <li>Added <code>#export_rates</code> to <code>Money::Bank::VariableExchange</code>.
+(<a href="https://github.com/RubyMoney/money/issues/21">#issue/21</a>)</li>
+  <li>Added <code>#import_rates</code> to <code>Money::Bank::VariableExchange</code>.
+(<a href="https://github.com/RubyMoney/money/issues/21">#issue/21</a>)</li>
+</ul>
+
+<h2 id="bugfixes-12">Bugfixes</h2>
+<ul>
+  <li>Updated <code>:subunit_to_unit</code> for HKD from 10 to 100.
+(<a href="https://github.com/RubyMoney/money/issues/20">#issue/20</a>)</li>
+</ul>
+
+<h1 id="money-310pre2">Money 3.1.0.pre2</h1>
+
+<h2 id="features-10">Features</h2>
+<ul>
+  <li>Moved <code>@rounding_method</code> from <code>Money::Bank::VariableExchange</code> to
+<code>Money::Bank::Base</code>.
+(<a href="https://github.com/RubyMoney/money/issues/18">#issue/18</a>)</li>
+  <li>Added <code>#setup</code> to <code>Money::Bank::Base</code>. Called from <code>#initialize</code>.
+(<a href="https://github.com/RubyMoney/money/issues/19">#issue/19</a>)</li>
+</ul>
+
+<h2 id="bugfixes-13">Bugfixes</h2>
+<ul>
+  <li>Fixed incorrect URLs in documentation.
+(<a href="https://github.com/RubyMoney/money/issues/17">#issue/17</a>)</li>
+</ul>
+
+<h1 id="money-310pre1">Money 3.1.0.pre1</h1>
+
+<h2 id="features-11">Features</h2>
+<ul>
+  <li>Implemented <code>Money::Bank::Base</code>.
+(<a href="https://github.com/RubyMoney/money/issues/14">#issue/14</a>)</li>
+  <li>Added <code>Money::Bank::Base#exchange_with</code>.</li>
+  <li>Deprecated <code>Money::Bank::Base#exchange</code>. Deprecation target set to Money
+3.2.0.</li>
+  <li>Implemented <code>Money::Bank::VariableExchange</code></li>
+  <li>Deprecated <code>Money::VariableExchangeBank</code>. Deprecation target set to Money
+3.2.0.</li>
+  <li>Deprecate <code>Money::SYMBOLS</code>, <code>Money::SEPARATORS</code> and <code>Money::DELIMITERS</code>.
+Deprecation target set to Money 3.2.0.
+(<a href="https://github.com/RubyMoney/money/issues/16">#issue/16</a>)</li>
+  <li>Implemented <code>#has</code> for <code>Money</code> and <code>Money::Currency</code>.</li>
+  <li>Refactored test suite to conform to RSpec conventions.</li>
+  <li>Moved project from <a href="https://github.com/FooBarWidget">FooBarWidget</a> to
+<a href="https://github.com/RubyMoney">RubyMoney</a></li>
+  <li>Added Simone Carletti to list of authors.</li>
+</ul>
+
+<h2 id="bugfixes-14">Bugfixes</h2>
+<ul>
+  <li>Fixed rounding error in <code>Numeric#to_money</code>.
+(<a href="https://github.com/RubyMoney/money/issues/15">#issue/15</a>)</li>
+</ul>
+
+<h1 id="money-305">Money 3.0.5</h1>
+
+<h2 id="features-12">Features</h2>
+<ul>
+  <li>Added <code>Money#abs</code>.</li>
+  <li>Added ability to pass a block to <code>VariableExchangeBank#new</code> or <code>#exchange</code>,
+specifying a custom truncation method</li>
+  <li>Added optional <code>currency</code> argument to<code> Numeric#to_money</code>.
+(<a href="https://github.com/RubyMoney/money/issues/11">#issue/11</a>)</li>
+  <li>Added optional <code>currency</code> argument to <code>String#to_money</code>.
+(<a href="https://github.com/RubyMoney/money/issues/11">#issue/11</a>)</li>
+  <li>Use ‘¤’ as the default currency symbol.
+(<a href="https://github.com/RubyMoney/money/issues/10">#issue/10</a>)</li>
+</ul>
+
+<h2 id="bugfixes-15">Bugfixes</h2>
+<ul>
+  <li>Updated <code>Currency#subunit_to_unit</code> documentation (it’s an integer not a
+string).</li>
+  <li>Fixed issue when exchanging currencies with different <code>:subunit_to_unit</code>
+values.</li>
+  <li><code>Numeric#to_money</code> now respects <code>:subunit_to_unit</code>.
+(<a href="https://github.com/RubyMoney/money/issues/12">#issue/12</a>)</li>
+</ul>
+
+<h1 id="money-304">Money 3.0.4</h1>
+
+<h2 id="features-13">Features</h2>
+<ul>
+  <li>Use <code>:subunit_to_unit</code> in <code>#to_s</code>, <code>#to_f</code> and <code>#format</code>.</li>
+  <li>Deprecated <code>Money#SEPARATORS</code> and <code>Money#DELIMITERS</code>.</li>
+</ul>
+
+<h2 id="bugfixes-16">Bugfixes</h2>
+<ul>
+  <li>Updated <code>#exchange</code> to avoid floating point rounding errors.</li>
+  <li>Added <code>:separator</code> and <code>:delimiter</code> to <code>Currency</code></li>
+  <li>Updated the attributes of the Chilean Peso.</li>
+</ul>
+
+<h1 id="money-303">Money 3.0.3</h1>
+
+<h2 id="features-14">Features</h2>
+<ul>
+  <li>Added <code>#currency_as_string</code> and <code>#currency_as_string=</code> for easier
+integration with ActiveRecord/Rails</li>
+</ul>
+
+<h1 id="money-302">Money 3.0.2</h1>
+
+<h2 id="features-15">Features</h2>
+<ul>
+  <li>Added <code>#div</code>, <code>#divmod</code>, <code>#modulo</code>, <code>#%</code> and <code>#remainder</code> to <code>Money</code>.</li>
+</ul>
+
+<h1 id="money-301">Money 3.0.1</h1>
+
+<h2 id="features-16">Features</h2>
+<ul>
+  <li>Added <code>#eql?</code> to <code>Money</code></li>
+  <li>Updated <code>Numeric#to_money</code> to work with all children of <code>Numeric</code> (i.e.
+<code>BigDecimal</code>, <code>Integer</code>, <code>Fixnum</code>, <code>Float</code>, etc)</li>
+</ul>
+
+<h1 id="money-300">Money 3.0.0</h1>
+
+<h2 id="features-17">Features</h2>
+<ul>
+  <li>Version Bump due to compatibility changes with ActiveRecord. See
+conversation
+<a href="https://github.com/RubyMoney/money/issues/4#issuecomment-224880">here</a>
+for more information.</li>
+</ul>
+
+<h1 id="money-230">Money 2.3.0</h1>
+
+<h2 id="features-18">Features</h2>
+<ul>
+  <li>Currency is now represented by a <code>Currency</code> Object instead of a <code>String</code>.</li>
+</ul>
+
+<h1 id="money-220">Money 2.2.0</h1>
+
+<h2 id="features-19">Features</h2>
+<ul>
+  <li>Can now divide two Money objects by one another using <code>#/</code>.</li>
+  <li>Can now convert a Money object to a float using <code>#to_f</code>.</li>
+  <li>Users can now specify Separators and Delimiters when using <code>#format</code>.</li>
+  <li>Support for Brazilian Real <code>Money.new(1_00, :BRL)</code></li>
+  <li>Migrated to Jeweler</li>
+</ul>
+</div></div>
+
+      <div id="footer">
+  Generated on Fri Dec  5 10:19:09 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.4.7).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -79,7 +79,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/money/locale_backend/base.rb<span class="defines">,<br />
-  lib/money/locale_backend/i18n.rb,<br /> lib/money/money/locale_backend.rb,<br /> lib/money/locale_backend/errors.rb,<br /> lib/money/locale_backend/legacy.rb,<br /> lib/money/locale_backend/currency.rb</span>
+  lib/money/locale_backend/i18n.rb,<br /> lib/money/money/locale_backend.rb,<br /> lib/money/locale_backend/errors.rb,<br /> lib/money/locale_backend/currency.rb</span>
 </dd>
   </dl>
   
@@ -91,7 +91,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="LocaleBackend/Base.html" title="Money::LocaleBackend::Base (class)">Base</a></span>, <span class='object_link'><a href="LocaleBackend/Currency.html" title="Money::LocaleBackend::Currency (class)">Currency</a></span>, <span class='object_link'><a href="LocaleBackend/I18n.html" title="Money::LocaleBackend::I18n (class)">I18n</a></span>, <span class='object_link'><a href="LocaleBackend/Legacy.html" title="Money::LocaleBackend::Legacy (class)">Legacy</a></span>, <span class='object_link'><a href="LocaleBackend/NotSupported.html" title="Money::LocaleBackend::NotSupported (class)">NotSupported</a></span>, <span class='object_link'><a href="LocaleBackend/Unknown.html" title="Money::LocaleBackend::Unknown (class)">Unknown</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="LocaleBackend/Base.html" title="Money::LocaleBackend::Base (class)">Base</a></span>, <span class='object_link'><a href="LocaleBackend/Currency.html" title="Money::LocaleBackend::Currency (class)">Currency</a></span>, <span class='object_link'><a href="LocaleBackend/I18n.html" title="Money::LocaleBackend::I18n (class)">I18n</a></span>, <span class='object_link'><a href="LocaleBackend/NotSupported.html" title="Money::LocaleBackend::NotSupported (class)">NotSupported</a></span>, <span class='object_link'><a href="LocaleBackend/Unknown.html" title="Money::LocaleBackend::Unknown (class)">Unknown</a></span>
     
   
 </p>
@@ -108,7 +108,6 @@
           
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span>
-  <span class='label'>legacy:</span> <span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'>LocaleBackend</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="LocaleBackend/Legacy.html" title="Money::LocaleBackend::Legacy (class)">Legacy</a></span></span><span class='comma'>,</span>
   <span class='label'>i18n:</span> <span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'>LocaleBackend</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="LocaleBackend/I18n.html" title="Money::LocaleBackend::I18n (class)">I18n</a></span></span><span class='comma'>,</span>
   <span class='label'>currency:</span> <span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'>LocaleBackend</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="LocaleBackend/Currency.html" title="Money::LocaleBackend::Currency (class)">Currency</a></span></span>
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
@@ -198,14 +197,14 @@
       <pre class="lines">
 
 
+14
+15
 16
 17
-18
-19
-20</pre>
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money/locale_backend.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money/locale_backend.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="LocaleBackend/Unknown.html" title="Money::LocaleBackend::Unknown (class)">Unknown</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown locale backend: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#BACKENDS-constant" title="Money::LocaleBackend::BACKENDS (constant)">BACKENDS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -222,9 +221,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 24 12:16:16 2025 by
+  Generated on Fri Dec  5 10:19:09 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.4.5).
+  0.9.37 (ruby-3.4.7).
 </div>
 
     </div>

@@ -105,7 +105,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/money/money.rb<span class="defines">,<br />
-  lib/money/version.rb,<br /> lib/money/currency.rb,<br /> lib/money/bank/base.rb,<br /> lib/money/currency/loader.rb,<br /> lib/money/money/formatter.rb,<br /> lib/money/money/allocation.rb,<br /> lib/money/money/arithmetic.rb,<br /> lib/money/money/constructors.rb,<br /> lib/money/rates_store/memory.rb,<br /> lib/money/currency/heuristics.rb,<br /> lib/money/locale_backend/base.rb,<br /> lib/money/locale_backend/i18n.rb,<br /> lib/money/bank/single_currency.rb,<br /> lib/money/money/locale_backend.rb,<br /> lib/money/locale_backend/errors.rb,<br /> lib/money/locale_backend/legacy.rb,<br /> lib/money/bank/variable_exchange.rb,<br /> lib/money/money/formatting_rules.rb,<br /> lib/money/locale_backend/currency.rb</span>
+  lib/money/version.rb,<br /> lib/money/currency.rb,<br /> lib/money/bank/base.rb,<br /> lib/money/currency/loader.rb,<br /> lib/money/money/formatter.rb,<br /> lib/money/money/allocation.rb,<br /> lib/money/money/arithmetic.rb,<br /> lib/money/money/constructors.rb,<br /> lib/money/rates_store/memory.rb,<br /> lib/money/currency/heuristics.rb,<br /> lib/money/locale_backend/base.rb,<br /> lib/money/locale_backend/i18n.rb,<br /> lib/money/bank/single_currency.rb,<br /> lib/money/money/locale_backend.rb,<br /> lib/money/locale_backend/errors.rb,<br /> lib/money/bank/variable_exchange.rb,<br /> lib/money/money/formatting_rules.rb,<br /> lib/money/locale_backend/currency.rb</span>
 </dd>
   </dl>
   
@@ -157,7 +157,7 @@
         <dt id="VERSION-constant" class="">VERSION =
           
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>6.19.0</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>7.0.0</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
     </dl>
   
@@ -306,7 +306,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#use_i18n-class_method" title="use_i18n (class method)">.<strong>use_i18n</strong>  &#x21d2; Boolean </a>
+      <a href="#strict_eql_compare-class_method" title="strict_eql_compare (class method)">.<strong>strict_eql_compare</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -324,7 +324,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Used to disable i18n even if it’s used by other components of your app.</p>
+<p>Use this to specify how <tt>Money#eql?</tt> behaves.</p>
 </div></span>
   
 </li>
@@ -532,8 +532,6 @@
     
 
     
-      (also: from_dollars)
-    
   </span>
   
   
@@ -546,6 +544,30 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>Creates a new Money object of value given in the <code>unit</code> of the given <code>currency</code>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#from_dollars-class_method" title="from_dollars (class method)">.<strong>from_dollars</strong>(amount, currency = default_currency, options = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DEPRECATED.</p>
 </div></span>
   
 </li>
@@ -847,54 +869,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#currency_as_string-instance_method" title="#currency_as_string (instance method)">#<strong>currency_as_string</strong>  &#x21d2; String </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Return string representation of currency object.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#currency_as_string=-instance_method" title="#currency_as_string= (instance method)">#<strong>currency_as_string=</strong>(val)  &#x21d2; Money::Currency </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Set currency object using a string.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#decimal_mark-instance_method" title="#decimal_mark (instance method)">#<strong>decimal_mark</strong>  &#x21d2; String </a>
     
 
@@ -919,7 +893,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#dollars-instance_method" title="#dollars (instance method)">#<strong>dollars</strong>  &#x21d2; BigDecimal </a>
+      <a href="#dollars-instance_method" title="#dollars (instance method)">#<strong>dollars</strong>  &#x21d2; Object </a>
     
 
     
@@ -934,7 +908,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Assuming using a currency using dollars: Returns the value of the money in dollars, instead of in the fractional unit cents.</p>
+<p>DEPRECATED.</p>
 </div></span>
   
 </li>
@@ -1534,25 +1508,25 @@
       <pre class="lines">
 
 
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
 363
 364
-365</pre>
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 350</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 363</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='comment'># For backwards compatibility, if options is not a Hash, treat it as a bank parameter
@@ -1621,12 +1595,18 @@
       <pre class="lines">
 
 
-149</pre>
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 161</span>
 
-<span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:default_formatting_rules</span><span class='comma'>,</span> <span class='symbol'>:default_infinite_precision</span><span class='comma'>,</span> <span class='symbol'>:conversion_precision</span></pre>
+<span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:default_formatting_rules</span><span class='comma'>,</span>
+<span class='symbol'>:default_infinite_precision</span><span class='comma'>,</span>
+<span class='symbol'>:conversion_precision</span><span class='comma'>,</span>
+<span class='symbol'>:strict_eql_compare</span></pre>
     </td>
   </tr>
 </table>
@@ -1660,12 +1640,18 @@
       <pre class="lines">
 
 
-149</pre>
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 161</span>
 
-<span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:default_formatting_rules</span><span class='comma'>,</span> <span class='symbol'>:default_infinite_precision</span><span class='comma'>,</span> <span class='symbol'>:conversion_precision</span></pre>
+<span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:default_formatting_rules</span><span class='comma'>,</span>
+<span class='symbol'>:default_infinite_precision</span><span class='comma'>,</span>
+<span class='symbol'>:conversion_precision</span><span class='comma'>,</span>
+<span class='symbol'>:strict_eql_compare</span></pre>
     </td>
   </tr>
 </table>
@@ -1729,12 +1715,12 @@
       <pre class="lines">
 
 
-149
-150
-151</pre>
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 161</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_formatting_rules'>default_formatting_rules</span>
   <span class='ivar'>@default_formatting_rules</span>
@@ -1790,12 +1776,18 @@
       <pre class="lines">
 
 
-149</pre>
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 161</span>
 
-<span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:default_formatting_rules</span><span class='comma'>,</span> <span class='symbol'>:default_infinite_precision</span><span class='comma'>,</span> <span class='symbol'>:conversion_precision</span></pre>
+<span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:default_formatting_rules</span><span class='comma'>,</span>
+<span class='symbol'>:default_infinite_precision</span><span class='comma'>,</span>
+<span class='symbol'>:conversion_precision</span><span class='comma'>,</span>
+<span class='symbol'>:strict_eql_compare</span></pre>
     </td>
   </tr>
 </table>
@@ -1829,12 +1821,12 @@
       <pre class="lines">
 
 
-150
-151
-152</pre>
+165
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 165</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_locale_backend'>locale_backend</span>
   <span class='ivar'>@locale_backend</span>
@@ -1845,11 +1837,11 @@
 </div>
     
       
-      <span id="use_i18n=-class_method"></span>
+      <span id="strict_eql_compare=-class_method"></span>
       <div class="method_details ">
-  <h3 class="signature " id="use_i18n-class_method">
+  <h3 class="signature " id="strict_eql_compare-class_method">
   
-    .<strong>use_i18n</strong>  &#x21d2; <tt>Boolean</tt> 
+    .<strong>strict_eql_compare</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -1858,13 +1850,26 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Used to disable i18n even if it’s used by other components of your app.</p>
+<p>Use this to specify how <tt>Money#eql?</tt> behaves. Opt-in to the new behavior by setting this to <code>true</code> and disable warnings when comparing zero amounts with different currencies.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_strict_eql_compare'>strict_eql_compare</span> <span class='op'>=</span> <span class='kw'>false</span> <span class='comment'># (default)
+</span><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_eql?'><span class='object_link'><a href="Money/Arithmetic.html#eql%3F-instance_method" title="Money::Arithmetic#eql? (method)">eql?</a></span></span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='comment'># =&gt; true
+</span><span class='comment'># =&gt; [DEPRECATION] warning
+</span>
+<span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_strict_eql_compare'>strict_eql_compare</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_eql?'><span class='object_link'><a href="Money/Arithmetic.html#eql%3F-instance_method" title="Money::Arithmetic#eql? (method)">eql?</a></span></span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='comment'># =&gt; false</span></code></pre>
+    
+  </div>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
@@ -1879,18 +1884,31 @@
   
 </ul>
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>#eql</li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-149</pre>
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 161</span>
 
-<span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:default_formatting_rules</span><span class='comma'>,</span> <span class='symbol'>:default_infinite_precision</span><span class='comma'>,</span> <span class='symbol'>:conversion_precision</span></pre>
+<span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:default_formatting_rules</span><span class='comma'>,</span>
+<span class='symbol'>:default_infinite_precision</span><span class='comma'>,</span>
+<span class='symbol'>:conversion_precision</span><span class='comma'>,</span>
+<span class='symbol'>:strict_eql_compare</span></pre>
     </td>
   </tr>
 </table>
@@ -2015,7 +2033,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The default currency, which is used when <code>Money.new</code> is called without an explicit currency argument. The default value is Currency.new(“USD”). The value must be a valid <code>Money::Currency</code> instance.</p>
+<p>Returns The default currency, which is used when <code>Money.new</code> is called without an explicit currency argument.</p>
 
 
   </div>
@@ -2034,7 +2052,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The default currency, which is used when <code>Money.new</code> is called without an explicit currency argument. The default value is Currency.new(“USD”). The value must be a valid <code>Money::Currency</code> instance.</p>
+<p>The default currency, which is used when <code>Money.new</code> is called without an explicit currency argument.</p>
 </div>
       
     </li>
@@ -2047,18 +2065,18 @@
       <pre class="lines">
 
 
-159
-160
-161
-162
-163
-164
-165
-166
-167</pre>
+172
+173
+174
+175
+176
+177
+178
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 172</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_currency'>default_currency</span>
   <span class='kw'>if</span> <span class='ivar'>@default_currency</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -2180,12 +2198,12 @@
       <pre class="lines">
 
 
-289
-290
-291</pre>
+293
+294
+295</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 289</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 293</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_from_currency'>from_currency</span><span class='comma'>,</span> <span class='id identifier rubyid_to_currency'>to_currency</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_bank'><span class='object_link'><a href="#default_bank-class_method" title="Money.default_bank (method)">default_bank</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_from_currency'>from_currency</span><span class='comma'>,</span> <span class='id identifier rubyid_to_currency'>to_currency</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='rparen'>)</span>
@@ -2210,18 +2228,18 @@
       <pre class="lines">
 
 
-159
-160
-161
-162
-163
-164
-165
-166
-167</pre>
+172
+173
+174
+175
+176
+177
+178
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 172</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_currency'>default_currency</span>
   <span class='kw'>if</span> <span class='ivar'>@default_currency</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -2252,12 +2270,12 @@
       <pre class="lines">
 
 
-169
-170
-171</pre>
+182
+183
+184</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 169</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 182</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_currency='>default_currency=</span><span class='lparen'>(</span><span class='id identifier rubyid_currency'>currency</span><span class='rparen'>)</span>
   <span class='ivar'>@default_currency</span> <span class='op'>=</span> <span class='id identifier rubyid_currency'>currency</span>
@@ -2293,12 +2311,12 @@
       <pre class="lines">
 
 
-295
-296
-297</pre>
+299
+300
+301</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 295</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 299</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_disallow_currency_conversion!'>disallow_currency_conversion!</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_bank'>default_bank</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Bank/SingleCurrency.html" title="Money::Bank::SingleCurrency (class)">SingleCurrency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_instance'><span class='object_link'><a href="Money/Bank/Base.html#instance-class_method" title="Money::Bank::Base.instance (method)">instance</a></span></span>
@@ -2314,10 +2332,6 @@
     .<strong>from_amount</strong>(amount, currency = default_currency, options = {})  &#x21d2; <tt><span class='object_link'><a href="" title="Money (class)">Money</a></span></tt> 
   
 
-  
-    <span class="aliases">Also known as:
-    <span class="names"><span id='from_dollars-class_method'>from_dollars</span></span>
-    </span>
   
 
   
@@ -2460,18 +2474,18 @@
       <pre class="lines">
 
 
-314
-315
-316
-317
 318
 319
 320
 321
-322</pre>
+322
+323
+324
+325
+326</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 314</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 318</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_from_amount'>from_amount</span><span class='lparen'>(</span><span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span> <span class='op'>=</span> <span class='id identifier rubyid_default_currency'>default_currency</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&#39;amount&#39; must be numeric</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'>Numeric</span> <span class='op'>===</span> <span class='id identifier rubyid_amount'>amount</span>
@@ -2481,6 +2495,60 @@
 
   <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_amount'>amount</span><span class='period'>.</span><span class='id identifier rubyid_to_d'>to_d</span> <span class='op'>*</span> <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_subunit_to_unit'>subunit_to_unit</span>
   <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="from_dollars-class_method">
+  
+    .<strong>from_dollars</strong>(amount, currency = default_currency, options = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DEPRECATED.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#from_amount-class_method" title="Money.from_amount (method)">from_amount</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+331
+332
+333
+334
+335
+336</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 331</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_from_dollars'>from_dollars</span><span class='lparen'>(</span><span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span> <span class='op'>=</span> <span class='id identifier rubyid_default_currency'>default_currency</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[DEPRECATION] `Money.from_dollars` is deprecated in favor of </span><span class='tstring_end'>&quot;</span></span> \
+       <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>`Money.from_amount`.</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='id identifier rubyid_from_amount'>from_amount</span><span class='lparen'>(</span><span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2502,12 +2570,12 @@
       <pre class="lines">
 
 
-243
-244
-245</pre>
+247
+248
+249</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 243</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 247</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_inherited'>inherited</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_setup_defaults'>setup_defaults</span>
@@ -2561,14 +2629,14 @@
       <pre class="lines">
 
 
-252
-253
-254
-255
-256</pre>
+256
+257
+258
+259
+260</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 252</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 256</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_rounding_mode'>rounding_mode</span>
   <span class='kw'>return</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='symbol'>:money_rounding_mode</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='symbol'>:money_rounding_mode</span><span class='rbracket'>]</span>
@@ -2595,12 +2663,12 @@
       <pre class="lines">
 
 
-209
-210
-211</pre>
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 209</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 222</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_rounding_mode='>rounding_mode=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_rounding_mode'>new_rounding_mode</span><span class='rparen'>)</span>
   <span class='ivar'>@rounding_mode</span> <span class='op'>=</span> <span class='id identifier rubyid_new_rounding_mode'>new_rounding_mode</span>
@@ -2625,9 +2693,6 @@
       <pre class="lines">
 
 
-223
-224
-225
 226
 227
 228
@@ -2643,20 +2708,21 @@
 238
 239
 240
-241</pre>
+241
+242
+243
+244
+245</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 223</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 226</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_setup_defaults'>setup_defaults</span>
   <span class='comment'># Set the default bank for creating new +Money+ objects.
 </span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_bank'>default_bank</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Bank.html" title="Money::Bank (module)">Bank</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Bank/VariableExchange.html" title="Money::Bank::VariableExchange (class)">VariableExchange</a></span></span><span class='period'>.</span><span class='id identifier rubyid_instance'><span class='object_link'><a href="Money/Bank/Base.html#instance-class_method" title="Money::Bank::Base.instance (method)">instance</a></span></span>
 
-  <span class='comment'># Default to using i18n
-</span>  <span class='ivar'>@use_i18n</span> <span class='op'>=</span> <span class='kw'>true</span>
-
-  <span class='comment'># Default to using legacy locale backend
-</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_locale_backend'>locale_backend</span> <span class='op'>=</span> <span class='symbol'>:legacy</span>
+  <span class='comment'># Default to using currency backend
+</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_locale_backend'>locale_backend</span> <span class='op'>=</span> <span class='symbol'>:currency</span>
 
   <span class='comment'># Default to not using infinite precision cents
 </span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_infinite_precision'>default_infinite_precision</span> <span class='op'>=</span> <span class='kw'>false</span>
@@ -2666,6 +2732,10 @@
 
   <span class='comment'># Default the conversion of Rationals precision to 16
 </span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_conversion_precision'>conversion_precision</span> <span class='op'>=</span> <span class='int'>16</span>
+
+  <span class='comment'># Defaults to the deprecated behavior where
+</span>  <span class='comment'># `Money.new(0, &quot;USD&quot;).eql?(Money.new(0, &quot;EUR&quot;))` is true.
+</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_strict_eql_compare'>strict_eql_compare</span> <span class='op'>=</span> <span class='kw'>false</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2764,16 +2834,16 @@
       <pre class="lines">
 
 
-196
-197
-198
-199
-200
-201
-202</pre>
+209
+210
+211
+212
+213
+214
+215</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 209</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_with_bank'>with_bank</span><span class='lparen'>(</span><span class='id identifier rubyid_bank'>bank</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_original_bank'>original_bank</span> <span class='op'>=</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='symbol'>:money_bank</span><span class='rbracket'>]</span>
@@ -2874,16 +2944,16 @@
       <pre class="lines">
 
 
-271
-272
-273
-274
 275
 276
-277</pre>
+277
+278
+279
+280
+281</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 271</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 275</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_with_rounding_mode'>with_rounding_mode</span><span class='lparen'>(</span><span class='id identifier rubyid_mode'>mode</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_original_mode'>original_mode</span> <span class='op'>=</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='symbol'>:money_rounding_mode</span><span class='rbracket'>]</span>
@@ -2979,13 +3049,13 @@
       <pre class="lines">
 
 
-605
-606
-607
-608</pre>
+583
+584
+585
+586</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 605</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 583</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_allocate'>allocate</span><span class='lparen'>(</span><span class='id identifier rubyid_parts'>parts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_amounts'>amounts</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Allocation.html" title="Money::Allocation (class)">Allocation</a></span></span><span class='period'>.</span><span class='id identifier rubyid_generate'><span class='object_link'><a href="Money/Allocation.html#generate-class_method" title="Money::Allocation.generate (method)">generate</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_fractional'>fractional</span><span class='comma'>,</span> <span class='id identifier rubyid_parts'>parts</span><span class='comma'>,</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_infinite_precision'><span class='object_link'><a href="#default_infinite_precision-class_method" title="Money.default_infinite_precision (method)">default_infinite_precision</a></span></span><span class='rparen'>)</span>
@@ -3008,7 +3078,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the numerical value of the money</p>
+<p>Returns the numerical value of the money.</p>
 
 
   </div>
@@ -3019,7 +3089,7 @@
     <h4 class="tag_title">Examples:</h4>
     
       
-      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>1_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_amount'>amount</span>    <span class='comment'># =&gt; BigDecimal(&quot;1.00&quot;)</span></code></pre>
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>1_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_amount'>amount</span> <span class='comment'># =&gt; BigDecimal(&quot;1.00&quot;)</span></code></pre>
     
   </div>
 
@@ -3052,12 +3122,12 @@
       <pre class="lines">
 
 
-396
-397
-398</pre>
+399
+400
+401</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 396</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 399</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_amount'>amount</span>
   <span class='id identifier rubyid_to_d'>to_d</span>
@@ -3115,12 +3185,12 @@
       <pre class="lines">
 
 
-571
-572
-573</pre>
+549
+550
+551</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 571</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 549</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_as_ca_dollar'>as_ca_dollar</span>
   <span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -3178,12 +3248,12 @@
       <pre class="lines">
 
 
-583
-584
-585</pre>
+561
+562
+563</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 583</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 561</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_as_euro'>as_euro</span>
   <span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EUR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -3241,12 +3311,12 @@
       <pre class="lines">
 
 
-559
-560
-561</pre>
+537
+538
+539</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 559</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 537</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_as_us_dollar'>as_us_dollar</span>
   <span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -3337,156 +3407,6 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="currency_as_string-instance_method">
-  
-    #<strong>currency_as_string</strong>  &#x21d2; <tt>String</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Return string representation of currency object</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <div class="examples">
-    <h4 class="tag_title">Examples:</h4>
-    
-      
-      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='symbol'>:USD</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_currency_as_string'>currency_as_string</span> <span class='comment'>#=&gt; &quot;USD&quot;</span></code></pre>
-    
-  </div>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-406
-407
-408
-409</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 406</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_currency_as_string'>currency_as_string</span>
-  <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[DEPRECATION] `currency_as_string` is deprecated. Please use `.currency.to_s` instead.</span><span class='tstring_end'>&quot;</span></span>
-  <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="currency_as_string=-instance_method">
-  
-    #<strong>currency_as_string=</strong>(val)  &#x21d2; <tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Money::Currency</a></span></tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Set currency object using a string</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <div class="examples">
-    <h4 class="tag_title">Examples:</h4>
-    
-      
-      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_currency_as_string'><span class='object_link'><a href="#currency_as_string-instance_method" title="Money#currency_as_string (method)">currency_as_string</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money::Currency id: cad&gt;</span></code></pre>
-    
-  </div>
-<p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>val</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The currency string.</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Money::Currency</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-419
-420
-421
-422
-423</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 419</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_currency_as_string='>currency_as_string=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[DEPRECATION] `currency_as_string=` is deprecated - Money instances are immutable.</span><span class='tstring_end'>&quot;</span></span> \
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> Please use `with_currency` instead.</span><span class='tstring_end'>&quot;</span></span>
-  <span class='ivar'>@currency</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="Money/Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="decimal_mark-instance_method">
   
     #<strong>decimal_mark</strong>  &#x21d2; <tt>String</tt> 
@@ -3525,13 +3445,13 @@
       <pre class="lines">
 
 
-654
-655
-656
-657</pre>
+630
+631
+632
+633</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 654</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 630</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decimal_mark'>decimal_mark</span>
   <span class='lparen'>(</span><span class='id identifier rubyid_locale_backend'>locale_backend</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_locale_backend'>locale_backend</span><span class='period'>.</span><span class='id identifier rubyid_lookup'>lookup</span><span class='lparen'>(</span><span class='symbol'>:decimal_mark</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>||</span>
@@ -3545,7 +3465,7 @@
       <div class="method_details ">
   <h3 class="signature " id="dollars-instance_method">
   
-    #<strong>dollars</strong>  &#x21d2; <tt>BigDecimal</tt> 
+    #<strong>dollars</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -3554,45 +3474,18 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Assuming using a currency using dollars: Returns the value of the money in dollars, instead of in the fractional unit cents.</p>
-
-<p>Synonym of #amount</p>
+<p>DEPRECATED.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <h4 class="tag_title">Examples:</h4>
-    
-      
-      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>1_00</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_dollars'>dollars</span>   <span class='comment'># =&gt; BigDecimal(&quot;1.00&quot;)</span></code></pre>
-    
-  </div>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>BigDecimal</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
       <li><span class='object_link'><a href="#amount-instance_method" title="Money#amount (method)">#amount</a></span></li>
-    
-      <li><span class='object_link'><a href="#to_d-instance_method" title="Money#to_d (method)">#to_d</a></span></li>
-    
-      <li><span class='object_link'><a href="#cents-instance_method" title="Money#cents (method)">#cents</a></span></li>
     
   </ul>
 
@@ -3602,14 +3495,20 @@
       <pre class="lines">
 
 
-382
 383
-384</pre>
+384
+385
+386
+387
+388</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 382</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 383</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dollars'>dollars</span>
+  <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[DEPRECATION] `Money#dollars` is deprecated in favor of </span><span class='tstring_end'>&quot;</span></span> \
+       <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>`Money#amount`.</span><span class='tstring_end'>&quot;</span></span>
+
   <span class='id identifier rubyid_amount'>amount</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3632,16 +3531,16 @@
       <pre class="lines">
 
 
-659
-660
-661
-662
-663
-664
-665</pre>
+635
+636
+637
+638
+639
+640
+641</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 659</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 635</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dup_with'>dup_with</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
@@ -3775,17 +3674,17 @@
       <pre class="lines">
 
 
-542
-543
-544
-545
-546
-547
-548
-549</pre>
+520
+521
+522
+523
+524
+525
+526
+527</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 542</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 520</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='id identifier rubyid_other_currency'>other_currency</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_rounding_method'>rounding_method</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_other_currency'>other_currency</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="Money/Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_other_currency'>other_currency</span><span class='rparen'>)</span>
@@ -3859,12 +3758,12 @@
       <pre class="lines">
 
 
-637
-638
-639</pre>
+613
+614
+615</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 637</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 613</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_format'>format</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_rules'>rules</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Money/Formatter.html" title="Money::Formatter (class)">Formatter</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Money/Formatter.html#initialize-instance_method" title="Money::Formatter#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_rules'>rules</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -4013,12 +3912,12 @@
       <pre class="lines">
 
 
-432
-433
-434</pre>
+410
+411
+412</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 432</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 410</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_fractional'>fractional</span><span class='period'>.</span><span class='id identifier rubyid_hash'>hash</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_hash'>hash</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_hash'>hash</span>
@@ -4067,12 +3966,12 @@
       <pre class="lines">
 
 
-449
-450
-451</pre>
+427
+428
+429</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 449</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 427</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inspect'>inspect</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>#&lt;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> fractional:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fractional'>fractional</span><span class='embexpr_end'>}</span><span class='tstring_content'> currency:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_currency'>currency</span><span class='embexpr_end'>}</span><span class='tstring_content'>&gt;</span><span class='tstring_end'>&quot;</span></span>
@@ -4144,13 +4043,13 @@
       <pre class="lines">
 
 
-626
-627
-628
-629</pre>
+602
+603
+604
+605</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 626</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 602</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='id identifier rubyid_rounding_mode'>rounding_mode</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_rounding_mode'>rounding_mode</span><span class='comma'>,</span> <span class='id identifier rubyid_rounding_precision'>rounding_precision</span> <span class='op'>=</span> <span class='int'>0</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_rounded_amount'>rounded_amount</span> <span class='op'>=</span> <span class='id identifier rubyid_as_d'>as_d</span><span class='lparen'>(</span><span class='ivar'>@fractional</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='id identifier rubyid_rounding_precision'>rounding_precision</span><span class='comma'>,</span> <span class='id identifier rubyid_rounding_mode'>rounding_mode</span><span class='rparen'>)</span>
@@ -4294,12 +4193,12 @@
       <pre class="lines">
 
 
-442
-443
-444</pre>
+420
+421
+422</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 442</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 420</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_symbol'>symbol</span>
   <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>¤</span><span class='tstring_end'>&quot;</span></span>
@@ -4348,13 +4247,13 @@
       <pre class="lines">
 
 
-645
-646
-647
-648</pre>
+621
+622
+623
+624</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 645</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 621</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_thousands_separator'>thousands_separator</span>
   <span class='lparen'>(</span><span class='id identifier rubyid_locale_backend'>locale_backend</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_locale_backend'>locale_backend</span><span class='period'>.</span><span class='id identifier rubyid_lookup'>lookup</span><span class='lparen'>(</span><span class='symbol'>:thousands_separator</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>||</span>
@@ -4412,12 +4311,12 @@
       <pre class="lines">
 
 
-472
-473
-474</pre>
+450
+451
+452</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 472</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 450</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_d'>to_d</span>
   <span class='id identifier rubyid_as_d'>as_d</span><span class='lparen'>(</span><span class='id identifier rubyid_fractional'>fractional</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='id identifier rubyid_as_d'>as_d</span><span class='lparen'>(</span><span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_subunit_to_unit'>subunit_to_unit</span><span class='rparen'>)</span>
@@ -4474,12 +4373,12 @@
       <pre class="lines">
 
 
-495
-496
-497</pre>
+473
+474
+475</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 495</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 473</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_f'>to_f</span>
   <span class='id identifier rubyid_to_d'>to_d</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
@@ -4536,12 +4435,12 @@
       <pre class="lines">
 
 
-482
-483
-484</pre>
+460
+461
+462</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 482</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 460</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_i'>to_i</span>
   <span class='id identifier rubyid_to_d'>to_d</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
@@ -4590,17 +4489,17 @@
       <pre class="lines">
 
 
-517
-518
-519
-520
-521
-522
-523
-524</pre>
+495
+496
+497
+498
+499
+500
+501
+502</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 517</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 495</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_money'>to_money</span><span class='lparen'>(</span><span class='id identifier rubyid_given_currency'>given_currency</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_given_currency'>given_currency</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="Money/Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_given_currency'>given_currency</span><span class='rparen'>)</span>
@@ -4738,15 +4637,15 @@
       <pre class="lines">
 
 
-459
-460
-461
-462
-463
-464</pre>
+437
+438
+439
+440
+441
+442</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 459</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 437</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='id identifier rubyid_format'>format</span> <span class='label'>thousands_separator:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
@@ -4818,17 +4717,17 @@
       <pre class="lines">
 
 
-505
-506
-507
-508
-509
-510
-511
-512</pre>
+483
+484
+485
+486
+487
+488
+489
+490</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 505</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money.rb', line 483</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_with_currency'>with_currency</span><span class='lparen'>(</span><span class='id identifier rubyid_new_currency'>new_currency</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_currency'>new_currency</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Money/Currency.html" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'><span class='object_link'><a href="Money/Currency.html#wrap-class_method" title="Money::Currency.wrap (method)">wrap</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_new_currency'>new_currency</span><span class='rparen'>)</span>
@@ -4848,9 +4747,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 24 12:16:16 2025 by
+  Generated on Fri Dec  5 10:19:09 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.4.5).
+  0.9.37 (ruby-3.4.7).
 </div>
 
     </div>

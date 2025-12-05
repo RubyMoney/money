@@ -312,23 +312,6 @@
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>10000000</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>south_asian_number_formatting:</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='comment'>#=&gt; &quot;$1,00,000.00&quot;</span></code></pre>
     
       
-      <pre class="example code"><code><span class='comment'># Default is to not insert a space.
-</span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span> <span class='comment'>#=&gt; &quot;$1.00&quot;
-</span>
-<span class='comment'># Same thing.
-</span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>symbol_before_without_space:</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='comment'>#=&gt; &quot;$1.00&quot;
-</span>
-<span class='comment'># If set to false, will insert a space.
-</span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>symbol_before_without_space:</span> <span class='kw'>false</span><span class='rparen'>)</span> <span class='comment'>#=&gt; &quot;$ 1.00&quot;</span></code></pre>
-    
-      
-      <pre class="example code"><code><span class='comment'># Default is to insert a space.
-</span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>symbol_position:</span> <span class='symbol'>:after</span><span class='rparen'>)</span> <span class='comment'>#=&gt; &quot;1.00 $&quot;
-</span>
-<span class='comment'># If set to true, will not insert a space.
-</span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>symbol_position:</span> <span class='symbol'>:after</span><span class='comma'>,</span> <span class='label'>symbol_after_without_space:</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='comment'>#=&gt; &quot;1.00$&quot;</span></code></pre>
-    
-      
       <pre class="example code"><code><span class='comment'># If a string is specified, it&#39;s value is used.
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>decimal_mark:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>,</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; &quot;$1,00&quot;
 </span>
@@ -353,10 +336,6 @@
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>100000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FOO</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span> <span class='comment'>#=&gt; &quot;$1,000.00&quot;</span></code></pre>
     
       
-      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ca_dollar'><span class='object_link'><a href="Constructors.html#ca_dollar-instance_method" title="Money::Constructors#ca_dollar (method)">ca_dollar</a></span></span><span class='lparen'>(</span><span class='int'>570</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>html:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>with_currency:</span> <span class='kw'>true</span><span class='rparen'>)</span>
-<span class='comment'>#=&gt; &quot;$5.70 &lt;span class=\&quot;currency\&quot;&gt;CAD&lt;/span&gt;&quot;</span></code></pre>
-    
-      
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ca_dollar'><span class='object_link'><a href="Constructors.html#ca_dollar-instance_method" title="Money::Constructors#ca_dollar (method)">ca_dollar</a></span></span><span class='lparen'>(</span><span class='int'>570</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>html_wrap:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>with_currency:</span> <span class='kw'>true</span><span class='rparen'>)</span>
 <span class='comment'>#=&gt; &quot;&lt;span class=\&quot;money-currency-symbol\&quot;&gt;$&lt;/span&gt;&lt;span class=\&quot;money-whole\&quot;&gt;5&lt;/span&gt;&lt;span class=\&quot;money-decimal-mark\&quot;&gt;.&lt;/span&gt;&lt;span class=\&quot;money-decimal\&quot;&gt;70&lt;/span&gt; &lt;span class=\&quot;money-currency\&quot;&gt;CAD&lt;/span&gt;&quot;</span></code></pre>
     
@@ -379,14 +358,6 @@
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>10000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>disambiguate:</span> <span class='kw'>false</span><span class='rparen'>)</span>   <span class='comment'>#=&gt; &quot;$100.00&quot;
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>10000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>disambiguate:</span> <span class='kw'>true</span><span class='rparen'>)</span>    <span class='comment'>#=&gt; &quot;$100.00&quot;
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>10000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>disambiguate:</span> <span class='kw'>true</span><span class='rparen'>)</span>    <span class='comment'>#=&gt; &quot;C$100.00&quot;</span></code></pre>
-    
-      
-      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>10000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>html_wrap_symbol:</span> <span class='kw'>true</span><span class='rparen'>)</span>
-<span class='comment'>#=&gt; &quot;&lt;span class=\&quot;currency_symbol\&quot;&gt;$100.00&lt;/span&gt;</span></code></pre>
-    
-      
-      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>10000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>symbol_position:</span> <span class='symbol'>:before</span><span class='rparen'>)</span> <span class='comment'>#=&gt; &quot;$100.00&quot;
-</span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>10000</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>symbol_position:</span> <span class='symbol'>:after</span><span class='rparen'>)</span>  <span class='comment'>#=&gt; &quot;100.00 $&quot;</span></code></pre>
     
       
       <pre class="example code"><code><span class='comment'># With the following entry in the translation files:
@@ -535,38 +506,6 @@
         </li>
       
         <li>
-          <span class="name">:symbol_before_without_space</span>
-          <span class="type">(<tt>Boolean</tt>, <tt>nil</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>true</tt>
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Whether a space between the money symbol and the amount should be inserted when <code>:symbol_position</code> is <code>:before</code>. The default is true (meaning no space). Ignored if <code>:symbol</code> is false or <code>:symbol_position</code> is not <code>:before</code>.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">:symbol_after_without_space</span>
-          <span class="type">(<tt>Boolean</tt>, <tt>nil</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>false</tt>
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Whether a space between the amount and the money symbol should be inserted when <code>:symbol_position</code> is <code>:after</code>. The default is false (meaning space). Ignored if <code>:symbol</code> is false or <code>:symbol_position</code> is not <code>:after</code>.</p>
-</div>
-          
-        </li>
-      
-        <li>
           <span class="name">:decimal_mark</span>
           <span class="type">(<tt>Boolean</tt>, <tt>String</tt>, <tt>nil</tt>)</span>
           <span class="default">
@@ -594,22 +533,6 @@
           
             &mdash; <div class='inline'>
 <p>Whether the currency should be delimited by the specified character or ‘,’</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">:html</span>
-          <span class="type">(<tt>Boolean</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>false</tt>
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Whether the currency should be HTML-formatted. Only useful in combination with <code>:with_currency</code>.</p>
 </div>
           
         </li>
@@ -674,38 +597,6 @@
           
             &mdash; <div class='inline'>
 <p>Prevents the result from being ambiguous due to equal symbols for different currencies. Uses the ‘disambiguate_symbol`.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">:html_wrap_symbol</span>
-          <span class="type">(<tt>Boolean</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>false</tt>
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Wraps the currency symbol in a html &lt;span&gt; tag.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">:symbol_position</span>
-          <span class="type">(<tt>Symbol</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>:before</tt>
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>‘:before` if the currency symbol goes before the amount, `:after` if it goes after.</p>
 </div>
           
         </li>
@@ -791,14 +682,14 @@
       <pre class="lines">
 
 
-234
-235
-236
-237
-238</pre>
+186
+187
+188
+189
+190</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 234</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 186</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_money'>money</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_rules'>rules</span><span class='rparen'>)</span>
   <span class='ivar'>@money</span> <span class='op'>=</span> <span class='id identifier rubyid_money'>money</span>
@@ -836,12 +727,12 @@
       <pre class="lines">
 
 
-255
-256
-257</pre>
+207
+208
+209</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 255</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 207</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decimal_mark'>decimal_mark</span>
   <span class='id identifier rubyid_lookup'>lookup</span> <span class='symbol'>:decimal_mark</span>
@@ -870,16 +761,16 @@
       <pre class="lines">
 
 
-247
-248
-249
-250
-251
-252
-253</pre>
+199
+200
+201
+202
+203
+204
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 247</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 199</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_thousands_separator'>thousands_separator</span>
   <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='id identifier rubyid_lookup'>lookup</span> <span class='symbol'>:thousands_separator</span>
@@ -908,15 +799,15 @@
       <pre class="lines">
 
 
-240
-241
-242
-243
-244
-245</pre>
+192
+193
+194
+195
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 240</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 192</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_free_text'>free_text</span> <span class='kw'>if</span> <span class='id identifier rubyid_show_free_text?'>show_free_text?</span>
@@ -934,9 +825,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 24 12:16:16 2025 by
+  Generated on Fri Dec  5 10:19:10 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.4.5).
+  0.9.37 (ruby-3.4.7).
 </div>
 
     </div>

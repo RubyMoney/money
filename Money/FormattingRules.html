@@ -226,9 +226,7 @@
 12
 13
 14
-15
-16
-17</pre>
+15</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/money/money/formatting_rules.rb', line 5</span>
@@ -241,10 +239,8 @@
 
   <span class='ivar'>@rules</span> <span class='op'>=</span> <span class='id identifier rubyid_default_formatting_rules'>default_formatting_rules</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='ivar'>@rules</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='ivar'>@rules</span><span class='lbracket'>[</span><span class='symbol'>:ignore_defaults</span><span class='rbracket'>]</span>
   <span class='ivar'>@rules</span> <span class='op'>=</span> <span class='id identifier rubyid_translate_formatting_rules'>translate_formatting_rules</span><span class='lparen'>(</span><span class='ivar'>@rules</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@rules</span><span class='lbracket'>[</span><span class='symbol'>:translate</span><span class='rbracket'>]</span>
-  <span class='ivar'>@rules</span><span class='lbracket'>[</span><span class='symbol'>:format</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_determine_format_from_formatting_rules'>determine_format_from_formatting_rules</span><span class='lparen'>(</span><span class='ivar'>@rules</span><span class='rparen'>)</span>
+  <span class='ivar'>@rules</span><span class='lbracket'>[</span><span class='symbol'>:format</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_determine_format'>determine_format</span>
   <span class='ivar'>@rules</span><span class='lbracket'>[</span><span class='symbol'>:delimiter_pattern</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_delimiter_pattern_rule'>delimiter_pattern_rule</span><span class='lparen'>(</span><span class='ivar'>@rules</span><span class='rparen'>)</span>
-
-  <span class='id identifier rubyid_warn_about_deprecated_rules'>warn_about_deprecated_rules</span><span class='lparen'>(</span><span class='ivar'>@rules</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -273,12 +269,12 @@
       <pre class="lines">
 
 
-19
-20
-21</pre>
+17
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money/formatting_rules.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatting_rules.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='ivar'>@rules</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span>
@@ -325,12 +321,12 @@
       <pre class="lines">
 
 
-23
-24
-25</pre>
+21
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/money/formatting_rules.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatting_rules.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='ivar'>@rules</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='id identifier rubyid_key'>key</span>
@@ -345,9 +341,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 24 12:16:16 2025 by
+  Generated on Fri Dec  5 10:19:10 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.4.5).
+  0.9.37 (ruby-3.4.7).
 </div>
 
     </div>
