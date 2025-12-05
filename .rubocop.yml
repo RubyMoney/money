@@ -1,0 +1,84 @@
+inherit_from: .rubocop_todo.yml
+
+plugins:
+  - rubocop-rake
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+
+# Gemspec
+
+Gemspec/OrderedDependencies:
+  # Sort the gemspec dependencies by logical order.
+  Enabled: false
+
+# Layout
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/SpaceInsideArrayPercentLiteral:
+  # Sometimes spacing is used to align amounts.
+  Enabled: false
+
+Layout/SpaceInsideHashLiteralBraces:
+  # Prefer `{a: 1}` to `{ a: 1 }`
+  EnforcedStyle: no_space
+
+# Lint
+
+Lint/BinaryOperatorWithIdenticalOperands:
+  # In specs we want to test instances of Money are really equal.
+  Exclude:
+    - 'spec/**/*'
+
+Lint/EmptyClass:
+  # Allow defining empty classes, since it can be used as a base.
+  Enabled: false
+
+# Style
+
+Style/ClassAndModuleChildren:
+  # Sometimes the nested is better than the compact.
+  Enabled: false
+
+Style/Documentation:
+  # Not all modules need a comment.
+  Enabled: false
+
+Style/GuardClause:
+  # Not enforced since guard clauses can cause long lines as well.
+  Enabled: false
+
+Style/IfUnlessModifier:
+  # Not enforced since having an if on its own line can help shorten a line.
+  Enabled: false
+
+Style/NumericPredicate:
+  # Sometimes we prefer testing `== 0` over `.zero?`.
+  Enabled: false
+
+Style/NumericLiterals:
+  # TODO
+  Enabled: false
+
+Style/OptionalBooleanParameter:
+  # We also need backwards compatiblity so it doesn’t always make sense to
+  # disallow arguments with a boolean default value.
+  Enabled: false
+
+Style/PreferredHashMethods:
+  # Money::FormattingRules has `#has_key?` but not `#key?`
+  Enabled: false
+
+Style/SymbolArray:
+  # Prefer [:a, :b] to %i[a b]
+  EnforcedStyle: brackets
+
+Style/YodaCondition:
+  # Sometimes in specs it makes more sense to write
+  #   2 >= Money.new(2, 'USD')
+  # over
+  #   Money.new(2, 'USD') <= 2
+  Enabled: false
