@@ -2,16 +2,15 @@ name: Ruby
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 permissions:
   contents: read
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,7 +23,8 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '21'
-    - uses: actions/checkout@v6
+    - name: Checkout repository
+      uses: actions/checkout@v6
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
