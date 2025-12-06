@@ -13,7 +13,7 @@ YARD::Rake::YardocTask.new do |t|
   t.options << "--title" << gemspec.description
   t.options << "--files" << "CHANGELOG.md,LICENSE"
   t.options << "--markup" << "markdown"
-  t.options << "--markup-provider" << "redcarpet"
+  t.options << "--markup-provider" << "redcarpet" unless RUBY_PLATFORM == "java"
 end
 
 require "rspec/core/rake_task"
