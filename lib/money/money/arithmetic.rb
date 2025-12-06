@@ -113,30 +113,28 @@ class Money
       fractional < 0
     end
 
-    # @method +(other)
-    # Returns a new Money object containing the sum of the two operands' monetary
-    # values. If +other_money+ has a different currency then its monetary value
-    # is automatically exchanged to this object's currency using +exchange_to+.
+    # @!method +(other)
+    #   Returns a new Money object containing the sum of the two operands' monetary
+    #   values. If +other_money+ has a different currency then its monetary value
+    #   is automatically exchanged to this object's currency using +exchange_to+.
     #
-    # @param [Money] other Other +Money+ object to add.
+    #   @param [Money] other Other +Money+ object to add.
+    #   @return [Money]
     #
-    # @return [Money]
+    #   @example
+    #     Money.new(100) + Money.new(100) #=> #<Money @fractional=200>
+
+    # @!method -(other)
+    #   Returns a new Money object containing the difference between the two
+    #   operands' monetary values. If +other_money+ has a different currency then
+    #   its monetary value is automatically exchanged to this object's currency
+    #   using +exchange_to+.
     #
-    # @example
-    #   Money.new(100) + Money.new(100) #=> #<Money @fractional=200>
+    #   @param [Money] other Other +Money+ object to subtract.
+    #   @return [Money]
     #
-    # @method -(other)
-    # Returns a new Money object containing the difference between the two
-    # operands' monetary values. If +other_money+ has a different currency then
-    # its monetary value is automatically exchanged to this object's currency
-    # using +exchange_to+.
-    #
-    # @param [Money] other Other +Money+ object to subtract.
-    #
-    # @return [Money]
-    #
-    # @example
-    #   Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
+    #   @example
+    #     Money.new(100) - Money.new(99) #=> #<Money @fractional=1>
     [:+, :-].each do |op|
       non_zero_message = lambda do |value|
         "Can't add or subtract a non-zero #{value.class.name} value"

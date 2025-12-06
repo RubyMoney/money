@@ -32,7 +32,7 @@ class Money
     #   Money.us_dollar(85).format(with_currency: true)  #=> "$0.85 USD"
     #
     # @option rules [Boolean] :rounded_infinite_precision (false) Whether the
-    #  amount of money should be rounded when using {infinite_precision}
+    #  amount of money should be rounded when using {default_infinite_precision}
     #
     # @example
     #   Money.us_dollar(100.1).format #=> "$1.001"
