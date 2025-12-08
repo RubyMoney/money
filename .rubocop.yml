@@ -10,7 +10,7 @@ AllCops:
 # Gemspec
 
 Gemspec/OrderedDependencies:
-  # Sort the gemspec dependencies by logical order.
+  # Sort the gemspec dependencies by logical order instead of alphabetical.
   Enabled: false
 
 # Layout
@@ -30,7 +30,7 @@ Lint/BinaryOperatorWithIdenticalOperands:
     - 'spec/**/*'
 
 Lint/EmptyClass:
-  # Allow defining empty classes, since it can be used as a base.
+  # Allow defining empty classes, since it can be used as a base class.
   Enabled: false
 
 # Style
@@ -56,7 +56,7 @@ Style/NumericPredicate:
   Enabled: false
 
 Style/NumericLiterals:
-  # TODO
+  # Some numbers in specs are tricky to represent with regular spacing.
   Enabled: false
 
 Style/OptionalBooleanParameter:
