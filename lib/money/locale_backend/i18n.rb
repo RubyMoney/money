@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'money/locale_backend/base'
 
 class Money
@@ -6,7 +8,8 @@ class Money
       KEY_MAP = {
         thousands_separator: :delimiter,
         decimal_mark: :separator,
-        symbol: :unit
+        symbol: :unit,
+        format: :format,
       }.freeze
 
       def initialize

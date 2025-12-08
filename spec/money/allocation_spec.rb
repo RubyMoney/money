@@ -1,8 +1,8 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
-describe Money::Allocation do
-   describe 'given number as argument' do
-     it 'raises an error when invalid argument is given' do
+RSpec.describe Money::Allocation do
+  context 'given number as argument' do
+    it 'raises an error when invalid argument is given' do
       expect { described_class.generate(100, 0) }.to raise_error(ArgumentError)
       expect { described_class.generate(100, -1) }.to raise_error(ArgumentError)
     end
@@ -150,6 +150,40 @@ describe Money::Allocation do
       result = described_class.generate(amount, allocations)
       expect(result.reduce(&:+)).to eq(amount)
       expect(result).to eq([-61566, -61565, -61565, -61565, -61565, -61565, -61565, -60953, -52091, -52091, -52091, -52091])
+    end
+
+    context 'when specified precision' do
+      let(:amount) { 246.4 }
+      let(:allocations) do
+        [
+          81.29, 81.29, 81.29, 81.29,
+          234.8, 234.8, 234.8, 234.8,
+          90.36, 90.36, 90.36, 90.36,
+          90.36, 90.36, 90.36, 90.36,
+          90.36, 90.36, 90.36, 90.36,
+          90.36, 90.36, 90.36, 90.36,
+          90.36, 90.36, 90.36, 90.36,
+          90.36
+        ]
+      end
+
+      it 'allocates with required precision' do
+        result = described_class.generate(amount, allocations, 16)
+        expect(result.reduce(&:+)).to eq(amount)
+
+        expected = %w[
+          6.3347130857200688 6.3347130857200689 6.3347130857200688 6.3347130857200688
+          18.2973383260803562 18.2973383260803563 18.2973383260803563 18.2973383260803563
+          7.0415140167999191 7.041514016799919 7.0415140167999191 7.041514016799919
+          7.0415140167999191 7.041514016799919 7.0415140167999191 7.041514016799919
+          7.0415140167999191 7.041514016799919 7.0415140167999191 7.041514016799919
+          7.041514016799919  7.041514016799919 7.041514016799919  7.041514016799919
+          7.041514016799919  7.041514016799919 7.041514016799919  7.041514016799919
+          7.041514016799919
+        ].map { |element| BigDecimal(element) }
+
+        expect(result).to eq(expected)
+      end
     end
   end
 end

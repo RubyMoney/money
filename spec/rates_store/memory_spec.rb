@@ -1,4 +1,6 @@
-describe Money::RatesStore::Memory do
+# frozen_string_literal: true
+
+RSpec.describe Money::RatesStore::Memory do
   let(:subject) { described_class.new }
 
   describe '#add_rate and #get_rate' do

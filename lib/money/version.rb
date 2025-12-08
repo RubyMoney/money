@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Money
-  VERSION = '6.19.0'
+  VERSION = '7.0.0'.freeze
 end

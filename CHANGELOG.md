@@ -1,8 +1,56 @@
 # Changelog
 
-## Upcoming 7.0.0.alpha
+## Unreleased
 
+## 7.0.0
+
+- **Breaking change**: Require Ruby >= 3.1 and i18n ~> 1.9
+- **Breaking change**: Remove deprecated formatting rules:
+  - `:html`
+  - `:html_wrap_symbol`
+  - `:symbol_position`
+  - `:symbol_before_without_space`
+  - `:symbol_after_without_space`
+- **Breaking change**: Remove deprecated methods:
+  - `Money.infinite_precision`.
+  - `Money.infinite_precision=`.
+  - `Money#currency_as_string`.
+  - `Money#currency_as_string=`.
+  - `Money.use_i18n` and `Money.use_i18n=` (use `Money.locale_backend = :i18n` instead).
+- **Breaking change**: Remove legacy locale backend. The default locale backend is now `:currency` which uses currency definitions for formatting.
+- **Breaking change**: Default currency is now `nil` instead of `USD`. If you want to keep the previous behavior, set `Money.default_currency = Money::Currency.new("USD")` in your initializer. Initializing a Money object will raise a `Currency::NoCurrency` if no currency is set.
+- **Breaking change**: The default rounding mode has changed from `BigDecimal::ROUND_HALF_EVEN` to `BigDecimal::ROUND_HALF_UP`. Set it explicitly using `Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN` to keep the previous behavior.
+- **Potential breaking change**: Fix RSD (Serbian Dinar) formatting to be like `12.345,42 RSD`
 - **Potential breaking change**: Fix USDC decimals places from 2 to 6
+- **Potential breaking change**: Fix MGA (Malagasy Ariary) to be a zero-decimal currency (changing subunit_to_unit from 5 to 1)
+- **Potential breaking change**: Remove special handling for Japanese language only
+- **Potential breaking change**: Adjust formatting rules to use i18n translations for `:format`
+- **Potential breaking change**: Not allow divide by zero
+- Updated Armenian Dram sign and HTML entity
+- Updated the Turkmen Manat symbol and HTML entity and added disambiguation symbol for TMM
+- Expose Money::VERSION
+- Fix typo in ILS currency
+- Add Zimbabwe Gold (ZWG) currency
+- Update thousands_separator for CHF
+- Add Caribbean Guilder (XCG) as replacement for Netherlands Antillean Gulden (ANG)
+- Add `Money.strict_eql_compare = true` so that comparing zero amounts with different currencies using `Money#eql?` returns `false`
+    ```rb
+    Money.new(0, "USD").eql?(Money.new(0, "EUR")) #=> true
+    #> [DEPRECATION] Comparing 0 USD with 0 EUR using `#eql?` will return false…
+
+    Money.strict_eql_compare = true
+    Money.new(0, "USD").eql?(Money.new(0, "EUR")) #=> false
+    ```
+- Add `Money#to_nearest_cash_value` to return a rounded Money instance to the smallest denomination
+- Deprecate `Money#round_to_nearest_cash_value` in favor of calling `to_nearest_cash_value.fractional`
+- Deprecate `Money#dollars` in favor of `Money#amount`.
+- Deprecate `Money.from_dollars` in favor of `Money.from_amount`.
+- Add `Money::Currency#cents_based?` to check if currency is cents-based
+- Add ability to nest `Money.with_rounding_mode` blocks
+- Allow `nil` to be used as a default_currency
+- Improve performance of `find_by_iso_numeric` method
+- Add ability to nest `Money.with_bank` blocks
+- Refactor `Money::Allocation.generate` to support configurable per-split precision by accepting an Integer as a second argument, fixing allocation failures with large arrays and infinite decimal expansions.
 
 ## 6.19.0
 
@@ -213,7 +261,7 @@
    return `nil` as `Comparable#==` will not rescue exceptions in the next release.
  - Fix `Currency` specs for `#exponent` and `#decimal_places` not making assertions.
  - Fix a couple of Ruby warnings found in specs.
- - Fix `Money#-`,`Money#+` arithmetics for Ruby 2.3+ : check for zero value without using eql? with a Fixnum. (#577)
+ - Fix `Money#-`,`Money#+` arithmetic for Ruby 2.3+ : check for zero value without using eql? with a Fixnum. (#577)
  - Use `Money#decimal_mark` when formatting with `rounded_infinite_precision` rule
    set to `true`.
  - Replaced meta-defined `thousands_separator` and `decimal_mark` methods with regular methods. (#579)
@@ -260,7 +308,7 @@
  - Fix formatting of NGN - show symbol before amount
  - Switch default and alternate symbols for RUB currency
  - Fix symbol for TRY currency
- - Add `Money.default_formatting_rules` hash, meant to define default rules for everytime `Money#format` is called. They can be overwritten if provided on method call
+ - Add `Money.default_formatting_rules` hash, meant to define default rules for every time `Money#format` is called. They can be overwritten if provided on method call
  - Add support for the new official symbol for Russian Ruble (RUB) — «₽»
 
 ## 6.2.1
@@ -429,7 +477,7 @@ Features
 
 Bugfixes
 --------
-- EEK currency is no longer used, kept for BC ([#issue/110](http://github.com/RubyMoney/money/issues/110))
+- EEK currency is no longer used, kept for BC ([#issue/110](https://github.com/RubyMoney/money/issues/110))
 - Lithuanian Litas symbol position fixed (laurynas)
 - Fixed README typos (phlipper)
 - Fixed README typos (pwim)
@@ -555,11 +603,11 @@ Bugfixes
 --------
  - Updated Money#to_s to respect :separator and :subunit_to_unit.
  - Fixed Money#format for :subunit_to_unit != 100.
-   ([#issue/37](http://github.com/RubyMoney/money/issue/37))
+   ([#issue/37](https://github.com/RubyMoney/money/issues/37))
  - Fixed String#to_money for :subunit_to_unit != 100.
-   ([#issue/36](http://github.com/RubyMoney/money/issue/36))
+   ([#issue/36](https://github.com/RubyMoney/money/issues/36))
  - Removed duplicate currencies.
-   ([#issue/38](http://github.com/RubyMoney/money/issue/38))
+   ([#issue/38](https://github.com/RubyMoney/money/issues/38))
  - Fixed issue related to JRuby returning 2 for Math.log10(1000).floor instead
    of correctly returning 3.
 
@@ -570,22 +618,22 @@ Features
 --------
  - Added support for creating objects with the main monetary unit instead of
    cents.
-   ([#issue/25](http://github.com/RubyMoney/money/issues/25))
+   ([#issue/25](https://github.com/RubyMoney/money/issues/25))
  - Deprecated `Money#format` with separate params instead of Hash. Deprecation
    target set to Money 3.5.0.
-   ([#issue/31](http://github.com/RubyMoney/money/issues/31))
+   ([#issue/31](https://github.com/RubyMoney/money/issues/31))
  - Deprecated `Money#new(0, currency: "EUR")` in favor of
    `Money#new(0, "EUR")`. Deprecation target set to Money 3.5.0.
-   ([#issue/31](http://github.com/RubyMoney/money/issues/31))
+   ([#issue/31](https://github.com/RubyMoney/money/issues/31))
  - Throw ArgumentError when trying to multiply two Money objects together.
-   ([#issue/29](http://github.com/RubyMoney/money/issues/29))
+   ([#issue/29](https://github.com/RubyMoney/money/issues/29))
  - Update Money#parse to use :subunit_to_unit
-   ([#issue/30](http://github.com/RubyMoney/money/issues/30))
+   ([#issue/30](https://github.com/RubyMoney/money/issues/30))
 
 Bugfixes
 --------
  - Downgraded required_rubygems_version to >= 1.3.6.
-   ([#issue/26](http://github.com/RubyMoney/money/issues/26))
+   ([#issue/26](https://github.com/RubyMoney/money/issues/26))
  - Use BigDecimal when floating point calculations are needed.
  - Ruby 1.9.2 compatibility enhancements.
 
@@ -595,32 +643,32 @@ Money 3.1.0
 Features
 --------
  - Implemented `Money::Bank::Base`.
-   ([#issue/14](http://github.com/RubyMoney/money/issues/14))
+   ([#issue/14](https://github.com/RubyMoney/money/issues/14))
  - Added `Money::Bank::Base#exchange_with`.
  - Deprecated `Money::Bank::Base#exchange`. Deprecation target set to Money
    3.2.0.
- - Implented `Money::Bank::VariableExchange`
+ - Implemented `Money::Bank::VariableExchange`
  - Deprecated `Money::VariableExchangeBank`. Deprecation target set to Money
    3.2.0.
  - Deprecate `Money::SYMBOLS`, `Money::SEPARATORS` and `Money::DELIMITERS`.
    Deprecation target set to Money 3.2.0.
-   ([#issue/16](http://github.com/RubyMoney/money/issues/16))
+   ([#issue/16](https://github.com/RubyMoney/money/issues/16))
  - Implemented `#has` for `Money` and `Money::Currency`.
  - Refactored test suite to conform to RSpec conventions.
- - Moved project from [FooBarWidget](http://github.com/FooBarWidget) to
-   [RubyMoney](http://github.com/RubyMoney)
+ - Moved project from [FooBarWidget](https://github.com/FooBarWidget) to
+   [RubyMoney](https://github.com/RubyMoney)
  - Added Simone Carletti to list of authors.
  - Moved `@rounding_method` from `Money::Bank::VariableExchange` to
    `Money::Bank::Base`.
-   ([#issue/18](http://github.com/RubyMoney/money/issues/18))
+   ([#issue/18](https://github.com/RubyMoney/money/issues/18))
  - Added `#setup` to `Money::Bank::Base`. Called from `#initialize`.
-   ([#issue/19](http://github.com/RubyMoney/money/issues/19))
- - Added [google_currency](http://github.com/RubyMoney/google_currency) to list
+   ([#issue/19](https://github.com/RubyMoney/money/issues/19))
+ - Added [google_currency](https://github.com/RubyMoney/google_currency) to list
    of Currency Exchange Implementations.
  - Added `#export_rates` to `Money::Bank::VariableExchange`.
-   ([#issue/21](http://github.com/RubyMoney/money/issues/21))
+   ([#issue/21](https://github.com/RubyMoney/money/issues/21))
  - Added `#import_rates` to `Money::Bank::VariableExchange`.
-   ([#issue/21](http://github.com/RubyMoney/money/issues/21))
+   ([#issue/21](https://github.com/RubyMoney/money/issues/21))
  - Removed dependency on Jeweler.
  - Replaced usage of hanna with yardoc.
  - Rewrote/reformatted all documentation.
@@ -628,30 +676,30 @@ Features
 Bugfixes
 --------
  - Fixed incorrect URLs in documentation.
-   ([#issue/17](http://github.com/RubyMoney/money/issues/17))
+   ([#issue/17](https://github.com/RubyMoney/money/issues/17))
  - Updated `:subunit_to_unit` for HKD from 10 to 100.
-   ([#issue/20](http://github.com/RubyMoney/money/issues/20))
+   ([#issue/20](https://github.com/RubyMoney/money/issues/20))
  - Updated Ghanaian Cedi to use correct ISO Code, GHS.
-   ([#issue/22](http://github.com/RubyMoney/money/issues/22))
+   ([#issue/22](https://github.com/RubyMoney/money/issues/22))
  - Make `default` rake task call `spec`.
-   ([#issue/23](http://github.com/RubyMoney/money/issues/23))
+   ([#issue/23](https://github.com/RubyMoney/money/issues/23))
 
 Money 3.1.0.pre3
 ================
 
 Features
 --------
- - Added [google_currency](http://github.com/RubyMoney/google_currency) to list
+ - Added [google_currency](https://github.com/RubyMoney/google_currency) to list
    of Currency Exchange Implementations.
  - Added `#export_rates` to `Money::Bank::VariableExchange`.
-   ([#issue/21](http://github.com/RubyMoney/money/issues/21))
+   ([#issue/21](https://github.com/RubyMoney/money/issues/21))
  - Added `#import_rates` to `Money::Bank::VariableExchange`.
-   ([#issue/21](http://github.com/RubyMoney/money/issues/21))
+   ([#issue/21](https://github.com/RubyMoney/money/issues/21))
 
 Bugfixes
 --------
  - Updated `:subunit_to_unit` for HKD from 10 to 100.
-   ([#issue/20](http://github.com/RubyMoney/money/issues/20))
+   ([#issue/20](https://github.com/RubyMoney/money/issues/20))
 
 Money 3.1.0.pre2
 ================
@@ -660,14 +708,14 @@ Features
 --------
  - Moved `@rounding_method` from `Money::Bank::VariableExchange` to
    `Money::Bank::Base`.
-   ([#issue/18](http://github.com/RubyMoney/money/issues/18))
+   ([#issue/18](https://github.com/RubyMoney/money/issues/18))
  - Added `#setup` to `Money::Bank::Base`. Called from `#initialize`.
-   ([#issue/19](http://github.com/RubyMoney/money/issues/19))
+   ([#issue/19](https://github.com/RubyMoney/money/issues/19))
 
 Bugfixes
 --------
  - Fixed incorrect URLs in documentation.
-   ([#issue/17](http://github.com/RubyMoney/money/issues/17))
+   ([#issue/17](https://github.com/RubyMoney/money/issues/17))
 
 Money 3.1.0.pre1
 ================
@@ -675,26 +723,26 @@ Money 3.1.0.pre1
 Features
 --------
  - Implemented `Money::Bank::Base`.
-   ([#issue/14](http://github.com/RubyMoney/money/issues/14))
+   ([#issue/14](https://github.com/RubyMoney/money/issues/14))
  - Added `Money::Bank::Base#exchange_with`.
  - Deprecated `Money::Bank::Base#exchange`. Deprecation target set to Money
    3.2.0.
- - Implented `Money::Bank::VariableExchange`
+ - Implemented `Money::Bank::VariableExchange`
  - Deprecated `Money::VariableExchangeBank`. Deprecation target set to Money
    3.2.0.
  - Deprecate `Money::SYMBOLS`, `Money::SEPARATORS` and `Money::DELIMITERS`.
    Deprecation target set to Money 3.2.0.
-   ([#issue/16](http://github.com/RubyMoney/money/issues/16))
+   ([#issue/16](https://github.com/RubyMoney/money/issues/16))
  - Implemented `#has` for `Money` and `Money::Currency`.
  - Refactored test suite to conform to RSpec conventions.
- - Moved project from [FooBarWidget](http://github.com/FooBarWidget) to
-   [RubyMoney](http://github.com/RubyMoney)
+ - Moved project from [FooBarWidget](https://github.com/FooBarWidget) to
+   [RubyMoney](https://github.com/RubyMoney)
  - Added Simone Carletti to list of authors.
 
 Bugfixes
 --------
  - Fixed rounding error in `Numeric#to_money`.
-   ([#issue/15](http://github.com/RubyMoney/money/issues/15))
+   ([#issue/15](https://github.com/RubyMoney/money/issues/15))
 
 Money 3.0.5
 ===========
@@ -705,11 +753,11 @@ Features
  - Added ability to pass a block to `VariableExchangeBank#new` or `#exchange`,
    specifying a custom truncation method
  - Added optional `currency` argument to` Numeric#to_money`.
-   ([#issue/11](http://github.com/RubyMoney/money/issues/11))
+   ([#issue/11](https://github.com/RubyMoney/money/issues/11))
  - Added optional `currency` argument to `String#to_money`.
-   ([#issue/11](http://github.com/RubyMoney/money/issues/11))
+   ([#issue/11](https://github.com/RubyMoney/money/issues/11))
  - Use '¤' as the default currency symbol.
-   ([#issue/10](http://github.com/RubyMoney/money/issues/10))
+   ([#issue/10](https://github.com/RubyMoney/money/issues/10))
 
 Bugfixes
 --------
@@ -718,7 +766,7 @@ Bugfixes
  - Fixed issue when exchanging currencies with different `:subunit_to_unit`
    values.
  - `Numeric#to_money` now respects `:subunit_to_unit`.
-   ([#issue/12](http://github.com/RubyMoney/money/issues/12))
+   ([#issue/12](https://github.com/RubyMoney/money/issues/12))
 
 Money 3.0.4
 ===========
@@ -765,7 +813,7 @@ Features
 --------
  - Version Bump due to compatibility changes with ActiveRecord. See
    conversation
-   [here](http://github.com/RubyMoney/money/issues#issue/4/comment/224880)
+   [here](https://github.com/RubyMoney/money/issues/4#issuecomment-224880)
    for more information.
 
 Money 2.3.0

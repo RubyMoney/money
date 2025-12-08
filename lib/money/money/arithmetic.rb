@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Money
   module Arithmetic
     # Wrapper for coerced numeric values to distinguish
@@ -20,24 +22,32 @@ class Money
     end
 
     # Checks whether two Money objects have the same currency and the same
-    # amount. If Money objects have a different currency it will only be true
-    # if the amounts are both zero. Checks against objects that are not Money or
-    # a subclass will always return false.
+    # amount. Checks against objects that are not Money or a subclass will
+    # always return false.
     #
     # @param [Money] other_money Value to compare with.
     #
     # @return [Boolean]
     #
     # @example
-    #   Money.new(100).eql?(Money.new(101))                #=> false
-    #   Money.new(100).eql?(Money.new(100))                #=> true
-    #   Money.new(100, "USD").eql?(Money.new(100, "GBP"))  #=> false
-    #   Money.new(0, "USD").eql?(Money.new(0, "EUR"))      #=> true
-    #   Money.new(100).eql?("1.00")                        #=> false
+    #   Money.new(1_00).eql?(Money.new(1_00))               #=> true
+    #   Money.new(1_00).eql?(Money.new(1_01))               #=> false
+    #   Money.new(1_00, "USD").eql?(Money.new(1_00, "GBP")) #=> false
+    #   Money.new(0, "USD").eql?(Money.new(0, "EUR"))       #=> false
+    #   Money.new(1_00).eql?("1.00")                        #=> false
+    #
+    # @see Money.strict_eql_compare
     def eql?(other_money)
       if other_money.is_a?(Money)
-        (fractional == other_money.fractional && currency == other_money.currency) ||
-          (fractional == 0 && other_money.fractional == 0)
+        if !Money.strict_eql_compare && fractional == 0 && other_money.fractional == 0
+          warn "[DEPRECATION] Comparing 0 #{currency} with 0 " \
+                "#{other_money.currency} using `#eql?` will return false in " \
+                "future versions of Money. Opt-in to the new behavior by " \
+                "setting `Money.strict_eql_compare = true`."
+          return true
+        end
+
+        fractional == other_money.fractional && currency == other_money.currency
       else
         false
       end
@@ -190,10 +200,15 @@ class Money
     #
     def /(value)
       if value.is_a?(self.class)
-        fractional / as_d(value.exchange_to(currency).fractional).to_f
+        exchanged = value.exchange_to(currency)
+        raise ZeroDivisionError, "divided by Money(0)" if exchanged.zero?
+        fractional / as_d(exchanged.fractional).to_f
       else
         raise TypeError, 'Can not divide by Money' if value.is_a?(CoercedNumeric)
-        dup_with(fractional: fractional / as_d(value))
+
+        value = as_d(value)
+        raise ZeroDivisionError, "divided by zero" if value.zero?
+        dup_with(fractional: fractional / value)
       end
     end
 
@@ -230,13 +245,16 @@ class Money
 
     def divmod_money(val)
       cents = val.exchange_to(currency).cents
+      raise ZeroDivisionError, "divided by Money(0)" if cents == 0
       quotient, remainder = fractional.divmod(cents)
       [quotient, dup_with(fractional: remainder)]
     end
     private :divmod_money
 
     def divmod_other(val)
-      quotient, remainder = fractional.divmod(as_d(val))
+      val = as_d(val)
+      raise ZeroDivisionError, "divided by zero" if val.zero?
+      quotient, remainder = fractional.divmod(val)
       [dup_with(fractional: quotient), dup_with(fractional: remainder)]
     end
     private :divmod_other

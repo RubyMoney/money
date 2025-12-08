@@ -1,6 +1,6 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
-describe Money::Currency do
+RSpec.describe Money::Currency do
   FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 1000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
 
   def register_foo(opts={})
@@ -18,6 +18,12 @@ describe Money::Currency do
   describe "UnknownCurrency" do
     it "is a subclass of ArgumentError" do
       expect(described_class::UnknownCurrency < ArgumentError).to be true
+    end
+  end
+
+  describe "NoCurrency" do
+    it "is a subclass of ArgumentError" do
+      expect(described_class::NoCurrency < ArgumentError).to be true
     end
   end
 
@@ -62,6 +68,57 @@ describe Money::Currency do
     it "returns nil when given empty input" do
       expect(described_class.find_by_iso_numeric('')).to be_nil
       expect(described_class.find_by_iso_numeric(nil)).to be_nil
+    end
+
+    context "with dynamically registered currencies" do
+      after { described_class.unregister(iso_code: "FRF") if described_class.find("FRF") }
+
+      it "finds currencies registered after initial cache build" do
+        expect(described_class.find_by_iso_numeric(250)).to be_nil
+
+        described_class.register(
+          priority:            1,
+          iso_code:            "FRF",
+          iso_numeric:         "250",
+          name:                "French Francs",
+          symbol:              "FR",
+          subunit:             "Centimes",
+          subunit_to_unit:     100,
+          decimal_mark:        ",",
+          thousands_separator: " "
+        )
+
+        expect(described_class.find_by_iso_numeric(250)).to eq described_class.new(:frf)
+        expect(described_class.find_by_iso_numeric("250")).to eq described_class.new(:frf)
+      end
+
+      it "returns nil for unregistered currencies after cache invalidation" do
+        described_class.register(
+          priority:     1,
+          iso_code:     "FRF",
+          iso_numeric:  "250",
+          name:         "French Francs",
+          symbol:       "FR",
+          subunit:      "Centimes",
+          subunit_to_unit: 100
+        )
+
+        expect(described_class.find_by_iso_numeric(250)).to eq described_class.new(:frf)
+
+        described_class.unregister(iso_code: "FRF")
+
+        expect(described_class.find_by_iso_numeric(250)).to be_nil
+      end
+    end
+
+    context "after reset!" do
+      it "clears the iso_numeric cache" do
+        expect(described_class.find_by_iso_numeric(840)).to eq described_class.new(:usd)
+
+        described_class.reset!
+
+        expect(described_class.find_by_iso_numeric(840)).to eq described_class.new(:usd)
+      end
     end
   end
 
@@ -281,7 +338,7 @@ describe Money::Currency do
       expect(currency).to eq currency
     end
 
-    it "returns true if the id is equal ignorning case" do
+    it "returns true if the id is equal ignoring case" do
       expect(described_class.new(:eur)).to     eq described_class.new(:eur)
       expect(described_class.new(:eur)).to     eq described_class.new(:EUR)
       expect(described_class.new(:eur)).not_to eq described_class.new(:usd)
@@ -336,6 +393,16 @@ describe Money::Currency do
 
     it "returns false if the currency is not iso" do
       expect(described_class.new(:btc).iso?).to be false
+    end
+  end
+
+  describe "#cents_based?" do
+    it "returns true if the currency is cents-based" do
+      expect(described_class.new(:mxn).cents_based?).to be true
+    end
+
+    it "returns false if the currency is not cents-based" do
+      expect(described_class.new(:clp).cents_based?).to be false
     end
   end
 
