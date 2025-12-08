@@ -211,13 +211,9 @@ Layout/SpaceInsideBlockBraces:
 # SupportedStylesForEmptyBraces: space, no_space
 Layout/SpaceInsideHashLiteralBraces:
   Exclude:
-    - 'lib/money/money.rb'
-    - 'lib/money/money/formatting_rules.rb'
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/locale_backend/i18n_spec.rb'
-    - 'spec/money/formatting_rules_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/money_spec.rb'
+    - 'lib/money/bank/variable_exchange.rb'
+    - 'spec/money/arithmetic_spec.rb'
+    - 'spec/rates_store/memory_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.
@@ -743,12 +739,6 @@ Style/Proc:
     - 'spec/bank/base_spec.rb'
     - 'spec/bank/variable_exchange_spec.rb'
     - 'spec/money/formatting_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: .
-# SupportedStyles: same_as_string_literals, single_quotes, double_quotes
-Style/QuotedSymbols:
-  EnforcedStyle: double_quotes
 
 # This cop supports safe autocorrection (--autocorrect).
 Style/RedundantConstantBase:

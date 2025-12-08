@@ -22,10 +22,6 @@ Layout/SpaceInsideArrayPercentLiteral:
   # Sometimes spacing is used to align amounts.
   Enabled: false
 
-Layout/SpaceInsideHashLiteralBraces:
-  # Prefer `{a: 1}` to `{ a: 1 }`
-  EnforcedStyle: no_space
-
 # Lint
 
 Lint/BinaryOperatorWithIdenticalOperands:
@@ -69,8 +65,16 @@ Style/OptionalBooleanParameter:
   Enabled: false
 
 Style/PreferredHashMethods:
-  # Money::FormattingRules has `#has_key?` but not `#key?`
+  # Money::FormattingRules has `#has_key?` but not `#key?`.
   Enabled: false
+
+Style/QuotedSymbols:
+  # Prefer :"some symbol" to :'some symbol'.
+  EnforcedStyle: double_quotes
+
+Style/StringLiterals:
+  # Prefer "double quotes" over 'single quotes'.
+  EnforcedStyle: double_quotes
 
 Style/SymbolArray:
   # Prefer [:a, :b] to %i[a b]
