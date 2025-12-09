@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fix `Money::Currency.register` exception when table is not initialized.
+
 ## 7.0.1
 
 - Re-publishing gem to fix file permissions https://github.com/RubyMoney/money/issues/1170
