@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "money/version"
 
@@ -16,17 +16,9 @@ Gem::Specification.new do |s|
   s.license     = "MIT"
 
   s.add_dependency "bigdecimal"
-  s.add_dependency 'i18n', "~> 1.9"
+  s.add_dependency "i18n", "~> 1.9"
 
-  s.add_development_dependency "bundler"
-  s.add_development_dependency "rake"
-  s.add_development_dependency "rspec", "~> 3.4"
-  # Documentation
-  s.add_development_dependency "yard", "~> 0.9.38"
-  s.add_development_dependency "rdoc"
-  s.add_development_dependency "redcarpet" unless RUBY_PLATFORM == "java"
-
-  s.required_ruby_version = '>= 3.1'
+  s.required_ruby_version = ">= 3.1"
 
   s.files         = `git ls-files -z -- config/* lib/* CHANGELOG.md LICENSE money.gemspec README.md`.split("\x0")
   s.require_paths = ["lib"]
