@@ -6,12 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Configuration parameters: EnforcedStyle, AllowedGems.
-# SupportedStyles: Gemfile, gems.rb, gemspec
-Gemspec/DevelopmentDependencies:
-  Exclude:
-    - 'money.gemspec'
-
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle, IndentationWidth.
 # SupportedStyles: with_first_argument, with_fixed_indentation
@@ -668,7 +662,6 @@ Style/EmptyMethod:
 Style/ExpandPathArguments:
   Exclude:
     - 'lib/money/currency/loader.rb'
-    - 'money.gemspec'
 
 # This cop supports safe autocorrection (--autocorrect).
 Style/ExplicitBlockArgument:

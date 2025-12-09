@@ -7,6 +7,12 @@ plugins:
 AllCops:
   NewCops: enable
 
+# Bundler
+
+Bundler/OrderedGems:
+  # Sort the gemspec dependencies by logical order instead of alphabetical.
+  Enabled: false
+
 # Gemspec
 
 Gemspec/OrderedDependencies:
@@ -42,6 +48,11 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   # Not all modules need a comment.
   Enabled: false
+
+Style/FrozenStringLiteralComment:
+  # Add `# frozen_string_literal: true` to all files.
+  EnforcedStyle: always_true
+  SafeAutoCorrect: true
 
 Style/GuardClause:
   # Not enforced since guard clauses can cause long lines as well.
