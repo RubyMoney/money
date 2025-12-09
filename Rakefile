@@ -37,6 +37,8 @@ task :check_permissions do
   end
 end
 
+# rubocop:disable Rake/Desc
 task release: :check_permissions
 task spec: :check_permissions
 task default: :spec
+# rubocop:enable Rake/Desc
