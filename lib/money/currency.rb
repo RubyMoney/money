@@ -173,7 +173,7 @@ class Money
       def register(curr)
         key = curr.fetch(:iso_code).downcase.to_sym
         @@mutex.synchronize { _instances.delete(key.to_s) }
-        @table[key] = curr
+        table[key] = curr
         @stringified_keys = nil
         clear_iso_numeric_cache
       end
@@ -184,7 +184,7 @@ class Money
       # @param curr [Hash] See {register} method for hash structure
       def inherit(parent_iso_code, curr)
         parent_iso_code = parent_iso_code.downcase.to_sym
-        curr = @table.fetch(parent_iso_code, {}).merge(curr)
+        curr = table.fetch(parent_iso_code, {}).merge(curr)
         register(curr)
       end
 
