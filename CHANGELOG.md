@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 7.0.1
+
+- Re-publishing gem to fix file permissions https://github.com/RubyMoney/money/issues/1170
+
 ## 7.0.0
 
 - **Breaking change**: Require Ruby >= 3.1 and i18n ~> 1.9

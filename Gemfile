@@ -4,8 +4,8 @@ source "https://rubygems.org"
 
 gem "pry", require: false
 
-gem "rbs", platforms: [:mri, :mingw, :x64_mingw]
-gem "typeprof", platforms: [:mri, :mingw, :x64_mingw]
+gem "rbs", platforms: [:mri, :windows]
+gem "typeprof", platforms: [:mri, :windows]
 
 gem "simplecov", require: false
 

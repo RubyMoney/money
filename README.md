@@ -5,7 +5,7 @@
 [![Inline docs](https://img.shields.io/badge/docs-github.io-green.svg)](https://rubymoney.github.io/money/)
 [![License](https://img.shields.io/github/license/RubyMoney/money.svg)](https://opensource.org/license/MIT)
 
-:warning: Please read the [upgrade guides](#upgrade-guides) before upgrading to a new major version.
+⚠️ Please read the [upgrade guides](#upgrade-guides) before upgrading to a new major version.
 
 If you miss String parsing, check out the new [monetize gem](https://github.com/RubyMoney/monetize).
 
@@ -453,6 +453,12 @@ m = Money.from_cents('123', :gbp) # => #<Money fractional:123 currency:GBP>
 m.format(symbol: m.currency.to_s + ' ') # => "GBP 1.23"
 ```
 
+If you would like to customize currency symbols to avoid ambiguity between currencies, you can:
+
+```ruby
+Money::Currency.table[:hkd][:symbol] = 'HK$'
+```
+
 ## Rounding
 
 By default, `Money` objects are rounded to the nearest cent and the additional precision is not preserved:
@@ -614,7 +620,7 @@ Prior to v6.9.0 heuristic analysis of string input was part of this gem. Since t
 
 When upgrading between major versions, please refer to the appropriate upgrade guide:
 
-- **[Upgrading to 7.0](UPGRADING-7.0.md)** - Guide for migrating from 6.x to 7.0
-- **[Upgrading to 6.0](UPGRADING-6.0.md)** - Guide for upgrading to version 6.0
+- [Upgrading to 7.0](https://github.com/RubyMoney/money/blob/main/UPGRADING-7.0.md) - Guide for migrating from 6.x to 7.0
+- [Upgrading to 6.0](https://github.com/RubyMoney/money/blob/main/UPGRADING-6.0.md) - Guide for upgrading to version 6.0
 
 These guides provide detailed information about breaking changes, new features, and step-by-step migration instructions.
