@@ -22,4 +22,21 @@ RSpec::Core::RakeTask.new(:spec) do |t|
   t.ruby_opts = "-w"
 end
 
+desc "Check file permissions"
+task :check_permissions do
+  files = Dir.glob("**/*.rb")
+  files.each do |file|
+    dir = File.dirname(file)
+    unless File.new(dir).lstat.mode.to_s(8) == "40755"
+      raise "Please check permissions for dir #{dir.inspect}"
+    end
+
+    unless File.new(file).lstat.mode.to_s(8) == "100644"
+      raise "Please check permission for file #{file.inspect}"
+    end
+  end
+end
+
+task release: :check_permissions
+task spec: :check_permissions
 task default: :spec
