@@ -372,8 +372,7 @@ RSpec.describe Money, "formatting" do
         expect(money.format(symbol: false)).to eq "-1,00"
 
         money = Money.new(100, "EUR")
-        expect(money.format(symbol: false,
-                     sign_positive: true)).to eq "+1,00"
+        expect(money.format(symbol: false, sign_positive: true)).to eq "+1,00"
       end
     end
 

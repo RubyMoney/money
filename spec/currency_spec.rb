@@ -189,7 +189,8 @@ RSpec.describe Money::Currency do
         symbol: "%",
         subunit_to_unit: 100
       )
-      described_class.inherit("XXX",
+      described_class.inherit(
+        "XXX",
         iso_code: "YYY",
         symbol: "@"
       )
