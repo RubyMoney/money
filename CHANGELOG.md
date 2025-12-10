@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 7.0.2
+
 - Fix `Money::Currency.register` exception when table is not initialized.
 
 ## 7.0.1
