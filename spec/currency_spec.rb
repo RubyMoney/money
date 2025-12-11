@@ -77,14 +77,14 @@ RSpec.describe Money::Currency do
         expect(described_class.find_by_iso_numeric(250)).to be_nil
 
         described_class.register(
-          priority:            1,
-          iso_code:            "FRF",
-          iso_numeric:         "250",
-          name:                "French Francs",
-          symbol:              "FR",
-          subunit:             "Centimes",
-          subunit_to_unit:     100,
-          decimal_mark:        ",",
+          priority: 1,
+          iso_code: "FRF",
+          iso_numeric: "250",
+          name: "French Francs",
+          symbol: "FR",
+          subunit: "Centimes",
+          subunit_to_unit: 100,
+          decimal_mark: ",",
           thousands_separator: " ",
         )
 
@@ -94,12 +94,12 @@ RSpec.describe Money::Currency do
 
       it "returns nil for unregistered currencies after cache invalidation" do
         described_class.register(
-          priority:     1,
-          iso_code:     "FRF",
-          iso_numeric:  "250",
-          name:         "French Francs",
-          symbol:       "FR",
-          subunit:      "Centimes",
+          priority: 1,
+          iso_code: "FRF",
+          iso_numeric: "250",
+          name: "French Francs",
+          symbol: "FR",
+          subunit: "Centimes",
           subunit_to_unit: 100,
         )
 
@@ -472,13 +472,13 @@ RSpec.describe Money::Currency do
       cad = described_class.find(:cad)
 
       described_class.register(
-        :priority            => 100,
-        :iso_code            => cad.iso_code,
-        :name                => cad.name,
-        :subunit             => cad.subunit,
-        :subunit_to_unit     => cad.subunit_to_unit,
+        :priority => 100,
+        :iso_code => cad.iso_code,
+        :name => cad.name,
+        :subunit => cad.subunit,
+        :subunit_to_unit => cad.subunit_to_unit,
         :thousands_separator => cad.thousands_separator,
-        :decimal_mark        => modified_mark,
+        :decimal_mark => modified_mark,
       )
     end
 
