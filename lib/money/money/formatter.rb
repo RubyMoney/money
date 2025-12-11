@@ -6,7 +6,7 @@ class Money
   class Formatter
     DEFAULTS = {
       thousands_separator: '',
-      decimal_mark: '.'
+      decimal_mark: '.',
     }.freeze
 
     # Creates a formatted price string according to several rules.

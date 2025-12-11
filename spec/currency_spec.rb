@@ -85,7 +85,7 @@ RSpec.describe Money::Currency do
           subunit:             "Centimes",
           subunit_to_unit:     100,
           decimal_mark:        ",",
-          thousands_separator: " "
+          thousands_separator: " ",
         )
 
         expect(described_class.find_by_iso_numeric(250)).to eq described_class.new(:frf)
@@ -100,7 +100,7 @@ RSpec.describe Money::Currency do
           name:         "French Francs",
           symbol:       "FR",
           subunit:      "Centimes",
-          subunit_to_unit: 100
+          subunit_to_unit: 100,
         )
 
         expect(described_class.find_by_iso_numeric(250)).to eq described_class.new(:frf)
@@ -160,7 +160,7 @@ RSpec.describe Money::Currency do
         iso_code: "XXX",
         name: "Golden Doubloon",
         symbol: "%",
-        subunit_to_unit: 100
+        subunit_to_unit: 100,
       )
       new_currency = described_class.find("XXX")
       expect(new_currency).not_to be_nil
@@ -187,12 +187,12 @@ RSpec.describe Money::Currency do
         iso_code: "XXX",
         name: "Golden Doubloon",
         symbol: "%",
-        subunit_to_unit: 100
+        subunit_to_unit: 100,
       )
       described_class.inherit(
         "XXX",
         iso_code: "YYY",
-        symbol: "@"
+        symbol: "@",
       )
       new_currency = described_class.find("YYY")
       expect(new_currency).not_to be_nil
@@ -481,7 +481,7 @@ RSpec.describe Money::Currency do
         :subunit             => cad.subunit,
         :subunit_to_unit     => cad.subunit_to_unit,
         :thousands_separator => cad.thousands_separator,
-        :decimal_mark        => modified_mark
+        :decimal_mark        => modified_mark,
       )
     end
 
