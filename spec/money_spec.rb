@@ -389,7 +389,6 @@ RSpec.describe Money do
     end
 
     context "loading a serialized Money via YAML" do
-
       let(:serialized) { <<YAML
 !ruby/object:Money
   fractional: 249.5
@@ -544,7 +543,7 @@ YAML
 
     it "raises an error if smallest denomination is not defined" do
       money = Money.new(100, "XAG")
-      expect {money.round_to_nearest_cash_value}.to raise_error(Money::UndefinedSmallestDenomination)
+      expect { money.round_to_nearest_cash_value }.to raise_error(Money::UndefinedSmallestDenomination)
     end
 
     it "returns a Integer when infinite_precision is not set" do
@@ -578,12 +577,12 @@ YAML
       expect(Money.new(-2_99, "USD").to_nearest_cash_value).to eq(Money.new(-2_99, "USD"))
       expect(Money.new(3_00, "USD").to_nearest_cash_value).to eq(Money.new(3_00, "USD"))
       expect(Money.new(-3_00, "USD").to_nearest_cash_value).to eq(Money.new(-3_00, "USD"))
-      expect(Money.new( 3_01, "USD").to_nearest_cash_value).to eq(Money.new(3_01, "USD"))
+      expect(Money.new(3_01, "USD").to_nearest_cash_value).to eq(Money.new(3_01, "USD"))
       expect(Money.new(-3_01, "USD").to_nearest_cash_value).to eq(Money.new(-3_01, "USD"))
     end
 
     it "raises an error if smallest denomination is not defined" do
-      expect {Money.new(1_00, "XAG").to_nearest_cash_value}
+      expect { Money.new(1_00, "XAG").to_nearest_cash_value }
         .to raise_error(Money::UndefinedSmallestDenomination)
     end
   end

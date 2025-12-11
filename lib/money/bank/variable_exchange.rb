@@ -43,13 +43,12 @@ class Money
     #   # Get rate from redis
     #   bank.get_rate 'USD', 'CAD'
     class VariableExchange < Base
-
       attr_reader :mutex
 
       # Available formats for importing/exporting rates.
       RATE_FORMATS = [:json, :ruby, :yaml].freeze
       SERIALIZER_SEPARATOR = '_TO_'.freeze
-      FORMAT_SERIALIZERS = {json: JSON, ruby: Marshal, yaml: YAML}.freeze
+      FORMAT_SERIALIZERS = { json: JSON, ruby: Marshal, yaml: YAML }.freeze
 
       # Initializes a new +Money::Bank::VariableExchange+ object.
       # It defaults to using an in-memory, thread safe store instance for
@@ -227,7 +226,7 @@ class Money
           s = FORMAT_SERIALIZERS[format].dump(rates)
 
           unless file.nil?
-            File.open(file, "w") {|f| f.write(s) }
+            File.open(file, "w") { |f| f.write(s) }
           end
 
           s
@@ -236,7 +235,7 @@ class Money
 
       # This should be deprecated.
       def rates
-        store.each_rate.each_with_object({}) do |(from,to,rate),hash|
+        store.each_rate.each_with_object({}) do |(from, to, rate), hash|
           hash[[from, to].join(SERIALIZER_SEPARATOR)] = rate
         end
       end

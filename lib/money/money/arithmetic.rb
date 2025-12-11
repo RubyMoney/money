@@ -65,6 +65,7 @@ class Money
     def <=>(other)
       unless other.is_a?(Money)
         return unless other.respond_to?(:zero?) && other.zero?
+
         return other.is_a?(CoercedNumeric) ? 0 <=> fractional : fractional <=> 0
       end
 
@@ -84,6 +85,7 @@ class Money
       if other.is_a?(Numeric) && !other.zero?
         raise ArgumentError, 'Money#== supports only zero numerics'
       end
+
       super
     end
 
@@ -148,9 +150,11 @@ class Money
           dup_with(fractional: new_fractional)
         when CoercedNumeric
           raise TypeError, non_zero_message.call(other.value) unless other.zero?
+
           dup_with(fractional: other.value.public_send(op, fractional))
         when Numeric
           raise TypeError, non_zero_message.call(other) unless other.zero?
+
           self
         else
           raise TypeError, "Unsupported argument type: #{other.class.name}"
@@ -200,12 +204,14 @@ class Money
       if value.is_a?(self.class)
         exchanged = value.exchange_to(currency)
         raise ZeroDivisionError, "divided by Money(0)" if exchanged.zero?
+
         fractional / as_d(exchanged.fractional).to_f
       else
         raise TypeError, 'Can not divide by Money' if value.is_a?(CoercedNumeric)
 
         value = as_d(value)
         raise ZeroDivisionError, "divided by zero" if value.zero?
+
         dup_with(fractional: fractional / value)
       end
     end
@@ -244,6 +250,7 @@ class Money
     def divmod_money(val)
       cents = val.exchange_to(currency).cents
       raise ZeroDivisionError, "divided by Money(0)" if cents == 0
+
       quotient, remainder = fractional.divmod(cents)
       [quotient, dup_with(fractional: remainder)]
     end
@@ -252,6 +259,7 @@ class Money
     def divmod_other(val)
       val = as_d(val)
       raise ZeroDivisionError, "divided by zero" if val.zero?
+
       quotient, remainder = fractional.divmod(val)
       [dup_with(fractional: quotient), dup_with(fractional: remainder)]
     end

@@ -5,7 +5,6 @@ require "money/currency/loader"
 require "money/currency/heuristics"
 
 class Money
-
   # Represents a specific currency unit.
   #
   # @see https://en.wikipedia.org/wiki/Currency
@@ -24,7 +23,7 @@ class Money
     class MissingAttributeError < StandardError
       def initialize(method, currency, attribute)
         super(
-          "Can't call Currency.#{method} - currency '#{currency}' is missing "\
+          "Can't call Currency.#{method} - currency '#{currency}' is missing " \
           "the attribute '#{attribute}'"
         )
       end
@@ -83,6 +82,7 @@ class Money
       def find_by_iso_numeric(num)
         num = num.to_s.rjust(3, '0')
         return if num.empty?
+
         id = iso_numeric_index[num]
         new(id) if id
       rescue UnknownCurrency
@@ -139,6 +139,7 @@ class Money
           if c.priority.nil?
             raise MissingAttributeError.new(:all, c.id, :priority)
           end
+
           c
         end.sort_by(&:priority)
       end

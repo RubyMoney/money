@@ -2,7 +2,6 @@
 
 class Money
   module Constructors
-
     # Create a new money object with value 0.
     #
     # @param [Currency, String, Symbol] currency The currency to use.
@@ -15,7 +14,6 @@ class Money
       new(0, currency)
     end
     alias_method :zero, :empty
-
 
     # Creates a new Money object of the given value, using the Canadian
     # dollar currency.
@@ -33,7 +31,6 @@ class Money
     end
     alias_method :cad, :ca_dollar
 
-
     # Creates a new Money object of the given value, using the American dollar
     # currency.
     #
@@ -50,7 +47,6 @@ class Money
     end
     alias_method :usd, :us_dollar
 
-
     # Creates a new Money object of the given value, using the Euro currency.
     #
     # @param [Integer] cents The cents value.
@@ -66,7 +62,6 @@ class Money
     end
     alias_method :eur, :euro
 
-
     # Creates a new Money object of the given value, in British pounds.
     #
     # @param [Integer] pence The pence value.
@@ -81,6 +76,5 @@ class Money
       new(pence, "GBP")
     end
     alias_method :gbp, :pound_sterling
-
   end
 end
