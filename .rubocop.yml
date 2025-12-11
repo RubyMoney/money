@@ -39,6 +39,14 @@ Lint/EmptyClass:
   # Allow defining empty classes, since it can be used as a base class.
   Enabled: false
 
+# RSpec
+
+RSpec/DescribedClass:
+  Exclude:
+    # Prefer Money.new(…) to described_class.new(…)
+    - 'spec/money_spec.rb'
+    - 'spec/money/formatting_spec.rb'
+
 # Style
 
 Style/ClassAndModuleChildren:

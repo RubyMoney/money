@@ -36,7 +36,7 @@ RSpec.describe Money::Arithmetic do
       expect(Money.new(1_00, "USD")).not_to eq Class
       expect(Money.new(1_00, "USD")).not_to eq Kernel
       expect(Money.new(1_00, "USD")).not_to eq(/foo/)
-      expect(Money.new(1_00, "USD")).not_to eq nil
+      expect(Money.new(1_00, "USD")).not_to be_nil
     end
 
     it "can be used to compare with an object that inherits from Money" do
@@ -53,7 +53,7 @@ RSpec.describe Money::Arithmetic do
       expect(Money.new(0, "EUR")).to eq 0
       expect(Money.new(0, "USD")).to eq 0.0
       expect(Money.new(0, "USD")).to eq BigDecimal(0)
-      expect(Money.new(1, "USD")).to_not eq 0
+      expect(Money.new(1, "USD")).not_to eq 0
     end
 
     it 'raises error for non-zero numerics' do
@@ -200,19 +200,19 @@ RSpec.describe Money::Arithmetic do
     end
 
     it 'compares with numeric 0' do
-      expect(Money.usd(1) < 0).to eq false
-      expect(Money.usd(1) > 0.0).to eq true
-      expect(Money.usd(0) >= 0.0).to eq true
+      expect(Money.usd(1) < 0).to be false
+      expect(Money.usd(1) > 0.0).to be true
+      expect(Money.usd(0) >= 0.0).to be true
     end
 
     it 'compares with zero Money in any currency' do
-      expect(Money.new(42, 'USD') > Money.zero('USD')).to eq(true)
-      expect(Money.new(42, 'USD') > Money.zero('CAD')).to eq(true)
-      expect(Money.new(42, 'CAD') > Money.zero('USD')).to eq(true)
+      expect(Money.new(42, 'USD') > Money.zero('USD')).to be(true)
+      expect(Money.new(42, 'USD') > Money.zero('CAD')).to be(true)
+      expect(Money.new(42, 'CAD') > Money.zero('USD')).to be(true)
 
-      expect(Money.zero('USD') > Money.new(42, 'USD')).to eq(false)
-      expect(Money.zero('CAD') > Money.new(42, 'USD')).to eq(false)
-      expect(Money.zero('USD') > Money.new(42, 'CAD')).to eq(false)
+      expect(Money.zero('USD') > Money.new(42, 'USD')).to be(false)
+      expect(Money.zero('CAD') > Money.new(42, 'USD')).to be(false)
+      expect(Money.zero('USD') > Money.new(42, 'CAD')).to be(false)
 
       expect(Money.zero('USD') == Money.zero('USD')).to be(true)
       expect(Money.zero('USD') == Money.zero('CAD')).to be(true)
@@ -371,6 +371,7 @@ RSpec.describe Money::Arithmetic do
 
       context 'ceiling rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_CEILING }
+
         it "obeys the rounding preference" do
           expect(Money.new(10) / 3).to eq Money.new(4)
         end
@@ -378,6 +379,7 @@ RSpec.describe Money::Arithmetic do
 
       context 'floor rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_FLOOR }
+
         it "obeys the rounding preference" do
           expect(Money.new(10) / 6).to eq Money.new(1)
         end
@@ -385,6 +387,7 @@ RSpec.describe Money::Arithmetic do
 
       context 'half up rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_HALF_UP }
+
         it "obeys the rounding preference" do
           expect(Money.new(10) / 4).to eq Money.new(3)
         end
@@ -392,6 +395,7 @@ RSpec.describe Money::Arithmetic do
 
       context 'half down rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_HALF_DOWN }
+
         it "obeys the rounding preference" do
           expect(Money.new(10) / 4).to eq Money.new(2)
         end
@@ -735,7 +739,7 @@ RSpec.describe Money::Arithmetic do
       expect(Money.new(0, "USD").nonzero?).to be_nil
 
       money = Money.new(1, "USD")
-      expect(money.nonzero?).to be_equal(money)
+      expect(money.nonzero?).to equal(money)
     end
   end
 
@@ -781,7 +785,7 @@ RSpec.describe Money::Arithmetic do
     it "treats multiplication as commutative" do
       expect {
         2 * Money.new(2, 'USD')
-      }.to_not raise_error
+      }.not_to raise_error
       result = 2 * Money.new(2, 'USD')
       expect(result).to eq(Money.new(4, 'USD'))
     end
@@ -813,9 +817,9 @@ RSpec.describe Money::Arithmetic do
     end
 
     it 'compares with numeric 0' do
-      expect(0 < Money.usd(1)).to eq true
-      expect(0.0 > Money.usd(1)).to eq false
-      expect(0.0 >= Money.usd(0)).to eq true
+      expect(0 < Money.usd(1)).to be true
+      expect(0.0 > Money.usd(1)).to be false
+      expect(0.0 >= Money.usd(0)).to be true
     end
 
     it "raises errors for all numeric types, not just Integer" do

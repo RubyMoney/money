@@ -5,8 +5,8 @@ RSpec.describe Money::RatesStore::Memory do
 
   describe '#add_rate and #get_rate' do
     it 'stores rate in memory' do
-      expect(subject.add_rate('USD', 'CAD', 0.9)).to eql 0.9
-      expect(subject.get_rate('USD', 'CAD')).to eql 0.9
+      expect(subject.add_rate('USD', 'CAD', 0.9)).to be 0.9
+      expect(subject.get_rate('USD', 'CAD')).to be 0.9
     end
   end
 
@@ -28,7 +28,7 @@ RSpec.describe Money::RatesStore::Memory do
     end
 
     it 'is an Enumeator' do
-      expect(subject.each_rate).to be_kind_of(Enumerator)
+      expect(subject.each_rate).to be_a(Enumerator)
       result = subject.each_rate.each_with_object({}) { |(from, to, rate), m| m[[from, to].join] = rate }
       expect(result).to match({ 'USDCAD' => 0.9, 'CADUSD' => 1.1 })
     end
@@ -52,7 +52,7 @@ RSpec.describe Money::RatesStore::Memory do
   end
 
   describe '#marshal_dump' do
-    let(:subject) { Money::RatesStore::Memory.new(optional: true) }
+    let(:subject) { described_class.new(optional: true) }
 
     it 'can reload' do
       bank = Money::Bank::VariableExchange.new(subject)

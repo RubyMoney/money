@@ -134,14 +134,17 @@ RSpec.describe Money::Currency do
     it "returns an array of currencies" do
       expect(described_class.all).to include described_class.new(:usd)
     end
+
     it "includes registered currencies" do
       register_foo
       expect(described_class.all).to include described_class.new(:foo)
       unregister_foo
     end
+
     it 'is sorted by priority' do
       expect(described_class.all.first.priority).to eq 1
     end
+
     it "raises a MissingAttributeError if any currency has no priority" do
       register_foo(skip: :priority)
 
@@ -286,7 +289,7 @@ RSpec.describe Money::Currency do
     end
 
     it 'returns new object for the different :key' do
-      expect(described_class.new("USD")).to_not be(described_class.new("EUR"))
+      expect(described_class.new("USD")).not_to be(described_class.new("EUR"))
     end
 
     it 'is thread safe' do
