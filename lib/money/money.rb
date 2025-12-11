@@ -179,10 +179,6 @@ class Money
     end
   end
 
-  def self.default_currency=(currency)
-    @default_currency = currency
-  end
-
   # Modified to support thread-local bank override
   def self.default_bank
     # Check for thread-local bank first, then fall back to global default
@@ -216,11 +212,6 @@ class Money
 
   def self.locale_backend=(value)
     @locale_backend = value ? LocaleBackend.find(value) : nil
-  end
-
-  # @attr_writer rounding_mode Use this to specify the rounding mode
-  def self.rounding_mode=(new_rounding_mode)
-    @rounding_mode = new_rounding_mode
   end
 
   def self.setup_defaults
@@ -336,6 +327,11 @@ class Money
   end
 
   class << self
+    attr_writer :default_currency
+
+    # @attr_writer rounding_mode Use this to specify the rounding mode
+    attr_writer :rounding_mode
+
     alias_method :from_cents, :new
   end
 
