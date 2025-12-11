@@ -230,7 +230,7 @@ class Money
           [
             html_wrap(whole_part, "whole"),
             html_wrap(decimal_mark, "decimal-mark"),
-            html_wrap(decimal_part, "decimal")
+            html_wrap(decimal_part, "decimal"),
           ].join
         end
       else

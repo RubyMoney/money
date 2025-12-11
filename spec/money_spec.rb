@@ -289,7 +289,7 @@ RSpec.describe Money do
 
       [
         test_money_with_rounding_mode.call(BigDecimal::ROUND_DOWN),
-        test_money_with_rounding_mode.call(BigDecimal::ROUND_UP)
+        test_money_with_rounding_mode.call(BigDecimal::ROUND_UP),
       ].each(&:join)
 
       all_results = []
