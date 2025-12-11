@@ -26,7 +26,7 @@ RSpec.describe Money::FormattingRules do
 
       it 'returns the translated format for the locale' do
         I18n.backend.store_translations(:fr, number: {
-          currency: { format: { format: "%n %u" } }
+          currency: { format: { format: "%n %u" } },
         })
         currency = Money::Currency.new('EUR')
         rules = { separator: '.', delimiter: ',' }
@@ -47,7 +47,7 @@ RSpec.describe Money::FormattingRules do
       it 'returns the default format for the locale' do
         allow(Money).to receive(:locale_backend).and_return(nil)
         I18n.backend.store_translations(:fr, number: {
-          currency: { format: { format: "%n %u" } }
+          currency: { format: { format: "%n %u" } },
         })
         currency = Money::Currency.new('EUR')
         rules = { separator: '.', delimiter: ',' }

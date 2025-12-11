@@ -8,7 +8,7 @@ class Money
   module LocaleBackend
     BACKENDS = {
       i18n: Money::LocaleBackend::I18n,
-      currency: Money::LocaleBackend::Currency
+      currency: Money::LocaleBackend::Currency,
     }.freeze
 
     def self.find(name)

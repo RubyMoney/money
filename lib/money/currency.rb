@@ -196,11 +196,12 @@ class Money
       # @return [Boolean] true if the currency previously existed, false
       #   if it didn't.
       def unregister(curr)
-        if curr.is_a?(Hash)
-          key = curr.fetch(:iso_code).downcase.to_sym
-        else
-          key = curr.downcase.to_sym
-        end
+        key =
+          if curr.is_a?(Hash)
+            curr.fetch(:iso_code).downcase.to_sym
+          else
+            curr.downcase.to_sym
+          end
         existed = @table.delete(key)
         @stringified_keys = nil if existed
         existed ? true : false

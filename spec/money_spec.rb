@@ -255,15 +255,15 @@ RSpec.describe Money do
           expect(Money.from_amount(2.137).to_d).to eq 2.14
         end
 
-        expect(
-          Money.rounding_mode
-        ).to eq(BigDecimal::ROUND_DOWN), 'Outer mode should be restored after inner block'
+        expect(Money.rounding_mode)
+          .to eq(BigDecimal::ROUND_DOWN),
+              'Outer mode should be restored after inner block'
         expect(Money.from_amount(2.137).to_d).to eq 2.13
       end
 
-      expect(
-        Money.rounding_mode
-      ).to eq(BigDecimal::ROUND_HALF_UP), 'Original mode should be restored after outer block'
+      expect(Money.rounding_mode)
+        .to eq(BigDecimal::ROUND_HALF_UP),
+            'Original mode should be restored after outer block'
       expect(Money.from_amount(2.137).to_d).to eq 2.14
     end
 
@@ -280,7 +280,7 @@ RSpec.describe Money do
             results.push({
               set_rounding_mode: rounding_mode,
               mode: Money.rounding_mode,
-              result: Money.from_amount(test_value).to_d
+              result: Money.from_amount(test_value).to_d,
             })
 
             # Sleep to allow interleaving with other thread
@@ -289,7 +289,7 @@ RSpec.describe Money do
             results.push({
               set_rounding_mode: rounding_mode,
               mode: Money.rounding_mode,
-              result: Money.from_amount(test_value).to_d
+              result: Money.from_amount(test_value).to_d,
             })
           end
         end
@@ -297,7 +297,7 @@ RSpec.describe Money do
 
       [
         test_money_with_rounding_mode.call(BigDecimal::ROUND_DOWN),
-        test_money_with_rounding_mode.call(BigDecimal::ROUND_UP)
+        test_money_with_rounding_mode.call(BigDecimal::ROUND_UP),
       ].each(&:join)
 
       all_results = []
@@ -364,7 +364,7 @@ RSpec.describe Money do
               thread_id: Thread.current.object_id,
               expected: expected_bank,
               actual: actual_bank,
-              match: expected_bank == actual_bank
+              match: expected_bank == actual_bank,
             }
             results_mutex.synchronize do
               results << result
