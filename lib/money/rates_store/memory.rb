@@ -72,7 +72,7 @@ class Money
       end
 
       # Wraps block execution in a thread-safe transaction
-      def transaction(&block)
+      def transaction(&)
         guard.synchronize do
           yield
         end
@@ -90,7 +90,7 @@ class Money
       #   store.each_rate do |iso_from, iso_to, rate|
       #     puts [iso_from, iso_to, rate].join
       #   end
-      def each_rate(&block)
+      def each_rate(&)
         return to_enum(:each_rate) unless block_given?
 
         guard.synchronize do

@@ -58,9 +58,9 @@ class Money
       # @param [RateStore] st An exchange rate store, used to persist exchange rate pairs.
       # @yield [n] Optional block to use when rounding after exchanging one
       #  currency for another. See +Money::bank::base+
-      def initialize(st = Money::RatesStore::Memory.new, &block)
+      def initialize(st = Money::RatesStore::Memory.new, &)
         @store = st
-        super(&block)
+        super(&)
       end
 
       def store
@@ -108,7 +108,7 @@ class Money
       #
       #   # Exchange 100 CAD to USD:
       #   bank.exchange_with(c2, "USD") #=> #<Money fractional:8031 currency:USD>
-      def exchange_with(from, to_currency, &block)
+      def exchange_with(from, to_currency, &)
         to_currency = Currency.wrap(to_currency)
         if from.currency == to_currency
           from
@@ -116,7 +116,7 @@ class Money
           if rate = get_rate(from.currency, to_currency)
             fractional = calculate_fractional(from, to_currency)
             from.dup_with(
-              fractional: exchange(fractional, rate, &block),
+              fractional: exchange(fractional, rate, &),
               currency: to_currency,
               bank: self,
             )
@@ -133,7 +133,7 @@ class Money
         )
       end
 
-      def exchange(fractional, rate, &block)
+      def exchange(fractional, rate, &)
         ex = fractional * BigDecimal(rate.to_s)
         if block_given?
           yield ex

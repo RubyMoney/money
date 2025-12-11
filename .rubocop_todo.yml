@@ -244,10 +244,8 @@ Lint/UnusedBlockArgument:
 # NotImplementedExceptions: NotImplementedError
 Lint/UnusedMethodArgument:
   Exclude:
-    - 'lib/money/bank/single_currency.rb'
     - 'lib/money/bank/variable_exchange.rb'
     - 'lib/money/currency/heuristics.rb'
-    - 'lib/money/rates_store/memory.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Lint/UselessAssignment:
@@ -283,17 +281,6 @@ Naming/BinaryOperatorParameterName:
   Exclude:
     - 'lib/money/currency.rb'
     - 'lib/money/money/arithmetic.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, BlockForwardingName.
-# SupportedStyles: anonymous, explicit
-Naming/BlockForwarding:
-  Exclude:
-    - 'lib/money/bank/base.rb'
-    - 'lib/money/bank/single_currency.rb'
-    - 'lib/money/bank/variable_exchange.rb'
-    - 'lib/money/money.rb'
-    - 'lib/money/rates_store/memory.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyleForLeadingUnderscores.
@@ -570,15 +557,6 @@ Style/Alias:
     - 'lib/money/money.rb'
     - 'lib/money/money/constructors.rb'
     - 'lib/money/money/formatter.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowOnlyRestArgument, UseAnonymousForwarding, RedundantRestArgumentNames, RedundantKeywordRestArgumentNames, RedundantBlockArgumentNames.
-# RedundantRestArgumentNames: args, arguments
-# RedundantKeywordRestArgumentNames: kwargs, options, opts
-# RedundantBlockArgumentNames: blk, block, proc
-Style/ArgumentsForwarding:
-  Exclude:
-    - 'lib/money/bank/variable_exchange.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.
