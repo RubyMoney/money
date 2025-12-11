@@ -3,7 +3,7 @@
 RSpec.describe Money::Currency do
   FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 1000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
 
-  def register_foo(opts={})
+  def register_foo(opts = {})
     foo_attrs = JSON.parse(FOO, symbolize_names: true)
     # Pass an array of attribute names to 'skip' to remove them from the 'FOO'
     # json before registering foo as a currency.
@@ -145,12 +145,11 @@ RSpec.describe Money::Currency do
     it "raises a MissingAttributeError if any currency has no priority" do
       register_foo(skip: :priority)
 
-      expect{described_class.all}.to \
+      expect { described_class.all }.to \
         raise_error(described_class::MissingAttributeError, /foo.*priority/)
       unregister_foo
     end
   end
-
 
   describe ".register" do
     after { described_class.unregister(iso_code: "XXX") if described_class.find("XXX") }
@@ -174,7 +173,6 @@ RSpec.describe Money::Currency do
       }.to raise_error(KeyError)
     end
   end
-
 
   describe ".inherit" do
     after do
@@ -202,7 +200,6 @@ RSpec.describe Money::Currency do
     end
   end
 
-
   describe ".unregister" do
     it "unregisters a currency" do
       described_class.register(iso_code: "XXX")
@@ -229,7 +226,6 @@ RSpec.describe Money::Currency do
     end
   end
 
-
   describe ".each" do
     it "yields each currency to the block" do
       expect(described_class).to respond_to(:each)
@@ -245,7 +241,6 @@ RSpec.describe Money::Currency do
     end
   end
 
-
   it "implements Enumerable" do
     expect(described_class).to respond_to(:all?)
     expect(described_class).to respond_to(:each_with_index)
@@ -253,7 +248,6 @@ RSpec.describe Money::Currency do
     expect(described_class).to respond_to(:select)
     expect(described_class).to respond_to(:reject)
   end
-
 
   describe "#initialize" do
     before { described_class._instances.clear }
@@ -297,7 +291,7 @@ RSpec.describe Money::Currency do
 
     it 'is thread safe' do
       ids = []
-      2.times.map{ Thread.new{ ids << described_class.new("USD").object_id }}.each(&:join)
+      2.times.map { Thread.new { ids << described_class.new("USD").object_id } }.each(&:join)
       expect(ids.uniq.length).to eq(1)
     end
   end
@@ -436,7 +430,7 @@ RSpec.describe Money::Currency do
 
     it "doesn't create new symbols indefinitely" do
       expect { described_class.new("bogus") }.to raise_error(described_class::UnknownCurrency)
-      expect(Symbol.all_symbols.map{|s| s.to_s}).not_to include("bogus")
+      expect(Symbol.all_symbols.map { |s| s.to_s }).not_to include("bogus")
     end
   end
 

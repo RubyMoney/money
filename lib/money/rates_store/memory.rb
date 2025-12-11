@@ -4,7 +4,6 @@ require 'monitor'
 
 class Money
   module RatesStore
-
     # Class for thread-safe storage of exchange rate pairs.
     # Used by instances of +Money::Bank::VariableExchange+.
     #
