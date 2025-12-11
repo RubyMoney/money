@@ -106,7 +106,6 @@ class Money
 
   # Class Methods
   class << self
-
     # @!attribute [rw] default_bank
     #   Used to set a default bank for currency exchange.
     #
@@ -163,7 +162,13 @@ class Money
                   :conversion_precision,
                   :strict_eql_compare
     attr_reader :locale_backend
-    attr_writer :default_bank
+    attr_writer :default_bank,
+                :default_currency
+
+    # @attr_writer rounding_mode Use this to specify the rounding mode
+    attr_writer :rounding_mode
+
+    alias_method :from_cents, :new
   end
 
   # @!attribute default_currency
@@ -324,15 +329,6 @@ class Money
          "`Money.from_amount`."
 
     from_amount(amount, currency, options)
-  end
-
-  class << self
-    attr_writer :default_currency
-
-    # @attr_writer rounding_mode Use this to specify the rounding mode
-    attr_writer :rounding_mode
-
-    alias_method :from_cents, :new
   end
 
   # Creates a new Money object of value given in the
