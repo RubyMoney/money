@@ -509,12 +509,12 @@ class Money
   #   Money.new(2000, "USD").exchange_to("EUR")
   #   Money.new(2000, "USD").exchange_to("EUR") {|x| x.round}
   #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
-  def exchange_to(other_currency, &rounding_method)
+  def exchange_to(other_currency, &)
     other_currency = Currency.wrap(other_currency)
     if self.currency == other_currency
       self
     else
-      @bank.exchange_with(self, other_currency, &rounding_method)
+      @bank.exchange_with(self, other_currency, &)
     end
   end
 
