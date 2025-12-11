@@ -16,6 +16,7 @@ RSpec.describe Money::Constructors do
 
   describe "::zero" do
     subject { Money.zero }
+
     it { is_expected.to eq Money.empty }
 
     it "instantiates a subclass when inheritance is used" do

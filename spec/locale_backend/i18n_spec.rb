@@ -10,11 +10,11 @@ RSpec.describe Money::LocaleBackend::I18n do
   end
 
   describe '#lookup' do
+    subject { described_class.new }
+
     after do
       I18n.locale = :en
     end
-
-    subject { described_class.new }
 
     context 'with number.currency.format defined' do
       before do
@@ -58,19 +58,19 @@ RSpec.describe Money::LocaleBackend::I18n do
 
     context 'with no translation defined' do
       it 'returns thousands_separator based on the current locale' do
-        expect(subject.lookup(:thousands_separator, nil)).to eq(nil)
+        expect(subject.lookup(:thousands_separator, nil)).to be_nil
       end
 
       it 'returns decimal_mark based on the current locale' do
-        expect(subject.lookup(:decimal_mark, nil)).to eq(nil)
+        expect(subject.lookup(:decimal_mark, nil)).to be_nil
       end
 
       it 'returns symbol based on the current locale' do
-        expect(subject.lookup(:symbol, nil)).to eq(nil)
+        expect(subject.lookup(:symbol, nil)).to be_nil
       end
 
       it 'returns format based on the current locale' do
-        expect(subject.lookup(:format, nil)).to eq(nil)
+        expect(subject.lookup(:format, nil)).to be_nil
       end
     end
   end

@@ -35,11 +35,11 @@ RSpec.describe Money::Bank::VariableExchange do
 
       describe "#exchange_with" do
         it "accepts str" do
-          expect { bank.exchange_with(Money.new(100, 'USD'), 'EUR') }.to_not raise_error
+          expect { bank.exchange_with(Money.new(100, 'USD'), 'EUR') }.not_to raise_error
         end
 
         it "accepts currency" do
-          expect { bank.exchange_with(Money.new(100, 'USD'), Money::Currency.wrap('EUR')) }.to_not raise_error
+          expect { bank.exchange_with(Money.new(100, 'USD'), Money::Currency.wrap('EUR')) }.not_to raise_error
         end
 
         it "exchanges one currency to another" do
@@ -110,7 +110,7 @@ RSpec.describe Money::Bank::VariableExchange do
   describe "#add_rate" do
     it 'delegates to store#add_rate' do
       expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 1.25).and_return 1.25
-      expect(subject.add_rate('USD', 'EUR', 1.25)).to eql 1.25
+      expect(subject.add_rate('USD', 'EUR', 1.25)).to be 1.25
     end
 
     it "adds rates with correct ISO codes" do
@@ -130,7 +130,7 @@ RSpec.describe Money::Bank::VariableExchange do
   describe "#set_rate" do
     it 'delegates to store#add_rate' do
       expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 1.25).and_return 1.25
-      expect(subject.set_rate('USD', 'EUR', 1.25)).to eql 1.25
+      expect(subject.set_rate('USD', 'EUR', 1.25)).to be 1.25
     end
 
     it "sets a rate" do
@@ -160,7 +160,7 @@ RSpec.describe Money::Bank::VariableExchange do
   end
 
   describe "#export_rates" do
-    before :each do
+    before do
       subject.set_rate('USD', 'EUR', 1.25)
       subject.set_rate('USD', 'JPY', 2.55)
 
@@ -168,20 +168,20 @@ RSpec.describe Money::Bank::VariableExchange do
     end
 
     context "with format == :json" do
-      it "should return rates formatted as json" do
+      it "returns rates formatted as json" do
         json = subject.export_rates(:json)
         expect(JSON.load(json)).to eq @rates
       end
     end
 
     context "with format == :ruby" do
-      it "should return rates formatted as ruby objects" do
+      it "returns rates formatted as ruby objects" do
         expect(Marshal.load(subject.export_rates(:ruby))).to eq @rates
       end
     end
 
     context "with format == :yaml" do
-      it "should return rates formatted as yaml" do
+      it "returns rates formatted as yaml" do
         yaml = subject.export_rates(:yaml)
         expect(YAML.load(yaml)).to eq @rates
       end
@@ -266,7 +266,7 @@ RSpec.describe Money::Bank::VariableExchange do
 
   describe "#marshal_dump" do
     it "does not raise an error" do
-      expect {  Marshal.dump(subject) }.to_not raise_error
+      expect {  Marshal.dump(subject) }.not_to raise_error
     end
 
     it "works with Marshal.load" do

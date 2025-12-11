@@ -346,28 +346,6 @@ Naming/VariableNumber:
   Exclude:
     - 'spec/money_spec.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-RSpec/BeEq:
-  Exclude:
-    - 'spec/bank/base_spec.rb'
-    - 'spec/locale_backend/currency_spec.rb'
-    - 'spec/locale_backend/i18n_spec.rb'
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/money_spec.rb'
-
-# This cop supports unsafe autocorrection (--autocorrect-all).
-RSpec/BeEql:
-  Exclude:
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/rates_store/memory_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: be_a, be_kind_of
-RSpec/ClassCheck:
-  Exclude:
-    - 'spec/rates_store/memory_spec.rb'
-
 # Configuration parameters: Prefixes, AllowedPatterns.
 # Prefixes: when, with, without
 RSpec/ContextWording:
@@ -383,65 +361,13 @@ RSpec/DescribeMethod:
   Exclude:
     - 'spec/money/formatting_spec.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: SkipBlocks, EnforcedStyle, OnlyStaticConstants.
-# SupportedStyles: described_class, explicit
-RSpec/DescribedClass:
-  Exclude:
-    - 'spec/money/formatting_rules_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/money_spec.rb'
-    - 'spec/rates_store/memory_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowConsecutiveOneLiners.
-RSpec/EmptyLineAfterExample:
-  Exclude:
-    - 'spec/currency_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/EmptyLineAfterFinalLet:
-  Exclude:
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/money_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/EmptyLineAfterSubject:
-  Exclude:
-    - 'spec/money/constructors_spec.rb'
-
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
   Max: 38
 
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: CustomTransform, IgnoredWords, DisallowedExamples.
-# DisallowedExamples: works
-RSpec/ExampleWording:
-  Exclude:
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/currency/heuristics_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/money_spec.rb'
-
 RSpec/ExpectInHook:
   Exclude:
     - 'spec/money_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: implicit, each, example
-RSpec/HookArgument:
-  Exclude:
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/support/default_currency.rb'
-    - 'spec/support/i18n.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/HooksBeforeExamples:
-  Exclude:
-    - 'spec/money/formatting_spec.rb'
 
 RSpec/IdenticalEqualityAssertion:
   Exclude:
@@ -456,14 +382,6 @@ RSpec/InstanceVariable:
     - 'spec/money/arithmetic_spec.rb'
     - 'spec/money/formatting_spec.rb'
     - 'spec/money_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/LeadingSubject:
-  Exclude:
-    - 'spec/locale_backend/i18n_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/money_spec.rb'
-    - 'spec/support/shared_examples/money_examples.rb'
 
 RSpec/LeakyConstantDeclaration:
   Exclude:
@@ -502,22 +420,6 @@ RSpec/NamedSubject:
 # Configuration parameters: AllowedGroups.
 RSpec/NestedGroups:
   Max: 5
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: not_to, to_not
-RSpec/NotToNot:
-  Exclude:
-    - 'spec/bank/base_spec.rb'
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/currency_spec.rb'
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/money_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/RedundantPredicateMatcher:
-  Exclude:
-    - 'spec/money/arithmetic_spec.rb'
 
 RSpec/RepeatedDescription:
   Exclude:

@@ -9,11 +9,11 @@ RSpec.describe Money, "formatting" do
   context "without i18n" do
     subject(:money) { Money.empty("USD") }
 
-    it "should use ',' as the thousands separator" do
+    it "uses ',' as the thousands separator" do
       expect(money.thousands_separator).to eq ','
     end
 
-    it "should use '.' as the decimal mark" do
+    it "uses '.' as the decimal mark" do
       expect(money.decimal_mark).to eq '.'
     end
   end
@@ -31,18 +31,20 @@ RSpec.describe Money, "formatting" do
   context "with currency locale_backend", :locale_backend_currency do
     subject(:money) { Money.empty("USD") }
 
-    it "should use ',' as the thousands separator" do
+    it "uses ',' as the thousands separator" do
       expect(money.thousands_separator).to eq ','
     end
 
-    it "should use '.' as the decimal mark" do
+    it "uses '.' as the decimal mark" do
       expect(money.decimal_mark).to eq '.'
     end
   end
 
   context "with i18n locale_backend", :locale_backend_i18n do
     context "with number.format.*" do
-      before :each do
+      subject(:money) { Money.empty("USD") }
+
+      before do
         I18n.locale = :de
         I18n.backend.store_translations(
           :de,
@@ -50,19 +52,19 @@ RSpec.describe Money, "formatting" do
         )
       end
 
-      subject(:money) { Money.empty("USD") }
-
-      it "should use '.' as the thousands separator" do
+      it "uses '.' as the thousands separator" do
         expect(money.thousands_separator).to eq '.'
       end
 
-      it "should use ',' as the decimal mark" do
+      it "uses ',' as the decimal mark" do
         expect(money.decimal_mark).to eq ','
       end
     end
 
     context "with number.currency.format.*" do
-      before :each do
+      subject(:money) { Money.empty("USD") }
+
+      before do
         I18n.locale = :de
         I18n.backend.store_translations(
           :de,
@@ -70,19 +72,19 @@ RSpec.describe Money, "formatting" do
         )
       end
 
-      subject(:money) { Money.empty("USD") }
-
-      it "should use '.' as the thousands separator" do
+      it "uses '.' as the thousands separator" do
         expect(money.thousands_separator).to eq '.'
       end
 
-      it "should use ',' as the decimal mark" do
+      it "uses ',' as the decimal mark" do
         expect(money.decimal_mark).to eq ','
       end
     end
 
     context "with number.currency.symbol.*" do
-      before :each do
+      subject(:money) { Money.empty("CAD") }
+
+      before do
         I18n.locale = :de
         I18n.backend.store_translations(
           :de,
@@ -90,19 +92,17 @@ RSpec.describe Money, "formatting" do
         )
       end
 
-      subject(:money) { Money.empty("CAD") }
-
-      it "should use 'CAD$' as the currency symbol" do
+      it "uses 'CAD$' as the currency symbol" do
         expect(money.format(translate: true)).to eq("CAD$0.00")
       end
     end
 
     context "with overridden i18n settings" do
-      it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
+      it "respects explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
         expect(Money.new(300_000, 'ISK').format(thousands_separator: ".", decimal_mark: ',')).to eq "300.000 kr."
       end
 
-      it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
+      it "respects explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
         expect(Money.new(300_000, 'USD').format(thousands_separator: ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
       end
     end
@@ -116,6 +116,8 @@ RSpec.describe Money, "formatting" do
     context "Locale :ja" do
       before { @_locale = I18n.locale; I18n.locale = :ja }
 
+      after  { I18n.locale = @_locale }
+
       it "formats Japanese currency in Japanese properly" do
         money = Money.new(1000, "JPY")
         expect(money.format).to eq "¥1,000"
@@ -124,7 +126,6 @@ RSpec.describe Money, "formatting" do
         expect(money.format(format: "%u%n")).to eq "¥1,000"
       end
 
-      after  { I18n.locale = @_locale }
     end
 
     it "returns the monetary value as a string" do
@@ -393,11 +394,11 @@ RSpec.describe Money, "formatting" do
     end
 
     describe ":south_asian_number_formatting delimiter" do
-      before(:each) do
+      before do
         Money::Currency.register(JSON.parse(INDIAN_BAR, symbolize_names: true))
       end
 
-      after(:each) do
+      after do
         Money::Currency.unregister(JSON.parse(INDIAN_BAR, symbolize_names: true))
       end
 
@@ -448,11 +449,11 @@ RSpec.describe Money, "formatting" do
       end
 
       context "currency locale_backend i18n", :locale_backend_currency do
-        it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there's no decimal component for currencies that have no subunit" do
+        it "respects explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there's no decimal component for currencies that have no subunit" do
           expect(Money.new(300_000, 'ISK').format(thousands_separator: ",", decimal_mark: '.')).to eq "300,000 kr."
         end
 
-        it "should respect explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
+        it "respects explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
           expect(Money.new(300_000, 'USD').format(thousands_separator: ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
         end
       end
@@ -588,7 +589,7 @@ RSpec.describe Money, "formatting" do
     end
 
     describe ':delimiter_pattern option' do
-      it "should use delimiter pattern" do
+      it "uses delimiter pattern" do
         expect(Money.new(1_456_00, "EUR").format(delimiter_pattern: /(\d)(?=\d)/)).to eq "€1.4.5.6,00"
       end
     end
@@ -629,12 +630,12 @@ RSpec.describe Money, "formatting" do
   end
 
   context "custom currencies with 4 decimal places" do
-    before :each do
+    before do
       Money::Currency.register(JSON.parse(BAR, symbolize_names: true))
       Money::Currency.register(JSON.parse(EU4, symbolize_names: true))
     end
 
-    after :each do
+    after do
       Money::Currency.unregister(JSON.parse(BAR, symbolize_names: true))
       Money::Currency.unregister(JSON.parse(EU4, symbolize_names: true))
     end
@@ -722,7 +723,7 @@ RSpec.describe Money, "formatting" do
       expect(Money.new(1999_98, "USDC").format(disambiguate: true, symbol: false)).to eq("0.199998")
     end
 
-    it "should never return an ambiguous format with disambiguate: true" do
+    it "nevers return an ambiguous format with disambiguate: true" do
       formatted_results = {}
 
       # When we format the same amount in all known currencies, disambiguate should return

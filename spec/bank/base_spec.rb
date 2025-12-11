@@ -28,7 +28,7 @@ RSpec.describe Money::Bank::Base do
       end
 
       bank = MyBank.new
-      expect(bank.setup_called).to eq true
+      expect(bank.setup_called).to be true
     end
   end
 
@@ -40,19 +40,19 @@ RSpec.describe Money::Bank::Base do
 
   describe "#same_currency?" do
     it "accepts str/str" do
-      expect { subject.send(:same_currency?, 'USD', 'EUR') }.to_not raise_error
+      expect { subject.send(:same_currency?, 'USD', 'EUR') }.not_to raise_error
     end
 
     it "accepts currency/str" do
-      expect { subject.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR') }.to_not raise_error
+      expect { subject.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR') }.not_to raise_error
     end
 
     it "accepts str/currency" do
-      expect { subject.send(:same_currency?, 'USD', Money::Currency.wrap('EUR')) }.to_not raise_error
+      expect { subject.send(:same_currency?, 'USD', Money::Currency.wrap('EUR')) }.not_to raise_error
     end
 
     it "accepts currency/currency" do
-      expect { subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR')) }.to_not raise_error
+      expect { subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR')) }.not_to raise_error
     end
 
     it "returns true when currencies match" do

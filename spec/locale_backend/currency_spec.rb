@@ -13,7 +13,7 @@ RSpec.describe Money::LocaleBackend::Currency do
     end
 
     it 'returns format based as defined in currency' do
-      expect(subject.lookup(:format, currency)).to eq(nil)
+      expect(subject.lookup(:format, currency)).to be_nil
     end
   end
 end

@@ -3,13 +3,13 @@
 RSpec.describe Money::FormattingRules do
   it 'does not modify frozen rules in place' do
     expect {
-      Money::FormattingRules.new(Money::Currency.new('USD'), { separator: '.' }.freeze)
+      described_class.new(Money::Currency.new('USD'), { separator: '.' }.freeze)
     }.not_to raise_error
   end
 
   it 'does not modify rules in place' do
     rules = { separator: '.' }
-    new_rules = Money::FormattingRules.new(Money::Currency.new('USD'), rules)
+    new_rules = described_class.new(Money::Currency.new('USD'), rules)
 
     expect(rules).to eq(separator: '.')
     expect(rules).not_to eq(new_rules)
@@ -21,7 +21,7 @@ RSpec.describe Money::FormattingRules do
         currency = Money::Currency.new('EUR')
         rules = { format: '%n%u', separator: '.', delimiter: ',' }
 
-        expect(Money::FormattingRules.new(currency, rules)[:format]).to eq('%n%u')
+        expect(described_class.new(currency, rules)[:format]).to eq('%n%u')
       end
 
       it 'returns the translated format for the locale' do
@@ -31,7 +31,7 @@ RSpec.describe Money::FormattingRules do
         currency = Money::Currency.new('EUR')
         rules = { separator: '.', delimiter: ',' }
 
-        expect(I18n.with_locale(:fr) { Money::FormattingRules.new(currency, rules)[:format] }).to eq('%n %u')
+        expect(I18n.with_locale(:fr) { described_class.new(currency, rules)[:format] }).to eq('%n %u')
       end
     end
 
@@ -41,7 +41,7 @@ RSpec.describe Money::FormattingRules do
         currency = Money::Currency.new('EUR')
         rules = { format: '%n%u', separator: '.', delimiter: ',' }
 
-        expect(Money::FormattingRules.new(currency, rules)[:format]).to eq('%n%u')
+        expect(described_class.new(currency, rules)[:format]).to eq('%n%u')
       end
 
       it 'returns the default format for the locale' do
@@ -53,7 +53,7 @@ RSpec.describe Money::FormattingRules do
         rules = { separator: '.', delimiter: ',' }
         allow(currency).to receive(:format).and_return("%u%n")
 
-        expect(I18n.with_locale(:fr) { Money::FormattingRules.new(currency, rules)[:format] }).to eq('%u%n')
+        expect(I18n.with_locale(:fr) { described_class.new(currency, rules)[:format] }).to eq('%u%n')
       end
     end
   end
