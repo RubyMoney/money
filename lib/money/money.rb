@@ -628,7 +628,7 @@ class Money
     self.class.new(
       options[:fractional] || fractional,
       options[:currency] || currency,
-      bank: options[:bank] || bank
+      bank: options[:bank] || bank,
     )
   end
 

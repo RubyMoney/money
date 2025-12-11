@@ -52,7 +52,7 @@ RSpec.describe Money::Allocation do
         expect(parts.map { |x| x.round(10) }).to eq([
           BigDecimal('33.3333333333'),
           BigDecimal('33.3333333333'),
-          BigDecimal('33.3333333333')
+          BigDecimal('33.3333333333'),
         ])
         expect(parts.inject(0, :+)).to eq(amount)
       end
@@ -126,7 +126,7 @@ RSpec.describe Money::Allocation do
         expect(parts.map { |x| x.round(10) }).to eq([
           BigDecimal('33.3333333333'),
           BigDecimal('33.3333333333'),
-          BigDecimal('33.3333333333')
+          BigDecimal('33.3333333333'),
         ])
         expect(parts.inject(0, :+)).to eq(amount)
       end
@@ -163,7 +163,7 @@ RSpec.describe Money::Allocation do
           90.36, 90.36, 90.36, 90.36,
           90.36, 90.36, 90.36, 90.36,
           90.36, 90.36, 90.36, 90.36,
-          90.36
+          90.36,
         ]
       end
 
