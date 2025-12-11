@@ -2,9 +2,9 @@
 
 RSpec.describe Money::FormattingRules do
   it 'does not modify frozen rules in place' do
-    expect {
+    expect do
       described_class.new(Money::Currency.new('USD'), { separator: '.' }.freeze)
-    }.not_to raise_error
+    end.not_to raise_error
   end
 
   it 'does not modify rules in place' do

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+Subclass = Class.new(Money)
+
 RSpec.describe Money do
   describe '.locale_backend' do
     after { Money.locale_backend = :currency }
@@ -326,7 +328,10 @@ RSpec.describe Money do
 
       bank = Money::Bank::VariableExchange.new
 
-      Money.with_bank(bank) {}
+      Money.with_bank(bank) do
+        # Do something...
+      end
+
       expect(Money.default_bank).to eq(old_bank)
     end
 
@@ -351,7 +356,7 @@ RSpec.describe Money do
       custom_store = double
       custom_bank = Money::Bank::VariableExchange.new(custom_store)
 
-      2.times do |i|
+      2.times do
         threads << Thread.new do
           bank_to_use = custom_bank
           expected_bank = custom_bank
@@ -397,7 +402,7 @@ RSpec.describe Money do
     end
 
     context "loading a serialized Money via YAML" do
-      let(:serialized) {
+      let(:serialized) do
         <<~YAML
           !ruby/object:Money
             fractional: 249.5
@@ -418,7 +423,7 @@ RSpec.describe Money do
               mutex: !ruby/object:Thread::Mutex {}
               last_updated: 2012-11-23 20:41:47.454438399 +02:00
         YAML
-      }
+      end
 
       let(:m) do
         if Psych::VERSION > '4.0'
@@ -1037,7 +1042,6 @@ RSpec.describe Money do
   describe "#inspect" do
     it "reports the class name properly when using inheritance" do
       expect(Money.new(1).inspect).to start_with '#<Money'
-      Subclass = Class.new(Money)
       expect(Subclass.new(1).inspect).to start_with '#<Subclass'
     end
   end

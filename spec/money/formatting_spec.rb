@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe Money, "formatting" do
-  BAR = '{ "priority": 1, "iso_code": "BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
-  INDIAN_BAR = '{ "priority": 1, "iso_code": "INDIAN_BAR", "iso_numeric": "840", "name": "Dollar with 4 decimal places", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "south_asian_number_formatting": true, "smallest_denomination": 1}'
-  EU4 = '{ "priority": 1, "iso_code": "EU4", "iso_numeric": "841", "name": "Euro with 4 decimal places", "symbol": "€", "subunit": "Cent", "subunit_to_unit": 10000, "symbol_first": true, "html_entity": "€", "decimal_mark": ",", "thousands_separator": ".", "smallest_denomination": 1 }'
-
   context "without i18n" do
     subject(:money) { Money.empty("USD") }
 
@@ -392,12 +388,30 @@ RSpec.describe Money, "formatting" do
     end
 
     describe ":south_asian_number_formatting delimiter" do
+      let(:indian_bar) do
+        {
+          priority: 1,
+          iso_code: "INDIAN_BAR",
+          iso_numeric: "840",
+          name: "Dollar with 4 decimal places",
+          symbol: "$",
+          subunit: "Cent",
+          subunit_to_unit: 10000,
+          symbol_first: true,
+          html_entity: "$",
+          decimal_mark: ".",
+          thousands_separator: ",",
+          south_asian_number_formatting: true,
+          smallest_denomination: 1,
+        }
+      end
+
       before do
-        Money::Currency.register(JSON.parse(INDIAN_BAR, symbolize_names: true))
+        Money::Currency.register(indian_bar)
       end
 
       after do
-        Money::Currency.unregister(JSON.parse(INDIAN_BAR, symbolize_names: true))
+        Money::Currency.unregister(indian_bar)
       end
 
       specify "(south_asian_number_formatting: true) works as documented" do
@@ -628,14 +642,48 @@ RSpec.describe Money, "formatting" do
   end
 
   context "custom currencies with 4 decimal places" do
+    let(:bar) do
+      {
+        priority: 1,
+        iso_code: "BAR",
+        iso_numeric: "840",
+        name: "Dollar with 4 decimal places",
+        symbol: "$",
+        subunit: "Cent",
+        subunit_to_unit: 10000,
+        symbol_first: true,
+        html_entity: "$",
+        decimal_mark: ".",
+        thousands_separator: ",",
+        smallest_denomination: 1,
+      }
+    end
+
+    let(:eu4) do
+      {
+        priority: 1,
+        iso_code: "EU4",
+        iso_numeric: "841",
+        name: "Euro with 4 decimal places",
+        symbol: "€",
+        subunit: "Cent",
+        subunit_to_unit: 10000,
+        symbol_first: true,
+        html_entity: "€",
+        decimal_mark: ",",
+        thousands_separator: ".",
+        smallest_denomination: 1,
+      }
+    end
+
     before do
-      Money::Currency.register(JSON.parse(BAR, symbolize_names: true))
-      Money::Currency.register(JSON.parse(EU4, symbolize_names: true))
+      Money::Currency.register(bar)
+      Money::Currency.register(eu4)
     end
 
     after do
-      Money::Currency.unregister(JSON.parse(BAR, symbolize_names: true))
-      Money::Currency.unregister(JSON.parse(EU4, symbolize_names: true))
+      Money::Currency.unregister(bar)
+      Money::Currency.unregister(eu4)
     end
 
     it "respects custom subunit to unit, decimal and thousands separator" do

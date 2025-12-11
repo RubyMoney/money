@@ -1,18 +1,29 @@
 # frozen_string_literal: true
 
-RSpec.describe Money::Currency do
-  FOO = '{ "priority": 1, "iso_code": "FOO", "iso_numeric": "840", "name": "United States Dollar", "symbol": "$", "subunit": "Cent", "subunit_to_unit": 1000, "symbol_first": true, "html_entity": "$", "decimal_mark": ".", "thousands_separator": ",", "smallest_denomination": 1 }'
+FOO = {
+  priority: 1,
+  iso_code: "FOO",
+  iso_numeric: "840",
+  name: "United States Dollar",
+  symbol: "$",
+  subunit: "Cent",
+  subunit_to_unit: 1000,
+  symbol_first: true,
+  html_entity: "$",
+  decimal_mark: ".",
+  thousands_separator: ",",
+  smallest_denomination: 1,
+}.freeze
 
-  def register_foo(opts = {})
-    foo_attrs = JSON.parse(FOO, symbolize_names: true)
-    # Pass an array of attribute names to 'skip' to remove them from the 'FOO'
-    # json before registering foo as a currency.
-    Array(opts[:skip]).each { |attr| foo_attrs.delete(attr) }
-    described_class.register(foo_attrs)
+RSpec.describe Money::Currency do
+  # Pass an array of attribute names to skip to remove them from the registered
+  # currency.
+  def register_foo(skip: [])
+    described_class.register(FOO.except(*skip))
   end
 
   def unregister_foo
-    described_class.unregister(JSON.parse(FOO, symbolize_names: true))
+    described_class.unregister(FOO)
   end
 
   describe "UnknownCurrency" do
@@ -45,19 +56,22 @@ RSpec.describe Money::Currency do
   end
 
   describe ".find_by_iso_numeric" do
+    let(:mock_class) do
+      Class.new do
+        def to_s
+          "208"
+        end
+      end
+    end
+
     it "returns currency matching given numeric code" do
       expect(described_class.find_by_iso_numeric(978)).to eq     described_class.new(:eur)
       expect(described_class.find_by_iso_numeric(208)).not_to eq described_class.new(:eur)
       expect(described_class.find_by_iso_numeric('840')).to eq   described_class.new(:usd)
       expect(described_class.find_by_iso_numeric(51)).to eq described_class.new(:amd)
 
-      class Mock
-        def to_s
-          '208'
-        end
-      end
-      expect(described_class.find_by_iso_numeric(Mock.new)).to eq     described_class.new(:dkk)
-      expect(described_class.find_by_iso_numeric(Mock.new)).not_to eq described_class.new(:usd)
+      expect(described_class.find_by_iso_numeric(mock_class.new)).to eq described_class.new(:dkk)
+      expect(described_class.find_by_iso_numeric(mock_class.new)).not_to eq described_class.new(:usd)
     end
 
     it "returns nil if no currency has the given numeric code" do
@@ -171,9 +185,9 @@ RSpec.describe Money::Currency do
     end
 
     specify ":iso_code must be present" do
-      expect {
+      expect do
         described_class.register(name: "New Currency")
-      }.to raise_error(KeyError)
+      end.to raise_error(KeyError)
     end
   end
 

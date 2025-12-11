@@ -208,8 +208,8 @@ class Money
         existed ? true : false
       end
 
-      def each
-        all.each { |c| yield(c) }
+      def each(&)
+        all.each(&)
       end
 
       def reset!
