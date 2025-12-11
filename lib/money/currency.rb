@@ -210,8 +210,8 @@ class Money
       end
       # rubocop:enable Naming/PredicateMethod
 
-      def each
-        all.each { |c| yield(c) }
+      def each(&)
+        all.each(&)
       end
 
       def reset!

@@ -17,16 +17,18 @@ RSpec.describe Money::Bank::Base do
   end
 
   describe "#setup" do
-    it "calls #setup after #initialize" do
-      class MyBank < described_class
+    let(:bank_class) do
+      Class.new(described_class) do
         attr_reader :setup_called
 
         def setup
           @setup_called = true
         end
       end
+    end
 
-      bank = MyBank.new
+    it "calls #setup after #initialize" do
+      bank = bank_class.new
       expect(bank.setup_called).to be true
     end
   end

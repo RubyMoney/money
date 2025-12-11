@@ -6,11 +6,11 @@ require 'yaml'
 RSpec.describe Money::Bank::VariableExchange do
   describe "#initialize" do
     context "without &block" do
-      let(:bank) {
+      let(:bank) do
         described_class.new.tap do |bank|
           bank.add_rate('USD', 'EUR', 1.33)
         end
-      }
+      end
 
       describe '#store' do
         it 'defaults to Memory store' do
@@ -86,12 +86,12 @@ RSpec.describe Money::Bank::VariableExchange do
     end
 
     context "with &block" do
-      let(:bank) {
+      let(:bank) do
         proc = Proc.new { |n| n.ceil }
         described_class.new(&proc).tap do |bank|
           bank.add_rate('USD', 'EUR', 1.33)
         end
-      }
+      end
 
       describe "#exchange_with" do
         it "uses the stored truncation method" do

@@ -755,21 +755,21 @@ RSpec.describe Money::Arithmetic do
     end
 
     it "raises TypeError dividing by a Money (unless other is a Money)" do
-      expect {
+      expect do
         2 / Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
     end
 
     it "raises TypeError subtracting by a Money (unless other is a Money)" do
-      expect {
+      expect do
         2 - Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
     end
 
     it "raises TypeError adding by a Money (unless other is a Money)" do
-      expect {
+      expect do
         2 + Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
     end
 
     it "allows subtraction from numeric zero" do
@@ -783,35 +783,35 @@ RSpec.describe Money::Arithmetic do
     end
 
     it "treats multiplication as commutative" do
-      expect {
+      expect do
         2 * Money.new(2, 'USD')
-      }.not_to raise_error
+      end.not_to raise_error
       result = 2 * Money.new(2, 'USD')
       expect(result).to eq(Money.new(4, 'USD'))
     end
 
     it "doesn't work with non-numerics" do
-      expect {
+      expect do
         "2" * Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
     end
 
     it "correctly handles <=>" do
-      expect {
+      expect do
         2 < Money.new(2, 'USD')
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
 
-      expect {
+      expect do
         2 > Money.new(2, 'USD')
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
 
-      expect {
+      expect do
         2 <= Money.new(2, 'USD')
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
 
-      expect {
+      expect do
         2 >= Money.new(2, 'USD')
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
 
       expect(2 <=> Money.new(2, 'USD')).to be_nil
     end
@@ -823,17 +823,17 @@ RSpec.describe Money::Arithmetic do
     end
 
     it "raises errors for all numeric types, not just Integer" do
-      expect {
+      expect do
         2.0 / Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
 
-      expect {
+      expect do
         Rational(2, 3) / Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
 
-      expect {
+      expect do
         BigDecimal(2) / Money.new(2, 'USD')
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
     end
   end
 

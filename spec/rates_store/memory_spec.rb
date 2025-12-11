@@ -42,11 +42,11 @@ RSpec.describe Money::RatesStore::Memory do
       end
 
       it 'wraps block in mutex transaction only once' do
-        expect {
+        expect do
           subject.transaction do
             subject.add_rate('USD', 'CAD', 1)
           end
-        }.not_to raise_error
+        end.not_to raise_error
       end
     end
   end

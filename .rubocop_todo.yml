@@ -12,20 +12,6 @@ Lint/AssignmentInCondition:
   Exclude:
     - 'lib/money/bank/variable_exchange.rb'
 
-# Configuration parameters: AllowedMethods.
-# AllowedMethods: enums
-Lint/ConstantDefinitionInBlock:
-  Exclude:
-    - 'spec/bank/base_spec.rb'
-    - 'spec/currency_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/money_spec.rb'
-
-# Configuration parameters: AllowComments, AllowEmptyLambdas.
-Lint/EmptyBlock:
-  Exclude:
-    - 'spec/money_spec.rb'
-
 Lint/FloatComparison:
   Exclude:
     - 'spec/money/arithmetic_spec.rb'
@@ -50,12 +36,6 @@ Lint/RedundantDirGlobSort:
 Lint/SuppressedException:
   Exclude:
     - 'lib/money/money/arithmetic.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Exclude:
-    - 'spec/money_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods, IgnoreNotImplementedMethods, NotImplementedExceptions.
@@ -128,13 +108,6 @@ RSpec/InstanceVariable:
   Exclude:
     - 'spec/bank/variable_exchange_spec.rb'
     - 'spec/money/arithmetic_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/money_spec.rb'
-
-RSpec/LeakyConstantDeclaration:
-  Exclude:
-    - 'spec/bank/base_spec.rb'
-    - 'spec/currency_spec.rb'
     - 'spec/money/formatting_spec.rb'
     - 'spec/money_spec.rb'
 
@@ -242,22 +215,6 @@ Style/BarePercentLiterals:
     - 'spec/currency_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, ProceduralMethods, FunctionalMethods, AllowedMethods, AllowedPatterns, AllowBracesOnProceduralOneLiners, BracesRequiredMethods.
-# SupportedStyles: line_count_based, semantic, braces_for_chaining, always_braces
-# ProceduralMethods: benchmark, bm, bmbm, create, each_with_object, measure, new, realtime, tap, with_object
-# FunctionalMethods: let, let!, subject, watch
-# AllowedMethods: lambda, proc, it
-Style/BlockDelimiters:
-  Exclude:
-    - 'spec/bank/single_currency_spec.rb'
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/currency_spec.rb'
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/money/formatting_rules_spec.rb'
-    - 'spec/money_spec.rb'
-    - 'spec/rates_store/memory_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowOnConstant, AllowOnSelfClass.
 Style/CaseEquality:
   Exclude:
@@ -279,12 +236,6 @@ Style/EmptyMethod:
 Style/ExpandPathArguments:
   Exclude:
     - 'lib/money/currency/loader.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-Style/ExplicitBlockArgument:
-  Exclude:
-    - 'lib/money/currency.rb'
-    - 'lib/money/rates_store/memory.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Style/FileWrite:

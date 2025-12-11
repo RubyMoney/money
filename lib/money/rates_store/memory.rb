@@ -72,9 +72,7 @@ class Money
 
       # Wraps block execution in a thread-safe transaction
       def transaction(&)
-        guard.synchronize do
-          yield
-        end
+        guard.synchronize(&)
       end
 
       # Iterate over rate tuples (iso_from, iso_to, rate)
