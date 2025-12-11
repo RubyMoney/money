@@ -7,11 +7,6 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # This cop supports safe autocorrection (--autocorrect).
-Layout/ElseAlignment:
-  Exclude:
-    - 'lib/money/money/allocation.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Layout/EmptyLineAfterGuardClause:
   Exclude:
     - 'lib/money/currency.rb'
@@ -64,13 +59,6 @@ Layout/EmptyLinesAroundModuleBody:
     - 'lib/money/rates_store/memory.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyleAlignWith, Severity.
-# SupportedStylesAlignWith: keyword, variable, start_of_line
-Layout/EndAlignment:
-  Exclude:
-    - 'lib/money/money/allocation.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowForAlignment, AllowBeforeTrailingComments, ForceEqualSignAlignment.
 Layout/ExtraSpacing:
   Exclude:
@@ -103,7 +91,6 @@ Layout/HeredocIndentation:
 # Configuration parameters: Width, AllowedPatterns.
 Layout/IndentationWidth:
   Exclude:
-    - 'lib/money/money/allocation.rb'
     - 'spec/money_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
@@ -281,7 +268,7 @@ Metrics/CyclomaticComplexity:
 
 # Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns.
 Metrics/MethodLength:
-  Max: 36
+  Max: 37
 
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ModuleLength:

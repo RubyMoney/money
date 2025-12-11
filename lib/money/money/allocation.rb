@@ -22,13 +22,14 @@ class Money
     # @return [Array<Numeric>] An array containing the allocated amounts.
     # @raise [ArgumentError] If parts is empty or not provided.
     def self.generate(amount, parts, decimal_cutoff = true)
-      parts = if parts.is_a?(Numeric)
-        Array.new(parts, 1)
-      elsif parts.all?(&:zero?)
-        Array.new(parts.count, 1)
-      else
-        parts.dup
-      end
+      parts =
+        if parts.is_a?(Numeric)
+          Array.new(parts, 1)
+        elsif parts.all?(&:zero?)
+          Array.new(parts.count, 1)
+        else
+          parts.dup
+        end
 
       raise ArgumentError, 'need at least one part' if parts.empty?
 
