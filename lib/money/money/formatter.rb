@@ -191,6 +191,7 @@ class Money
 
     def to_s
       return free_text if show_free_text?
+
       result = format_number
       formatted = append_sign(result)
       append_currency_symbol(formatted)

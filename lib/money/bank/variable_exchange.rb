@@ -43,13 +43,12 @@ class Money
     #   # Get rate from redis
     #   bank.get_rate 'USD', 'CAD'
     class VariableExchange < Base
-
       attr_reader :mutex
 
       # Available formats for importing/exporting rates.
       RATE_FORMATS = [:json, :ruby, :yaml].freeze
       SERIALIZER_SEPARATOR = '_TO_'.freeze
-      FORMAT_SERIALIZERS = {json: JSON, ruby: Marshal, yaml: YAML}.freeze
+      FORMAT_SERIALIZERS = { json: JSON, ruby: Marshal, yaml: YAML }.freeze
 
       # Initializes a new +Money::Bank::VariableExchange+ object.
       # It defaults to using an in-memory, thread safe store instance for
@@ -58,9 +57,9 @@ class Money
       # @param [RateStore] st An exchange rate store, used to persist exchange rate pairs.
       # @yield [n] Optional block to use when rounding after exchanging one
       #  currency for another. See +Money::bank::base+
-      def initialize(st = Money::RatesStore::Memory.new, &block)
+      def initialize(st = Money::RatesStore::Memory.new, &)
         @store = st
-        super(&block)
+        super(&)
       end
 
       def store
@@ -108,7 +107,7 @@ class Money
       #
       #   # Exchange 100 CAD to USD:
       #   bank.exchange_with(c2, "USD") #=> #<Money fractional:8031 currency:USD>
-      def exchange_with(from, to_currency, &block)
+      def exchange_with(from, to_currency, &)
         to_currency = Currency.wrap(to_currency)
         if from.currency == to_currency
           from
@@ -116,7 +115,7 @@ class Money
           if rate = get_rate(from.currency, to_currency)
             fractional = calculate_fractional(from, to_currency)
             from.dup_with(
-              fractional: exchange(fractional, rate, &block),
+              fractional: exchange(fractional, rate, &),
               currency: to_currency,
               bank: self,
             )
@@ -133,7 +132,7 @@ class Money
         )
       end
 
-      def exchange(fractional, rate, &block)
+      def exchange(fractional, rate, &)
         ex = fractional * BigDecimal(rate.to_s)
         if block_given?
           yield ex
@@ -227,7 +226,7 @@ class Money
           s = FORMAT_SERIALIZERS[format].dump(rates)
 
           unless file.nil?
-            File.open(file, "w") {|f| f.write(s) }
+            File.open(file, "w") { |f| f.write(s) }
           end
 
           s
@@ -236,7 +235,7 @@ class Money
 
       # This should be deprecated.
       def rates
-        store.each_rate.each_with_object({}) do |(from,to,rate),hash|
+        store.each_rate.each_with_object({}) do |(from, to, rate), hash|
           hash[[from, to].join(SERIALIZER_SEPARATOR)] = rate
         end
       end

@@ -106,7 +106,6 @@ class Money
 
   # Class Methods
   class << self
-
     # @!attribute [rw] default_bank
     #   Used to set a default bank for currency exchange.
     #
@@ -163,7 +162,13 @@ class Money
                   :conversion_precision,
                   :strict_eql_compare
     attr_reader :locale_backend
-    attr_writer :default_bank
+    attr_writer :default_bank,
+                :default_currency
+
+    # @attr_writer rounding_mode Use this to specify the rounding mode
+    attr_writer :rounding_mode
+
+    alias_method :from_cents, :new
   end
 
   # @!attribute default_currency
@@ -177,10 +182,6 @@ class Money
     else
       Money::Currency.new(@default_currency)
     end
-  end
-
-  def self.default_currency=(currency)
-    @default_currency = currency
   end
 
   # Modified to support thread-local bank override
@@ -216,11 +217,6 @@ class Money
 
   def self.locale_backend=(value)
     @locale_backend = value ? LocaleBackend.find(value) : nil
-  end
-
-  # @attr_writer rounding_mode Use this to specify the rounding mode
-  def self.rounding_mode=(new_rounding_mode)
-    @rounding_mode = new_rounding_mode
   end
 
   def self.setup_defaults
@@ -333,10 +329,6 @@ class Money
          "`Money.from_amount`."
 
     from_amount(amount, currency, options)
-  end
-
-  class << self
-    alias_method :from_cents, :new
   end
 
   # Creates a new Money object of value given in the
@@ -517,12 +509,12 @@ class Money
   #   Money.new(2000, "USD").exchange_to("EUR")
   #   Money.new(2000, "USD").exchange_to("EUR") {|x| x.round}
   #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
-  def exchange_to(other_currency, &rounding_method)
+  def exchange_to(other_currency, &)
     other_currency = Currency.wrap(other_currency)
     if self.currency == other_currency
       self
     else
-      @bank.exchange_with(self, other_currency, &rounding_method)
+      @bank.exchange_with(self, other_currency, &)
     end
   end
 
