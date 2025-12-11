@@ -7,15 +7,6 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: with_first_argument, with_fixed_indentation
-Layout/ArgumentAlignment:
-  Exclude:
-    - 'lib/money/currency.rb'
-    - 'spec/currency_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Layout/ElseAlignment:
   Exclude:
     - 'lib/money/money/allocation.rb'
@@ -102,7 +93,6 @@ Layout/FirstArrayElementIndentation:
 Layout/HashAlignment:
   Exclude:
     - 'spec/currency_spec.rb'
-    - 'spec/money/formatting_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Layout/HeredocIndentation:
@@ -141,13 +131,6 @@ Layout/LineEndStringConcatenationIndentation:
 Layout/MultilineBlockLayout:
   Exclude:
     - 'spec/money_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: symmetrical, new_line, same_line
-Layout/MultilineMethodCallBraceLayout:
-  Exclude:
-    - 'spec/currency_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle, IndentationWidth.
@@ -750,7 +733,6 @@ Style/RedundantFreeze:
   Exclude:
     - 'lib/money/bank/variable_exchange.rb'
     - 'lib/money/rates_store/memory.rb'
-    - 'lib/money/version.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Style/RedundantParentheses:
