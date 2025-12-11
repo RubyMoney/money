@@ -91,7 +91,7 @@ class Money
     smallest_denomination = as_d(self.currency.smallest_denomination)
     rounded_value =
       (fractional / smallest_denomination)
-        .round(0, self.class.rounding_mode) * smallest_denomination
+      .round(0, self.class.rounding_mode) * smallest_denomination
 
     dup_with(fractional: return_value(rounded_value))
   end
