@@ -173,12 +173,12 @@ class Money
       # This should be deprecated.
       def rates: () -> untyped
 
-      # Loads rates provided in +s+ given the specified format. Available
+      # Loads rates provided in +string+ given the specified format. Available
       # formats are +:json+, +:ruby+ and +:yaml+.
       # Delegates to +Money::RatesStore::Memory+
       #
-      # @param [Symbol] format The format of +s+.
-      # @param [String] s The rates string.
+      # @param [Symbol] format The format of +string+.
+      # @param [String] string The rates string.
       # @param [Hash] opts Options hash to set special parameters. Backwards compatibility only.
       #
       # @return [self]
@@ -186,13 +186,13 @@ class Money
       # @raise +Money::Bank::UnknownRateFormat+ if format is unknown.
       #
       # @example
-      #   s = "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
+      #   string = "{\"USD_TO_CAD\":1.24515,\"CAD_TO_USD\":0.803115}"
       #   bank = Money::Bank::VariableExchange.new
-      #   bank.import_rates(:json, s)
+      #   bank.import_rates(:json, string)
       #
       #   bank.get_rate("USD", "CAD") #=> 1.24515
       #   bank.get_rate("CAD", "USD") #=> 0.803115
-      def import_rates: (Symbol format, string s, ?::Hash[untyped, untyped] opts) -> Money::Bank::VariableExchange
+      def import_rates: (Symbol format, string string, ?::Hash[untyped, untyped] opts) -> Money::Bank::VariableExchange
     end
   end
 end

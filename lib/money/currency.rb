@@ -196,6 +196,7 @@ class Money
       #
       # @return [Boolean] true if the currency previously existed, false
       #   if it didn't.
+      # rubocop:disable Naming/PredicateMethod
       def unregister(curr)
         key =
           if curr.is_a?(Hash)
@@ -207,6 +208,7 @@ class Money
         @stringified_keys = nil if existed
         existed ? true : false
       end
+      # rubocop:enable Naming/PredicateMethod
 
       def each
         all.each { |c| yield(c) }
@@ -307,12 +309,12 @@ class Money
     #   c1 <=> c2 #=> 1
     #   c2 <=> c1 #=> -1
     #   c1 <=> c1 #=> 0
-    def <=>(other_currency)
+    def <=>(other)
       # <=> returns nil when one of the values is nil
-      comparison = self.priority <=> other_currency.priority || 0
+      comparison = self.priority <=> other.priority || 0
 
       if comparison == 0
-        self.id <=> other_currency.id
+        self.id <=> other.id
       else
         comparison
       end
@@ -330,19 +332,9 @@ class Money
     #   c2 = Money::Currency.new(:jpy)
     #   c1 == c1 #=> true
     #   c1 == c2 #=> false
-    def ==(other_currency)
-      self.equal?(other_currency) || compare_ids(other_currency)
+    def ==(other)
+      self.equal?(other) || compare_ids(other)
     end
-
-    def compare_ids(other_currency)
-      other_currency_id = if other_currency.is_a?(Currency)
-                            other_currency.id.to_s.downcase
-                          else
-                            other_currency.to_s.downcase
-                          end
-      self.id.to_s.downcase == other_currency_id
-    end
-    private :compare_ids
 
     # Returns a Integer hash value based on the +id+ attribute in order to use
     # functions like & (intersection), group_by, etc.
@@ -456,6 +448,18 @@ class Money
     alias decimal_places exponent
 
     private
+
+    # rubocop:disable Naming/PredicateMethod
+    def compare_ids(other_currency)
+      other_currency_id =
+        if other_currency.is_a?(Currency)
+          other_currency.id.to_s.downcase
+        else
+          other_currency.to_s.downcase
+        end
+      id.to_s.downcase == other_currency_id
+    end
+    # rubocop:enable Naming/PredicateMethod
 
     def initialize_data!
       data = self.class.table[@id]
