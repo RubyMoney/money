@@ -91,6 +91,30 @@ Style/SymbolArray:
   # Prefer [:a, :b] to %i[a b]
   EnforcedStyle: brackets
 
+Style/TrailingCommaInArguments:
+  # Prefer trailing commas in multiline arguments:
+  #   call(
+  #     a: 1,
+  #     b: 2,
+  #   )
+  EnforcedStyleForMultiline: diff_comma
+
+Style/TrailingCommaInArrayLiteral:
+  # Prefer trailing commas in arrays:
+  #   [
+  #     1,
+  #     2,
+  #   ]
+  EnforcedStyleForMultiline: diff_comma
+
+Style/TrailingCommaInHashLiteral:
+  # Prefer trailing commas in multiline hashes:
+  #   {
+  #     a: 1,
+  #     b: 2,
+  #   }
+  EnforcedStyleForMultiline: diff_comma
+
 Style/YodaCondition:
   # Sometimes in specs it makes more sense to write
   #   2 >= Money.new(2, 'USD')

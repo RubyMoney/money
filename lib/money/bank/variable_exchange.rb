@@ -118,7 +118,7 @@ class Money
             from.dup_with(
               fractional: exchange(fractional, rate, &block),
               currency: to_currency,
-              bank: self
+              bank: self,
             )
           else
             raise UnknownRate, "No conversion rate known for '#{from.currency.iso_code}' -> '#{to_currency}'"

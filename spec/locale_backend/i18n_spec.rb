@@ -20,7 +20,7 @@ RSpec.describe Money::LocaleBackend::I18n do
       before do
         I18n.locale = :de
         I18n.backend.store_translations(:de, number: {
-          currency: { format: { delimiter: '.', separator: ',', unit: '$', format: '%u%n' } }
+          currency: { format: { delimiter: '.', separator: ',', unit: '$', format: '%u%n' } },
         })
       end
 

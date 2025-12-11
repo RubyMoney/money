@@ -6,7 +6,7 @@ class Money
   class Formatter
     DEFAULTS = {
       thousands_separator: '',
-      decimal_mark: '.'
+      decimal_mark: '.',
     }.freeze
 
     # Creates a formatted price string according to several rules.
@@ -230,7 +230,7 @@ class Money
           [
             html_wrap(whole_part, "whole"),
             html_wrap(decimal_mark, "decimal-mark"),
-            html_wrap(decimal_part, "decimal")
+            html_wrap(decimal_part, "decimal"),
           ].join
         end
       else
