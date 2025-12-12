@@ -35,19 +35,17 @@ RSpec.describe Money::RatesStore::Memory do
   end
 
   describe '#transaction' do
-    context 'mutex' do
-      it 'uses mutex' do
-        expect(subject.instance_variable_get('@guard')).to receive(:synchronize)
-        subject.transaction { 1 + 1 }
-      end
+    it 'uses mutex' do
+      expect(subject.instance_variable_get('@guard')).to receive(:synchronize)
+      subject.transaction { 1 + 1 }
+    end
 
-      it 'wraps block in mutex transaction only once' do
-        expect do
-          subject.transaction do
-            subject.add_rate('USD', 'CAD', 1)
-          end
-        end.not_to raise_error
-      end
+    it 'wraps block in mutex transaction only once' do
+      expect do
+        subject.transaction do
+          subject.add_rate('USD', 'CAD', 1)
+        end
+      end.not_to raise_error
     end
   end
 

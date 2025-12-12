@@ -125,7 +125,7 @@ RSpec.describe Money::Currency do
       end
     end
 
-    context "after reset!" do
+    context "when after reset!" do
       it "clears the iso_numeric cache" do
         expect(described_class.find_by_iso_numeric(840)).to eq described_class.new(:usd)
 

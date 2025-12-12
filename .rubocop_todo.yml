@@ -74,21 +74,6 @@ Metrics/ModuleLength:
 Metrics/PerceivedComplexity:
   Max: 16
 
-# Configuration parameters: Prefixes, AllowedPatterns.
-# Prefixes: when, with, without
-RSpec/ContextWording:
-  Exclude:
-    - 'spec/currency_spec.rb'
-    - 'spec/money/allocation_spec.rb'
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/money_spec.rb'
-    - 'spec/rates_store/memory_spec.rb'
-
-RSpec/DescribeMethod:
-  Exclude:
-    - 'spec/money/formatting_spec.rb'
-
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
   Max: 38
