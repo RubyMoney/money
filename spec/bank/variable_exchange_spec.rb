@@ -4,6 +4,8 @@ require 'json'
 require 'yaml'
 
 RSpec.describe Money::Bank::VariableExchange do
+  subject(:bank) { described_class.new }
+
   describe "#initialize" do
     context "without &block" do
       let(:bank) do
@@ -108,87 +110,87 @@ RSpec.describe Money::Bank::VariableExchange do
 
   describe "#add_rate" do
     it 'delegates to store#add_rate' do
-      expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 1.25).and_return 1.25
-      expect(subject.add_rate('USD', 'EUR', 1.25)).to be 1.25
+      expect(bank.store).to receive(:add_rate).with('USD', 'EUR', 1.25).and_return 1.25
+      expect(bank.add_rate('USD', 'EUR', 1.25)).to be 1.25
     end
 
     it "adds rates with correct ISO codes" do
-      expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 0.788332676)
-      subject.add_rate("USD", "EUR", 0.788332676)
+      expect(bank.store).to receive(:add_rate).with('USD', 'EUR', 0.788332676)
+      bank.add_rate("USD", "EUR", 0.788332676)
 
-      expect(subject.store).to receive(:add_rate).with('EUR', 'JPY', 122.631477)
-      subject.add_rate("EUR", "YEN", 122.631477)
+      expect(bank.store).to receive(:add_rate).with('EUR', 'JPY', 122.631477)
+      bank.add_rate("EUR", "YEN", 122.631477)
     end
 
     it "treats currency names case-insensitively" do
-      subject.add_rate("usd", "eur", 1)
-      expect(subject.get_rate('USD', 'EUR')).to eq 1
+      bank.add_rate("usd", "eur", 1)
+      expect(bank.get_rate('USD', 'EUR')).to eq 1
     end
   end
 
   describe "#set_rate" do
     it 'delegates to store#add_rate' do
-      expect(subject.store).to receive(:add_rate).with('USD', 'EUR', 1.25).and_return 1.25
-      expect(subject.set_rate('USD', 'EUR', 1.25)).to be 1.25
+      expect(bank.store).to receive(:add_rate).with('USD', 'EUR', 1.25).and_return 1.25
+      expect(bank.set_rate('USD', 'EUR', 1.25)).to be 1.25
     end
 
     it "sets a rate" do
-      subject.set_rate('USD', 'EUR', 1.25)
-      expect(subject.store.get_rate('USD', 'EUR')).to eq 1.25
+      bank.set_rate('USD', 'EUR', 1.25)
+      expect(bank.store.get_rate('USD', 'EUR')).to eq 1.25
     end
 
     it "raises an UnknownCurrency error when an unknown currency is passed" do
-      expect { subject.set_rate('AAA', 'BBB', 1.25) }.to raise_error(Money::Currency::UnknownCurrency)
+      expect { bank.set_rate('AAA', 'BBB', 1.25) }.to raise_error(Money::Currency::UnknownCurrency)
     end
   end
 
   describe "#get_rate" do
     it "returns a rate" do
-      subject.set_rate('USD', 'EUR', 1.25)
-      expect(subject.get_rate('USD', 'EUR')).to eq 1.25
+      bank.set_rate('USD', 'EUR', 1.25)
+      expect(bank.get_rate('USD', 'EUR')).to eq 1.25
     end
 
     it "raises an UnknownCurrency error when an unknown currency is passed" do
-      expect { subject.get_rate('AAA', 'BBB') }.to raise_error(Money::Currency::UnknownCurrency)
+      expect { bank.get_rate('AAA', 'BBB') }.to raise_error(Money::Currency::UnknownCurrency)
     end
 
     it "delegates options to store, options are a no-op" do
-      expect(subject.store).to receive(:get_rate).with('USD', 'EUR')
-      subject.get_rate('USD', 'EUR')
+      expect(bank.store).to receive(:get_rate).with('USD', 'EUR')
+      bank.get_rate('USD', 'EUR')
     end
   end
 
   describe "#export_rates" do
     before do
-      subject.set_rate('USD', 'EUR', 1.25)
-      subject.set_rate('USD', 'JPY', 2.55)
+      bank.set_rate('USD', 'EUR', 1.25)
+      bank.set_rate('USD', 'JPY', 2.55)
 
       @rates = { "USD_TO_EUR" => 1.25, "USD_TO_JPY" => 2.55 }
     end
 
     context "with format == :json" do
       it "returns rates formatted as json" do
-        json = subject.export_rates(:json)
+        json = bank.export_rates(:json)
         expect(JSON.load(json)).to eq @rates
       end
     end
 
     context "with format == :ruby" do
       it "returns rates formatted as ruby objects" do
-        expect(Marshal.load(subject.export_rates(:ruby))).to eq @rates
+        expect(Marshal.load(bank.export_rates(:ruby))).to eq @rates
       end
     end
 
     context "with format == :yaml" do
       it "returns rates formatted as yaml" do
-        yaml = subject.export_rates(:yaml)
+        yaml = bank.export_rates(:yaml)
         expect(YAML.load(yaml)).to eq @rates
       end
     end
 
     context "with unknown format" do
       it "raises Money::Bank::UnknownRateFormat" do
-        expect { subject.export_rates(:foo) }.to raise_error Money::Bank::UnknownRateFormat
+        expect { bank.export_rates(:foo) }.to raise_error Money::Bank::UnknownRateFormat
       end
     end
 
@@ -198,13 +200,13 @@ RSpec.describe Money::Bank::VariableExchange do
         expect(File).to receive(:open).with('null', 'w').and_yield(f)
         expect(f).to receive(:write).with(JSON.dump(@rates))
 
-        subject.export_rates(:json, 'null')
+        bank.export_rates(:json, 'null')
       end
     end
 
     it "delegates execution to store, options are a no-op" do
-      expect(subject.store).to receive(:transaction)
-      subject.export_rates(:yaml, nil, foo: 1)
+      expect(bank.store).to receive(:transaction)
+      bank.export_rates(:yaml, nil, foo: 1)
     end
   end
 
@@ -212,9 +214,9 @@ RSpec.describe Money::Bank::VariableExchange do
     context "with format == :json" do
       it "loads the rates provided" do
         s = '{"USD_TO_EUR":1.25,"USD_TO_JPY":2.55}'
-        subject.import_rates(:json, s)
-        expect(subject.get_rate('USD', 'EUR')).to eq 1.25
-        expect(subject.get_rate('USD', 'JPY')).to eq 2.55
+        bank.import_rates(:json, s)
+        expect(bank.get_rate('USD', 'EUR')).to eq 1.25
+        expect(bank.get_rate('USD', 'JPY')).to eq 2.55
       end
     end
 
@@ -222,55 +224,58 @@ RSpec.describe Money::Bank::VariableExchange do
       let(:dump) { Marshal.dump({ "USD_TO_EUR" => 1.25, "USD_TO_JPY" => 2.55 }) }
 
       it "loads the rates provided" do
-        subject.import_rates(:ruby, dump)
+        bank.import_rates(:ruby, dump)
 
-        expect(subject.get_rate('USD', 'EUR')).to eq 1.25
-        expect(subject.get_rate('USD', 'JPY')).to eq 2.55
+        expect(bank.get_rate('USD', 'EUR')).to eq 1.25
+        expect(bank.get_rate('USD', 'JPY')).to eq 2.55
       end
 
+      # rubocop:disable RSpec/SubjectStub
       it "prints a warning" do
-        allow(subject).to receive(:warn)
+        allow(bank).to receive(:warn)
 
-        subject.import_rates(:ruby, dump)
+        bank.import_rates(:ruby, dump)
 
-        expect(subject)
+        expect(bank)
           .to have_received(:warn)
           .with(include('[WARNING] Using :ruby format when importing rates is potentially unsafe'))
       end
+      # rubocop:enable RSpec/SubjectStub
     end
 
     context "with format == :yaml" do
       it "loads the rates provided" do
         s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
-        subject.import_rates(:yaml, s)
-        expect(subject.get_rate('USD', 'EUR')).to eq 1.25
-        expect(subject.get_rate('USD', 'JPY')).to eq 2.55
+        bank.import_rates(:yaml, s)
+        expect(bank.get_rate('USD', 'EUR')).to eq 1.25
+        expect(bank.get_rate('USD', 'JPY')).to eq 2.55
       end
     end
 
     context "with unknown format" do
       it "raises Money::Bank::UnknownRateFormat" do
-        expect { subject.import_rates(:foo, "") }.to raise_error Money::Bank::UnknownRateFormat
+        expect { bank.import_rates(:foo, "") }
+          .to raise_error Money::Bank::UnknownRateFormat
       end
     end
 
     it "delegates execution to store#transaction" do
-      expect(subject.store).to receive(:transaction)
+      expect(bank.store).to receive(:transaction)
       s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
-      subject.import_rates(:yaml, s, foo: 1)
+      bank.import_rates(:yaml, s, foo: 1)
     end
   end
 
   describe "#marshal_dump" do
     it "does not raise an error" do
-      expect { Marshal.dump(subject) }.not_to raise_error
+      expect { Marshal.dump(bank) }.not_to raise_error
     end
 
     it "works with Marshal.load" do
-      bank = Marshal.load(Marshal.dump(subject))
+      new_bank = Marshal.load(Marshal.dump(bank))
 
-      expect(bank.rates).to           eq subject.rates
-      expect(bank.rounding_method).to eq subject.rounding_method
+      expect(new_bank.rates).to eq bank.rates
+      expect(new_bank.rounding_method).to eq bank.rounding_method
     end
   end
 end

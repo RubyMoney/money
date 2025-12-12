@@ -125,19 +125,6 @@ RSpec/MessageSpies:
 RSpec/MultipleExpectations:
   Max: 18
 
-# Configuration parameters: EnforcedStyle, IgnoreSharedExamples.
-# SupportedStyles: always, named_only
-RSpec/NamedSubject:
-  Exclude:
-    - 'spec/bank/base_spec.rb'
-    - 'spec/bank/single_currency_spec.rb'
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/currency/loader_spec.rb'
-    - 'spec/locale_backend/currency_spec.rb'
-    - 'spec/locale_backend/i18n_spec.rb'
-    - 'spec/money_spec.rb'
-    - 'spec/rates_store/memory_spec.rb'
-
 # Configuration parameters: AllowedGroups.
 RSpec/NestedGroups:
   Max: 5
@@ -168,15 +155,6 @@ RSpec/StubbedMock:
     - 'spec/money/arithmetic_spec.rb'
     - 'spec/money/formatting_spec.rb'
     - 'spec/money_spec.rb'
-
-RSpec/SubjectDeclaration:
-  Exclude:
-    - 'spec/rates_store/memory_spec.rb'
-
-RSpec/SubjectStub:
-  Exclude:
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/currency/loader_spec.rb'
 
 # Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
 RSpec/VerifiedDoubles:

@@ -1,64 +1,62 @@
 # frozen_string_literal: true
 
 RSpec.describe Money::RatesStore::Memory do
-  let(:subject) { described_class.new }
+  subject(:store) { described_class.new }
 
   describe '#add_rate and #get_rate' do
     it 'stores rate in memory' do
-      expect(subject.add_rate('USD', 'CAD', 0.9)).to be 0.9
-      expect(subject.get_rate('USD', 'CAD')).to be 0.9
+      expect(store.add_rate('USD', 'CAD', 0.9)).to be 0.9
+      expect(store.get_rate('USD', 'CAD')).to be 0.9
     end
   end
 
   describe 'add_rate' do
     it "uses a mutex by default" do
-      expect(subject.instance_variable_get(:@guard)).to receive(:synchronize)
-      subject.add_rate('USD', 'EUR', 1.25)
+      expect(store.instance_variable_get(:@guard)).to receive(:synchronize)
+      store.add_rate('USD', 'EUR', 1.25)
     end
   end
 
   describe '#each_rate' do
     before do
-      subject.add_rate('USD', 'CAD', 0.9)
-      subject.add_rate('CAD', 'USD', 1.1)
+      store.add_rate('USD', 'CAD', 0.9)
+      store.add_rate('CAD', 'USD', 1.1)
     end
 
     it 'iterates over rates' do
-      expect { |b| subject.each_rate(&b) }.to yield_successive_args(['USD', 'CAD', 0.9], ['CAD', 'USD', 1.1])
+      expect { |b| store.each_rate(&b) }.to yield_successive_args(['USD', 'CAD', 0.9], ['CAD', 'USD', 1.1])
     end
 
     it 'is an Enumeator' do
-      expect(subject.each_rate).to be_a(Enumerator)
-      result = subject.each_rate.each_with_object({}) { |(from, to, rate), m| m[[from, to].join] = rate }
+      expect(store.each_rate).to be_a(Enumerator)
+      result = store.each_rate.each_with_object({}) { |(from, to, rate), m| m[[from, to].join] = rate }
       expect(result).to match({ 'USDCAD' => 0.9, 'CADUSD' => 1.1 })
     end
   end
 
   describe '#transaction' do
-    context 'mutex' do
-      it 'uses mutex' do
-        expect(subject.instance_variable_get('@guard')).to receive(:synchronize)
-        subject.transaction { 1 + 1 }
-      end
+    it 'uses mutex' do
+      expect(store.instance_variable_get('@guard')).to receive(:synchronize)
+      store.transaction { 1 + 1 }
+    end
 
-      it 'wraps block in mutex transaction only once' do
-        expect do
-          subject.transaction do
-            subject.add_rate('USD', 'CAD', 1)
-          end
-        end.not_to raise_error
-      end
+    it 'wraps block in mutex transaction only once' do
+      expect do
+        store.transaction do
+          store.add_rate('USD', 'CAD', 1)
+        end
+      end.not_to raise_error
     end
   end
 
   describe '#marshal_dump' do
-    let(:subject) { described_class.new(optional: true) }
+    subject(:store) { described_class.new(optional: true) }
 
     it 'can reload' do
-      bank = Money::Bank::VariableExchange.new(subject)
+      bank = Money::Bank::VariableExchange.new(store)
       bank = Marshal.load(Marshal.dump(bank))
-      expect(bank.store.instance_variable_get(:@options)).to eq subject.instance_variable_get(:@options)
-      expect(bank.store.instance_variable_get(:@index)).to eq subject.instance_variable_get(:@index)
+      expect(bank.store.instance_variable_get(:@options)).to eq store.instance_variable_get(:@options)
+      expect(bank.store.instance_variable_get(:@index)).to eq store.instance_variable_get(:@index)
     end
   end
 end

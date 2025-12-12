@@ -903,12 +903,10 @@ RSpec.describe Money do
     end
 
     context "with all zeros" do
-      subject { Money.us_dollar(100).allocate(arry).map(&:fractional) }
-
-      let(:arry) { [0, 0] }
+      let(:moneys) { Money.us_dollar(100).allocate([0, 0]) }
 
       it "allocates evenly" do
-        expect(subject).to eq [50, 50]
+        expect(moneys.map(&:fractional)).to eq [50, 50]
       end
     end
 
