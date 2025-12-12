@@ -390,11 +390,11 @@ RSpec.describe Money::Currency do
 
   describe "#inspect" do
     it "works as documented" do
-      expect(described_class.new(:usd).inspect).to eq %Q{#<Money::Currency id: usd, priority: 1, symbol_first: true, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, exponent: 2, iso_code: USD, iso_numeric: 840, subunit: Cent, smallest_denomination: 1, format: >}
+      expect(described_class.new(:usd).inspect).to eq "#<Money::Currency id: usd, priority: 1, symbol_first: true, thousands_separator: ,, html_entity: $, decimal_mark: ., name: United States Dollar, symbol: $, subunit_to_unit: 100, exponent: 2, iso_code: USD, iso_numeric: 840, subunit: Cent, smallest_denomination: 1, format: >"
     end
 
     it "works as documented" do
-      expect(described_class.new(:aed).inspect).to eq %Q{#<Money::Currency id: aed, priority: 100, symbol_first: false, thousands_separator: ,, html_entity: , decimal_mark: ., name: United Arab Emirates Dirham, symbol: د.إ, subunit_to_unit: 100, exponent: 2, iso_code: AED, iso_numeric: 784, subunit: Fils, smallest_denomination: 25, format: %n %u>}
+      expect(described_class.new(:aed).inspect).to eq "#<Money::Currency id: aed, priority: 100, symbol_first: false, thousands_separator: ,, html_entity: , decimal_mark: ., name: United Arab Emirates Dirham, symbol: د.إ, subunit_to_unit: 100, exponent: 2, iso_code: AED, iso_numeric: 784, subunit: Fils, smallest_denomination: 25, format: %n %u>"
     end
   end
 
