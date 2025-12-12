@@ -1,13 +1,36 @@
 # frozen_string_literal: true
 
-require "bundler/gem_tasks"
+# Clean
+#
+#   rake clean
+#   rake clobber
+
 require "rake/clean"
 
-CLOBBER.include('doc', '.yardoc')
+CLOBBER.include("doc", ".yardoc")
+
+# Bundler
+#
+#   rake build
+#   rake release
+
+require "bundler/gem_tasks"
+
+gemspec = Gem::Specification.load("money.gemspec")
+
+# RuboCop
+#
+#   rake rubocop
+
+require "rubocop/rake_task"
+
+RuboCop::RakeTask.new
+
+# Yard
+#
+#   rake yard
 
 require "yard"
-
-gemspec = Gem::Specification.load('money.gemspec')
 
 YARD::Rake::YardocTask.new do |t|
   t.options << "--title" << gemspec.description
@@ -16,11 +39,20 @@ YARD::Rake::YardocTask.new do |t|
   t.options << "--markup-provider" << "redcarpet" unless RUBY_PLATFORM == "java"
 end
 
+# RSpec
+#
+#   rake spec
+
 require "rspec/core/rake_task"
+
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.fail_on_error = false
   t.ruby_opts = "-w"
 end
+
+# File permissions
+#
+#   rake check_permissions
 
 desc "Check file permissions"
 task :check_permissions do
@@ -40,5 +72,10 @@ end
 # rubocop:disable Rake/Desc
 task release: :check_permissions
 task spec: :check_permissions
-task default: :spec
 # rubocop:enable Rake/Desc
+
+# Default task
+#
+#    rake
+
+task default: [:rubocop, :spec]

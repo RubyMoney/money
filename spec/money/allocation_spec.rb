@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 RSpec.describe Money::Allocation do
-  context 'given number as argument' do
+  context 'when given number as argument' do
     it 'raises an error when invalid argument is given' do
       expect { described_class.generate(100, 0) }.to raise_error(ArgumentError)
       expect { described_class.generate(100, -1) }.to raise_error(ArgumentError)
     end
 
-    context 'whole amounts' do
+    context 'with whole amounts' do
       it 'returns the amount when 1 is given' do
         expect(described_class.generate(100, 1)).to eq([100])
       end
@@ -26,7 +26,7 @@ RSpec.describe Money::Allocation do
       end
     end
 
-    context 'fractional amounts' do
+    context 'with fractional amounts' do
       it 'returns the amount when 1 is given' do
         expect(described_class.generate(BigDecimal(100), 1, false)).to eq([BigDecimal(100)])
       end
@@ -61,12 +61,12 @@ RSpec.describe Money::Allocation do
     end
   end
 
-  describe 'given array as argument' do
+  context 'when given array as argument' do
     it 'raises an error when invalid argument is given' do
       expect { described_class.generate(100, []) }.to raise_error(ArgumentError)
     end
 
-    context 'whole amounts' do
+    context 'with whole amounts' do
       it 'returns the amount when array contains only one element' do
         expect(described_class.generate(100, [1])).to eq([100])
         expect(described_class.generate(100, [5])).to eq([100])
@@ -96,7 +96,7 @@ RSpec.describe Money::Allocation do
       end
     end
 
-    context 'fractional amounts' do
+    context 'with fractional amounts' do
       it 'returns the amount when array contains only one element' do
         expect(described_class.generate(BigDecimal(100), [1], false)).to eq([100])
         expect(described_class.generate(BigDecimal(100), [5], false)).to eq([100])
@@ -137,7 +137,7 @@ RSpec.describe Money::Allocation do
     end
   end
 
-  describe 'an allocation seen in the wild' do
+  context 'with an allocation seen in the wild' do
     it 'allocates the full amount' do
       amount = 700273
       allocations = [1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.170126087450276, 1.0, 1.0, 1.0, 1.0]

@@ -42,7 +42,7 @@ class Money
       #
       # @return [Money::Bank::Base]
       def self.instance
-        @instance ||= self.new
+        @instance ||= new
       end
 
       # The rounding method to use when exchanging rates.

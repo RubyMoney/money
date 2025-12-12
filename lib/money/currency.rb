@@ -311,10 +311,10 @@ class Money
     #   c1 <=> c1 #=> 0
     def <=>(other)
       # <=> returns nil when one of the values is nil
-      comparison = self.priority <=> other.priority || 0
+      comparison = priority <=> other.priority || 0
 
       if comparison == 0
-        self.id <=> other.id
+        id <=> other.id
       else
         comparison
       end
@@ -333,7 +333,7 @@ class Money
     #   c1 == c1 #=> true
     #   c1 == c2 #=> false
     def ==(other)
-      self.equal?(other) || compare_ids(other)
+      equal?(other) || compare_ids(other)
     end
 
     # Returns a Integer hash value based on the +id+ attribute in order to use

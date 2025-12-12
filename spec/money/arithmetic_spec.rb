@@ -3,9 +3,9 @@
 RSpec.describe Money::Arithmetic do
   describe "-@" do
     it "changes the sign of a number" do
-      expect((- Money.new(0))).to  eq Money.new(0)
-      expect((- Money.new(1))).to  eq Money.new(-1)
-      expect((- Money.new(-1))).to eq Money.new(1)
+      expect(- Money.new(0)).to  eq Money.new(0)
+      expect(- Money.new(1)).to  eq Money.new(-1)
+      expect(- Money.new(-1)).to eq Money.new(1)
     end
 
     it "preserves the class in the result when using a subclass of Money" do
@@ -133,9 +133,9 @@ RSpec.describe Money::Arithmetic do
 
   describe "#<=>" do
     it "compares the two object amounts (same currency)" do
-      expect((Money.new(1_00, "USD") <=> Money.new(1_00, "USD"))).to eq 0
-      expect((Money.new(1_00, "USD") <=> Money.new(99, "USD"))).to be > 0
-      expect((Money.new(1_00, "USD") <=> Money.new(2_00, "USD"))).to be < 0
+      expect(Money.new(1_00, "USD") <=> Money.new(1_00, "USD")).to eq 0
+      expect(Money.new(1_00, "USD") <=> Money.new(99, "USD")).to be > 0
+      expect(Money.new(1_00, "USD") <=> Money.new(2_00, "USD")).to be < 0
     end
 
     it "converts other object amount to current currency, then compares the two object amounts (different currency)" do
@@ -360,7 +360,7 @@ RSpec.describe Money::Arithmetic do
       expect(special_money_class.new(10_00, "USD") / 2).to be_a special_money_class
     end
 
-    context 'rounding preference' do
+    describe 'rounding preference' do
       before do
         allow(Money).to receive(:rounding_mode).and_return(rounding_mode)
       end
@@ -369,7 +369,7 @@ RSpec.describe Money::Arithmetic do
         allow(Money).to receive(:rounding_mode).and_call_original
       end
 
-      context 'ceiling rounding' do
+      context 'when ceiling rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_CEILING }
 
         it "obeys the rounding preference" do
@@ -377,7 +377,7 @@ RSpec.describe Money::Arithmetic do
         end
       end
 
-      context 'floor rounding' do
+      context 'when floor rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_FLOOR }
 
         it "obeys the rounding preference" do
@@ -385,7 +385,7 @@ RSpec.describe Money::Arithmetic do
         end
       end
 
-      context 'half up rounding' do
+      context 'when half up rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_HALF_UP }
 
         it "obeys the rounding preference" do
@@ -393,7 +393,7 @@ RSpec.describe Money::Arithmetic do
         end
       end
 
-      context 'half down rounding' do
+      context 'when half down rounding' do
         let(:rounding_mode) { BigDecimal::ROUND_HALF_DOWN }
 
         it "obeys the rounding preference" do
@@ -851,14 +851,14 @@ RSpec.describe Money::Arithmetic do
           Money.default_bank = @old_default_bank
         end
 
-        context 'and other is money with different currency' do
+        context 'when other is money with different currency' do
           let(:other) { Money.gbp(1) }
 
           it 'raises Money::Bank::DifferentCurrencyError' do
             expect { instance.send(op, other) }.to raise_error Money::Bank::DifferentCurrencyError
           end
 
-          context 'even for zero' do
+          context 'when zero' do
             let(:instance) { Money.usd(0) }
             let(:other) { Money.gbp(0) }
 

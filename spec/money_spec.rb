@@ -28,7 +28,7 @@ RSpec.describe Money do
       expect(money.bank).to be Money::Bank::VariableExchange.instance
     end
 
-    context 'given the initializing value is an integer' do
+    context 'when the initializing value is an integer' do
       let(:initializing_value) { Integer(1) }
 
       it 'stores the integer as the number of cents' do
@@ -36,45 +36,45 @@ RSpec.describe Money do
       end
     end
 
-    context 'given the initializing value is a float' do
-      context 'and the value is 1.00' do
+    context 'when the initializing value is a float' do
+      context 'when the value is 1.00' do
         let(:initializing_value) { 1.00 }
 
         it { is_expected.to eq Money.new(1) }
       end
 
-      context 'and the value is 1.01' do
+      context 'when the value is 1.01' do
         let(:initializing_value) { 1.01 }
 
         it { is_expected.to eq Money.new(1) }
       end
 
-      context 'and the value is 1.50' do
+      context 'when the value is 1.50' do
         let(:initializing_value) { 1.50 }
 
         it { is_expected.to eq Money.new(2) }
       end
     end
 
-    context 'given the initializing value is a rational' do
+    context 'when the initializing value is a rational' do
       let(:initializing_value) { Rational(1) }
 
       it { is_expected.to eq Money.new(1) }
     end
 
-    context 'given the initializing value is money' do
+    context 'when the initializing value is money' do
       let(:initializing_value) { Money.new(1_00, Money::Currency.new('NZD')) }
 
       it { is_expected.to eq initializing_value }
     end
 
-    context "given the initializing value doesn't respond to .to_d" do
+    context "when the initializing value doesn't respond to .to_d" do
       let(:initializing_value) { :"1" }
 
       it { is_expected.to eq Money.new(1) }
     end
 
-    context 'given a currency is not provided' do
+    context 'when a currency is not provided' do
       subject(:money) { Money.new(initializing_value) }
 
       it "has the default currency" do
@@ -90,10 +90,10 @@ RSpec.describe Money do
       end
     end
 
-    context 'given a currency is provided' do
+    context 'when a currency is provided' do
       subject(:money) { Money.new(initializing_value, currency) }
 
-      context 'and the currency is NZD' do
+      context 'when the currency is NZD' do
         let(:currency) { Money::Currency.new('NZD') }
 
         it "has NZD currency" do
@@ -101,7 +101,7 @@ RSpec.describe Money do
         end
       end
 
-      context 'and the currency is nil' do
+      context 'when the currency is nil' do
         let(:currency) { nil }
 
         it "has the default currency" do
@@ -110,7 +110,7 @@ RSpec.describe Money do
       end
     end
 
-    context 'non-finite value is given' do
+    context 'when a non-finite value is given' do
       let(:error) { 'must be initialized with a finite value' }
 
       it 'raises an error when trying to initialize with Infinity' do
@@ -125,7 +125,7 @@ RSpec.describe Money do
     end
 
     context "with infinite_precision", :default_infinite_precision_true do
-      context 'given the initializing value is 1.50' do
+      context 'when the initializing value is 1.50' do
         let(:initializing_value) { 1.50 }
 
         it "has the correct cents" do
@@ -134,7 +134,7 @@ RSpec.describe Money do
       end
     end
 
-    context 'initializing with .from_cents' do
+    context 'when initializing with .from_cents' do
       subject(:money) { Money.from_cents(initializing_value) }
 
       it 'works just as with .new' do
@@ -142,7 +142,7 @@ RSpec.describe Money do
       end
     end
 
-    context 'initializing with .from_dollars' do
+    context 'when initializing with .from_dollars' do
       subject(:money) { Money.from_dollars(initializing_value) }
 
       it "is a deprecated synonym of .from_amount" do
@@ -229,13 +229,11 @@ RSpec.describe Money do
       expect(Money.from_amount(1, "USD", bank).bank).to eq bank
     end
 
-    context 'given a currency is provided' do
-      context 'and the currency is nil' do
-        let(:currency) { nil }
+    context 'when given a nil currency' do
+      let(:currency) { nil }
 
-        it "has the default currency" do
-          expect(Money.from_amount(1, currency).currency).to eq Money.default_currency
-        end
+      it "has the default currency" do
+        expect(Money.from_amount(1, currency).currency).to eq Money.default_currency
       end
     end
   end
@@ -364,7 +362,7 @@ RSpec.describe Money do
           Money.with_bank(bank_to_use) do
             sleep(0.01)
 
-            actual_bank = ::Money.default_bank
+            actual_bank = Money.default_bank
             result = {
               thread_id: Thread.current.object_id,
               expected: expected_bank,
@@ -401,7 +399,7 @@ RSpec.describe Money do
       expect(m.fractional).to be_a(Integer)
     end
 
-    context "loading a serialized Money via YAML" do
+    context "when loading a serialized Money via YAML" do
       let(:serialized) do
         <<~YAML
           !ruby/object:Money
@@ -445,7 +443,7 @@ RSpec.describe Money do
       end
     end
 
-    context "user changes rounding_mode" do
+    context "when user changes rounding_mode" do
       after { Money.setup_defaults }
 
       context "with the setter" do
@@ -695,7 +693,7 @@ RSpec.describe Money do
       expect(Money.new(10_00, "BRL").to_s).to eq "10,00"
     end
 
-    context "using i18n", :locale_backend_i18n do
+    context "when using i18n", :locale_backend_i18n do
       before do
         I18n.backend.store_translations(:en, number: { format: { separator: "." } })
       end
@@ -885,7 +883,7 @@ RSpec.describe Money do
       end
     end
 
-    context "negative amount" do
+    context "when amount is negative" do
       it "does not lose pennies" do
         moneys = Money.us_dollar(-100).allocate([0.333, 0.333, 0.333])
 

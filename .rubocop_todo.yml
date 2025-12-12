@@ -27,11 +27,6 @@ Lint/MissingSuper:
     - 'lib/money/locale_backend/i18n.rb'
     - 'lib/money/money.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Lint/RedundantDirGlobSort:
-  Exclude:
-    - 'spec/spec_helper.rb'
-
 # Configuration parameters: AllowComments, AllowNil.
 Lint/SuppressedException:
   Exclude:
@@ -73,21 +68,6 @@ Metrics/ModuleLength:
 # Configuration parameters: AllowedMethods, AllowedPatterns.
 Metrics/PerceivedComplexity:
   Max: 16
-
-# Configuration parameters: Prefixes, AllowedPatterns.
-# Prefixes: when, with, without
-RSpec/ContextWording:
-  Exclude:
-    - 'spec/currency_spec.rb'
-    - 'spec/money/allocation_spec.rb'
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/money_spec.rb'
-    - 'spec/rates_store/memory_spec.rb'
-
-RSpec/DescribeMethod:
-  Exclude:
-    - 'spec/money/formatting_spec.rb'
 
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
@@ -186,13 +166,6 @@ Style/Alias:
     - 'lib/money/money/formatter.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: percent_q, bare_percent
-Style/BarePercentLiterals:
-  Exclude:
-    - 'spec/currency_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowOnConstant, AllowOnSelfClass.
 Style/CaseEquality:
   Exclude:
@@ -262,15 +235,7 @@ Style/NumericLiteralPrefix:
 # Configuration parameters: PreferredDelimiters.
 Style/PercentLiteralDelimiters:
   Exclude:
-    - 'spec/currency_spec.rb'
     - 'spec/money/arithmetic_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: lower_case_q, upper_case_q
-Style/PercentQLiterals:
-  Exclude:
-    - 'spec/currency_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Style/Proc:
@@ -278,42 +243,6 @@ Style/Proc:
     - 'spec/bank/base_spec.rb'
     - 'spec/bank/variable_exchange_spec.rb'
     - 'spec/money/formatting_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantConstantBase:
-  Exclude:
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/money_spec.rb'
-
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Style/RedundantEach:
-  Exclude:
-    - 'lib/money/bank/variable_exchange.rb'
-    - 'spec/rates_store/memory_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantFreeze:
-  Exclude:
-    - 'lib/money/bank/variable_exchange.rb'
-    - 'lib/money/rates_store/memory.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantParentheses:
-  Exclude:
-    - 'spec/money/arithmetic_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantPercentQ:
-  Exclude:
-    - 'spec/currency_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantSelf:
-  Exclude:
-    - 'lib/money/bank/base.rb'
-    - 'lib/money/currency.rb'
-    - 'lib/money/money.rb'
-    - 'lib/money/money/arithmetic.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: AllowedMethods, AllowedPatterns.
