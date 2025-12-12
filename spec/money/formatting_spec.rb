@@ -251,7 +251,7 @@ RSpec.describe Money, "formatting" do
       end
 
       it "doesn't incorrectly format HTML (html_wrap)" do
-        money = ::Money.new(1999, "RUB")
+        money = Money.new(1999, "RUB")
         output = money.format(html_wrap: true, no_cents: true)
         expect(output).to eq "<span class=\"money-whole\">19</span> <span class=\"money-currency-symbol\">&#x20BD;</span>"
       end

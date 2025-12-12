@@ -364,7 +364,7 @@ RSpec.describe Money do
           Money.with_bank(bank_to_use) do
             sleep(0.01)
 
-            actual_bank = ::Money.default_bank
+            actual_bank = Money.default_bank
             result = {
               thread_id: Thread.current.object_id,
               expected: expected_bank,
