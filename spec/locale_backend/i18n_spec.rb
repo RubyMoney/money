@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Money::LocaleBackend::I18n do
+  subject(:backend) { described_class.new }
+
   describe '#initialize' do
     it 'raises an error when I18n is not defined' do
       hide_const('I18n')
@@ -10,8 +12,6 @@ RSpec.describe Money::LocaleBackend::I18n do
   end
 
   describe '#lookup' do
-    subject { described_class.new }
-
     after do
       I18n.locale = :en
     end
@@ -25,19 +25,19 @@ RSpec.describe Money::LocaleBackend::I18n do
       end
 
       it 'returns thousands_separator based on the current locale' do
-        expect(subject.lookup(:thousands_separator, nil)).to eq('.')
+        expect(backend.lookup(:thousands_separator, nil)).to eq('.')
       end
 
       it 'returns decimal_mark based on the current locale' do
-        expect(subject.lookup(:decimal_mark, nil)).to eq(',')
+        expect(backend.lookup(:decimal_mark, nil)).to eq(',')
       end
 
       it 'returns symbol based on the current locale' do
-        expect(subject.lookup(:symbol, nil)).to eq('$')
+        expect(backend.lookup(:symbol, nil)).to eq('$')
       end
 
       it 'returns format based on the current locale' do
-        expect(subject.lookup(:format, nil)).to eq('%u%n')
+        expect(backend.lookup(:format, nil)).to eq('%u%n')
       end
     end
 
@@ -48,29 +48,29 @@ RSpec.describe Money::LocaleBackend::I18n do
       end
 
       it 'returns thousands_separator based on the current locale' do
-        expect(subject.lookup(:thousands_separator, nil)).to eq('.')
+        expect(backend.lookup(:thousands_separator, nil)).to eq('.')
       end
 
       it 'returns decimal_mark based on the current locale' do
-        expect(subject.lookup(:decimal_mark, nil)).to eq(',')
+        expect(backend.lookup(:decimal_mark, nil)).to eq(',')
       end
     end
 
     context 'with no translation defined' do
       it 'returns thousands_separator based on the current locale' do
-        expect(subject.lookup(:thousands_separator, nil)).to be_nil
+        expect(backend.lookup(:thousands_separator, nil)).to be_nil
       end
 
       it 'returns decimal_mark based on the current locale' do
-        expect(subject.lookup(:decimal_mark, nil)).to be_nil
+        expect(backend.lookup(:decimal_mark, nil)).to be_nil
       end
 
       it 'returns symbol based on the current locale' do
-        expect(subject.lookup(:symbol, nil)).to be_nil
+        expect(backend.lookup(:symbol, nil)).to be_nil
       end
 
       it 'returns format based on the current locale' do
-        expect(subject.lookup(:format, nil)).to be_nil
+        expect(backend.lookup(:format, nil)).to be_nil
       end
     end
   end

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Money::Bank::Base do
+  subject(:bank) { described_class.new }
+
   describe ".instance" do
     it "is local to one class" do
       subclass = Class.new(described_class)
@@ -35,43 +37,44 @@ RSpec.describe Money::Bank::Base do
 
   describe "#exchange_with" do
     it "is not implemented" do
-      expect { subject.exchange_with(Money.new(100, 'USD'), 'EUR') }.to raise_error(NotImplementedError)
+      expect { bank.exchange_with(Money.new(100, 'USD'), 'EUR') }.to raise_error(NotImplementedError)
     end
   end
 
   describe "#same_currency?" do
     it "accepts str/str" do
-      expect { subject.send(:same_currency?, 'USD', 'EUR') }.not_to raise_error
+      expect { bank.send(:same_currency?, 'USD', 'EUR') }.not_to raise_error
     end
 
     it "accepts currency/str" do
-      expect { subject.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR') }.not_to raise_error
+      expect { bank.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR') }.not_to raise_error
     end
 
     it "accepts str/currency" do
-      expect { subject.send(:same_currency?, 'USD', Money::Currency.wrap('EUR')) }.not_to raise_error
+      expect { bank.send(:same_currency?, 'USD', Money::Currency.wrap('EUR')) }.not_to raise_error
     end
 
     it "accepts currency/currency" do
-      expect { subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR')) }.not_to raise_error
+      expect { bank.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR')) }.not_to raise_error
     end
 
     it "returns true when currencies match" do
-      expect(subject.send(:same_currency?, 'USD', 'USD')).to be true
-      expect(subject.send(:same_currency?, Money::Currency.wrap('USD'), 'USD')).to be true
-      expect(subject.send(:same_currency?, 'USD', Money::Currency.wrap('USD'))).to be true
-      expect(subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('USD'))).to be true
+      expect(bank.send(:same_currency?, 'USD', 'USD')).to be true
+      expect(bank.send(:same_currency?, Money::Currency.wrap('USD'), 'USD')).to be true
+      expect(bank.send(:same_currency?, 'USD', Money::Currency.wrap('USD'))).to be true
+      expect(bank.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('USD'))).to be true
     end
 
     it "returns false when currencies do not match" do
-      expect(subject.send(:same_currency?, 'USD', 'EUR')).to be false
-      expect(subject.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR')).to be false
-      expect(subject.send(:same_currency?, 'USD', Money::Currency.wrap('EUR'))).to be false
-      expect(subject.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR'))).to be false
+      expect(bank.send(:same_currency?, 'USD', 'EUR')).to be false
+      expect(bank.send(:same_currency?, Money::Currency.wrap('USD'), 'EUR')).to be false
+      expect(bank.send(:same_currency?, 'USD', Money::Currency.wrap('EUR'))).to be false
+      expect(bank.send(:same_currency?, Money::Currency.wrap('USD'), Money::Currency.wrap('EUR'))).to be false
     end
 
     it "raises an UnknownCurrency error when an unknown currency is passed" do
-      expect { subject.send(:same_currency?, 'AAA', 'BBB') }.to raise_error(Money::Currency::UnknownCurrency)
+      expect { bank.send(:same_currency?, 'AAA', 'BBB') }
+        .to raise_error(Money::Currency::UnknownCurrency)
     end
   end
 end
