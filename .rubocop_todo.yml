@@ -91,17 +91,6 @@ RSpec/InstanceVariable:
     - 'spec/money/formatting_spec.rb'
     - 'spec/money_spec.rb'
 
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: have_received, receive
-RSpec/MessageSpies:
-  Exclude:
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/currency/loader_spec.rb'
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/money_spec.rb'
-    - 'spec/rates_store/memory_spec.rb'
-
 RSpec/MultipleExpectations:
   Max: 18
 

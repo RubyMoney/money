@@ -110,16 +110,18 @@ RSpec.describe Money::Bank::VariableExchange do
 
   describe "#add_rate" do
     it 'delegates to store#add_rate' do
-      expect(bank.store).to receive(:add_rate).with('USD', 'EUR', 1.25).and_return 1.25
+      allow(bank.store).to receive(:add_rate).and_return 1.25
       expect(bank.add_rate('USD', 'EUR', 1.25)).to be 1.25
+      expect(bank.store).to have_received(:add_rate).with('USD', 'EUR', 1.25)
     end
 
     it "adds rates with correct ISO codes" do
-      expect(bank.store).to receive(:add_rate).with('USD', 'EUR', 0.788332676)
+      allow(bank.store).to receive(:add_rate)
       bank.add_rate("USD", "EUR", 0.788332676)
+      expect(bank.store).to have_received(:add_rate).with('USD', 'EUR', 0.788332676)
 
-      expect(bank.store).to receive(:add_rate).with('EUR', 'JPY', 122.631477)
       bank.add_rate("EUR", "YEN", 122.631477)
+      expect(bank.store).to have_received(:add_rate).with('EUR', 'JPY', 122.631477)
     end
 
     it "treats currency names case-insensitively" do
@@ -130,8 +132,9 @@ RSpec.describe Money::Bank::VariableExchange do
 
   describe "#set_rate" do
     it 'delegates to store#add_rate' do
-      expect(bank.store).to receive(:add_rate).with('USD', 'EUR', 1.25).and_return 1.25
+      allow(bank.store).to receive(:add_rate).and_return 1.25
       expect(bank.set_rate('USD', 'EUR', 1.25)).to be 1.25
+      expect(bank.store).to have_received(:add_rate).with('USD', 'EUR', 1.25)
     end
 
     it "sets a rate" do
@@ -155,8 +158,9 @@ RSpec.describe Money::Bank::VariableExchange do
     end
 
     it "delegates options to store, options are a no-op" do
-      expect(bank.store).to receive(:get_rate).with('USD', 'EUR')
+      allow(bank.store).to receive(:get_rate)
       bank.get_rate('USD', 'EUR')
+      expect(bank.store).to have_received(:get_rate).with('USD', 'EUR')
     end
   end
 
@@ -197,16 +201,19 @@ RSpec.describe Money::Bank::VariableExchange do
     context "with :file provided" do
       it "writes rates to file" do
         f = double('IO')
-        expect(File).to receive(:open).with('null', 'w').and_yield(f)
-        expect(f).to receive(:write).with(JSON.dump(@rates))
+        allow(File).to receive(:open).with('null', 'w').and_yield(f)
+        allow(f).to receive(:write)
 
         bank.export_rates(:json, 'null')
+
+        expect(f).to have_received(:write).with(JSON.dump(@rates))
       end
     end
 
     it "delegates execution to store, options are a no-op" do
-      expect(bank.store).to receive(:transaction)
+      allow(bank.store).to receive(:transaction)
       bank.export_rates(:yaml, nil, foo: 1)
+      expect(bank.store).to have_received(:transaction)
     end
   end
 
@@ -260,9 +267,10 @@ RSpec.describe Money::Bank::VariableExchange do
     end
 
     it "delegates execution to store#transaction" do
-      expect(bank.store).to receive(:transaction)
+      allow(bank.store).to receive(:transaction)
       s = "--- \nUSD_TO_EUR: 1.25\nUSD_TO_JPY: 2.55\n"
       bank.import_rates(:yaml, s, foo: 1)
+      expect(bank.store).to have_received(:transaction)
     end
   end
 

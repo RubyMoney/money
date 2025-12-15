@@ -11,9 +11,16 @@ RSpec.describe Money::RatesStore::Memory do
   end
 
   describe 'add_rate' do
+    let(:guard) { store.instance_variable_get(:@guard) }
+
+    before do
+      allow(guard).to receive(:synchronize)
+    end
+
     it "uses a mutex by default" do
-      expect(store.instance_variable_get(:@guard)).to receive(:synchronize)
       store.add_rate('USD', 'EUR', 1.25)
+
+      expect(guard).to have_received(:synchronize)
     end
   end
 
@@ -35,9 +42,16 @@ RSpec.describe Money::RatesStore::Memory do
   end
 
   describe '#transaction' do
+    let(:guard) { store.instance_variable_get("@guard") }
+
+    before do
+      allow(guard).to receive(:synchronize)
+    end
+
     it 'uses mutex' do
-      expect(store.instance_variable_get('@guard')).to receive(:synchronize)
       store.transaction { 1 + 1 }
+
+      expect(guard).to have_received(:synchronize)
     end
 
     it 'wraps block in mutex transaction only once' do

@@ -140,22 +140,26 @@ RSpec.describe Money::Arithmetic do
 
     it "converts other object amount to current currency, then compares the two object amounts (different currency)" do
       target = Money.new(200_00, "EUR")
-      expect(target).to receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(300_00, "USD"))
+      allow(target).to receive(:exchange_to).and_return(Money.new(300_00, "USD"))
       expect(Money.new(100_00, "USD") <=> target).to be < 0
+      expect(target).to have_received(:exchange_to).with(Money::Currency.new("USD"))
 
       target = Money.new(200_00, "EUR")
-      expect(target).to receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(100_00, "USD"))
+      allow(target).to receive(:exchange_to).and_return(Money.new(100_00, "USD"))
       expect(Money.new(100_00, "USD") <=> target).to eq 0
+      expect(target).to have_received(:exchange_to).with(Money::Currency.new("USD"))
 
       target = Money.new(200_00, "EUR")
-      expect(target).to receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(99_00, "USD"))
+      allow(target).to receive(:exchange_to).and_return(Money.new(99_00, "USD"))
       expect(Money.new(100_00, "USD") <=> target).to be > 0
+      expect(target).to have_received(:exchange_to).with(Money::Currency.new("USD"))
     end
 
     it "returns nil if currency conversion fails, and therefore cannot be compared" do
       target = Money.new(200_00, "EUR")
-      expect(target).to receive(:exchange_to).with(Money::Currency.new("USD")).and_raise(Money::Bank::UnknownRate)
+      allow(target).to receive(:exchange_to).and_raise(Money::Bank::UnknownRate)
       expect(Money.new(100_00, "USD") <=> target).to be_nil
+      expect(target).to have_received(:exchange_to).with(Money::Currency.new("USD"))
     end
 
     it "can be used to compare with an object that inherits from Money" do
@@ -254,8 +258,9 @@ RSpec.describe Money::Arithmetic do
 
     it "converts other object amount to current currency and adds other amount to current amount (different currency)" do
       other = Money.new(90, "EUR")
-      expect(other).to receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(9_00, "USD"))
+      allow(other).to receive(:exchange_to).and_return(Money.new(9_00, "USD"))
       expect(Money.new(10_00, "USD") + other).to eq Money.new(19_00, "USD")
+      expect(other).to have_received(:exchange_to).with(Money::Currency.new("USD"))
     end
 
     it "adds Integer 0 to money and returns the same amount" do
@@ -285,8 +290,9 @@ RSpec.describe Money::Arithmetic do
 
     it "converts other object amount to current currency and subtracts other amount from current amount (different currency)" do
       other = Money.new(90, "EUR")
-      expect(other).to receive(:exchange_to).with(Money::Currency.new("USD")).and_return(Money.new(9_00, "USD"))
+      allow(other).to receive(:exchange_to).and_return(Money.new(9_00, "USD"))
       expect(Money.new(10_00, "USD") - other).to eq Money.new(1_00, "USD")
+      expect(other).to have_received(:exchange_to).with(Money::Currency.new("USD"))
     end
 
     it "subtract Integer 0 to money and returns the same amount" do
@@ -422,8 +428,9 @@ RSpec.describe Money::Arithmetic do
         { a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: 1.625 },
       ]
       ts.each do |t|
-        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        allow(t[:b]).to receive(:exchange_to).and_return(Money.new(t[:b].cents * 2, :USD))
         expect(t[:a] / t[:b]).to eq t[:c]
+        expect(t[:b]).to have_received(:exchange_to).once.with(t[:a].currency)
       end
     end
 
@@ -499,8 +506,9 @@ RSpec.describe Money::Arithmetic do
         { a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: 1.625 },
       ]
       ts.each do |t|
-        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        allow(t[:b]).to receive(:exchange_to).and_return(Money.new(t[:b].cents * 2, :USD))
         expect(t[:a].div(t[:b])).to eq t[:c]
+        expect(t[:b]).to have_received(:exchange_to).once.with(t[:a].currency)
       end
     end
 
@@ -552,8 +560,9 @@ RSpec.describe Money::Arithmetic do
         { a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: [1, Money.new(-5, :USD)] },
       ]
       ts.each do |t|
-        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        allow(t[:b]).to receive(:exchange_to).and_return(Money.new(t[:b].cents * 2, :USD))
         expect(t[:a].divmod(t[:b])).to eq t[:c]
+        expect(t[:b]).to have_received(:exchange_to).once.with(t[:a].currency)
       end
     end
 
@@ -640,8 +649,9 @@ RSpec.describe Money::Arithmetic do
         { a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: Money.new(-5, :USD) },
       ]
       ts.each do |t|
-        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        allow(t[:b]).to receive(:exchange_to).and_return(Money.new(t[:b].cents * 2, :USD))
         expect(t[:a].modulo(t[:b])).to eq t[:c]
+        expect(t[:b]).to have_received(:exchange_to).once.with(t[:a].currency)
       end
     end
   end
@@ -679,8 +689,9 @@ RSpec.describe Money::Arithmetic do
         { a: Money.new(-13, :USD), b: Money.new(-4, :EUR), c: Money.new(-5, :USD) },
       ]
       ts.each do |t|
-        expect(t[:b]).to receive(:exchange_to).once.with(t[:a].currency).and_return(Money.new(t[:b].cents * 2, :USD))
+        allow(t[:b]).to receive(:exchange_to).and_return(Money.new(t[:b].cents * 2, :USD))
         expect(t[:a] % t[:b]).to eq t[:c]
+        expect(t[:b]).to have_received(:exchange_to).once.with(t[:a].currency)
       end
     end
   end
