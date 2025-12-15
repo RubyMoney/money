@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fix name for ANG currency
+
 ## 7.0.2
 
 - Fix `Money::Currency.register` exception when table is not initialized.
