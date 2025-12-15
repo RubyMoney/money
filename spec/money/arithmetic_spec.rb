@@ -56,11 +56,13 @@ RSpec.describe Money::Arithmetic do
       expect(Money.new(1, "USD")).not_to eq 0
     end
 
+    # rubocop:disable Lint/FloatComparison
     it 'raises error for non-zero numerics' do
       expect { Money.new(1_00, "USD") == 1 }.to raise_error ArgumentError
       expect { Money.new(1_00, "USD") == -2.0 }.to raise_error ArgumentError
       expect { Money.new(1_00, "USD") == Float::INFINITY }.to raise_error ArgumentError
     end
+    # rubocop:enable Lint/FloatComparison
   end
 
   describe "#eql?" do
@@ -110,6 +112,7 @@ RSpec.describe Money::Arithmetic do
       end
     end
 
+    # rubocop:disable Lint/FloatComparison
     it "returns false if used to compare with an object that doesn't inherit from Money" do
       expect(Money.new(1_00, "USD").eql?(Object.new)).to be false
       expect(Money.new(1_00, "USD").eql?(Class)).to      be false
@@ -120,6 +123,7 @@ RSpec.describe Money::Arithmetic do
       expect(Money.new(1_00, "USD").eql?(1)).to          be false
       expect(Money.new(1_00, "USD").eql?(1_00)).to       be false
     end
+    # rubocop:enable Lint/FloatComparison
 
     it "can be used to compare with an object that inherits from Money" do
       klass = Class.new(Money)
