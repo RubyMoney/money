@@ -154,13 +154,13 @@ RSpec.describe Money do
   end
 
   describe ".add_rate" do
-    before do
-      @default_bank = Money.default_bank
+    around do |example|
+      previous_bank = Money.default_bank
       Money.default_bank = Money::Bank::VariableExchange.new
-    end
 
-    after do
-      Money.default_bank = @default_bank
+      example.call
+
+      Money.default_bank = previous_bank
     end
 
     it "saves rate into current bank" do
@@ -170,12 +170,10 @@ RSpec.describe Money do
   end
 
   describe ".disallow_currency_conversions!" do
-    before do
-      @default_bank = Money.default_bank
-    end
-
-    after do
-      Money.default_bank = @default_bank
+    around do |example|
+      default_bank = Money.default_bank
+      example.call
+      Money.default_bank = default_bank
     end
 
     it "disallows conversions when doing money arithmetic" do

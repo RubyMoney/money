@@ -34,26 +34,11 @@ Metrics/PerceivedComplexity:
 RSpec/ExampleLength:
   Max: 38
 
-RSpec/ExpectInHook:
-  Exclude:
-    - 'spec/money_spec.rb'
-
 RSpec/IdenticalEqualityAssertion:
   Exclude:
     - 'spec/currency_spec.rb'
     - 'spec/money/arithmetic_spec.rb'
     - 'spec/money_spec.rb'
-
-# Configuration parameters: AssignmentOnly.
-RSpec/InstanceVariable:
-  Exclude:
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/money_spec.rb'
-
-RSpec/MultipleExpectations:
-  Max: 18
 
 # Configuration parameters: AllowedGroups.
 RSpec/NestedGroups:
@@ -78,13 +63,6 @@ RSpec/SpecFilePathFormat:
     - 'spec/locale_backend/currency_spec.rb'
     - 'spec/locale_backend/i18n_spec.rb'
     - 'spec/rates_store/memory_spec.rb'
-
-RSpec/StubbedMock:
-  Exclude:
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/money_spec.rb'
 
 # Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
 RSpec/VerifiedDoubles:
@@ -207,12 +185,6 @@ Style/SafeNavigation:
   Exclude:
     - 'lib/money/money.rb'
     - 'lib/money/money/formatter.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowAsExpressionSeparator.
-Style/Semicolon:
-  Exclude:
-    - 'spec/money/formatting_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.

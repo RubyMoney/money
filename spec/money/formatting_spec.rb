@@ -110,9 +110,12 @@ RSpec.describe "Money formatting" do
     end
 
     context "when in Japanese" do
-      before { @_locale = I18n.locale; I18n.locale = :ja }
-
-      after  { I18n.locale = @_locale }
+      around do |example|
+        previous_locale = I18n.locale
+        I18n.locale = :ja
+        example.call
+        I18n.locale = previous_locale
+      end
 
       it "formats Japanese currency properly" do
         money = Money.new(1000, "JPY")
