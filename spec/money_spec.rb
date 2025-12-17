@@ -1105,7 +1105,7 @@ RSpec.describe Money do
     end
 
     it "accepts a lambda" do
-      Money.default_currency = lambda { :eur }
+      Money.default_currency = -> { :eur }
       expect(Money.default_currency).to eq Money::Currency.new(:eur)
     end
 
@@ -1132,7 +1132,7 @@ RSpec.describe Money do
     end
 
     it 'accepts a lambda' do
-      Money.default_bank = lambda { Money::Bank::SingleCurrency.instance }
+      Money.default_bank = -> { Money::Bank::SingleCurrency.instance }
       expect(Money.default_bank).to be_instance_of(Money::Bank::SingleCurrency)
     end
   end

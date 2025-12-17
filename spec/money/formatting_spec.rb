@@ -147,7 +147,7 @@ RSpec.describe "Money formatting" do
     end
 
     it "respects the thousands_separator and decimal_mark defaults" do
-      one_thousand = Proc.new do |currency|
+      one_thousand = proc do |currency|
         Money.new(1000_00, currency).format
       end
 
@@ -290,7 +290,7 @@ RSpec.describe "Money formatting" do
       end
 
       specify "(symbol: true) returns symbol based on the given currency code" do
-        one = Proc.new do |currency|
+        one = proc do |currency|
           Money.new(100, currency).format(symbol: true)
         end
 
