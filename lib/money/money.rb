@@ -242,6 +242,8 @@ class Money
 
   def self.inherited(base)
     base.setup_defaults
+
+    super
   end
 
   setup_defaults

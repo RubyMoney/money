@@ -14,6 +14,8 @@ class Money
 
       def initialize
         raise NotSupported, 'I18n not found' unless defined?(::I18n)
+
+        super
       end
 
       def lookup(key, _)

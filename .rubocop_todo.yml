@@ -6,52 +6,13 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: AllowSafeAssignment.
-Lint/AssignmentInCondition:
-  Exclude:
-    - 'lib/money/bank/variable_exchange.rb'
-
-Lint/FloatComparison:
-  Exclude:
-    - 'spec/money/arithmetic_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-Lint/ImplicitStringConcatenation:
-  Exclude:
-    - 'spec/money/formatting_spec.rb'
-
-# Configuration parameters: AllowedParentClasses.
-Lint/MissingSuper:
-  Exclude:
-    - 'lib/money/locale_backend/i18n.rb'
-    - 'lib/money/money.rb'
-
-# Configuration parameters: AllowComments, AllowNil.
-Lint/SuppressedException:
-  Exclude:
-    - 'lib/money/money/arithmetic.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods, IgnoreNotImplementedMethods, NotImplementedExceptions.
-# NotImplementedExceptions: NotImplementedError
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'lib/money/bank/variable_exchange.rb'
-    - 'lib/money/currency/heuristics.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-Lint/UselessAssignment:
-  Exclude:
-    - 'lib/money/money/formatter.rb'
-
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes.
 Metrics/AbcSize:
   Max: 34
 
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ClassLength:
-  Max: 230
+  Max: 231
 
 # Configuration parameters: AllowedMethods, AllowedPatterns.
 Metrics/CyclomaticComplexity:
@@ -63,7 +24,7 @@ Metrics/MethodLength:
 
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ModuleLength:
-  Max: 140
+  Max: 141
 
 # Configuration parameters: AllowedMethods, AllowedPatterns.
 Metrics/PerceivedComplexity:

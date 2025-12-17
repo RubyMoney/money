@@ -77,6 +77,7 @@ class Money
       other = other.exchange_to(currency)
       fractional <=> other.fractional
     rescue Money::Bank::UnknownRate
+      nil
     end
 
     # Uses Comparable's implementation but raises ArgumentError if non-zero
