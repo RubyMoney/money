@@ -335,15 +335,20 @@ RSpec.describe Money do
 
     it "uses the correct bank inside block" do
       old_bank = Money.default_bank
-      custom_store = double
+      custom_store = double :store
+
+      allow(old_bank).to receive(:add_rate)
+      allow(custom_store).to receive(:add_rate)
+
       bank = Money::Bank::VariableExchange.new(custom_store)
       Money.with_bank(bank) do
-        expect(custom_store).to receive(:add_rate).with("USD", "EUR", 0.5)
         Money.add_rate("USD", "EUR", 0.5)
       end
 
-      expect(old_bank).to receive(:add_rate).with("UAH", "NOK", 0.8)
       Money.add_rate("UAH", "NOK", 0.8)
+
+      expect(custom_store).to have_received(:add_rate).with("USD", "EUR", 0.5)
+      expect(old_bank).to have_received(:add_rate).with("UAH", "NOK", 0.8)
     end
 
     it 'safely handles concurrent usage in different threads' do
@@ -660,7 +665,7 @@ RSpec.describe Money do
       let(:currency) { Money::Currency.new("EUR") }
 
       before do
-        expect(currency).to receive(:symbol).and_return(nil)
+        allow(currency).to receive(:symbol).and_return(nil)
       end
 
       it "returns a generic currency symbol" do
@@ -773,10 +778,15 @@ RSpec.describe Money do
   describe "#to_money" do
     it "works as documented" do
       money = Money.new(10_00, "DKK")
+      allow(money.bank)
+        .to receive(:exchange_with)
+        .and_return(Money.new(200_00, Money::Currency.new("EUR")))
       expect(money).to eq money.to_money
       expect(money).to eq money.to_money("DKK")
-      expect(money.bank).to receive(:exchange_with).with(Money.new(10_00, Money::Currency.new("DKK")), Money::Currency.new("EUR")).and_return(Money.new(200_00, Money::Currency.new('EUR')))
       expect(money.to_money("EUR")).to eq Money.new(200_00, "EUR")
+      expect(money.bank)
+        .to have_received(:exchange_with)
+        .with(Money.new(10_00, Money::Currency.new("DKK")), Money::Currency.new("EUR"))
     end
   end
 
@@ -802,14 +812,24 @@ RSpec.describe Money do
   describe "#exchange_to" do
     it "exchanges the amount via its exchange bank" do
       money = Money.new(100_00, "USD")
-      expect(money.bank).to receive(:exchange_with).with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR")).and_return(Money.new(200_00, Money::Currency.new('EUR')))
+      allow(money.bank)
+        .to receive(:exchange_with)
+        .and_return(Money.new(200_00, Money::Currency.new('EUR')))
       money.exchange_to("EUR")
+      expect(money.bank)
+        .to have_received(:exchange_with)
+        .with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR"))
     end
 
     it "exchanges the amount properly" do
       money = Money.new(100_00, "USD")
-      expect(money.bank).to receive(:exchange_with).with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR")).and_return(Money.new(200_00, Money::Currency.new('EUR')))
+      allow(money.bank)
+        .to receive(:exchange_with)
+        .and_return(Money.new(200_00, Money::Currency.new('EUR')))
       expect(money.exchange_to("EUR")).to eq Money.new(200_00, "EUR")
+      expect(money.bank)
+        .to have_received(:exchange_with)
+        .with(Money.new(100_00, Money::Currency.new("USD")), Money::Currency.new("EUR"))
     end
 
     it "allows double conversion using same bank" do
@@ -822,14 +842,17 @@ RSpec.describe Money do
 
     it 'uses the block given as rounding method' do
       money = Money.new(100_00, 'USD')
-      expect(money.bank).to receive(:exchange_with).and_yield(300_00)
-      expect { |block| money.exchange_to(Money::Currency.new('EUR'), &block) }.to yield_successive_args(300_00)
+      allow(money.bank).to receive(:exchange_with).and_yield(300_00)
+      expect { |block| money.exchange_to(Money::Currency.new('EUR'), &block) }
+        .to yield_successive_args(300_00)
+      expect(money.bank).to have_received(:exchange_with)
     end
 
     it "does no exchange when the currencies are the same" do
       money = Money.new(100_00, "USD")
-      expect(money.bank).not_to receive(:exchange_with)
+      allow(money.bank).to receive(:exchange_with)
       expect(money.exchange_to("USD")).to eq money
+      expect(money.bank).not_to have_received(:exchange_with)
     end
   end
 
@@ -1071,8 +1094,15 @@ RSpec.describe Money do
   end
 
   describe ".default_currency" do
-    before { Money.setup_defaults }
-    after { Money.setup_defaults }
+    before do
+      allow(Money).to receive(:warn)
+
+      Money.setup_defaults
+    end
+
+    after do
+      Money.setup_defaults
+    end
 
     it "accepts a lambda" do
       Money.default_currency = lambda { :eur }
@@ -1087,8 +1117,9 @@ RSpec.describe Money do
     it 'does not warn if the default_currency has been changed' do
       Money.default_currency = Money::Currency.new(:usd)
 
-      expect(Money).not_to receive(:warn)
       Money.default_currency
+
+      expect(Money).not_to have_received(:warn)
     end
   end
 

@@ -47,6 +47,10 @@ RSpec/DescribedClass:
     - 'spec/money_spec.rb'
     - 'spec/money/formatting_spec.rb'
 
+RSpec/MultipleExpectations:
+  # Do not limit the amount of expectations in a spec
+  Enabled: false
+
 # Style
 
 Style/ClassAndModuleChildren:

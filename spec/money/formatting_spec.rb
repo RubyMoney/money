@@ -330,7 +330,7 @@ RSpec.describe "Money formatting" do
 
       specify "(symbol: true) returns $ when currency code is not recognized" do
         currency = Money::Currency.new("EUR")
-        expect(currency).to receive(:symbol).and_return(nil)
+        allow(currency).to receive(:symbol).and_return(nil)
         expect(Money.new(100, currency).format(symbol: true)).to eq "¤1,00"
       end
 
