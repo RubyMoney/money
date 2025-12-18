@@ -168,7 +168,7 @@ class Money
     # @attr_writer rounding_mode Use this to specify the rounding mode
     attr_writer :rounding_mode
 
-    alias_method :from_cents, :new
+    alias from_cents new
   end
 
   # @!attribute default_currency
@@ -578,7 +578,8 @@ class Money
     amounts = Money::Allocation.generate(fractional, parts, !Money.default_infinite_precision)
     amounts.map { |amount| dup_with(fractional: amount) }
   end
-  alias_method :split, :allocate
+
+  alias split allocate
 
   # Round the monetary amount to smallest unit of coinage.
   #

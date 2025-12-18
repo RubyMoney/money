@@ -278,9 +278,9 @@ class Money
                 :disambiguate_symbol, :html_entity, :subunit, :subunit_to_unit, :decimal_mark,
                 :thousands_separator, :symbol_first, :smallest_denomination, :format
 
-    alias_method :separator, :decimal_mark
-    alias_method :delimiter, :thousands_separator
-    alias_method :eql?, :==
+    alias separator decimal_mark
+    alias delimiter thousands_separator
+    alias eql? ==
 
     # Create a new +Currency+ object.
     #

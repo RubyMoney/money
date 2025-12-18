@@ -209,8 +209,8 @@ class Money
       lookup :decimal_mark
     end
 
-    alias_method :delimiter, :thousands_separator
-    alias_method :separator, :decimal_mark
+    alias delimiter thousands_separator
+    alias separator decimal_mark
 
     private
 

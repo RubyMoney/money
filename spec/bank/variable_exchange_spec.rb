@@ -67,7 +67,7 @@ RSpec.describe Money::Bank::VariableExchange do
         # end
 
         it "accepts a custom truncation method" do
-          proc = Proc.new { |n| n.ceil }
+          proc = proc(&:ceil)
           expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc)).to eq Money.new(14, 'EUR')
         end
 
@@ -89,7 +89,7 @@ RSpec.describe Money::Bank::VariableExchange do
 
     context "with &block" do
       let(:bank) do
-        proc = Proc.new { |n| n.ceil }
+        proc = proc(&:ceil)
         described_class.new(&proc).tap do |bank|
           bank.add_rate('USD', 'EUR', 1.33)
         end
@@ -101,7 +101,7 @@ RSpec.describe Money::Bank::VariableExchange do
         end
 
         it "accepts a custom truncation method" do
-          proc = Proc.new { |n| n.ceil + 1 }
+          proc = proc { |n| n.ceil + 1 }
           expect(bank.exchange_with(Money.new(10, 'USD'), 'EUR', &proc)).to eq Money.new(15, 'EUR')
         end
       end

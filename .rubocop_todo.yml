@@ -84,16 +84,6 @@ Security/MarshalLoad:
     - 'spec/bank/variable_exchange_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: prefer_alias, prefer_alias_method
-Style/Alias:
-  Exclude:
-    - 'lib/money/currency.rb'
-    - 'lib/money/money.rb'
-    - 'lib/money/money/constructors.rb'
-    - 'lib/money/money/formatter.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowOnConstant, AllowOnSelfClass.
 Style/CaseEquality:
   Exclude:
@@ -135,13 +125,6 @@ Style/IfInsideElse:
   Exclude:
     - 'lib/money/bank/variable_exchange.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: line_count_dependent, lambda, literal
-Style/Lambda:
-  Exclude:
-    - 'spec/money_spec.rb'
-
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Style/MapIntoArray:
   Exclude:
@@ -165,13 +148,6 @@ Style/PercentLiteralDelimiters:
   Exclude:
     - 'spec/money/arithmetic_spec.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-Style/Proc:
-  Exclude:
-    - 'spec/bank/base_spec.rb'
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: AllowedMethods, AllowedPatterns.
 Style/ReturnNilInPredicateMethodDefinition:
@@ -191,15 +167,6 @@ Style/SafeNavigation:
 # SupportedStyles: single_quotes, double_quotes
 Style/StringLiterals:
   Enabled: false
-
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: AllowMethodsWithArguments, AllowedMethods, AllowedPatterns, AllowComments.
-# AllowedMethods: define_method
-Style/SymbolProc:
-  Exclude:
-    - 'spec/bank/base_spec.rb'
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/currency_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Style/WhileUntilDo:
