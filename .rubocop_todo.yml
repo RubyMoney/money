@@ -40,14 +40,6 @@ RSpec/IdenticalEqualityAssertion:
     - 'spec/money/arithmetic_spec.rb'
     - 'spec/money_spec.rb'
 
-# Configuration parameters: AssignmentOnly.
-RSpec/InstanceVariable:
-  Exclude:
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/money/formatting_spec.rb'
-    - 'spec/money_spec.rb'
-
 # Configuration parameters: AllowedGroups.
 RSpec/NestedGroups:
   Max: 5
@@ -169,12 +161,6 @@ Style/SafeNavigation:
   Exclude:
     - 'lib/money/money.rb'
     - 'lib/money/money/formatter.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowAsExpressionSeparator.
-Style/Semicolon:
-  Exclude:
-    - 'spec/money/formatting_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.

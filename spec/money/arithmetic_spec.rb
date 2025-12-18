@@ -184,12 +184,13 @@ RSpec.describe Money::Arithmetic do
 
     context 'when conversions disallowed' do
       before do
-        @old_default_bank = Money.default_bank
         Money.disallow_currency_conversion!
       end
 
-      after do
-        Money.default_bank = @old_default_bank
+      around do |example|
+        previous_bank = Money.default_bank
+        example.call
+        Money.default_bank = previous_bank
       end
 
       context 'when currencies differ' do
@@ -858,12 +859,13 @@ RSpec.describe Money::Arithmetic do
 
       context 'when conversions disallowed' do
         before do
-          @old_default_bank = Money.default_bank
           Money.disallow_currency_conversion!
         end
 
-        after do
-          Money.default_bank = @old_default_bank
+        around do |example|
+          previous_bank = Money.default_bank
+          example.call
+          Money.default_bank = previous_bank
         end
 
         context 'when other is money with different currency' do

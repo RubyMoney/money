@@ -165,30 +165,30 @@ RSpec.describe Money::Bank::VariableExchange do
   end
 
   describe "#export_rates" do
+    let(:expected_rates) { { "USD_TO_EUR" => 1.25, "USD_TO_JPY" => 2.55 } }
+
     before do
       bank.set_rate('USD', 'EUR', 1.25)
       bank.set_rate('USD', 'JPY', 2.55)
-
-      @rates = { "USD_TO_EUR" => 1.25, "USD_TO_JPY" => 2.55 }
     end
 
     context "with format == :json" do
       it "returns rates formatted as json" do
         json = bank.export_rates(:json)
-        expect(JSON.load(json)).to eq @rates
+        expect(JSON.load(json)).to eq expected_rates
       end
     end
 
     context "with format == :ruby" do
       it "returns rates formatted as ruby objects" do
-        expect(Marshal.load(bank.export_rates(:ruby))).to eq @rates
+        expect(Marshal.load(bank.export_rates(:ruby))).to eq expected_rates
       end
     end
 
     context "with format == :yaml" do
       it "returns rates formatted as yaml" do
         yaml = bank.export_rates(:yaml)
-        expect(YAML.load(yaml)).to eq @rates
+        expect(YAML.load(yaml)).to eq expected_rates
       end
     end
 
@@ -206,7 +206,7 @@ RSpec.describe Money::Bank::VariableExchange do
 
         bank.export_rates(:json, 'null')
 
-        expect(f).to have_received(:write).with(JSON.dump(@rates))
+        expect(f).to have_received(:write).with(JSON.dump(expected_rates))
       end
     end
 
