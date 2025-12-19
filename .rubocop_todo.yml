@@ -34,20 +34,9 @@ Metrics/PerceivedComplexity:
 RSpec/ExampleLength:
   Max: 38
 
-RSpec/IdenticalEqualityAssertion:
-  Exclude:
-    - 'spec/currency_spec.rb'
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/money_spec.rb'
-
 # Configuration parameters: AllowedGroups.
 RSpec/NestedGroups:
   Max: 5
-
-RSpec/RepeatedDescription:
-  Exclude:
-    - 'spec/currency_spec.rb'
-    - 'spec/money_spec.rb'
 
 # Configuration parameters: CustomTransform, IgnoreMethods, IgnoreMetadata, InflectorPath, EnforcedInflector.
 # SupportedInflectors: default, active_support
@@ -63,12 +52,6 @@ RSpec/SpecFilePathFormat:
     - 'spec/locale_backend/currency_spec.rb'
     - 'spec/locale_backend/i18n_spec.rb'
     - 'spec/rates_store/memory_spec.rb'
-
-# Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
-RSpec/VerifiedDoubles:
-  Exclude:
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/money_spec.rb'
 
 Security/CompoundHash:
   Exclude:
@@ -137,20 +120,6 @@ Style/NumericLiteralPrefix:
 Style/PercentLiteralDelimiters:
   Exclude:
     - 'spec/money/arithmetic_spec.rb'
-
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: AllowedMethods, AllowedPatterns.
-Style/ReturnNilInPredicateMethodDefinition:
-  Exclude:
-    - 'lib/money/money/arithmetic.rb'
-
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: ConvertCodeThatCanStartToReturnNil, AllowedMethods, MaxChainLength.
-# AllowedMethods: present?, blank?, presence, try, try!
-Style/SafeNavigation:
-  Exclude:
-    - 'lib/money/money.rb'
-    - 'lib/money/money/formatter.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.

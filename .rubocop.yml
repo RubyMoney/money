@@ -39,6 +39,14 @@ Lint/EmptyClass:
   # Allow defining empty classes, since it can be used as a base class.
   Enabled: false
 
+# Naming
+
+Naming/PredicateMethod:
+  AllowedMethods:
+    # In Ruby, the convention is to return `nil` and not `false` when calling
+    # `#nonzero?`.
+    - nonzero?
+
 # RSpec
 
 RSpec/DescribedClass:
@@ -47,9 +55,18 @@ RSpec/DescribedClass:
     - 'spec/money_spec.rb'
     - 'spec/money/formatting_spec.rb'
 
+RSpec/IdenticalEqualityAssertion:
+  # Allow identical expressions on both sides of the equality since we are
+  # testing defining equality.
+  Enabled: false
+
 RSpec/MultipleExpectations:
   # Do not limit the amount of expectations in a spec
   Enabled: false
+
+RSpec/VerifiedDoubles:
+  # Allow building unverified doubles with `double :foo`.
+  IgnoreSymbolicNames: true
 
 # Style
 
@@ -94,6 +111,17 @@ Style/PreferredHashMethods:
 Style/QuotedSymbols:
   # Prefer :"some symbol" to :'some symbol'.
   EnforcedStyle: double_quotes
+
+Style/ReturnNilInPredicateMethodDefinition:
+  AllowedMethods:
+    # In Ruby, the convention is to return `nil` and not `false` when calling
+    # `#nonzero?`.
+    - nonzero?
+
+Style/SafeNavigation:
+  # Allow calling `foo && foo.bar` instead of `foo&.bar` since `foo` can also
+  # be false.
+  Enabled: false
 
 Style/StringLiterals:
   # Prefer "double quotes" over 'single quotes'.
