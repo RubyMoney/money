@@ -45,7 +45,7 @@ class Money
 
       parts_sum = parts.sum
 
-      until parts.empty? do
+      until parts.empty?
         part = parts.pop
 
         current_split = 0

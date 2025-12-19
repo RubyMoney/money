@@ -931,7 +931,7 @@ RSpec.describe Money do
 
     it "keeps subclasses intact" do
       special_money_class = Class.new(Money)
-      expect(special_money_class.new(005).allocate([1]).first).to be_a special_money_class
+      expect(special_money_class.new(5).allocate([1]).first).to be_a special_money_class
     end
 
     context "with infinite_precision", :default_infinite_precision_true do

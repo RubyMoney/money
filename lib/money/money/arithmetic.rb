@@ -340,7 +340,7 @@ class Money
     #   Money.new(100).nonzero? #=> #<Money @fractional=100>
     #   Money.new(0).nonzero?   #=> nil
     def nonzero?
-      fractional != 0 ? self : nil
+      fractional == 0 ? nil : self
     end
 
     # Used to make Money instance handle the operations when arguments order is reversed
