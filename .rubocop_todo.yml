@@ -34,20 +34,9 @@ Metrics/PerceivedComplexity:
 RSpec/ExampleLength:
   Max: 38
 
-RSpec/IdenticalEqualityAssertion:
-  Exclude:
-    - 'spec/currency_spec.rb'
-    - 'spec/money/arithmetic_spec.rb'
-    - 'spec/money_spec.rb'
-
 # Configuration parameters: AllowedGroups.
 RSpec/NestedGroups:
   Max: 5
-
-RSpec/RepeatedDescription:
-  Exclude:
-    - 'spec/currency_spec.rb'
-    - 'spec/money_spec.rb'
 
 # Configuration parameters: CustomTransform, IgnoreMethods, IgnoreMetadata, InflectorPath, EnforcedInflector.
 # SupportedInflectors: default, active_support
