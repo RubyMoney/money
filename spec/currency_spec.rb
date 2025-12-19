@@ -243,6 +243,7 @@ RSpec.describe Money::Currency do
     end
   end
 
+  # rubocop:disable Style/MapIntoArray
   describe ".each" do
     it "yields each currency to the block" do
       expect(described_class).to respond_to(:each)
@@ -257,6 +258,7 @@ RSpec.describe Money::Currency do
       expect(currencies[-1]).to eq described_class.all[-1]
     end
   end
+  # rubocop:enable Style/MapIntoArray
 
   it "implements Enumerable" do
     expect(described_class).to respond_to(:all?)
@@ -483,13 +485,13 @@ RSpec.describe Money::Currency do
       cad = described_class.find(:cad)
 
       described_class.register(
-        :priority => 100,
-        :iso_code => cad.iso_code,
-        :name => cad.name,
-        :subunit => cad.subunit,
-        :subunit_to_unit => cad.subunit_to_unit,
-        :thousands_separator => cad.thousands_separator,
-        :decimal_mark => modified_mark,
+        priority: 100,
+        iso_code: cad.iso_code,
+        name: cad.name,
+        subunit: cad.subunit,
+        subunit_to_unit: cad.subunit_to_unit,
+        thousands_separator: cad.thousands_separator,
+        decimal_mark: modified_mark,
       )
     end
 
