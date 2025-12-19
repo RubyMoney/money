@@ -339,11 +339,9 @@ class Money
     # @example
     #   Money.new(100).nonzero? #=> #<Money @fractional=100>
     #   Money.new(0).nonzero?   #=> nil
-    # rubocop:disable Naming/PredicateMethod
     def nonzero?
       fractional != 0 ? self : nil
     end
-    # rubocop:enable Naming/PredicateMethod
 
     # Used to make Money instance handle the operations when arguments order is reversed
     # @return [Array]
