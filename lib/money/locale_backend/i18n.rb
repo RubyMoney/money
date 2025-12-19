@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'money/locale_backend/base'
+require "money/locale_backend/base"
 
 class Money
   module LocaleBackend
@@ -13,7 +13,7 @@ class Money
       }.freeze
 
       def initialize
-        raise NotSupported, 'I18n not found' unless defined?(::I18n)
+        raise NotSupported, "I18n not found" unless defined?(::I18n)
 
         super
       end
@@ -21,9 +21,9 @@ class Money
       def lookup(key, _)
         i18n_key = KEY_MAP[key]
 
-        ::I18n.t i18n_key, scope: 'number.currency.format', raise: true
+        ::I18n.t i18n_key, scope: "number.currency.format", raise: true
       rescue ::I18n::MissingTranslationData
-        ::I18n.t i18n_key, scope: 'number.format', default: nil
+        ::I18n.t i18n_key, scope: "number.format", default: nil
       end
     end
   end

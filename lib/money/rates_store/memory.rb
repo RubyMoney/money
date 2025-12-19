@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'monitor'
+require "monitor"
 
 class Money
   module RatesStore
@@ -14,7 +14,7 @@ class Money
     #   # iterates rates
     #   store.each_rate {|iso_from, iso_to, rate| puts "#{from} -> #{to}: #{rate}" }
     class Memory
-      INDEX_KEY_SEPARATOR = '_TO_'
+      INDEX_KEY_SEPARATOR = "_TO_"
 
       # Initializes a new +Money::RatesStore::Memory+ object.
       #

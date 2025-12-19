@@ -6,21 +6,21 @@ RSpec.describe "Money formatting" do
     subject(:money) { Money.empty("USD") }
 
     it "uses ',' as the thousands separator" do
-      expect(money.thousands_separator).to eq ','
+      expect(money.thousands_separator).to eq ","
     end
 
     it "uses '.' as the decimal mark" do
-      expect(money.decimal_mark).to eq '.'
+      expect(money.decimal_mark).to eq "."
     end
   end
 
-  context 'without locale_backend', :locale_backend_nil do
-    subject(:money) { Money.new(1099_99, 'USD') }
+  context "without locale_backend", :locale_backend_nil do
+    subject(:money) { Money.new(1099_99, "USD") }
 
-    it 'falls back to using defaults' do
-      expect(money.thousands_separator).to eq('')
-      expect(money.decimal_mark).to eq('.')
-      expect(money.format).to eq('$1099.99')
+    it "falls back to using defaults" do
+      expect(money.thousands_separator).to eq("")
+      expect(money.decimal_mark).to eq(".")
+      expect(money.format).to eq("$1099.99")
     end
   end
 
@@ -28,11 +28,11 @@ RSpec.describe "Money formatting" do
     subject(:money) { Money.empty("USD") }
 
     it "uses ',' as the thousands separator" do
-      expect(money.thousands_separator).to eq ','
+      expect(money.thousands_separator).to eq ","
     end
 
     it "uses '.' as the decimal mark" do
-      expect(money.decimal_mark).to eq '.'
+      expect(money.decimal_mark).to eq "."
     end
   end
 
@@ -49,11 +49,11 @@ RSpec.describe "Money formatting" do
       end
 
       it "uses '.' as the thousands separator" do
-        expect(money.thousands_separator).to eq '.'
+        expect(money.thousands_separator).to eq "."
       end
 
       it "uses ',' as the decimal mark" do
-        expect(money.decimal_mark).to eq ','
+        expect(money.decimal_mark).to eq ","
       end
     end
 
@@ -69,11 +69,11 @@ RSpec.describe "Money formatting" do
       end
 
       it "uses '.' as the thousands separator" do
-        expect(money.thousands_separator).to eq '.'
+        expect(money.thousands_separator).to eq "."
       end
 
       it "uses ',' as the decimal mark" do
-        expect(money.decimal_mark).to eq ','
+        expect(money.decimal_mark).to eq ","
       end
     end
 
@@ -95,18 +95,18 @@ RSpec.describe "Money formatting" do
 
     context "with overridden i18n settings" do
       it "respects explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies that have no subunit" do
-        expect(Money.new(300_000, 'ISK').format(thousands_separator: ".", decimal_mark: ',')).to eq "300.000 kr."
+        expect(Money.new(300_000, "ISK").format(thousands_separator: ".", decimal_mark: ",")).to eq "300.000 kr."
       end
 
       it "respects explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
-        expect(Money.new(300_000, 'USD').format(thousands_separator: ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
+        expect(Money.new(300_000, "USD").format(thousands_separator: ".", decimal_mark: ",", drop_trailing_zeros: true)).to eq "$3.000"
       end
     end
   end
 
   describe "#format" do
-    it 'supports the old formatting options' do
-      expect(Money.zero.format(:display_free)).to eq('free')
+    it "supports the old formatting options" do
+      expect(Money.zero.format(:display_free)).to eq("free")
     end
 
     context "when in Japanese" do
@@ -195,7 +195,7 @@ RSpec.describe "Money formatting" do
       expect(Money.euro(1_234_567_12).format(no_cents: true)).to eq "€1.234.567"
     end
 
-    context 'when default_formatting_rules defines (display_free: true)' do
+    context "when default_formatting_rules defines (display_free: true)" do
       before do
         Money.default_formatting_rules = { display_free: "you won't pay a thing" }
       end
@@ -204,26 +204,26 @@ RSpec.describe "Money formatting" do
         Money.default_formatting_rules = nil
       end
 
-      context 'with no rule provided' do
-        it 'acknowledges default rule' do
-          expect(Money.new(0, 'USD').format).to eq "you won't pay a thing"
+      context "with no rule provided" do
+        it "acknowledges default rule" do
+          expect(Money.new(0, "USD").format).to eq "you won't pay a thing"
         end
       end
 
-      context 'with rule (display_free: false) provided' do
-        it 'acknowledges provided rule' do
-          expect(Money.new(0, 'USD').format(display_free: false)).to eq '$0.00'
+      context "with rule (display_free: false) provided" do
+        it "acknowledges provided rule" do
+          expect(Money.new(0, "USD").format(display_free: false)).to eq "$0.00"
         end
       end
     end
 
-    context 'when default_formatting_rules is not defined' do
+    context "when default_formatting_rules is not defined" do
       before do
         Money.default_formatting_rules = nil
       end
 
-      it 'acknowledges provided rule' do
-        expect(Money.new(100, 'USD').format(with_currency: true)).to eq '$1.00 USD'
+      it "acknowledges provided rule" do
+        expect(Money.new(100, "USD").format(with_currency: true)).to eq "$1.00 USD"
       end
     end
 
@@ -417,14 +417,14 @@ RSpec.describe "Money formatting" do
       end
 
       specify "(south_asian_number_formatting: true) works as documented" do
-        expect(Money.new(10000000, 'INR').format(south_asian_number_formatting: true, symbol: false)).to eq "1,00,000.00"
-        expect(Money.new(1000000000, 'INDIAN_BAR').format(south_asian_number_formatting: true, symbol: false)).to eq "1,00,000.0000"
+        expect(Money.new(10000000, "INR").format(south_asian_number_formatting: true, symbol: false)).to eq "1,00,000.00"
+        expect(Money.new(1000000000, "INDIAN_BAR").format(south_asian_number_formatting: true, symbol: false)).to eq "1,00,000.0000"
         expect(Money.new(10000000).format(south_asian_number_formatting: true)).to eq "$1,00,000.00"
       end
 
       specify "(south_asian_number_formatting: true and no_cents_if_whole => true) works as documented" do
-        expect(Money.new(10000000, 'INR').format(south_asian_number_formatting: true, symbol: false, no_cents_if_whole: true)).to eq "1,00,000"
-        expect(Money.new(1000000000, 'INDIAN_BAR').format(south_asian_number_formatting: true, symbol: false, no_cents_if_whole: true)).to eq "1,00,000"
+        expect(Money.new(10000000, "INR").format(south_asian_number_formatting: true, symbol: false, no_cents_if_whole: true)).to eq "1,00,000"
+        expect(Money.new(1000000000, "INDIAN_BAR").format(south_asian_number_formatting: true, symbol: false, no_cents_if_whole: true)).to eq "1,00,000"
       end
     end
 
@@ -464,11 +464,11 @@ RSpec.describe "Money formatting" do
 
       context "with a currency locale_backend i18n", :locale_backend_currency do
         it "respects explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there's no decimal component for currencies that have no subunit" do
-          expect(Money.new(300_000, 'ISK').format(thousands_separator: ",", decimal_mark: '.')).to eq "300,000 kr."
+          expect(Money.new(300_000, "ISK").format(thousands_separator: ",", decimal_mark: ".")).to eq "300,000 kr."
         end
 
         it "respects explicit overriding of thousands_separator/delimiter when decimal_mark/separator collide and there’s no decimal component for currencies with subunits that drop_trailing_zeros" do
-          expect(Money.new(300_000, 'USD').format(thousands_separator: ".", decimal_mark: ',', drop_trailing_zeros: true)).to eq "$3.000"
+          expect(Money.new(300_000, "USD").format(thousands_separator: ".", decimal_mark: ",", drop_trailing_zeros: true)).to eq "$3.000"
         end
       end
     end
@@ -492,7 +492,7 @@ RSpec.describe "Money formatting" do
       end
 
       specify "should fallback to symbol if entity is not available" do
-        string = Money.new(570, 'DKK').format(html_wrap: true)
+        string = Money.new(570, "DKK").format(html_wrap: true)
         expect(string).to eq "<span class=\"money-whole\">5</span><span class=\"money-decimal-mark\">,</span><span class=\"money-decimal\">70</span> <span class=\"money-currency-symbol\">kr.</span>"
       end
     end
@@ -527,36 +527,36 @@ RSpec.describe "Money formatting" do
 
     describe ":rounded_infinite_precision option", :default_infinite_precision_true do
       it "does round fractional when set to true" do
-        expect(Money.new(BigDecimal('12.1'), "USD").format(rounded_infinite_precision: true)).to eq "$0.12"
-        expect(Money.new(BigDecimal('12.5'), "USD").format(rounded_infinite_precision: true)).to eq "$0.13"
-        expect(Money.new(BigDecimal('123.1'), "BHD").format(rounded_infinite_precision: true)).to eq "د.ب0.123"
-        expect(Money.new(BigDecimal('123.5'), "BHD").format(rounded_infinite_precision: true)).to eq "د.ب0.124"
-        expect(Money.new(BigDecimal('100.1'), "USD").format(rounded_infinite_precision: true)).to eq "$1.00"
-        expect(Money.new(BigDecimal('109.5'), "USD").format(rounded_infinite_precision: true)).to eq "$1.10"
-        expect(Money.new(BigDecimal('1.7'), "MGA").format(rounded_infinite_precision: true)).to eq "Ar2.0"
+        expect(Money.new(BigDecimal("12.1"), "USD").format(rounded_infinite_precision: true)).to eq "$0.12"
+        expect(Money.new(BigDecimal("12.5"), "USD").format(rounded_infinite_precision: true)).to eq "$0.13"
+        expect(Money.new(BigDecimal("123.1"), "BHD").format(rounded_infinite_precision: true)).to eq "د.ب0.123"
+        expect(Money.new(BigDecimal("123.5"), "BHD").format(rounded_infinite_precision: true)).to eq "د.ب0.124"
+        expect(Money.new(BigDecimal("100.1"), "USD").format(rounded_infinite_precision: true)).to eq "$1.00"
+        expect(Money.new(BigDecimal("109.5"), "USD").format(rounded_infinite_precision: true)).to eq "$1.10"
+        expect(Money.new(BigDecimal("1.7"), "MGA").format(rounded_infinite_precision: true)).to eq "Ar2.0"
       end
 
       it "does not round fractional when set to false" do
-        expect(Money.new(BigDecimal('12.1'), "USD").format(rounded_infinite_precision: false)).to eq "$0.121"
-        expect(Money.new(BigDecimal('12.5'), "USD").format(rounded_infinite_precision: false)).to eq "$0.125"
-        expect(Money.new(BigDecimal('123.1'), "BHD").format(rounded_infinite_precision: false)).to eq "د.ب0.1231"
-        expect(Money.new(BigDecimal('123.5'), "BHD").format(rounded_infinite_precision: false)).to eq "د.ب0.1235"
-        expect(Money.new(BigDecimal('123.1'), "KWD").format(rounded_infinite_precision: false)).to eq "د.ك0.1231"
-        expect(Money.new(BigDecimal('123.5'), "KWD").format(rounded_infinite_precision: false)).to eq "د.ك0.1235"
-        expect(Money.new(BigDecimal('100.1'), "USD").format(rounded_infinite_precision: false)).to eq "$1.001"
-        expect(Money.new(BigDecimal('109.5'), "USD").format(rounded_infinite_precision: false)).to eq "$1.095"
-        expect(Money.new(BigDecimal('1.7'), "MGA").format(rounded_infinite_precision: false)).to eq "Ar1.7"
+        expect(Money.new(BigDecimal("12.1"), "USD").format(rounded_infinite_precision: false)).to eq "$0.121"
+        expect(Money.new(BigDecimal("12.5"), "USD").format(rounded_infinite_precision: false)).to eq "$0.125"
+        expect(Money.new(BigDecimal("123.1"), "BHD").format(rounded_infinite_precision: false)).to eq "د.ب0.1231"
+        expect(Money.new(BigDecimal("123.5"), "BHD").format(rounded_infinite_precision: false)).to eq "د.ب0.1235"
+        expect(Money.new(BigDecimal("123.1"), "KWD").format(rounded_infinite_precision: false)).to eq "د.ك0.1231"
+        expect(Money.new(BigDecimal("123.5"), "KWD").format(rounded_infinite_precision: false)).to eq "د.ك0.1235"
+        expect(Money.new(BigDecimal("100.1"), "USD").format(rounded_infinite_precision: false)).to eq "$1.001"
+        expect(Money.new(BigDecimal("109.5"), "USD").format(rounded_infinite_precision: false)).to eq "$1.095"
+        expect(Money.new(BigDecimal("1.7"), "MGA").format(rounded_infinite_precision: false)).to eq "Ar1.7"
       end
 
       describe "with currency locale_backend", :locale_backend_currency do
-        it 'does round fractional when set to true' do
-          expect(Money.new(BigDecimal('12.1'), "EUR").format(rounded_infinite_precision: true)).to eq "€0,12"
-          expect(Money.new(BigDecimal('12.5'), "EUR").format(rounded_infinite_precision: true)).to eq "€0,13"
-          expect(Money.new(BigDecimal('100.1'), "EUR").format(rounded_infinite_precision: true)).to eq "€1,00"
-          expect(Money.new(BigDecimal('109.5'), "EUR").format(rounded_infinite_precision: true)).to eq "€1,10"
+        it "does round fractional when set to true" do
+          expect(Money.new(BigDecimal("12.1"), "EUR").format(rounded_infinite_precision: true)).to eq "€0,12"
+          expect(Money.new(BigDecimal("12.5"), "EUR").format(rounded_infinite_precision: true)).to eq "€0,13"
+          expect(Money.new(BigDecimal("100.1"), "EUR").format(rounded_infinite_precision: true)).to eq "€1,00"
+          expect(Money.new(BigDecimal("109.5"), "EUR").format(rounded_infinite_precision: true)).to eq "€1,10"
 
-          expect(Money.new(BigDecimal('100012.1'), "EUR").format(rounded_infinite_precision: true)).to eq "€1.000,12"
-          expect(Money.new(BigDecimal('100012.5'), "EUR").format(rounded_infinite_precision: true)).to eq "€1.000,13"
+          expect(Money.new(BigDecimal("100012.1"), "EUR").format(rounded_infinite_precision: true)).to eq "€1.000,12"
+          expect(Money.new(BigDecimal("100012.5"), "EUR").format(rounded_infinite_precision: true)).to eq "€1.000,13"
         end
       end
 
@@ -569,40 +569,40 @@ RSpec.describe "Money formatting" do
           )
         end
 
-        it 'does round fractional when set to true' do
-          expect(Money.new(BigDecimal('12.1'), "USD").format(rounded_infinite_precision: true)).to eq "$0,12"
-          expect(Money.new(BigDecimal('12.5'), "USD").format(rounded_infinite_precision: true)).to eq "$0,13"
-          expect(Money.new(BigDecimal('123.1'), "BHD").format(rounded_infinite_precision: true)).to eq "د.ب0,123"
-          expect(Money.new(BigDecimal('123.5'), "BHD").format(rounded_infinite_precision: true)).to eq "د.ب0,124"
-          expect(Money.new(BigDecimal('100.1'), "USD").format(rounded_infinite_precision: true)).to eq "$1,00"
-          expect(Money.new(BigDecimal('109.5'), "USD").format(rounded_infinite_precision: true)).to eq "$1,10"
-          expect(Money.new(BigDecimal('1'), "MGA").format(rounded_infinite_precision: true)).to eq "Ar1,0"
+        it "does round fractional when set to true" do
+          expect(Money.new(BigDecimal("12.1"), "USD").format(rounded_infinite_precision: true)).to eq "$0,12"
+          expect(Money.new(BigDecimal("12.5"), "USD").format(rounded_infinite_precision: true)).to eq "$0,13"
+          expect(Money.new(BigDecimal("123.1"), "BHD").format(rounded_infinite_precision: true)).to eq "د.ب0,123"
+          expect(Money.new(BigDecimal("123.5"), "BHD").format(rounded_infinite_precision: true)).to eq "د.ب0,124"
+          expect(Money.new(BigDecimal("100.1"), "USD").format(rounded_infinite_precision: true)).to eq "$1,00"
+          expect(Money.new(BigDecimal("109.5"), "USD").format(rounded_infinite_precision: true)).to eq "$1,10"
+          expect(Money.new(BigDecimal("1"), "MGA").format(rounded_infinite_precision: true)).to eq "Ar1,0"
         end
       end
     end
 
-    describe ':format option' do
-      let(:money) { Money.new(99_99, 'USD') }
+    describe ":format option" do
+      let(:money) { Money.new(99_99, "USD") }
 
-      it 'uses provided format as a template' do
-        expect(money.format(format: '%n')).to eq('99.99')
-        expect(money.format(format: '%u')).to eq('$')
-        expect(money.format(format: '%u%n')).to eq('$99.99')
-        expect(money.format(format: '%n%u')).to eq('99.99$')
-        expect(money.format(format: '%u %n')).to eq('$ 99.99')
-        expect(money.format(format: 'Your balance is: %u%n')).to eq('Your balance is: $99.99')
+      it "uses provided format as a template" do
+        expect(money.format(format: "%n")).to eq("99.99")
+        expect(money.format(format: "%u")).to eq("$")
+        expect(money.format(format: "%u%n")).to eq("$99.99")
+        expect(money.format(format: "%n%u")).to eq("99.99$")
+        expect(money.format(format: "%u %n")).to eq("$ 99.99")
+        expect(money.format(format: "Your balance is: %u%n")).to eq("Your balance is: $99.99")
       end
 
-      it 'works with sign' do
-        money = Money.new(-99_99, 'USD')
+      it "works with sign" do
+        money = Money.new(-99_99, "USD")
 
-        expect(money.format(format: '%n%u', sign_before_symbol: false)).to eq('-99.99$')
-        expect(money.format(format: '%u%n', sign_before_symbol: false)).to eq('$-99.99')
-        expect(money.format(format: '%u%n', sign_before_symbol: true)).to eq('-$99.99')
+        expect(money.format(format: "%n%u", sign_before_symbol: false)).to eq("-99.99$")
+        expect(money.format(format: "%u%n", sign_before_symbol: false)).to eq("$-99.99")
+        expect(money.format(format: "%u%n", sign_before_symbol: true)).to eq("-$99.99")
       end
     end
 
-    describe ':delimiter_pattern option' do
+    describe ":delimiter_pattern option" do
       it "uses delimiter pattern" do
         expect(Money.new(1_456_00, "EUR").format(delimiter_pattern: /(\d)(?=\d)/)).to eq "€1.4.5.6,00"
       end
@@ -612,33 +612,33 @@ RSpec.describe "Money formatting" do
       let(:money) { Money.us_dollar(0) }
 
       it "returns 'free' when :display_free is true" do
-        expect(money.format(display_free: true)).to eq 'free'
+        expect(money.format(display_free: true)).to eq "free"
       end
 
       it "returns '$0.00' when :display_free is false or not given" do
-        expect(money.format).to eq '$0.00'
-        expect(money.format(display_free: false)).to eq '$0.00'
-        expect(money.format(display_free: nil)).to eq '$0.00'
+        expect(money.format).to eq "$0.00"
+        expect(money.format(display_free: false)).to eq "$0.00"
+        expect(money.format(display_free: nil)).to eq "$0.00"
       end
 
       it "returns the value specified by :display_free if it's a string-like object" do
-        expect(money.format(display_free: 'gratis')).to eq 'gratis'
+        expect(money.format(display_free: "gratis")).to eq "gratis"
       end
     end
   end
 
   describe ':format to "%u %n" for currency with :symbol_first to true' do
-    context 'when rules are not passed' do
+    context "when rules are not passed" do
       it "inserts a space between symbol and number" do
-        expect(Money.new(100_00, 'CHF').format).to eq "CHF 100.00"
+        expect(Money.new(100_00, "CHF").format).to eq "CHF 100.00"
       end
     end
   end
 
   describe ':format to "%n %u" for currency with :symbol_first to false' do
-    context 'when rules are not passed' do
+    context "when rules are not passed" do
       it "insert space between symbol and number" do
-        expect(Money.new(100_00, 'AED').format).to eq "100.00 د.إ"
+        expect(Money.new(100_00, "AED").format).to eq "100.00 د.إ"
       end
     end
   end

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'money/locale_backend/errors'
-require 'money/locale_backend/i18n'
-require 'money/locale_backend/currency'
+require "money/locale_backend/errors"
+require "money/locale_backend/i18n"
+require "money/locale_backend/currency"
 
 class Money
   module LocaleBackend

@@ -317,7 +317,7 @@ class Money
     raise ArgumentError, "'amount' must be numeric" unless Numeric === amount
 
     currency = Currency.wrap(currency) || Money.default_currency
-    raise Currency::NoCurrency, 'must provide a currency' if currency.nil?
+    raise Currency::NoCurrency, "must provide a currency" if currency.nil?
 
     value = amount.to_d * currency.subunit_to_unit
     new(value, currency, options)
@@ -367,8 +367,8 @@ class Money
     @bank     ||= Money.default_bank
 
     # BigDecimal can be Infinity and NaN, money of that amount does not make sense
-    raise ArgumentError, 'must be initialized with a finite value' unless @fractional.finite?
-    raise Currency::NoCurrency, 'must provide a currency' if @currency.nil?
+    raise ArgumentError, "must be initialized with a finite value" unless @fractional.finite?
+    raise Currency::NoCurrency, "must provide a currency" if @currency.nil?
   end
 
   # DEPRECATED.
@@ -429,7 +429,7 @@ class Money
   # @example
   #   Money.ca_dollar(100).to_s #=> "1.00"
   def to_s
-    format thousands_separator: '',
+    format thousands_separator: "",
            no_cents_if_whole: currency.decimal_places == 0,
            symbol: false,
            ignore_defaults: true

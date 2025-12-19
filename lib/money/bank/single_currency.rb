@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'money/bank/base'
+require "money/bank/base"
 
 class Money
   module Bank
