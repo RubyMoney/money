@@ -175,14 +175,16 @@ RSpec.describe Money::Bank::VariableExchange do
     context "with format == :json" do
       it "returns rates formatted as json" do
         json = bank.export_rates(:json)
-        expect(JSON.load(json)).to eq expected_rates
+        expect(JSON.parse(json)).to eq expected_rates
       end
     end
 
     context "with format == :ruby" do
+      # rubocop:disable Security/MarshalLoad
       it "returns rates formatted as ruby objects" do
         expect(Marshal.load(bank.export_rates(:ruby))).to eq expected_rates
       end
+      # rubocop:enable Security/MarshalLoad
     end
 
     context "with format == :yaml" do

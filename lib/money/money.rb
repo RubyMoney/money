@@ -402,7 +402,7 @@ class Money
   # @example
   #   Money.new(100).hash #=> 908351
   def hash
-    [fractional.hash, currency.hash].hash
+    [fractional, currency].hash
   end
 
   # Uses +Currency#symbol+. If +nil+ is returned, defaults to "¤".
