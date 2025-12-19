@@ -200,13 +200,11 @@ RSpec.describe Money::Bank::VariableExchange do
 
     context "with :file provided" do
       it "writes rates to file" do
-        f = instance_double(IO)
-        allow(File).to receive(:open).with('null', 'w').and_yield(f)
-        allow(f).to receive(:write)
+        allow(File).to receive(:write)
 
-        bank.export_rates(:json, 'null')
+        bank.export_rates(:json, "null")
 
-        expect(f).to have_received(:write).with(JSON.dump(expected_rates))
+        expect(File).to have_received(:write).with("null", JSON.dump(expected_rates))
       end
     end
 
