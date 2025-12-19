@@ -223,8 +223,8 @@ RSpec.describe Money do
 
     it "accepts an optional bank" do
       expect(Money.from_amount(1).bank).to eq Money.default_bank
-      bank = double "bank"
-      expect(Money.from_amount(1, "USD", bank).bank).to eq bank
+      bank = Money::Bank::VariableExchange.new
+      expect(Money.from_amount(1, "USD", bank).bank).to be bank
     end
 
     context 'when given a nil currency' do

@@ -53,12 +53,6 @@ RSpec/SpecFilePathFormat:
     - 'spec/locale_backend/i18n_spec.rb'
     - 'spec/rates_store/memory_spec.rb'
 
-# Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
-RSpec/VerifiedDoubles:
-  Exclude:
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/money_spec.rb'
-
 Security/CompoundHash:
   Exclude:
     - 'lib/money/money.rb'
