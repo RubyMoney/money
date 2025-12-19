@@ -3,7 +3,7 @@
 class Money
   class Currency
     module Loader
-      DATA_PATH = File.expand_path("../../../../config", __FILE__)
+      DATA_PATH = File.expand_path("../../../config", __dir__)
 
       class << self
         # Loads and returns the currencies stored in JSON files in the config directory.
