@@ -856,17 +856,11 @@ RSpec.describe Money do
 
   describe "#allocate" do
     it "takes no action when one gets all" do
-      expect(Money.us_dollar(005).allocate([1.0])).to eq [Money.us_dollar(5)]
+      expect(Money.us_dollar(5).allocate([1.0])).to eq [Money.us_dollar(5)]
     end
 
     it "keeps currencies intact" do
-      expect(Money.ca_dollar(005).allocate([1])).to eq [Money.ca_dollar(5)]
-    end
-
-    it "does not lose pennies" do
-      moneys = Money.us_dollar(5).allocate([0.3, 0.7])
-      expect(moneys[0]).to eq Money.us_dollar(2)
-      expect(moneys[1]).to eq Money.us_dollar(3)
+      expect(Money.ca_dollar(5).allocate([1])).to eq [Money.ca_dollar(5)]
     end
 
     it "handles small splits" do
@@ -881,8 +875,14 @@ RSpec.describe Money do
       expect(moneys[1]).to eq Money.us_dollar(3)
     end
 
-    it "does not lose pennies" do
-      moneys = Money.us_dollar(100).allocate([0.333, 0.333, 0.333])
+    it "does not lose pennies for one decimal" do
+      moneys = Money.us_dollar(5).allocate([0.3, 0.7])
+      expect(moneys[0]).to eq Money.us_dollar(2)
+      expect(moneys[1]).to eq Money.us_dollar(3)
+    end
+
+    it "does not lose pennies for three decimals" do
+      moneys = Money.us_dollar(1_00).allocate([0.333, 0.333, 0.333])
       expect(moneys[0].cents).to eq 34
       expect(moneys[1].cents).to eq 33
       expect(moneys[2].cents).to eq 33

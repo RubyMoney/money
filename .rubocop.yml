@@ -55,6 +55,11 @@ RSpec/DescribedClass:
     - 'spec/money_spec.rb'
     - 'spec/money/formatting_spec.rb'
 
+RSpec/IdenticalEqualityAssertion:
+  # Allow identical expressions on both sides of the equality since we are
+  # testing defining equality.
+  Enabled: false
+
 RSpec/MultipleExpectations:
   # Do not limit the amount of expectations in a spec
   Enabled: false
