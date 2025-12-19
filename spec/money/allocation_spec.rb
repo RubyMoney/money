@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
 RSpec.describe Money::Allocation do
-  context 'when given number as argument' do
-    it 'raises an error when invalid argument is given' do
+  context "when given number as argument" do
+    it "raises an error when invalid argument is given" do
       expect { described_class.generate(100, 0) }.to raise_error(ArgumentError)
       expect { described_class.generate(100, -1) }.to raise_error(ArgumentError)
     end
 
-    context 'with whole amounts' do
-      it 'returns the amount when 1 is given' do
+    context "with whole amounts" do
+      it "returns the amount when 1 is given" do
         expect(described_class.generate(100, 1)).to eq([100])
       end
 
-      it 'splits the amount into equal parts' do
+      it "splits the amount into equal parts" do
         expect(described_class.generate(100, 2)).to eq([50, 50])
         expect(described_class.generate(100, 4)).to eq([25, 25, 25, 25])
         expect(described_class.generate(100, 5)).to eq([20, 20, 20, 20, 20])
       end
 
-      it 'does not lose pennies' do
+      it "does not lose pennies" do
         expect(described_class.generate(5, 2)).to eq([3, 2])
         expect(described_class.generate(2, 3)).to eq([1, 1, 0])
         expect(described_class.generate(100, 3)).to eq([34, 33, 33])
@@ -26,23 +26,23 @@ RSpec.describe Money::Allocation do
       end
     end
 
-    context 'with fractional amounts' do
-      it 'returns the amount when 1 is given' do
+    context "with fractional amounts" do
+      it "returns the amount when 1 is given" do
         expect(described_class.generate(BigDecimal(100), 1, false)).to eq([BigDecimal(100)])
       end
 
-      it 'splits the amount into equal parts' do
+      it "splits the amount into equal parts" do
         expect(described_class.generate(BigDecimal(100), 2, false)).to eq([50, 50])
         expect(described_class.generate(BigDecimal(100), 4, false)).to eq([25, 25, 25, 25])
         expect(described_class.generate(BigDecimal(100), 5, false)).to eq([20, 20, 20, 20, 20])
       end
 
-      it 'splits the amount into equal fractions' do
+      it "splits the amount into equal fractions" do
         expect(described_class.generate(BigDecimal(5), 2, false)).to eq([2.5, 2.5])
         expect(described_class.generate(BigDecimal(5), 4, false)).to eq([1.25, 1.25, 1.25, 1.25])
       end
 
-      it 'handles splits into repeating decimals' do
+      it "handles splits into repeating decimals" do
         amount = BigDecimal(100)
         parts = described_class.generate(amount, 3, false)
 
@@ -51,9 +51,9 @@ RSpec.describe Money::Allocation do
         # missing fraction
         expect(parts.map { |x| x.round(10) }).to eq(
           [
-            BigDecimal('33.3333333333'),
-            BigDecimal('33.3333333333'),
-            BigDecimal('33.3333333333'),
+            BigDecimal("33.3333333333"),
+            BigDecimal("33.3333333333"),
+            BigDecimal("33.3333333333"),
           ],
         )
         expect(parts.inject(0, :+)).to eq(amount)
@@ -61,64 +61,64 @@ RSpec.describe Money::Allocation do
     end
   end
 
-  context 'when given array as argument' do
-    it 'raises an error when invalid argument is given' do
+  context "when given array as argument" do
+    it "raises an error when invalid argument is given" do
       expect { described_class.generate(100, []) }.to raise_error(ArgumentError)
     end
 
-    context 'with whole amounts' do
-      it 'returns the amount when array contains only one element' do
+    context "with whole amounts" do
+      it "returns the amount when array contains only one element" do
         expect(described_class.generate(100, [1])).to eq([100])
         expect(described_class.generate(100, [5])).to eq([100])
       end
 
-      it 'splits the amount into whole parts respecting the order' do
+      it "splits the amount into whole parts respecting the order" do
         expect(described_class.generate(100, [1, 1])).to eq([50, 50])
         expect(described_class.generate(100, [1, 1, 2])).to eq([25, 25, 50])
         expect(described_class.generate(100, [7, 3])).to eq([70, 30])
       end
 
-      it 'accepts floats as arguments' do
+      it "accepts floats as arguments" do
         expect(described_class.generate(100, [1.0, 1.0])).to eq([50, 50])
         expect(described_class.generate(100, [0.1, 0.1, 0.2])).to eq([25, 25, 50])
         expect(described_class.generate(100, [0.07, 0.03])).to eq([70, 30])
         expect(described_class.generate(10, [0.1, 0.2, 0.1])).to eq([3, 5, 2])
       end
 
-      it 'does not lose pennies' do
+      it "does not lose pennies" do
         expect(described_class.generate(10, [1, 1, 2])).to eq([3, 2, 5])
         expect(described_class.generate(100, [1, 1, 1])).to eq([34, 33, 33])
       end
 
-      it 'handles zero arguments' do
+      it "handles zero arguments" do
         expect(described_class.generate(100, [1, 1, 0])).to eq([50, 50, 0])
         expect(described_class.generate(100, [0, 1, 1])).to eq([0, 50, 50])
       end
     end
 
-    context 'with fractional amounts' do
-      it 'returns the amount when array contains only one element' do
+    context "with fractional amounts" do
+      it "returns the amount when array contains only one element" do
         expect(described_class.generate(BigDecimal(100), [1], false)).to eq([100])
         expect(described_class.generate(BigDecimal(100), [5], false)).to eq([100])
       end
 
-      it 'splits the amount into whole parts respecting the order' do
+      it "splits the amount into whole parts respecting the order" do
         expect(described_class.generate(BigDecimal(100), [1, 1], false)).to eq([50, 50])
         expect(described_class.generate(BigDecimal(100), [1, 1, 2], false)).to eq([25, 25, 50])
         expect(described_class.generate(BigDecimal(100), [7, 3], false)).to eq([70, 30])
       end
 
-      it 'splits the amount proportionally to the given parts' do
+      it "splits the amount proportionally to the given parts" do
         expect(described_class.generate(BigDecimal(10), [1, 1, 2], false)).to eq([2.5, 2.5, 5])
         expect(described_class.generate(BigDecimal(7), [1, 1], false)).to eq([3.5, 3.5])
       end
 
-      it 'keeps the class of the splits the same as given amount' do
+      it "keeps the class of the splits the same as given amount" do
         # Note that whole_amount is false but result is whole values
         expect(described_class.generate(10, [1, 1, 2], false)).to eq([3, 2, 5])
       end
 
-      it 'handles splits into repeating decimals' do
+      it "handles splits into repeating decimals" do
         amount = BigDecimal(100)
         parts = described_class.generate(amount, [1, 1, 1], false)
 
@@ -127,9 +127,9 @@ RSpec.describe Money::Allocation do
         # missing fraction
         expect(parts.map { |x| x.round(10) }).to eq(
           [
-            BigDecimal('33.3333333333'),
-            BigDecimal('33.3333333333'),
-            BigDecimal('33.3333333333'),
+            BigDecimal("33.3333333333"),
+            BigDecimal("33.3333333333"),
+            BigDecimal("33.3333333333"),
           ],
         )
         expect(parts.inject(0, :+)).to eq(amount)
@@ -137,8 +137,8 @@ RSpec.describe Money::Allocation do
     end
   end
 
-  context 'with an allocation seen in the wild' do
-    it 'allocates the full amount' do
+  context "with an allocation seen in the wild" do
+    it "allocates the full amount" do
       amount = 700273
       allocations = [1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.170126087450276, 1.0, 1.0, 1.0, 1.0]
 
@@ -147,7 +147,7 @@ RSpec.describe Money::Allocation do
       expect(result).to eq([61566, 61565, 61565, 61565, 61565, 61565, 61565, 60953, 52091, 52091, 52091, 52091])
     end
 
-    it 'allocates the full -amount' do
+    it "allocates the full -amount" do
       amount = -700273
       allocations = [1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.1818583143661, 1.170126087450276, 1.0, 1.0, 1.0, 1.0]
 
@@ -156,7 +156,7 @@ RSpec.describe Money::Allocation do
       expect(result).to eq([-61566, -61565, -61565, -61565, -61565, -61565, -61565, -60953, -52091, -52091, -52091, -52091])
     end
 
-    context 'when specified precision' do
+    context "when specified precision" do
       let(:amount) { 246.4 }
       let(:allocations) do
         [
@@ -171,7 +171,7 @@ RSpec.describe Money::Allocation do
         ]
       end
 
-      it 'allocates with required precision' do
+      it "allocates with required precision" do
         result = described_class.generate(amount, allocations, 16)
         expect(result.reduce(&:+)).to eq(amount)
 

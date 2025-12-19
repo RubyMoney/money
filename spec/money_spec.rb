@@ -3,16 +3,16 @@
 Subclass = Class.new(Money)
 
 RSpec.describe Money do
-  describe '.locale_backend' do
+  describe ".locale_backend" do
     after { Money.locale_backend = :currency }
 
-    it 'sets the locale_backend' do
+    it "sets the locale_backend" do
       Money.locale_backend = :i18n
 
       expect(Money.locale_backend).to be_a(Money::LocaleBackend::I18n)
     end
 
-    it 'sets the locale_backend to nil' do
+    it "sets the locale_backend to nil" do
       Money.locale_backend = nil
 
       expect(Money.locale_backend).to be_nil
@@ -28,42 +28,42 @@ RSpec.describe Money do
       expect(money.bank).to be Money::Bank::VariableExchange.instance
     end
 
-    context 'when the initializing value is an integer' do
+    context "when the initializing value is an integer" do
       let(:initializing_value) { Integer(1) }
 
-      it 'stores the integer as the number of cents' do
+      it "stores the integer as the number of cents" do
         expect(money.cents).to eq initializing_value
       end
     end
 
-    context 'when the initializing value is a float' do
-      context 'when the value is 1.00' do
+    context "when the initializing value is a float" do
+      context "when the value is 1.00" do
         let(:initializing_value) { 1.00 }
 
         it { is_expected.to eq Money.new(1) }
       end
 
-      context 'when the value is 1.01' do
+      context "when the value is 1.01" do
         let(:initializing_value) { 1.01 }
 
         it { is_expected.to eq Money.new(1) }
       end
 
-      context 'when the value is 1.50' do
+      context "when the value is 1.50" do
         let(:initializing_value) { 1.50 }
 
         it { is_expected.to eq Money.new(2) }
       end
     end
 
-    context 'when the initializing value is a rational' do
+    context "when the initializing value is a rational" do
       let(:initializing_value) { Rational(1) }
 
       it { is_expected.to eq Money.new(1) }
     end
 
-    context 'when the initializing value is money' do
-      let(:initializing_value) { Money.new(1_00, Money::Currency.new('NZD')) }
+    context "when the initializing value is money" do
+      let(:initializing_value) { Money.new(1_00, Money::Currency.new("NZD")) }
 
       it { is_expected.to eq initializing_value }
     end
@@ -74,15 +74,15 @@ RSpec.describe Money do
       it { is_expected.to eq Money.new(1) }
     end
 
-    context 'when a currency is not provided' do
+    context "when a currency is not provided" do
       subject(:money) { Money.new(initializing_value) }
 
       it "has the default currency" do
         expect(money.currency).to eq Money.default_currency
       end
 
-      context 'without a default' do
-        it 'throws an NoCurrency Error' do
+      context "without a default" do
+        it "throws an NoCurrency Error" do
           Money.default_currency = nil
 
           expect { money }.to raise_error(Money::Currency::NoCurrency)
@@ -90,18 +90,18 @@ RSpec.describe Money do
       end
     end
 
-    context 'when a currency is provided' do
+    context "when a currency is provided" do
       subject(:money) { Money.new(initializing_value, currency) }
 
-      context 'when the currency is NZD' do
-        let(:currency) { Money::Currency.new('NZD') }
+      context "when the currency is NZD" do
+        let(:currency) { Money::Currency.new("NZD") }
 
         it "has NZD currency" do
-          expect(money.currency).to eq Money::Currency.new('NZD')
+          expect(money.currency).to eq Money::Currency.new("NZD")
         end
       end
 
-      context 'when the currency is nil' do
+      context "when the currency is nil" do
         let(:currency) { nil }
 
         it "has the default currency" do
@@ -110,39 +110,39 @@ RSpec.describe Money do
       end
     end
 
-    context 'when a non-finite value is given' do
-      let(:error) { 'must be initialized with a finite value' }
+    context "when a non-finite value is given" do
+      let(:error) { "must be initialized with a finite value" }
 
-      it 'raises an error when trying to initialize with Infinity' do
-        expect { Money.new('Infinity') }.to raise_error(ArgumentError, error)
-        expect { Money.new(BigDecimal('Infinity')) }.to raise_error(ArgumentError, error)
+      it "raises an error when trying to initialize with Infinity" do
+        expect { Money.new("Infinity") }.to raise_error(ArgumentError, error)
+        expect { Money.new(BigDecimal("Infinity")) }.to raise_error(ArgumentError, error)
       end
 
-      it 'raises an error when trying to initialize with NaN' do
-        expect { Money.new('NaN') }.to raise_error(ArgumentError, error)
-        expect { Money.new(BigDecimal('NaN')) }.to raise_error(ArgumentError, error)
+      it "raises an error when trying to initialize with NaN" do
+        expect { Money.new("NaN") }.to raise_error(ArgumentError, error)
+        expect { Money.new(BigDecimal("NaN")) }.to raise_error(ArgumentError, error)
       end
     end
 
     context "with infinite_precision", :default_infinite_precision_true do
-      context 'when the initializing value is 1.50' do
+      context "when the initializing value is 1.50" do
         let(:initializing_value) { 1.50 }
 
         it "has the correct cents" do
-          expect(money.cents).to eq BigDecimal('1.50')
+          expect(money.cents).to eq BigDecimal("1.50")
         end
       end
     end
 
-    context 'when initializing with .from_cents' do
+    context "when initializing with .from_cents" do
       subject(:money) { Money.from_cents(initializing_value) }
 
-      it 'works just as with .new' do
+      it "works just as with .new" do
         expect(money.cents).to eq initializing_value
       end
     end
 
-    context 'when initializing with .from_dollars' do
+    context "when initializing with .from_dollars" do
       subject(:money) { Money.from_dollars(initializing_value) }
 
       it "is a deprecated synonym of .from_amount" do
@@ -227,7 +227,7 @@ RSpec.describe Money do
       expect(Money.from_amount(1, "USD", bank).bank).to be bank
     end
 
-    context 'when given a nil currency' do
+    context "when given a nil currency" do
       let(:currency) { nil }
 
       it "has the default currency" do
@@ -236,15 +236,15 @@ RSpec.describe Money do
     end
   end
 
-  describe '.with_rounding_mode' do
-    it 'rounds using with_rounding_mode' do
+  describe ".with_rounding_mode" do
+    it "rounds using with_rounding_mode" do
       expect(Money.from_amount(1.999).to_d).to eq 2
       expect(Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
         Money.from_amount(1.999).to_d
       end).to eq 1.99
     end
 
-    it 'allows blocks nesting' do
+    it "allows blocks nesting" do
       Money.with_rounding_mode(BigDecimal::ROUND_DOWN) do
         expect(Money.rounding_mode).to eq(BigDecimal::ROUND_DOWN)
 
@@ -255,17 +255,17 @@ RSpec.describe Money do
 
         expect(Money.rounding_mode)
           .to eq(BigDecimal::ROUND_DOWN),
-              'Outer mode should be restored after inner block'
+              "Outer mode should be restored after inner block"
         expect(Money.from_amount(2.137).to_d).to eq 2.13
       end
 
       expect(Money.rounding_mode)
         .to eq(BigDecimal::ROUND_HALF_UP),
-            'Original mode should be restored after outer block'
+            "Original mode should be restored after outer block"
       expect(Money.from_amount(2.137).to_d).to eq 2.14
     end
 
-    it 'safely handles concurrent usage in different threads' do
+    it "safely handles concurrent usage in different threads" do
       test_value = 1.999
       expected_down = 1.99
       expected_up = 2.00
@@ -318,8 +318,8 @@ RSpec.describe Money do
     end
   end
 
-  describe '.with_bank' do
-    it 'fallbacks to old bank after block' do
+  describe ".with_bank" do
+    it "fallbacks to old bank after block" do
       old_bank = Money.default_bank
 
       bank = Money::Bank::VariableExchange.new
@@ -349,7 +349,7 @@ RSpec.describe Money do
       expect(old_bank).to have_received(:add_rate).with("UAH", "NOK", 0.8)
     end
 
-    it 'safely handles concurrent usage in different threads' do
+    it "safely handles concurrent usage in different threads" do
       results = []
       results_mutex = Mutex.new
       threads = []
@@ -427,7 +427,7 @@ RSpec.describe Money do
       end
 
       let(:m) do
-        if Psych::VERSION > '4.0'
+        if Psych::VERSION > "4.0"
           YAML.safe_load(serialized, permitted_classes: [Money, Money::Currency, Symbol, Thread::Mutex, Time])
         else
           YAML.safe_load(serialized, [Money, Money::Currency, Symbol, Thread::Mutex, Time])
@@ -618,7 +618,7 @@ RSpec.describe Money do
       expect(Money.new(100_37).amount).to eq 100.37
     end
 
-    it 'produces a BigDecimal' do
+    it "produces a BigDecimal" do
       expect(Money.new(1_00).amount).to be_a BigDecimal
     end
   end
@@ -711,7 +711,7 @@ RSpec.describe Money do
       after { Money.default_formatting_rules = nil }
 
       it "ignores defaults" do
-        expect(Money.new(10_00, 'USD').to_s).to eq '10.00'
+        expect(Money.new(10_00, "USD").to_s).to eq "10.00"
       end
     end
 
@@ -789,18 +789,18 @@ RSpec.describe Money do
   end
 
   describe "#with_currency" do
-    it 'returns self if currency is the same' do
-      money = Money.new(10_00, 'USD')
+    it "returns self if currency is the same" do
+      money = Money.new(10_00, "USD")
 
-      expect(money.with_currency('USD')).to eq(money)
-      expect(money.with_currency('USD').object_id).to eq(money.object_id)
+      expect(money.with_currency("USD")).to eq(money)
+      expect(money.with_currency("USD").object_id).to eq(money.object_id)
     end
 
-    it 'returns a new instance in a given currency' do
-      money = Money.new(10_00, 'USD')
-      new_money = money.with_currency('EUR')
+    it "returns a new instance in a given currency" do
+      money = Money.new(10_00, "USD")
+      new_money = money.with_currency("EUR")
 
-      expect(new_money).to eq(Money.new(10_00, 'EUR'))
+      expect(new_money).to eq(Money.new(10_00, "EUR"))
       expect(money.fractional).to eq(new_money.fractional)
       expect(money.bank).to eq(new_money.bank)
       expect(money.object_id).not_to eq(new_money.object_id)
@@ -812,7 +812,7 @@ RSpec.describe Money do
       money = Money.new(100_00, "USD")
       allow(money.bank)
         .to receive(:exchange_with)
-        .and_return(Money.new(200_00, Money::Currency.new('EUR')))
+        .and_return(Money.new(200_00, Money::Currency.new("EUR")))
       money.exchange_to("EUR")
       expect(money.bank)
         .to have_received(:exchange_with)
@@ -823,7 +823,7 @@ RSpec.describe Money do
       money = Money.new(100_00, "USD")
       allow(money.bank)
         .to receive(:exchange_with)
-        .and_return(Money.new(200_00, Money::Currency.new('EUR')))
+        .and_return(Money.new(200_00, Money::Currency.new("EUR")))
       expect(money.exchange_to("EUR")).to eq Money.new(200_00, "EUR")
       expect(money.bank)
         .to have_received(:exchange_with)
@@ -832,16 +832,16 @@ RSpec.describe Money do
 
     it "allows double conversion using same bank" do
       bank = Money::Bank::VariableExchange.new
-      bank.add_rate('EUR', 'USD', 2)
-      bank.add_rate('USD', 'EUR', 0.5)
+      bank.add_rate("EUR", "USD", 2)
+      bank.add_rate("USD", "EUR", 0.5)
       money = Money.new(100_00, "USD", bank)
       expect(money.exchange_to("EUR").exchange_to("USD")).to eq money
     end
 
-    it 'uses the block given as rounding method' do
-      money = Money.new(100_00, 'USD')
+    it "uses the block given as rounding method" do
+      money = Money.new(100_00, "USD")
       allow(money.bank).to receive(:exchange_with).and_yield(300_00)
-      expect { |block| money.exchange_to(Money::Currency.new('EUR'), &block) }
+      expect { |block| money.exchange_to(Money::Currency.new("EUR"), &block) }
         .to yield_successive_args(300_00)
       expect(money.bank).to have_received(:exchange_with)
     end
@@ -897,7 +897,7 @@ RSpec.describe Money do
     end
 
     it "handles mixed split types" do
-      splits = [Rational(1, 4), 0.25, 0.25, BigDecimal('0.25')]
+      splits = [Rational(1, 4), 0.25, 0.25, BigDecimal("0.25")]
       moneys = Money.us_dollar(100).allocate(splits)
       moneys.each do |money|
         expect(money.cents).to eq 25
@@ -983,7 +983,7 @@ RSpec.describe Money do
   describe "#round" do
     subject(:rounded) { money.round }
 
-    let(:money) { Money.new(15.75, 'NZD') }
+    let(:money) { Money.new(15.75, "NZD") }
 
     context "without infinite_precision" do
       it "returns a different money" do
@@ -995,7 +995,7 @@ RSpec.describe Money do
       end
 
       it "maintains the currency" do
-        expect(rounded.currency).to eq Money::Currency.new('NZD')
+        expect(rounded.currency).to eq Money::Currency.new("NZD")
       end
 
       it "uses a provided rounding strategy" do
@@ -1021,7 +1021,7 @@ RSpec.describe Money do
       end
 
       it "maintains the currency" do
-        expect(rounded.currency).to eq Money::Currency.new('NZD')
+        expect(rounded.currency).to eq Money::Currency.new("NZD")
       end
 
       it "uses a provided rounding strategy" do
@@ -1030,7 +1030,7 @@ RSpec.describe Money do
       end
 
       context "when using a specific rounding precision" do
-        let(:money) { Money.new(15.7526, 'NZD') }
+        let(:money) { Money.new(15.7526, "NZD") }
 
         it "uses the provided rounding precision" do
           rounded = money.round(BigDecimal::ROUND_DOWN, 3)
@@ -1039,16 +1039,16 @@ RSpec.describe Money do
       end
     end
 
-    it 'preserves assigned bank' do
+    it "preserves assigned bank" do
       bank = Money::Bank::VariableExchange.new
-      rounded = Money.new(1_00, 'USD', bank).round
+      rounded = Money.new(1_00, "USD", bank).round
 
       expect(rounded.bank).to eq(bank)
     end
 
     context "when using a subclass of Money" do
       let(:special_money_class) { Class.new(Money) }
-      let(:money) { special_money_class.new(15.75, 'NZD') }
+      let(:money) { special_money_class.new(15.75, "NZD") }
 
       it "preserves the class in the result" do
         expect(rounded).to be_a special_money_class
@@ -1058,8 +1058,8 @@ RSpec.describe Money do
 
   describe "#inspect" do
     it "reports the class name properly when using inheritance" do
-      expect(Money.new(1).inspect).to start_with '#<Money'
-      expect(Subclass.new(1).inspect).to start_with '#<Subclass'
+      expect(Money.new(1).inspect).to start_with "#<Money"
+      expect(Subclass.new(1).inspect).to start_with "#<Subclass"
     end
   end
 
@@ -1112,7 +1112,7 @@ RSpec.describe Money do
       expect(Money.default_currency).to eq Money::Currency.new(:eur)
     end
 
-    it 'does not warn if the default_currency has been changed' do
+    it "does not warn if the default_currency has been changed" do
       Money.default_currency = Money::Currency.new(:usd)
 
       Money.default_currency
@@ -1121,22 +1121,22 @@ RSpec.describe Money do
     end
   end
 
-  describe '.default_bank' do
+  describe ".default_bank" do
     after { Money.setup_defaults }
 
-    it 'accepts a bank instance' do
+    it "accepts a bank instance" do
       Money.default_bank = Money::Bank::SingleCurrency.instance
       expect(Money.default_bank).to be_instance_of(Money::Bank::SingleCurrency)
     end
 
-    it 'accepts a lambda' do
+    it "accepts a lambda" do
       Money.default_bank = -> { Money::Bank::SingleCurrency.instance }
       expect(Money.default_bank).to be_instance_of(Money::Bank::SingleCurrency)
     end
   end
 
-  describe 'VERSION' do
-    it 'exposes a version with major, minor and patch level' do
+  describe "VERSION" do
+    it "exposes a version with major, minor and patch level" do
       expect(Money::VERSION).to match(/\d+.\d+.\d+/)
     end
   end

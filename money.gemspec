@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.name        = "money"
   s.version     = Money::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Shane Emmons', 'Anthony Dmitriyev']
-  s.email       = ['shane@emmons.io', 'anthony.dmitriyev@gmail.com']
+  s.authors     = ["Shane Emmons", "Anthony Dmitriyev"]
+  s.email       = ["shane@emmons.io", "anthony.dmitriyev@gmail.com"]
   s.homepage    = "https://rubymoney.github.io/money"
   s.summary     = "A Ruby Library for dealing with money and currency conversion."
   s.description = "A Ruby Library for dealing with money and currency conversion."
@@ -24,9 +24,9 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   if s.respond_to?(:metadata)
-    s.metadata['changelog_uri'] = 'https://github.com/RubyMoney/money/blob/main/CHANGELOG.md'
-    s.metadata['source_code_uri'] = 'https://github.com/RubyMoney/money/'
-    s.metadata['bug_tracker_uri'] = 'https://github.com/RubyMoney/money/issues'
-    s.metadata['rubygems_mfa_required'] = 'true'
+    s.metadata["changelog_uri"] = "https://github.com/RubyMoney/money/blob/main/CHANGELOG.md"
+    s.metadata["source_code_uri"] = "https://github.com/RubyMoney/money/"
+    s.metadata["bug_tracker_uri"] = "https://github.com/RubyMoney/money/issues"
+    s.metadata["rubygems_mfa_required"] = "true"
   end
 end

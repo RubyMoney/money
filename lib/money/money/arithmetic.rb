@@ -84,7 +84,7 @@ class Money
     # numeric value is given.
     def ==(other)
       if other.is_a?(Numeric) && !other.zero?
-        raise ArgumentError, 'Money#== supports only zero numerics'
+        raise ArgumentError, "Money#== supports only zero numerics"
       end
 
       super
@@ -208,7 +208,7 @@ class Money
 
         fractional / as_d(exchanged.fractional).to_f
       else
-        raise TypeError, 'Can not divide by Money' if other.is_a?(CoercedNumeric)
+        raise TypeError, "Can not divide by Money" if other.is_a?(CoercedNumeric)
 
         other = as_d(other)
         raise ZeroDivisionError, "divided by zero" if other.zero?
