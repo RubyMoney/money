@@ -51,6 +51,10 @@ RSpec/MultipleExpectations:
   # Do not limit the amount of expectations in a spec
   Enabled: false
 
+RSpec/VerifiedDoubles:
+  # Allow building unverified doubles with `double :foo`.
+  IgnoreSymbolicNames: true
+
 # Style
 
 Style/ClassAndModuleChildren:

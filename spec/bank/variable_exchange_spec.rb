@@ -200,7 +200,7 @@ RSpec.describe Money::Bank::VariableExchange do
 
     context "with :file provided" do
       it "writes rates to file" do
-        f = double('IO')
+        f = instance_double(IO)
         allow(File).to receive(:open).with('null', 'w').and_yield(f)
         allow(f).to receive(:write)
 
