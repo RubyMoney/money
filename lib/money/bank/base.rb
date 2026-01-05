@@ -78,8 +78,7 @@ class Money
       #  +Money::Bank+ class.
       #
       # @return [self]
-      def setup
-      end
+      def setup; end
 
       # Exchanges the given +Money+ object to a new +Money+ object in
       # +to_currency+.
