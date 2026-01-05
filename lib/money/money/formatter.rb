@@ -339,7 +339,7 @@ class Money
 
     def symbol_value_from(rules)
       if rules.has_key?(:symbol)
-        if rules[:symbol] === true
+        if rules[:symbol] == true
           if rules[:disambiguate] && currency.disambiguate_symbol
             currency.disambiguate_symbol
           else
