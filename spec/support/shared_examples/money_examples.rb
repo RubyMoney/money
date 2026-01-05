@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples 'instance with custom bank' do |operation, value|
+RSpec.shared_examples "instance with custom bank" do |operation, value|
   subject { evaluated_value ? instance.send(operation, evaluated_value) : instance.send(operation) }
 
   let(:custom_bank) { Money::Bank::VariableExchange.new }

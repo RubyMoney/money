@@ -31,7 +31,7 @@ class Money
           parts.dup
         end
 
-      raise ArgumentError, 'need at least one part' if parts.empty?
+      raise ArgumentError, "need at least one part" if parts.empty?
 
       if [amount, *parts].any? { |i| i.is_a?(BigDecimal) || i.is_a?(Float) || i.is_a?(Rational) }
         amount = convert_to_big_decimal(amount)

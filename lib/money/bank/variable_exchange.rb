@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'money/bank/base'
-require 'money/rates_store/memory'
-require 'json'
-require 'yaml'
+require "money/bank/base"
+require "money/rates_store/memory"
+require "json"
+require "yaml"
 
 class Money
   module Bank
@@ -47,7 +47,7 @@ class Money
 
       # Available formats for importing/exporting rates.
       RATE_FORMATS = [:json, :ruby, :yaml].freeze
-      SERIALIZER_SEPARATOR = '_TO_'
+      SERIALIZER_SEPARATOR = "_TO_"
       FORMAT_SERIALIZERS = { json: JSON, ruby: Marshal, yaml: YAML }.freeze
 
       # Initializes a new +Money::Bank::VariableExchange+ object.
@@ -263,9 +263,9 @@ class Money
         raise Money::Bank::UnknownRateFormat unless RATE_FORMATS.include?(format)
 
         if format == :ruby
-          warn '[WARNING] Using :ruby format when importing rates is potentially unsafe and ' \
-               'might lead to remote code execution via Marshal.load deserializer. Consider using ' \
-               'safe alternatives such as :json and :yaml.'
+          warn "[WARNING] Using :ruby format when importing rates is potentially unsafe and " \
+               "might lead to remote code execution via Marshal.load deserializer. Consider using " \
+               "safe alternatives such as :json and :yaml."
         end
 
         store.transaction do

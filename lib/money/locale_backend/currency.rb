@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'money/locale_backend/base'
+require "money/locale_backend/base"
 
 class Money
   module LocaleBackend

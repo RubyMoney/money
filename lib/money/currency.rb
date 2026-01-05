@@ -80,7 +80,7 @@ class Money
       #   Money::Currency.find_by_iso_numeric(51) #=> #<Money::Currency id: amd ...>
       #   Money::Currency.find_by_iso_numeric('001') #=> nil
       def find_by_iso_numeric(num)
-        num = num.to_s.rjust(3, '0')
+        num = num.to_s.rjust(3, "0")
         return if num.empty?
 
         id = iso_numeric_index[num]
@@ -422,7 +422,7 @@ class Money
     #   Money::Currency.new(:usd).iso?
     #
     def iso?
-      iso_numeric && iso_numeric != ''
+      iso_numeric && iso_numeric != ""
     end
 
     # Returns true if a subunit is cents-based.
