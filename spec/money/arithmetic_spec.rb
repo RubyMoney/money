@@ -13,7 +13,7 @@ RSpec.describe Money::Arithmetic do
       expect(- special_money_class.new(10_00)).to be_a special_money_class
     end
 
-    it_behaves_like 'instance with custom bank', :-@
+    it_behaves_like "instance with custom bank", :-@
   end
 
   describe "#==" do
@@ -48,7 +48,7 @@ RSpec.describe Money::Arithmetic do
       expect(Money.new(1_00, "GBP")).not_to eq klass.new(1_00, "USD")
     end
 
-    it 'allows comparison with zero' do
+    it "allows comparison with zero" do
       expect(Money.new(0, "USD")).to eq 0
       expect(Money.new(0, "EUR")).to eq 0
       expect(Money.new(0, "USD")).to eq 0.0
@@ -57,7 +57,7 @@ RSpec.describe Money::Arithmetic do
     end
 
     # rubocop:disable Lint/FloatComparison
-    it 'raises error for non-zero numerics' do
+    it "raises error for non-zero numerics" do
       expect { Money.new(1_00, "USD") == 1 }.to raise_error ArgumentError
       expect { Money.new(1_00, "USD") == -2.0 }.to raise_error ArgumentError
       expect { Money.new(1_00, "USD") == Float::INFINITY }.to raise_error ArgumentError
@@ -182,7 +182,7 @@ RSpec.describe Money::Arithmetic do
       expect(Money.new(1_00) <=> /foo/).to be_nil
     end
 
-    context 'when conversions disallowed' do
+    context "when conversions disallowed" do
       before do
         Money.disallow_currency_conversion!
       end
@@ -193,38 +193,38 @@ RSpec.describe Money::Arithmetic do
         Money.default_bank = previous_bank
       end
 
-      context 'when currencies differ' do
-        context 'when both values are 1_00' do
-          it 'raises currency error' do
+      context "when currencies differ" do
+        context "when both values are 1_00" do
+          it "raises currency error" do
             expect { Money.usd(1_00) <=> Money.gbp(1_00) }.to raise_error Money::Bank::DifferentCurrencyError
           end
         end
 
-        context 'when both values are 0' do
-          it 'considers them equal' do
+        context "when both values are 0" do
+          it "considers them equal" do
             expect(Money.usd(0) <=> Money.gbp(0)).to eq(0)
           end
         end
       end
     end
 
-    it 'compares with numeric 0' do
+    it "compares with numeric 0" do
       expect(Money.usd(1) < 0).to be false
       expect(Money.usd(1) > 0.0).to be true
       expect(Money.usd(0) >= 0.0).to be true
     end
 
-    it 'compares with zero Money in any currency' do
-      expect(Money.new(42, 'USD') > Money.zero('USD')).to be(true)
-      expect(Money.new(42, 'USD') > Money.zero('CAD')).to be(true)
-      expect(Money.new(42, 'CAD') > Money.zero('USD')).to be(true)
+    it "compares with zero Money in any currency" do
+      expect(Money.new(42, "USD") > Money.zero("USD")).to be(true)
+      expect(Money.new(42, "USD") > Money.zero("CAD")).to be(true)
+      expect(Money.new(42, "CAD") > Money.zero("USD")).to be(true)
 
-      expect(Money.zero('USD') > Money.new(42, 'USD')).to be(false)
-      expect(Money.zero('CAD') > Money.new(42, 'USD')).to be(false)
-      expect(Money.zero('USD') > Money.new(42, 'CAD')).to be(false)
+      expect(Money.zero("USD") > Money.new(42, "USD")).to be(false)
+      expect(Money.zero("CAD") > Money.new(42, "USD")).to be(false)
+      expect(Money.zero("USD") > Money.new(42, "CAD")).to be(false)
 
-      expect(Money.zero('USD') == Money.zero('USD')).to be(true)
-      expect(Money.zero('USD') == Money.zero('CAD')).to be(true)
+      expect(Money.zero("USD") == Money.zero("USD")).to be(true)
+      expect(Money.zero("USD") == Money.zero("CAD")).to be(true)
     end
   end
 
@@ -285,7 +285,7 @@ RSpec.describe Money::Arithmetic do
       expect { Money.new(10_00) + nil }.to raise_error(TypeError, "Unsupported argument type: NilClass")
     end
 
-    it_behaves_like 'instance with custom bank', :+, -> { Money.new(1) }
+    it_behaves_like "instance with custom bank", :+, -> { Money.new(1) }
   end
 
   describe "#-" do
@@ -317,7 +317,7 @@ RSpec.describe Money::Arithmetic do
       expect { Money.new(10_00) - nil }.to raise_error(TypeError, "Unsupported argument type: NilClass")
     end
 
-    it_behaves_like 'instance with custom bank', :-, -> { Money.new(1) }
+    it_behaves_like "instance with custom bank", :-, -> { Money.new(1) }
   end
 
   describe "#*" do
@@ -342,7 +342,7 @@ RSpec.describe Money::Arithmetic do
     end
 
     it "does not multiply Money by an object which is NOT a number" do
-      expect { Money.new(10, :USD) *  'abc' }.to raise_error(TypeError)
+      expect { Money.new(10, :USD) *  "abc" }.to raise_error(TypeError)
     end
 
     it "preserves the class in the result when using a subclass of Money" do
@@ -350,7 +350,7 @@ RSpec.describe Money::Arithmetic do
       expect(special_money_class.new(10_00, "USD") * 2).to be_a special_money_class
     end
 
-    it_behaves_like 'instance with custom bank', :*, 1
+    it_behaves_like "instance with custom bank", :*, 1
   end
 
   describe "#/" do
@@ -371,7 +371,7 @@ RSpec.describe Money::Arithmetic do
       expect(special_money_class.new(10_00, "USD") / 2).to be_a special_money_class
     end
 
-    describe 'rounding preference' do
+    describe "rounding preference" do
       before do
         allow(Money).to receive(:rounding_mode).and_return(rounding_mode)
       end
@@ -380,7 +380,7 @@ RSpec.describe Money::Arithmetic do
         allow(Money).to receive(:rounding_mode).and_call_original
       end
 
-      context 'when ceiling rounding' do
+      context "when ceiling rounding" do
         let(:rounding_mode) { BigDecimal::ROUND_CEILING }
 
         it "obeys the rounding preference" do
@@ -388,7 +388,7 @@ RSpec.describe Money::Arithmetic do
         end
       end
 
-      context 'when floor rounding' do
+      context "when floor rounding" do
         let(:rounding_mode) { BigDecimal::ROUND_FLOOR }
 
         it "obeys the rounding preference" do
@@ -396,7 +396,7 @@ RSpec.describe Money::Arithmetic do
         end
       end
 
-      context 'when half up rounding' do
+      context "when half up rounding" do
         let(:rounding_mode) { BigDecimal::ROUND_HALF_UP }
 
         it "obeys the rounding preference" do
@@ -404,7 +404,7 @@ RSpec.describe Money::Arithmetic do
         end
       end
 
-      context 'when half down rounding' do
+      context "when half down rounding" do
         let(:rounding_mode) { BigDecimal::ROUND_HALF_DOWN }
 
         it "obeys the rounding preference" do
@@ -475,7 +475,7 @@ RSpec.describe Money::Arithmetic do
       expect { money / BigDecimal("0") }.to raise_error(ZeroDivisionError, "divided by zero")
     end
 
-    it_behaves_like 'instance with custom bank', :/, 1
+    it_behaves_like "instance with custom bank", :/, 1
   end
 
   describe "#div" do
@@ -617,8 +617,8 @@ RSpec.describe Money::Arithmetic do
       expect { money.divmod(BigDecimal("0")) }.to raise_error(ZeroDivisionError, "divided by zero")
     end
 
-    it_behaves_like 'instance with custom bank', :divmod, -> { Money.new(1) }
-    it_behaves_like 'instance with custom bank', :divmod, 1
+    it_behaves_like "instance with custom bank", :divmod, -> { Money.new(1) }
+    it_behaves_like "instance with custom bank", :divmod, 1
   end
 
   describe "#modulo" do
@@ -714,7 +714,7 @@ RSpec.describe Money::Arithmetic do
       end
     end
 
-    it_behaves_like 'instance with custom bank', :remainder, -1
+    it_behaves_like "instance with custom bank", :remainder, -1
   end
 
   describe "#abs" do
@@ -729,7 +729,7 @@ RSpec.describe Money::Arithmetic do
       expect(special_money_class.new(-1).abs).to be_a special_money_class
     end
 
-    it_behaves_like 'instance with custom bank', :abs
+    it_behaves_like "instance with custom bank", :abs
   end
 
   describe "#zero?" do
@@ -760,79 +760,79 @@ RSpec.describe Money::Arithmetic do
   end
 
   describe "#coerce" do
-    it 'allows non-default currency money objects to be summed' do
-      result = 0 + Money.new(4, 'EUR') + Money.new(5, 'EUR')
-      expect(result).to eq Money.new(9, 'EUR')
+    it "allows non-default currency money objects to be summed" do
+      result = 0 + Money.new(4, "EUR") + Money.new(5, "EUR")
+      expect(result).to eq Money.new(9, "EUR")
     end
 
     it "allows mathematical operations by coercing arguments" do
-      result = 2 * Money.new(4, 'USD')
-      expect(result).to eq Money.new(8, 'USD')
+      result = 2 * Money.new(4, "USD")
+      expect(result).to eq Money.new(8, "USD")
     end
 
     it "raises TypeError dividing by a Money (unless other is a Money)" do
       expect do
-        2 / Money.new(2, 'USD')
+        2 / Money.new(2, "USD")
       end.to raise_error(TypeError)
     end
 
     it "raises TypeError subtracting by a Money (unless other is a Money)" do
       expect do
-        2 - Money.new(2, 'USD')
+        2 - Money.new(2, "USD")
       end.to raise_error(TypeError)
     end
 
     it "raises TypeError adding by a Money (unless other is a Money)" do
       expect do
-        2 + Money.new(2, 'USD')
+        2 + Money.new(2, "USD")
       end.to raise_error(TypeError)
     end
 
     it "allows subtraction from numeric zero" do
-      result = 0 - Money.new(4, 'USD')
-      expect(result).to eq Money.new(-4, 'USD')
+      result = 0 - Money.new(4, "USD")
+      expect(result).to eq Money.new(-4, "USD")
     end
 
     it "allows addition from numeric zero" do
-      result = 0 + Money.new(4, 'USD')
-      expect(result).to eq Money.new(4, 'USD')
+      result = 0 + Money.new(4, "USD")
+      expect(result).to eq Money.new(4, "USD")
     end
 
     it "treats multiplication as commutative" do
       expect do
-        2 * Money.new(2, 'USD')
+        2 * Money.new(2, "USD")
       end.not_to raise_error
-      result = 2 * Money.new(2, 'USD')
-      expect(result).to eq(Money.new(4, 'USD'))
+      result = 2 * Money.new(2, "USD")
+      expect(result).to eq(Money.new(4, "USD"))
     end
 
     it "doesn't work with non-numerics" do
       expect do
-        "2" * Money.new(2, 'USD')
+        "2" * Money.new(2, "USD")
       end.to raise_error(TypeError)
     end
 
     it "correctly handles <=>" do
       expect do
-        2 < Money.new(2, 'USD')
+        2 < Money.new(2, "USD")
       end.to raise_error(ArgumentError)
 
       expect do
-        2 > Money.new(2, 'USD')
+        2 > Money.new(2, "USD")
       end.to raise_error(ArgumentError)
 
       expect do
-        2 <= Money.new(2, 'USD')
+        2 <= Money.new(2, "USD")
       end.to raise_error(ArgumentError)
 
       expect do
-        2 >= Money.new(2, 'USD')
+        2 >= Money.new(2, "USD")
       end.to raise_error(ArgumentError)
 
-      expect(2 <=> Money.new(2, 'USD')).to be_nil
+      expect(2 <=> Money.new(2, "USD")).to be_nil
     end
 
-    it 'compares with numeric 0' do
+    it "compares with numeric 0" do
       expect(0 < Money.usd(1)).to be true
       expect(0.0 > Money.usd(1)).to be false
       expect(0.0 >= Money.usd(0)).to be true
@@ -840,15 +840,15 @@ RSpec.describe Money::Arithmetic do
 
     it "raises errors for all numeric types, not just Integer" do
       expect do
-        2.0 / Money.new(2, 'USD')
+        2.0 / Money.new(2, "USD")
       end.to raise_error(TypeError)
 
       expect do
-        Rational(2, 3) / Money.new(2, 'USD')
+        Rational(2, 3) / Money.new(2, "USD")
       end.to raise_error(TypeError)
 
       expect do
-        BigDecimal(2) / Money.new(2, 'USD')
+        BigDecimal(2) / Money.new(2, "USD")
       end.to raise_error(TypeError)
     end
   end
@@ -857,7 +857,7 @@ RSpec.describe Money::Arithmetic do
     describe "##{op}" do
       let(:instance) { Money.usd(1) }
 
-      context 'when conversions disallowed' do
+      context "when conversions disallowed" do
         before do
           Money.disallow_currency_conversion!
         end
@@ -868,18 +868,18 @@ RSpec.describe Money::Arithmetic do
           Money.default_bank = previous_bank
         end
 
-        context 'when other is money with different currency' do
+        context "when other is money with different currency" do
           let(:other) { Money.gbp(1) }
 
-          it 'raises Money::Bank::DifferentCurrencyError' do
+          it "raises Money::Bank::DifferentCurrencyError" do
             expect { instance.send(op, other) }.to raise_error Money::Bank::DifferentCurrencyError
           end
 
-          context 'when zero' do
+          context "when zero" do
             let(:instance) { Money.usd(0) }
             let(:other) { Money.gbp(0) }
 
-            it 'raises Money::Bank::DifferentCurrencyError' do
+            it "raises Money::Bank::DifferentCurrencyError" do
               expect { instance.send(op, other) }.to raise_error Money::Bank::DifferentCurrencyError
             end
           end

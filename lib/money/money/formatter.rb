@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'money/money/formatting_rules'
+require "money/money/formatting_rules"
 
 class Money
   class Formatter
     DEFAULTS = {
-      thousands_separator: '',
-      decimal_mark: '.',
+      thousands_separator: "",
+      decimal_mark: ".",
     }.freeze
 
     # Creates a formatted price string according to several rules.
@@ -240,15 +240,15 @@ class Money
     end
 
     def append_sign(formatted_number)
-      sign = money.negative? ? '-' : ''
+      sign = money.negative? ? "-" : ""
 
       if rules[:sign_positive] == true && money.positive?
-        sign = '+'
+        sign = "+"
       end
 
       if rules[:sign_before_symbol] == true
         sign_before = sign
-        sign = ''
+        sign = ""
       end
 
       symbol_value = symbol_value_from(rules)
@@ -259,8 +259,8 @@ class Money
         end
 
         rules[:format]
-          .gsub('%u', [sign_before, symbol_value].join)
-          .gsub('%n', [sign, formatted_number].join)
+          .gsub("%u", [sign_before, symbol_value].join)
+          .gsub("%n", [sign, formatted_number].join)
       else
         "#{sign_before}#{sign}#{formatted_number}"
       end
@@ -290,7 +290,7 @@ class Money
     end
 
     def free_text
-      rules[:display_free].respond_to?(:to_str) ? rules[:display_free] : 'free'
+      rules[:display_free].respond_to?(:to_str) ? rules[:display_free] : "free"
     end
 
     def format_whole_part(value)
@@ -310,7 +310,7 @@ class Money
       fractional_units = BigDecimal(fractional) / currency.subunit_to_unit
 
       # Split the result and return whole and decimal parts separately
-      fractional_units.to_s('F').split('.')
+      fractional_units.to_s("F").split(".")
     end
 
     def format_decimal_part(value)
@@ -319,10 +319,10 @@ class Money
       return nil if rules[:no_cents_if_whole] && value.to_i == 0
 
       # Pad value, making up for missing zeroes at the end
-      value = value.ljust(currency.decimal_places, '0')
+      value = value.ljust(currency.decimal_places, "0")
 
       # Drop trailing zeros if needed
-      value.gsub!(/0*$/, '') if rules[:drop_trailing_zeros]
+      value.gsub!(/0*$/, "") if rules[:drop_trailing_zeros]
 
       value.empty? ? nil : value
     end
@@ -351,7 +351,7 @@ class Money
           ""
         end
       elsif rules[:html_wrap]
-        currency.html_entity == '' ? currency.symbol : currency.html_entity
+        currency.html_entity == "" ? currency.symbol : currency.html_entity
       elsif rules[:disambiguate] && currency.disambiguate_symbol
         currency.disambiguate_symbol
       else

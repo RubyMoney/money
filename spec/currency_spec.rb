@@ -67,7 +67,7 @@ RSpec.describe Money::Currency do
     it "returns currency matching given numeric code" do
       expect(described_class.find_by_iso_numeric(978)).to eq     described_class.new(:eur)
       expect(described_class.find_by_iso_numeric(208)).not_to eq described_class.new(:eur)
-      expect(described_class.find_by_iso_numeric('840')).to eq   described_class.new(:usd)
+      expect(described_class.find_by_iso_numeric("840")).to eq   described_class.new(:usd)
       expect(described_class.find_by_iso_numeric(51)).to eq described_class.new(:amd)
 
       expect(described_class.find_by_iso_numeric(mock_class.new)).to eq described_class.new(:dkk)
@@ -75,12 +75,12 @@ RSpec.describe Money::Currency do
     end
 
     it "returns nil if no currency has the given numeric code" do
-      expect(described_class.find_by_iso_numeric('non iso 4217 numeric code')).to be_nil
+      expect(described_class.find_by_iso_numeric("non iso 4217 numeric code")).to be_nil
       expect(described_class.find_by_iso_numeric(0)).to be_nil
     end
 
     it "returns nil when given empty input" do
-      expect(described_class.find_by_iso_numeric('')).to be_nil
+      expect(described_class.find_by_iso_numeric("")).to be_nil
       expect(described_class.find_by_iso_numeric(nil)).to be_nil
     end
 
@@ -155,7 +155,7 @@ RSpec.describe Money::Currency do
       unregister_foo
     end
 
-    it 'is sorted by priority' do
+    it "is sorted by priority" do
       expect(described_class.all.first.priority).to eq 1
     end
 
@@ -285,7 +285,7 @@ RSpec.describe Money::Currency do
       expect(currency.smallest_denomination).to eq 1
     end
 
-    it 'caches instances' do
+    it "caches instances" do
       currency = described_class.new("USD")
 
       expect(described_class._instances.length).to           eq 1
@@ -296,19 +296,19 @@ RSpec.describe Money::Currency do
       expect { described_class.new("xxx") }.to raise_error(described_class::UnknownCurrency, /xxx/)
     end
 
-    it 'returns old object for the same :key' do
+    it "returns old object for the same :key" do
       expect(described_class.new("USD")).to be(described_class.new("USD"))
       expect(described_class.new("USD")).to be(described_class.new(:usd))
       expect(described_class.new("USD")).to be(described_class.new(:USD))
-      expect(described_class.new("USD")).to be(described_class.new('usd'))
-      expect(described_class.new("USD")).to be(described_class.new('Usd'))
+      expect(described_class.new("USD")).to be(described_class.new("usd"))
+      expect(described_class.new("USD")).to be(described_class.new("Usd"))
     end
 
-    it 'returns new object for the different :key' do
+    it "returns new object for the different :key" do
       expect(described_class.new("USD")).not_to be(described_class.new("EUR"))
     end
 
-    it 'is thread safe' do
+    it "is thread safe" do
       ids = []
       2.times.map { Thread.new { ids << described_class.new("USD").object_id } }.each(&:join)
       expect(ids.uniq.length).to eq(1)
@@ -359,11 +359,11 @@ RSpec.describe Money::Currency do
     end
 
     it "allows direct comparison of currencies and symbols/strings" do
-      expect(described_class.new(:eur)).to     eq 'eur'
-      expect(described_class.new(:eur)).to     eq 'EUR'
+      expect(described_class.new(:eur)).to     eq "eur"
+      expect(described_class.new(:eur)).to     eq "EUR"
       expect(described_class.new(:eur)).to     eq :eur
       expect(described_class.new(:eur)).to     eq :EUR
-      expect(described_class.new(:eur)).not_to eq 'usd'
+      expect(described_class.new(:eur)).not_to eq "usd"
     end
 
     it "allows comparison with nil and returns false" do
@@ -478,8 +478,8 @@ RSpec.describe Money::Currency do
     end
   end
 
-  describe '#reset!' do
-    let(:modified_mark) { '&&' }
+  describe "#reset!" do
+    let(:modified_mark) { "&&" }
 
     before do
       cad = described_class.find(:cad)
