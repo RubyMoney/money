@@ -74,4 +74,4 @@ Style/IfInsideElse:
 # Configuration parameters: AllowHeredoc, AllowURI, AllowQualifiedName, URISchemes, IgnoreCopDirectives, AllowedPatterns, SplitStrings.
 # URISchemes: http, https
 Layout/LineLength:
-  Max: 433
+  Max: 200

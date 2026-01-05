@@ -354,7 +354,22 @@ class Money
     # @example
     #   Money::Currency.new(:usd) #=> #<Currency id: usd ...>
     def inspect
-      "#<#{self.class.name} id: #{id}, priority: #{priority}, symbol_first: #{symbol_first}, thousands_separator: #{thousands_separator}, html_entity: #{html_entity}, decimal_mark: #{decimal_mark}, name: #{name}, symbol: #{symbol}, subunit_to_unit: #{subunit_to_unit}, exponent: #{exponent}, iso_code: #{iso_code}, iso_numeric: #{iso_numeric}, subunit: #{subunit}, smallest_denomination: #{smallest_denomination}, format: #{format}>"
+      "#<#{self.class.name} " \
+        "id: #{id}, " \
+        "priority: #{priority}, " \
+        "symbol_first: #{symbol_first}, " \
+        "thousands_separator: #{thousands_separator}, " \
+        "html_entity: #{html_entity}, " \
+        "decimal_mark: #{decimal_mark}, " \
+        "name: #{name}, " \
+        "symbol: #{symbol}, " \
+        "subunit_to_unit: #{subunit_to_unit}, " \
+        "exponent: #{exponent}, " \
+        "iso_code: #{iso_code}, " \
+        "iso_numeric: #{iso_numeric}, " \
+        "subunit: #{subunit}, " \
+        "smallest_denomination: #{smallest_denomination}, " \
+        "format: #{format}>"
     end
 
     # Returns a string representation corresponding to the upcase +id+
