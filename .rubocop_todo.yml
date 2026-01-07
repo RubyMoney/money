@@ -53,13 +53,6 @@ RSpec/SpecFilePathFormat:
     - 'spec/locale_backend/i18n_spec.rb'
     - 'spec/rates_store/memory_spec.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowOnConstant, AllowOnSelfClass.
-Style/CaseEquality:
-  Exclude:
-    - 'lib/money/money.rb'
-    - 'lib/money/money/formatter.rb'
-
 Style/ClassVars:
   Exclude:
     - 'lib/money/currency.rb'
