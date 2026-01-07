@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Fix name for ANG currency
+- Change disambiguate symbol for ARS from historical to international format 
 
 ## 7.0.2
 
