@@ -417,14 +417,19 @@ RSpec.describe "Money formatting" do
       end
 
       specify "(south_asian_number_formatting: true) works as documented" do
-        expect(Money.new(10000000, "INR").format(south_asian_number_formatting: true, symbol: false)).to eq "1,00,000.00"
-        expect(Money.new(1000000000, "INDIAN_BAR").format(south_asian_number_formatting: true, symbol: false)).to eq "1,00,000.0000"
-        expect(Money.new(10000000).format(south_asian_number_formatting: true)).to eq "$1,00,000.00"
+        expect(Money.new(10000000, "INR").format(south_asian_number_formatting: true, symbol: false))
+          .to eq "1,00,000.00"
+        expect(Money.new(1000000000, "INDIAN_BAR").format(south_asian_number_formatting: true, symbol: false))
+          .to eq "1,00,000.0000"
+        expect(Money.new(10000000).format(south_asian_number_formatting: true))
+          .to eq "$1,00,000.00"
       end
 
       specify "(south_asian_number_formatting: true and no_cents_if_whole => true) works as documented" do
-        expect(Money.new(10000000, "INR").format(south_asian_number_formatting: true, symbol: false, no_cents_if_whole: true)).to eq "1,00,000"
-        expect(Money.new(1000000000, "INDIAN_BAR").format(south_asian_number_formatting: true, symbol: false, no_cents_if_whole: true)).to eq "1,00,000"
+        expect(Money.new(10000000, "INR").format(south_asian_number_formatting: true, symbol: false, no_cents_if_whole: true))
+          .to eq "1,00,000"
+        expect(Money.new(1000000000, "INDIAN_BAR").format(south_asian_number_formatting: true, symbol: false, no_cents_if_whole: true))
+          .to eq "1,00,000"
       end
     end
 
@@ -488,7 +493,13 @@ RSpec.describe "Money formatting" do
 
       specify "(html_wrap: true, with_currency: true)" do
         string = Money.ca_dollar(570).format(html_wrap: true, with_currency: true)
-        expect(string).to eq "<span class=\"money-currency-symbol\">$</span><span class=\"money-whole\">5</span><span class=\"money-decimal-mark\">.</span><span class=\"money-decimal\">70</span> <span class=\"money-currency\">CAD</span>"
+        expect(string).to eq(
+          "<span class=\"money-currency-symbol\">$</span>" \
+          "<span class=\"money-whole\">5</span>" \
+          "<span class=\"money-decimal-mark\">.</span>" \
+          "<span class=\"money-decimal\">70</span> " \
+          "<span class=\"money-currency\">CAD</span>",
+        )
       end
 
       specify "should fallback to symbol if entity is not available" do

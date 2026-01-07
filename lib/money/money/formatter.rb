@@ -117,7 +117,11 @@ class Money
     #
     # @example
     #   Money.ca_dollar(570).format(html_wrap: true, with_currency: true)
-    #   #=> "<span class=\"money-currency-symbol\">$</span><span class=\"money-whole\">5</span><span class=\"money-decimal-mark\">.</span><span class=\"money-decimal\">70</span> <span class=\"money-currency\">CAD</span>"
+    #   #=> "<span class=\"money-currency-symbol\">$</span>" \
+    #       "<span class=\"money-whole\">5</span>" \
+    #       "<span class=\"money-decimal-mark\">.</span>" \
+    #       "<span class=\"money-decimal\">70</span> " \
+    #       "<span class=\"money-currency\">CAD</span>"
     #
     # @option rules [Boolean] :sign_before_symbol (false) Whether the sign should be
     #  before the currency symbol.
