@@ -2624,7 +2624,7 @@
     "priority": 100,
     "iso_code": "XPF",
     "name": "Cfp Franc",
-    "symbol": "Fr",
+    "symbol": "₣",
     "alternate_symbols": ["F"],
     "subunit": "Centime",
     "subunit_to_unit": 1,
