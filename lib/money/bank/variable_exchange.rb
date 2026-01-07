@@ -111,17 +111,15 @@ class Money
         to_currency = Currency.wrap(to_currency)
         if from.currency == to_currency
           from
+        elsif (rate = get_rate(from.currency, to_currency))
+          fractional = calculate_fractional(from, to_currency)
+          from.dup_with(
+            fractional: exchange(fractional, rate, &),
+            currency: to_currency,
+            bank: self,
+          )
         else
-          if (rate = get_rate(from.currency, to_currency))
-            fractional = calculate_fractional(from, to_currency)
-            from.dup_with(
-              fractional: exchange(fractional, rate, &),
-              currency: to_currency,
-              bank: self,
-            )
-          else
-            raise UnknownRate, "No conversion rate known for '#{from.currency.iso_code}' -> '#{to_currency}'"
-          end
+          raise UnknownRate, "No conversion rate known for '#{from.currency.iso_code}' -> '#{to_currency}'"
         end
       end
 
