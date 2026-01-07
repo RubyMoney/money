@@ -38,21 +38,6 @@ RSpec/ExampleLength:
 RSpec/NestedGroups:
   Max: 5
 
-# Configuration parameters: CustomTransform, IgnoreMethods, IgnoreMetadata, InflectorPath, EnforcedInflector.
-# SupportedInflectors: default, active_support
-RSpec/SpecFilePathFormat:
-  Exclude:
-    - '**/spec/routing/**/*'
-    - 'spec/bank/base_spec.rb'
-    - 'spec/bank/single_currency_spec.rb'
-    - 'spec/bank/variable_exchange_spec.rb'
-    - 'spec/currency/heuristics_spec.rb'
-    - 'spec/currency/loader_spec.rb'
-    - 'spec/currency_spec.rb'
-    - 'spec/locale_backend/currency_spec.rb'
-    - 'spec/locale_backend/i18n_spec.rb'
-    - 'spec/rates_store/memory_spec.rb'
-
 Style/ClassVars:
   Exclude:
     - 'lib/money/currency.rb'
