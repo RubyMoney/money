@@ -1,6 +1,7 @@
 inherit_from: .rubocop_todo.yml
 
 plugins:
+  - rubocop-performance
   - rubocop-rake
   - rubocop-rspec
 

@@ -42,7 +42,7 @@ RSpec.describe Money::RatesStore::Memory do
   end
 
   describe "#transaction" do
-    let(:guard) { store.instance_variable_get("@guard") }
+    let(:guard) { store.instance_variable_get(:@guard) }
 
     before do
       allow(guard).to receive(:synchronize)
