@@ -889,7 +889,7 @@ RSpec.describe Money do
     end
 
     it "does not round rationals" do
-      splits = 7.times.map { Rational(950, 6650) }
+      splits = Array.new(7) { Rational(950, 6650) }
       moneys = Money.us_dollar(6650).allocate(splits)
       moneys.each do |money|
         expect(money.cents).to eq 950

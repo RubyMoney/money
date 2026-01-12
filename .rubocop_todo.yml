@@ -37,12 +37,6 @@ Performance/Sum:
     - 'spec/money/allocation_spec.rb'
     - 'spec/money_spec.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Performance/TimesMap:
-  Exclude:
-    - 'spec/currency_spec.rb'
-    - 'spec/money_spec.rb'
-
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
   Max: 38
