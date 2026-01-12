@@ -937,7 +937,7 @@ RSpec.describe Money do
     context "with infinite_precision", :default_infinite_precision_true do
       it "allows for fractional cents allocation" do
         moneys = Money.new(100).allocate([1, 1, 1])
-        expect(moneys.inject(0, :+)).to eq(Money.new(100))
+        expect(moneys.sum).to eq(Money.new(100))
       end
     end
   end
@@ -975,7 +975,7 @@ RSpec.describe Money do
     context "with infinite_precision", :default_infinite_precision_true do
       it "allows for splitting by fractional cents" do
         moneys = Money.new(100).split(3)
-        expect(moneys.inject(0, :+)).to eq(Money.new(100))
+        expect(moneys.sum).to eq(Money.new(100))
       end
     end
   end

@@ -30,13 +30,6 @@ Metrics/ModuleLength:
 Metrics/PerceivedComplexity:
   Max: 16
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: OnlySumOrWithInitialValue.
-Performance/Sum:
-  Exclude:
-    - 'spec/money/allocation_spec.rb'
-    - 'spec/money_spec.rb'
-
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
   Max: 38
