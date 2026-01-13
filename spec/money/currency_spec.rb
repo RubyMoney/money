@@ -310,7 +310,7 @@ RSpec.describe Money::Currency do
 
     it "is thread safe" do
       ids = []
-      2.times.map { Thread.new { ids << described_class.new("USD").object_id } }.each(&:join)
+      Array.new(2) { Thread.new { ids << described_class.new("USD").object_id } }.each(&:join)
       expect(ids.uniq.length).to eq(1)
     end
   end

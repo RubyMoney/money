@@ -56,7 +56,7 @@ RSpec.describe Money::Allocation do
             BigDecimal("33.3333333333"),
           ],
         )
-        expect(parts.inject(0, :+)).to eq(amount)
+        expect(parts.sum).to eq(amount)
       end
     end
   end
@@ -132,7 +132,7 @@ RSpec.describe Money::Allocation do
             BigDecimal("33.3333333333"),
           ],
         )
-        expect(parts.inject(0, :+)).to eq(amount)
+        expect(parts.sum).to eq(amount)
       end
     end
   end
@@ -156,7 +156,7 @@ RSpec.describe Money::Allocation do
       ]
 
       result = described_class.generate(amount, allocations)
-      expect(result.reduce(&:+)).to eq(amount)
+      expect(result.sum).to eq(amount)
       expect(result).to eq(
         [
           61566,
@@ -193,7 +193,7 @@ RSpec.describe Money::Allocation do
       ]
 
       result = described_class.generate(amount, allocations)
-      expect(result.reduce(&:+)).to eq(amount)
+      expect(result.sum).to eq(amount)
       expect(result).to eq(
         [
           -61566,
@@ -229,7 +229,7 @@ RSpec.describe Money::Allocation do
 
       it "allocates with required precision" do
         result = described_class.generate(amount, allocations, 16)
-        expect(result.reduce(&:+)).to eq(amount)
+        expect(result.sum).to eq(amount)
 
         expected = %w[
           6.3347130857200688 6.3347130857200689 6.3347130857200688 6.3347130857200688
