@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['3.1', '3.2', '3.3', '3.4', 'jruby-9.4', 'jruby-10.0']
+        ruby-version: ['3.1', '3.2', '3.3', '3.4', '4.0', 'jruby-9.4', 'jruby-10.0']
 
     steps:
     - name: Set up Java for JRuby 10.0
