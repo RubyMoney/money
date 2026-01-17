@@ -2,7 +2,7 @@
 
 class Money
   module Constructors
-    # Create a new money object with value 0.
+    # Creates a new Money object with value 0.
     #
     # @param [Currency, String, Symbol] currency The currency to use.
     #
@@ -16,70 +16,39 @@ class Money
 
     alias zero empty
 
-    # Creates a new Money object of the given value, using the Canadian
-    # dollar currency.
+    # Creates a new Money object of value given in the +unit+ of the given
+    # +currency+.
     #
-    # @param [Integer] cents The cents value.
+    # @param [Numeric] amount The numerical value of the money.
+    # @param [Currency, String, Symbol] currency The currency format.
+    # @param [Hash] options Optional settings for the new Money instance
+    # @option [Money::Bank::*] :bank The exchange bank to use.
+    #
+    # @example
+    #   Money.from_amount(23.45, "USD") # => #<Money fractional:2345 currency:USD>
+    #   Money.from_amount(23.45, "JPY") # => #<Money fractional:23 currency:JPY>
     #
     # @return [Money]
     #
-    # @example
-    #   n = Money.ca_dollar(100)
-    #   n.cents    #=> 100
-    #   n.currency #=> #<Money::Currency id: cad>
-    def ca_dollar(cents)
-      new(cents, "CAD")
+    # @see #initialize
+    def from_amount(amount, currency = default_currency, options = {})
+      raise ArgumentError, "'amount' must be numeric" unless amount.is_a?(Numeric)
+
+      currency = Currency.wrap(currency) || Money.default_currency
+      raise Currency::NoCurrency, "must provide a currency" if currency.nil?
+
+      value = amount.to_d * currency.subunit_to_unit
+      new(value, currency, options)
     end
 
-    alias cad ca_dollar
+    # DEPRECATED.
+    #
+    # @see Money.from_amount
+    def from_dollars(amount, currency = default_currency, options = {})
+      warn "[DEPRECATION] `Money.from_dollars` is deprecated in favor of " \
+           "`Money.from_amount`."
 
-    # Creates a new Money object of the given value, using the American dollar
-    # currency.
-    #
-    # @param [Integer] cents The cents value.
-    #
-    # @return [Money]
-    #
-    # @example
-    #   n = Money.us_dollar(100)
-    #   n.cents    #=> 100
-    #   n.currency #=> #<Money::Currency id: usd>
-    def us_dollar(cents)
-      new(cents, "USD")
+      from_amount(amount, currency, options)
     end
-
-    alias usd us_dollar
-
-    # Creates a new Money object of the given value, using the Euro currency.
-    #
-    # @param [Integer] cents The cents value.
-    #
-    # @return [Money]
-    #
-    # @example
-    #   n = Money.euro(100)
-    #   n.cents    #=> 100
-    #   n.currency #=> #<Money::Currency id: eur>
-    def euro(cents)
-      new(cents, "EUR")
-    end
-
-    alias eur euro
-
-    # Creates a new Money object of the given value, in British pounds.
-    #
-    # @param [Integer] pence The pence value.
-    #
-    # @return [Money]
-    #
-    # @example
-    #   n = Money.pound_sterling(100)
-    #   n.fractional    #=> 100
-    #   n.currency #=> #<Money::Currency id: gbp>
-    def pound_sterling(pence)
-      new(pence, "GBP")
-    end
-
-    alias gbp pound_sterling
   end
 end

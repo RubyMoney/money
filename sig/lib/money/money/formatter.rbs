@@ -12,38 +12,38 @@ class Money
     #  amount of money should be formatted of "free" or as the supplied string.
     #
     # @example
-    #   Money.us_dollar(0).format(display_free: true)     #=> "free"
-    #   Money.us_dollar(0).format(display_free: "gratis") #=> "gratis"
-    #   Money.us_dollar(0).format                            #=> "$0.00"
+    #   Money.new(0, "USD").format(display_free: true)     #=> "free"
+    #   Money.new(0, "USD").format(display_free: "gratis") #=> "gratis"
+    #   Money.new(0, "USD").format                         #=> "$0.00"
     #
     # @option rules [Boolean] :with_currency (false) Whether the currency name
     #  should be appended to the result string.
     #
     # @example
-    #   Money.ca_dollar(100).format #=> "$1.00"
-    #   Money.ca_dollar(100).format(with_currency: true) #=> "$1.00 CAD"
-    #   Money.us_dollar(85).format(with_currency: true)  #=> "$0.85 USD"
+    #   Money.new(100, "CAD").format #=> "$1.00"
+    #   Money.new(100, "CAD").format(with_currency: true) #=> "$1.00 CAD"
+    #   Money.new(85, "USD").format(with_currency: true)  #=> "$0.85 USD"
     #
     # @option rules [Boolean] :rounded_infinite_precision (false) Whether the
     #  amount of money should be rounded when using {infinite_precision}
     #
     # @example
-    #   Money.us_dollar(100.1).format #=> "$1.001"
-    #   Money.us_dollar(100.1).format(rounded_infinite_precision: true) #=> "$1"
-    #   Money.us_dollar(100.9).format(rounded_infinite_precision: true) #=> "$1.01"
+    #   Money.new(100.1, "USD").format #=> "$1.001"
+    #   Money.new(100.1, "USD").format(rounded_infinite_precision: true) #=> "$1"
+    #   Money.new(100.9, "USD").format(rounded_infinite_precision: true) #=> "$1.01"
     #
     # @option rules [Boolean] :no_cents (false) Whether cents should be omitted.
     #
     # @example
-    #   Money.ca_dollar(100).format(no_cents: true) #=> "$1"
-    #   Money.ca_dollar(599).format(no_cents: true) #=> "$5"
+    #   Money.new(100, "CAD").format(no_cents: true) #=> "$1"
+    #   Money.new(599, "CAD").format(no_cents: true) #=> "$5"
     #
     # @option rules [Boolean] :no_cents_if_whole (false) Whether cents should be
     #  omitted if the cent value is zero
     #
     # @example
-    #   Money.ca_dollar(10000).format(no_cents_if_whole: true) #=> "$100"
-    #   Money.ca_dollar(10034).format(no_cents_if_whole: true) #=> "$100.34"
+    #   Money.new(10000, "CAD").format(no_cents_if_whole: true) #=> "$100"
+    #   Money.new(10034, "CAD").format(no_cents_if_whole: true) #=> "$100.34"
     #
     # @option rules [Boolean, String, nil] :symbol (true) Whether a money symbol
     #  should be prepended to the result string. The default is true. This method
@@ -109,7 +109,7 @@ class Money
     # @option rules [Boolean] :html_wrap (false) Whether all currency parts should be HTML-formatted.
     #
     # @example
-    #   Money.ca_dollar(570).format(html_wrap: true, with_currency: true)
+    #   Money.new(570, "CAD").format(html_wrap: true, with_currency: true)
     #   #=> "<span class=\"money-currency-symbol\">$</span><span class=\"money-whole\">5</span><span class=\"money-decimal-mark\">.</span><span class=\"money-decimal\">70</span> <span class=\"money-currency\">CAD</span>"
     #
     # @option rules [Boolean] :sign_positive (false) Whether positive numbers should be
