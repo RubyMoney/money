@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fix symbol for XPF (CFP Franc) currency to use "₣"
 - Fix name for ANG currency
 - Change disambiguate symbol for ARS from historical to international format 
 
