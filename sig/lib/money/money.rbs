@@ -14,6 +14,8 @@ class Money
 
   extend Constructors
 
+  alias self.from_cents self.new
+
   # Raised when smallest denomination of a currency is not defined
   class UndefinedSmallestDenomination < StandardError
   end
@@ -272,30 +274,6 @@ class Money
   # currency exchange. Useful when apps operate in a single currency at a time.
   def self.disallow_currency_conversion!: () -> untyped
 
-  # Creates a new Money object of value given in the +unit+ of the given
-  # +currency+.
-  #
-  # @param [Numeric] amount The numerical value of the money.
-  # @param [Currency, String, Symbol] currency The currency format.
-  # @param [Hash] options Optional settings for the new Money instance
-  # @option [Money::Bank::*] :bank The exchange bank to use.
-  #
-  # @example
-  #   Money.from_amount(23.45, "USD") # => #<Money fractional:2345 currency:USD>
-  #   Money.from_amount(23.45, "JPY") # => #<Money fractional:23 currency:JPY>
-  #
-  # @return [Money]
-  #
-  # @see #initialize
-  def self.from_amount: (Numeric amount, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
-
-  # DEPRECATED.
-  #
-  # @see Money.from_amount
-  def self.from_amount: (Numeric amount, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
-
-  alias self.from_cents self.new
-
   # Creates a new Money object of value given in the
   # +fractional unit+ of the given +currency+.
   #
@@ -362,7 +340,7 @@ class Money
   # @return [String]
   #
   # @example
-  #   Money.ca_dollar(100).to_s #=> "1.00"
+  #   Money.new(100, "CAD").to_s #=> "1.00"
   def to_s: () -> string
 
   # Return the amount of money as a BigDecimal.
@@ -370,7 +348,7 @@ class Money
   # @return [BigDecimal]
   #
   # @example
-  #   Money.us_dollar(1_00).to_d #=> BigDecimal("1.00")
+  #   Money.new(1_00, "USD").to_d #=> BigDecimal("1.00")
   def to_d: () -> BigDecimal
 
   # Return the amount of money as a Integer.
@@ -378,7 +356,7 @@ class Money
   # @return [Integer]
   #
   # @example
-  #   Money.us_dollar(1_00).to_i #=> 1
+  #   Money.new(1_00, "USD").to_i #=> 1
   def to_i: () -> int
 
   # Return the amount of money as a float. Floating points cannot guarantee
@@ -389,7 +367,7 @@ class Money
   # @return [Float]
   #
   # @example
-  #   Money.us_dollar(100).to_f #=> 1.0
+  #   Money.new(100, "USD").to_f #=> 1.0
   def to_f: () -> Float
 
   # Returns a new Money instance in a given currency leaving the amount intact
@@ -422,36 +400,6 @@ class Money
   #   Money.new(2000, "USD").exchange_to("EUR") {|x| x.round}
   #   Money.new(2000, "USD").exchange_to(Currency.new("EUR"))
   def exchange_to: ((Money::Currency | string | Symbol) other_currency) { () -> int } -> Money
-
-  # Receive a money object with the same amount as the current Money object
-  # in United States dollar.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   n = Money.new(100, "CAD").as_us_dollar
-  #   n.currency #=> #<Money::Currency id: usd>
-  def as_us_dollar: () -> Money
-
-  # Receive a money object with the same amount as the current Money object
-  # in Canadian dollar.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   n = Money.new(100, "USD").as_ca_dollar
-  #   n.currency #=> #<Money::Currency id: cad>
-  def as_ca_dollar: () -> Money
-
-  # Receive a money object with the same amount as the current Money object
-  # in euro.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   n = Money.new(100, "USD").as_euro
-  #   n.currency #=> #<Money::Currency id: eur>
-  def as_euro: () -> Money
 
   # Splits a given amount in parts without losing pennies. The left-over pennies will be
   # distributed round-robin amongst the parties. This means that parts listed first will likely

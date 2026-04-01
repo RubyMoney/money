@@ -161,7 +161,8 @@ class Money
                   :default_infinite_precision,
                   :conversion_precision,
                   :strict_eql_compare
-    attr_reader :locale_backend
+    attr_reader :locale_backend,
+                :currency_helpers
     attr_writer :default_bank,
                 :default_currency
 
@@ -219,6 +220,21 @@ class Money
     @locale_backend = value ? LocaleBackend.find(value) : nil
   end
 
+  def self.currency_helpers=(hash)
+    hash.each do |name, currency|
+      next if singleton_class.method_defined?(name)
+
+      singleton_class.define_method(name) do |cents|
+        new(cents, currency)
+      end
+
+      define_method("as_#{name}") do
+        exchange_to(currency)
+      end
+    end
+    @currency_helpers = hash
+  end
+
   def self.setup_defaults
     # Set the default bank for creating new +Money+ objects.
     self.default_bank = Bank::VariableExchange.instance
@@ -235,9 +251,21 @@ class Money
     # Default the conversion of Rationals precision to 16
     self.conversion_precision = 16
 
-    # Defaults to the deprecated behavior where
+    # Default to the deprecated behavior where
     # `Money.new(0, "USD").eql?(Money.new(0, "EUR"))` is true.
     self.strict_eql_compare = false
+
+    # Default to currencies previously hardcoded as methods
+    self.currency_helpers = {
+      cad: "CAD",
+      ca_dollar: "CAD",
+      eur: "EUR",
+      euro: "EUR",
+      gbp: "GBP",
+      pound_sterling: "GBP",
+      usd: "USD",
+      us_dollar: "USD",
+    }
   end
 
   def self.inherited(base)
@@ -296,41 +324,6 @@ class Money
   # currency exchange. Useful when apps operate in a single currency at a time.
   def self.disallow_currency_conversion!
     self.default_bank = Bank::SingleCurrency.instance
-  end
-
-  # Creates a new Money object of value given in the +unit+ of the given
-  # +currency+.
-  #
-  # @param [Numeric] amount The numerical value of the money.
-  # @param [Currency, String, Symbol] currency The currency format.
-  # @param [Hash] options Optional settings for the new Money instance
-  # @option [Money::Bank::*] :bank The exchange bank to use.
-  #
-  # @example
-  #   Money.from_amount(23.45, "USD") # => #<Money fractional:2345 currency:USD>
-  #   Money.from_amount(23.45, "JPY") # => #<Money fractional:23 currency:JPY>
-  #
-  # @return [Money]
-  #
-  # @see #initialize
-  def self.from_amount(amount, currency = default_currency, options = {})
-    raise ArgumentError, "'amount' must be numeric" unless amount.is_a?(Numeric)
-
-    currency = Currency.wrap(currency) || Money.default_currency
-    raise Currency::NoCurrency, "must provide a currency" if currency.nil?
-
-    value = amount.to_d * currency.subunit_to_unit
-    new(value, currency, options)
-  end
-
-  # DEPRECATED.
-  #
-  # @see Money.from_amount
-  def self.from_dollars(amount, currency = default_currency, options = {})
-    warn "[DEPRECATION] `Money.from_dollars` is deprecated in favor of " \
-         "`Money.from_amount`."
-
-    from_amount(amount, currency, options)
   end
 
   # Creates a new Money object of value given in the
@@ -427,7 +420,7 @@ class Money
   # @return [String]
   #
   # @example
-  #   Money.ca_dollar(100).to_s #=> "1.00"
+  #   Money.new(100, "CAD").to_s #=> "1.00"
   def to_s
     format thousands_separator: "",
            no_cents_if_whole: currency.decimal_places == 0,
@@ -440,7 +433,7 @@ class Money
   # @return [BigDecimal]
   #
   # @example
-  #   Money.us_dollar(1_00).to_d #=> BigDecimal("1.00")
+  #   Money.new(1_00, "USD").to_d #=> BigDecimal("1.00")
   def to_d
     as_d(fractional) / as_d(currency.subunit_to_unit)
   end
@@ -450,12 +443,12 @@ class Money
   # @return [Integer]
   #
   # @example
-  #   Money.us_dollar(1_00).to_i #=> 1
+  #   Money.new(1_00, "USD").to_i #=> 1
   def to_i
     to_d.to_i
   end
 
-  # Return the amount of money as a float. Floating points cannot guarantee
+  # Returns the amount of money as a float. Floating points cannot guarantee
   # precision. Therefore, this function should only be used when you no longer
   # need to represent currency or working with another system that requires
   # floats.
@@ -463,7 +456,7 @@ class Money
   # @return [Float]
   #
   # @example
-  #   Money.us_dollar(100).to_f #=> 1.0
+  #   Money.new(100, "USD").to_f #=> 1.0
   def to_f
     to_d.to_f
   end
@@ -518,42 +511,6 @@ class Money
     else
       @bank.exchange_with(self, other_currency, &)
     end
-  end
-
-  # Receive a money object with the same amount as the current Money object
-  # in United States dollar.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   n = Money.new(100, "CAD").as_us_dollar
-  #   n.currency #=> #<Money::Currency id: usd>
-  def as_us_dollar
-    exchange_to("USD")
-  end
-
-  # Receive a money object with the same amount as the current Money object
-  # in Canadian dollar.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   n = Money.new(100, "USD").as_ca_dollar
-  #   n.currency #=> #<Money::Currency id: cad>
-  def as_ca_dollar
-    exchange_to("CAD")
-  end
-
-  # Receive a money object with the same amount as the current Money object
-  # in euro.
-  #
-  # @return [Money]
-  #
-  # @example
-  #   n = Money.new(100, "USD").as_euro
-  #   n.currency #=> #<Money::Currency id: eur>
-  def as_euro
-    exchange_to("EUR")
   end
 
   # Splits a given amount in parts without losing pennies. The left-over pennies will be

@@ -82,4 +82,25 @@ RSpec.describe Money::Constructors do
       expect(special_money_class.pound_sterling(0)).to be_a special_money_class
     end
   end
+
+  describe ".currency_helpers=" do
+    it "allows adding new currency helper methods" do
+      money_class = Class.new(Money)
+      money_class.currency_helpers = { jpy: "JPY", yen: "JPY" }
+
+      expect(money_class.jpy(1000)).to eq Money.new(1000, "JPY")
+      expect(money_class.yen(500)).to eq Money.new(500, "JPY")
+    end
+
+    it "creates as_ instance methods for currency exchange" do
+      money_class = Class.new(Money)
+      money_class.currency_helpers = { jpy: "JPY" }
+
+      Money.add_rate("USD", "JPY", 150)
+      money = money_class.new(100, "USD")
+
+      expect(money).to respond_to(:as_jpy)
+      expect(money.as_jpy).to eq money.exchange_to("JPY")
+    end
+  end
 end

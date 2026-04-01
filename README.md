@@ -63,14 +63,23 @@ Money.locale_backend = :i18n
 
 # 10.00 USD
 money = Money.from_cents(1000, "USD")
-money.cents     #=> 1000
-money.currency  #=> Currency.new("USD")
+money.cents    #=> 1000
+money.currency #=> Currency.new("USD")
+
+# Constructors
+Money.new(1000, "USD")        #=> #<Money fractional:1000 currency:USD>
+Money.from_cents(1000, "USD") #=> #<Money fractional:1000 currency:USD>
+Money.from_amount(10, "USD")  #=> #<Money fractional:1000 currency:USD>
+Money.usd(1000)               #=> #<Money fractional:1000 currency:USD>
+Money.us_dollar(500)          #=> #<Money fractional:500 currency:USD>
 
 # Comparisons
 Money.from_cents(1000, "USD") == Money.from_cents(1000, "USD")   #=> true
 Money.from_cents(1000, "USD") == Money.from_cents(100, "USD")    #=> false
 Money.from_cents(1000, "USD") == Money.from_cents(1000, "EUR")   #=> false
 Money.from_cents(1000, "USD") != Money.from_cents(1000, "EUR")   #=> true
+Money.from_cents(0, "USD") == Money.from_cents(0, "EUR")         #=> true
+Money.from_cents(0, "USD") == 0                                  #=> true
 
 # Arithmetic
 Money.from_cents(1000, "USD") + Money.from_cents(500, "USD") == Money.from_cents(1500, "USD")
@@ -85,7 +94,9 @@ Money.from_amount(5, "TND") == Money.from_cents(5000, "TND") # 5 TND
 
 # Currency conversions
 some_code_to_setup_exchange_rates
-Money.from_cents(1000, "USD").exchange_to("EUR") == Money.from_cents(some_value, "EUR")
+Money.from_cents(1000, "EUR").exchange_to("USD") == Money.from_cents(some_value, "USD")
+Money.from_cents(1000, "EUR").as_usd == Money.from_cents(some_value, "USD")
+Money.from_cents(1000, "EUR").as_us_dollar == Money.from_cents(some_value, "USD")
 
 # Swap currency
 Money.from_cents(1000, "USD").with_currency("EUR") == Money.from_cents(1000, "EUR")
@@ -95,6 +106,27 @@ Money.from_cents(100, "USD").format #=> "$1.00"
 Money.from_cents(100, "GBP").format #=> "£1.00"
 Money.from_cents(100, "EUR").format #=> "€1.00"
 ```
+
+### Helpers
+
+You can define shorthand methods for creating `Money` objects and exchanging between frequently used currencies:
+
+```ruby
+Money.currency_helpers = {
+  usd:       'USD',
+  us_dollar: 'USD',
+  mxn:       'MXN',
+}
+
+# Constructors
+Money.mxn(200) #=> #<Money fractional:200 currency:MXN>
+
+# Currency conversions
+Money.add_rate("USD", "MXN", 150)
+Money.new(100, "USD").as_mxn #=> #<Money fractional:15000 currency:MXN>
+```
+
+Some common helpers are defined by default: `usd`, `us_dollar`, `cad`, `ca_dollar`, `eur`, `euro`, `gbp`, `pound_sterling`. These defaults will be removed in a future version.
 
 ## Currency
 
@@ -231,8 +263,8 @@ an example of how it works:
 Money.add_rate("USD", "CAD", 1.24515)
 Money.add_rate("CAD", "USD", 0.803115)
 
-Money.us_dollar(100).exchange_to("CAD")  # => Money.from_cents(124, "CAD")
-Money.ca_dollar(100).exchange_to("USD")  # => Money.from_cents(80, "USD")
+Money.new(100, "USD").exchange_to("CAD")  # => Money.from_cents(124, "CAD")
+Money.new(100, "CAD").exchange_to("USD")  # => Money.from_cents(80, "USD")
 ```
 
 Comparison and arithmetic operations work as expected:
@@ -601,7 +633,7 @@ Money.from_cents(10_000_00, 'EUR').format # => €10000.00
 In case you're working with collections of `Money` instances, have a look at [money-collection](https://github.com/RubyMoney/money-collection)
 for improved performance and accuracy.
 
-### Troubleshooting
+## Troubleshooting
 
 If you don't have some locale and don't want to get a runtime error such as:
 

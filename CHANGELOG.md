@@ -4,7 +4,18 @@
 
 - Fix symbol for XPF (CFP Franc) currency to use "₣"
 - Fix name for ANG currency
-- Change disambiguate symbol for ARS from historical to international format 
+- Change disambiguate symbol for ARS from historical to international format
+- Replace hardcoded methods for specific currencies (CAD, EUR, GBP, USD) with generic `currency_helpers=` config option
+    ```rb
+    Money.currency_helpers = {
+      mxn:       'MXN',
+    }
+
+    Money.mxn(200) #=> #<Money fractional:200 currency:MXN>
+
+    Money.add_rate("USD", "MXN", 150)
+    Money.new(100, "USD").as_mxn #=> #<Money fractional:15000 currency:MXN>
+    ```
 
 ## 7.0.2
 
