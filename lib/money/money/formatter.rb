@@ -149,7 +149,7 @@ class Money
     # @example
     #   Money.new(10000, "USD").format(disambiguate: false)   #=> "$100.00"
     #   Money.new(10000, "CAD").format(disambiguate: false)   #=> "$100.00"
-    #   Money.new(10000, "USD").format(disambiguate: true)    #=> "$100.00"
+    #   Money.new(10000, "USD").format(disambiguate: true)    #=> "US$100.00"
     #   Money.new(10000, "CAD").format(disambiguate: true)    #=> "C$100.00"
     #
     # @option rules [Boolean] :translate (true) `true` Checks for custom
