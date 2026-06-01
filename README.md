@@ -441,6 +441,7 @@ implementations.
 - [money-historical-bank](https://github.com/atwam/money-historical-bank)
 - [russian_central_bank](https://github.com/rmustafin/russian_central_bank)
 - [money-uphold-bank](https://github.com/subvisual/money-uphold-bank)
+- [money-unirate-api](https://github.com/UniRate-API/money-unirate-api)
 
 ## Formatting
 
