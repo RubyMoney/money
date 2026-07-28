@@ -7,7 +7,7 @@
 - Change disambiguate symbol for ARS from historical to international format
 - Update documentation of disambiguate feature
 - Include RBS type signatures (`sig/`) in the released gem
-- Fix RBS signatures: add missing `Money.from_dollars`, `Money::Currency::Heuristics` and `Money::LocaleBackend::Base`, and validate them in CI
+- Fix RBS signatures: add the missing `Money#+`, `Money#-`, `Money.from_dollars`, `Money::Currency#cents_based?` and the error classes, drop entries for methods that no longer exist, and validate the signatures in CI
 
 ## 7.0.2
 
