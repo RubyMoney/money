@@ -6,7 +6,7 @@ class Money
   class Currency
     include Comparable
 
-    extend Enumerable
+    extend Enumerable[Money::Currency]
 
     extend Money::Currency::Heuristics
 

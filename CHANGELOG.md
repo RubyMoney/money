@@ -4,9 +4,10 @@
 
 - Fix symbol for XPF (CFP Franc) currency to use "₣"
 - Fix name for ANG currency
-- Change disambiguate symbol for ARS from historical to international format 
+- Change disambiguate symbol for ARS from historical to international format
 - Update documentation of disambiguate feature
 - Include RBS type signatures (`sig/`) in the released gem
+- Fix RBS signatures: add missing `Money.from_dollars`, `Money::Currency::Heuristics` and `Money::LocaleBackend::Base`, and validate them in CI
 
 ## 7.0.2
 

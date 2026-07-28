@@ -1,0 +1,8 @@
+class Money
+  class Currency
+    # DEPRECATED. Use the money-heuristics gem instead.
+    module Heuristics
+      def analyze: (untyped _str) -> untyped
+    end
+  end
+end
