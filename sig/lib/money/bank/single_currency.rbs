@@ -1,0 +1,15 @@
+class Money
+  module Bank
+    # Raised when trying to exchange currencies
+    class DifferentCurrencyError < Error
+    end
+
+    # Class to ensure client code is operating in a single currency
+    # by raising if an exchange attempts to happen.
+    class SingleCurrency < Base
+      # Raises a DifferentCurrencyError to remove possibility of accidentally
+      # exchanging currencies
+      def exchange_with: (Money from, (Money::Currency | string | Symbol) to_currency) ?{ (untyped) -> untyped } -> untyped
+    end
+  end
+end

@@ -20,6 +20,10 @@ class Money
     class UnknownCurrency < ArgumentError
     end
 
+    # Thrown when a Money object is created without a currency.
+    class NoCurrency < ArgumentError
+    end
+
     def self.new: (untyped id) -> untyped
 
     def self._instances: () -> untyped
