@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= 3.1"
 
-  s.files         = `git ls-files -z -- config/* lib/* CHANGELOG.md LICENSE money.gemspec README.md`.split("\x0")
+  s.files         = `git ls-files -z -- config/* lib/* sig/* CHANGELOG.md LICENSE money.gemspec README.md`.split("\x0")
   s.require_paths = ["lib"]
 
   if s.respond_to?(:metadata)

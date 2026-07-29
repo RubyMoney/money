@@ -6,6 +6,7 @@
 - Fix name for ANG currency
 - Change disambiguate symbol for ARS from historical to international format 
 - Update documentation of disambiguate feature
+- Include RBS type signatures (`sig/`) in the released gem
 
 ## 7.0.2
 
