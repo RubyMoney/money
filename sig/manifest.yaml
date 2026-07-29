@@ -1,6 +1,10 @@
 # manifest.yaml
+#
+# Standard libraries money requires that the gemspec does not declare.
+# See https://github.com/ruby/rbs/blob/master/docs/gem.md#adding-manifestyaml
 
 dependencies:
-  # If your gem depends on pathname but the gemspec doesn't include pathname,
-  # you need to write the following.
-  # - name: pathname
+  - name: json
+  - name: monitor
+  - name: set
+  - name: yaml
