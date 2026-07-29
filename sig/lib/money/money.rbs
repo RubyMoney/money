@@ -292,7 +292,7 @@ class Money
   # DEPRECATED.
   #
   # @see Money.from_amount
-  def self.from_amount: (Numeric amount, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
+  def self.from_dollars: (Numeric amount, ?(Money::Currency | string | Symbol) currency, ?::Hash[untyped, untyped] options) -> Money
 
   alias self.from_cents self.new
 

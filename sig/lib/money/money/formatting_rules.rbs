@@ -23,9 +23,9 @@ class Money
 
     def translate_formatting_rules: (Hash[Symbol, untyped] rules) -> Hash[Symbol, untyped]
 
-    def localize_formatting_rules: (Hash[Symbol, untyped] rules) -> Hash[Symbol, untyped]
+    def determine_format: () -> String
 
-    def determine_format_from_formatting_rules: (Hash[Symbol, untyped] rules) -> Hash[Symbol, untyped]
+    def default_format: () -> String
 
     def delimiter_pattern_rule: (Hash[Symbol, untyped] rules) -> ::Regexp
   end

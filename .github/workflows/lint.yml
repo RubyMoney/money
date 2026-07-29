@@ -22,3 +22,5 @@ jobs:
           bundler-cache: true
       - name: RuboCop
         run: bin/rubocop --format github --format clang
+      - name: RBS
+        run: bin/rbs --no-collection -r bigdecimal -r json -r monitor -r yaml -I sig validate

@@ -1,0 +1,6 @@
+class Money
+  module LocaleBackend
+    class Base
+    end
+  end
+end

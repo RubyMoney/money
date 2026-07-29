@@ -6,7 +6,7 @@ class Money
   class Currency
     include Comparable
 
-    extend Enumerable
+    extend Enumerable[Money::Currency]
 
     extend Money::Currency::Heuristics
 
@@ -18,6 +18,10 @@ class Money
 
     # Thrown when an unknown currency is requested.
     class UnknownCurrency < ArgumentError
+    end
+
+    # Thrown when a Money object is created without a currency.
+    class NoCurrency < ArgumentError
     end
 
     def self.new: (untyped id) -> untyped
@@ -291,6 +295,15 @@ class Money
     #   Money::Currency.new(:usd).iso?
     #
     def iso?: () -> untyped
+
+    # Returns true if a subunit is cents-based.
+    #
+    # @return [Boolean]
+    #
+    # @example
+    #  Money::Currency.new(:usd).cents_based?
+    #
+    def cents_based?: () -> bool
 
     # Returns the relation between subunit and unit as a base 10 exponent.
     #
