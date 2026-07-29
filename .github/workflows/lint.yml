@@ -23,4 +23,4 @@ jobs:
       - name: RuboCop
         run: bin/rubocop --format github --format clang
       - name: RBS
-        run: bundle exec rbs --no-collection -r bigdecimal -r json -r monitor -r yaml -I sig validate
+        run: bin/rbs --no-collection -r bigdecimal -r json -r monitor -r yaml -I sig validate
