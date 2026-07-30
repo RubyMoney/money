@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: Money::Currency
-  
+
     &mdash; A Ruby Library for dealing with money and currency conversion.
-  
+
 </title>
 
   <link rel="stylesheet" href="../css/style.css" type="text/css" />
@@ -35,16 +35,16 @@
     <div id="main" tabindex="-1">
       <div id="header">
         <div id="menu">
-  
+
     <a href="../_index.html">Index (C)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span>
-     &raquo; 
+     &raquo;
     <span class="title">Currency</span>
-  
+
 </div>
 
         <div id="search">
-  
+
     <a class="full_list_link" id="class_list_link"
         href="../class_list.html">
 
@@ -54,61 +54,61 @@
           <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
         </svg>
     </a>
-  
+
 </div>
         <div class="clear"></div>
       </div>
 
       <div id="content"><h1>Class: Money::Currency
-  
-  
-  
+
+
+
 </h1>
 <div class="box_info">
-  
+
   <dl>
     <dt>Inherits:</dt>
     <dd>
       <span class="inheritName">Object</span>
-      
+
         <ul class="fullTree">
           <li>Object</li>
-          
+
             <li class="next">Money::Currency</li>
-          
+
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
-      
+
     </dd>
   </dl>
-  
 
-  
-  
+
+
+
   <dl>
       <dt>Extended by:</dt>
       <dd>Enumerable, <span class='object_link'><a href="Currency/Heuristics.html" title="Money::Currency::Heuristics (module)">Heuristics</a></span></dd>
   </dl>
-  
-  
-  
+
+
+
   <dl>
       <dt>Includes:</dt>
       <dd>Comparable</dd>
   </dl>
-  
-  
 
-  
 
-  
+
+
+
+
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/money/currency.rb<span class="defines">,<br />
   lib/money/currency/loader.rb,<br /> lib/money/currency/heuristics.rb</span>
 </dd>
   </dl>
-  
+
 </div>
 
 <h2>Overview</h2><div class="docstring">
@@ -119,38 +119,38 @@
   </div>
 </div>
 <div class="tags">
-  
+
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
-    
+
       <li><a href="https://en.wikipedia.org/wiki/Currency" target="_parent" title="https://en.wikipedia.org/wiki/Currency">https://en.wikipedia.org/wiki/Currency</a></li>
-    
+
       <li><a href="https://www.iso.org/iso-4217-currency-codes.html" target="_parent" title="https://www.iso.org/iso-4217-currency-codes.html">https://www.iso.org/iso-4217-currency-codes.html</a></li>
-    
+
   </ul>
 
 </div><h2>Defined Under Namespace</h2>
 <p class="children">
-  
-    
+
+
       <strong class="modules">Modules:</strong> <span class='object_link'><a href="Currency/Heuristics.html" title="Money::Currency::Heuristics (module)">Heuristics</a></span>, <span class='object_link'><a href="Currency/Loader.html" title="Money::Currency::Loader (module)">Loader</a></span>
-    
-  
-    
+
+
+
       <strong class="classes">Classes:</strong> <span class='object_link'><a href="Currency/MissingAttributeError.html" title="Money::Currency::MissingAttributeError (class)">MissingAttributeError</a></span>, <span class='object_link'><a href="Currency/NoCurrency.html" title="Money::Currency::NoCurrency (class)">NoCurrency</a></span>, <span class='object_link'><a href="Currency/UnknownCurrency.html" title="Money::Currency::UnknownCurrency (class)">UnknownCurrency</a></span>
-    
-  
+
+
 </p>
 
-  
+
     <h2>
       Constant Summary
       <small><a href="#" class="constants_summary_toggle">collapse</a></small>
     </h2>
 
     <dl class="constants">
-      
+
         <dt id="mutex-classvariable" class="">@@mutex =
           <div class="docstring">
   <div class="discussion">
@@ -160,1142 +160,1143 @@
   </div>
 </div>
 <div class="tags">
-  
+
 
 </div>
         </dt>
         <dd><pre class="code"><span class='const'>Mutex</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span></pre></dd>
-      
+
         <dt id="instances-classvariable" class="">@@instances =
-          
+
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span><span class='rbrace'>}</span></pre></dd>
-      
+
     </dl>
-  
+
 
 
 
 
   <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
   <ul class="summary">
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#decimal_mark-instance_method" title="#decimal_mark (instance method)">#<strong>decimal_mark</strong>  &#x21d2; String </a>
-    
 
-    
+
+
       (also: #separator)
-    
-  </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+  </span>
+
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>The decimal mark, or character used to separate the whole unit from the subunit.</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#disambiguate_symbol-instance_method" title="#disambiguate_symbol (instance method)">#<strong>disambiguate_symbol</strong>  &#x21d2; String </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Alternative currency used if symbol is ambiguous.</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#format-instance_method" title="#format (instance method)">#<strong>format</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Returns the value of attribute format.</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#html_entity-instance_method" title="#html_entity (instance method)">#<strong>html_entity</strong>  &#x21d2; String </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>The html entity for the currency symbol.</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#id-instance_method" title="#id (instance method)">#<strong>id</strong>  &#x21d2; Symbol </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>The symbol used to identify the currency, usually THE lowercase +iso_code+ attribute.</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#iso_code-instance_method" title="#iso_code (instance method)">#<strong>iso_code</strong>  &#x21d2; String </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>The international 3-letter code as defined by the ISO 4217 standard.</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#iso_numeric-instance_method" title="#iso_numeric (instance method)">#<strong>iso_numeric</strong>  &#x21d2; String </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>The international 3-numeric code as defined by the ISO 4217 standard.</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#name-instance_method" title="#name (instance method)">#<strong>name</strong>  &#x21d2; String </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>The currency name.</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#priority-instance_method" title="#priority (instance method)">#<strong>priority</strong>  &#x21d2; Integer </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>A numerical value you can use to sort/group the currency list.</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#smallest_denomination-instance_method" title="#smallest_denomination (instance method)">#<strong>smallest_denomination</strong>  &#x21d2; Integer </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Smallest amount of cash possible (in the subunit of this currency).</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#subunit-instance_method" title="#subunit (instance method)">#<strong>subunit</strong>  &#x21d2; String </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>The name of the fractional monetary unit.</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#subunit_to_unit-instance_method" title="#subunit_to_unit (instance method)">#<strong>subunit_to_unit</strong>  &#x21d2; Integer </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>The proportion between the unit and the subunit.</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#symbol-instance_method" title="#symbol (instance method)">#<strong>symbol</strong>  &#x21d2; String </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>The currency symbol (UTF-8 encoded).</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#symbol_first-instance_method" title="#symbol_first (instance method)">#<strong>symbol_first</strong>  &#x21d2; Boolean </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Should the currency symbol precede the amount, or should it come after?.</p>
 </div></span>
-  
+
 </li>
 
-    
+
       <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#thousands_separator-instance_method" title="#thousands_separator (instance method)">#<strong>thousands_separator</strong>  &#x21d2; String </a>
-    
 
-    
+
+
       (also: #delimiter)
-    
-  </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
 
-  
+  </span>
+
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>The character used to separate thousands grouping of the whole unit.</p>
 </div></span>
-  
+
 </li>
 
-    
+
   </ul>
 
 
 
 
-  
+
     <h2>
       Class Method Summary
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#_instances-class_method" title="_instances (class method)">.<strong>_instances</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#all-class_method" title="all (class method)">.<strong>all</strong>  &#x21d2; Array </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>List the currencies imported and registered.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#each-class_method" title="each (class method)">.<strong>each</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'><p>rubocop:enable Naming/PredicateMethod.</p>
+</div></span>
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#find-class_method" title="find (class method)">.<strong>find</strong>(id)  &#x21d2; Money::Currency </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Lookup a currency with given +id+ an returns a +Currency+ instance on success, +nil+ otherwise.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#find_by_iso_numeric-class_method" title="find_by_iso_numeric (class method)">.<strong>find_by_iso_numeric</strong>(num)  &#x21d2; Money::Currency </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Lookup a currency with given +num+ as an ISO 4217 numeric and returns an +Currency+ instance on success, +nil+ otherwise.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#inherit-class_method" title="inherit (class method)">.<strong>inherit</strong>(parent_iso_code, curr)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Inherit a new currency from existing one.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#new-class_method" title="new (class method)">.<strong>new</strong>(id)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#register-class_method" title="register (class method)">.<strong>register</strong>(curr)  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Register a new currency.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#reset!-class_method" title="reset! (class method)">.<strong>reset!</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#stringified_keys-class_method" title="stringified_keys (class method)">.<strong>stringified_keys</strong>  &#x21d2; Set </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>We need a string-based validator before creating an unbounded number of symbols.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#table-class_method" title="table (class method)">.<strong>table</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>List of known currencies.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#unregister-class_method" title="unregister (class method)">.<strong>unregister</strong>(curr)  &#x21d2; Boolean </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Unregister a currency.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#wrap-class_method" title="wrap (class method)">.<strong>wrap</strong>(object)  &#x21d2; Money::Currency </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Wraps the object in a +Currency+ unless it&#39;s already a +Currency+ object.</p>
 </div></span>
-  
+
 </li>
 
-      
+
     </ul>
-  
+
     <h2>
       Instance Method Summary
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
-      <a href="#<=>-instance_method" title="#&lt;=&gt; (instance method)">#<strong>&lt;=&gt;</strong>(other_currency)  &#x21d2; -1, ... </a>
-    
 
-    
+      <a href="#<=>-instance_method" title="#&lt;=&gt; (instance method)">#<strong>&lt;=&gt;</strong>(other)  &#x21d2; -1, ... </a>
+
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Compares +self+ with +other_currency+ against the value of +priority+ attribute.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
-      <a href="#==-instance_method" title="#== (instance method)">#<strong>==</strong>(other_currency)  &#x21d2; Boolean </a>
-    
 
-    
+      <a href="#==-instance_method" title="#== (instance method)">#<strong>==</strong>(other)  &#x21d2; Boolean </a>
+
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Compares +self+ with +other_currency+ and returns +true+ if the are the same or if their +id+ attributes match.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#cents_based%3F-instance_method" title="#cents_based? (instance method)">#<strong>cents_based?</strong>  &#x21d2; Boolean </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Returns true if a subunit is cents-based.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#code-instance_method" title="#code (instance method)">#<strong>code</strong>  &#x21d2; String </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Returns currency symbol or iso code for currencies with no symbol.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#eql%3F-instance_method" title="#eql? (instance method)">#<strong>eql?</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#exponent-instance_method" title="#exponent (instance method)">#<strong>exponent</strong>  &#x21d2; Integer </a>
-    
 
-    
+
+
       (also: #decimal_places)
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+  </span>
+
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Returns the relation between subunit and unit as a base 10 exponent.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#hash-instance_method" title="#hash (instance method)">#<strong>hash</strong>  &#x21d2; Integer </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Returns a Integer hash value based on the +id+ attribute in order to use functions like &amp; (intersection), group_by, etc.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(id)  &#x21d2; Money::Currency </a>
-    
 
-    
+
+
   </span>
-  
-  
-    <span class="note title constructor">constructor</span>
-  
-  
-  
-  
-  
-  
 
-  
+
+    <span class="note title constructor">constructor</span>
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Create a new +Currency+ object.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#inspect-instance_method" title="#inspect (instance method)">#<strong>inspect</strong>  &#x21d2; String </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Returns a human readable representation.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#iso%3F-instance_method" title="#iso? (instance method)">#<strong>iso?</strong>  &#x21d2; Boolean </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Returns true if a code currency is ISO.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#symbol_first%3F-instance_method" title="#symbol_first? (instance method)">#<strong>symbol_first?</strong>  &#x21d2; Boolean </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#to_currency-instance_method" title="#to_currency (instance method)">#<strong>to_currency</strong>  &#x21d2; self </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Conversion to +self+.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; String </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Returns a string representation corresponding to the upcase +id+ attribute.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#to_str-instance_method" title="#to_str (instance method)">#<strong>to_str</strong>  &#x21d2; String </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Returns a string representation corresponding to the upcase +id+ attribute.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#to_sym-instance_method" title="#to_sym (instance method)">#<strong>to_sym</strong>  &#x21d2; Symbol </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Returns a symbol representation corresponding to the upcase +id+ attribute.</p>
 </div></span>
-  
+
 </li>
 
-      
+
     </ul>
-  
 
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Currency/Heuristics.html" title="Money::Currency::Heuristics (module)">Heuristics</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="Currency/Heuristics.html#analyze-instance_method" title="Money::Currency::Heuristics#analyze (method)">analyze</a></span></p>
 
   <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
-  
+
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
-  
-    #<strong>initialize</strong>(id)  &#x21d2; <tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt> 
-  
 
-  
+    #<strong>initialize</strong>(id)  &#x21d2; <tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Create a new +Currency+ object.</p>
@@ -1304,33 +1305,33 @@
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:usd</span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money::Currency id: usd ...&gt;</span></code></pre>
-    
+
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>id</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>, <tt>Symbol</tt>, <tt>#<span class='object_link'><a href="#to_s-instance_method" title="Money::Currency#to_s (method)">to_s</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>Used to look into +table+ and retrieve
 the applicable attributes.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 
@@ -1340,13 +1341,13 @@ the applicable attributes.</p>
       <pre class="lines">
 
 
-290
-291
-292
-293</pre>
+294
+295
+296
+297</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 290</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 294</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='ivar'>@id</span> <span class='op'>=</span> <span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -1356,27 +1357,27 @@ the applicable attributes.</p>
   </tr>
 </table>
 </div>
-  
+
 </div>
 
   <div id="instance_attr_details" class="attr_details">
     <h2>Instance Attribute Details</h2>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details first">
   <h3 class="signature first" id="decimal_mark-instance_method">
-  
-    #<strong>decimal_mark</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
-  
 
-  
+    #<strong>decimal_mark</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+
+
+
     <span class="aliases">Also known as:
     <span class="names"><span id='separator-instance_method'>separator</span></span>
     </span>
-  
 
-  
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns The decimal mark, or character used to separate the
@@ -1386,24 +1387,24 @@ whole unit from the subunit.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>The decimal mark, or character used to separate the
 whole unit from the subunit.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -1412,12 +1413,12 @@ whole unit from the subunit.</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='comma'>,</span> <span class='symbol'>:iso_code</span><span class='comma'>,</span> <span class='symbol'>:iso_numeric</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:symbol</span><span class='comma'>,</span>
 <span class='symbol'>:disambiguate_symbol</span><span class='comma'>,</span> <span class='symbol'>:html_entity</span><span class='comma'>,</span> <span class='symbol'>:subunit</span><span class='comma'>,</span> <span class='symbol'>:subunit_to_unit</span><span class='comma'>,</span> <span class='symbol'>:decimal_mark</span><span class='comma'>,</span>
@@ -1426,18 +1427,18 @@ whole unit from the subunit.</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="disambiguate_symbol-instance_method">
-  
+
     #<strong>disambiguate_symbol</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
-  
 
-  
 
-  
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns Alternative currency used if symbol is ambiguous.</p>
@@ -1446,23 +1447,23 @@ whole unit from the subunit.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>Alternative currency used if symbol is ambiguous</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -1471,12 +1472,12 @@ whole unit from the subunit.</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='comma'>,</span> <span class='symbol'>:iso_code</span><span class='comma'>,</span> <span class='symbol'>:iso_numeric</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:symbol</span><span class='comma'>,</span>
 <span class='symbol'>:disambiguate_symbol</span><span class='comma'>,</span> <span class='symbol'>:html_entity</span><span class='comma'>,</span> <span class='symbol'>:subunit</span><span class='comma'>,</span> <span class='symbol'>:subunit_to_unit</span><span class='comma'>,</span> <span class='symbol'>:decimal_mark</span><span class='comma'>,</span>
@@ -1485,18 +1486,18 @@ whole unit from the subunit.</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="format-instance_method">
-  
+
     #<strong>format</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
-  
 
-  
 
-  
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns the value of attribute format.</p>
@@ -1505,7 +1506,7 @@ whole unit from the subunit.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 
 </div><table class="source_code">
   <tr>
@@ -1513,12 +1514,12 @@ whole unit from the subunit.</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_format'>format</span>
   <span class='ivar'>@format</span>
@@ -1527,18 +1528,18 @@ whole unit from the subunit.</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="html_entity-instance_method">
-  
+
     #<strong>html_entity</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
-  
 
-  
 
-  
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns The html entity for the currency symbol.</p>
@@ -1547,23 +1548,23 @@ whole unit from the subunit.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>The html entity for the currency symbol</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -1572,12 +1573,12 @@ whole unit from the subunit.</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='comma'>,</span> <span class='symbol'>:iso_code</span><span class='comma'>,</span> <span class='symbol'>:iso_numeric</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:symbol</span><span class='comma'>,</span>
 <span class='symbol'>:disambiguate_symbol</span><span class='comma'>,</span> <span class='symbol'>:html_entity</span><span class='comma'>,</span> <span class='symbol'>:subunit</span><span class='comma'>,</span> <span class='symbol'>:subunit_to_unit</span><span class='comma'>,</span> <span class='symbol'>:decimal_mark</span><span class='comma'>,</span>
@@ -1586,18 +1587,18 @@ whole unit from the subunit.</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="id-instance_method">
-  
+
     #<strong>id</strong>  &#x21d2; <tt>Symbol</tt>  <span class="extras">(readonly)</span>
-  
 
-  
 
-  
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns The symbol used to identify the currency, usually THE
@@ -1607,24 +1608,24 @@ lowercase +iso_code+ attribute.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Symbol</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>The symbol used to identify the currency, usually THE
 lowercase +iso_code+ attribute.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -1633,12 +1634,12 @@ lowercase +iso_code+ attribute.</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_id'>id</span>
   <span class='ivar'>@id</span>
@@ -1647,18 +1648,18 @@ lowercase +iso_code+ attribute.</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="iso_code-instance_method">
-  
+
     #<strong>iso_code</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
-  
 
-  
 
-  
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns The international 3-letter code as defined by the ISO
@@ -1668,24 +1669,24 @@ lowercase +iso_code+ attribute.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>The international 3-letter code as defined by the ISO
 4217 standard.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -1694,12 +1695,12 @@ lowercase +iso_code+ attribute.</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='comma'>,</span> <span class='symbol'>:iso_code</span><span class='comma'>,</span> <span class='symbol'>:iso_numeric</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:symbol</span><span class='comma'>,</span>
 <span class='symbol'>:disambiguate_symbol</span><span class='comma'>,</span> <span class='symbol'>:html_entity</span><span class='comma'>,</span> <span class='symbol'>:subunit</span><span class='comma'>,</span> <span class='symbol'>:subunit_to_unit</span><span class='comma'>,</span> <span class='symbol'>:decimal_mark</span><span class='comma'>,</span>
@@ -1708,18 +1709,18 @@ lowercase +iso_code+ attribute.</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="iso_numeric-instance_method">
-  
+
     #<strong>iso_numeric</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
-  
 
-  
 
-  
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns The international 3-numeric code as defined by the ISO
@@ -1729,24 +1730,24 @@ lowercase +iso_code+ attribute.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>The international 3-numeric code as defined by the ISO
 4217 standard.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -1755,12 +1756,12 @@ lowercase +iso_code+ attribute.</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='comma'>,</span> <span class='symbol'>:iso_code</span><span class='comma'>,</span> <span class='symbol'>:iso_numeric</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:symbol</span><span class='comma'>,</span>
 <span class='symbol'>:disambiguate_symbol</span><span class='comma'>,</span> <span class='symbol'>:html_entity</span><span class='comma'>,</span> <span class='symbol'>:subunit</span><span class='comma'>,</span> <span class='symbol'>:subunit_to_unit</span><span class='comma'>,</span> <span class='symbol'>:decimal_mark</span><span class='comma'>,</span>
@@ -1769,18 +1770,18 @@ lowercase +iso_code+ attribute.</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="name-instance_method">
-  
+
     #<strong>name</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
-  
 
-  
 
-  
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns The currency name.</p>
@@ -1789,23 +1790,23 @@ lowercase +iso_code+ attribute.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>The currency name.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -1814,12 +1815,12 @@ lowercase +iso_code+ attribute.</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='comma'>,</span> <span class='symbol'>:iso_code</span><span class='comma'>,</span> <span class='symbol'>:iso_numeric</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:symbol</span><span class='comma'>,</span>
 <span class='symbol'>:disambiguate_symbol</span><span class='comma'>,</span> <span class='symbol'>:html_entity</span><span class='comma'>,</span> <span class='symbol'>:subunit</span><span class='comma'>,</span> <span class='symbol'>:subunit_to_unit</span><span class='comma'>,</span> <span class='symbol'>:decimal_mark</span><span class='comma'>,</span>
@@ -1828,18 +1829,18 @@ lowercase +iso_code+ attribute.</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="priority-instance_method">
-  
+
     #<strong>priority</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
-  
 
-  
 
-  
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns A numerical value you can use to sort/group the
@@ -1849,24 +1850,24 @@ currency list.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>A numerical value you can use to sort/group the
 currency list.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -1875,12 +1876,12 @@ currency list.</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='comma'>,</span> <span class='symbol'>:iso_code</span><span class='comma'>,</span> <span class='symbol'>:iso_numeric</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:symbol</span><span class='comma'>,</span>
 <span class='symbol'>:disambiguate_symbol</span><span class='comma'>,</span> <span class='symbol'>:html_entity</span><span class='comma'>,</span> <span class='symbol'>:subunit</span><span class='comma'>,</span> <span class='symbol'>:subunit_to_unit</span><span class='comma'>,</span> <span class='symbol'>:decimal_mark</span><span class='comma'>,</span>
@@ -1889,18 +1890,18 @@ currency list.</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="smallest_denomination-instance_method">
-  
+
     #<strong>smallest_denomination</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
-  
 
-  
 
-  
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns Smallest amount of cash possible (in the subunit of
@@ -1910,24 +1911,24 @@ this currency).</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>Smallest amount of cash possible (in the subunit of
 this currency)</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -1936,12 +1937,12 @@ this currency)</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='comma'>,</span> <span class='symbol'>:iso_code</span><span class='comma'>,</span> <span class='symbol'>:iso_numeric</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:symbol</span><span class='comma'>,</span>
 <span class='symbol'>:disambiguate_symbol</span><span class='comma'>,</span> <span class='symbol'>:html_entity</span><span class='comma'>,</span> <span class='symbol'>:subunit</span><span class='comma'>,</span> <span class='symbol'>:subunit_to_unit</span><span class='comma'>,</span> <span class='symbol'>:decimal_mark</span><span class='comma'>,</span>
@@ -1950,18 +1951,18 @@ this currency)</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="subunit-instance_method">
-  
+
     #<strong>subunit</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
-  
 
-  
 
-  
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns The name of the fractional monetary unit.</p>
@@ -1970,23 +1971,23 @@ this currency)</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>The name of the fractional monetary unit.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -1995,12 +1996,12 @@ this currency)</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='comma'>,</span> <span class='symbol'>:iso_code</span><span class='comma'>,</span> <span class='symbol'>:iso_numeric</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:symbol</span><span class='comma'>,</span>
 <span class='symbol'>:disambiguate_symbol</span><span class='comma'>,</span> <span class='symbol'>:html_entity</span><span class='comma'>,</span> <span class='symbol'>:subunit</span><span class='comma'>,</span> <span class='symbol'>:subunit_to_unit</span><span class='comma'>,</span> <span class='symbol'>:decimal_mark</span><span class='comma'>,</span>
@@ -2009,18 +2010,18 @@ this currency)</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="subunit_to_unit-instance_method">
-  
+
     #<strong>subunit_to_unit</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
-  
 
-  
 
-  
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns The proportion between the unit and the subunit.</p>
@@ -2029,23 +2030,23 @@ this currency)</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>The proportion between the unit and the subunit</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2054,12 +2055,12 @@ this currency)</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='comma'>,</span> <span class='symbol'>:iso_code</span><span class='comma'>,</span> <span class='symbol'>:iso_numeric</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:symbol</span><span class='comma'>,</span>
 <span class='symbol'>:disambiguate_symbol</span><span class='comma'>,</span> <span class='symbol'>:html_entity</span><span class='comma'>,</span> <span class='symbol'>:subunit</span><span class='comma'>,</span> <span class='symbol'>:subunit_to_unit</span><span class='comma'>,</span> <span class='symbol'>:decimal_mark</span><span class='comma'>,</span>
@@ -2068,18 +2069,18 @@ this currency)</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="symbol-instance_method">
-  
+
     #<strong>symbol</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
-  
 
-  
 
-  
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns The currency symbol (UTF-8 encoded).</p>
@@ -2088,23 +2089,23 @@ this currency)</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>The currency symbol (UTF-8 encoded).</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2113,12 +2114,12 @@ this currency)</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='comma'>,</span> <span class='symbol'>:iso_code</span><span class='comma'>,</span> <span class='symbol'>:iso_numeric</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:symbol</span><span class='comma'>,</span>
 <span class='symbol'>:disambiguate_symbol</span><span class='comma'>,</span> <span class='symbol'>:html_entity</span><span class='comma'>,</span> <span class='symbol'>:subunit</span><span class='comma'>,</span> <span class='symbol'>:subunit_to_unit</span><span class='comma'>,</span> <span class='symbol'>:decimal_mark</span><span class='comma'>,</span>
@@ -2127,18 +2128,18 @@ this currency)</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="symbol_first-instance_method">
-  
+
     #<strong>symbol_first</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
-  
 
-  
 
-  
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns Should the currency symbol precede the amount, or
@@ -2148,24 +2149,24 @@ should it come after?.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>Should the currency symbol precede the amount, or
 should it come after?</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2174,12 +2175,12 @@ should it come after?</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='comma'>,</span> <span class='symbol'>:iso_code</span><span class='comma'>,</span> <span class='symbol'>:iso_numeric</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:symbol</span><span class='comma'>,</span>
 <span class='symbol'>:disambiguate_symbol</span><span class='comma'>,</span> <span class='symbol'>:html_entity</span><span class='comma'>,</span> <span class='symbol'>:subunit</span><span class='comma'>,</span> <span class='symbol'>:subunit_to_unit</span><span class='comma'>,</span> <span class='symbol'>:decimal_mark</span><span class='comma'>,</span>
@@ -2188,22 +2189,22 @@ should it come after?</p>
   </tr>
 </table>
 </div>
-    
-      
+
+
       <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="thousands_separator-instance_method">
-  
-    #<strong>thousands_separator</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
-  
 
-  
+    #<strong>thousands_separator</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+
+
+
     <span class="aliases">Also known as:
     <span class="names"><span id='delimiter-instance_method'>delimiter</span></span>
     </span>
-  
 
-  
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns The character used to separate thousands grouping of
@@ -2213,24 +2214,24 @@ the whole unit.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>The character used to separate thousands grouping of
 the whole unit.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2239,12 +2240,12 @@ the whole unit.</p>
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 277</span>
 
 <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='comma'>,</span> <span class='symbol'>:iso_code</span><span class='comma'>,</span> <span class='symbol'>:iso_numeric</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:symbol</span><span class='comma'>,</span>
 <span class='symbol'>:disambiguate_symbol</span><span class='comma'>,</span> <span class='symbol'>:html_entity</span><span class='comma'>,</span> <span class='symbol'>:subunit</span><span class='comma'>,</span> <span class='symbol'>:subunit_to_unit</span><span class='comma'>,</span> <span class='symbol'>:decimal_mark</span><span class='comma'>,</span>
@@ -2253,35 +2254,35 @@ the whole unit.</p>
   </tr>
 </table>
 </div>
-    
+
   </div>
 
 
   <div id="class_method_details" class="method_details_list">
     <h2>Class Method Details</h2>
 
-    
+
       <div class="method_details first">
   <h3 class="signature first" id="_instances-class_method">
-  
-    .<strong>_instances</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    .<strong>_instances</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+48
 49
-50
-51</pre>
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid__instances'>_instances</span>
   <span class='cvar'>@@instances</span>
@@ -2290,16 +2291,16 @@ the whole unit.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="all-class_method">
-  
-    .<strong>all</strong>  &#x21d2; <tt>Array</tt> 
-  
 
-  
+    .<strong>all</strong>  &#x21d2; <tt>Array</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>List the currencies imported and registered</p>
@@ -2308,28 +2309,28 @@ the whole unit.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code>Money::Currency.all()
 [#&lt;Currency ..USD&gt;, &#39;CAD&#39;, &#39;EUR&#39;]...</code></pre>
-    
+
   </div>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Array</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2346,7 +2347,8 @@ the whole unit.</p>
 141
 142
 143
-144</pre>
+144
+145</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 136</span>
@@ -2357,6 +2359,7 @@ the whole unit.</p>
     <span class='kw'>if</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_priority'>priority</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
       <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Currency/MissingAttributeError.html" title="Money::Currency::MissingAttributeError (class)">MissingAttributeError</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='comma'>,</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='symbol'>:priority</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
+
     <span class='id identifier rubyid_c'>c</span>
   <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_sort_by'>sort_by</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:priority</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -2364,46 +2367,56 @@ the whole unit.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="each-class_method">
-  
-    .<strong>each</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    .<strong>each</strong>  &#x21d2; <tt>Object</tt>
 
-  
-</h3><table class="source_code">
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>rubocop:enable Naming/PredicateMethod</p>
+
+
+  </div>
+</div>
+<div class="tags">
+
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-209
-210
-211</pre>
+213
+214
+215</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 209</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 213</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-  <span class='id identifier rubyid_all'>all</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='kw'>yield</span><span class='lparen'>(</span><span class='id identifier rubyid_c'>c</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_all'>all</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="find-class_method">
-  
-    .<strong>find</strong>(id)  &#x21d2; <tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt> 
-  
 
-  
+    .<strong>find</strong>(id)  &#x21d2; <tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Lookup a currency with given +id+ an returns a +Currency+ instance on
@@ -2415,47 +2428,47 @@ success, +nil+ otherwise.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='symbol'>:eur</span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money::Currency id: eur ...&gt;
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='symbol'>:foo</span><span class='rparen'>)</span> <span class='comment'>#=&gt; nil</span></code></pre>
-    
+
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>id</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>, <tt>Symbol</tt>, <tt>#<span class='object_link'><a href="#to_s-instance_method" title="Money::Currency#to_s (method)">to_s</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>Used to look into +table+ and</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2464,15 +2477,15 @@ success, +nil+ otherwise.</p>
       <pre class="lines">
 
 
+63
 64
 65
 66
 67
-68
-69</pre>
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 63</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -2484,16 +2497,16 @@ success, +nil+ otherwise.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="find_by_iso_numeric-class_method">
-  
-    .<strong>find_by_iso_numeric</strong>(num)  &#x21d2; <tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt> 
-  
 
-  
+    .<strong>find_by_iso_numeric</strong>(num)  &#x21d2; <tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Lookup a currency with given +num+ as an ISO 4217 numeric and returns an
@@ -2505,48 +2518,48 @@ success, +nil+ otherwise.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find_by_iso_numeric'>find_by_iso_numeric</span><span class='lparen'>(</span><span class='int'>978</span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money::Currency id: eur ...&gt;
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find_by_iso_numeric'>find_by_iso_numeric</span><span class='lparen'>(</span><span class='int'>51</span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money::Currency id: amd ...&gt;
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find_by_iso_numeric'>find_by_iso_numeric</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>001</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; nil</span></code></pre>
-    
+
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>num</span>
-      
-      
+
+
         <span class='type'>(<tt>#<span class='object_link'><a href="#to_s-instance_method" title="Money::Currency#to_s (method)">to_s</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>used to look into +table+ in +iso_numeric+ and find</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2555,6 +2568,7 @@ success, +nil+ otherwise.</p>
       <pre class="lines">
 
 
+82
 83
 84
 85
@@ -2565,11 +2579,12 @@ success, +nil+ otherwise.</p>
 90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_by_iso_numeric'>find_by_iso_numeric</span><span class='lparen'>(</span><span class='id identifier rubyid_num'>num</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_num'>num</span> <span class='op'>=</span> <span class='id identifier rubyid_num'>num</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_rjust'>rjust</span><span class='lparen'>(</span><span class='int'>3</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_num'>num</span> <span class='op'>=</span> <span class='id identifier rubyid_num'>num</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_rjust'>rjust</span><span class='lparen'>(</span><span class='int'>3</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='id identifier rubyid_num'>num</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_iso_numeric_index'>iso_numeric_index</span><span class='lbracket'>[</span><span class='id identifier rubyid_num'>num</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_id'>id</span>
 <span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="Currency/UnknownCurrency.html" title="Money::Currency::UnknownCurrency (class)">UnknownCurrency</a></span></span>
@@ -2579,16 +2594,16 @@ success, +nil+ otherwise.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="inherit-class_method">
-  
-    .<strong>inherit</strong>(parent_iso_code, curr)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    .<strong>inherit</strong>(parent_iso_code, curr)  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Inherit a new currency from existing one</p>
@@ -2599,37 +2614,37 @@ success, +nil+ otherwise.</p>
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>parent_iso_code</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>the international 3-letter code as defined</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>curr</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>See <span class='object_link'><a href="#register-class_method" title="Money::Currency.register (method)">register</a></span> method for hash structure</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 
@@ -2639,51 +2654,51 @@ success, +nil+ otherwise.</p>
       <pre class="lines">
 
 
-185
 186
 187
 188
-189</pre>
+189
+190</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 185</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 186</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inherit'>inherit</span><span class='lparen'>(</span><span class='id identifier rubyid_parent_iso_code'>parent_iso_code</span><span class='comma'>,</span> <span class='id identifier rubyid_curr'>curr</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_parent_iso_code'>parent_iso_code</span> <span class='op'>=</span> <span class='id identifier rubyid_parent_iso_code'>parent_iso_code</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-  <span class='id identifier rubyid_curr'>curr</span> <span class='op'>=</span> <span class='ivar'>@table</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_parent_iso_code'>parent_iso_code</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_curr'>curr</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_curr'>curr</span> <span class='op'>=</span> <span class='id identifier rubyid_table'>table</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_parent_iso_code'>parent_iso_code</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_curr'>curr</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_register'>register</span><span class='lparen'>(</span><span class='id identifier rubyid_curr'>curr</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="new-class_method">
-  
-    .<strong>new</strong>(id)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    .<strong>new</strong>(id)  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+39
 40
 41
 42
 43
 44
 45
-46
-47</pre>
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
@@ -2697,16 +2712,16 @@ success, +nil+ otherwise.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="register-class_method">
-  
-    .<strong>register</strong>(curr)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    .<strong>register</strong>(curr)  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Register a new currency</p>
@@ -2717,162 +2732,162 @@ success, +nil+ otherwise.</p>
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>curr</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>information about the currency</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>priority</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>a customizable set of options</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>iso_code</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>a customizable set of options</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>iso_numeric</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>a customizable set of options</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>name</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>a customizable set of options</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>symbol</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>a customizable set of options</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>subunit</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>a customizable set of options</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>subunit_to_unit</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>a customizable set of options</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>separator</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>a customizable set of options</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>delimiter</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>a customizable set of options</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
-  
-    
-    
+
+
+
 
 
 </div><table class="source_code">
@@ -2881,21 +2896,21 @@ success, +nil+ otherwise.</p>
       <pre class="lines">
 
 
-173
 174
 175
 176
 177
 178
-179</pre>
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 173</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_register'>register</span><span class='lparen'>(</span><span class='id identifier rubyid_curr'>curr</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_curr'>curr</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:iso_code</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
   <span class='cvar'>@@mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='id identifier rubyid__instances'>_instances</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
-  <span class='ivar'>@table</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_curr'>curr</span>
+  <span class='id identifier rubyid_table'>table</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_curr'>curr</span>
   <span class='ivar'>@stringified_keys</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id identifier rubyid_clear_iso_numeric_cache'>clear_iso_numeric_cache</span>
 <span class='kw'>end</span></pre>
@@ -2903,30 +2918,30 @@ success, +nil+ otherwise.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="reset!-class_method">
-  
-    .<strong>reset!</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    .<strong>reset!</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-213
-214
-215
-216
-217</pre>
+217
+218
+219
+220
+221</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 213</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 217</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset!'>reset!</span>
   <span class='cvar'>@@instances</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -2937,16 +2952,16 @@ success, +nil+ otherwise.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="stringified_keys-class_method">
-  
-    .<strong>stringified_keys</strong>  &#x21d2; <tt>Set</tt> 
-  
 
-  
+    .<strong>stringified_keys</strong>  &#x21d2; <tt>Set</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>We need a string-based validator before creating an unbounded number of
@@ -2958,19 +2973,19 @@ symbols.
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Set</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -2979,12 +2994,12 @@ symbols.
       <pre class="lines">
 
 
-152
 153
-154</pre>
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stringified_keys'>stringified_keys</span>
   <span class='ivar'>@stringified_keys</span> <span class='op'>||=</span> <span class='id identifier rubyid_stringify_keys'>stringify_keys</span>
@@ -2993,16 +3008,16 @@ symbols.
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="table-class_method">
-  
-    .<strong>table</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    .<strong>table</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>List of known currencies.</p>
@@ -3021,7 +3036,7 @@ A monetary unit that is valued at a fraction (usually one hundredth) of the basi
   </div>
 </div>
 <div class="tags">
-  
+
 
 </div><table class="source_code">
   <tr>
@@ -3043,19 +3058,21 @@ A monetary unit that is valued at a fraction (usually one hundredth) of the basi
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="unregister-class_method">
-  
-    .<strong>unregister</strong>(curr)  &#x21d2; <tt>Boolean</tt> 
-  
 
-  
+    .<strong>unregister</strong>(curr)  &#x21d2; <tt>Boolean</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Unregister a currency.</p>
+
+<p>rubocop:disable Naming/PredicateMethod</p>
 
 
   </div>
@@ -3063,42 +3080,42 @@ A monetary unit that is valued at a fraction (usually one hundredth) of the basi
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>curr</span>
-      
-      
+
+
         <span class='type'>(<tt>Object</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>A Hash with the key <code>:iso_code</code>, or the ISO code
 as a String or Symbol.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>true if the currency previously existed, false
 if it didn&#39;t.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3107,8 +3124,6 @@ if it didn&#39;t.</p>
       <pre class="lines">
 
 
-198
-199
 200
 201
 202
@@ -3116,17 +3131,21 @@ if it didn&#39;t.</p>
 204
 205
 206
-207</pre>
+207
+208
+209
+210</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 198</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 200</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unregister'>unregister</span><span class='lparen'>(</span><span class='id identifier rubyid_curr'>curr</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_curr'>curr</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_curr'>curr</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:iso_code</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_curr'>curr</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-  <span class='kw'>end</span>
+  <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_curr'>curr</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_curr'>curr</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:iso_code</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_curr'>curr</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+    <span class='kw'>end</span>
   <span class='id identifier rubyid_existed'>existed</span> <span class='op'>=</span> <span class='ivar'>@table</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='ivar'>@stringified_keys</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_existed'>existed</span>
   <span class='id identifier rubyid_existed'>existed</span> <span class='op'>?</span> <span class='kw'>true</span> <span class='op'>:</span> <span class='kw'>false</span>
@@ -3135,16 +3154,16 @@ if it didn&#39;t.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="wrap-class_method">
-  
-    .<strong>wrap</strong>(object)  &#x21d2; <tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt> 
-  
 
-  
+    .<strong>wrap</strong>(object)  &#x21d2; <tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Wraps the object in a +Currency+ unless it&#39;s already a +Currency+
@@ -3156,49 +3175,49 @@ object.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='id identifier rubyid_c1'>c1</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:usd</span><span class='rparen'>)</span>
 <span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'>wrap</span><span class='lparen'>(</span><span class='kw'>nil</span><span class='rparen'>)</span>   <span class='comment'>#=&gt; nil
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'>wrap</span><span class='lparen'>(</span><span class='id identifier rubyid_c1'>c1</span><span class='rparen'>)</span>    <span class='comment'>#=&gt; #&lt;Money::Currency id: usd ...&gt;
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_wrap'>wrap</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>usd</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money::Currency id: usd ...&gt;</span></code></pre>
-    
+
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>object</span>
-      
-      
+
+
         <span class='type'>(<tt>Object</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>The object to attempt and wrap as a +Currency+</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3233,22 +3252,22 @@ object.</p>
   </tr>
 </table>
 </div>
-    
+
   </div>
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
 
-    
+
       <div class="method_details first">
   <h3 class="signature first" id="<=>-instance_method">
-  
-    #<strong>&lt;=&gt;</strong>(other_currency)  &#x21d2; <tt>-1</tt>, ... 
-  
 
-  
+    #<strong>&lt;=&gt;</strong>(other)  &#x21d2; <tt>-1</tt>, ...
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Compares +self+ with +other_currency+ against the value of +priority+
@@ -3258,54 +3277,54 @@ attribute.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='id identifier rubyid_c1'>c1</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:usd</span><span class='rparen'>)</span>
 <span class='id identifier rubyid_c2'>c2</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:jpy</span><span class='rparen'>)</span>
 <span class='id identifier rubyid_c1'>c1</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_c2'>c2</span> <span class='comment'>#=&gt; 1
 </span><span class='id identifier rubyid_c2'>c2</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_c1'>c1</span> <span class='comment'>#=&gt; -1
 </span><span class='id identifier rubyid_c1'>c1</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_c1'>c1</span> <span class='comment'>#=&gt; 0</span></code></pre>
-    
+
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>other_currency</span>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>The currency to compare to.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>-1</tt>, <tt>0</tt>, <tt>1</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>-1 if less than, 0 is equal to, 1 if greater than</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3314,26 +3333,26 @@ attribute.</p>
       <pre class="lines">
 
 
-308
-309
-310
-311
 312
 313
 314
 315
 316
-317</pre>
+317
+318
+319
+320
+321</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 308</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 312</span>
 
-<span class='kw'>def</span> <span class='op'>&lt;=&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_other_currency'>other_currency</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='op'>&lt;=&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
   <span class='comment'># &lt;=&gt; returns nil when one of the values is nil
-</span>  <span class='id identifier rubyid_comparison'>comparison</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_priority'>priority</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_other_currency'>other_currency</span><span class='period'>.</span><span class='id identifier rubyid_priority'>priority</span> <span class='op'>||</span> <span class='int'>0</span>
+</span>  <span class='id identifier rubyid_comparison'>comparison</span> <span class='op'>=</span> <span class='id identifier rubyid_priority'>priority</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_priority'>priority</span> <span class='op'>||</span> <span class='int'>0</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_comparison'>comparison</span> <span class='op'>==</span> <span class='int'>0</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_other_currency'>other_currency</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
+    <span class='id identifier rubyid_id'>id</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_comparison'>comparison</span>
   <span class='kw'>end</span>
@@ -3342,16 +3361,16 @@ attribute.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="==-instance_method">
-  
-    #<strong>==</strong>(other_currency)  &#x21d2; <tt>Boolean</tt> 
-  
 
-  
+    #<strong>==</strong>(other)  &#x21d2; <tt>Boolean</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Compares +self+ with +other_currency+ and returns +true+ if the are the
@@ -3361,49 +3380,49 @@ same or if their +id+ attributes match.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='id identifier rubyid_c1'>c1</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:usd</span><span class='rparen'>)</span>
 <span class='id identifier rubyid_c2'>c2</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:jpy</span><span class='rparen'>)</span>
 <span class='id identifier rubyid_c1'>c1</span> <span class='op'>==</span> <span class='id identifier rubyid_c1'>c1</span> <span class='comment'>#=&gt; true
 </span><span class='id identifier rubyid_c1'>c1</span> <span class='op'>==</span> <span class='id identifier rubyid_c2'>c2</span> <span class='comment'>#=&gt; false</span></code></pre>
-    
+
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>other_currency</span>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>The currency to compare to.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3412,30 +3431,30 @@ same or if their +id+ attributes match.</p>
       <pre class="lines">
 
 
-331
-332
-333</pre>
+335
+336
+337</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 331</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 335</span>
 
-<span class='kw'>def</span> <span class='op'>==</span><span class='lparen'>(</span><span class='id identifier rubyid_other_currency'>other_currency</span><span class='rparen'>)</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_equal?'>equal?</span><span class='lparen'>(</span><span class='id identifier rubyid_other_currency'>other_currency</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_compare_ids'>compare_ids</span><span class='lparen'>(</span><span class='id identifier rubyid_other_currency'>other_currency</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='op'>==</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_equal?'>equal?</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_compare_ids'>compare_ids</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="cents_based?-instance_method">
-  
-    #<strong>cents_based?</strong>  &#x21d2; <tt>Boolean</tt> 
-  
 
-  
+    #<strong>cents_based?</strong>  &#x21d2; <tt>Boolean</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns true if a subunit is cents-based.</p>
@@ -3444,27 +3463,27 @@ same or if their +id+ attributes match.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:usd</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_cents_based?'>cents_based?</span></code></pre>
-    
+
   </div>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3473,12 +3492,12 @@ same or if their +id+ attributes match.</p>
       <pre class="lines">
 
 
-441
-442
-443</pre>
+450
+451
+452</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 441</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 450</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cents_based?'>cents_based?</span>
   <span class='id identifier rubyid_subunit_to_unit'>subunit_to_unit</span> <span class='op'>==</span> <span class='int'>100</span>
@@ -3487,16 +3506,16 @@ same or if their +id+ attributes match.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="code-instance_method">
-  
-    #<strong>code</strong>  &#x21d2; <tt>String</tt> 
-  
 
-  
+    #<strong>code</strong>  &#x21d2; <tt>String</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns currency symbol or iso code for currencies with no symbol.</p>
@@ -3505,19 +3524,19 @@ same or if their +id+ attributes match.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3526,12 +3545,12 @@ same or if their +id+ attributes match.</p>
       <pre class="lines">
 
 
-415
-416
-417</pre>
+424
+425
+426</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 415</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 424</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_code'>code</span>
   <span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>||</span> <span class='id identifier rubyid_iso_code'>iso_code</span>
@@ -3540,46 +3559,46 @@ same or if their +id+ attributes match.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="eql?-instance_method">
-  
-    #<strong>eql?</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>eql?</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-279</pre>
+283</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 279</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 283</span>
 
-<span class='id identifier rubyid_alias_method'>alias_method</span> <span class='symbol'>:eql?</span><span class='comma'>,</span> <span class='symbol'>:==</span></pre>
+<span class='kw'>alias</span> <span class='id identifier rubyid_eql?'>eql?</span> <span class='op'>==</span></pre>
     </td>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="exponent-instance_method">
-  
-    #<strong>exponent</strong>  &#x21d2; <tt>Integer</tt> 
-  
 
-  
+    #<strong>exponent</strong>  &#x21d2; <tt>Integer</tt>
+
+
+
     <span class="aliases">Also known as:
     <span class="names"><span id='decimal_places-instance_method'>decimal_places</span></span>
     </span>
-  
 
-  
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns the relation between subunit and unit as a base 10 exponent.</p>
@@ -3590,26 +3609,26 @@ same or if their +id+ attributes match.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
-    
+
       <li><a href="https://en.wikipedia.org/wiki/ISO_4217#Active_codes" target="_parent" title="https://en.wikipedia.org/wiki/ISO_4217#Active_codes">https://en.wikipedia.org/wiki/ISO_4217#Active_codes</a></li>
-    
+
   </ul>
 
 </div><table class="source_code">
@@ -3618,12 +3637,12 @@ same or if their +id+ attributes match.</p>
       <pre class="lines">
 
 
-451
-452
-453</pre>
+460
+461
+462</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 451</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 460</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exponent'>exponent</span>
   <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_log10'>log10</span><span class='lparen'>(</span><span class='id identifier rubyid_subunit_to_unit'>subunit_to_unit</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span>
@@ -3632,16 +3651,16 @@ same or if their +id+ attributes match.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="hash-instance_method">
-  
-    #<strong>hash</strong>  &#x21d2; <tt>Integer</tt> 
-  
 
-  
+    #<strong>hash</strong>  &#x21d2; <tt>Integer</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns a Integer hash value based on the +id+ attribute in order to use
@@ -3651,27 +3670,27 @@ functions like &amp; (intersection), group_by, etc.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:usd</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_hash'>hash</span> <span class='comment'>#=&gt; 428936</span></code></pre>
-    
+
   </div>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3680,12 +3699,12 @@ functions like &amp; (intersection), group_by, etc.</p>
       <pre class="lines">
 
 
-352
-353
-354</pre>
+346
+347
+348</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 352</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 346</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span>
   <span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_hash'>hash</span>
@@ -3694,16 +3713,16 @@ functions like &amp; (intersection), group_by, etc.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="inspect-instance_method">
-  
-    #<strong>inspect</strong>  &#x21d2; <tt>String</tt> 
-  
 
-  
+    #<strong>inspect</strong>  &#x21d2; <tt>String</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns a human readable representation.</p>
@@ -3712,27 +3731,27 @@ functions like &amp; (intersection), group_by, etc.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:usd</span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Currency id: usd ...&gt;</span></code></pre>
-    
+
   </div>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3741,30 +3760,60 @@ functions like &amp; (intersection), group_by, etc.</p>
       <pre class="lines">
 
 
+356
+357
+358
+359
+360
+361
 362
 363
-364</pre>
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 362</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 356</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inspect'>inspect</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>#&lt;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> id: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_content'>, priority: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_priority'>priority</span><span class='embexpr_end'>}</span><span class='tstring_content'>, symbol_first: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol_first'>symbol_first</span><span class='embexpr_end'>}</span><span class='tstring_content'>, thousands_separator: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_thousands_separator'>thousands_separator</span><span class='embexpr_end'>}</span><span class='tstring_content'>, html_entity: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_html_entity'>html_entity</span><span class='embexpr_end'>}</span><span class='tstring_content'>, decimal_mark: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_decimal_mark'>decimal_mark</span><span class='embexpr_end'>}</span><span class='tstring_content'>, name: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>, symbol: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='embexpr_end'>}</span><span class='tstring_content'>, subunit_to_unit: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_subunit_to_unit'>subunit_to_unit</span><span class='embexpr_end'>}</span><span class='tstring_content'>, exponent: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_exponent'>exponent</span><span class='embexpr_end'>}</span><span class='tstring_content'>, iso_code: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_iso_code'>iso_code</span><span class='embexpr_end'>}</span><span class='tstring_content'>, iso_numeric: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_iso_numeric'>iso_numeric</span><span class='embexpr_end'>}</span><span class='tstring_content'>, subunit: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_subunit'>subunit</span><span class='embexpr_end'>}</span><span class='tstring_content'>, smallest_denomination: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_smallest_denomination'>smallest_denomination</span><span class='embexpr_end'>}</span><span class='tstring_content'>, format: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_format'>format</span><span class='embexpr_end'>}</span><span class='tstring_content'>&gt;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>#&lt;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>id: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>priority: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_priority'>priority</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>symbol_first: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol_first'>symbol_first</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>thousands_separator: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_thousands_separator'>thousands_separator</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>html_entity: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_html_entity'>html_entity</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>decimal_mark: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_decimal_mark'>decimal_mark</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>symbol: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_symbol'>symbol</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subunit_to_unit: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_subunit_to_unit'>subunit_to_unit</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>exponent: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_exponent'>exponent</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>iso_code: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_iso_code'>iso_code</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>iso_numeric: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_iso_numeric'>iso_numeric</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subunit: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_subunit'>subunit</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>smallest_denomination: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_smallest_denomination'>smallest_denomination</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>format: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_format'>format</span><span class='embexpr_end'>}</span><span class='tstring_content'>&gt;</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="iso?-instance_method">
-  
-    #<strong>iso?</strong>  &#x21d2; <tt>Boolean</tt> 
-  
 
-  
+    #<strong>iso?</strong>  &#x21d2; <tt>Boolean</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns true if a code currency is ISO.</p>
@@ -3773,27 +3822,27 @@ functions like &amp; (intersection), group_by, etc.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:usd</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_iso?'>iso?</span></code></pre>
-    
+
   </div>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3802,50 +3851,50 @@ functions like &amp; (intersection), group_by, etc.</p>
       <pre class="lines">
 
 
-430
-431
-432</pre>
+439
+440
+441</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 430</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 439</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_iso?'>iso?</span>
-  <span class='id identifier rubyid_iso_numeric'>iso_numeric</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_iso_numeric'>iso_numeric</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_iso_numeric'>iso_numeric</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_iso_numeric'>iso_numeric</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="symbol_first?-instance_method">
-  
-    #<strong>symbol_first?</strong>  &#x21d2; <tt>Boolean</tt> 
-  
 
-  
+    #<strong>symbol_first?</strong>  &#x21d2; <tt>Boolean</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3854,12 +3903,12 @@ functions like &amp; (intersection), group_by, etc.</p>
       <pre class="lines">
 
 
-419
-420
-421</pre>
+428
+429
+430</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 419</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 428</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_symbol_first?'>symbol_first?</span>
   <span class='op'>!</span><span class='op'>!</span><span class='ivar'>@symbol_first</span>
@@ -3868,16 +3917,16 @@ functions like &amp; (intersection), group_by, etc.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="to_currency-instance_method">
-  
-    #<strong>to_currency</strong>  &#x21d2; <tt>self</tt> 
-  
 
-  
+    #<strong>to_currency</strong>  &#x21d2; <tt>self</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Conversion to +self+.</p>
@@ -3886,19 +3935,19 @@ functions like &amp; (intersection), group_by, etc.</p>
   </div>
 </div>
 <div class="tags">
-  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>self</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3907,12 +3956,12 @@ functions like &amp; (intersection), group_by, etc.</p>
       <pre class="lines">
 
 
-408
-409
-410</pre>
+417
+418
+419</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 408</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 417</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_currency'>to_currency</span>
   <span class='kw'>self</span>
@@ -3921,16 +3970,16 @@ functions like &amp; (intersection), group_by, etc.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="to_s-instance_method">
-  
-    #<strong>to_s</strong>  &#x21d2; <tt>String</tt> 
-  
 
-  
+    #<strong>to_s</strong>  &#x21d2; <tt>String</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns a string representation corresponding to the upcase +id+
@@ -3943,28 +3992,28 @@ DEV: id.to_s.upcase corresponds to iso_code but don&#39;t use ISO_CODE for consi
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:usd</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='comment'>#=&gt; &quot;USD&quot;
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:eur</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='comment'>#=&gt; &quot;EUR&quot;</span></code></pre>
-    
+
   </div>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -3973,12 +4022,12 @@ DEV: id.to_s.upcase corresponds to iso_code but don&#39;t use ISO_CODE for consi
       <pre class="lines">
 
 
-377
-378
-379</pre>
+386
+387
+388</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 377</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 386</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
@@ -3987,16 +4036,16 @@ DEV: id.to_s.upcase corresponds to iso_code but don&#39;t use ISO_CODE for consi
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="to_str-instance_method">
-  
-    #<strong>to_str</strong>  &#x21d2; <tt>String</tt> 
-  
 
-  
+    #<strong>to_str</strong>  &#x21d2; <tt>String</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns a string representation corresponding to the upcase +id+
@@ -4006,28 +4055,28 @@ attribute. Useful in cases where only implicit conversions are made.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:usd</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_str'>to_str</span> <span class='comment'>#=&gt; &quot;USD&quot;
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:eur</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_str'>to_str</span> <span class='comment'>#=&gt; &quot;EUR&quot;</span></code></pre>
-    
+
   </div>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -4036,12 +4085,12 @@ attribute. Useful in cases where only implicit conversions are made.</p>
       <pre class="lines">
 
 
-389
-390
-391</pre>
+398
+399
+400</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 389</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 398</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_str'>to_str</span>
   <span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
@@ -4050,16 +4099,16 @@ attribute. Useful in cases where only implicit conversions are made.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="to_sym-instance_method">
-  
-    #<strong>to_sym</strong>  &#x21d2; <tt>Symbol</tt> 
-  
 
-  
+    #<strong>to_sym</strong>  &#x21d2; <tt>Symbol</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns a symbol representation corresponding to the upcase +id+
@@ -4069,28 +4118,28 @@ attribute.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:usd</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span> <span class='comment'>#=&gt; :USD
 </span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#new-class_method" title="Money::Currency.new (method)">new</a></span></span><span class='lparen'>(</span><span class='symbol'>:eur</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span> <span class='comment'>#=&gt; :EUR</span></code></pre>
-    
+
   </div>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Symbol</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -4099,12 +4148,12 @@ attribute.</p>
       <pre class="lines">
 
 
-401
-402
-403</pre>
+410
+411
+412</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 401</span>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 410</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sym'>to_sym</span>
   <span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -4113,15 +4162,15 @@ attribute.</p>
   </tr>
 </table>
 </div>
-    
+
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Sat Dec  6 11:42:31 2025 by
+  Generated on Thu Jul 30 14:19:01 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.7).
+  0.9.38 (ruby-4.0.5).
 </div>
 
     </div>

@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: Money::RatesStore::Memory
-  
+
     &mdash; A Ruby Library for dealing with money and currency conversion.
-  
+
 </title>
 
   <link rel="stylesheet" href="../../css/style.css" type="text/css" />
@@ -35,16 +35,16 @@
     <div id="main" tabindex="-1">
       <div id="header">
         <div id="menu">
-  
+
     <a href="../../_index.html">Index (M)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../RatesStore.html" title="Money::RatesStore (module)">RatesStore</a></span></span>
-     &raquo; 
+     &raquo;
     <span class="title">Memory</span>
-  
+
 </div>
 
         <div id="search">
-  
+
     <a class="full_list_link" id="class_list_link"
         href="../../class_list.html">
 
@@ -54,49 +54,49 @@
           <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
         </svg>
     </a>
-  
+
 </div>
         <div class="clear"></div>
       </div>
 
       <div id="content"><h1>Class: Money::RatesStore::Memory
-  
-  
-  
+
+
+
 </h1>
 <div class="box_info">
-  
+
   <dl>
     <dt>Inherits:</dt>
     <dd>
       <span class="inheritName">Object</span>
-      
+
         <ul class="fullTree">
           <li>Object</li>
-          
+
             <li class="next">Money::RatesStore::Memory</li>
-          
+
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
-      
+
     </dd>
   </dl>
-  
 
-  
-  
-  
-  
-  
 
-  
 
-  
+
+
+
+
+
+
+
+
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/money/rates_store/memory.rb</dd>
   </dl>
-  
+
 </div>
 
 <h2>Overview</h2><div class="docstring">
@@ -108,36 +108,35 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='id identifier rubyid_store'>store</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../RatesStore.html" title="Money::RatesStore (module)">RatesStore</a></span></span><span class='op'>::</span><span class='const'>Memory</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money::RatesStore::Memory#initialize (method)">new</a></span></span>
 <span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='float'>0.98</span>
 <span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_get_rate'>get_rate</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># =&gt; 0.98
 </span><span class='comment'># iterates rates
 </span><span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_each_rate'>each_rate</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_iso_from'>iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_iso_to'>iso_to</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='op'>|</span> <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_from'>from</span><span class='embexpr_end'>}</span><span class='tstring_content'> -&gt; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_to'>to</span><span class='embexpr_end'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rate'>rate</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span></code></pre>
-    
+
   </div>
 
 
 </div>
-  
+
     <h2>
       Constant Summary
       <small><a href="#" class="constants_summary_toggle">collapse</a></small>
     </h2>
 
     <dl class="constants">
-      
+
         <dt id="INDEX_KEY_SEPARATOR-constant" class="">INDEX_KEY_SEPARATOR =
-          
+
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_TO_</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
-      
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_TO_</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+
     </dl>
-  
 
 
 
@@ -145,168 +144,169 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
 
 
 
-  
+
+
     <h2>
       Instance Method Summary
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#add_rate-instance_method" title="#add_rate (instance method)">#<strong>add_rate</strong>(currency_iso_from, currency_iso_to, rate)  &#x21d2; Numeric </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Registers a conversion rate and returns it.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#each_rate-instance_method" title="#each_rate (instance method)">#<strong>each_rate</strong> {|iso_from, iso_to, rate| ... } &#x21d2; Enumerator </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Iterate over rate tuples (iso_from, iso_to, rate).</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#get_rate-instance_method" title="#get_rate (instance method)">#<strong>get_rate</strong>(currency_iso_from, currency_iso_to)  &#x21d2; Numeric </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Retrieve the rate for the given currencies.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(opts = {}, rates = {})  &#x21d2; Memory </a>
-    
 
-    
+
+
   </span>
-  
-  
-    <span class="note title constructor">constructor</span>
-  
-  
-  
-  
-  
-  
 
-  
+
+    <span class="note title constructor">constructor</span>
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Initializes a new +Money::RatesStore::Memory+ object.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#marshal_dump-instance_method" title="#marshal_dump (instance method)">#<strong>marshal_dump</strong>  &#x21d2; Object </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'></div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
-      <a href="#transaction-instance_method" title="#transaction (instance method)">#<strong>transaction</strong>(&amp;block)  &#x21d2; Object </a>
-    
 
-    
+      <a href="#transaction-instance_method" title="#transaction (instance method)">#<strong>transaction</strong>  &#x21d2; Object </a>
+
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'><p>Wraps block execution in a thread-safe transaction.</p>
 </div></span>
-  
+
 </li>
 
-      
+
     </ul>
-  
+
 
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
-  
+
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
-  
-    #<strong>initialize</strong>(opts = {}, rates = {})  &#x21d2; <tt><span class='object_link'><a href="" title="Money::RatesStore::Memory (class)">Memory</a></span></tt> 
-  
 
-  
+    #<strong>initialize</strong>(opts = {}, rates = {})  &#x21d2; <tt><span class='object_link'><a href="" title="Money::RatesStore::Memory (class)">Memory</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Initializes a new +Money::RatesStore::Memory+ object.</p>
@@ -317,65 +317,65 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>opts</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
+
+
         <em class="default">(defaults to: <tt>{}</tt>)</em>
-      
-      
+
+
         &mdash;
         <div class='inline'><p>Optional store options.</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>rates</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
+
+
         <em class="default">(defaults to: <tt>{}</tt>)</em>
-      
-      
+
+
         &mdash;
         <div class='inline'><p>Optional initial exchange rate data.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
-  
-    
-    
+
+
+
     <p class="tag_title">Options Hash (<tt>opts</tt>):</p>
     <ul class="option">
-      
+
         <li>
           <span class="name">:without_mutex</span>
           <span class="type">(<tt>Boolean</tt>)</span>
           <span class="default">
-            
+
           </span>
-          
+
             &mdash; <div class='inline'><p>disables the usage of a mutex</p>
 </div>
-          
+
         </li>
-      
+
     </ul>
-  
-    
-    
+
+
+
 
 
 </div><table class="source_code">
@@ -384,14 +384,14 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
       <pre class="lines">
 
 
+24
 25
 26
 27
-28
-29</pre>
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='id identifier rubyid_rates'>rates</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@rates</span> <span class='op'>=</span> <span class='id identifier rubyid_rates'>rates</span>
@@ -402,23 +402,23 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
   </tr>
 </table>
 </div>
-  
+
 </div>
 
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
 
-    
+
       <div class="method_details first">
   <h3 class="signature first" id="add_rate-instance_method">
-  
-    #<strong>add_rate</strong>(currency_iso_from, currency_iso_to, rate)  &#x21d2; <tt>Numeric</tt> 
-  
 
-  
+    #<strong>add_rate</strong>(currency_iso_from, currency_iso_to, rate)  &#x21d2; <tt>Numeric</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Registers a conversion rate and returns it. Uses +Mutex+ to synchronize data access.</p>
@@ -427,78 +427,78 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='id identifier rubyid_store'>store</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../RatesStore.html" title="Money::RatesStore (module)">RatesStore</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::RatesStore::Memory (class)">Memory</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money::RatesStore::Memory#initialize (method)">new</a></span></span>
 <span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>1.24515</span><span class='rparen'>)</span>
 <span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>0.803115</span><span class='rparen'>)</span></code></pre>
-    
+
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>currency_iso_from</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>Currency to exchange from.</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>currency_iso_to</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>Currency to exchange to.</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>rate</span>
-      
-      
+
+
         <span class='type'>(<tt>Numeric</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>Rate to use when exchanging currencies.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Numeric</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -507,14 +507,14 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
       <pre class="lines">
 
 
+42
 43
 44
 45
-46
-47</pre>
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_currency_iso_from'>currency_iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_currency_iso_to'>currency_iso_to</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_guard'>guard</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
@@ -525,16 +525,16 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="each_rate-instance_method">
-  
-    #<strong>each_rate</strong> {|iso_from, iso_to, rate| ... } &#x21d2; <tt>Enumerator</tt> 
-  
 
-  
+    #<strong>each_rate</strong> {|iso_from, iso_to, rate| ... } &#x21d2; <tt>Enumerator</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Iterate over rate tuples (iso_from, iso_to, rate)</p>
@@ -543,78 +543,78 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_each_rate'>each_rate</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_iso_from'>iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_iso_to'>iso_to</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='op'>|</span>
   <span class='id identifier rubyid_puts'>puts</span> <span class='lbracket'>[</span><span class='id identifier rubyid_iso_from'>iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_iso_to'>iso_to</span><span class='comma'>,</span> <span class='id identifier rubyid_rate'>rate</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span>
 <span class='kw'>end</span></code></pre>
-    
+
   </div>
 
 <p class="tag_title">Yield Parameters:</p>
 <ul class="yieldparam">
-  
+
     <li>
-      
+
         <span class='name'>iso_from</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>Currency ISO string.</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>iso_to</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>Currency ISO string.</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>rate</span>
-      
-      
+
+
         <span class='type'>(<tt>Numeric</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>Exchange rate.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Enumerator</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -623,21 +623,21 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
       <pre class="lines">
 
 
+90
+91
+92
 93
 94
 95
 96
 97
 98
-99
-100
-101
-102</pre>
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 90</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_each_rate'>each_rate</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_each_rate'>each_rate</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_to_enum'>to_enum</span><span class='lparen'>(</span><span class='symbol'>:each_rate</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
 
   <span class='id identifier rubyid_guard'>guard</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
@@ -651,16 +651,16 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="get_rate-instance_method">
-  
-    #<strong>get_rate</strong>(currency_iso_from, currency_iso_to)  &#x21d2; <tt>Numeric</tt> 
-  
 
-  
+    #<strong>get_rate</strong>(currency_iso_from, currency_iso_to)  &#x21d2; <tt>Numeric</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Retrieve the rate for the given currencies. Uses +Mutex+ to synchronize data access.
@@ -670,64 +670,64 @@ Delegates to +Money::RatesStore::Memory+</p>
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <h4 class="tag_title">Examples:</h4>
-    
-      
+
+
       <pre class="example code"><code><span class='id identifier rubyid_store'>store</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../RatesStore.html" title="Money::RatesStore (module)">RatesStore</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Money::RatesStore::Memory (class)">Memory</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Money::RatesStore::Memory#initialize (method)">new</a></span></span>
 <span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_add_rate'>add_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='float'>1.24515</span><span class='rparen'>)</span>
 
 <span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_get_rate'>get_rate</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; 1.24515</span></code></pre>
-    
+
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>currency_iso_from</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>Currency to exchange from.</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>currency_iso_to</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><p>Currency to exchange to.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Numeric</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -736,14 +736,14 @@ Delegates to +Money::RatesStore::Memory+</p>
       <pre class="lines">
 
 
+61
 62
 63
 64
-65
-66</pre>
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 61</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_rate'>get_rate</span><span class='lparen'>(</span><span class='id identifier rubyid_currency_iso_from'>currency_iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_currency_iso_to'>currency_iso_to</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_guard'>guard</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
@@ -754,30 +754,30 @@ Delegates to +Money::RatesStore::Memory+</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="marshal_dump-instance_method">
-  
-    #<strong>marshal_dump</strong>  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>marshal_dump</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+67
 68
 69
 70
-71
-72</pre>
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_marshal_dump'>marshal_dump</span>
   <span class='id identifier rubyid_guard'>guard</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
@@ -788,16 +788,16 @@ Delegates to +Money::RatesStore::Memory+</p>
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="transaction-instance_method">
-  
-    #<strong>transaction</strong>(&amp;block)  &#x21d2; <tt>Object</tt> 
-  
 
-  
+    #<strong>transaction</strong>  &#x21d2; <tt>Object</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
     <p>Wraps block execution in a thread-safe transaction</p>
@@ -806,7 +806,7 @@ Delegates to +Money::RatesStore::Memory+</p>
   </div>
 </div>
 <div class="tags">
-  
+
 
 </div><table class="source_code">
   <tr>
@@ -814,33 +814,29 @@ Delegates to +Money::RatesStore::Memory+</p>
       <pre class="lines">
 
 
+74
 75
-76
-77
-78
-79</pre>
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 74</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_transaction'>transaction</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_guard'>guard</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
-    <span class='kw'>yield</span>
-  <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_transaction'>transaction</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_guard'>guard</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
 </div>
-    
+
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Sat Dec  6 11:42:31 2025 by
+  Generated on Thu Jul 30 14:19:01 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.7).
+  0.9.38 (ruby-4.0.5).
 </div>
 
     </div>
