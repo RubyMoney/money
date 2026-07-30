@@ -25,7 +25,7 @@ gem "rubocop-rake", "~> 0.7.0", require: false
 gem "rubocop-rspec", "~> 3.8.0", require: false
 
 # Documentation
-gem "yard", "~> 0.9.38"
+gem "yard", "~> 0.9.45"
 gem "rdoc", platforms: [:mri, :windows] # rdoc >= 8 depends on rbs, which has no JRuby build
 gem "redcarpet" unless RUBY_PLATFORM == "java"
 
