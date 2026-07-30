@@ -10,9 +10,9 @@
 
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Money::Allocation";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,7 +96,10 @@
 
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/money/money/allocation.rb</dd>
+    <dd>lib/money/money/allocation.rb<span class="defines">,<br>
+  sig/lib/money/money/allocation.rbs</span>
+
+</dd>
   </dl>
 
 </div>
@@ -140,7 +145,7 @@
         <li class="public ">
   <span class="summary_signature">
 
-      <a href="#generate-class_method" title="generate (class method)">.<strong>generate</strong>(amount, parts, decimal_cutoff = true)  &#x21d2; Array&lt;Numeric&gt; </a>
+      <a href="#generate-class_method" title="generate (class method)">.<strong>generate</strong>(amount, parts, decimal_cutoff = true)  &#x21d2; Array[Numeric] </a>
 
 
 
@@ -161,6 +166,7 @@
 
 
     </ul>
+
 
 
 
@@ -262,7 +268,7 @@ as BigDecimal instances for consistent handling.</p>
       <div class="method_details ">
   <h3 class="signature " id="generate-class_method">
 
-    .<strong>generate</strong>(amount, parts, decimal_cutoff = true)  &#x21d2; <tt>Array&lt;Numeric&gt;</tt>
+    .<strong>generate</strong>(amount, parts, decimal_cutoff = true)  &#x21d2; <tt>Array[Numeric]</tt>
 
 
 
@@ -311,7 +317,7 @@ it evenly when the number of parts is specified numerically.</p>
 
 
         &mdash;
-        <div class='inline'><p>Number of parts to split into or an array (proportions for allocation)</p>
+        <div class='inline'><p>Number of parts to split into or an array (proportions for allocation).</p>
 </div>
 
     </li>
@@ -321,7 +327,7 @@ it evenly when the number of parts is specified numerically.</p>
         <span class='name'>decimal_cutoff</span>
 
 
-        <span class='type'>(<tt>Boolean</tt>, <tt>Integer</tt>)</span>
+        <span class='type'>(<tt>bool | Integer</tt>)</span>
 
 
         <em class="default">(defaults to: <tt>true</tt>)</em>
@@ -348,7 +354,7 @@ Defaults to true (whole amounts).</li>
     <li>
 
 
-        <span class='type'>(<tt>Array&lt;Numeric&gt;</tt>)</span>
+        <span class='type'>(<tt>Array[Numeric]</tt>)</span>
 
 
 
@@ -491,9 +497,9 @@ Defaults to true (whole amounts).</li>
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 30 14:19:01 2026 by
+  Generated on Thu Jul 30 14:36:57 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-4.0.5).
+  0.9.45 (ruby-4.0.5).
 </div>
 
     </div>

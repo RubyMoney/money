@@ -10,9 +10,9 @@
 
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Money::RatesStore::Memory";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,7 +96,10 @@
 
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/money/rates_store/memory.rb</dd>
+    <dd>lib/money/rates_store/memory.rb<span class="defines">,<br>
+  sig/lib/money/rates_store/memory.rbs</span>
+
+</dd>
   </dl>
 
 </div>
@@ -132,7 +137,29 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
     <dl class="constants">
 
         <dt id="INDEX_KEY_SEPARATOR-constant" class="">INDEX_KEY_SEPARATOR =
+          <div class="docstring">
+  <div class="discussion">
 
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>string</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_TO_</span><span class='tstring_end'>&quot;</span></span></pre></dd>
 
@@ -141,6 +168,95 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
 
 
 
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+
+      <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#guard-instance_method" title="#guard (instance method)">#<strong>guard</strong>  &#x21d2; Object </a>
+
+
+
+  </span>
+
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute guard.</p>
+</div></span>
+
+</li>
+
+
+      <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#options-instance_method" title="#options (instance method)">#<strong>options</strong>  &#x21d2; Object </a>
+
+
+
+  </span>
+
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute options.</p>
+</div></span>
+
+</li>
+
+
+      <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#rates-instance_method" title="#rates (instance method)">#<strong>rates</strong>  &#x21d2; Object </a>
+
+
+
+  </span>
+
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute rates.</p>
+</div></span>
+
+</li>
+
+
+  </ul>
 
 
 
@@ -272,7 +388,30 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
         <li class="public ">
   <span class="summary_signature">
 
-      <a href="#transaction-instance_method" title="#transaction (instance method)">#<strong>transaction</strong>  &#x21d2; Object </a>
+      <a href="#rate_key_for-instance_method" title="#rate_key_for (instance method)">#<strong>rate_key_for</strong>(currency_iso_from, currency_iso_to)  &#x21d2; String </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'><p>Return the rate hashkey for the given currencies.</p>
+</div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#transaction-instance_method" title="#transaction (instance method)">#<strong>transaction</strong> { ... } &#x21d2; Object </a>
 
 
 
@@ -293,6 +432,7 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
 
 
     </ul>
+
 
 
 <div id="constructor_details" class="method_details_list">
@@ -404,6 +544,176 @@ Used by instances of +Money::Bank::VariableExchange+.</p>
 </div>
 
 </div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+
+
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="guard-instance_method">
+
+    #<strong>guard</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute guard.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 103</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_guard'>guard</span>
+  <span class='ivar'>@guard</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="options-instance_method">
+
+    #<strong>options</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute options.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 103</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_options'>options</span>
+  <span class='ivar'>@options</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="rates-instance_method">
+
+    #<strong>rates</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute rates.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 103</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rates'>rates</span>
+  <span class='ivar'>@rates</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+  </div>
 
 
   <div id="instance_method_details" class="method_details_list">
@@ -764,7 +1074,29 @@ Delegates to +Money::RatesStore::Memory+</p>
 
 
 
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -790,9 +1122,104 @@ Delegates to +Money::RatesStore::Memory+</p>
 </div>
 
       <div class="method_details ">
+  <h3 class="signature " id="rate_key_for-instance_method">
+
+    #<strong>rate_key_for</strong>(currency_iso_from, currency_iso_to)  &#x21d2; <tt>String</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Return the rate hashkey for the given currencies.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+
+
+      <pre class="example code"><code><span class='id identifier rubyid_rate_key_for'>rate_key_for</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>USD</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CAD</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'>#=&gt; &quot;USD_TO_CAD&quot;</span></code></pre>
+
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>currency_iso_from</span>
+
+
+        <span class='type'>(<tt>String</tt>)</span>
+
+
+
+        &mdash;
+        <div class='inline'><p>The currency to exchange from.</p>
+</div>
+
+    </li>
+
+    <li>
+
+        <span class='name'>currency_iso_to</span>
+
+
+        <span class='type'>(<tt>String</tt>)</span>
+
+
+
+        &mdash;
+        <div class='inline'><p>The currency to exchange to.</p>
+</div>
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>String</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+114
+115
+116</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/rates_store/memory.rb', line 114</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rate_key_for'>rate_key_for</span><span class='lparen'>(</span><span class='id identifier rubyid_currency_iso_from'>currency_iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_currency_iso_to'>currency_iso_to</span><span class='rparen'>)</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_currency_iso_from'>currency_iso_from</span><span class='comma'>,</span> <span class='id identifier rubyid_currency_iso_to'>currency_iso_to</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INDEX_KEY_SEPARATOR-constant" title="Money::RatesStore::Memory::INDEX_KEY_SEPARATOR (constant)">INDEX_KEY_SEPARATOR</a></span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
   <h3 class="signature " id="transaction-instance_method">
 
-    #<strong>transaction</strong>  &#x21d2; <tt>Object</tt>
+    #<strong>transaction</strong> { ... } &#x21d2; <tt>Object</tt>
 
 
 
@@ -807,6 +1234,45 @@ Delegates to +Money::RatesStore::Memory+</p>
 </div>
 <div class="tags">
 
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+
+    <li>
+
+
+        <span class='type'></span>
+
+
+
+    </li>
+
+</ul>
+<p class="tag_title">Yield Returns:</p>
+<ul class="yieldreturn">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -834,9 +1300,9 @@ Delegates to +Money::RatesStore::Memory+</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 30 14:19:01 2026 by
+  Generated on Thu Jul 30 14:36:57 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-4.0.5).
+  0.9.45 (ruby-4.0.5).
 </div>
 
     </div>

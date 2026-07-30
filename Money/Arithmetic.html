@@ -10,9 +10,9 @@
 
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Money::Arithmetic";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -83,21 +85,54 @@
 
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/money/money/arithmetic.rb</dd>
+    <dd>lib/money/money/arithmetic.rb<span class="defines">,<br>
+  sig/lib/money/money/arithmetic.rbs</span>
+
+</dd>
   </dl>
 
 </div>
 
-<h2>Defined Under Namespace</h2>
-<p class="children">
+
+
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+
+        <dt id="CoercedNumeric-constant" class="">CoercedNumeric =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Wrapper for coerced numeric values to distinguish
+when numeric was on the 1st place in operation.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
 
 
 
+    </li>
 
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Arithmetic/CoercedNumeric.html" title="Money::Arithmetic::CoercedNumeric (class)">CoercedNumeric</a></span>
+</ul>
 
+</div>
+        </dt>
+        <dd><pre class="code"></pre></dd>
 
-</p>
+    </dl>
+
 
 
 
@@ -277,7 +312,7 @@
         <li class="public ">
   <span class="summary_signature">
 
-      <a href="#==-instance_method" title="#== (instance method)">#<strong>==</strong>(other)  &#x21d2; Object </a>
+      <a href="#==-instance_method" title="#== (instance method)">#<strong>==</strong>(other)  &#x21d2; Boolean </a>
 
 
 
@@ -385,6 +420,50 @@
 
     <span class="summary_desc"><div class='inline'><p>Divide money by money or fixnum and return array containing quotient and modulus.</p>
 </div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#divmod_money-instance_method" title="#divmod_money (instance method)">#<strong>divmod_money</strong>(val)  &#x21d2; ::Array[untyped] </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#divmod_other-instance_method" title="#divmod_other (instance method)">#<strong>divmod_other</strong>(val)  &#x21d2; ::Array[untyped] </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
 
 </li>
 
@@ -551,6 +630,7 @@
 
 
     </ul>
+
 
 
 
@@ -740,7 +820,7 @@
       <pre class="code"><span class="info file"># File 'lib/money/money/arithmetic.rb', line 180</span>
 
 <span class='kw'>def</span> <span class='op'>*</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_other'>other</span> <span class='op'>=</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='kw'>if</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Arithmetic/CoercedNumeric.html" title="Money::Arithmetic::CoercedNumeric (class)">CoercedNumeric</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_other'>other</span> <span class='op'>=</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='kw'>if</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#CoercedNumeric-constant" title="Money::Arithmetic::CoercedNumeric (constant)">CoercedNumeric</a></span></span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Numeric</span>
     <span class='id identifier rubyid_dup_with'>dup_with</span><span class='lparen'>(</span><span class='label'>fractional:</span> <span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>*</span> <span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
   <span class='kw'>else</span>
@@ -808,6 +888,23 @@ is automatically exchanged to this object&#39;s currency using +exchange_to+.</p
         <span class='type'>(<tt><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></tt>)</span>
 
 
+
+    </li>
+
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+
+    <li>
+
+
+        <span class='type'>(<tt>TypeError</tt>)</span>
+
+
+
+        &mdash;
+        <div class='inline'><p>If +other+ is a non-zero Numeric.</p>
+</div>
 
     </li>
 
@@ -891,6 +988,23 @@ using +exchange_to+.</p>
     </li>
 
 </ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+
+    <li>
+
+
+        <span class='type'>(<tt>TypeError</tt>)</span>
+
+
+
+        &mdash;
+        <div class='inline'><p>If +other+ is a non-zero Numeric.</p>
+</div>
+
+    </li>
+
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -937,7 +1051,7 @@ using +exchange_to+.</p>
       <span class='id identifier rubyid_other'>other</span> <span class='op'>=</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='id identifier rubyid_currency'>currency</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_new_fractional'>new_fractional</span> <span class='op'>=</span> <span class='id identifier rubyid_fractional'>fractional</span><span class='period'>.</span><span class='id identifier rubyid_public_send'>public_send</span><span class='lparen'>(</span><span class='id identifier rubyid_op'>op</span><span class='comma'>,</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_fractional'>fractional</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_dup_with'>dup_with</span><span class='lparen'>(</span><span class='label'>fractional:</span> <span class='id identifier rubyid_new_fractional'>new_fractional</span><span class='rparen'>)</span>
-    <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="Arithmetic/CoercedNumeric.html" title="Money::Arithmetic::CoercedNumeric (class)">CoercedNumeric</a></span></span>
+    <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#CoercedNumeric-constant" title="Money::Arithmetic::CoercedNumeric (constant)">CoercedNumeric</a></span></span>
       <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='id identifier rubyid_non_zero_message'>non_zero_message</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
 
       <span class='id identifier rubyid_dup_with'>dup_with</span><span class='lparen'>(</span><span class='label'>fractional:</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_public_send'>public_send</span><span class='lparen'>(</span><span class='id identifier rubyid_op'>op</span><span class='comma'>,</span> <span class='id identifier rubyid_fractional'>fractional</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -1129,7 +1243,7 @@ Can also divide by another +Money+ object to get a ratio.</p>
 
     <span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>/</span> <span class='id identifier rubyid_as_d'>as_d</span><span class='lparen'>(</span><span class='id identifier rubyid_exchanged'>exchanged</span><span class='period'>.</span><span class='id identifier rubyid_fractional'>fractional</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can not divide by Money</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Arithmetic/CoercedNumeric.html" title="Money::Arithmetic::CoercedNumeric (class)">CoercedNumeric</a></span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can not divide by Money</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#CoercedNumeric-constant" title="Money::Arithmetic::CoercedNumeric (constant)">CoercedNumeric</a></span></span><span class='rparen'>)</span>
 
     <span class='id identifier rubyid_other'>other</span> <span class='op'>=</span> <span class='id identifier rubyid_as_d'>as_d</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ZeroDivisionError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>divided by zero</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
@@ -1242,7 +1356,7 @@ will attempt to convert the currency.</p>
   <span class='kw'>unless</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='rparen'>)</span>
     <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:zero?</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
 
-    <span class='kw'>return</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Arithmetic/CoercedNumeric.html" title="Money::Arithmetic::CoercedNumeric (class)">CoercedNumeric</a></span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='int'>0</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>:</span> <span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>&lt;=&gt;</span> <span class='int'>0</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#CoercedNumeric-constant" title="Money::Arithmetic::CoercedNumeric (constant)">CoercedNumeric</a></span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='int'>0</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>:</span> <span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>&lt;=&gt;</span> <span class='int'>0</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Always allow comparison with zero
@@ -1263,7 +1377,7 @@ will attempt to convert the currency.</p>
       <div class="method_details ">
   <h3 class="signature " id="==-instance_method">
 
-    #<strong>==</strong>(other)  &#x21d2; <tt>Object</tt>
+    #<strong>==</strong>(other)  &#x21d2; <tt>Boolean</tt>
 
 
 
@@ -1278,7 +1392,35 @@ numeric value is given.</p>
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
 
+    <li>
+
+        <span class='name'>other</span>
+
+
+        <span class='type'>(<tt><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></tt>, <tt>Numeric</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Boolean</tt>)</span>
+
+
+
+    </li>
+
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1395,6 +1537,21 @@ numeric value is given.</p>
       <pre class="example code"><code><span class='int'>2</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='int'>10</span><span class='rparen'>)</span> <span class='comment'>#=&gt; #&lt;Money @fractional=20&gt;</span></code></pre>
 
   </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>other</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
@@ -1424,7 +1581,7 @@ numeric value is given.</p>
       <pre class="code"><span class="info file"># File 'lib/money/money/arithmetic.rb', line 351</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_coerce'>coerce</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
-  <span class='lbracket'>[</span><span class='kw'>self</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Arithmetic/CoercedNumeric.html" title="Money::Arithmetic::CoercedNumeric (class)">CoercedNumeric</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span><span class='rbracket'>]</span>
+  <span class='lbracket'>[</span><span class='kw'>self</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#CoercedNumeric-constant" title="Money::Arithmetic::CoercedNumeric (constant)">CoercedNumeric</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1611,6 +1768,182 @@ modulus.</p>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_divmod_other'>divmod_other</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
+  <h3 class="signature " id="divmod_money-instance_method">
+
+    #<strong>divmod_money</strong>(val)  &#x21d2; <tt>::Array[untyped]</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>val</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>::Array[untyped]</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+
+    <li>
+
+
+        <span class='type'>(<tt>ZeroDivisionError</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+251
+252
+253
+254
+255
+256
+257</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/arithmetic.rb', line 251</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_divmod_money'>divmod_money</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cents'>cents</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_exchange_to'>exchange_to</span><span class='lparen'>(</span><span class='id identifier rubyid_currency'>currency</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_cents'>cents</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ZeroDivisionError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>divided by Money(0)</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_cents'>cents</span> <span class='op'>==</span> <span class='int'>0</span>
+
+  <span class='id identifier rubyid_quotient'>quotient</span><span class='comma'>,</span> <span class='id identifier rubyid_remainder'>remainder</span> <span class='op'>=</span> <span class='id identifier rubyid_fractional'>fractional</span><span class='period'>.</span><span class='id identifier rubyid_divmod'>divmod</span><span class='lparen'>(</span><span class='id identifier rubyid_cents'>cents</span><span class='rparen'>)</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_quotient'>quotient</span><span class='comma'>,</span> <span class='id identifier rubyid_dup_with'>dup_with</span><span class='lparen'>(</span><span class='label'>fractional:</span> <span class='id identifier rubyid_remainder'>remainder</span><span class='rparen'>)</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
+  <h3 class="signature " id="divmod_other-instance_method">
+
+    #<strong>divmod_other</strong>(val)  &#x21d2; <tt>::Array[untyped]</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>val</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>::Array[untyped]</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+
+    <li>
+
+
+        <span class='type'>(<tt>ZeroDivisionError</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+260
+261
+262
+263
+264
+265
+266</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/arithmetic.rb', line 260</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_divmod_other'>divmod_other</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='id identifier rubyid_as_d'>as_d</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ZeroDivisionError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>divided by zero</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
+
+  <span class='id identifier rubyid_quotient'>quotient</span><span class='comma'>,</span> <span class='id identifier rubyid_remainder'>remainder</span> <span class='op'>=</span> <span class='id identifier rubyid_fractional'>fractional</span><span class='period'>.</span><span class='id identifier rubyid_divmod'>divmod</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_dup_with'>dup_with</span><span class='lparen'>(</span><span class='label'>fractional:</span> <span class='id identifier rubyid_quotient'>quotient</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_dup_with'>dup_with</span><span class='lparen'>(</span><span class='label'>fractional:</span> <span class='id identifier rubyid_remainder'>remainder</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2169,9 +2502,9 @@ greater than 0, +false+ otherwise.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 30 14:19:01 2026 by
+  Generated on Thu Jul 30 14:36:57 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-4.0.5).
+  0.9.45 (ruby-4.0.5).
 </div>
 
     </div>

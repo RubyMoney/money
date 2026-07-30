@@ -10,9 +10,9 @@
 
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Money::Formatter";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,7 +96,10 @@
 
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/money/money/formatter.rb</dd>
+    <dd>lib/money/money/formatter.rb<span class="defines">,<br>
+  sig/lib/money/money/formatter.rbs</span>
+
+</dd>
   </dl>
 
 </div>
@@ -109,7 +114,29 @@
     <dl class="constants">
 
         <dt id="DEFAULTS-constant" class="">DEFAULTS =
+          <div class="docstring">
+  <div class="discussion">
 
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Hash[Symbol, string]</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span>
   <span class='label'>thousands_separator:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
@@ -121,6 +148,95 @@
 
 
 
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+
+      <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#currency-instance_method" title="#currency (instance method)">#<strong>currency</strong>  &#x21d2; Currency </a>
+
+
+
+  </span>
+
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute currency.</p>
+</div></span>
+
+</li>
+
+
+      <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#money-instance_method" title="#money (instance method)">#<strong>money</strong>  &#x21d2; Money </a>
+
+
+
+  </span>
+
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute money.</p>
+</div></span>
+
+</li>
+
+
+      <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#rules-instance_method" title="#rules (instance method)">#<strong>rules</strong>  &#x21d2; FormattingRules </a>
+
+
+
+  </span>
+
+
+
+
+      <span class="note title readonly">readonly</span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute rules.</p>
+</div></span>
+
+</li>
+
+
+  </ul>
 
 
 
@@ -136,11 +252,187 @@
         <li class="public ">
   <span class="summary_signature">
 
-      <a href="#decimal_mark-instance_method" title="#decimal_mark (instance method)">#<strong>decimal_mark</strong>  &#x21d2; Object </a>
+      <a href="#append_currency_symbol-instance_method" title="#append_currency_symbol (instance method)">#<strong>append_currency_symbol</strong>(formatted_number)  &#x21d2; string </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#append_sign-instance_method" title="#append_sign (instance method)">#<strong>append_sign</strong>(formatted_number)  &#x21d2; string </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#decimal_mark-instance_method" title="#decimal_mark (instance method)">#<strong>decimal_mark</strong>  &#x21d2; string </a>
 
 
 
       (also: #separator)
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#extract_whole_and_decimal_parts-instance_method" title="#extract_whole_and_decimal_parts (instance method)">#<strong>extract_whole_and_decimal_parts</strong>  &#x21d2; Array[string] </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#format_decimal_part-instance_method" title="#format_decimal_part (instance method)">#<strong>format_decimal_part</strong>(value)  &#x21d2; nil, string </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#format_number-instance_method" title="#format_number (instance method)">#<strong>format_number</strong>  &#x21d2; string </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#format_whole_part-instance_method" title="#format_whole_part (instance method)">#<strong>format_whole_part</strong>(value)  &#x21d2; Object </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#free_text-instance_method" title="#free_text (instance method)">#<strong>free_text</strong>  &#x21d2; untyped, &quot;free&quot; </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#html_wrap-instance_method" title="#html_wrap (instance method)">#<strong>html_wrap</strong>(string, class_name)  &#x21d2; ::String </a>
+
+
 
   </span>
 
@@ -185,7 +477,95 @@
         <li class="public ">
   <span class="summary_signature">
 
-      <a href="#thousands_separator-instance_method" title="#thousands_separator (instance method)">#<strong>thousands_separator</strong>  &#x21d2; Object </a>
+      <a href="#lookup-instance_method" title="#lookup (instance method)">#<strong>lookup</strong>(key)  &#x21d2; Object </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#lookup_default-instance_method" title="#lookup_default (instance method)">#<strong>lookup_default</strong>(key)  &#x21d2; Object </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#show_free_text%3F-instance_method" title="#show_free_text? (instance method)">#<strong>show_free_text?</strong>  &#x21d2; Boolean </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#symbol_value_from-instance_method" title="#symbol_value_from (instance method)">#<strong>symbol_value_from</strong>(rules)  &#x21d2; untyped, &quot;&quot; </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'></div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#thousands_separator-instance_method" title="#thousands_separator (instance method)">#<strong>thousands_separator</strong>  &#x21d2; string </a>
 
 
 
@@ -209,7 +589,7 @@
         <li class="public ">
   <span class="summary_signature">
 
-      <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; Object </a>
+      <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; string </a>
 
 
 
@@ -229,6 +609,7 @@
 
 
     </ul>
+
 
 
 <div id="constructor_details" class="method_details_list">
@@ -335,17 +716,7 @@
 
 
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ca_dollar'><span class='object_link'><a href="Constructors.html#ca_dollar-instance_method" title="Money::Constructors#ca_dollar (method)">ca_dollar</a></span></span><span class='lparen'>(</span><span class='int'>570</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>html_wrap:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>with_currency:</span> <span class='kw'>true</span><span class='rparen'>)</span>
-<span class='comment'>#=&gt; &quot;&lt;span class=\&quot;money-currency-symbol\&quot;&gt;$&lt;/span&gt;&quot; \
-</span>    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;span class=\&quot;money-whole\&quot;&gt;5&lt;/span&gt;</span><span class='tstring_end'>&quot;</span></span> \
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;span class=\&quot;money-decimal-mark\&quot;&gt;.&lt;/span&gt;</span><span class='tstring_end'>&quot;</span></span> \
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;span class=\&quot;money-decimal\&quot;&gt;70&lt;/span&gt; </span><span class='tstring_end'>&quot;</span></span> \
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;span class=\&quot;money-currency\&quot;&gt;CAD&lt;/span&gt;</span><span class='tstring_end'>&quot;</span></span></code></pre>
-
-
-      <pre class="example code"><code><span class='comment'># You can specify to display the sign before the symbol for negative numbers
-</span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='op'>-</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GBP</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>sign_before_symbol:</span> <span class='kw'>true</span><span class='rparen'>)</span>  <span class='comment'>#=&gt; &quot;-£1.00&quot;
-</span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='op'>-</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GBP</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span><span class='lparen'>(</span><span class='label'>sign_before_symbol:</span> <span class='kw'>false</span><span class='rparen'>)</span> <span class='comment'>#=&gt; &quot;£-1.00&quot;
-</span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Money.html#initialize-instance_method" title="Money#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='op'>-</span><span class='int'>100</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GBP</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_format'><span class='object_link'><a href="../Money.html#format-instance_method" title="Money#format (method)">format</a></span></span>                               <span class='comment'>#=&gt; &quot;£-1.00&quot;</span></code></pre>
+<span class='comment'>#=&gt; &quot;&lt;span class=\&quot;money-currency-symbol\&quot;&gt;$&lt;/span&gt;&lt;span class=\&quot;money-whole\&quot;&gt;5&lt;/span&gt;&lt;span class=\&quot;money-decimal-mark\&quot;&gt;.&lt;/span&gt;&lt;span class=\&quot;money-decimal\&quot;&gt;70&lt;/span&gt; &lt;span class=\&quot;money-currency\&quot;&gt;CAD&lt;/span&gt;&quot;</span></code></pre>
 
 
       <pre class="example code"><code><span class='comment'># You can specify to display the sign with positive numbers
@@ -397,6 +768,17 @@
         &mdash;
         <div class='inline'><p>The options used to format the string.</p>
 </div>
+
+    </li>
+
+    <li>
+
+        <span class='name'>money</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
 
     </li>
 
@@ -453,7 +835,7 @@ should be appended to the result string.</p>
           </span>
 
             &mdash; <div class='inline'><p>Whether the
-amount of money should be rounded when using <span class='object_link'><a href="../Money.html#default_infinite_precision-class_method" title="Money.default_infinite_precision (method)">Money.default_infinite_precision</a></span></p>
+amount of money should be rounded when using infinite_precision</p>
 </div>
 
         </li>
@@ -549,22 +931,6 @@ the currency should be delimited by the specified character or &#39;,&#39;</p>
           </span>
 
             &mdash; <div class='inline'><p>Whether all currency parts should be HTML-formatted.</p>
-</div>
-
-        </li>
-
-        <li>
-          <span class="name">:sign_before_symbol</span>
-          <span class="type">(<tt>Boolean</tt>)</span>
-          <span class="default">
-
-              &mdash; default:
-              <tt>false</tt>
-
-          </span>
-
-            &mdash; <div class='inline'><p>Whether the sign should be
-before the currency symbol.</p>
 </div>
 
         </li>
@@ -702,15 +1068,387 @@ for the thousands delimiter</p>
 
 </div>
 
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+
+
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="currency-instance_method">
+
+    #<strong>currency</strong>  &#x21d2; <tt><span class='object_link'><a href="Currency.html" title="Money::Currency (class)">Currency</a></span></tt>  <span class="extras">(readonly)</span>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute currency.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt><span class='object_link'><a href="Currency.html" title="Money::Currency (class)">Currency</a></span></tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+221
+222
+223</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 221</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_currency'>currency</span>
+  <span class='ivar'>@currency</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="money-instance_method">
+
+    #<strong>money</strong>  &#x21d2; <tt><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></tt>  <span class="extras">(readonly)</span>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute money.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+221
+222
+223</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 221</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_money'>money</span>
+  <span class='ivar'>@money</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="rules-instance_method">
+
+    #<strong>rules</strong>  &#x21d2; <tt><span class='object_link'><a href="FormattingRules.html" title="Money::FormattingRules (class)">FormattingRules</a></span></tt>  <span class="extras">(readonly)</span>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute rules.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt><span class='object_link'><a href="FormattingRules.html" title="Money::FormattingRules (class)">FormattingRules</a></span></tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+221
+222
+223</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 221</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rules'>rules</span>
+  <span class='ivar'>@rules</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+  </div>
+
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
 
 
       <div class="method_details first">
-  <h3 class="signature first" id="decimal_mark-instance_method">
+  <h3 class="signature first" id="append_currency_symbol-instance_method">
 
-    #<strong>decimal_mark</strong>  &#x21d2; <tt>Object</tt>
+    #<strong>append_currency_symbol</strong>(formatted_number)  &#x21d2; <tt>string</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>formatted_number</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>string</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 273</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_append_currency_symbol'>append_currency_symbol</span><span class='lparen'>(</span><span class='id identifier rubyid_formatted_number'>formatted_number</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:with_currency</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_currency_part'>currency_part</span> <span class='op'>=</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:html_wrap</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_html_wrap'>html_wrap</span><span class='lparen'>(</span><span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>currency</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+      <span class='kw'>end</span>
+
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_formatted_number'>formatted_number</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_currency_part'>currency_part</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_formatted_number'>formatted_number</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
+  <h3 class="signature " id="append_sign-instance_method">
+
+    #<strong>append_sign</strong>(formatted_number)  &#x21d2; <tt>string</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>formatted_number</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>string</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 246</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_append_sign'>append_sign</span><span class='lparen'>(</span><span class='id identifier rubyid_formatted_number'>formatted_number</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sign'>sign</span> <span class='op'>=</span> <span class='id identifier rubyid_money'>money</span><span class='period'>.</span><span class='id identifier rubyid_negative?'>negative?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:sign_positive</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='kw'>true</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_money'>money</span><span class='period'>.</span><span class='id identifier rubyid_positive?'>positive?</span>
+    <span class='id identifier rubyid_sign'>sign</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>+</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:sign_before_symbol</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='kw'>true</span>
+    <span class='id identifier rubyid_sign_before'>sign_before</span> <span class='op'>=</span> <span class='id identifier rubyid_sign'>sign</span>
+    <span class='id identifier rubyid_sign'>sign</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_symbol_value'>symbol_value</span> <span class='op'>=</span> <span class='id identifier rubyid_symbol_value_from'>symbol_value_from</span><span class='lparen'>(</span><span class='id identifier rubyid_rules'>rules</span><span class='rparen'>)</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_symbol_value'>symbol_value</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_symbol_value'>symbol_value</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:html_wrap</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_symbol_value'>symbol_value</span> <span class='op'>=</span> <span class='id identifier rubyid_html_wrap'>html_wrap</span><span class='lparen'>(</span><span class='id identifier rubyid_symbol_value'>symbol_value</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>currency-symbol</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:format</span><span class='rbracket'>]</span>
+      <span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%u</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_sign_before'>sign_before</span><span class='comma'>,</span> <span class='id identifier rubyid_symbol_value'>symbol_value</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='rparen'>)</span>
+      <span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%n</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_sign'>sign</span><span class='comma'>,</span> <span class='id identifier rubyid_formatted_number'>formatted_number</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sign_before'>sign_before</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sign'>sign</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_formatted_number'>formatted_number</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
+  <h3 class="signature " id="decimal_mark-instance_method">
+
+    #<strong>decimal_mark</strong>  &#x21d2; <tt>string</tt>
 
 
 
@@ -720,7 +1458,29 @@ for the thousands delimiter</p>
 
 
 
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>string</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -742,9 +1502,752 @@ for the thousands delimiter</p>
 </div>
 
       <div class="method_details ">
+  <h3 class="signature " id="extract_whole_and_decimal_parts-instance_method">
+
+    #<strong>extract_whole_and_decimal_parts</strong>  &#x21d2; <tt>Array[string]</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Array[string]</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 307</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_extract_whole_and_decimal_parts'>extract_whole_and_decimal_parts</span>
+  <span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>=</span> <span class='id identifier rubyid_money'>money</span><span class='period'>.</span><span class='id identifier rubyid_fractional'>fractional</span><span class='period'>.</span><span class='id identifier rubyid_abs'>abs</span>
+
+  <span class='comment'># Round the infinite precision part if needed
+</span>  <span class='id identifier rubyid_fractional'>fractional</span> <span class='op'>=</span> <span class='id identifier rubyid_fractional'>fractional</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span> <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:rounded_infinite_precision</span><span class='rbracket'>]</span>
+
+  <span class='comment'># Translate subunits into units
+</span>  <span class='id identifier rubyid_fractional_units'>fractional_units</span> <span class='op'>=</span> <span class='const'>BigDecimal</span><span class='lparen'>(</span><span class='id identifier rubyid_fractional'>fractional</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_subunit_to_unit'>subunit_to_unit</span>
+
+  <span class='comment'># Split the result and return whole and decimal parts separately
+</span>  <span class='id identifier rubyid_fractional_units'>fractional_units</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>F</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
+  <h3 class="signature " id="format_decimal_part-instance_method">
+
+    #<strong>format_decimal_part</strong>(value)  &#x21d2; <tt>nil</tt>, <tt>string</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>value</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>nil</tt>, <tt>string</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 320</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_format_decimal_part'>format_decimal_part</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_decimal_places'>decimal_places</span> <span class='op'>==</span> <span class='int'>0</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_infinite_precision'><span class='object_link'><a href="../Money.html#default_infinite_precision-class_method" title="Money.default_infinite_precision (method)">default_infinite_precision</a></span></span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:no_cents</span><span class='rbracket'>]</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:no_cents_if_whole</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>==</span> <span class='int'>0</span>
+
+  <span class='comment'># Pad value, making up for missing zeroes at the end
+</span>  <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_ljust'>ljust</span><span class='lparen'>(</span><span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_decimal_places'>decimal_places</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+  <span class='comment'># Drop trailing zeros if needed
+</span>  <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_gsub!'>gsub!</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>0*$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:drop_trailing_zeros</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='id identifier rubyid_value'>value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
+  <h3 class="signature " id="format_number-instance_method">
+
+    #<strong>format_number</strong>  &#x21d2; <tt>string</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>string</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 223</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_format_number'>format_number</span>
+  <span class='id identifier rubyid_whole_part'>whole_part</span><span class='comma'>,</span> <span class='id identifier rubyid_decimal_part'>decimal_part</span> <span class='op'>=</span> <span class='id identifier rubyid_extract_whole_and_decimal_parts'>extract_whole_and_decimal_parts</span>
+
+  <span class='comment'># Format whole and decimal parts separately
+</span>  <span class='id identifier rubyid_decimal_part'>decimal_part</span> <span class='op'>=</span> <span class='id identifier rubyid_format_decimal_part'>format_decimal_part</span><span class='lparen'>(</span><span class='id identifier rubyid_decimal_part'>decimal_part</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_whole_part'>whole_part</span> <span class='op'>=</span> <span class='id identifier rubyid_format_whole_part'>format_whole_part</span><span class='lparen'>(</span><span class='id identifier rubyid_whole_part'>whole_part</span><span class='rparen'>)</span>
+
+  <span class='comment'># Assemble the final formatted amount
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:html_wrap</span><span class='rbracket'>]</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_decimal_part'>decimal_part</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+      <span class='id identifier rubyid_html_wrap'>html_wrap</span><span class='lparen'>(</span><span class='id identifier rubyid_whole_part'>whole_part</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>whole</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='kw'>else</span>
+      <span class='lbracket'>[</span>
+        <span class='id identifier rubyid_html_wrap'>html_wrap</span><span class='lparen'>(</span><span class='id identifier rubyid_whole_part'>whole_part</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>whole</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
+        <span class='id identifier rubyid_html_wrap'>html_wrap</span><span class='lparen'>(</span><span class='id identifier rubyid_decimal_mark'>decimal_mark</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>decimal-mark</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
+        <span class='id identifier rubyid_html_wrap'>html_wrap</span><span class='lparen'>(</span><span class='id identifier rubyid_decimal_part'>decimal_part</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>decimal</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
+      <span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='lbracket'>[</span><span class='id identifier rubyid_whole_part'>whole_part</span><span class='comma'>,</span> <span class='id identifier rubyid_decimal_part'>decimal_part</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='id identifier rubyid_decimal_mark'>decimal_mark</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
+  <h3 class="signature " id="format_whole_part-instance_method">
+
+    #<strong>format_whole_part</strong>(value)  &#x21d2; <tt>Object</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>value</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+300
+301
+302
+303
+304
+305</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 300</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_format_whole_part'>format_whole_part</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='comment'># Apply thousands_separator
+</span>  <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:delimiter_pattern</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_digit_to_delimit'>digit_to_delimit</span><span class='op'>|</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_digit_to_delimit'>digit_to_delimit</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_thousands_separator'>thousands_separator</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
+  <h3 class="signature " id="free_text-instance_method">
+
+    #<strong>free_text</strong>  &#x21d2; <tt>untyped</tt>, <tt>"free"</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>untyped</tt>, <tt>"free"</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+296
+297
+298</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 296</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_free_text'>free_text</span>
+  <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:display_free</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:to_str</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:display_free</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>free</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
+  <h3 class="signature " id="html_wrap-instance_method">
+
+    #<strong>html_wrap</strong>(string, class_name)  &#x21d2; <tt>::String</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>string</span>
+
+
+        <span class='type'>(<tt>string</tt>)</span>
+
+
+
+    </li>
+
+    <li>
+
+        <span class='name'>class_name</span>
+
+
+        <span class='type'>(<tt>string</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>::String</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+292
+293
+294</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 292</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_html_wrap'>html_wrap</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_class_name'>class_name</span><span class='rparen'>)</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;span class=\&quot;money-</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_class_name'>class_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;&gt;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_string'>string</span><span class='embexpr_end'>}</span><span class='tstring_content'>&lt;/span&gt;</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
+  <h3 class="signature " id="lookup-instance_method">
+
+    #<strong>lookup</strong>(key)  &#x21d2; <tt>Object</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>key</span>
+
+
+        <span class='type'>(<tt>Symbol</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+334
+335
+336
+337
+338</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 334</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_lookup'>lookup</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="#DEFAULTS-constant" title="Money::Formatter::DEFAULTS (constant)">DEFAULTS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_lookup_default'>lookup_default</span> <span class='id identifier rubyid_key'>key</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
+  <h3 class="signature " id="lookup_default-instance_method">
+
+    #<strong>lookup_default</strong>(key)  &#x21d2; <tt>Object</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>key</span>
+
+
+        <span class='type'>(<tt>Symbol</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+340
+341
+342</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 340</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_lookup_default'>lookup_default</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_locale_backend'><span class='object_link'><a href="../Money.html#locale_backend-class_method" title="Money.locale_backend (method)">locale_backend</a></span></span> <span class='op'>&amp;&amp;</span> <span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='period'>.</span><span class='id identifier rubyid_locale_backend'><span class='object_link'><a href="../Money.html#locale_backend-class_method" title="Money.locale_backend (method)">locale_backend</a></span></span><span class='period'>.</span><span class='id identifier rubyid_lookup'>lookup</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_currency'>currency</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="#DEFAULTS-constant" title="Money::Formatter::DEFAULTS (constant)">DEFAULTS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
+  <h3 class="signature " id="show_free_text?-instance_method">
+
+    #<strong>show_free_text?</strong>  &#x21d2; <tt>Boolean</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Boolean</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+288
+289
+290</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 288</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_show_free_text?'>show_free_text?</span>
+  <span class='id identifier rubyid_money'>money</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:display_free</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
+  <h3 class="signature " id="symbol_value_from-instance_method">
+
+    #<strong>symbol_value_from</strong>(rules)  &#x21d2; <tt>untyped</tt>, <tt>""</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>rules</span>
+
+
+        <span class='type'>(<tt>Hash[Symbol, untyped]</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>untyped</tt>, <tt>untyped</tt>, <tt>""</tt>, <tt>untyped</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/money/formatter.rb', line 344</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_symbol_value_from'>symbol_value_from</span><span class='lparen'>(</span><span class='id identifier rubyid_rules'>rules</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:symbol</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:symbol</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='kw'>true</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:disambiguate</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_disambiguate_symbol'>disambiguate_symbol</span>
+        <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_disambiguate_symbol'>disambiguate_symbol</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_money'>money</span><span class='period'>.</span><span class='id identifier rubyid_symbol'>symbol</span>
+      <span class='kw'>end</span>
+    <span class='kw'>elsif</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:symbol</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:symbol</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:html_wrap</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_html_entity'>html_entity</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='op'>?</span> <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>:</span> <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_html_entity'>html_entity</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:disambiguate</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_disambiguate_symbol'>disambiguate_symbol</span>
+    <span class='id identifier rubyid_currency'>currency</span><span class='period'>.</span><span class='id identifier rubyid_disambiguate_symbol'>disambiguate_symbol</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_money'>money</span><span class='period'>.</span><span class='id identifier rubyid_symbol'>symbol</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
   <h3 class="signature " id="thousands_separator-instance_method">
 
-    #<strong>thousands_separator</strong>  &#x21d2; <tt>Object</tt>
+    #<strong>thousands_separator</strong>  &#x21d2; <tt>string</tt>
 
 
 
@@ -754,7 +2257,29 @@ for the thousands delimiter</p>
 
 
 
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>string</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -786,13 +2311,35 @@ for the thousands delimiter</p>
       <div class="method_details ">
   <h3 class="signature " id="to_s-instance_method">
 
-    #<strong>to_s</strong>  &#x21d2; <tt>Object</tt>
+    #<strong>to_s</strong>  &#x21d2; <tt>string</tt>
 
 
 
 
 
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>string</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -826,9 +2373,9 @@ for the thousands delimiter</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 30 14:19:01 2026 by
+  Generated on Thu Jul 30 14:36:57 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-4.0.5).
+  0.9.45 (ruby-4.0.5).
 </div>
 
     </div>

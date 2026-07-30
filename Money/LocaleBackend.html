@@ -10,9 +10,9 @@
 
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Money::LocaleBackend";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -78,8 +80,9 @@
 
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/money/locale_backend/base.rb<span class="defines">,<br />
-  lib/money/locale_backend/i18n.rb,<br /> lib/money/money/locale_backend.rb,<br /> lib/money/locale_backend/errors.rb,<br /> lib/money/locale_backend/currency.rb</span>
+    <dd>lib/money/locale_backend/base.rb<span class="defines">,<br>
+  lib/money/locale_backend/i18n.rb,<br> lib/money/money/locale_backend.rb,<br> lib/money/locale_backend/errors.rb,<br> lib/money/locale_backend/currency.rb,<br> sig/lib/money/locale_backend/base.rbs,<br> sig/lib/money/locale_backend/i18n.rbs,<br> sig/lib/money/money/locale_backend.rbs,<br> sig/lib/money/locale_backend/errors.rbs</span>
+
 </dd>
   </dl>
 
@@ -105,7 +108,29 @@
     <dl class="constants">
 
         <dt id="BACKENDS-constant" class="">BACKENDS =
+          <div class="docstring">
+  <div class="discussion">
 
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>{ i18n: untyped, currency: untyped }</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span>
   <span class='label'>i18n:</span> <span class='const'><span class='object_link'><a href="../Money.html" title="Money (class)">Money</a></span></span><span class='op'>::</span><span class='const'>LocaleBackend</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="LocaleBackend/I18n.html" title="Money::LocaleBackend::I18n (class)">I18n</a></span></span><span class='comma'>,</span>
@@ -156,6 +181,7 @@
 
 
 
+
   <div id="class_method_details" class="method_details_list">
     <h2>Class Method Details</h2>
 
@@ -176,7 +202,35 @@
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
 
+    <li>
+
+        <span class='name'>name</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
 <p class="tag_title">Raises:</p>
 <ul class="raise">
 
@@ -221,9 +275,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 30 14:19:01 2026 by
+  Generated on Thu Jul 30 14:36:57 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-4.0.5).
+  0.9.45 (ruby-4.0.5).
 </div>
 
     </div>

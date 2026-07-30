@@ -10,9 +10,9 @@
 
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Money::Bank::VariableExchange";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -96,7 +98,10 @@
 
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/money/bank/variable_exchange.rb</dd>
+    <dd>lib/money/bank/variable_exchange.rb<span class="defines">,<br>
+  sig/lib/money/bank/variable_exchange.rbs</span>
+
+</dd>
   </dl>
 
 </div>
@@ -166,18 +171,75 @@ Pass custom rates stores for other types of storage (file, database, etc)</p>
 </div>
 <div class="tags">
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Array[Symbol]</tt>)</span>
+
+
+
+    </li>
+
+</ul>
 
 </div>
         </dt>
         <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:json</span><span class='comma'>,</span> <span class='symbol'>:ruby</span><span class='comma'>,</span> <span class='symbol'>:yaml</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
 
         <dt id="SERIALIZER_SEPARATOR-constant" class="">SERIALIZER_SEPARATOR =
+          <div class="docstring">
+  <div class="discussion">
 
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>string</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_TO_</span><span class='tstring_end'>&quot;</span></span></pre></dd>
 
         <dt id="FORMAT_SERIALIZERS-constant" class="">FORMAT_SERIALIZERS =
+          <div class="docstring">
+  <div class="discussion">
 
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Hash[Symbol, (JSON | Marshal | YAML)]</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span> <span class='label'>json:</span> <span class='const'>JSON</span><span class='comma'>,</span> <span class='label'>ruby:</span> <span class='const'>Marshal</span><span class='comma'>,</span> <span class='label'>yaml:</span> <span class='const'>YAML</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
 
@@ -284,7 +346,7 @@ Pass custom rates stores for other types of storage (file, database, etc)</p>
         <li class="public ">
   <span class="summary_signature">
 
-      <a href="#exchange-instance_method" title="#exchange (instance method)">#<strong>exchange</strong>(fractional, rate)  &#x21d2; Object </a>
+      <a href="#exchange-instance_method" title="#exchange (instance method)">#<strong>exchange</strong>(fractional, rate)  &#x21d2; void </a>
 
 
 
@@ -423,7 +485,7 @@ Pass custom rates stores for other types of storage (file, database, etc)</p>
         <li class="public ">
   <span class="summary_signature">
 
-      <a href="#marshal_dump-instance_method" title="#marshal_dump (instance method)">#<strong>marshal_dump</strong>  &#x21d2; Object </a>
+      <a href="#marshal_dump-instance_method" title="#marshal_dump (instance method)">#<strong>marshal_dump</strong>  &#x21d2; ::Array[untyped] </a>
 
 
 
@@ -544,6 +606,8 @@ Pass custom rates stores for other types of storage (file, database, etc)</p>
 
 
 
+
+
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Base.html" title="Money::Bank::Base (class)">Base</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="Base.html#instance-class_method" title="Money::Bank::Base.instance (method)">instance</a></span>, <span class='object_link'><a href="Base.html#same_currency%3F-instance_method" title="Money::Bank::Base#same_currency? (method)">#same_currency?</a></span>, <span class='object_link'><a href="Base.html#setup-instance_method" title="Money::Bank::Base#setup (method)">#setup</a></span></p>
 <div id="constructor_details" class="method_details_list">
@@ -606,6 +670,19 @@ currency for another. See +Money::bank::base+</p>
     </li>
 
 </ul>
+<p class="tag_title">Yield Returns:</p>
+<ul class="yieldreturn">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -655,6 +732,19 @@ currency for another. See +Money::bank::base+</p>
 </div>
 <div class="tags">
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -806,7 +896,55 @@ Delegates to +Money::RatesStore::Memory+</p>
 
 
 
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>from</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+    <li>
+
+        <span class='name'>to_currency</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -836,13 +974,48 @@ Delegates to +Money::RatesStore::Memory+</p>
       <div class="method_details ">
   <h3 class="signature " id="exchange-instance_method">
 
-    #<strong>exchange</strong>(fractional, rate)  &#x21d2; <tt>Object</tt>
+    #<strong>exchange</strong>(fractional, rate)  &#x21d2; <tt>void</tt>
 
 
 
 
 
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>fractional</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+    <li>
+
+        <span class='name'>rate</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -1520,13 +1693,35 @@ Delegates to +Money::RatesStore::Memory+</p>
       <div class="method_details ">
   <h3 class="signature " id="marshal_dump-instance_method">
 
-    #<strong>marshal_dump</strong>  &#x21d2; <tt>Object</tt>
+    #<strong>marshal_dump</strong>  &#x21d2; <tt>::Array[untyped]</tt>
 
 
 
 
 
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>::Array[untyped]</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -1556,7 +1751,44 @@ Delegates to +Money::RatesStore::Memory+</p>
 
 
 
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>arr</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -1599,6 +1831,19 @@ Delegates to +Money::RatesStore::Memory+</p>
 </div>
 <div class="tags">
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1763,7 +2008,29 @@ Delegates to +Money::RatesStore::Memory+</p>
 
 
 
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -1789,9 +2056,9 @@ Delegates to +Money::RatesStore::Memory+</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 30 14:19:01 2026 by
+  Generated on Thu Jul 30 14:36:57 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-4.0.5).
+  0.9.45 (ruby-4.0.5).
 </div>
 
     </div>

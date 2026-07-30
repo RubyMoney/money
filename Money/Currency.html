@@ -10,9 +10,9 @@
 
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Money::Currency";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -87,7 +89,7 @@
 
   <dl>
       <dt>Extended by:</dt>
-      <dd>Enumerable, <span class='object_link'><a href="Currency/Heuristics.html" title="Money::Currency::Heuristics (module)">Heuristics</a></span></dd>
+      <dd>Enumerable, Enumerable[Money::Currency], <span class='object_link'><a href="Currency/Heuristics.html" title="Money::Currency::Heuristics (module)">Heuristics</a></span></dd>
   </dl>
 
 
@@ -104,8 +106,9 @@
 
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/money/currency.rb<span class="defines">,<br />
-  lib/money/currency/loader.rb,<br /> lib/money/currency/heuristics.rb</span>
+    <dd>lib/money/currency.rb<span class="defines">,<br>
+  lib/money/currency/loader.rb,<br> lib/money/currency/heuristics.rb,<br> sig/lib/money/currency.rbs,<br> sig/lib/money/currency/heuristics.rbs</span>
+
 </dd>
   </dl>
 
@@ -665,7 +668,7 @@
         <li class="public ">
   <span class="summary_signature">
 
-      <a href="#each-class_method" title="each (class method)">.<strong>each</strong>  &#x21d2; Object </a>
+      <a href="#each-class_method" title="each (class method)">.<strong>each</strong> {|arg0| ... } &#x21d2; Object </a>
 
 
 
@@ -779,7 +782,7 @@
         <li class="public ">
   <span class="summary_signature">
 
-      <a href="#register-class_method" title="register (class method)">.<strong>register</strong>(curr)  &#x21d2; Object </a>
+      <a href="#register-class_method" title="register (class method)">.<strong>register</strong>(curr)  &#x21d2; Money::Currency </a>
 
 
 
@@ -915,6 +918,7 @@
 
     </ul>
 
+
     <h2>
       Instance Method Summary
       <small><a href="#" class="summary_toggle">collapse</a></small>
@@ -1009,6 +1013,29 @@
 
 
     <span class="summary_desc"><div class='inline'><p>Returns currency symbol or iso code for currencies with no symbol.</p>
+</div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
+      <a href="#compare_ids-instance_method" title="#compare_ids (instance method)">#<strong>compare_ids</strong>(other_currency)  &#x21d2; Object </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'><p>rubocop:disable Naming/PredicateMethod.</p>
 </div></span>
 
 </li>
@@ -1112,6 +1139,29 @@
         <li class="public ">
   <span class="summary_signature">
 
+      <a href="#initialize_data!-instance_method" title="#initialize_data! (instance method)">#<strong>initialize_data!</strong>  &#x21d2; Object </a>
+
+
+
+  </span>
+
+
+
+
+
+
+
+
+
+    <span class="summary_desc"><div class='inline'><p>rubocop:enable Naming/PredicateMethod.</p>
+</div></span>
+
+</li>
+
+
+        <li class="public ">
+  <span class="summary_signature">
+
       <a href="#inspect-instance_method" title="#inspect (instance method)">#<strong>inspect</strong>  &#x21d2; String </a>
 
 
@@ -1149,7 +1199,7 @@
 
 
 
-    <span class="summary_desc"><div class='inline'><p>Returns true if a code currency is ISO.</p>
+    <span class="summary_desc"><div class='inline'><p>Returns if a code currency is ISO.</p>
 </div></span>
 
 </li>
@@ -1282,8 +1332,11 @@
 
 
 
+
+
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Currency/Heuristics.html" title="Money::Currency::Heuristics (module)">Heuristics</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="Currency/Heuristics.html#analyze-instance_method" title="Money::Currency::Heuristics#analyze (method)">analyze</a></span></p>
+
 
   <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
@@ -1507,6 +1560,19 @@ whole unit from the subunit.</p>
 </div>
 <div class="tags">
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -2271,7 +2337,29 @@ the whole unit.</p>
 
 
 
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -2371,7 +2459,7 @@ the whole unit.</p>
       <div class="method_details ">
   <h3 class="signature " id="each-class_method">
 
-    .<strong>each</strong>  &#x21d2; <tt>Object</tt>
+    .<strong>each</strong> {|arg0| ... } &#x21d2; <tt>Object</tt>
 
 
 
@@ -2386,6 +2474,60 @@ the whole unit.</p>
 </div>
 <div class="tags">
 
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+
+    <li>
+
+
+        <span class='type'></span>
+
+
+
+    </li>
+
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+
+    <li>
+
+        <span class='name'>arg0</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+<p class="tag_title">Yield Returns:</p>
+<ul class="yieldreturn">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -2647,6 +2789,19 @@ success, +nil+ otherwise.</p>
 
 </ul>
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -2682,7 +2837,44 @@ success, +nil+ otherwise.</p>
 
 
 
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>id</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -2716,7 +2908,7 @@ success, +nil+ otherwise.</p>
       <div class="method_details ">
   <h3 class="signature " id="register-class_method">
 
-    .<strong>register</strong>(curr)  &#x21d2; <tt>Object</tt>
+    .<strong>register</strong>(curr)  &#x21d2; <tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt>
 
 
 
@@ -2748,147 +2940,25 @@ success, +nil+ otherwise.</p>
 
     </li>
 
-    <li>
-
-        <span class='name'>priority</span>
-
-
-        <span class='type'>(<tt>Hash</tt>)</span>
-
-
-
-        &mdash;
-        <div class='inline'><p>a customizable set of options</p>
-</div>
-
-    </li>
-
-    <li>
-
-        <span class='name'>iso_code</span>
-
-
-        <span class='type'>(<tt>Hash</tt>)</span>
-
-
-
-        &mdash;
-        <div class='inline'><p>a customizable set of options</p>
-</div>
-
-    </li>
-
-    <li>
-
-        <span class='name'>iso_numeric</span>
-
-
-        <span class='type'>(<tt>Hash</tt>)</span>
-
-
-
-        &mdash;
-        <div class='inline'><p>a customizable set of options</p>
-</div>
-
-    </li>
-
-    <li>
-
-        <span class='name'>name</span>
-
-
-        <span class='type'>(<tt>Hash</tt>)</span>
-
-
-
-        &mdash;
-        <div class='inline'><p>a customizable set of options</p>
-</div>
-
-    </li>
-
-    <li>
-
-        <span class='name'>symbol</span>
-
-
-        <span class='type'>(<tt>Hash</tt>)</span>
-
-
-
-        &mdash;
-        <div class='inline'><p>a customizable set of options</p>
-</div>
-
-    </li>
-
-    <li>
-
-        <span class='name'>subunit</span>
-
-
-        <span class='type'>(<tt>Hash</tt>)</span>
-
-
-
-        &mdash;
-        <div class='inline'><p>a customizable set of options</p>
-</div>
-
-    </li>
-
-    <li>
-
-        <span class='name'>subunit_to_unit</span>
-
-
-        <span class='type'>(<tt>Hash</tt>)</span>
-
-
-
-        &mdash;
-        <div class='inline'><p>a customizable set of options</p>
-</div>
-
-    </li>
-
-    <li>
-
-        <span class='name'>separator</span>
-
-
-        <span class='type'>(<tt>Hash</tt>)</span>
-
-
-
-        &mdash;
-        <div class='inline'><p>a customizable set of options</p>
-</div>
-
-    </li>
-
-    <li>
-
-        <span class='name'>delimiter</span>
-
-
-        <span class='type'>(<tt>Hash</tt>)</span>
-
-
-
-        &mdash;
-        <div class='inline'><p>a customizable set of options</p>
-</div>
-
-    </li>
-
 </ul>
 
 
 
 
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Money::Currency (class)">Money::Currency</a></span></tt>)</span>
+
+
+
+    </li>
+
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -2928,7 +2998,29 @@ success, +nil+ otherwise.</p>
 
 
 
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -3037,6 +3129,19 @@ A monetary unit that is valued at a fraction (usually one hundredth) of the basi
 </div>
 <div class="tags">
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -3071,8 +3176,6 @@ A monetary unit that is valued at a fraction (usually one hundredth) of the basi
 </h3><div class="docstring">
   <div class="discussion">
     <p>Unregister a currency.</p>
-
-<p>rubocop:disable Naming/PredicateMethod</p>
 
 
   </div>
@@ -3561,6 +3664,86 @@ same or if their +id+ attributes match.</p>
 </div>
 
       <div class="method_details ">
+  <h3 class="signature " id="compare_ids-instance_method">
+
+    #<strong>compare_ids</strong>(other_currency)  &#x21d2; <tt>Object</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>rubocop:disable Naming/PredicateMethod</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+
+    <li>
+
+        <span class='name'>other_currency</span>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+468
+469
+470
+471
+472
+473
+474
+475
+476</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 468</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_compare_ids'>compare_ids</span><span class='lparen'>(</span><span class='id identifier rubyid_other_currency'>other_currency</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_other_currency_id'>other_currency_id</span> <span class='op'>=</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_other_currency'>other_currency</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="" title="Money::Currency (class)">Currency</a></span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_other_currency'>other_currency</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_other_currency'>other_currency</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
+    <span class='kw'>end</span>
+  <span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span> <span class='op'>==</span> <span class='id identifier rubyid_other_currency_id'>other_currency_id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
   <h3 class="signature " id="eql?-instance_method">
 
     #<strong>eql?</strong>  &#x21d2; <tt>Object</tt>
@@ -3715,6 +3898,89 @@ functions like &amp; (intersection), group_by, etc.</p>
 </div>
 
       <div class="method_details ">
+  <h3 class="signature " id="initialize_data!-instance_method">
+
+    #<strong>initialize_data!</strong>  &#x21d2; <tt>Object</tt>
+
+
+
+
+
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>rubocop:enable Naming/PredicateMethod</p>
+
+
+  </div>
+</div>
+<div class="tags">
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+
+    <li>
+
+
+        <span class='type'>(<tt>Object</tt>)</span>
+
+
+
+    </li>
+
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/money/currency.rb', line 479</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize_data!'>initialize_data!</span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_table'>table</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span>
+  <span class='ivar'>@alternate_symbols</span>     <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:alternate_symbols</span><span class='rbracket'>]</span>
+  <span class='ivar'>@decimal_mark</span>          <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:decimal_mark</span><span class='rbracket'>]</span>
+  <span class='ivar'>@disambiguate_symbol</span>   <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:disambiguate_symbol</span><span class='rbracket'>]</span>
+  <span class='ivar'>@html_entity</span>           <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:html_entity</span><span class='rbracket'>]</span>
+  <span class='ivar'>@iso_code</span>              <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:iso_code</span><span class='rbracket'>]</span>
+  <span class='ivar'>@iso_numeric</span>           <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:iso_numeric</span><span class='rbracket'>]</span>
+  <span class='ivar'>@name</span>                  <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span>
+  <span class='ivar'>@priority</span>              <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:priority</span><span class='rbracket'>]</span>
+  <span class='ivar'>@smallest_denomination</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:smallest_denomination</span><span class='rbracket'>]</span>
+  <span class='ivar'>@subunit</span>               <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:subunit</span><span class='rbracket'>]</span>
+  <span class='ivar'>@subunit_to_unit</span>       <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:subunit_to_unit</span><span class='rbracket'>]</span>
+  <span class='ivar'>@symbol</span>                <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:symbol</span><span class='rbracket'>]</span>
+  <span class='ivar'>@symbol_first</span>          <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:symbol_first</span><span class='rbracket'>]</span>
+  <span class='ivar'>@thousands_separator</span>   <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:thousands_separator</span><span class='rbracket'>]</span>
+  <span class='ivar'>@format</span>                <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:format</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+
+      <div class="method_details ">
   <h3 class="signature " id="inspect-instance_method">
 
     #<strong>inspect</strong>  &#x21d2; <tt>String</tt>
@@ -3816,7 +4082,7 @@ functions like &amp; (intersection), group_by, etc.</p>
 
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns true if a code currency is ISO.</p>
+    <p>Returns if a code currency is ISO.</p>
 
 
   </div>
@@ -4168,9 +4434,9 @@ attribute.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 30 14:19:01 2026 by
+  Generated on Thu Jul 30 14:36:57 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-4.0.5).
+  0.9.45 (ruby-4.0.5).
 </div>
 
     </div>
