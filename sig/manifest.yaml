@@ -2,9 +2,7 @@
 #
 # Standard libraries money requires that the gemspec does not declare.
 # See https://github.com/ruby/rbs/blob/master/docs/gem.md#adding-manifestyaml
-
 dependencies:
   - name: json
   - name: monitor
-  - name: set
   - name: yaml

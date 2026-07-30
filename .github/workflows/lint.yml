@@ -23,4 +23,6 @@ jobs:
       - name: RuboCop
         run: bin/rubocop --format github --format clang
       - name: RBS
-        run: bin/rbs --no-collection -r bigdecimal -r json -r monitor -r yaml -I sig validate
+        # Resolves sig/ via gem discovery so manifest.yaml is exercised;
+        # -I sig would skip it and miss bad manifest dependencies.
+        run: bin/rbs --no-collection -r money validate

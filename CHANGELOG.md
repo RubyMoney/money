@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fix `sig/manifest.yaml` declaring `set` as a dependency, which made `rbs -r money` and Steep's `library "money"` fail with `UnknownLibraryError` on every RBS >= 3.0.0
+
 ## 7.1.0
 
 - Fix symbol for XPF (CFP Franc) currency to use "₣"
