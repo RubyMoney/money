@@ -21,5 +21,6 @@ doc/
 # Spec artifacts
 /coverage
 .gem_rbs_collection
+rbs_collection.lock.yaml
 .idea
 spec/examples.txt
