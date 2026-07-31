@@ -56,7 +56,7 @@ end
 
 desc "Check file permissions"
 task :check_permissions do
-  files = Dir.glob("**/*.rb")
+  files = gemspec.files
   files.each do |file|
     dir = File.dirname(file)
     unless File.new(dir).lstat.mode.to_s(8) == "40755"
