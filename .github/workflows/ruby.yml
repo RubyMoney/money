@@ -20,7 +20,7 @@ jobs:
     steps:
     - name: Set up Java for JRuby 10.0
       if: matrix.ruby-version == 'jruby-10.0'
-      uses: actions/setup-java@v5
+      uses: actions/setup-java@v6
       with:
         distribution: 'temurin'
         java-version: '21'
