@@ -217,6 +217,7 @@ class Money
       def reset!
         @@instances = {}
         @table = Loader.load_currencies
+        @stringified_keys = nil
         clear_iso_numeric_cache
       end
 
