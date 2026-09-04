@@ -39,14 +39,14 @@
     "disambiguate_symbol": "Lek",
     "alternate_symbols": ["Lek"],
     "subunit": "Qintar",
-    "subunit_to_unit": 100,
+    "subunit_to_unit": 1,
     "symbol_first": false,
     "format": "%n %u",
     "html_entity": "",
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "008",
-    "smallest_denomination": 100
+    "smallest_denomination": 1
   },
   "amd": {
     "priority": 100,
