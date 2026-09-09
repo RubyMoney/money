@@ -267,7 +267,7 @@ class Money
         end
 
         store.transaction do
-          data = FORMAT_SERIALIZERS[format].load(string)
+          data = format == :json ? JSON.parse(string) : FORMAT_SERIALIZERS[format].load(string)
 
           data.each do |key, rate|
             from, to = key.split(SERIALIZER_SEPARATOR)
