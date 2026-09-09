@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fix `Money::Currency.reset!` keeping the cached key set, so a currency registered before the reset was still accepted by `Money::Currency.new` and raised `NoMethodError` instead of `UnknownCurrency`
+
 ## 7.1.1
 
 - Fix `sig/manifest.yaml` declaring `set` as a dependency, which made `rbs -r money` and Steep's `library "money"` fail with `UnknownLibraryError` on every RBS >= 3.0.0
