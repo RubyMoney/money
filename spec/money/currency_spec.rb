@@ -533,5 +533,16 @@ RSpec.describe Money::Currency do
       described_class.reset!
       expect(described_class.find(:cad).decimal_mark).not_to eq modified_mark
     end
+
+    it "drops a registered currency it no longer holds" do
+      described_class.register(iso_code: "ZZZ", subunit_to_unit: 100, priority: 1)
+      described_class.new("ZZZ")
+
+      described_class.reset!
+
+      expect(described_class.find(:zzz)).to be_nil
+      expect { described_class.new("ZZZ") }
+        .to raise_error(described_class::UnknownCurrency)
+    end
   end
 end
