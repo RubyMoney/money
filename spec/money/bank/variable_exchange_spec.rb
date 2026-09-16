@@ -225,6 +225,19 @@ RSpec.describe Money::Bank::VariableExchange do
         expect(bank.get_rate("USD", "EUR")).to eq 1.25
         expect(bank.get_rate("USD", "JPY")).to eq 2.55
       end
+
+      it "does not instantiate objects named by a json_class key" do
+        gadget = Class.new do
+          def self.json_create(_object)
+            raise "json_create must never be called while importing rates"
+          end
+        end
+        stub_const("JsonGadget", gadget)
+
+        bank.import_rates(:json, '{"USD_TO_EUR":{"json_class":"JsonGadget"}}')
+
+        expect(bank.get_rate("USD", "EUR")).to eq({ "json_class" => "JsonGadget" })
+      end
     end
 
     context "with format == :ruby" do
