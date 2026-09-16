@@ -2,8 +2,8 @@
 
 # Clean
 #
-#   rake clean
-#   rake clobber
+#   bin/rake clean
+#   bin/rake clobber
 
 require "rake/clean"
 
@@ -11,8 +11,8 @@ CLOBBER.include("doc", ".yardoc")
 
 # Bundler
 #
-#   rake build
-#   rake release
+#   bin/rake build
+#   bin/rake release
 
 require "bundler/gem_tasks"
 
@@ -20,7 +20,7 @@ gemspec = Gem::Specification.load("money.gemspec")
 
 # RuboCop
 #
-#   rake rubocop
+#   bin/rake rubocop
 
 require "rubocop/rake_task"
 
@@ -28,7 +28,7 @@ RuboCop::RakeTask.new
 
 # Yard
 #
-#   rake yard
+#   bin/rake yard
 
 require "yard"
 
@@ -41,7 +41,7 @@ end
 
 # RSpec
 #
-#   rake spec
+#   bin/rake spec
 
 require "rspec/core/rake_task"
 
@@ -52,7 +52,7 @@ end
 
 # File permissions
 #
-#   rake check_permissions
+#   bin/rake check_permissions
 
 desc "Check file permissions"
 task :check_permissions do
@@ -76,6 +76,6 @@ task spec: :check_permissions
 
 # Default task
 #
-#    rake
+#    bin/rake
 
 task default: [:rubocop, :spec]

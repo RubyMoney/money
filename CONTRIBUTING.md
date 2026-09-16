@@ -4,7 +4,7 @@
 
 1. Fork [the repo](https://github.com/RubyMoney/money)
 2. Grab dependencies: `bundle install`
-3. Make sure everything is working: `bundle exec rake spec`
+3. Make sure everything is working: `bin/rake spec`
 4. Make your changes
 5. Test your changes
 6. Create a Pull Request

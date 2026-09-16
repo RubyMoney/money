@@ -315,7 +315,7 @@ currency.cents_based?  # => true
 
 3. **Run your test suite:**
    ```bash
-   bundle exec rake test  # or rspec, etc.
+   bin/rake test  # or rspec, etc.
    ```
 
 4. **Check for deprecation warnings** and address them.
