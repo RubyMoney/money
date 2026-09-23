@@ -39,7 +39,7 @@ class Money
     # @see Money.strict_eql_compare
     def eql?(other)
       if other.is_a?(Money)
-        if !Money.strict_eql_compare && fractional == 0 && other.fractional == 0
+        if !Money.strict_eql_compare && fractional == 0 && other.fractional == 0 && currency != other.currency
           warn "[DEPRECATION] Comparing 0 #{currency} with 0 " \
                "#{other.currency} using `#eql?` will return false in " \
                "future versions of Money. Opt-in to the new behavior by " \
