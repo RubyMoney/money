@@ -79,7 +79,7 @@ class Money
       if number.is_a? BigDecimal
         number
       elsif number.is_a? Rational
-        BigDecimal(number.to_f.to_s)
+        number.to_d
       else
         BigDecimal(number.to_s)
       end

@@ -42,6 +42,11 @@ RSpec.describe Money::Allocation do
         expect(described_class.generate(BigDecimal(5), 4, false)).to eq([1.25, 1.25, 1.25, 1.25])
       end
 
+      it "keeps a rational amount instead of a float approximation" do
+        amount = Rational(1, 3)
+        expect(described_class.generate(amount, 1, false)).to eq([amount.to_d])
+      end
+
       it "handles splits into repeating decimals" do
         amount = BigDecimal(100)
         parts = described_class.generate(amount, 3, false)
