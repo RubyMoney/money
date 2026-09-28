@@ -44,7 +44,7 @@ RSpec.describe Money::Allocation do
 
       it "keeps a rational amount instead of a float approximation" do
         amount = Rational(1, 3)
-        expect(described_class.generate(amount, 1, false)).to eq([amount.to_d])
+        expect(described_class.generate(amount, 1, false)).to eq([amount.to_d(Money.conversion_precision)])
       end
 
       it "handles splits into repeating decimals" do
