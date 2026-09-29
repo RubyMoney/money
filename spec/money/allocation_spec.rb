@@ -42,9 +42,10 @@ RSpec.describe Money::Allocation do
         expect(described_class.generate(BigDecimal(5), 4, false)).to eq([1.25, 1.25, 1.25, 1.25])
       end
 
-      it "keeps a rational amount instead of a float approximation" do
-        amount = Rational(1, 3)
-        expect(described_class.generate(amount, 1, false)).to eq([amount.to_d(Money.conversion_precision)])
+      it "converts a rational with Money.conversion_precision instead of through a float" do
+        expect(described_class.generate(Rational(2, 3), 1, false)).to eq([BigDecimal("0.6666666666666667")])
+        expect(described_class.generate(Rational(10**400, 1), 1, false)).to eq([BigDecimal("1e400")])
+        expect(described_class.generate(Rational(1, 10**400), 1, false)).to eq([BigDecimal("1e-400")])
       end
 
       it "handles splits into repeating decimals" do
