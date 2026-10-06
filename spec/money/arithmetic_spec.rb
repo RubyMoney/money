@@ -371,6 +371,13 @@ RSpec.describe Money::Arithmetic do
       expect(special_money_class.new(10_00, "USD") / 2).to be_a special_money_class
     end
 
+    it "returns a Float when dividing a subclass of Money by a Money" do
+      special_money_class = Class.new(Money)
+      ratio = special_money_class.new(10_00, "USD") / Money.new(1_00, "USD")
+      expect(ratio).to be_a Float
+      expect(ratio).to eq 10.0
+    end
+
     describe "rounding preference" do
       before do
         allow(Money).to receive(:rounding_mode).and_return(rounding_mode)

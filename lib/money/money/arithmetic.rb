@@ -202,7 +202,7 @@ class Money
     #   Money.new(100) / Money.new(10) #=> 10.0
     #
     def /(other)
-      if other.is_a?(self.class)
+      if other.is_a?(Money)
         exchanged = other.exchange_to(currency)
         raise ZeroDivisionError, "divided by Money(0)" if exchanged.zero?
 
