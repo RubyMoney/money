@@ -135,6 +135,11 @@ RSpec.describe "Money formatting" do
       expect(Money.new(10_00, "BHD").format).to eq "د.ب1.000"
     end
 
+    it "writes Arabic dinar symbols starting with dal, like BHD" do
+      expect(Money.new(10_000, "IQD").format).to eq "10.000 د.ع"
+      expect(Money.new(10_000, "LYD").format).to eq "10.000 د.ل"
+    end
+
     context "when :subunit_to_unit is 1" do
       it "does not display a decimal part" do
         expect(Money.new(10_00, "VUV").format).to eq "Vt1,000"
