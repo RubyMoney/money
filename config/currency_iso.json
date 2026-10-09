@@ -2623,7 +2623,7 @@
   "xpf": {
     "priority": 100,
     "iso_code": "XPF",
-    "name": "Cfp Franc",
+    "name": "CFP Franc",
     "symbol": "F",
     "alternate_symbols": ["F CFP", "XPF", "₣"],
     "subunit": "Centime",
