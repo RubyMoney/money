@@ -24,3 +24,5 @@ doc/
 rbs_collection.lock.yaml
 .idea
 spec/examples.txt
+config.bat
+node_modules

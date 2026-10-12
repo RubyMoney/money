@@ -136,32 +136,6 @@ RSpec.describe Money::Currency do
     end
   end
 
-  describe ".unregister" do
-    after { described_class.reset! }
-
-    it "works before the currency table has been loaded" do
-      described_class.instance_variable_set(:@table, nil)
-
-      expect(described_class.unregister(:usd)).to be true
-      expect(described_class.find(:usd)).to be_nil
-      expect(described_class.find(:eur)).to eq described_class.new(:eur)
-    end
-
-    it "returns false for an unknown currency before the table has been loaded" do
-      described_class.instance_variable_set(:@table, nil)
-
-      expect(described_class.unregister(:abc)).to be false
-    end
-
-    it "drops the currency from the iso_numeric lookup" do
-      expect(described_class.find_by_iso_numeric(978)).to eq described_class.new(:eur)
-
-      described_class.unregister(:eur)
-
-      expect(described_class.find_by_iso_numeric(978)).to be_nil
-    end
-  end
-
   describe ".wrap" do
     it "returns nil if object is nil" do
       expect(described_class.wrap(nil)).to be_nil
@@ -266,6 +240,32 @@ RSpec.describe Money::Currency do
       # Test with symbol:
       described_class.unregister(:yyz)
       expect(described_class.find(:yyz)).to be_nil
+    end
+
+    context "when the currency table changes" do
+      after { described_class.reset! }
+
+      it "works before the currency table has been loaded" do
+        described_class.instance_variable_set(:@table, nil)
+
+        expect(described_class.unregister(:usd)).to be true
+        expect(described_class.find(:usd)).to be_nil
+        expect(described_class.find(:eur)).to eq described_class.new(:eur)
+      end
+
+      it "returns false for an unknown currency before the table has been loaded" do
+        described_class.instance_variable_set(:@table, nil)
+
+        expect(described_class.unregister(:abc)).to be false
+      end
+
+      it "drops the currency from the iso_numeric lookup" do
+        expect(described_class.find_by_iso_numeric(978)).to eq described_class.new(:eur)
+
+        described_class.unregister(:eur)
+
+        expect(described_class.find_by_iso_numeric(978)).to be_nil
+      end
     end
   end
 
