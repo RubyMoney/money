@@ -204,8 +204,12 @@ class Money
           else
             curr.downcase.to_sym
           end
-        existed = @table.delete(key)
-        @stringified_keys = nil if existed
+        existed = table.delete(key)
+        if existed
+          @@mutex.synchronize { _instances.delete(key.to_s) }
+          @stringified_keys = nil
+          clear_iso_numeric_cache
+        end
         existed ? true : false
       end
       # rubocop:enable Naming/PredicateMethod
