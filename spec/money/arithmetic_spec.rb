@@ -708,6 +708,8 @@ RSpec.describe Money::Arithmetic do
         { a: Money.new(13, :USD), b: -4, c: Money.new(1, :USD) },
         { a: Money.new(-13, :USD), b: 4, c: Money.new(-1, :USD) },
         { a: Money.new(-13, :USD), b: -4, c: Money.new(-1, :USD) },
+        { a: Money.new(-12, :USD), b: 4, c: Money.new(0, :USD) },
+        { a: Money.new(0, :USD), b: 4, c: Money.new(0, :USD) },
       ]
       ts.each do |t|
         expect(t[:a].remainder(t[:b])).to eq t[:c]

@@ -303,11 +303,10 @@ class Money
         val = val.exchange_to(currency)
       end
 
-      if (fractional < 0 && val < 0) || (fractional > 0 && val > 0)
-        modulo(val)
-      else
-        modulo(val) - (val.is_a?(Money) ? val : dup_with(fractional: val))
-      end
+      mod = modulo(val)
+      return mod if mod.zero? || (fractional < 0 && val < 0) || (fractional > 0 && val > 0)
+
+      mod - (val.is_a?(Money) ? val : dup_with(fractional: val))
     end
 
     # Return absolute value of self as a new Money object.

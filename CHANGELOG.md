@@ -6,6 +6,7 @@
 - Fix `Money::Currency.reset!` keeping the cached key set, so a currency registered before the reset was still accepted by `Money::Currency.new` and raised `NoMethodError` instead of `UnknownCurrency`
 - Fix `Money::Bank::VariableExchange#import_rates` parsing `:json` with `JSON.load`, which instantiates any class named by a `json_class` key; it now uses `JSON.parse`
 - Fix deprecation warning for eql?
+- Fix `Money#remainder` returning the negated divisor instead of zero when the amount is zero or divides evenly with a different sign
 
 ## 7.1.1
 
