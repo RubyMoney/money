@@ -159,6 +159,14 @@ RSpec.describe Money::Currency do
       expect(described_class.all.first.priority).to eq 1
     end
 
+    it "does not rank a withdrawn currency above ones still in use" do
+      # BYR left ISO 4217 in January 2017, superseded by BYN.
+      top = described_class.all.take(10).map(&:id)
+
+      expect(top).to include(:usd, :eur)
+      expect(top).not_to include(:byr)
+    end
+
     it "raises a MissingAttributeError if any currency has no priority" do
       register_foo(skip: :priority)
 

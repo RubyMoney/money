@@ -64,21 +64,6 @@
     "iso_numeric": "051",
     "smallest_denomination": 10
   },
-  "ang": {
-    "priority": 100,
-    "iso_code": "ANG",
-    "name": "Netherlands Antillean Guilder",
-    "symbol": "ƒ",
-    "alternate_symbols": ["NAƒ", "NAf", "f"],
-    "subunit": "Cent",
-    "subunit_to_unit": 100,
-    "symbol_first": true,
-    "html_entity": "&#x0192;",
-    "decimal_mark": ",",
-    "thousands_separator": ".",
-    "iso_numeric": "532",
-    "smallest_denomination": 1
-  },
   "aoa": {
     "priority": 100,
     "iso_code": "AOA",
@@ -202,22 +187,6 @@
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "050",
-    "smallest_denomination": 1
-  },
-  "bgn": {
-    "priority": 100,
-    "iso_code": "BGN",
-    "name": "Bulgarian Lev",
-    "symbol": "лв.",
-    "alternate_symbols": ["lev", "leva", "лев", "лева"],
-    "subunit": "Stotinka",
-    "subunit_to_unit": 100,
-    "symbol_first": false,
-    "format": "%n %u",
-    "html_entity": "",
-    "decimal_mark": ".",
-    "thousands_separator": ",",
-    "iso_numeric": "975",
     "smallest_denomination": 1
   },
   "bhd": {
@@ -377,23 +346,6 @@
     "iso_numeric": "933",
     "smallest_denomination": 1
   },
-  "byr": {
-    "priority": 50,
-    "iso_code": "BYR",
-    "name": "Belarusian Ruble",
-    "symbol": "Br",
-    "disambiguate_symbol": "BYR",
-    "alternate_symbols": ["бел. руб.", "б.р.", "руб.", "р."],
-    "subunit": null,
-    "subunit_to_unit": 1,
-    "symbol_first": false,
-    "format": "%n %u",
-    "html_entity": "",
-    "decimal_mark": ",",
-    "thousands_separator": " ",
-    "iso_numeric": "974",
-    "smallest_denomination": 100
-  },
   "bzd": {
     "priority": 100,
     "iso_code": "BZD",
@@ -534,23 +486,6 @@
     "thousands_separator": ".",
     "iso_numeric": "188",
     "smallest_denomination": 500
-  },
-  "cuc": {
-    "priority": 100,
-    "iso_code": "CUC",
-    "name": "Cuban Convertible Peso",
-    "symbol": "$",
-    "disambiguate_symbol": "CUC$",
-    "alternate_symbols": ["CUC$"],
-    "subunit": "Centavo",
-    "subunit_to_unit": 100,
-    "symbol_first": false,
-    "format": "%n %u",
-    "html_entity": "",
-    "decimal_mark": ".",
-    "thousands_separator": ",",
-    "iso_numeric": "931",
-    "smallest_denomination": 1
   },
   "cup": {
     "priority": 100,
@@ -1968,21 +1903,6 @@
     "iso_numeric": "654",
     "smallest_denomination": 1
   },
-  "skk": {
-    "priority": 100,
-    "iso_code": "SKK",
-    "name": "Slovak Koruna",
-    "symbol": "Sk",
-    "alternate_symbols": [],
-    "subunit": "Halier",
-    "subunit_to_unit": 100,
-    "symbol_first": true,
-    "html_entity": "",
-    "decimal_mark": ".",
-    "thousands_separator": ",",
-    "iso_numeric": "703",
-    "smallest_denomination": 50
-  },
   "sle": {
     "priority": 100,
     "iso_code": "SLE",
@@ -1997,23 +1917,6 @@
     "decimal_mark": ".",
     "thousands_separator": ",",
     "iso_numeric": "925",
-    "smallest_denomination": 1000
-  },
-  "sll": {
-    "priority": 100,
-    "iso_code": "SLL",
-    "name": "Sierra Leonean Leone",
-    "symbol": "Le",
-    "disambiguate_symbol": "SLL",
-    "alternate_symbols": [],
-    "subunit": "Cent",
-    "subunit_to_unit": 100,
-    "symbol_first": false,
-    "format": "%n %u",
-    "html_entity": "",
-    "decimal_mark": ".",
-    "thousands_separator": ",",
-    "iso_numeric": "694",
     "smallest_denomination": 1000
   },
   "sos": {
@@ -2065,22 +1968,6 @@
     "thousands_separator": ",",
     "iso_numeric": "728",
     "smallest_denomination": 5
-  },
-  "std": {
-    "priority": 100,
-    "iso_code": "STD",
-    "name": "São Tomé and Príncipe Dobra",
-    "symbol": "Db",
-    "alternate_symbols": [],
-    "subunit": "Cêntimo",
-    "subunit_to_unit": 100,
-    "symbol_first": false,
-    "format": "%n %u",
-    "html_entity": "",
-    "decimal_mark": ".",
-    "thousands_separator": ",",
-    "iso_numeric": "678",
-    "smallest_denomination": 10000
   },
   "stn": {
     "priority": 100,
@@ -2698,23 +2585,6 @@
     "thousands_separator": " ",
     "iso_numeric": "710",
     "smallest_denomination": 10
-  },
-  "zmk": {
-    "priority": 100,
-    "iso_code": "ZMK",
-    "name": "Zambian Kwacha",
-    "symbol": "ZK",
-    "disambiguate_symbol": "ZMK",
-    "alternate_symbols": [],
-    "subunit": "Ngwee",
-    "subunit_to_unit": 100,
-    "symbol_first": false,
-    "format": "%n %u",
-    "html_entity": "",
-    "decimal_mark": ".",
-    "thousands_separator": ",",
-    "iso_numeric": "894",
-    "smallest_denomination": 5
   },
   "zmw": {
     "priority": 100,
