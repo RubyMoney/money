@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Move eight codes ISO 4217 has withdrawn (ANG, BGN, BYR, CUC, SKK, SLL, STD, ZMK) from `currency_iso.json` to `currency_backwards_compatible.json`, and drop BYR's priority of 50, which placed a currency withdrawn in 2017 seventh in `Money::Currency.all`. Every currency remains resolvable.
 - Fix `Money::Allocation.generate` converting a Rational with unlimited `to_d` precision. It now uses `Money.conversion_precision`
 - Fix `Money::Currency.reset!` keeping the cached key set, so a currency registered before the reset was still accepted by `Money::Currency.new` and raised `NoMethodError` instead of `UnknownCurrency`
 - Fix `Money::Bank::VariableExchange#import_rates` parsing `:json` with `JSON.load`, which instantiates any class named by a `json_class` key; it now uses `JSON.parse`
